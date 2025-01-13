@@ -69,31 +69,32 @@ import net.dries007.tfc.util.registry.RegistryWood;
  */
 public enum Wood implements RegistryWood
 {
-    ACACIA(false, MapColor.TERRACOTTA_ORANGE, MapColor.TERRACOTTA_LIGHT_GRAY, 11, 210),
-    ASH(false, MapColor.TERRACOTTA_PINK, MapColor.TERRACOTTA_ORANGE, 7, 10),
-    ASPEN(false, MapColor.TERRACOTTA_GREEN, MapColor.TERRACOTTA_WHITE, 8, 250),
-    BIRCH(false, MapColor.COLOR_BROWN, MapColor.TERRACOTTA_WHITE, 7, 145),
-    BLACKWOOD(false, MapColor.COLOR_BLACK, MapColor.COLOR_BROWN, 8, 80),
-    CHESTNUT(false, MapColor.TERRACOTTA_RED, MapColor.COLOR_LIGHT_GREEN, 7, 40),
-    DOUGLAS_FIR(true, MapColor.TERRACOTTA_YELLOW, MapColor.TERRACOTTA_BROWN, 7, 0),
-    HICKORY(false, MapColor.TERRACOTTA_BROWN, MapColor.COLOR_GRAY, 10, 230),
-    KAPOK(false, MapColor.COLOR_PURPLE, MapColor.COLOR_BROWN, 7, 30),
-    MANGROVE(false, MapColor.COLOR_RED, MapColor.COLOR_BROWN, 8, 100),
-    MAPLE(false, MapColor.COLOR_ORANGE, MapColor.TERRACOTTA_GRAY, 7, 0),
-    OAK(false, MapColor.WOOD, MapColor.COLOR_BROWN, 10, 120),
-    PALM(false, MapColor.COLOR_ORANGE, MapColor.COLOR_BROWN, 7, 255),
-    PINE(true, MapColor.TERRACOTTA_GRAY, MapColor.COLOR_GRAY, 7, 0),
-    ROSEWOOD(false, MapColor.COLOR_RED, MapColor.TERRACOTTA_LIGHT_GRAY, 8, 170),
-    SEQUOIA(true, MapColor.TERRACOTTA_RED, MapColor.TERRACOTTA_RED, 18, 0),
-    SPRUCE(true, MapColor.TERRACOTTA_PINK, MapColor.TERRACOTTA_BLACK, 7, 0),
-    SYCAMORE(false, MapColor.COLOR_YELLOW, MapColor.TERRACOTTA_LIGHT_GREEN, 8, 200),
-    WHITE_CEDAR(true, MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_LIGHT_GRAY, 7, 0),
-    WILLOW(false, MapColor.COLOR_GREEN, MapColor.TERRACOTTA_BROWN, 11, 225);
+    ACACIA(false, true, MapColor.TERRACOTTA_ORANGE, MapColor.TERRACOTTA_LIGHT_GRAY, 11, 210),
+    ASH(false, true, MapColor.TERRACOTTA_PINK, MapColor.TERRACOTTA_ORANGE, 7, 10),
+    ASPEN(false, true, MapColor.TERRACOTTA_GREEN, MapColor.TERRACOTTA_WHITE, 8, 250),
+    BIRCH(false, true, MapColor.COLOR_BROWN, MapColor.TERRACOTTA_WHITE, 7, 145),
+    BLACKWOOD(false, true, MapColor.COLOR_BLACK, MapColor.COLOR_BROWN, 8, 80),
+    CHESTNUT(false, true, MapColor.TERRACOTTA_RED, MapColor.COLOR_LIGHT_GREEN, 7, 40),
+    DOUGLAS_FIR(true, false, MapColor.TERRACOTTA_YELLOW, MapColor.TERRACOTTA_BROWN, 7, 0),
+    HICKORY(false, true, MapColor.TERRACOTTA_BROWN, MapColor.COLOR_GRAY, 10, 230),
+    KAPOK(false, true, MapColor.COLOR_PURPLE, MapColor.COLOR_BROWN, 7, 30),
+    MANGROVE(false, true, MapColor.COLOR_RED, MapColor.COLOR_BROWN, 8, 100),
+    MAPLE(false, true, MapColor.COLOR_ORANGE, MapColor.TERRACOTTA_GRAY, 7, 0),
+    OAK(false, true, MapColor.WOOD, MapColor.COLOR_BROWN, 10, 120),
+    PALM(false, true, MapColor.COLOR_ORANGE, MapColor.COLOR_BROWN, 7, 255),
+    PINE(true, false, MapColor.TERRACOTTA_GRAY, MapColor.COLOR_GRAY, 7, 0),
+    ROSEWOOD(false, true, MapColor.COLOR_RED, MapColor.TERRACOTTA_LIGHT_GRAY, 8, 170),
+    SEQUOIA(true, false, MapColor.TERRACOTTA_RED, MapColor.TERRACOTTA_RED, 18, 0),
+    SPRUCE(true, false, MapColor.TERRACOTTA_PINK, MapColor.TERRACOTTA_BLACK, 7, 0),
+    SYCAMORE(false, true, MapColor.COLOR_YELLOW, MapColor.TERRACOTTA_LIGHT_GREEN, 8, 200),
+    WHITE_CEDAR(true, false, MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_LIGHT_GRAY, 7, 0),
+    WILLOW(false, true, MapColor.COLOR_GREEN, MapColor.TERRACOTTA_BROWN, 11, 225);
 
     public static final Wood[] VALUES = values();
 
     private final String serializedName;
     private final boolean conifer;
+    private final boolean flowers;
     private final MapColor woodColor;
     private final MapColor barkColor;
     private final TreeGrower tree;
@@ -102,10 +103,11 @@ public enum Wood implements RegistryWood
     private final WoodType woodType;
     private final int autumnIndex;
 
-    Wood(boolean conifer, MapColor woodColor, MapColor barkColor, int daysToGrow, int autumnIndex)
+    Wood(boolean conifer, boolean flowers, MapColor woodColor, MapColor barkColor, int daysToGrow, int autumnIndex)
     {
         this.serializedName = name().toLowerCase(Locale.ROOT);
         this.conifer = conifer;
+        this.flowers = flowers;
         this.woodColor = woodColor;
         this.barkColor = barkColor;
         this.tree = new TreeGrower(
@@ -126,9 +128,16 @@ public enum Wood implements RegistryWood
         return serializedName;
     }
 
+    @Override
     public boolean isConifer()
     {
         return conifer;
+    }
+
+    @Override
+    public boolean hasFlowers()
+    {
+        return flowers;
     }
 
     @Override
@@ -190,7 +199,7 @@ public enum Wood implements RegistryWood
         STRIPPED_LOG(wood -> new LogBlock(ExtendedProperties.of(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? wood.woodColor() : wood.barkColor()).strength(7.5f).sound(SoundType.WOOD).requiresCorrectToolForDrops().flammableLikeLogs(), null)),
         WOOD((self, wood) -> new LogBlock(properties(wood).strength(8f).requiresCorrectToolForDrops().flammableLikeLogs(), wood.getBlock(self.stripped()))),
         STRIPPED_WOOD(wood -> new LogBlock(properties(wood).strength(7.5f).requiresCorrectToolForDrops().flammableLikeLogs(), null)),
-        LEAVES((self, wood) -> new TFCLeavesBlock(ExtendedProperties.of().mapColor(MapColor.PLANT).strength(0.5F).sound(SoundType.GRASS).defaultInstrument().randomTicks().noOcclusion().isViewBlocking(TFCBlocks::never).flammableLikeLeaves(), wood.autumnIndex(), wood.getBlock(self.fallenLeaves()), wood.getBlock(self.twig()))),
+        LEAVES((self, wood) -> new TFCLeavesBlock(ExtendedProperties.of().mapColor(MapColor.PLANT).strength(0.5F).sound(SoundType.GRASS).defaultInstrument().randomTicks().noOcclusion().isViewBlocking(TFCBlocks::never).flammableLikeLeaves(), wood, wood.getBlock(self.fallenLeaves()), wood.getBlock(self.twig()))),
         PLANKS(wood -> new ExtendedBlock(properties(wood).strength(1.5f, 3.0F).flammableLikePlanks())),
         SAPLING(wood -> new TFCSaplingBlock(wood.tree(), ExtendedProperties.of(MapColor.PLANT).noCollission().randomTicks().strength(0).sound(SoundType.GRASS).flammableLikeLeaves().blockEntity(TFCBlockEntities.TICK_COUNTER), wood.ticksToGrow(), wood == Wood.PALM)),
         POTTED_SAPLING(wood -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, wood.getBlock(SAPLING), BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_ACACIA_SAPLING))),

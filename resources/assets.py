@@ -1636,6 +1636,8 @@ def generate(rm: ResourceManager):
             block.with_lang(lang('potted %s krummholz', wood)).with_block_loot('tfc:plant/%s_krummholz' % wood, 'minecraft:flower_pot')
 
         # Leaves
+
+        # Used for block model
         block = rm.blockstate(('wood', 'leaves', wood), model='tfc:block/wood/leaves/%s' % wood).with_lang(lang('%s leaves', wood))
         if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
             block.with_block_model({
@@ -1644,6 +1646,48 @@ def generate(rm: ResourceManager):
             }, parent='tfc:block/tinted_column')
         else:
             block.with_block_model('tfc:block/wood/leaves/%s' % wood, parent='block/leaves')
+
+        # Dynamic blockstates
+        rm.custom_block_model('wood/leaves/%s_dynamic' % wood, 'tfc:leaves', {
+            'dense_leaves': {'parent': 'tfc:block/wood/leaves/dense_leaves/%s' % wood},
+            'sparse_leaves': {'parent': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood},
+            'bare': {'parent': 'tfc:block/wood/leaves/bare/%s' % wood},
+            'snowy_bare': {'parent': 'tfc:block/wood/leaves/snowy_bare/%s' % wood},
+            'snowy_leaves': {'parent': 'tfc:block/wood/leaves/snowy_leaves/%s' % wood},
+            'blooming': {'parent': 'tfc:block/wood/leaves/blooming/%s' % wood}
+        })
+
+        # Dense leaves
+        if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
+            rm.block_model('wood/leaves/dense_leaves/%s' % wood, {
+                'side': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
+                'end': 'tfc:block/wood/leaves/dense_leaves/%s_top' % wood
+            }, parent='tfc:block/tinted_column')
+        else:
+            rm.block_model('wood/leaves/dense_leaves/%s' % wood, 'tfc:block/wood/leaves/dense_leaves/%s' % wood, parent='block/leaves')
+
+        # Sparse leaves
+        if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
+            rm.block_model('wood/leaves/sparse_leaves/%s' % wood, {
+                'side': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood,
+                'end': 'tfc:block/wood/leaves/sparse_leaves/%s_top' % wood
+            }, parent='tfc:block/tinted_column')
+        else:
+            rm.block_model('wood/leaves/sparse_leaves/%s' % wood, 'tfc:block/wood/leaves/sparse_leaves/%s' % wood, parent='block/leaves')
+
+        # Bare - No tint
+        rm.block_model('wood/leaves/bare/%s' % wood, 'tfc:block/wood/leaves/bare/%s' % wood, parent='block/cube_all')
+
+        # Snowy Bare - No tint
+        rm.block_model('wood/leaves/snowy_bare/%s' % wood, 'tfc:block/wood/leaves/snowy_bare/%s' % wood, parent='block/cube_all')
+
+        # Snowy Leaves - TODO: One layer tint, one not
+        rm.block_model('wood/leaves/snowy_leaves/%s' % wood, 'tfc:block/wood/leaves/snowy_leaves/%s' % wood, parent='block/leaves')
+
+        # Blooming - No tint
+        block = rm.blockstate(('wood', 'leaves', wood), model= 'tfc:block/wood/leaves/blooming/%s' % wood)
+        rm.block_model('wood/leaves/blooming/%s' % wood, 'tfc:block/wood/leaves/blooming/%s' % wood, parent='block/cube_all')
+
         block.with_item_model()
         block.with_block_loot(
             when_sheared('tfc:wood/leaves/%s' % wood),

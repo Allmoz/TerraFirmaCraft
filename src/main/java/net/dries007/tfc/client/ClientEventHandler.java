@@ -87,6 +87,7 @@ import net.dries007.tfc.client.extensions.SheetPileExtension;
 import net.dries007.tfc.client.model.ContainedFluidModel;
 import net.dries007.tfc.client.model.DoubleIngotPileBlockModel;
 import net.dries007.tfc.client.model.IngotPileBlockModel;
+import net.dries007.tfc.client.model.LeavesBlockModel;
 import net.dries007.tfc.client.model.PlantBlockModel;
 import net.dries007.tfc.client.model.ScrapingBlockModel;
 import net.dries007.tfc.client.model.SheetPileBlockModel;
@@ -191,7 +192,6 @@ import net.dries007.tfc.client.render.entity.OctopoteuthisRenderer;
 import net.dries007.tfc.client.render.entity.OviparousRenderer;
 import net.dries007.tfc.client.render.entity.PenguinRenderer;
 import net.dries007.tfc.client.render.entity.RatRenderer;
-import net.dries007.tfc.client.render.entity.SalmonLikeRenderer;
 import net.dries007.tfc.client.render.entity.SimpleMobRenderer;
 import net.dries007.tfc.client.render.entity.TFCBoatRenderer;
 import net.dries007.tfc.client.render.entity.TFCCatRenderer;
@@ -769,6 +769,7 @@ public final class ClientEventHandler
         event.register(Helpers.identifier("sheet_pile"), SheetPileBlockModel.INSTANCE);
         event.register(Helpers.identifier("scraping"), ScrapingBlockModel.INSTANCE);
         event.register(Helpers.identifier("plant"), PlantBlockModel.Loader.INSTANCE);
+        event.register(Helpers.identifier("leaves"), LeavesBlockModel.Loader.INSTANCE);
     }
 
     public static void registerColorHandlerBlocks(RegisterColorHandlersEvent.Block event)

@@ -49,6 +49,7 @@ import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.calendar.Season;
+import net.dries007.tfc.util.registry.RegistryWood;
 
 public class TFCLeavesBlock extends Block implements ILeavesBlock, IForgeBlockExtension, IFluidLoggable, ISlowEntities
 {
@@ -92,11 +93,11 @@ public class TFCLeavesBlock extends Block implements ILeavesBlock, IForgeBlockEx
     /* The maximum value of the decay property. */
     private final int maxDecayDistance;
     private final ExtendedProperties properties;
-    private final int autumnIndex;
+    private final RegistryWood wood;
     @Nullable private final Supplier<? extends Block> fallenLeaves;
     @Nullable private final Supplier<? extends Block> fallenTwig;
 
-    public TFCLeavesBlock(ExtendedProperties properties, int autumnIndex, @Nullable Supplier<? extends Block> fallenLeaves, @Nullable Supplier<? extends Block> fallenTwig)
+    public TFCLeavesBlock(ExtendedProperties properties, RegistryWood wood, @Nullable Supplier<? extends Block> fallenLeaves, @Nullable Supplier<? extends Block> fallenTwig)
     {
         super(properties.properties());
 
@@ -104,7 +105,7 @@ public class TFCLeavesBlock extends Block implements ILeavesBlock, IForgeBlockEx
         this.properties = properties;
         this.fallenLeaves = fallenLeaves;
         this.fallenTwig = fallenTwig;
-        this.autumnIndex = autumnIndex;
+        this.wood = wood;
 
         // Distance is dependent on tree species
         registerDefaultState(stateDefinition.any().setValue(getDistanceProperty(), 1).setValue(PERSISTENT, false));
@@ -333,7 +334,17 @@ public class TFCLeavesBlock extends Block implements ILeavesBlock, IForgeBlockEx
 
     public int getAutumnIndex()
     {
-        return autumnIndex;
+        return wood.autumnIndex();
+    }
+
+    public boolean hasFlowers()
+    {
+        return wood.hasFlowers();
+    }
+
+    public boolean isConifer()
+    {
+        return wood.isConifer();
     }
 
     protected IntegerProperty getDistanceProperty()
