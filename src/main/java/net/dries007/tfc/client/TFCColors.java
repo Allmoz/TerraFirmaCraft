@@ -140,32 +140,28 @@ public final class TFCColors
         // TODO: Link to other usage
         final Level level = ClientHelpers.getLevel();
         float temp = Climate.getAverageTemperature(level, pos);
-        float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
-        final float tempClamped = temp > 12f ? 12f : Math.max(temp, -20f);
-
-        final float x = 1.15f * tempClamped + 6.8f;
-        final float cubedTerm = 0.000305f * x * x * x; // 1.5 / 17^3
-        final float squaredTerm = 0.00519f * x * x; // 1.5 / 17^2
-        final float autumnStart = (cubedTerm + squaredTerm + 6.75f) / 12f;
-        final float autumnEnd = temp > 12f ? autumnStart : (cubedTerm - squaredTerm + 8.75f) / 12f;
-        final float springStart = 1f - autumnEnd;
-
-        if (timeOfYear > autumnEnd)
-        {
-            return getAverageClimateColor(FOLIAGE_WINTER_COLORS_CACHE, pos, temp);
-        }
-        else if (timeOfYear > autumnStart)
-        {
-            return getAutumnColor(FOLIAGE_FALL_COLORS_CACHE, timeOfYear, autumnStart, autumnEnd, pos, autumnIndex);
-        }
-        else if (timeOfYear > springStart)
+        // Shortcut if evergreen climate
+        if (temp > 15f)
         {
             return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
         }
-        else
+        float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
+
+        // See Desmos: https://www.desmos.com/calculator/qw86fqcd64
+        final float x = 1.2f * Math.max(temp, -20f) + 5.3f;
+        final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
+        final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
+
+        final float autumnStart = (cubedTerm + squaredTerm + 8.5f) / 12f;
+        // TODO: Note below for dryness equation
+        final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
+
+        // TODO: Winter map is basically obsolete at this point, finish cutting out of other locations
+        if (timeOfYear > autumnStart)
         {
-            return getAverageClimateColor(FOLIAGE_WINTER_COLORS_CACHE, pos, temp);
+            return getAutumnColor(FOLIAGE_FALL_COLORS_CACHE, timeOfYear, autumnStart, autumnEnd, pos, autumnIndex);
         }
+        return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
     }
 
     public static int getFoliageColor(@Nullable BlockPos pos, int tintIndex)

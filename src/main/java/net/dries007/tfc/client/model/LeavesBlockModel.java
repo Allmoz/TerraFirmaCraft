@@ -99,7 +99,6 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             if (block instanceof TFCLeavesBlock)
             {
                 // Skip all the other calculations if the tree is an evergreen
-                // TODO: Also should skip calcs if above a climate threshold? But don't implement that until dry seasons work
                 if (((TFCLeavesBlock) block).isConifer())
                 {
                     assert denseLeavesBakedModel != null;
@@ -119,20 +118,24 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         // TODO: hashing could happen here if we want to make a hashed border between decid/everg/monso
         final Level level = ClientHelpers.getLevel();
         final float temp = level != null ? Climate.getAverageTemperature(level, pos) : 5f;
-        float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
-        final float tempClamped = temp > 12f ? 12f : Math.max(temp, -20f);
 
-        // TODO: make consistent, don't use pow anywhere
-        // See Desmos: https://www.desmos.com/calculator/xtdhdrmu2d
-        final float x = 1.15f * tempClamped + 6.8f;
-        final float cubedTerm = 0.000305f * x * x * x; // 1.5 / 17^3
-        final float squaredTerm = 0.00519f * x * x; // 1.5 / 17^2
-        final float autumnStart = (cubedTerm + squaredTerm + 6.75f) / 12f;
-        final float autumnEnd = temp > 12f ? autumnStart : (cubedTerm - squaredTerm + 8.75f) / 12f;
-        final float autumnMid = 0.5f * (autumnEnd + autumnStart);
-        final float springStart = 1f - autumnEnd;
-        final float springMid = 1f - autumnMid;
-        final float springEnd = 1f - autumnStart;
+        // Skip calcs if above a climate threshold\
+        // TODO: consider dry seasons, probably best to take "temp" as a max of dry/temp
+        if (temp > 15f)
+        {
+            assert denseLeavesBakedModel != null;
+            return denseLeavesBakedModel;
+        }
+
+        float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
+
+        // See Desmos: https://www.desmos.com/calculator/qw86fqcd64
+        final float x = 1.2f * Math.max(temp, -20f) + 5.3f;
+        final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
+        final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
+
+        // TODO: Note below for dryness equation
+        final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
 
         // Positional hashing to fuzz the time of year per-block
         final int positionDeltaHash = (Helpers.hash(836494187578334123L, pos) & 127) - 63;
@@ -143,6 +146,7 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
 
         if (snowy)
         {
+            final float springStart = 1f - autumnEnd;
             if (timeOfYear > autumnEnd || timeOfYear < springStart)
             {
                 assert snowyBareBakedModel != null;
@@ -154,46 +158,53 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
                 return snowyLeavesBakedModel;
             }
         }
-        else
+
+        if (timeOfYear > autumnEnd)
         {
-            if (timeOfYear > autumnEnd)
+            assert bareBakedModel != null;
+            return bareBakedModel;
+        }
+
+        final float autumnStart = (cubedTerm + squaredTerm + 8.5f) / 12f;
+        final float autumnMid = 0.5f * (autumnEnd + autumnStart);
+        if (timeOfYear > autumnMid)
+        {
+            assert sparseLeavesBakedModel != null;
+            return sparseLeavesBakedModel;
+        }
+
+        final float springEnd = 1f - autumnStart;
+        if (timeOfYear > springEnd)
+        {
+            assert denseLeavesBakedModel != null;
+            return denseLeavesBakedModel;
+        }
+
+        final float springMid = 1f - autumnMid;
+        if (timeOfYear > springMid)
+        {
+            assert sparseLeavesBakedModel != null;
+            return sparseLeavesBakedModel;
+        }
+
+        final float springStart = 1f - autumnEnd;
+        if (timeOfYear > springStart)
+        {
+            if (flowers)
             {
-                assert bareBakedModel != null;
-                return bareBakedModel;
-            }
-            else if (timeOfYear > autumnMid)
-            {
-                assert sparseLeavesBakedModel != null;
-                return sparseLeavesBakedModel;
-            }
-            else if (timeOfYear > springEnd)
-            {
-                assert denseLeavesBakedModel != null;
-                return denseLeavesBakedModel;
-            }
-            else if (timeOfYear > springMid)
-            {
-                assert sparseLeavesBakedModel != null;
-                return sparseLeavesBakedModel;
-            }
-            else if (timeOfYear > springStart)
-            {
-                if (flowers)
-                {
-                    assert bloomingBakedModel != null;
-                    return bloomingBakedModel;
-                }
-                else
-                {
-                    assert sparseLeavesBakedModel != null;
-                    return sparseLeavesBakedModel;
-                }
+                assert bloomingBakedModel != null;
+                return bloomingBakedModel;
             }
             else
             {
-                assert bareBakedModel != null;
-                return bareBakedModel;
+                assert sparseLeavesBakedModel != null;
+                return sparseLeavesBakedModel;
             }
+        }
+        else
+        {
+            assert bareBakedModel != null;
+            return bareBakedModel;
         }
     }
 
