@@ -1638,7 +1638,7 @@ def generate(rm: ResourceManager):
         # Leaves
 
         # Used for block model
-        block = rm.blockstate(('wood', 'leaves', wood), model='tfc:block/wood/leaves/%s' % wood).with_lang(lang('%s leaves', wood))
+        block = rm.blockstate(('wood', 'leaves', wood), model='tfc:block/wood/leaves/%s_dynamic' % wood).with_lang(lang('%s leaves', wood))
         if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
             block.with_block_model({
                 'side': 'tfc:block/wood/leaves/%s' % wood,
@@ -1685,7 +1685,6 @@ def generate(rm: ResourceManager):
         rm.block_model('wood/leaves/snowy_leaves/%s' % wood, 'tfc:block/wood/leaves/snowy_leaves/%s' % wood, parent='block/leaves')
 
         # Blooming - No tint
-        block = rm.blockstate(('wood', 'leaves', wood), model= 'tfc:block/wood/leaves/blooming/%s' % wood)
         rm.block_model('wood/leaves/blooming/%s' % wood, 'tfc:block/wood/leaves/blooming/%s' % wood, parent='block/cube_all')
 
         block.with_item_model()

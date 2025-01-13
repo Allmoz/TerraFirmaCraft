@@ -87,15 +87,24 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         {
             pos = BlockPos.ZERO;
         }
+        // Default to using same texture all year round (evergreen behavior)
         if (state == null)
         {
-            flowers = false;
+            assert denseLeavesBakedModel != null;
+            return denseLeavesBakedModel;
         }
         else
         {
             final Block block = state.getBlock();
             if (block instanceof TFCLeavesBlock)
             {
+                // Skip all the other calculations if the tree is an evergreen
+                // TODO: Also should skip calcs if above a climate threshold? But don't implement that until dry seasons work
+                if (((TFCLeavesBlock) block).isConifer())
+                {
+                    assert denseLeavesBakedModel != null;
+                    return denseLeavesBakedModel;
+                }
                 flowers = ((TFCLeavesBlock) block).hasFlowers();
             }
             else
@@ -113,10 +122,13 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
         final float tempClamped = temp > 12f ? 12f : Math.max(temp, -20f);
 
-        final float cubedTerm = 1.5f * (float) Math.pow(tempClamped + 3f, 3f) / 4913f;
-        final float squaredTerm = 0.5f * (float) Math.pow(tempClamped + 3f, 2f) / 289f;
-        final float autumnStart = (cubedTerm + squaredTerm + 8.5f) / 12f;
-        final float autumnEnd = temp > 12f ? autumnStart : (cubedTerm - squaredTerm + 10.5f) / 12f;
+        // TODO: make consistent, don't use pow anywhere
+        // See Desmos: https://www.desmos.com/calculator/xtdhdrmu2d
+        final float x = 1.15f * tempClamped + 6.8f;
+        final float cubedTerm = 0.000305f * x * x * x; // 1.5 / 17^3
+        final float squaredTerm = 0.00519f * x * x; // 1.5 / 17^2
+        final float autumnStart = (cubedTerm + squaredTerm + 6.75f) / 12f;
+        final float autumnEnd = temp > 12f ? autumnStart : (cubedTerm - squaredTerm + 8.75f) / 12f;
         final float autumnMid = 0.5f * (autumnEnd + autumnStart);
         final float springStart = 1f - autumnEnd;
         final float springMid = 1f - autumnMid;
