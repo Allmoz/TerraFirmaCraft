@@ -1,7 +1,8 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "parent": "block/leaves",
+  "parent": "tfc:block/cube_all_tinted_base",
   "textures": {
-    "all": "tfc:block/wood/leaves/snowy_leaves/mangrove"
+    "overlay": "tfc:block/wood/leaves/snowy_leaves/mangrove",
+    "tinted_base": "tfc:block/wood/leaves/sparse_leaves/mangrove"
   }
 }

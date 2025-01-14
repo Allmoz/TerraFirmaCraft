@@ -1,7 +1,8 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "parent": "block/leaves",
+  "parent": "tfc:block/cube_all_tinted_overlay",
   "textures": {
-    "all": "tfc:block/wood/leaves/sparse_leaves/oak"
+    "tinted_overlay": "tfc:block/wood/leaves/sparse_leaves/oak",
+    "base": "tfc:block/wood/leaves/bare/oak"
   }
 }

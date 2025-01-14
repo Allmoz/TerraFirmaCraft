@@ -1673,7 +1673,10 @@ def generate(rm: ResourceManager):
                 'end': 'tfc:block/wood/leaves/sparse_leaves/%s_top' % wood
             }, parent='tfc:block/tinted_column')
         else:
-            rm.block_model('wood/leaves/sparse_leaves/%s' % wood, 'tfc:block/wood/leaves/sparse_leaves/%s' % wood, parent='block/leaves')
+            rm.block_model('wood/leaves/sparse_leaves/%s' % wood, textures={
+                'tinted_overlay': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood,
+                'base': 'tfc:block/wood/leaves/bare/%s' % wood
+            }, parent='tfc:block/cube_all_tinted_overlay')
 
         # Bare - No tint
         rm.block_model('wood/leaves/bare/%s' % wood, 'tfc:block/wood/leaves/bare/%s' % wood, parent='block/cube_all')
@@ -1681,8 +1684,11 @@ def generate(rm: ResourceManager):
         # Snowy Bare - No tint
         rm.block_model('wood/leaves/snowy_bare/%s' % wood, 'tfc:block/wood/leaves/snowy_bare/%s' % wood, parent='block/cube_all')
 
-        # Snowy Leaves - TODO: One layer tint, one not
-        rm.block_model('wood/leaves/snowy_leaves/%s' % wood, 'tfc:block/wood/leaves/snowy_leaves/%s' % wood, parent='block/leaves')
+        # Snowy Leaves - One layer tint, one not
+        rm.block_model('wood/leaves/snowy_leaves/%s' % wood, textures={
+            'overlay': 'tfc:block/wood/leaves/snowy_leaves/%s' % wood,
+            'tinted_base': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood
+        }, parent='tfc:block/cube_all_tinted_base')
 
         # Blooming - No tint
         rm.block_model('wood/leaves/blooming/%s' % wood, 'tfc:block/wood/leaves/blooming/%s' % wood, parent='block/cube_all')
