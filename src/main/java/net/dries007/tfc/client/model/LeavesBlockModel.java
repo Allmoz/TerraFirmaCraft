@@ -43,6 +43,10 @@ import net.dries007.tfc.common.blocks.wood.TFCLeavesBlock;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.climate.Climate;
+import net.dries007.tfc.util.climate.ClimateModel;
+import net.dries007.tfc.util.tracker.WeatherHelpers;
+import net.dries007.tfc.util.tracker.WorldTracker;
+import net.dries007.tfc.world.chunkdata.ChunkData;
 
 public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<LeavesBlockModel>
 {
@@ -81,6 +85,8 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
      */
     private BakedModel getModelFromBlockState(@Nullable BlockState state, @Nullable BlockPos pos)
     {
+        // TODO: Should add a check here to use the old system if you have fast graphics. Would need to keep winter foliage map around for this to work, though
+
         // Checks whether the tree species has a flowering stage
         final boolean flowers;
         if (pos == null)
@@ -101,6 +107,7 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
                 // Skip all the other calculations if the tree is an evergreen
                 if (((TFCLeavesBlock) block).isConifer())
                 {
+                    // TODO: Allow for snow
                     assert denseLeavesBakedModel != null;
                     return denseLeavesBakedModel;
                 }
@@ -117,7 +124,12 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         // TODO: depending on climate, should use either temp or rainVar
         // TODO: hashing could happen here if we want to make a hashed border between decid/everg/monso
         final Level level = ClientHelpers.getLevel();
-        final float temp = level != null ? Climate.getAverageTemperature(level, pos) : 5f;
+        if (level == null)
+        {
+            assert denseLeavesBakedModel != null;
+            return denseLeavesBakedModel;
+        }
+        final float temp = Climate.getAverageTemperature(level, pos);
 
         // Skip calcs if above a climate threshold\
         // TODO: consider dry seasons, probably best to take "temp" as a max of dry/temp
@@ -138,13 +150,18 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
 
         // Positional hashing to fuzz the time of year per-block
-        final int positionDeltaHash = (Helpers.hash(836494187578334123L, pos) & 127) - 63;
-        timeOfYear = (timeOfYear + (positionDeltaHash / 4096f)) % 1;
+        final int positionDeltaHash = (Helpers.hash(836494187578334123L, pos) & 127);
+        timeOfYear = (timeOfYear + ((positionDeltaHash - 63) / 4096f)) % 1;
 
-        // TODO: hook this up to alc's magic snow system
-        final boolean snowy = false;
 
-        if (snowy)
+        //TODO: Also check if actively snowing?? Maybe if a single snow block melts/places that could update the chunk?
+        final WorldTracker tracker = WorldTracker.get(level);
+        final ClimateModel model = tracker.getClimateModel();
+        final float realTemperature = model.getTemperature(level, pos);
+        final float rainfall = model.getRainfall(level, pos);
+        final long currentCalendarTick = Calendars.SERVER.getCalendarTicks();
+        // Use positionDeltaHash to fade in and out over about 40 seconds
+        if (realTemperature < -2f && WeatherHelpers.isPrecipitating(model.getRain(currentCalendarTick - 6 * positionDeltaHash - 400), rainfall))
         {
             final float springStart = 1f - autumnEnd;
             if (timeOfYear > autumnEnd || timeOfYear < springStart)
