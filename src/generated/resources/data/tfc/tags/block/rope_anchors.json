@@ -1,0 +1,24 @@
+{
+  "values": [
+    "tfc:rock/rope_anchor/granite",
+    "tfc:rock/rope_anchor/diorite",
+    "tfc:rock/rope_anchor/gabbro",
+    "tfc:rock/rope_anchor/shale",
+    "tfc:rock/rope_anchor/claystone",
+    "tfc:rock/rope_anchor/limestone",
+    "tfc:rock/rope_anchor/conglomerate",
+    "tfc:rock/rope_anchor/dolomite",
+    "tfc:rock/rope_anchor/chert",
+    "tfc:rock/rope_anchor/chalk",
+    "tfc:rock/rope_anchor/rhyolite",
+    "tfc:rock/rope_anchor/basalt",
+    "tfc:rock/rope_anchor/andesite",
+    "tfc:rock/rope_anchor/dacite",
+    "tfc:rock/rope_anchor/quartzite",
+    "tfc:rock/rope_anchor/slate",
+    "tfc:rock/rope_anchor/phyllite",
+    "tfc:rock/rope_anchor/schist",
+    "tfc:rock/rope_anchor/gneiss",
+    "tfc:rock/rope_anchor/marble"
+  ]
+}
