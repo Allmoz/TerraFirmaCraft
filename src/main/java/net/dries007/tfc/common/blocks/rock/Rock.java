@@ -27,6 +27,8 @@ import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.Lore;
+import net.dries007.tfc.common.blocks.ExtendedProperties;
+import net.dries007.tfc.common.blocks.RopeAnchorBlock;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.util.registry.RegistryRock;
 
@@ -139,7 +141,8 @@ public enum Rock implements RegistryRock
         MOSSY_LOOSE((rock, self) -> new LooseRockBlock(properties(rock).strength(0.05f, 0.0f).noCollission()), false),
         PRESSURE_PLATE((rock, self) -> new PressurePlateBlock(BlockSetType.STONE, properties(rock).requiresCorrectToolForDrops().noCollission().strength(0.5f)), false),
         BUTTON((rock, self) -> new ButtonBlock(BlockSetType.STONE, 20, properties(rock).noCollission().strength(0.5f)), false),
-        AQUEDUCT((rock, self) -> new AqueductBlock(properties(rock).strength(rock.category().hardness(6.5f), 10).requiresCorrectToolForDrops().lightLevel(TFCBlocks.lavaLoggedBlockEmission())), false);
+        AQUEDUCT((rock, self) -> new AqueductBlock(properties(rock).strength(rock.category().hardness(6.5f), 10).requiresCorrectToolForDrops().lightLevel(TFCBlocks.lavaLoggedBlockEmission())), false),
+        ROPE_ANCHOR((rock, self) -> new RopeAnchorBlock(ExtendedProperties.of(properties(rock).strength(rock.category().hardness(4f), 10).requiresCorrectToolForDrops())), false);
 
         public static final BlockType[] VALUES = BlockType.values();
 

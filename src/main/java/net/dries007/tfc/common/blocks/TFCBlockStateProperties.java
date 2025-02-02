@@ -98,6 +98,8 @@ public class TFCBlockStateProperties
     public static final BooleanProperty POWERED = BooleanProperty.create("powered");
     public static final BooleanProperty WAXED = BooleanProperty.create("waxed");
     public static final BooleanProperty FLAT = BooleanProperty.create("flat");
+    public static final BooleanProperty ASCENDING = BooleanProperty.create("ascending");
+    public static final BooleanProperty HAS_ROPE = BooleanProperty.create("has_rope");
 
     // for placed items
     public static final BooleanProperty ITEM_0 = BooleanProperty.create("item_0");

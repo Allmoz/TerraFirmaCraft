@@ -82,6 +82,8 @@ public class TFCTags
         public static final TagKey<Block> WORKBENCHES = tag("workbenches");
         public static final TagKey<Block> SUPPORT_BEAMS = tag("support_beams");
         public static final TagKey<Block> AQUEDUCTS = tag("aqueducts");
+        /** Anchors for rope **/
+        public static final TagKey<Block> ROPE_ANCHORS = tag("rope_anchors");
 
         /** Blocks that are valid for covering a charcoal pit, in addition to the default non-flammable solid blocks */
         public static final TagKey<Block> CHARCOAL_PIT_INSULATION = tag("charcoal_pit_insulation");

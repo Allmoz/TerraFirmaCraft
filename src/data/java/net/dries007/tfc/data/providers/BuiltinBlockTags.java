@@ -126,6 +126,7 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
             .add(TFCBlocks.WILD_CROPS);
         // todo: other crops?
         tag(BlockTags.CLIMBABLE).add(
+            TFCBlocks.HANGING_ROPE.get(),
             TFCBlocks.PLANTS.get(Plant.JUNGLE_VINES).get(),
             TFCBlocks.PLANTS.get(Plant.HANGING_VINES).get(),
             TFCBlocks.PLANTS.get(Plant.HANGING_VINES_PLANT).get(),
@@ -171,7 +172,9 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
                 TFCBlocks.SPRUCE_KRUMMHOLZ,
                 TFCBlocks.WHITE_CEDAR_KRUMMHOLZ,
                 TFCBlocks.BELLOWS,
-                TFCBlocks.BARREL_RACK
+                TFCBlocks.BARREL_RACK,
+                TFCBlocks.ROPE,
+                TFCBlocks.HANGING_ROPE
             );
         // Note, our hoes do not use this tag, but instead we co-opt the values as a 'sharp tool'
         tag(BlockTags.MINEABLE_WITH_HOE)
@@ -420,6 +423,7 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
             .add(TFCBlocks.WOODS, Wood.BlockType.HORIZONTAL_SUPPORT)
             .add(TFCBlocks.WOODS, Wood.BlockType.VERTICAL_SUPPORT);
         tag(AQUEDUCTS).add(TFCBlocks.ROCK_BLOCKS, Rock.BlockType.AQUEDUCT);
+        tag(ROPE_ANCHORS).add(TFCBlocks.ROCK_BLOCKS, Rock.BlockType.ROPE_ANCHOR);
 
         tag(CHARCOAL_PIT_INSULATION).add(
             TFCBlocks.LOG_PILE,

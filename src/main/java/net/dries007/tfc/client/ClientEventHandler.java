@@ -40,6 +40,7 @@ import net.minecraft.client.renderer.entity.DolphinRenderer;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 import net.minecraft.client.renderer.entity.FoxRenderer;
 import net.minecraft.client.renderer.entity.FrogRenderer;
+import net.minecraft.client.renderer.entity.LeashKnotRenderer;
 import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.OcelotRenderer;
@@ -371,6 +372,7 @@ public final class ClientEventHandler
         // Rock blocks
         TFCBlocks.ROCK_BLOCKS.values().forEach(map -> {
             ItemBlockRenderTypes.setRenderLayer(map.get(Rock.BlockType.SPIKE).get(), cutout);
+            ItemBlockRenderTypes.setRenderLayer(map.get(Rock.BlockType.ROPE_ANCHOR).get(), cutout);
             ItemBlockRenderTypes.setRenderLayer(map.get(Rock.BlockType.AQUEDUCT).get(), cutout);
         });
         TFCBlocks.ORES.values().forEach(map -> map.values().forEach(reg -> ItemBlockRenderTypes.setRenderLayer(reg.get(), cutout)));
@@ -464,6 +466,8 @@ public final class ClientEventHandler
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.SCRAPING.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.STEEL_PIPE.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.STEEL_PUMP.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.ROPE.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.HANGING_ROPE.get(), cutout);
 
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.COMPOSTER.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.BLOOMERY.get(), cutout);
@@ -544,6 +548,7 @@ public final class ClientEventHandler
         event.registerEntityRenderer(TFCEntities.THROWN_JAVELIN.get(), ThrownJavelinRenderer::new);
         event.registerEntityRenderer(TFCEntities.GLOW_ARROW.get(), GlowArrowRenderer::new);
         event.registerEntityRenderer(TFCEntities.SEAT.get(), NoopRenderer::new);
+        event.registerEntityRenderer(TFCEntities.ROPE_KNOT.get(), LeashKnotRenderer::new);
         event.registerEntityRenderer(TFCEntities.CHEST_MINECART.get(), ctx -> new MinecartRenderer<>(ctx, RenderHelpers.layerId("chest_minecart")));
         event.registerEntityRenderer(TFCEntities.HOLDING_MINECART.get(), ctx -> new MinecartRenderer<>(ctx, RenderHelpers.layerId("holding_minecart")));
         for (Wood wood : Wood.VALUES)
