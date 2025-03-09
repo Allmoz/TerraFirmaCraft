@@ -1601,9 +1601,9 @@ def generate(rm: ResourceManager):
         block.with_block_loot('tfc:wood/twig/%s' % wood)
 
         block = rm.blockstate(('wood', 'fallen_leaves', wood), variants=dict((('layers=%d' % i), {'model': 'tfc:block/wood/fallen_leaves/%s_height%d' % (wood, i * 2) if i != 8 else 'tfc:block/wood/leaves/%s' % wood}) for i in range(1, 1 + 8))).with_lang(lang('fallen %s leaves', wood))
-        tex = {'all': 'tfc:block/wood/leaves/%s' % wood}
+        tex = {'all': 'tfc:block/wood/leaves/dense_leaves/%s' % wood}
         if wood in ('mangrove', 'willow'):
-            tex['top'] = 'tfc:block/wood/leaves/%s_top' % wood
+            tex['top'] = 'tfc:block/wood/leaves/dense_leaves/%s_top' % wood
         for i in range(1, 8):
             rm.block_model(('wood', 'fallen_leaves', '%s_height%s' % (wood, i * 2)), tex, parent='tfc:block/groundcover/fallen_leaves_height%s' % (i * 2))
         rm.item_model(('wood', 'fallen_leaves', wood), 'tfc:item/groundcover/fallen_leaves')
@@ -1613,10 +1613,10 @@ def generate(rm: ResourceManager):
         if wood in ('pine', 'spruce', 'white_cedar', 'douglas_fir', 'aspen'):
             name = 'plant/%s_krummholz' % wood
             for i in range(1, 10):
-                rm.block_model('plant/krummholz/%s_%s' % (wood, i), {'0': 'tfc:block/wood/log/%s' % wood, '1': 'tfc:block/wood/leaves/%s' % wood, 'particle': 'tfc:block/wood/log/%s' % wood}, parent='tfc:block/plant/krummholz_%s' % i)
+                rm.block_model('plant/krummholz/%s_%s' % (wood, i), {'0': 'tfc:block/wood/log/%s' % wood, '1': 'tfc:block/wood/leaves/dense_leaves/%s' % wood, 'particle': 'tfc:block/wood/log/%s' % wood}, parent='tfc:block/plant/krummholz_%s' % i)
                 rm.block_model('plant/krummholz/%s_%s_snowy' % (wood, i), {'0': 'tfc:block/wood/log/%s' % wood, '1': 'tfc:block/wood/leaves/%s_frozen' % wood, 'particle': 'tfc:block/wood/log/%s' % wood}, parent='tfc:block/plant/krummholz_%s' % i)
             for i in range(1, 4):
-                rm.block_model('plant/krummholz/%s_%s_tip' % (wood, i), {'0': 'tfc:block/wood/log/%s' % wood, '1': 'tfc:block/wood/leaves/%s' % wood, 'particle': 'tfc:block/wood/log/%s' % wood}, parent='tfc:block/plant/krummholz_tip_%s' % i)
+                rm.block_model('plant/krummholz/%s_%s_tip' % (wood, i), {'0': 'tfc:block/wood/log/%s' % wood, '1': 'tfc:block/wood/leaves/dense_leaves/%s' % wood, 'particle': 'tfc:block/wood/log/%s' % wood}, parent='tfc:block/plant/krummholz_tip_%s' % i)
                 rm.block_model('plant/krummholz/%s_%s_tip_snowy' % (wood, i), {'0': 'tfc:block/wood/log/%s' % wood, '1': 'tfc:block/wood/leaves/%s_frozen' % wood, 'particle': 'tfc:block/wood/log/%s' % wood}, parent='tfc:block/plant/krummholz_tip_%s' % i)
             block = rm.blockstate_multipart(name,
                 ({'tip': True, 'snowy': False}, [{'model': 'tfc:block/plant/krummholz/%s_%s_tip' % (wood, i), 'y': y} for i in range(1, 4) for y in (None, 90)]),
@@ -1641,8 +1641,8 @@ def generate(rm: ResourceManager):
         block = rm.blockstate(('wood', 'leaves', wood), model='tfc:block/wood/leaves/%s_dynamic' % wood).with_lang(lang('%s leaves', wood))
         if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
             block.with_block_model({
-                'side': 'tfc:block/wood/leaves/%s' % wood,
-                'end': 'tfc:block/wood/leaves/%s_top' % wood
+                'side': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
+                'end': 'tfc:block/wood/leaves/dense_leaves/%s_top' % wood
             }, parent='tfc:block/tinted_column')
         else:
             block.with_block_model('tfc:block/wood/leaves/%s' % wood, parent='block/leaves')
