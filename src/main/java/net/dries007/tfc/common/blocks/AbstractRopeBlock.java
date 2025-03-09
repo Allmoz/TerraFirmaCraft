@@ -1,7 +1,13 @@
 package net.dries007.tfc.common.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -9,13 +15,70 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import net.dries007.tfc.common.fluids.FluidProperty;
 import net.dries007.tfc.common.fluids.IFluidLoggable;
+import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.util.Helpers;
 
 public class AbstractRopeBlock extends HorizontalDirectionalBlock implements IFluidLoggable, IForgeBlockExtension
 {
+    public static void recallRope(LevelAccessor level, BlockPos pos, BlockState state, Player player, Direction dir)
+    {
+        final List<BlockPos> positions = new ArrayList<>(32);
+        if (!isRope(state))
+            return;
+        positions.add(pos);
+        while (true)
+        {
+            if (state.getBlock() instanceof HangingRopeBlock)
+            {
+                pos = pos.below();
+                state = level.getBlockState(pos);
+                if (isRope(state))
+                {
+                    positions.add(pos);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                pos = pos.relative(dir);
+                state = level.getBlockState(pos);
+                if (!isRope(state))
+                {
+                    pos = pos.below();
+                    state = level.getBlockState(pos);
+                    if (isRope(state))
+                    {
+                        positions.add(pos);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    positions.add(pos);
+                }
+            }
+        }
+        positions.reversed().forEach(ropePos -> {
+            level.destroyBlock(ropePos, false);
+            ItemHandlerHelper.giveItemToPlayer(player, TFCItems.ROPE.get().getDefaultInstance());
+        });
+    }
+
+    private static boolean isRope(BlockState state)
+    {
+        return state.getBlock() instanceof AbstractRopeBlock;
+    }
+
     public static final FluidProperty FLUID = TFCBlockStateProperties.WATER;
 
     public static final VoxelShape SHAPE_X = box(7, 0, 0, 9, 2, 16);
@@ -30,6 +93,10 @@ public class AbstractRopeBlock extends HorizontalDirectionalBlock implements IFl
         registerDefaultState(getStateDefinition().any().setValue(FLUID, FLUID.keyFor(Fluids.EMPTY)));
     }
 
+    protected boolean isBlockBelowSturdy(LevelReader level, BlockPos pos)
+    {
+        return !level.getBlockState(pos.below()).canBeReplaced();
+    }
 
     @Override
     public FluidState getFluidState(BlockState state)

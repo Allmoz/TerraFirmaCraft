@@ -4,6 +4,7 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
@@ -98,83 +100,6 @@ public class RopeItem extends Item
         return knots.isEmpty() ? null : knots.getFirst();
     }
 
-//    public static void placeRopes(Level level, Player player, ItemStack stack, BlockPos origin)
-//    {
-//        final BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos().set(origin);
-//        final int count = stack.getCount();
-//        final Direction dir = player.getDirection();
-//        final DirectionProperty facing = AbstractRopeBlock.FACING;
-//        final BlockState hangingRope = TFCBlocks.HANGING_ROPE.get().defaultBlockState().setValue(facing, dir.getOpposite());
-//        final BlockState groundedRope = TFCBlocks.ROPE.get().defaultBlockState().setValue(facing, dir.getOpposite()).setValue(GroundedRopeBlock.ASCENDING, false);
-//        final BlockState slopeRope = groundedRope.setValue(GroundedRopeBlock.ASCENDING, true);
-//
-//        BlockState state = level.getBlockState(cursor);
-//        BlockState previous = state;
-//        if (Helpers.isBlock(state, TFCTags.Blocks.ROPE_ANCHORS) && state.hasProperty(RopeAnchorBlock.HAS_ROPE))
-//        {
-//            if (!state.getValue(RopeAnchorBlock.HAS_ROPE))
-//            {
-//                stack.shrink(1);
-//                level.setBlockAndUpdate(cursor, state.setValue(facing, dir).setValue(RopeAnchorBlock.HAS_ROPE, true));
-//            }
-//            else
-//            {
-//                return;
-//            }
-//        }
-//        cursor.move(dir);
-//        for (int i = 0; i < count - 1; i++)
-//        {
-//            state = level.getBlockState(cursor);
-//            if (state.canBeReplaced()) // if we have an open block where we are intending to place
-//            {
-//                cursor.move(0, -1, 0);
-//                state = level.getBlockState(cursor);
-//                if (state.canBeReplaced()) // open block below
-//                {
-//                    cursor.move(0, -1, 0);
-//                    state = level.getBlockState(cursor);
-//                    if (state.canBeReplaced()) // two blocks open below, then we need a vertical
-//                    {
-//                        stack.shrink(1);
-//                        cursor.move(0, previous.getBlock() == slopeRope.getBlock() ? 1 : 2, 0);
-//                        level.setBlockAndUpdate(cursor, hangingRope);
-//                        previous = hangingRope;
-//                        cursor.move(0, -1, 0);
-//                    }
-//                    else
-//                    {
-//                        stack.shrink(1);
-//                        cursor.move(0, previous.getBlock() == hangingRope.getBlock() ? 2 : 1, 0);
-//                        level.setBlockAndUpdate(cursor, slopeRope);
-//                        previous = slopeRope;
-//                        cursor.move(dir);
-//                    }
-//                }
-//                else // no open block below, we go horizontal
-//                {
-//                    cursor.move(0, 1, 0);
-//                    state = level.getBlockState(cursor);
-//                    if (state.canBeReplaced())
-//                    {
-//                        stack.shrink(1);
-//                        level.setBlockAndUpdate(cursor, previous.getBlock() == hangingRope.getBlock() ? slopeRope : groundedRope);
-//                        previous = groundedRope;
-//                        cursor.move(dir);
-//                    }
-//                    else
-//                    {
-//                        return; // exhausted all options to place a block
-//                    }
-//                }
-//            }
-//            else
-//            {
-//                return;
-//            }
-//        }
-//    }
-
     public static void placeRopes2(Level level, Player player, ItemStack stack, BlockPos origin)
     {
         final BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos().set(origin);
@@ -203,21 +128,25 @@ public class RopeItem extends Item
         for (int i = 0; i < count - 1; i++)
         {
             state = level.getBlockState(cursor);
-            if (state.canBeReplaced()) // if we have an open block where we are intending to place
+            if (canRopeReplace(state)) // if we have an open block where we are intending to place
             {
                 if (previous == RopeState.VERTICAL)
                 {
                     cursor.move(0, -1, 0);
                     state = level.getBlockState(cursor);
                     cursor.move(0, 1, 0);
-                    if (state.canBeReplaced())
+                    if (canRopeReplace(state))
                     {
+                        if (!hangingRope.canSurvive(level, cursor))
+                            return;
                         level.setBlockAndUpdate(cursor, hangingRope);
                         stack.shrink(1);
                         cursor.move(0, -1, 0);
                     }
                     else
                     {
+                        if (!slopeRope.canSurvive(level, cursor))
+                            return;
                         level.setBlockAndUpdate(cursor, slopeRope);
                         stack.shrink(1);
                         previous = RopeState.SLOPE;
@@ -228,13 +157,15 @@ public class RopeItem extends Item
                 {
                     cursor.move(0, -1, 0);
                     state = level.getBlockState(cursor);
-                    if (state.canBeReplaced())
+                    if (canRopeReplace(state))
                     {
                         cursor.move(0, -1, 0);
                         state = level.getBlockState(cursor);
                         cursor.move(0, 1, 0);
-                        if (state.canBeReplaced())
+                        if (canRopeReplace(state))
                         {
+                            if (!hangingRope.canSurvive(level, cursor))
+                                return;
                             level.setBlockAndUpdate(cursor, hangingRope);
                             stack.shrink(1);
                             cursor.move(0, -1, 0);
@@ -242,6 +173,8 @@ public class RopeItem extends Item
                         }
                         else
                         {
+                            if (!slopeRope.canSurvive(level, cursor))
+                                return;
                             level.setBlockAndUpdate(cursor, slopeRope);
                             stack.shrink(1);
                             previous = RopeState.SLOPE;
@@ -252,8 +185,10 @@ public class RopeItem extends Item
                     {
                         cursor.move(0, 1, 0);
                         state = level.getBlockState(cursor);
-                        if (state.canBeReplaced())
+                        if (canRopeReplace(state))
                         {
+                            if (!horizontalRope.canSurvive(level, cursor))
+                                return;
                             level.setBlockAndUpdate(cursor, horizontalRope);
                             stack.shrink(1);
                             previous = RopeState.HORIZONTAL;
@@ -263,6 +198,11 @@ public class RopeItem extends Item
                 }
             }
         }
+    }
+
+    private static boolean canRopeReplace(BlockState state)
+    {
+        return state.canBeReplaced() && (state.getFluidState().isEmpty() || Helpers.isFluid(state.getFluidState(), FluidTags.WATER));
     }
 
     private enum RopeState

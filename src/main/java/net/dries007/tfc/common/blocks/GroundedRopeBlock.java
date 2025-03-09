@@ -59,12 +59,15 @@ public class GroundedRopeBlock extends AbstractRopeBlock implements IFluidLoggab
             final BlockState aboveState = level.getBlockState(pos.above());
             if (aboveState.getBlock() instanceof HangingRopeBlock && aboveState.getValue(FACING) == facing)
             {
-                return true;
+                return isBlockBelowSturdy(level, pos);
             }
             offsetPos = offsetPos.above();
         }
         final BlockState offsetState = level.getBlockState(offsetPos);
-        return (offsetState.getBlock() instanceof GroundedRopeBlock && offsetState.getValue(FACING) == facing) || (offsetState.getBlock() instanceof RopeAnchorBlock && offsetState.getValue(FACING) == facing.getOpposite());
+        return isBlockBelowSturdy(level, pos) && (
+            (offsetState.getBlock() instanceof GroundedRopeBlock && offsetState.getValue(FACING) == facing) ||
+            (offsetState.getBlock() instanceof RopeAnchorBlock && offsetState.getValue(FACING) == facing.getOpposite())
+        );
     }
 
     @Override

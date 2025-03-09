@@ -63,8 +63,7 @@ public class RopeAnchorBlock extends AbstractRopeBlock
     {
         if (state.getValue(HAS_ROPE))
         {
-            if (!player.isCreative())
-                ItemHandlerHelper.giveItemToPlayer(player, TFCItems.ROPE.get().getDefaultInstance());
+            recallRope(level, pos, state, player, state.getValue(FACING));
             level.setBlockAndUpdate(pos, state.setValue(HAS_ROPE, false));
             return InteractionResult.SUCCESS;
         }
