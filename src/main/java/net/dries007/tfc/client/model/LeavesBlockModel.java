@@ -24,6 +24,7 @@ import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
@@ -111,9 +112,7 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
                     assert denseLeavesBakedModel != null;
                     return denseLeavesBakedModel;
                 }
-                assert bloomingBakedModel != null;
-                return bloomingBakedModel;
-                //TODO flowers = ((TFCLeavesBlock) block).hasFlowers();
+                flowers = ((TFCLeavesBlock) block).hasFlowers();
             }
             else
             {
@@ -132,10 +131,11 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             return denseLeavesBakedModel;
         }
         final float temp = Climate.getAverageTemperature(level, pos);
+        final float rainVar = Climate.getRainfallVariance(level, pos);
+        final float rainVarAbs = Math.abs(rainVar);
 
-        // Skip calcs if above a climate threshold\
-        // TODO: consider dry seasons, probably best to take "temp" as a max of dry/temp
-        if (temp > 15f)
+        // Skip calcs if above a climate threshold
+        if (temp > 15f && rainVarAbs < 0.4)
         {
             assert denseLeavesBakedModel != null;
             return denseLeavesBakedModel;
@@ -144,11 +144,34 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
 
         // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
-        final float x = 1.2f * Math.max(temp, -20f) + 5.3f;
+        final float x;
+        float seasonOffset = 0;
+        if (rainVar > 0.4)
+        {
+            x = 1.2f * Math.min(
+                Math.max(temp, -20f),
+                Mth.clampedMap(rainVar, 0.4f, 1.0f, 15f, -10f)
+            ) + 5.3f;
+        }
+        else if (temp <= 15f)
+        {
+            x = 1.2f * Math.max(temp, -20f) + 5.3f;
+        }
+        // By elimination, this only controls for temp > 15, rain < -0.4
+        else
+        {
+            x = 1.2f * Math.min(
+                Mth.clampedMap(temp, 15, 20, 15, -10),
+                Mth.clampedMap(rainVar, -0.4f, -1.0f, 15f, -10f)
+            ) + 5.3f;
+            seasonOffset = 0.5f;
+        }
         final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
         final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
 
-        // TODO: Note below for dryness equation
+        // Offset the seasons by six months if dry-season controls and the dry season occurs in winter months
+        timeOfYear = timeOfYear + seasonOffset;
+
         final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
 
         // Positional hashing to fuzz the time of year per-block

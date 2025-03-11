@@ -81,7 +81,7 @@ public enum Wood implements RegistryWood
     MANGROVE(false, true, MapColor.COLOR_RED, MapColor.COLOR_BROWN, 8, 100),
     MAPLE(false, true, MapColor.COLOR_ORANGE, MapColor.TERRACOTTA_GRAY, 7, 0),
     OAK(false, true, MapColor.WOOD, MapColor.COLOR_BROWN, 10, 120),
-    PALM(false, true, MapColor.COLOR_ORANGE, MapColor.COLOR_BROWN, 7, 255),
+    PALM(false, false, MapColor.COLOR_ORANGE, MapColor.COLOR_BROWN, 7, 255),
     PINE(true, false, MapColor.TERRACOTTA_GRAY, MapColor.COLOR_GRAY, 7, 0),
     ROSEWOOD(false, true, MapColor.COLOR_RED, MapColor.TERRACOTTA_LIGHT_GRAY, 8, 170),
     SEQUOIA(true, false, MapColor.TERRACOTTA_RED, MapColor.TERRACOTTA_RED, 18, 0),

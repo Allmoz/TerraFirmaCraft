@@ -140,23 +140,49 @@ public final class TFCColors
         // TODO: Link to other usage
         final Level level = ClientHelpers.getLevel();
         float temp = Climate.getAverageTemperature(level, pos);
+        final float rainVar = Climate.getRainfallVariance(level, pos);
+
         // Shortcut if evergreen climate
-        if (temp > 15f)
+        if (temp > 15f && Math.abs(rainVar) < 0.4)
         {
             return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
         }
         float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
 
-        // See Desmos: https://www.desmos.com/calculator/qw86fqcd64
-        final float x = 1.2f * Math.max(temp, -20f) + 5.3f;
+        // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
+        final float x;
+        float seasonOffset = 0;
+        if (rainVar > 0.4)
+        {
+            x = 1.2f * Math.min(
+                Math.max(temp, -20f),
+                Mth.clampedMap(rainVar, 0.4f, 1.0f, 15f, -10f)
+            ) + 5.3f;
+        }
+        else if (temp <= 15f)
+        {
+            x = 1.2f * Math.max(temp, -20f) + 5.3f;
+        }
+        // By elimination, this only controls for temp > 15, rain < -0.4
+        else
+        {
+            x = 1.2f * Math.min(
+                Mth.clampedMap(temp, 15, 20, 15, -10),
+                Mth.clampedMap(rainVar, -0.4f, -1.0f, 15f, -10f)
+            ) + 5.3f;
+            seasonOffset = 0.5f;
+        }
         final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
         final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
+
+        // Offset the seasons by six months if dry-season controls and the dry season occurs in winter months
+        timeOfYear = (timeOfYear + seasonOffset) % 1;
 
         final float autumnStart = (cubedTerm + squaredTerm + 8.5f) / 12f;
         // TODO: Note below for dryness equation
         final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
 
-        // TODO: Winter map is basically obsolete at this point, finish cutting out of other locations
+        // TODO: Winter map is basically obsolete at this point, finish cutting out of other locations OR use for fast graphics
         if (timeOfYear > autumnStart)
         {
             return getAutumnColor(FOLIAGE_FALL_COLORS_CACHE, timeOfYear, autumnStart, autumnEnd, pos, autumnIndex);
