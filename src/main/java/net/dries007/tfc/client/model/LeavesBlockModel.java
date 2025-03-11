@@ -111,7 +111,9 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
                     assert denseLeavesBakedModel != null;
                     return denseLeavesBakedModel;
                 }
-                flowers = ((TFCLeavesBlock) block).hasFlowers();
+                assert bloomingBakedModel != null;
+                return bloomingBakedModel;
+                //TODO flowers = ((TFCLeavesBlock) block).hasFlowers();
             }
             else
             {
@@ -141,7 +143,7 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
 
         float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
 
-        // See Desmos: https://www.desmos.com/calculator/qw86fqcd64
+        // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
         final float x = 1.2f * Math.max(temp, -20f) + 5.3f;
         final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
         final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
@@ -204,6 +206,7 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             return sparseLeavesBakedModel;
         }
 
+        // This is built such that humid tropical regions never bloom
         final float springStart = 1f - autumnEnd;
         if (timeOfYear > springStart)
         {
