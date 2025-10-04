@@ -41,6 +41,9 @@
       ]
     }
   ],
+  "primary_ingredient": {
+    "tag": "c:tools/knife"
+  },
   "remainder": {
     "modifiers": [
       {

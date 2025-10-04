@@ -24,6 +24,11 @@
           }
         }
       }
+    },
+    {
+      "type": "tfc:intertidal",
+      "min_elevation": 1,
+      "max_elevation": 512
     }
   ]
 }

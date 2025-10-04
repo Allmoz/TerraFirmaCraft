@@ -109,6 +109,19 @@
     },
     {
       "type": "patchouli:text",
+      "anchor": "rabbit",
+      "text": "$(thing)Rabbits$() spawn in $(l:the_world/climate#temperature)temperatures$() above -16°C, and at least 15mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#mammals)Mammals$() with no special abilities. They will eat any food, even if it is rotten. They have 1-6 children, are pregnant for just 19 days, and reach adulthood in 20 days. They can have children 6 times.",
+      "title": "Rabbits"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:rabbit{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "A rabbit."
+    },
+    {
+      "type": "patchouli:text",
       "anchor": "cow",
       "text": "$(thing)Cows$() spawn in most climates, between $(l:the_world/climate#temperature)temperature$() -10 and 35°C, and at least 250mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#dairy_animals)Dairy Animals$(). They only eat $(thing)grains$(), which may be rotten. They can have 1-2 children, are pregnant for 58 days, and reach adulthood in 192 days. They can have children 13 times, if they are never milked, or be milked 128 times, if they are never bred. They produce milk every day.",
       "title": "Cows"
@@ -262,6 +275,19 @@
       "scale": 0.6,
       "name": " ",
       "text": "A horse."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "frog",
+      "text": "$(thing)Frogs$() spawn in $(l:the_world/climate#temperature)temperatures$() above -13°C, and at least 150mm of $(l:the_world/climate#rainfall)rainfall$(). They can be familiarized, and when bred they will lay eggs in fresh water, which hatch into tadpoles. They will eat fish and spider eyes. ",
+      "title": "Frogs"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:frog{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "A frog."
     }
   ],
   "read_by_default": true

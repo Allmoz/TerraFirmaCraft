@@ -12,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.Main;
 import net.minecraft.server.MinecraftServer;
@@ -53,8 +52,6 @@ import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -127,12 +124,14 @@ import net.dries007.tfc.common.blockentities.BloomeryBlockEntity;
 import net.dries007.tfc.common.blockentities.BowlBlockEntity;
 import net.dries007.tfc.common.blockentities.CharcoalForgeBlockEntity;
 import net.dries007.tfc.common.blockentities.CrucibleBlockEntity;
+import net.dries007.tfc.common.blockentities.FireboxBlockEntity;
 import net.dries007.tfc.common.blockentities.LampBlockEntity;
 import net.dries007.tfc.common.blockentities.PitKilnBlockEntity;
 import net.dries007.tfc.common.blockentities.PowderkegBlockEntity;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.dries007.tfc.common.blockentities.TickCounterBlockEntity;
 import net.dries007.tfc.common.blocks.CharcoalPileBlock;
+import net.dries007.tfc.common.blocks.FireboxBlock;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.TFCCandleBlock;
 import net.dries007.tfc.common.blocks.TFCCandleCakeBlock;
@@ -154,7 +153,6 @@ import net.dries007.tfc.common.blocks.wood.TFCLecternBlock;
 import net.dries007.tfc.common.commands.TFCCommands;
 import net.dries007.tfc.common.component.Bowl;
 import net.dries007.tfc.common.component.TFCComponents;
-import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.forge.ForgingBonus;
 import net.dries007.tfc.common.component.forge.ForgingBonusComponent;
 import net.dries007.tfc.common.component.glass.GlassWorking;
@@ -174,7 +172,6 @@ import net.dries007.tfc.common.player.IPlayerInfo;
 import net.dries007.tfc.common.recipes.CollapseRecipe;
 import net.dries007.tfc.common.recipes.LandslideRecipe;
 import net.dries007.tfc.config.TFCConfig;
-import net.dries007.tfc.mixin.accessor.RecipeManagerAccessor;
 import net.dries007.tfc.network.DataManagerSyncPacket;
 import net.dries007.tfc.network.EffectExpirePacket;
 import net.dries007.tfc.network.PlayerDrinkPacket;
@@ -187,12 +184,9 @@ import net.dries007.tfc.util.SelfTests;
 import net.dries007.tfc.util.climate.Climate;
 import net.dries007.tfc.util.climate.ClimateModel;
 import net.dries007.tfc.util.climate.OverworldClimateModel;
-import net.dries007.tfc.util.collections.IndirectHashCollection;
 import net.dries007.tfc.util.data.DataManagers;
 import net.dries007.tfc.util.data.Drinkable;
 import net.dries007.tfc.util.data.Fertilizer;
-import net.dries007.tfc.util.data.FluidHeat;
-import net.dries007.tfc.util.data.Support;
 import net.dries007.tfc.util.events.DouseFireEvent;
 import net.dries007.tfc.util.events.LoggingEvent;
 import net.dries007.tfc.util.events.SelectClimateModelEvent;
@@ -593,6 +587,13 @@ public final class ForgeEventHandler
                 }
             });
         }
+        else if (block == TFCBlocks.FIREBOX.get() && !state.getValue(FireboxBlock.LIT) && event.isStrong())
+        {
+            if (level.getBlockEntity(pos) instanceof FireboxBlockEntity box && box.light(state))
+            {
+                event.setCanceled(true);
+            }
+        }
         else if (block instanceof LampBlock)
         {
             if (!state.getValue(LampBlock.LIT))
@@ -607,7 +608,7 @@ public final class ForgeEventHandler
                 event.setCanceled(true);
             }
         }
-        else if (block instanceof TFCCandleBlock || block instanceof TFCCandleCakeBlock)
+        else if ((block instanceof TFCCandleBlock || block instanceof TFCCandleCakeBlock) && state.getFluidState().isEmpty())
         {
             level.setBlock(pos, state.setValue(TFCCandleBlock.LIT, true), Block.UPDATE_ALL_IMMEDIATE);
             TickCounterBlockEntity.reset(level, pos);
@@ -650,7 +651,7 @@ public final class ForgeEventHandler
 
         if (state.isAir())
             return;
-        if (state.is(BlockTags.FIRE))
+        if (Helpers.isBlock(state, BlockTags.FIRE))
         {
             level.removeBlock(pos, false);
             Helpers.playSound(level, pos, SoundEvents.FIRE_EXTINGUISH);
@@ -722,6 +723,11 @@ public final class ForgeEventHandler
         else if (blockEntity instanceof CrucibleBlockEntity crucible)
         {
             crucible.getInventory().setTemperature(0f);
+        }
+        else if (blockEntity instanceof FireboxBlockEntity firebox)
+        {
+            firebox.extinguish(state);
+            event.setCanceled(true);
         }
     }
 
@@ -811,6 +817,12 @@ public final class ForgeEventHandler
     public static void onLivingHurt(LivingIncomingDamageEvent event)
     {
         float amount = event.getAmount();
+        
+        // Vanilla kill command uses Float.MAX_VALUE, possibly others
+        if (amount == Float.MAX_VALUE)
+        {
+            return;
+        }
 
         // Forging Bonus
         final Entity attackerEntity = event.getSource().getEntity();
@@ -1291,9 +1303,11 @@ public final class ForgeEventHandler
         if (event.getHand() == InteractionHand.MAIN_HAND && event.getItemStack().isEmpty())
         {
             // Cannot be cancelled, only fired on client.
-            final InteractionResult result = Drinkable.attemptDrink(event.getLevel(), event.getEntity(), false);
+            Player player = event.getEntity();
+            final InteractionResult result = Drinkable.attemptDrink(event.getLevel(), player, false);
             if (result.consumesAction())
             {
+                player.swing(InteractionHand.MAIN_HAND);
                 PacketDistributor.sendToServer(PlayerDrinkPacket.PACKET);
             }
         }
@@ -1353,26 +1367,9 @@ public final class ForgeEventHandler
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void onTagsUpdated(TagsUpdatedEvent event)
     {
-        if (event.shouldUpdateStaticData())
+        if (event.shouldUpdateStaticData() && event.getUpdateCause() == TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD)
         {
-            // First, reload all caches
-            final RecipeManager manager = Helpers.getUnsafeRecipeManager();
-            IndirectHashCollection.reloadAllCaches(manager);
-
-            // Then apply post reload actions which may query the cache
-            Support.updateMaximumSupportRange();
-            FluidHeat.updateCache();
-
-            TFCComponents.onModifyDefaultComponentsAfterResourceReload();
-            FoodCapability.markRecipeOutputsAsNonDecaying(event.getRegistryAccess(), manager);
-
-            SelfTests.runDataPackTests(manager);
-
-            final RecipeManagerAccessor accessor = (RecipeManagerAccessor) manager;
-            for (RecipeType<?> type : BuiltInRegistries.RECIPE_TYPE)
-            {
-                LOGGER.debug("Loaded {} recipes of type {}", accessor.invoke$byType((RecipeType) type).size(), BuiltInRegistries.RECIPE_TYPE.getKey(type));
-            }
+            Helpers.updateReloadableData(event.getRegistryAccess(), Helpers.getUnsafeRecipeManager());
         }
     }
 
@@ -1406,7 +1403,16 @@ public final class ForgeEventHandler
             ItemStack held = player.getItemInHand(event.getHand());
             if (Helpers.isItem(held, TFCTags.Items.MINECART_HOLDABLE))
             {
-                final ItemStack holdingItem = held.split(1);
+                ItemStack holdingItem;
+                if (player.isCreative())
+                {
+                    holdingItem = held.copy();
+                    holdingItem.setCount(1);
+                }
+                else
+                {
+                    holdingItem = held.split(1);
+                }
                 if (!player.level().isClientSide)
                 {
                     final HoldingMinecart minecart = new HoldingMinecart(player.level(), oldCart.getX(), oldCart.getY(), oldCart.getZ());

@@ -351,7 +351,7 @@ public final class FoodCapability
         {
             return false; // Food can never decay, because it's infinitely preserved
         }
-        final long rottenDate = creationDate + getRemainingTime(decayDateModifier);
+        final long rottenDate = creationDate + getLifeTime(decayDateModifier);
         return rottenDate <= Calendars.get().getTicks(); // Otherwise, if it is before the rotten date, it is not rotten
     }
 
@@ -366,9 +366,9 @@ public final class FoodCapability
     private static final int DEFAULT_DECAY_TICKS = ICalendar.CALENDAR_TICKS_IN_DAY * 22;
 
     /**
-     * @return The date, given a {@code creationDate} and a {@code decayDateModifier} which is not positive infinity, that the food will rot.
+     * @return The ticks, given a {@code decayDateModifier} which is not positive infinity, that a food item will last after it is created.
      */
-    public static long getRemainingTime(float decayDateModifier)
+    public static long getLifeTime(float decayDateModifier)
     {
         return (long) (decayDateModifier * DEFAULT_DECAY_TICKS);
     }

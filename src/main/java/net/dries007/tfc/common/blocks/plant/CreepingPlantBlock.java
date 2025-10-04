@@ -32,6 +32,8 @@ import org.jetbrains.annotations.NotNull;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.DirectionPropertyBlock;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
+import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
+import net.dries007.tfc.common.fluids.FluidProperty;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.registry.RegistryPlant;
 
@@ -61,6 +63,12 @@ public abstract class CreepingPlantBlock extends PlantBlock implements Direction
             public RegistryPlant getPlant()
             {
                 return plant;
+            }
+
+            @Override
+            public boolean canCreepOn(LevelReader level, BlockPos pos, BlockState state, Direction direction)
+            {
+                return !Helpers.isBlock(state, TFCTags.Blocks.CREEPING_PLANT_NOT_PLANTABLE_ON) && super.canCreepOn(level, pos, state, direction);
             }
         };
     }
@@ -97,7 +105,7 @@ public abstract class CreepingPlantBlock extends PlantBlock implements Direction
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         super.randomTick(state, level, pos, random);
-        if (PlantRegrowth.canSpread(level, random))
+        if (PlantRegrowth.canSpread(level, random, pos))
         {
             Direction direction = Direction.getRandom(random);
             if (direction == Direction.DOWN)

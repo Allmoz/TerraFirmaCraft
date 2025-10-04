@@ -19,7 +19,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-
+import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.common.fluids.FluidHelpers.Transfer;
 import net.dries007.tfc.config.TFCConfig;
@@ -54,7 +54,8 @@ public interface IMudBlock
         {
             final FluidStack simulatedDrained = fluidHandler.drain(waterRequired, IFluidHandler.FluidAction.SIMULATE);
 
-            if (simulatedDrained.getAmount() >= waterRequired)
+            if ((simulatedDrained.is(TFCTags.Fluids.ANY_FRESH_WATER) || simulatedDrained.is(TFCTags.Fluids.SALT_WATER))
+                && simulatedDrained.getAmount() >= waterRequired)
             {
                 fluidHandler.drain(waterRequired, IFluidHandler.FluidAction.EXECUTE);
                 level.setBlockAndUpdate(pos, mud);

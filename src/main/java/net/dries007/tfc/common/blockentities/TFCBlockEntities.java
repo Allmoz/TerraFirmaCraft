@@ -51,18 +51,16 @@ public final class TFCBlockEntities
     public static final Id<BowlBlockEntity> BOWL = register("bowl", BowlBlockEntity::new, Stream.of(TFCBlocks.CERAMIC_BOWL, TFCBlocks.WOODEN_BOWL));
     public static final Id<HotPouredGlassBlockEntity> HOT_POURED_GLASS = register("hot_poured_glass", HotPouredGlassBlockEntity::new, TFCBlocks.HOT_POURED_GLASS);
     public static final Id<GlassBasinBlockEntity> GLASS_BASIN = register("glass_basin", GlassBasinBlockEntity::new, TFCBlocks.GLASS_BASIN);
-    public static final Id<ShelfBlockEntity> SHELF = register("shelf", ShelfBlockEntity::new, woodBlocks(Wood.BlockType.SHELF));
+    public static final Id<ShelfBlockEntity> SHELF = register("shelf", ShelfBlockEntity::new, Stream.concat(Stream.of(TFCBlocks.FIRE_BRICK_SHELF), woodBlocks(Wood.BlockType.SHELF)));
+    public static final Id<FireboxBlockEntity> FIREBOX = register("firebox", FireboxBlockEntity::new, TFCBlocks.FIREBOX);
 
     public static final Id<TickCounterBlockEntity> TICK_COUNTER = register("tick_counter", TickCounterBlockEntity::new, Stream.of(
             woodBlocks(Wood.BlockType.SAPLING),
-            TFCBlocks.FRUIT_TREE_SAPLINGS.values().stream(),
-            TFCBlocks.FRUIT_TREE_GROWING_BRANCHES.values().stream(),
             Stream.of(
                 TFCBlocks.TORCH,
                 TFCBlocks.WALL_TORCH,
                 TFCBlocks.DEAD_BERRY_BUSH,
                 TFCBlocks.DEAD_CANE,
-                TFCBlocks.BANANA_SAPLING,
                 TFCBlocks.DEAD_BANANA_PLANT,
                 TFCBlocks.JACK_O_LANTERN,
                 TFCBlocks.CANDLE
@@ -70,6 +68,15 @@ public final class TFCBlockEntities
             TFCBlocks.DYED_CANDLE.values().stream(),
             TFCBlocks.DYED_CANDLE_CAKES.values().stream(),
             TFCBlocks.SOIL.get(SoilBlockType.DRYING_BRICKS).values().stream()
+        ).flatMap(e -> e)
+    );
+
+    public static final Id<TickCountingBranchBlockEntity> TICK_COUNTING_BRANCH = register("tick_counting_branch", TickCountingBranchBlockEntity::new, Stream.of(
+            TFCBlocks.FRUIT_TREE_SAPLINGS.values().stream(),
+            TFCBlocks.FRUIT_TREE_GROWING_BRANCHES.values().stream(),
+            Stream.of(
+                TFCBlocks.BANANA_SAPLING
+            )
         ).flatMap(e -> e)
     );
 
@@ -125,7 +132,6 @@ public final class TFCBlockEntities
         TFCBlocks.ROCK_ANVILS.values().stream(),
         TFCBlocks.METALS.values().stream().map(m -> m.get(Metal.BlockType.ANVIL)).filter(Objects::nonNull)
     ));
-    public static final Id<SheetPileBlockEntity> SHEET_PILE = register("sheet_pile", SheetPileBlockEntity::new, TFCBlocks.SHEET_PILE);
     public static final Id<IngotPileBlockEntity> INGOT_PILE = register("ingot_pile", IngotPileBlockEntity::new, Stream.of(TFCBlocks.INGOT_PILE, TFCBlocks.DOUBLE_INGOT_PILE));
     public static final Id<BlastFurnaceBlockEntity> BLAST_FURNACE = register("blast_furnace", BlastFurnaceBlockEntity::new, TFCBlocks.BLAST_FURNACE);
     public static final Id<TFCBellBlockEntity> BELL = register("bell", TFCBellBlockEntity::new, Stream.of(TFCBlocks.BRONZE_BELL, TFCBlocks.BRASS_BELL));
@@ -139,6 +145,8 @@ public final class TFCBlockEntities
     public static final Id<CrankshaftBlockEntity> CRANKSHAFT = register("crankshaft", CrankshaftBlockEntity::new, TFCBlocks.CRANKSHAFT);
     public static final Id<TripHammerBlockEntity> TRIP_HAMMER = register("trip_hammer", TripHammerBlockEntity::new, TFCBlocks.TRIP_HAMMER);
     public static final Id<PumpBlockEntity> PUMP = register("pump", PumpBlockEntity::new, TFCBlocks.STEEL_PUMP);
+    public static final Id<MoldBlockEntity> MOLD_TABLE = register("mold_table", MoldBlockEntity::new, TFCBlocks.MOLD_TABLE);
+    public static final Id<ChannelBlockEntity> CHANNEL = register("channel", ChannelBlockEntity::new, TFCBlocks.CHANNEL);
 
     private static <T extends BlockEntity> Id<T> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<? extends Block> block)
     {
@@ -154,7 +162,7 @@ public final class TFCBlockEntities
     {
         return TFCBlocks.WOODS.values().stream().map(map -> map.get(type));
     }
-    
+
     public record Id<T extends BlockEntity>(DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> holder)
         implements RegistryHolder<BlockEntityType<?>, BlockEntityType<T>> {}
 }

@@ -20,8 +20,10 @@ import net.dries007.tfc.common.blockentities.BarrelBlockEntity;
 import net.dries007.tfc.common.blockentities.BlastFurnaceBlockEntity;
 import net.dries007.tfc.common.blockentities.CrucibleBlockEntity;
 import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
+import net.dries007.tfc.common.blockentities.LampBlockEntity;
 import net.dries007.tfc.common.blockentities.PotBlockEntity;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
+import net.dries007.tfc.common.blockentities.TFCChestBlockEntity;
 import net.dries007.tfc.common.component.heat.IHeatConsumer;
 import net.dries007.tfc.util.Helpers;
 
@@ -46,11 +48,12 @@ public final class BlockCapabilities
         registerInventory(event, TFCBlockEntities.CHARCOAL_FORGE);
         registerInventory(event, TFCBlockEntities.COMPOSTER);
         registerInventory(event, TFCBlockEntities.CRUCIBLE);
+        registerInventory(event, TFCBlockEntities.FIREBOX);
         event.registerBlockEntity(FLUID, TFCBlockEntities.CRUCIBLE.get(), CrucibleBlockEntity::getSidedFluidInventory);
         event.registerBlockEntity(HEAT, TFCBlockEntities.CRUCIBLE.get(), (object, context) -> object.getInventory());
         registerInventory(event, TFCBlockEntities.FIREPIT);
         registerInventory(event, TFCBlockEntities.GRILL);
-        registerInventory(event, TFCBlockEntities.SHELF);
+        event.registerBlockEntity(FLUID, TFCBlockEntities.LAMP.get(), LampBlockEntity::getSidedFluidInventory);
         registerInventory(event, TFCBlockEntities.LARGE_VESSEL);
         registerInventory(event, TFCBlockEntities.LOOM);
         registerInventory(event, TFCBlockEntities.NEST_BOX);
@@ -58,6 +61,9 @@ public final class BlockCapabilities
         event.registerBlockEntity(FLUID, TFCBlockEntities.POT.get(), PotBlockEntity::getSidedFluidInventory);
         registerInventory(event, TFCBlockEntities.POWDERKEG);
         registerInventory(event, TFCBlockEntities.QUERN);
+        event.registerBlockEntity(ITEM, TFCBlockEntities.CHEST.get(), TFCChestBlockEntity::getInventoryHandler);
+        event.registerBlockEntity(ITEM, TFCBlockEntities.TRAPPED_CHEST.get(), TFCChestBlockEntity::getInventoryHandler);
+        event.registerBlockEntity(ITEM, TFCBlockEntities.MOLD_TABLE.get(), (object, context) -> object.getInventory());
     }
 
     private static void registerInventory(RegisterCapabilitiesEvent event, Supplier<? extends BlockEntityType<? extends InventoryBlockEntity<?>>> type)

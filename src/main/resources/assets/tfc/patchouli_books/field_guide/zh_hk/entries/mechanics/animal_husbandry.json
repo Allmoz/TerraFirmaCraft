@@ -109,6 +109,19 @@
     },
     {
       "type": "patchouli:text",
+      "anchor": "rabbit",
+      "text": "$(thing)Rabbits$() spawn in $(l:the_world/climate#temperature)temperatures$() above -16°C, and at least 15mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#mammals)Mammals$() with no special abilities. They will eat any food, even if it is rotten. They have 1-6 children, are pregnant for just 19 days, and reach adulthood in 20 days. They can have children 6 times.",
+      "title": "Rabbits"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:rabbit{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "A rabbit."
+    },
+    {
+      "type": "patchouli:text",
       "anchor": "cow",
       "text": "$(thing)牛$()是一種會在$(l:the_world/climate#temperature)温度$()在 -10 和 35°C 之間、$(l:the_world/climate#rainfall)降雨量$()至少 250 毫米的大多數氣候中生成的$(l:mechanics/animal_husbandry#dairy_animals)產奶動物$()。它們只吃$(thing)穀物$()（可以是腐爛的）。他們一胎能生產 1-2 個幼崽，懷孕 58 天，192 天成年。若從未擠過奶，衰老前它們可以產仔 13 次。若從未產過仔，衰老前它們可以擠奶 128 次，且每天都可擠奶。",
       "title": "牛"
@@ -262,6 +275,19 @@
       "scale": 0.6,
       "name": " ",
       "text": "馬"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "frog",
+      "text": "$(thing)Frogs$() spawn in $(l:the_world/climate#temperature)temperatures$() above -13°C, and at least 150mm of $(l:the_world/climate#rainfall)rainfall$(). They can be familiarized, and when bred they will lay eggs in fresh water, which hatch into tadpoles. They will eat fish and spider eyes. ",
+      "title": "Frogs"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:frog{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "A frog."
     }
   ],
   "read_by_default": true

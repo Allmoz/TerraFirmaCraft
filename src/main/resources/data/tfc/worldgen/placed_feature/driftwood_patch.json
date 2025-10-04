@@ -3,18 +3,11 @@
   "feature": "tfc:driftwood_patch",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 6
+      "type": "minecraft:count",
+      "count": 4
     },
     {
       "type": "minecraft:in_square"
-    },
-    {
-      "type": "tfc:climate",
-      "min_temperature": -10,
-      "max_temperature": 50,
-      "min_groundwater": 200,
-      "max_groundwater": 500
     },
     {
       "type": "tfc:biome"

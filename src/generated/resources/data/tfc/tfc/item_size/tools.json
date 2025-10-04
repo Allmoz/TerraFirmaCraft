@@ -4,7 +4,7 @@
       "tag": "c:tools/fishing_rod"
     },
     {
-      "tag": "c:tools/mining_tool"
+      "tag": "c:tools/shield"
     },
     {
       "tag": "c:tools/melee_weapon"
@@ -13,7 +13,7 @@
       "tag": "c:tools/ranged_weapon"
     },
     {
-      "tag": "c:tools/shield"
+      "tag": "c:tools/mace"
     }
   ],
   "size": "very_large",

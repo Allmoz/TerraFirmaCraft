@@ -1,0 +1,188 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "Плодородие почвы",
+  "category": "tfc:mechanics",
+  "icon": "tfc:farmland/mollisol",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Существует восемь видов почвы, встречающихся по всему миру. Они варьируются от очень плодородных, дающих бонус в 20% как к эффективности $(l:mechanics/fertilizers)удобрений$(), применяемых к ней, так и к восполнению питательных веществ $(l:mechanics/crops)растениями$(), до очень бедных, дающих на 20% меньше питательных веществ, чем обычная почва.",
+      "title": "Плодородие почвы"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Качество почвы влияет только на эффективность удобрений; неудобренные растения растут с той же скоростью независимо от типа почвы, в которой они посажены. Хотя питательные вещества могут потребляться растениями, качество почвы не ухудшается при последующих посадках.$(br)$(br)На следующих страницах представлено описание каждого типа почвы."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "anchor": "entisol",
+      "multiblock": {
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:dirt/entisol"
+        }
+      },
+      "name": "Энтизол",
+      "text": "Энтизол встречается по всему миру. Это почва нормального качества, не дающая бонусных питательных веществ.",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:multiblock",
+      "anchor": "andisol",
+      "multiblock": {
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:dirt/andisol"
+        }
+      },
+      "name": "Андизол",
+      "text": "Андизол встречается в вулканических регионах. Это почва высокого качества, дающая 10% бонусных питательных веществ.",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:multiblock",
+      "anchor": "fluvisol",
+      "multiblock": {
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:dirt/fluvisol"
+        }
+      },
+      "name": "Флювизол",
+      "text": "Флювизол встречается вдоль рек в регионах с влажными и сухими сезонами. Это почва высокого качества, дающая 10% бонусных питательных веществ.",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:multiblock",
+      "anchor": "alfisol",
+      "multiblock": {
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:dirt/alfisol"
+        }
+      },
+      "name": "Альфизол",
+      "text": "Альфизол встречается в умеренных широколиственных лесах. Это почва высокого качества, дающая 10% бонусных питательных веществ.",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:multiblock",
+      "anchor": "mollisol",
+      "multiblock": {
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:dirt/mollisol"
+        }
+      },
+      "name": "Моллизол",
+      "text": "Моллизол встречается в холодных степях. Это почва очень высокого качества, дающая 20% бонусных питательных веществ.",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:multiblock",
+      "anchor": "podzol",
+      "multiblock": {
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:dirt/podzol"
+        }
+      },
+      "name": "Подзол",
+      "text": "Подзол встречается в хвойных лесах. Это почва низкого качества, дающая на 10% меньше питательных веществ.",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:multiblock",
+      "anchor": "aridisol",
+      "multiblock": {
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:dirt/aridisol"
+        }
+      },
+      "name": "Аридизол",
+      "text": "Аридизол встречается в засушливых регионах. Это почва низкого качества, дающая на 10% меньше питательных веществ.",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:multiblock",
+      "anchor": "oxisol",
+      "multiblock": {
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:dirt/oxisol"
+        }
+      },
+      "name": "Оксизол",
+      "text": "Оксизол встречается во влажных тропических регионах. Это почва очень низкого качества, дающая на 20% меньше питательных веществ.",
+      "enable_visualize": false
+    }
+  ],
+  "read_by_default": true,
+  "extra_recipe_mappings": {
+    "tfc:dirt/entisol": 2,
+    "tfc:dirt/andisol": 3,
+    "tfc:dirt/fluvisol": 4,
+    "tfc:dirt/alfisol": 5,
+    "tfc:dirt/mollisol": 6,
+    "tfc:dirt/podzol": 7,
+    "tfc:dirt/aridisol": 8,
+    "tfc:dirt/oxisol": 9
+  }
+}

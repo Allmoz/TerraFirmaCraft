@@ -7,6 +7,9 @@
 package net.dries007.tfc.common.recipes;
 
 import java.util.Optional;
+
+import org.jetbrains.annotations.VisibleForTesting;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -85,7 +88,14 @@ public class AdvancedShapedRecipe extends ShapedRecipe
     @Override
     public NonNullList<ItemStack> getRemainingItems(CraftingInput input)
     {
-        return remainder.map(remainder -> RecipeHelpers.getRemainderItemsWithProvider(input, remainder))
+        return remainder.map(remainder -> {
+                RecipeHelpers.setCraftingInput(input);
+                final int matchSlot = RecipeHelpers.translateMatch(this, inputSlot, input);
+                final ItemStack inputStack = matchSlot != -1 ? input.getItem(matchSlot).copy() : ItemStack.EMPTY;
+                final var remain = RecipeHelpers.getRemainderItemsWithProvider(input, remainder, inputStack);
+                RecipeHelpers.clearCraftingInput();
+                return remain;
+            })
             .orElseGet(() -> super.getRemainingItems(input));
     }
 
@@ -99,5 +109,11 @@ public class AdvancedShapedRecipe extends ShapedRecipe
     public RecipeSerializer<?> getSerializer()
     {
         return TFCRecipeSerializers.ADVANCED_SHAPED_CRAFTING.get();
+    }
+
+    @VisibleForTesting
+    public Optional<ItemStackProvider> getRemainder()
+    {
+        return remainder;
     }
 }

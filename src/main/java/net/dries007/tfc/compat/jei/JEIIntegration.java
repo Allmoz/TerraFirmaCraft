@@ -224,7 +224,7 @@ public final class JEIIntegration implements IModPlugin
         registry.addRecipes(LOOM, recipes(TFCRecipeTypes.LOOM));
         registry.addRecipes(ALLOYING, recipes(TFCRecipeTypes.ALLOY));
         registry.addRecipes(SEALED_BARREL, recipes(TFCRecipeTypes.BARREL_SEALED));
-        registry.addRecipes(INSTANT_BARREL, recipes(TFCRecipeTypes.BARREL_INSTANT, recipe -> recipe.getInputItem().ingredient().getCustomIngredient() instanceof HeatIngredient));
+        registry.addRecipes(INSTANT_BARREL, recipes(TFCRecipeTypes.BARREL_INSTANT, recipe -> !(recipe.getInputItem().ingredient().getCustomIngredient() instanceof HeatIngredient)));
         registry.addRecipes(INSTANT_FLUID_BARREL, recipes(TFCRecipeTypes.BARREL_INSTANT_FLUID));
         registry.addRecipes(BLOOMERY, recipes(TFCRecipeTypes.BLOOMERY));
         registry.addRecipes(WELDING, recipes(TFCRecipeTypes.WELDING));
@@ -234,7 +234,7 @@ public final class JEIIntegration implements IModPlugin
         registry.addRecipes(BLAST_FURNACE, recipes(TFCRecipeTypes.BLAST_FURNACE));
         registry.addRecipes(SEWING, recipes(TFCRecipeTypes.SEWING));
 
-        KNAPPING_TYPES.forEach((id, type) -> registry.addRecipes(type, recipes(TFCRecipeTypes.KNAPPING, r -> r.knappingType().id().toString().replace("_knapping", "").equals(id.toString()))));
+        KNAPPING_TYPES.forEach((knappingType, recipeType) -> registry.addRecipes(recipeType, recipes(TFCRecipeTypes.KNAPPING, r -> r.knappingType().get().equals(knappingType))));
     }
 
     @Override
@@ -329,8 +329,6 @@ public final class JEIIntegration implements IModPlugin
     @Override
     public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registry)
     {
-        // todo: figure out what to do with advanced shaped/shapeless recipes, plus extra products
-        //registry.getCraftingCategory().addExtension(AdvancedShapelessRecipe.class, AdvancedShapelessExtension::new);
-        //registry.getCraftingCategory().addExtension(ExtraProductsCraftingRecipe.class, ExtraProductsExtension::new);
+        TFCCraftingExtensions.register(registry);
     }
 }

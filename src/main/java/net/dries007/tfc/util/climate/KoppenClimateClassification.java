@@ -43,10 +43,16 @@ public enum KoppenClimateClassification
     ET,
     EF;
 
-    public static KoppenClimateClassification classify(float averageTemperature, float rainfall, float rainVar)
+    public static KoppenClimateClassification classify(float averageTemperature, float rainfall, float rainVar, boolean isInNorthernHemisphere)
     {
+        if (!isInNorthernHemisphere)
+        {
+            rainVar = -rainVar;
+        }
+
+        // Start with Group E
         // True Koppen: When none of the year is above freezing, temp var when avg = -17C ~= 17C
-        if (averageTemperature < -17f)
+        if (averageTemperature < -17f + 0.006 * rainfall)
         {
             return EF;
         }
@@ -55,6 +61,7 @@ public enum KoppenClimateClassification
         {
             return ET;
         }
+        // Group B
         else if (rainfall < 75f)
         {
             if (averageTemperature > 18f)
@@ -77,10 +84,10 @@ public enum KoppenClimateClassification
                 return BSK;
             }
         }
-        // True Koppen: Lowest monthly temp > 18C, temp var when avg = 21C ~= 3C
+        // True Koppen: Group A, Lowest monthly temp > 18C, temp var when avg = 21C ~= 3C
         else if (averageTemperature > 21f)
         {
-            if (rainfall * (1 + rainVar) > 750f)
+            if (rainfall * (1 + rainVar) > 600f)
             {
                 return AM;
             }
@@ -97,7 +104,7 @@ public enum KoppenClimateClassification
                 return AF;
             }
         }
-        // True Koppen: Lowest monthly temp > 0C, temp var when avg = 8C ~= 8C
+        // True Koppen: Group C, Lowest monthly temp > 0C, temp var when avg = 8C ~= 8C
         else if (averageTemperature > 8f)
         {
             if (averageTemperature > 17f)

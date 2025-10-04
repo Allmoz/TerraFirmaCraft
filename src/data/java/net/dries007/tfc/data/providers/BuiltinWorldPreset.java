@@ -30,6 +30,7 @@ import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.common.blocks.SandstoneBlockType;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.Rock;
+import net.dries007.tfc.common.blocks.rock.RockCategory;
 import net.dries007.tfc.common.blocks.soil.SandBlockType;
 import net.dries007.tfc.world.TFCChunkGenerator;
 import net.dries007.tfc.world.biome.RegionBiomeSource;
@@ -83,29 +84,30 @@ public final class BuiltinWorldPreset
     }
 
     private static final Map<Rock, SandBlockType> ROCK_TO_SAND_COLOR = ImmutableMap.<Rock, SandBlockType>builder()
-        .put(GRANITE, SandBlockType.BROWN)
-        .put(DIORITE, SandBlockType.WHITE)
+        .put(GRANITE, SandBlockType.YELLOW)
+        .put(DIORITE, SandBlockType.RED)
         .put(GABBRO, SandBlockType.BLACK)
-        .put(SHALE, SandBlockType.BLACK)
+        .put(RHYOLITE, SandBlockType.YELLOW)
+        .put(DACITE, SandBlockType.RED)
+        .put(ANDESITE, SandBlockType.RED)
+        .put(BASALT, SandBlockType.BLACK)
+        .put(SHALE, SandBlockType.BROWN)
         .put(CLAYSTONE, SandBlockType.BROWN)
         .put(LIMESTONE, SandBlockType.WHITE)
-        .put(CONGLOMERATE, SandBlockType.GREEN)
-        .put(DOLOMITE, SandBlockType.BLACK)
-        .put(CHERT, SandBlockType.YELLOW)
+        .put(CONGLOMERATE, SandBlockType.BROWN)
+        .put(DOLOMITE, SandBlockType.WHITE)
+        .put(CHERT, SandBlockType.RED)
         .put(CHALK, SandBlockType.WHITE)
-        .put(RHYOLITE, SandBlockType.RED)
-        .put(BASALT, SandBlockType.RED)
-        .put(ANDESITE, SandBlockType.RED)
-        .put(DACITE, SandBlockType.RED)
-        .put(QUARTZITE, SandBlockType.YELLOW)
-        .put(SLATE, SandBlockType.BROWN)
-        .put(PHYLLITE, SandBlockType.BROWN)
-        .put(SCHIST, SandBlockType.GREEN)
-        .put(GNEISS, SandBlockType.GREEN)
+        .put(TUFF, SandBlockType.GREEN)
+        .put(QUARTZITE, SandBlockType.WHITE)
+        .put(SLATE, SandBlockType.YELLOW)
+        .put(PHYLLITE, SandBlockType.YELLOW)
+        .put(SCHIST, SandBlockType.YELLOW)
+        .put(GNEISS, SandBlockType.YELLOW)
         .put(MARBLE, SandBlockType.WHITE)
         .build();
 
-    private static final Map<Rock, Boolean> ROCK_SET_KARST = ImmutableMap.<Rock,Boolean>builder()
+    private static final Map<Rock, Boolean> ROCK_SET_KARST = ImmutableMap.<Rock, Boolean>builder()
         .put(GRANITE, Boolean.FALSE)
         .put(DIORITE, Boolean.FALSE)
         .put(GABBRO, Boolean.FALSE)
@@ -116,6 +118,7 @@ public final class BuiltinWorldPreset
         .put(DOLOMITE, Boolean.TRUE)
         .put(CHERT, Boolean.FALSE)
         .put(CHALK, Boolean.TRUE)
+        .put(TUFF, Boolean.FALSE)
         .put(RHYOLITE, Boolean.FALSE)
         .put(BASALT, Boolean.FALSE)
         .put(ANDESITE, Boolean.FALSE)
@@ -128,6 +131,31 @@ public final class BuiltinWorldPreset
         .put(MARBLE, Boolean.TRUE)
         .build();
 
+    // Used by badlands to determine whether they should have black sand
+    private static final Map<Rock, Boolean> ROCK_SET_MAFIC = ImmutableMap.<Rock, Boolean>builder()
+        .put(GRANITE, Boolean.FALSE)
+        .put(DIORITE, Boolean.FALSE)
+        .put(GABBRO, Boolean.TRUE)
+        .put(SHALE, Boolean.FALSE)
+        .put(CLAYSTONE, Boolean.FALSE)
+        .put(LIMESTONE, Boolean.FALSE)
+        .put(CONGLOMERATE, Boolean.FALSE)
+        .put(DOLOMITE, Boolean.FALSE)
+        .put(CHERT, Boolean.FALSE)
+        .put(CHALK, Boolean.FALSE)
+        .put(TUFF, Boolean.FALSE)
+        .put(RHYOLITE, Boolean.FALSE)
+        .put(BASALT, Boolean.TRUE)
+        .put(ANDESITE, Boolean.FALSE)
+        .put(DACITE, Boolean.FALSE)
+        .put(QUARTZITE, Boolean.FALSE)
+        .put(SLATE, Boolean.FALSE)
+        .put(PHYLLITE, Boolean.FALSE)
+        .put(SCHIST, Boolean.FALSE)
+        .put(GNEISS, Boolean.FALSE)
+        .put(MARBLE, Boolean.FALSE)
+        .build();
+
     private static final String BOTTOM = "bottom";
     private static final String IGNEOUS_EXTRUSIVE = "igneous_extrusive";
     private static final String IGNEOUS_EXTRUSIVE_X2 = "igneous_extrusive_x2";
@@ -136,8 +164,8 @@ public final class BuiltinWorldPreset
     private static final String FELSIC = "felsic";
     private static final String INTERMEDIATE = "intermediate";
     private static final String MAFIC = "mafic";
-    private static final String MM_PHYLLITE = "phyllite";
-    private static final String MM_SLATE = "slate";
+    private static final String MM_LOW_GRADE = "low_grade";
+    private static final String MM_HIGH_GRADE = "high_grade";
     private static final String MM_MARBLE = "marble";
     private static final String MM_QUARTZITE = "quartzite";
 
@@ -165,42 +193,43 @@ public final class BuiltinWorldPreset
                     DACITE, IGNEOUS_EXTRUSIVE,
                     BASALT, IGNEOUS_EXTRUSIVE
                 )),
-                layerOf(MM_PHYLLITE, Map.of(
-                    PHYLLITE, BOTTOM,
-                    GNEISS, BOTTOM,
-                    SCHIST, BOTTOM
+                layerOf(MM_HIGH_GRADE, Map.of(
+                    SCHIST, BOTTOM,
+                    GNEISS, BOTTOM
                 )),
-                layerOf(MM_SLATE, Map.of(
-                    SLATE, BOTTOM,
-                    PHYLLITE, MM_PHYLLITE
+                layerOf(MM_LOW_GRADE, Map.of(
+                    PHYLLITE, MM_HIGH_GRADE,
+                    SLATE, MM_HIGH_GRADE
                 )),
                 layerOf(MM_MARBLE, Map.of(MARBLE, BOTTOM)),
                 layerOf(MM_QUARTZITE, Map.of(QUARTZITE, BOTTOM)),
                 layerOf(SEDIMENTARY, Map.of(
-                    SHALE, MM_SLATE,
-                    CLAYSTONE, MM_SLATE,
-                    CONGLOMERATE, MM_SLATE,
+                    SHALE, MM_LOW_GRADE,
+                    CLAYSTONE, MM_LOW_GRADE,
+                    CONGLOMERATE, MM_LOW_GRADE,
                     LIMESTONE, MM_MARBLE,
                     DOLOMITE, MM_MARBLE,
                     CHALK, MM_MARBLE,
                     CHERT, MM_QUARTZITE
                 )),
                 layerOf(UPLIFT, Map.of(
-                    SLATE, MM_PHYLLITE,
+                    SLATE, MM_HIGH_GRADE,
+                    PHYLLITE, MM_HIGH_GRADE,
                     MARBLE, BOTTOM,
                     QUARTZITE, BOTTOM,
-                    DIORITE, SEDIMENTARY,
-                    GRANITE, SEDIMENTARY,
-                    GABBRO, SEDIMENTARY
+                    DIORITE, MM_LOW_GRADE,
+                    GRANITE, MM_LOW_GRADE,
+                    GABBRO, MM_LOW_GRADE
                 ))
             ),
+            // List of layers that can be the top layer for each variety of rock region
             List.of(IGNEOUS_EXTRUSIVE),
             List.of(IGNEOUS_EXTRUSIVE, SEDIMENTARY),
             List.of(IGNEOUS_EXTRUSIVE, IGNEOUS_EXTRUSIVE_X2),
             List.of(SEDIMENTARY, UPLIFT)
         )).getOrThrow();
     }
-    
+
     private static List<String> namesOf(Rock... rocks)
     {
         return Stream.of(rocks).map(Rock::getSerializedName).toList();
@@ -210,12 +239,13 @@ public final class BuiltinWorldPreset
     {
         return new LayerData(layerId, layers.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().getSerializedName(), Map.Entry::getValue)));
     }
-    
+
     private static RockSettings rockOf(Rock rock)
     {
         final var blocks = TFCBlocks.ROCK_BLOCKS.get(rock);
         final var color = ROCK_TO_SAND_COLOR.get(rock);
         final var karst = ROCK_SET_KARST.get(rock);
+        final var mafic = ROCK_SET_MAFIC.get(rock);
         return new RockSettings(
             blocks.get(BlockType.RAW).get(),
             blocks.get(BlockType.HARDENED).get(),
@@ -226,7 +256,8 @@ public final class BuiltinWorldPreset
             Optional.of(blocks.get(BlockType.SPIKE).get()),
             Optional.of(blocks.get(BlockType.LOOSE).get()),
             Optional.of(blocks.get(BlockType.MOSSY_LOOSE).get()),
-            Optional.of(karst)
+            Optional.of(karst),
+            Optional.of(mafic)
         );
     }
 }

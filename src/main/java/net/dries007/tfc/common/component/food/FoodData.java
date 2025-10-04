@@ -6,7 +6,10 @@
 
 package net.dries007.tfc.common.component.food;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -193,5 +196,27 @@ public record FoodData(
         for (int i = 0; i < output.length; i++)
             output[i] = input[i] * multiplier;
         return output;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) return true;
+        if (obj instanceof FoodData that)
+        {
+            return hunger == that.hunger
+                && water == that.water
+                && saturation == that.saturation
+                && intoxication == that.intoxication
+                && Arrays.equals(nutrients, that.nutrients)
+                && decayModifier == that.decayModifier;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(hunger, water, saturation, intoxication, Arrays.hashCode(nutrients), decayModifier);
     }
 }

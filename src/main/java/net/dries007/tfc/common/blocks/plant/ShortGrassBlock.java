@@ -69,12 +69,12 @@ public abstract class ShortGrassBlock extends PlantBlock implements ISpecialPile
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         super.randomTick(state, level, pos, random);
-        if (PlantRegrowth.canSpread(level, random))
+        if (PlantRegrowth.canSpread(level, random, pos))
         {
             final BlockPos newPos = PlantRegrowth.spreadSelf(state, level, pos, random, 2, 2, 4);
             if (newPos != null)
             {
-                level.setBlockAndUpdate(newPos, state.setValue(AGE, 0));
+                level.setBlockAndUpdate(newPos, Helpers.setProperty(state, AGE, 0));
             }
         }
     }

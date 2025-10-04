@@ -1,5 +1,6 @@
 {
   "type": "tfc:advanced_shaped_crafting",
+  "input_column": 2,
   "key": {
     "H": {
       "tag": "c:tools/hammer"
@@ -24,7 +25,7 @@
     ]
   },
   "result": {
-    "count": 1,
+    "count": 8,
     "id": "tfc:metal/block/cast_iron"
   }
 }

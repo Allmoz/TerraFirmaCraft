@@ -383,7 +383,7 @@ public class BarrelBlockEntity extends TickableInventoryBlockEntity<BarrelBlockE
     public void tickPouring(Level level, BlockPos pos, boolean sealed, Direction facing)
     {
         if (!sealed
-            && inventory.tank.isEmpty()
+            && !inventory.tank.isEmpty()
             && facing != Direction.UP)
         {
             final BlockPos faucetPos = pos.relative(facing);
@@ -484,6 +484,7 @@ public class BarrelBlockEntity extends TickableInventoryBlockEntity<BarrelBlockE
         assert level != null;
 
         final @Nullable SealedBarrelRecipe oldRecipe = RecipeHelpers.unbox(recipe.value());
+        recipe.unload();
         final @Nullable SealedBarrelRecipe newRecipe = getRecipe(); // Trigger the update
 
         if (oldRecipe != null && newRecipe != null && oldRecipe != newRecipe)
@@ -515,8 +516,9 @@ public class BarrelBlockEntity extends TickableInventoryBlockEntity<BarrelBlockE
     public Component getRecipeTooltip()
     {
         getRecipe(); // Load recipe if present
-        return recipe.value() != null
-            ? Component.translatable("tfc.recipe.barrel." + recipe.value().id())
+        final RecipeHolder<SealedBarrelRecipe> holder = recipe.value();
+        return holder != null
+            ? Component.translatable("tfc.recipe.barrel." + holder.id().getNamespace() + "." + holder.id().getPath().replace('/', '.'))
             : null;
     }
 

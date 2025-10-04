@@ -13,7 +13,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleRandomFeatureConfiguration;
@@ -38,12 +37,14 @@ import net.dries007.tfc.world.feature.plant.BananaFeature;
 import net.dries007.tfc.world.feature.plant.BlockWithFluidFeature;
 import net.dries007.tfc.world.feature.plant.BranchingCactusFeature;
 import net.dries007.tfc.world.feature.plant.ColumnPlantConfig;
+import net.dries007.tfc.world.feature.plant.CreepingOceanPlantFeature;
 import net.dries007.tfc.world.feature.plant.CreepingPlantConfig;
 import net.dries007.tfc.world.feature.plant.CreepingPlantFeature;
 import net.dries007.tfc.world.feature.plant.EmergentPlantFeature;
 import net.dries007.tfc.world.feature.plant.EpiphytePlantFeature;
 import net.dries007.tfc.world.feature.plant.FruitTreeFeature;
 import net.dries007.tfc.world.feature.plant.GiantKelpFeature;
+import net.dries007.tfc.world.feature.plant.RotatableWaterPlantFeature;
 import net.dries007.tfc.world.feature.plant.SpreadingBushFeature;
 import net.dries007.tfc.world.feature.plant.SpreadingCropFeature;
 import net.dries007.tfc.world.feature.plant.SubmergedTallPlantFeature;
@@ -113,6 +114,8 @@ public class TFCFeatures
     public static final Id<SpreadingBushFeature> SPREADING_BUSH = register("spreading_bush", SpreadingBushFeature::new, SpreadingBushFeature.CODEC);
     public static final Id<BlockWithFluidFeature> BLOCK_WITH_FLUID = register("block_with_fluid", BlockWithFluidFeature::new, SimpleBlockConfiguration.CODEC);
     public static final Id<BranchingCactusFeature> BRANCHING_CACTUS = register("branching_cactus", BranchingCactusFeature::new, BranchingCactusFeature.CODEC);
+    public static final Id<CreepingOceanPlantFeature> CREEPING_OCEAN_PLANT = register("creeping_ocean_plant", CreepingOceanPlantFeature::new, CreepingPlantConfig.CODEC);
+    public static final Id<RotatableWaterPlantFeature> ROTATABLE_WATER_PLANT = register("rotatable_water_plant", RotatableWaterPlantFeature::new, RotatableWaterPlantFeature.CODEC);
 
     public static final Id<TFCCoralClawFeature> CORAL_CLAW = register("coral_claw", TFCCoralClawFeature::new, NoneFeatureConfiguration.CODEC);
     public static final Id<TFCCoralMushroomFeature> CORAL_MUSHROOM = register("coral_mushroom", TFCCoralMushroomFeature::new, NoneFeatureConfiguration.CODEC);
@@ -140,7 +143,6 @@ public class TFCFeatures
     public static final Id<SpringFeature> SPRING = register("spring", SpringFeature::new, SpringConfiguration.CODEC);
 
     public static final Id<SoilDiscFeature> SOIL_DISC = register("soil_disc", SoilDiscFeature::new, SoilDiscConfig.CODEC);
-    public static final Id<TFCIcebergFeature> ICEBERG = register("iceberg", TFCIcebergFeature::new, BlockStateConfiguration.CODEC);
     public static final Id<PowderSnowFeature> POWDER_SNOW = register("powder_snow", PowderSnowFeature::new, BlockStateConfiguration.CODEC);
 
     public static final Id<IfThenFeature> IF_THEN = register("if_then", IfThenFeature::new, IfThenConfig.CODEC);

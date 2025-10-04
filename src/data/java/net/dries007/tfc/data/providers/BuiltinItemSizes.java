@@ -16,7 +16,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.crafting.CompoundIngredient;
+import net.neoforged.neoforge.common.crafting.DifferenceIngredient;
 
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
@@ -44,13 +44,13 @@ public class BuiltinItemSizes extends DataManagerProvider<ItemSizeDefinition> im
         add("doors", ItemTags.DOORS, Size.VERY_LARGE, Weight.HEAVY);
         add("trapdoors", ItemTags.TRAPDOORS, Size.LARGE, Weight.HEAVY);
         add("signs", ItemTags.SIGNS, Size.VERY_SMALL, Weight.MEDIUM);
-        add("hanging_signs", ItemTags.HANGING_SIGNS, Size.VERY_SMALL, Weight.HEAVY);
+        add("hanging_signs", ItemTags.HANGING_SIGNS, Size.VERY_SMALL, Weight.MEDIUM);
         add("boats", ItemTags.BOATS, Size.VERY_LARGE, Weight.HEAVY);
         add("rails", ItemTags.RAILS, Size.LARGE, Weight.VERY_LIGHT);
 
         // Common Tags
         add("chests", Tags.Items.CHESTS, Size.LARGE, Weight.LIGHT);
-        add("ingots", Tags.Items.INGOTS, Size.LARGE, Weight.MEDIUM);
+        add("ingots", DifferenceIngredient.of(Ingredient.of(Tags.Items.INGOTS), Ingredient.of(Tags.Items.BRICKS)), Size.LARGE, Weight.MEDIUM);
         add("double_ingots", TFCTags.Items.DOUBLE_INGOTS, Size.LARGE, Weight.MEDIUM);
         add("sheets", TFCTags.Items.SHEETS, Size.LARGE, Weight.MEDIUM);
         add("double_sheets", TFCTags.Items.DOUBLE_SHEETS, Size.LARGE, Weight.MEDIUM);
@@ -70,10 +70,12 @@ public class BuiltinItemSizes extends DataManagerProvider<ItemSizeDefinition> im
         ), Size.LARGE, Weight.LIGHT);
         add("vessels", TFCTags.Items.VESSELS, Size.NORMAL, Weight.HEAVY);
         add("large_vessels", TFCTags.Items.LARGE_VESSELS, Size.HUGE, Weight.HEAVY);
-        add("molds", TFCTags.Items.MOLDS, Size.NORMAL, Weight.MEDIUM);
+        add("unfired_molds", TFCTags.Items.UNFIRED_MOLDS, Size.NORMAL, Weight.MEDIUM);
+        add("fired_molds", TFCTags.Items.FIRED_MOLDS, Size.NORMAL, Weight.MEDIUM);
         add("powders", TFCTags.Items.BOWL_POWDERS, Size.TINY, Weight.VERY_LIGHT);
         add("stick_bunch", TFCItems.STICK_BUNCH, Size.NORMAL, Weight.LIGHT);
         add("stick_bundle", TFCItems.STICK_BUNDLE, Size.VERY_LARGE, Weight.MEDIUM);
+        add("cactus_wood", Ingredient.of(TFCItems.CACTUS_WOOD, TFCItems.DRIED_CACTUS_WOOD), Size.VERY_LARGE, Weight.MEDIUM);
         add("jute", Ingredient.of(TFCItems.JUTE_FIBER, TFCItems.JUTE), Size.SMALL, Weight.VERY_LIGHT);
         add("burlap_cloth", TFCItems.BURLAP_CLOTH, Size.SMALL, Weight.VERY_LIGHT);
         add("straw", TFCItems.STRAW, Size.SMALL, Weight.VERY_LIGHT);
@@ -86,19 +88,24 @@ public class BuiltinItemSizes extends DataManagerProvider<ItemSizeDefinition> im
         add("soups", TFCTags.Items.SOUPS, Size.VERY_SMALL, Weight.MEDIUM);
         add("salads", TFCTags.Items.SALADS, Size.VERY_SMALL, Weight.MEDIUM);
         add("bloomery", TFCBlocks.BLOOMERY, Size.LARGE, Weight.VERY_HEAVY);
+        add("mold_tables", ingredientOf(
+            Ingredient.of(TFCItems.UNFIRED_MOLD_TABLE), 
+            Ingredient.of(TFCBlocks.MOLD_TABLE)
+        ), Size.HUGE, Weight.HEAVY);
         add("small_tools", ingredientOf(
             Ingredient.of(TFCTags.Items.TOOLS_CHISEL),
             Ingredient.of(TFCTags.Items.TOOLS_KNIFE),
             Ingredient.of(Tags.Items.TOOLS_SHEAR),
             Ingredient.of(TFCTags.Items.TOOLS_GLASSWORKING),
-            Ingredient.of(TFCTags.Items.TOOLS_BLOWPIPE)
+            Ingredient.of(TFCTags.Items.TOOLS_BLOWPIPE),
+            Ingredient.of(TFCItems.FIRESTARTER.get())
         ), Size.LARGE, Weight.MEDIUM);
         add("tools", ingredientOf(
             Ingredient.of(Tags.Items.TOOLS_FISHING_ROD),
-            Ingredient.of(Tags.Items.MINING_TOOL_TOOLS),
+            Ingredient.of(Tags.Items.TOOLS_SHIELD),
             Ingredient.of(Tags.Items.MELEE_WEAPON_TOOLS),
             Ingredient.of(Tags.Items.RANGED_WEAPON_TOOLS),
-            Ingredient.of(Tags.Items.TOOLS_SHIELD)
+            Ingredient.of(Tags.Items.TOOLS_MACE)
         ), Size.VERY_LARGE, Weight.VERY_HEAVY);
         add("plants", TFCTags.Items.PLANTS, Size.TINY, Weight.VERY_LIGHT);
         add("sluices", TFCTags.Items.SLUICES, Size.VERY_LARGE, Weight.VERY_HEAVY);
@@ -109,12 +116,12 @@ public class BuiltinItemSizes extends DataManagerProvider<ItemSizeDefinition> im
         add("tuyeres", TFCTags.Items.BLAST_FURNACE_TUYERES, Size.LARGE, Weight.HEAVY);
         add("ores", TFCTags.Items.ORE_PIECES, Size.SMALL, Weight.MEDIUM);
         add("small_ores", TFCTags.Items.SMALL_ORE_PIECES, Size.SMALL, Weight.LIGHT);
-        add("jars", TFCTags.Items.JARS, Size.NORMAL, Weight.VERY_HEAVY);
-        add("empty_jars", Ingredient.of(TFCItems.EMPTY_JAR, TFCItems.EMPTY_JAR_WITH_LID), Size.NORMAL, Weight.LIGHT);
+        add("filled_jars", TFCTags.Items.FILLED_JARS, Size.NORMAL, Weight.HEAVY);
+        add("empty_jars", TFCTags.Items.EMPTY_JARS, Size.NORMAL, Weight.MEDIUM);
         add("glass_bottles", TFCTags.Items.GLASS_BOTTLES, Size.NORMAL, Weight.MEDIUM);
         add("windmill_blades", TFCTags.Items.WINDMILL_BLADES, Size.VERY_LARGE, Weight.VERY_HEAVY);
         add("water_wheels", TFCTags.Items.WATER_WHEELS, Size.VERY_LARGE, Weight.VERY_HEAVY);
-        add("firepit_attachments", Ingredient.of(TFCItems.POT, TFCItems.WROUGHT_IRON_GRILL), Size.VERY_LARGE, Weight.HEAVY);
+        add("firepit_attachments", Ingredient.of(TFCItems.POT, TFCItems.UNFIRED_POT, TFCItems.WROUGHT_IRON_GRILL), Size.VERY_LARGE, Weight.HEAVY);
     }
 
     private void add(String name, TagKey<Item> item, Size size, Weight weight)

@@ -34,6 +34,7 @@ public class ServerConfig extends BaseConfig
     public final Supplier<Boolean> enableTimeStopWhenServerEmpty;
     public final Supplier<Boolean> enableFireArrowSpreading;
     public final Supplier<Double> fireStarterChance;
+    public final Supplier<Double> flintAndPyriteChance;
     public final Supplier<Boolean> enableInfestations;
     public final Supplier<Boolean> enableLightning;
     public final Supplier<Boolean> enableLightningStrippingLogs;
@@ -297,13 +298,14 @@ public class ServerConfig extends BaseConfig
         ).define("enableTimeStopWhenServerEmpty", true);
         enableFireArrowSpreading = builder.comment("Enable fire arrows and fireballs to spread fire and light blocks.").define("enableFireArrowSpreading", true);
         fireStarterChance = builder.comment("Base probability for a firestarter to start a fire. May change based on circumstances").define("fireStarterChance", 0.5, 0, 1);
+        flintAndPyriteChance = builder.comment("Base probability for flint and pyrite to start a fire. May change based on circumstances").define("fireStarterChance", 0.25, 0, 1);
         enableInfestations = builder.comment("Enable rat infestations for improperly stored food.").define("enableInfestations", true);
         enableLightning = builder.comment("If false, vanilla lightning will not strike.").define("enableLightning", true);
         enableLightningStrippingLogs = builder.comment("If true, lightning has a chance of stripping bark off of trees.").define("enableLightningStrippingLogs", true);
         oceanWindScale = builder.comment("Every time the z coordinate reaches a multiple of this point, the wind over oceans will switch directions.").define("oceanWindScale", 5000, 128, Integer.MAX_VALUE);
         excludedMetalTagNames = builder.comment(
-            "TFC will try and infer metals from tags that match the pattern 'c:type/...', where 'type' is one of 'ingots', 'double_ingots', or 'sheets'",
-            "These will be used to determine what metal is an item for the purpose of rendering it in an ingot or sheet pile",
+            "TFC will try and infer metals from tags that match the pattern 'c:type/...', where 'type' is one of 'ingots' or 'double_ingots'",
+            "These will be used to determine what metal is an item for the purpose of rendering it in an ingot pile",
             "This is a list of tag names (not including the 'c' namespace), that look like the above (so i.e. 'ingots/not_a_real_metal') that should not be included"
         ).define("", List.of(), e -> true);
 
@@ -507,7 +509,7 @@ public class ServerConfig extends BaseConfig
         builder.swap("crops");
 
         cropGrowthModifier = builder.comment("Modifier applied to the growth time of every crop. The modifier multiplies the ticks it takes to grow, so larger values cause longer growth times. For example, a value of 2 doubles the growth time.").define("cropGrowthModifier", 1, 0.001, 1000);
-        cropExpiryModifier = builder.comment("Modifier applied to the expiry time of every crop. The modifier multiplies the ticks it takes to grow, so larger values cause longer growth times. For example, a value of 2 doubles the growth time.").define("cropExpiryModifier", 1, 0.001, 1000);
+        cropExpiryModifier = builder.comment("Modifier applied to the expiry time of every crop. The modifier multiplies the ticks it takes to grow, so larger values cause longer expiry times. For example, a value of 2 doubles the expiry time.").define("cropExpiryModifier", 1, 0.001, 1000);
 
         builder.swap("dispenser");
 
@@ -648,7 +650,7 @@ public class ServerConfig extends BaseConfig
         traitWoodGrilledModifier = builder.comment("The modifier for the 'Wood Grilled' food trait. Values less than 1 extend food lifetime, values greater than one decrease it. A value of zero stops decay.").define("traitWoodGrilledModifier", 0.8, 0, Double.MAX_VALUE);
         traitBurntToACrispModifier = builder.comment("The modifier for the 'Burnt To A Crisp' food trait. Values less than 1 extend food lifetime, values greater than one decrease it. A value of zero stops decay.").define("traitBurntToACrispModifier", 2.5, 0, Double.MAX_VALUE);
         traitWildModifier = builder.comment("The modifier for the 'Wild' food trait. Values less than 1 extend food lifetime, values greater than one decrease it. A value of zero stops decay.").define("traitWildModifier", 0.5, 0, Double.MAX_VALUE);
-        traitCannedModifier = builder.comment("The modifier for the 'Canned' food trait. Values less than 1 extend food lifetime, values greater than one decrease it. A value of zero stops decay.").define("traitCannedModifier", 0.00001, 0, Double.MAX_VALUE);
+        traitCannedModifier = builder.comment("The modifier for the 'Canned' food trait. Values less than 1 extend food lifetime, values greater than one decrease it. A value of zero stops decay.").define("traitCannedModifier", 0, 0, Double.MAX_VALUE);
 
         builder.swap("vanillaChanges");
 
@@ -685,7 +687,7 @@ public class ServerConfig extends BaseConfig
         dogConfig = MammalConfig.build(builder, "dog", 0.35, 50, 60, true, 19, 2);
 
         builder.swap("rabbit");
-        rabbitConfig = MammalConfig.build(builder, "rabbit", 0.35, 80, 40, true, 19, 6);
+        rabbitConfig = MammalConfig.build(builder, "rabbit", 0.35, 30, 40, true, 19, 6);
 
         builder.swap("cow");
         cowConfig = ProducingMammalConfig.build(builder, "cow", 0.35, 192, 128, true, 58, 2, 24000, 0.15);

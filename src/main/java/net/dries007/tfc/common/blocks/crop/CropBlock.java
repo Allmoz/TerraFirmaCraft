@@ -35,7 +35,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blockentities.CropBlockEntity;
-import net.dries007.tfc.common.blockentities.FarmlandBlockEntity;
 import net.dries007.tfc.common.blockentities.IFarmland;
 import net.dries007.tfc.common.blocks.EntityBlockExtension;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
@@ -52,7 +51,10 @@ public abstract class CropBlock extends net.minecraft.world.level.block.CropBloc
     public static final VoxelShape HALF_SHAPE = box(2, 0, 2, 14, 8, 14);
     public static final VoxelShape FULL_SHAPE = box(2, 0, 2, 14, 16, 14);
 
-    protected final FarmlandBlockEntity.NutrientType primaryNutrient;
+    protected final float nNeeded;
+    protected final float pNeeded;
+    protected final float kNeeded;
+
     protected final Supplier<? extends Block> dead;
     protected final Supplier<? extends Item> seeds;
     protected final Supplier<ClimateRange> climateRange;
@@ -60,7 +62,7 @@ public abstract class CropBlock extends net.minecraft.world.level.block.CropBloc
 
     private final ExtendedProperties extendedProperties;
 
-    protected CropBlock(ExtendedProperties properties, int maxAge, Supplier<? extends Block> dead, Supplier<? extends Item> seeds, FarmlandBlockEntity.NutrientType primaryNutrient, Supplier<ClimateRange> climateRange)
+    protected CropBlock(ExtendedProperties properties, int maxAge, Supplier<? extends Block> dead, Supplier<? extends Item> seeds, float nitrogen, float phosporous, float potassium, Supplier<ClimateRange> climateRange)
     {
         super(properties.properties());
 
@@ -69,7 +71,9 @@ public abstract class CropBlock extends net.minecraft.world.level.block.CropBloc
 
         this.dead = dead;
         this.seeds = seeds;
-        this.primaryNutrient = primaryNutrient;
+        this.nNeeded = nitrogen;
+        this.pNeeded = phosporous;
+        this.kNeeded = potassium;
         this.climateRange = climateRange;
 
         registerDefaultState(defaultBlockState().setValue(getAgeProperty(), 0));
@@ -210,9 +214,21 @@ public abstract class CropBlock extends net.minecraft.world.level.block.CropBloc
     }
 
     @Override
-    public FarmlandBlockEntity.NutrientType getPrimaryNutrient()
+    public float getNForGrowth()
     {
-        return primaryNutrient;
+        return this.nNeeded;
+    }
+
+    @Override
+    public float getPForGrowth()
+    {
+        return this.pNeeded;
+    }
+
+    @Override
+    public float getKForGrowth()
+    {
+        return this.kNeeded;
     }
 
     protected abstract void postGrowthTick(Level level, BlockPos pos, BlockState state, CropBlockEntity crop);

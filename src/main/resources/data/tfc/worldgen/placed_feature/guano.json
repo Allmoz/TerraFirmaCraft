@@ -23,6 +23,18 @@
           }
         }
       }
+    },
+    {
+      "type": "tfc:intertidal",
+      "min_elevation": 2,
+      "max_elevation": 32
+    },
+    {
+      "type": "tfc:on_top",
+      "predicate": {
+        "type": "minecraft:matching_block_tag",
+        "tag": "tfc:creeping_stone_plantable_on"
+      }
     }
   ]
 }

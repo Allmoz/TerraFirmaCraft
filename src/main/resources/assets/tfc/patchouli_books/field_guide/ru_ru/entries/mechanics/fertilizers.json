@@ -6,20 +6,26 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Удобрения используются для добавления питательных веществ к $(l:mechanics/crops)культурам$(). $(item)$(k:key.use)$() с удобрением в руке на некотором $(thing)пашне$() или $(thing)культуре$(), чтобы добавить питательные вещества. Должны появиться частицы, указывающие на то, что удобрение было добавлено.",
+      "text": "Удобрения используются для добавления питательных веществ $(l:mechanics/crops)культурам$(). $(item)$(k:key.use)$(), держа удобрение в руке, по $(thing)пашне$() или $(thing)культуре$(), чтобы добавить питательные вещества. Появятся частицы, указывающие на то, что удобрение было добавлено.$(br)Эффективность удобрений зависит от типа $(l:mechanics/farmland)пашни$(), на которой они применяются.",
       "title": "Удобрение"
     },
     {
       "type": "patchouli:spotlight",
       "item": "tfc:compost",
       "link_recipes": false,
-      "text": "Compost is the product of the $(l:mechanics/composter)Composter$(). $(br)$(li)$(b)Nitrogen: 20$()$(li)$(d)Potassium: 20$()"
+      "text": "Компост является продуктом $(l:mechanics/composter)компостера$(). $(br)$(li)$(b)Азот: 20$()$(li)$(d)Калий: 20$()"
     },
     {
       "type": "patchouli:spotlight",
       "item": "minecraft:bone_meal",
       "link_recipes": false,
       "text": "Костная мука состоит из измельченных костей. $(br)$(li)$(6)Фосфор: 10$()"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "tfc:food/shellfish",
+      "link_recipes": false,
+      "text": "Ракообразных можно получить, убив некоторых водных беспозвоночных. $(br)$(li)$(6)Фосфор: 15$()"
     },
     {
       "type": "patchouli:spotlight",
@@ -31,7 +37,7 @@
       "type": "patchouli:spotlight",
       "item": "tfc:groundcover/guano",
       "link_recipes": false,
-      "text": "Гуано находят глубоко под землей и на галечных берегах. $(br)$(li)$(b)Азот: 80$()$(li)$(6)Фосфор: 50$()$(li)$(d)Калий: 10$()"
+      "text": "Гуано находится под землёй в пышных биомах и на скалистых побережьях. $(br)$(li)$(b)Азот: 40$()$(li)$(6)Фосфор: 50$()$(li)$(d)Калий: 10$()"
     },
     {
       "type": "patchouli:spotlight",

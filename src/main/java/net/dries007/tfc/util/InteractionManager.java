@@ -36,11 +36,12 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent;
 import org.jetbrains.annotations.NotNull;
 
 import net.dries007.tfc.common.TFCTags;
-import net.dries007.tfc.common.blockentities.LogPileBlockEntity;
+import net.dries007.tfc.common.blockentities.MoldBlockEntity;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.dries007.tfc.common.blocks.CharcoalPileBlock;
 import net.dries007.tfc.common.blocks.DirectionPropertyBlock;
@@ -51,7 +52,6 @@ import net.dries007.tfc.common.blocks.ThatchBedBlock;
 import net.dries007.tfc.common.blocks.devices.DoubleIngotPileBlock;
 import net.dries007.tfc.common.blocks.devices.IngotPileBlock;
 import net.dries007.tfc.common.blocks.devices.LogPileBlock;
-import net.dries007.tfc.common.blocks.devices.SheetPileBlock;
 import net.dries007.tfc.common.container.ItemStackContainerProvider;
 import net.dries007.tfc.common.container.KnappingContainer;
 import net.dries007.tfc.common.container.TFCContainerProviders;
@@ -65,7 +65,6 @@ import net.dries007.tfc.util.data.KnappingType;
 import net.dries007.tfc.util.events.DouseFireEvent;
 import net.dries007.tfc.util.events.StartFireEvent;
 
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
 import static net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.*;
 
 /**
@@ -349,58 +348,18 @@ public final class InteractionManager
         registerBlock(Ingredient.of(Tags.Items.INGOTS), (stack, context) -> doIngotPiling(ingotPilePlacement, stack, context, (IngotPileBlock) TFCBlocks.INGOT_PILE.get(), IngotPileBlock.COUNT, 64));
         registerBlock(Ingredient.of(TFCTags.Items.DOUBLE_INGOTS), (stack, context) -> doIngotPiling(doubleIngotPilePlacement, stack, context, (IngotPileBlock) TFCBlocks.DOUBLE_INGOT_PILE.get(), DoubleIngotPileBlock.DOUBLE_COUNT, 36));
 
-        registerBlock(Ingredient.of(TFCTags.Items.SHEETS), (stack, context) -> {
+        registerBlock(Ingredient.of(TFCTags.Items.USABLE_IN_MOLD_TABLE), (stack, context) -> {
+
             final Player player = context.getPlayer();
-            if (player != null && player.mayBuild() && player.isShiftKeyDown())
+            if (player != null && player.mayBuild() && !player.isShiftKeyDown()) 
             {
                 final Level level = context.getLevel();
-                final Direction clickedFace = context.getClickedFace(); // i.e. click on UP
-                final Direction sheetFace = clickedFace.getOpposite(); // i.e. place on DOWN
-
-                final BlockPos clickedPos = context.getClickedPos();
-                final BlockPos relativePos = clickedPos.relative(clickedFace);
-
-                final BlockState clickedState = level.getBlockState(clickedPos);
-                final BlockState relativeState = level.getBlockState(relativePos);
-
-                final BlockPlaceContext blockContext = new BlockPlaceContext(context);
-                final BooleanProperty property = DirectionPropertyBlock.getProperty(sheetFace);
-
-                if (blockContext.replacingClickedOnBlock())
+                final BlockPos posClicked = context.getClickedPos();
+                final Optional<MoldBlockEntity> moldTable = level.getBlockEntity(posClicked, TFCBlockEntities.MOLD_TABLE.get());
+                if (moldTable.isPresent())
                 {
-                    // Sheets are not allowed to place on replaceable blocks, as it is dependent on the face clicked - but when we click on a replaceable block, that face doesn't make sense.
-                    return InteractionResult.FAIL;
-                }
-
-                // Sheets behave differently than ingots, because we need to check the targeted face if it's empty or not
-                // We assume immediately that we want to target the relative pos and state
-                if (Helpers.isBlock(relativeState, TFCBlocks.SHEET_PILE.get()))
-                {
-                    // We targeted an existing sheet pile, so we need to check if there's an empty space for it
-                    if (!relativeState.getValue(property) && BlockItemPlacement.canPlace(blockContext, clickedState) && clickedState.isFaceSturdy(level, clickedPos, clickedFace))
-                    {
-                        // Add to an existing sheet pile
-                        final ItemStack insertStack = stack.split(1);
-                        SheetPileBlock.addSheet(level, relativePos, relativeState, sheetFace, insertStack);
-                        return InteractionResult.sidedSuccess(level.isClientSide);
-                    }
-                    else
-                    {
-                        // No space
-                        return InteractionResult.FAIL;
-                    }
-                }
-                // This is where we assert that we can only replace replaceable blocks
-                else if (level.getBlockState(relativePos).canBeReplaced(blockContext))
-                {
-                    // Want to place a new sheet at the above location
-                    final BlockState placingState = TFCBlocks.SHEET_PILE.get().defaultBlockState().setValue(property, true);
-                    if (BlockItemPlacement.canPlace(blockContext, placingState) && clickedState.isFaceSturdy(level, clickedPos, clickedFace))
-                    {
-                        final ItemStack insertStack = stack.split(1);
-                        SheetPileBlock.addSheet(level, relativePos, placingState, sheetFace, insertStack);
-                        return InteractionResult.sidedSuccess(level.isClientSide);
-                    }
+                    moldTable.get().onRightClick(player);
+                    return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
                 }
             }
             return InteractionResult.PASS;
@@ -432,7 +391,7 @@ public final class InteractionManager
 
         register(ItemAbilities.FIRESTARTER_LIGHT, Target.BLOCKS, (stack, context) -> {
             final Player player = context.getPlayer();
-            if (StartFireEvent.startFire(context.getLevel(), context.getClickedPos(), context.getLevel().getBlockState(context.getClickedPos()), context.getClickedFace(), player, stack))
+            if (StartFireEvent.startFireWithSound(context.getLevel(), context.getClickedPos(), context.getLevel().getBlockState(context.getClickedPos()), context.getClickedFace(), player, stack))
             {
                 if (player != null && !player.isCreative())
                     stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));

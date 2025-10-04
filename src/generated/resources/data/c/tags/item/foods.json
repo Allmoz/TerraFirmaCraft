@@ -81,6 +81,10 @@
     "tfc:food/squash",
     "tfc:food/tomato",
     "tfc:food/yellow_bell_pepper",
+    "tfc:food/cassava",
+    "tfc:food/lentil",
+    "tfc:food/peanut",
+    "tfc:food/radish",
     "tfc:food/cheese",
     "tfc:food/cooked_egg",
     "tfc:food/boiled_egg",
@@ -154,6 +158,9 @@
     "tfc:food/cooked_largemouth_bass",
     "tfc:food/cooked_rainbow_trout",
     "tfc:food/cooked_salmon",
-    "tfc:food/cooked_smallmouth_bass"
+    "tfc:food/cooked_smallmouth_bass",
+    "#c:foods/soup",
+    "#c:foods/salad",
+    "#c:foods/sandwiches"
   ]
 }

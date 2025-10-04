@@ -8,6 +8,9 @@
       "item": "tfc:wood/planks/hickory"
     }
   ],
+  "primary_ingredient": {
+    "tag": "c:tools/saw"
+  },
   "remainder": {
     "modifiers": [
       {

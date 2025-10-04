@@ -15,7 +15,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "接下来就可以开始搭建高炉的$(thing)烟囱$()了。烟囱必须用足以承受炼钢高温的$(l:mechanics/fire_clay#fire_bricks)耐火砖块$()搭建。耐火砖块的外层还需要用$(thing)锻铁薄板$()围绕一圈加固。如果材料富裕，也可以用更高级的金属薄板（如$(thing)钢$()）来代替锻铁薄板。"
+      "text": "You will then need to construct the blast furnace, along with its $(thing)Chimney$(). The chimney must be composed out of $(l:mechanics/fire_clay#fire_bricks)Reinforced Fire Bricks$(), as they are strong enough to withstand the intense heat. These can be crafted from fire brick blocks, and either wrought iron or steel sheets."
     },
     {
       "type": "patchouli:multiblock",
@@ -26,7 +26,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "高炉的烟囱最多可以搭建 5 层，每层烟囱需要额外 4 块$(thing)耐火砖块$()和 12 张$(thing)锻铁薄板$()。每额外搭建一层烟囱，高炉就可以同时多烧炼 4 个物品，从而提升工作效率。"
+      "text": "The blast furnace's chimney can be up to five layers - each layer requiring eight $(thing)Reinforced Fire Bricks$() to complete. Having more layers increases the total capacity of the blast furnace, allowing it to smelt more steel at once. Each chimney layer, up to a maximum of five, allows the blast furnace to hold four additional ore items."
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "最后，用$(l:getting_started/firepit#firestarter)起火器$()或$(thing)打火石$()点燃高炉方块就可以开始炼钢了。高炉会缓慢加热矿石，同时要注意不断鼓风和添加木炭。当高炉内的温度足以熔化矿石时，矿石就会熔化并转化为$(l:mechanics/steel)生铁$()。"
+      "text": "Finally, to get started, light the blast furnace with a $(l:getting_started/firepit#firestarter)Fire Starter$(), a $(thing)Flint and Pyrite$(), or a $(thing)Flint and Steel$(). It will begin to heat the ores inside. Make sure that the blast furnace continues to have fuel, and use the bellows to add air to the blast furnace after its internal temperature has reached the maximum for charcoal. After the ores inside heat up, they will melt and convert into $(l:mechanics/steel)Pig Iron$()."
     },
     {
       "type": "patchouli:text",

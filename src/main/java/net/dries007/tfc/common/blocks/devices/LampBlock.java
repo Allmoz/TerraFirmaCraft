@@ -40,6 +40,9 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.blockentities.LampBlockEntity;
@@ -112,9 +115,17 @@ public class LampBlock extends ExtendedBlock implements EntityBlockExtension
                 lamp.markForSync();
                 if (lamp.getFuel() != null && lamp.getFuel().burnRate() == -1 && player instanceof ServerPlayer serverPlayer)
                 {
+                    // special case, light automatically when lava is inserted.
+                    level.setBlockAndUpdate(pos, state.setValue(LIT, true));
+                    lamp.resetCounter();
                     TFCAdvancements.LAVA_LAMP.trigger(serverPlayer);
                 }
                 return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            }
+            else if (!FluidHelpers.getContainedFluid(player.getItemInHand(hand)).isEmpty())
+            {
+                // Prevent the player from accidentally dumping out their lamp fuel (or what they think is lamp fuel)
+                return ItemInteractionResult.CONSUME;
             }
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;

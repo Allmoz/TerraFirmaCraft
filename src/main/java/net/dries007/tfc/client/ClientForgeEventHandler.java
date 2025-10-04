@@ -53,6 +53,7 @@ import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderHandEvent;
 import net.neoforged.neoforge.client.event.RenderHighlightEvent;
@@ -94,6 +95,7 @@ import net.dries007.tfc.network.PlaceBlockSpecialPacket;
 import net.dries007.tfc.network.RequestClimateModelPacket;
 import net.dries007.tfc.network.StackFoodPacket;
 import net.dries007.tfc.network.SwitchInventoryTabPacket;
+import net.dries007.tfc.util.EnvironmentHelpers;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.PhysicalDamageType;
 import net.dries007.tfc.util.calendar.Calendars;
@@ -130,6 +132,7 @@ public class ClientForgeEventHandler
         bus.addListener(ClientForgeEventHandler::onHandRender);
         bus.addListener(ClientForgeEventHandler::onToast);
         bus.addListener(ClientForgeEventHandler::onEffectRender);
+        bus.addListener(ClientForgeEventHandler::onRecipesUpdated);
         bus.addListener(IngameOverlays::checkGuiOverlays);
     }
 
@@ -152,7 +155,8 @@ public class ClientForgeEventHandler
                     Calendars.CLIENT.getTicks(),
                     Calendars.CLIENT.getCalendarTicks()
                 ));
-                tooltip.add("Temperature: Avg: %.3f Now: %.3f".formatted(
+                tooltip.add("Temperature: Sea Level Avg: %.3f Avg: %.3f Now: %.3f".formatted(
+                    ClimateRenderCache.INSTANCE.getAverageSeaLevelTemperature(),
                     ClimateRenderCache.INSTANCE.getAverageTemperature(),
                     ClimateRenderCache.INSTANCE.getTemperature()
                 ));
@@ -272,6 +276,8 @@ public class ClientForgeEventHandler
             {
                 // Check what we would get if melted
                 final FluidStack fluid = recipe.assembleFluid(stack);
+                // Set the correct amount of fluid, since the recipe's result is for only 1 item
+                fluid.setAmount(fluid.getAmount() * stack.getCount());
                 if (!fluid.isEmpty())
                 {
                     final MutableComponent meltsInto = Tooltips.meltsInto(fluid, recipe.getTemperature());
@@ -603,5 +609,10 @@ public class ClientForgeEventHandler
     public static void onEffectRender(ScreenEvent.RenderInventoryMobEffects event)
     {
         event.addHorizontalOffset(TFCConfig.CLIENT.effectHorizontalAdjustment.get());
+    }
+
+    public static void onRecipesUpdated(RecipesUpdatedEvent event)
+    {
+        Helpers.updateReloadableData(ClientHelpers.getLevelOrThrow().registryAccess(), event.getRecipeManager());
     }
 }

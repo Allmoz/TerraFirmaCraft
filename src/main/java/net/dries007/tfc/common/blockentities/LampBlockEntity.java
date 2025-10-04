@@ -7,6 +7,7 @@
 package net.dries007.tfc.common.blockentities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
@@ -19,17 +20,20 @@ import org.jetbrains.annotations.Nullable;
 import net.dries007.tfc.common.blocks.devices.LampBlock;
 import net.dries007.tfc.common.capabilities.FluidTankCallback;
 import net.dries007.tfc.common.capabilities.InventoryFluidTank;
+import net.dries007.tfc.common.capabilities.SidedHandler;
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.util.data.LampFuel;
 
 public class LampBlockEntity extends TickCounterBlockEntity implements FluidTankCallback
 {
     protected FluidTank tank;
+    private final SidedHandler<IFluidHandler> sidedFluidInventory;
 
     public LampBlockEntity(BlockPos pos, BlockState state)
     {
         super(TFCBlockEntities.LAMP.get(), pos, state);
         this.tank = new InventoryFluidTank(TFCConfig.SERVER.lampCapacity.get(), stack -> LampFuel.get(stack.getFluid(), getBlockState()) != null, this);
+        this.sidedFluidInventory = new SidedHandler<>(tank);
     }
 
     @Override
@@ -97,5 +101,10 @@ public class LampBlockEntity extends TickCounterBlockEntity implements FluidTank
     {
         tag.put("tank", tank.writeToNBT(provider, new CompoundTag()));
         super.saveAdditional(tag, provider);
+    }
+
+    public IFluidHandler getSidedFluidInventory(@Nullable Direction context)
+    {
+        return sidedFluidInventory.get(context);
     }
 }

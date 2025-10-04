@@ -24,6 +24,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import org.jetbrains.annotations.Nullable;
 
+import net.dries007.tfc.client.overworld.SolarCalculator;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.common.blocks.wood.FallenLeavesBlock;
@@ -31,9 +32,6 @@ import net.dries007.tfc.common.blocks.wood.ILeavesBlock;
 import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.util.EnvironmentHelpers;
 import net.dries007.tfc.util.Helpers;
-import net.dries007.tfc.util.climate.ClimateModel;
-import net.dries007.tfc.util.climate.OverworldClimateModel;
-import net.dries007.tfc.util.tracker.WorldTracker;
 import net.dries007.tfc.world.chunkdata.ChunkData;
 import net.dries007.tfc.world.chunkdata.ForestType;
 
@@ -83,23 +81,27 @@ public class ForestFeature extends Feature<ForestConfig>
 
     private boolean placeTree(WorldGenLevel level, ChunkGenerator generator, RandomSource random, BlockPos chunkBlockPos, ForestConfig config, ChunkData data, BlockPos.MutableBlockPos mutablePos, ForestType typeConfig)
     {
-        final int chunkX = chunkBlockPos.getX();
-        final int chunkZ = chunkBlockPos.getZ();
-
-        mutablePos.set(chunkX + random.nextInt(16), 0, chunkZ + random.nextInt(16));
-        mutablePos.setY(level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, mutablePos.getX(), mutablePos.getZ()));
-
-        final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, typeConfig);
+        final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, typeConfig, level);
         if (entry != null)
         {
+            final int chunkX = chunkBlockPos.getX();
+            final int chunkZ = chunkBlockPos.getZ();
+
+            mutablePos.set(chunkX + random.nextInt(16), 0, chunkZ + random.nextInt(16));
             if (entry.floating())
             {
-                mutablePos.setY(level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, mutablePos.getX(), mutablePos.getZ()));
+                mutablePos.setY(level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, mutablePos.getX(), mutablePos.getZ()) + random.nextInt(2));
+            }
+            else
+            {
+                mutablePos.setY(level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, mutablePos.getX(), mutablePos.getZ()));
             }
             ConfiguredFeature<?, ?> feature;
             final int oldChance = entry.oldGrowthChance();
             final int deadChance = entry.deadChance();
-            final float krumChance = mutablePos.getY() > 110 ? 1f : Mth.clampedMap(mutablePos.getY(), 90, 110, 0f, 1f);
+            final float blockTemp = EnvironmentHelpers.adjustAvgTempForElev(mutablePos.getY(), data.getAverageSeaLevelTemp(mutablePos));
+            final float treeMinTemp = entry.getClimatePlacement().getMinTemp();
+            final float krumChance = blockTemp > treeMinTemp + 5f ? 0f : Mth.clampedMap(blockTemp, treeMinTemp + 2.5f, treeMinTemp + 5f, 1f, 0f);
             if (entry.krummholz().isPresent() && random.nextFloat() < krumChance)
             {
                 feature = entry.krummholz().get().value();
@@ -124,6 +126,8 @@ public class ForestFeature extends Feature<ForestConfig>
                     feature = entry.getFeature();
                 }
             }
+            if (typeConfig.getDensity() >= 3)
+                placeSoilDisc(level, generator, random, mutablePos, entry);
             return feature.place(level, generator, random, mutablePos);
         }
         return false;
@@ -137,7 +141,7 @@ public class ForestFeature extends Feature<ForestConfig>
         mutablePos.set(chunkX + random.nextInt(16), 0, chunkZ + random.nextInt(16));
         mutablePos.setY(level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, mutablePos.getX(), mutablePos.getZ()));
 
-        final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, type);
+        final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, type, level);
         if (entry != null && EnvironmentHelpers.canPlaceBushOn(level, mutablePos))
         {
             entry.bushLog().ifPresent(log -> entry.bushLeaves().ifPresent(leaves -> {
@@ -195,7 +199,7 @@ public class ForestFeature extends Feature<ForestConfig>
         mutablePos.set(chunkX + random.nextInt(16), 0, chunkZ + random.nextInt(16));
         mutablePos.setY(level.getHeight(Heightmap.Types.OCEAN_FLOOR, mutablePos.getX(), mutablePos.getZ()));
 
-        final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, type);
+        final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, type, level);
         if (entry != null)
         {
             entry.groundcover().ifPresent(groundcover -> {
@@ -224,7 +228,7 @@ public class ForestFeature extends Feature<ForestConfig>
         mutablePos.set(chunkX + random.nextInt(16), 0, chunkZ + random.nextInt(16));
         mutablePos.setY(level.getHeight(Heightmap.Types.OCEAN_FLOOR, mutablePos.getX(), mutablePos.getZ()));
 
-        final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, type);
+        final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, type, level);
         if (entry != null)
         {
             entry.fallenLeaves().ifPresent(placementState -> {
@@ -262,7 +266,7 @@ public class ForestFeature extends Feature<ForestConfig>
         mutablePos.move(Direction.UP);
         if (Helpers.isBlock(downState, TFCTags.Blocks.BUSH_PLANTABLE_ON) || Helpers.isBlock(downState, TFCTags.Blocks.SEA_BUSH_PLANTABLE_ON))
         {
-            final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, type);
+            final ForestConfig.Entry entry = getTree(data, random, config, mutablePos, type, level);
             if (entry != null)
             {
                 final int fallChance = entry.fallenChance();
@@ -326,14 +330,29 @@ public class ForestFeature extends Feature<ForestConfig>
         }
     }
 
-    @Nullable
-    private ForestConfig.Entry getTree(ChunkData chunkData, RandomSource random, ForestConfig config, BlockPos pos, ForestType type)
+    private void placeSoilDisc(WorldGenLevel level, ChunkGenerator generator, RandomSource random, BlockPos.MutableBlockPos mutablePos, ForestConfig.Entry entry)
     {
+        // Staggers centers of soil discs relative to trees
+        mutablePos.move(random.nextInt(4) - 2, 0, random.nextInt(4) - 2);
+        mutablePos.setY(level.getHeight(Heightmap.Types.OCEAN_FLOOR, mutablePos.getX(), mutablePos.getZ()));
+
+        if (entry.soilDiscFeature().isPresent())
+        {
+            entry.soilDiscFeature().get().value().place(level, generator, random, mutablePos);
+        }
+    }
+
+    @Nullable
+    private ForestConfig.Entry getTree(ChunkData chunkData, RandomSource random, ForestConfig config, BlockPos pos, ForestType type, WorldGenLevel level)
+    {
+        // For southern hemispheres, flip rain variance
+        final float rainVariance = chunkData.getRainVariance(pos) * (SolarCalculator.getInNorthernHemisphere(pos, level.getLevel()) ? 1f : -1f);
+
         final float groundwater = chunkData.getGroundwater(pos);
-        final float averageTemperature = EnvironmentHelpers.adjustAvgTempForElev(pos.getY(), chunkData.getAverageTemp(pos));
+        final float averageTemperature = EnvironmentHelpers.adjustAvgTempForElev(pos.getY(), chunkData.getAverageSeaLevelTemp(pos));
         final List<ForestConfig.Entry> entries = config.entries().stream().map(configuredFeature -> configuredFeature.value().config()).map(cfg -> (ForestConfig.Entry) cfg)
-            .filter(entry -> entry.isValid(averageTemperature, groundwater))
-            .sorted(Comparator.comparingDouble(entry -> entry.distanceFromMean(averageTemperature, groundwater)))
+            .filter(entry -> entry.isValid(averageTemperature, groundwater, rainVariance))
+            .sorted(Comparator.comparingDouble(entry -> entry.distanceFromMean(averageTemperature, groundwater, rainVariance)))
             .collect(Collectors.toList());
 
         if (entries.isEmpty()) return null;

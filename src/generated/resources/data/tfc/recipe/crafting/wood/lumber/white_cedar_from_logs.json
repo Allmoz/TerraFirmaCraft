@@ -8,6 +8,9 @@
       "tag": "tfc:white_cedar_logs"
     }
   ],
+  "primary_ingredient": {
+    "tag": "c:tools/saw"
+  },
   "remainder": {
     "modifiers": [
       {

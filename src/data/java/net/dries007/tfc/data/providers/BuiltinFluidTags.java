@@ -15,6 +15,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
@@ -65,6 +66,7 @@ public class BuiltinFluidTags extends TagsProvider<Fluid> implements Accessors
                 TFCFluids.SALT_WATER.getSource(), TFCFluids.SALT_WATER.getFlowing(),
                 TFCFluids.SPRING_WATER.getSource(), TFCFluids.SPRING_WATER.getFlowing());
         tag(FRESH_WATER).add(Fluids.WATER);
+        tag(SALT_WATER).add(TFCFluids.SALT_WATER.getSource(), TFCFluids.SALT_WATER.getFlowing());
         tag(INFINITE_WATER)
             .addTag(FRESH_WATER)
             .add(
@@ -122,7 +124,7 @@ public class BuiltinFluidTags extends TagsProvider<Fluid> implements Accessors
     {
         FluidTagAppender(TagBuilder builder, String modId)
         {
-            super(builder, modId);
+            super(builder);
         }
 
         FluidTagAppender add(Fluid... fluids) { return add(Arrays.stream(fluids)); }

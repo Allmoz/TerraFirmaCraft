@@ -16,11 +16,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import net.dries007.tfc.common.TFCDamageTypes;
 import net.dries007.tfc.common.component.food.FoodData;
 import net.dries007.tfc.common.component.food.IFood;
+import net.dries007.tfc.common.component.food.INutritionData;
 import net.dries007.tfc.common.component.food.NutritionData;
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.network.PlayerInfoPacket;
@@ -28,6 +30,7 @@ import net.dries007.tfc.util.advancements.TFCAdvancements;
 import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.calendar.ICalendar;
 import net.dries007.tfc.util.climate.Climate;
+import net.dries007.tfc.util.events.NutritionDataEvent;
 
 /**
  * This is a central spot for all player-specific information that TFC adds or modifies about the vanilla player. It replaces the default
@@ -71,16 +74,16 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
     private float thirst = MAX_THIRST; // The current thirst of the player
     private long lastDrinkTick = Long.MIN_VALUE;
     private long intoxicationTick = Long.MIN_VALUE; // A future tick that the player is intoxicated until
-    private long sleepTick = Long.MIN_VALUE; // The last tick this player slept
     private ChiselMode chiselMode = ChiselMode.SMOOTH.value();
-    private NutritionData nutrition = new NutritionData(0.5f, 0f); // Nutrition information
+    private INutritionData nutrition; // Nutrition information
 
-    private boolean modified = false;
+    private boolean modified = true;
 
     public PlayerInfo(Player player)
     {
         this.player = player;
         this.food = player.getFoodData(); // This must be the original food data, we replace it after the player info is created
+        this.nutrition = getNutritionDataFromSupplier(0.5f, 0f, player);
     }
 
     // ===== IPlayerInfo ===== //
@@ -114,6 +117,7 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
     @Override
     public float getIntoxication()
     {
+        if (intoxicationTick == Long.MIN_VALUE) return 0;
         return (float) Math.max(0, intoxicationTick - calendar().getTicks()) / TFCConfig.SERVER.maxIntoxicationTicks.get();
     }
 
@@ -131,19 +135,6 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
             intoxicationTick = currentTick + TFCConfig.SERVER.maxIntoxicationTicks.get();
         }
         modified = true;
-    }
-
-    @Override
-    public int getPossibleSleepDuration()
-    {
-        final long sleepTicks = calendar().getFixedCalendarTicksFromTick((calendar().getTicks() - sleepTick) / 2);
-        return sleepTicks < ICalendar.CALENDAR_TICKS_IN_HOUR ? 0 : (int) sleepTicks;
-    }
-
-    @Override
-    public void resetSleepRestoration()
-    {
-        sleepTick = calendar().getTicks();
     }
 
     @Override
@@ -171,7 +162,7 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
     }
 
     @Override
-    public NutritionData nutrition()
+    public INutritionData nutrition()
     {
         return nutrition;
     }
@@ -206,17 +197,29 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
         addThirst(food.water());
         addIntoxication(food.intoxication());
 
-        nutrition.addNutrients(food);
-
-        if (player instanceof ServerPlayer serverPlayer && nutrition.getAverageNutrition() >= 0.999)
+        // It is important to add nutrients before calling `FoodData#eat`, otherwise `getFoodLevel` will return the food level _after_ eating, instead of the food level at time of eating.
+        // We can't rely on `getLastFoodLevel` either since that value only gets set in `FoodData#tick`, so a tick-perfect call to this method would lead to an incorrect value being used.
+        // This only leaves splitting the call to `INutritionData#addNutrients` and the call to `INutritionData#setHungerAndUpdate` into separate parts before and after calling `FoodData#eat`
+        if (!player.level().isClientSide)
         {
-            TFCAdvancements.FULL_NUTRITION.trigger(serverPlayer);
+            nutrition.addNutrients(food, getFoodLevel());
         }
 
         if (food.hunger() > 0)
         {
             // In order to get the exact saturation we want, apply this scaling factor here
             this.food.eat(food.hunger(), food.saturation() / (2f * food.hunger()));
+        }
+
+        // Add nutrients and update the hunger value in NutritionData
+        if (!player.level().isClientSide)
+        {
+            nutrition.setHungerAndUpdate(getFoodLevel());
+        }
+
+        if (player instanceof ServerPlayer serverPlayer && nutrition.getAverageNutrition() >= 0.999)
+        {
+            TFCAdvancements.FULL_NUTRITION.trigger(serverPlayer);
         }
 
         modified = true;
@@ -290,15 +293,16 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
             if (difficulty == Difficulty.PEACEFUL)
             {
                 // Copied from vanilla's food stats, so we consume food in peaceful mode (would normally be part of the super.tick call)
-                if (food.getExhaustionLevel() > 4.0F)
+                if (food.getExhaustionLevel() > 4.0F && getSaturationLevel() <= 0)
                 {
                     setFoodLevel(Math.max(getFoodLevel() - 1, 0));
                 }
             }
         }
 
-        // Next, tick the original food stats
+        // Next, tick the original food stats and update the hunger value in NutritionData
         food.tick(player);
+        nutrition.setHungerAndUpdate(getFoodLevel());
 
         // Apply custom TFC regeneration
         if (player.tickCount % 10 == 0)
@@ -358,10 +362,9 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
         lastDrinkTick = tag.getLong("lastDrinkTick");
         thirst = tag.getFloat("thirst");
         chiselMode = ChiselMode.REGISTRY.get(ResourceLocation.tryParse(tag.getString("chiselMode")));
-        nutrition.readFromNbt(tag.get("nutrition"));
         nutrition.setHunger(getFoodLevel());
+        nutrition.readFromNbt(tag.get("nutrition"));
         intoxicationTick = tag.getLong("intoxication");
-        sleepTick = tag.getLong("sleep");
     }
 
     @Override
@@ -376,7 +379,12 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
         tag.putString("chiselMode", ChiselMode.REGISTRY.getKey(chiselMode).toString());
         tag.put("nutrition", nutrition.writeToNbt());
         tag.putLong("intoxication", intoxicationTick);
-        tag.putLong("sleep", sleepTick);
+    }
+
+    @Override
+    public void forceUpdate()
+    {
+        modified = true;
     }
 
     // ===== Forward FoodData to original ===== //
@@ -409,7 +417,8 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
     @Override
     public void addExhaustion(float exhaustion)
     {
-        food.addExhaustion(exhaustion);
+        // Exhaustion from all vanilla sources is reduced
+        food.addExhaustion(EXHAUSTION_MULTIPLIER * exhaustion);
     }
 
     @Override
@@ -424,11 +433,19 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
         return food.getSaturationLevel();
     }
 
+    /**
+     * This method gets called from both the
+     * client and the server, but the nutrition
+     * logic must only be called from the server
+     */
     @Override
     public void setFoodLevel(int foodLevel)
     {
-        modified = true;
-        nutrition.setHunger(foodLevel);
+        if (!this.player.level().isClientSide)
+        {
+            modified = true;
+            nutrition.setHungerAndUpdate(foodLevel);
+        }
         food.setFoodLevel(foodLevel);
     }
 
@@ -449,5 +466,25 @@ public final class PlayerInfo extends net.minecraft.world.food.FoodData implemen
     private ICalendar calendar()
     {
         return Calendars.get(player.level());
+    }
+
+
+    // ===== NutritionDataSupplier Details ===== //
+
+
+    @FunctionalInterface
+    public interface NutritionDataSupplier<T extends INutritionData>
+    {
+        T create(float defaultNutritionValue, float defaultDairyNutritionValue);
+    }
+
+    /**
+     * When constructing the {@link INutritionData}, we post a {@link NutritionDataEvent}, so that addons are able to set their implementation as the one to be used
+     */
+    private static INutritionData getNutritionDataFromSupplier(float defaultNutritionValue, float defaultDairyNutritionValue, Player player)
+    {
+        final NutritionDataEvent event = new NutritionDataEvent(NutritionData::new, player);
+        NeoForge.EVENT_BUS.post(event);
+        return event.getSupplier().create(defaultNutritionValue, defaultDairyNutritionValue);
     }
 }

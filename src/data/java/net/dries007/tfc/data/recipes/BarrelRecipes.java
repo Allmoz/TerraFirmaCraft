@@ -22,7 +22,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
@@ -77,9 +76,7 @@ public interface BarrelRecipes extends Recipes
         }
 
         barrel()
-            .input(of(Stream.of(Wood.BlockType.LOG, Wood.BlockType.WOOD)
-                .flatMap(type -> TFCBlocks.WOODS.values().stream().map(m -> m.get(type)))
-                .map(ItemStack::new)))
+            .input(TFCTags.Items.TANNIN_LOGS)
             .input(Fluids.WATER, 1000)
             .output(fluidOf(SimpleFluid.TANNIN), 1000)
             .sealed(hours(8));
@@ -140,13 +137,14 @@ public interface BarrelRecipes extends Recipes
                 foods,
                 NotRottenIngredient.INSTANCE,
                 HasTraitIngredient.of(FoodTraits.BRINED),
-                LacksTraitIngredient.of(FoodTraits.BRINED)
+                LacksTraitIngredient.of(FoodTraits.PICKLED)
             ))
             .input(fluidOf(SimpleFluid.VINEGAR), 125)
             .output(ItemStackProvider.of(
                 CopyInputModifier.INSTANCE,
                 AddTraitModifier.of(FoodTraits.PICKLED)
-            ));
+            ))
+            .sealed(hours(4));
         barrel("preserved_in_vinegar")
             .input(AndIngredient.of(
                 foods,
@@ -240,19 +238,31 @@ public interface BarrelRecipes extends Recipes
             .output(TFCFluids.SALT_WATER.getSource(), 125)
             .instant();
         barrel()
+            .input(TFCBlocks.HARDENED_CLAY)
+            .input(Fluids.WATER, 100)
+            .output(ItemStackProvider.of(Items.CLAY_BALL, 4))
+            .instant();
+        barrel()
             .input(Ingredient.of(TFCItems.POWDERS.get(Powder.LIME), TFCItems.POWDERS.get(Powder.FLUX)))
             .input(Fluids.WATER, 500)
             .output(fluidOf(SimpleFluid.LIMEWATER), 500)
             .instant();
-        barrel()
+        barrel("process_olives")
             .input(fluidOf(SimpleFluid.OLIVE_OIL_WATER), 250)
             .input(TFCItems.JUTE_NET)
             .output(fluidOf(SimpleFluid.OLIVE_OIL), 50)
             .output(TFCItems.DIRTY_JUTE_NET)
             .instant();
+        barrel("process_canola")
+            .input(fluidOf(SimpleFluid.CANOLA_OIL_WATER), 250)
+            .input(TFCItems.JUTE_NET)
+            .output(fluidOf(SimpleFluid.CANOLA_OIL), 50)
+            .output(TFCItems.DIRTY_JUTE_NET)
+            .instant();
         cooling(Fluids.WATER, -5f);
         cooling(TFCFluids.SALT_WATER.getSource(), -5f);
         cooling(fluidOf(SimpleFluid.OLIVE_OIL), -40f);
+        cooling(fluidOf(SimpleFluid.CANOLA_OIL), -40f);
         barrel("clean_bowl")
             .input(ingredientOf(
                 Ingredient.of(TFCTags.Items.SOUPS),
@@ -272,7 +282,8 @@ public interface BarrelRecipes extends Recipes
         barrel("clean_jute_net")
             .input(TFCItems.DIRTY_JUTE_NET)
             .input(Fluids.WATER, 100)
-            .output(TFCItems.JUTE_NET);
+            .output(TFCItems.JUTE_NET)
+            .instant();
 
         // Instant Fluid Mixing
         barrel()

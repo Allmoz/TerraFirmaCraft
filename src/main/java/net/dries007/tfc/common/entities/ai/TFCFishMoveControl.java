@@ -35,8 +35,8 @@ public class TFCFishMoveControl extends MoveControl
 
         if (operation == MoveControl.Operation.MOVE_TO && !fish.getNavigation().isDone())
         {
-            float f = (float) (speedModifier * fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
-            fish.setSpeed(Mth.lerp(0.125F, fish.getSpeed(), f));
+            float fishSpeed = (float) (speedModifier * fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
+            fish.setSpeed(Mth.lerp(0.125F, fish.getSpeed(), fishSpeed));
             double dx = wantedX - fish.getX();
             double dy = wantedY - fish.getY();
             double dz = wantedZ - fish.getZ();

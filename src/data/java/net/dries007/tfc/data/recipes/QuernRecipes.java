@@ -11,9 +11,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-
+import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.GroundcoverBlockType;
 import net.dries007.tfc.common.blocks.TFCBlocks;
+import net.dries007.tfc.common.blocks.crop.Crop;
 import net.dries007.tfc.common.blocks.plant.Plant;
 import net.dries007.tfc.common.blocks.rock.Ore;
 import net.dries007.tfc.common.blocks.rock.Rock;
@@ -31,23 +32,8 @@ public interface QuernRecipes extends Recipes
     default void quernRecipes()
     {
         add(notRotten(TFCItems.FOOD.get(Food.OLIVE)), TFCItems.OLIVE_PASTE, 2);
-        add(Ingredient.of(
-            TFCItems.FOOD.get(Food.SHELLFISH),
-            TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.MOLLUSK),
-            TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.CLAM),
-            TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.MUSSEL),
-            TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.SEA_URCHIN),
-            Items.TURTLE_SCUTE,
-            Items.ARMADILLO_SCUTE,
-            TFCBlocks.ROCK_BLOCKS.get(Rock.LIMESTONE).get(Rock.BlockType.LOOSE),
-            TFCBlocks.ROCK_BLOCKS.get(Rock.LIMESTONE).get(Rock.BlockType.MOSSY_LOOSE),
-            TFCBlocks.ROCK_BLOCKS.get(Rock.DOLOMITE).get(Rock.BlockType.LOOSE),
-            TFCBlocks.ROCK_BLOCKS.get(Rock.DOLOMITE).get(Rock.BlockType.MOSSY_LOOSE),
-            TFCBlocks.ROCK_BLOCKS.get(Rock.CHALK).get(Rock.BlockType.LOOSE),
-            TFCBlocks.ROCK_BLOCKS.get(Rock.CHALK).get(Rock.BlockType.MOSSY_LOOSE),
-            TFCBlocks.ROCK_BLOCKS.get(Rock.MARBLE).get(Rock.BlockType.LOOSE),
-            TFCBlocks.ROCK_BLOCKS.get(Rock.MARBLE).get(Rock.BlockType.MOSSY_LOOSE)
-        ), TFCItems.POWDERS.get(Powder.FLUX), 2);
+        add(TFCItems.CROP_SEEDS.get(Crop.CANOLA), TFCItems.CANOLA_PASTE, 2);
+        add(Ingredient.of(TFCTags.Items.FLUXSTONE), TFCItems.POWDERS.get(Powder.FLUX), 2);
         add("from_borax", TFCItems.ORES.get(Ore.BORAX), TFCItems.POWDERS.get(Powder.FLUX), 6);
         add(Ingredient.of(
             TFCItems.ORES.get(Ore.CINNABAR),
@@ -74,19 +60,19 @@ public interface QuernRecipes extends Recipes
             add("rich", items.get(Ore.Grade.RICH), TFCItems.ORE_POWDERS.get(ore), 7);
         });
         TFCItems.GEMS.forEach((gem, item) -> add(Ingredient.of(item, TFCItems.ORES.get(gem)), TFCItems.ORE_POWDERS.get(gem), 4));
-        addDye(Items.WHITE_DYE, Plant.HOUSTONIA, Plant.OXEYE_DAISY, Plant.PRIMROSE, Plant.SNAPDRAGON_WHITE, Plant.TRILLIUM, Plant.SPANISH_MOSS, Plant.TULIP_WHITE, Plant.WHITE_WATER_LILY, Plant.LILY_OF_THE_VALLEY);
-        addDye(Items.ORANGE_DYE, Plant.BUTTERFLY_MILKWEED, Plant.CANNA, Plant.NASTURTIUM, Plant.STRELITZIA, Plant.TULIP_ORANGE, Plant.WATER_CANNA, Plant.MARIGOLD);
-        addDye(Items.MAGENTA_DYE, Plant.ATHYRIUM_FERN, Plant.MORNING_GLORY, Plant.PULSATILLA, Plant.LILAC, Plant.SILVER_SPURFLOWER);
-        addDye(Items.LIGHT_BLUE_DYE, Plant.LABRADOR_TEA, Plant.SAPPHIRE_TOWER);
-        addDye(Items.YELLOW_DYE, Plant.CALENDULA, Plant.DANDELION, Plant.MEADS_MILKWEED, Plant.GOLDENROD, Plant.SNAPDRAGON_YELLOW, Plant.DESERT_FLAME, Plant.YELLOW_WATER_LILY);
+        addDye(Items.WHITE_DYE, Plant.HOUSTONIA, Plant.OXEYE_DAISY, Plant.PRIMROSE, Plant.SNAPDRAGON_WHITE, Plant.TRILLIUM, Plant.SPANISH_MOSS, Plant.TULIP_WHITE, Plant.WHITE_WATER_LILY, Plant.LILY_OF_THE_VALLEY, Plant.EDELWEISS, Plant.BEACHGRASS);
+        addDye(Items.ORANGE_DYE, Plant.BUTTERFLY_MILKWEED, Plant.CANNA, Plant.NASTURTIUM, Plant.STRELITZIA, Plant.TULIP_ORANGE, Plant.WATER_CANNA, Plant.MARIGOLD, Plant.FLAME_VINE, Plant.PALASH, Plant.QANTU);
+        addDye(Items.MAGENTA_DYE, Plant.ATHYRIUM_FERN, Plant.MORNING_GLORY, Plant.PULSATILLA, Plant.LILAC, Plant.SILVER_SPURFLOWER, Plant.AZALEA);
+        addDye(Items.LIGHT_BLUE_DYE, Plant.LABRADOR_TEA, Plant.SAPPHIRE_TOWER, Plant.MOUNTAIN_HULLWORT, Plant.PENWORTEL);
+        addDye(Items.YELLOW_DYE, Plant.CALENDULA, Plant.DANDELION, Plant.MEADS_MILKWEED, Plant.GOLDENROD, Plant.SNAPDRAGON_YELLOW, Plant.DESERT_FLAME, Plant.YELLOW_WATER_LILY, Plant.ELEGANT_SUNBURST_LICHEN, Plant.YELLOW_SAXIFRAGE, Plant.BUTTERCUP, Plant.SUNFLOWER);
         addDye(Items.LIME_DYE, Plant.MOSS);
-        addDye(Items.PINK_DYE, Plant.FOXGLOVE, Plant.SACRED_DATURA, Plant.TULIP_PINK, Plant.SNAPDRAGON_PINK, Plant.HIBISCUS, Plant.LOTUS, Plant.MAIDEN_PINK);
-        addDye(Items.LIGHT_GRAY_DYE, Plant.YUCCA);
-        addDye(Items.PURPLE_DYE, Plant.ALLIUM, Plant.BLACK_ORCHID, Plant.PEROVSKIA, Plant.BLUE_GINGER, Plant.PICKERELWEED, Plant.HEATHER, Plant.PURPLE_WATER_LILY);
+        addDye(Items.PINK_DYE, Plant.FOXGLOVE, Plant.SACRED_DATURA, Plant.TULIP_PINK, Plant.SNAPDRAGON_PINK, Plant.HIBISCUS, Plant.LOTUS, Plant.MAIDEN_PINK, Plant.MOSS_CAMPION, Plant.RAMUNDA);
+        addDye(Items.LIGHT_GRAY_DYE, Plant.YUCCA, Plant.SILVER_BROMELIAD);
+        addDye(Items.PURPLE_DYE, Plant.ALLIUM, Plant.BLACK_ORCHID, Plant.PEROVSKIA, Plant.BLUE_GINGER, Plant.PICKERELWEED, Plant.HEATHER, Plant.PURPLE_WATER_LILY, Plant.SHAWIASH);
         addDye(Items.BLUE_DYE, Plant.BLUE_ORCHID, Plant.GRAPE_HYACINTH);
         addDye(Items.BROWN_DYE, Plant.FIELD_HORSETAIL, Plant.SARGASSUM);
-        addDye(Items.GREEN_DYE, Plant.BARREL_CACTUS, Plant.REINDEER_LICHEN);
-        addDye(Items.RED_DYE, Plant.GUZMANIA, Plant.POPPY, Plant.ROSE, Plant.SNAPDRAGON_RED, Plant.TROPICAL_MILKWEED, Plant.TULIP_RED, Plant.VRIESEA, Plant.ANTHURIUM, Plant.BLOOD_LILY, Plant.HELICONIA, Plant.KANGAROO_PAW);
+        addDye(Items.GREEN_DYE, Plant.BARREL_CACTUS, Plant.REINDEER_LICHEN, Plant.SILKEN_PINCUSHION_CACTUS, Plant.PRICKLY_PEAR, Plant.PRICKLY_PEAR_PURPLE);
+        addDye(Items.RED_DYE, Plant.GUZMANIA, Plant.POPPY, Plant.ROSE, Plant.SNAPDRAGON_RED, Plant.TROPICAL_MILKWEED, Plant.TULIP_RED, Plant.VRIESEA, Plant.ANTHURIUM, Plant.BLOOD_LILY, Plant.HELICONIA, Plant.KANGAROO_PAW, Plant.TANK_BROMELIAD, Plant.KINNIKINNICK);
     }
 
     private Ingredient notRotten(ItemLike input)

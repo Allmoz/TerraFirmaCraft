@@ -72,11 +72,31 @@ public final class VolcanoNoise implements CenterOrDistanceNoise
         final Cellular2D.Cell cell = sampleCell(x, z, rarity);
         if (cell != null)
         {
-            final float easing = Mth.clamp(VolcanoNoise.calculateEasing((float) cell.f1()) + (float) jitterNoise.noise(x, z), 0, 1);
-            final float shape = VolcanoNoise.calculateShape(1 - easing);
+            // Circular gradient defining the shape of the cone
+            final float cone_easing = Mth.clamp(VolcanoNoise.calculateEasing((float) cell.f1()) + (float) jitterNoise.noise(x, z), 0, 1);
+            // Cell-edge gradient to prevent harsh cutoffs
+            final float trapezoidal_easing = Mth.clamp( (float) (cell.f2() - cell.f1()) * 8f, 0f, 1f);
+            final float shape = VolcanoNoise.calculateShape(1 - cone_easing);
             final float volcanoHeight = SEA_LEVEL_Y + baseVolcanoHeight + shape * scaleVolcanoHeight;
             final float volcanoAdditionalHeight = shape * scaleVolcanoHeight;
-            return Mth.lerp(easing, baseHeight, 0.5f * (volcanoHeight + Math.max(volcanoHeight, baseHeight + 0.4f * volcanoAdditionalHeight)));
+            return Mth.lerp(cone_easing * trapezoidal_easing, baseHeight, 0.5f * (volcanoHeight + Math.max(volcanoHeight, baseHeight + 0.4f * volcanoAdditionalHeight)));
+        }
+        return baseHeight;
+    }
+
+    // Alternate version of modifyHeight used for shield volcanoes that weighs the base noise more heavily
+    public double modifyShieldVolcanoHeight(double x, double z, double baseHeight, int rarity, int baseVolcanoHeight, int scaleVolcanoHeight)
+    {
+        final Cellular2D.Cell cell = sampleCell(x, z, rarity);
+        if (cell != null)
+        {
+            final float f1 = (float) cell.f1();
+            final float easing = Mth.clamp(VolcanoNoise.calculateEasing(f1) + (float) jitterNoise.noise(x, z), 0, 1);
+            final float shape = VolcanoNoise.calculateShape(1 - easing);
+            final float volcanoAdditionalHeight = shape * scaleVolcanoHeight;
+            final float volcanoHeight = (SEA_LEVEL_Y + baseVolcanoHeight + volcanoAdditionalHeight);
+            final float weight = 10f * Mth.clamp((float) cell.f2() - f1, 0f, 0.1f);
+            return Mth.lerp(easing * weight, baseHeight, (0.2 * volcanoHeight + 0.8 * Math.max(volcanoHeight, baseHeight + 0.6f * volcanoAdditionalHeight)));
         }
         return baseHeight;
     }

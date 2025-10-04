@@ -1,23 +1,19 @@
-Another small update with some small features and fixes.
-
 ### Changes
-
-- Added JEI recipe click areas to various TFC menus, which when clicked open the list of recipes in JEI for that device (#2730)
-- Kelp in oceans generates less tall on average, and should reach the surface of the ocean less often
-
-### Fixes
-
-- Fixed Distant Horizons' distant world generation causing chunk corruption and crashes (#2661)
-- Fixed food added by addons/packs decaying in creative tabs, and JEI views
-- Fixed nutrition not working properly after death:
-  - In peaceful mode, fast passive regeneration not applying
-  - Rotten food never giving adverse effects when eaten
-  - The "Full Nutrition" advancement not triggering
-- Fixed two missing recipes in the Field Guide
-- Fixed a typo in the "Leather" advancement
-
-
-### Technical Changes
-
-TFC's noise caves are now controllable via [Density Functions](https://minecraft.fandom.com/wiki/Density_function). The defaults are located [here](https://github.com/TerraFirmaCraft/TerraFirmaCraft/tree/1.20.x/src/generated/resources/data/tfc/worldgen/density_function), for anyone who wishes to delve into the realm of noise generation.
-
+- Re-enabled sleeping (closes #3168)
+  - Players can now sleep between 8 pm and 5 am, regardless of when the sun rises and sets
+- Added golden bamboo block
+- Composters provide 1 rotten compost per 4 brown/4 green compost items (when a compost poison is added)
+### Bug Fixes
+- Fixed numerous broken models
+- Fixed various recipes, including stairs, aggregate, golden bamboo, and more (closes #3172, closes )
+- (Internal) Fixed unit tests giving false errors
+- Fixed a bug with nutrition
+- Fixed fluid fog (closes #3181)
+- Fixed anemone flickering (closes #3161)
+- Fixed shield volcanoes generating outside the range of finite continents (closes #3190)
+- Fixed leopard seal loot table (closes #3156)
+- Added some missing propick tooltips (closes #3193)
+- Fixed composters dropping rotten compost when they shouldn't (closes #3174)
+- Restrict powder snow placement to above sea level (closes #3177)
+- Fixed hoes not counting as a valid tool for leaves/crops (closes #3152)
+- Made axes the appropriate tool for pumpkins and melons

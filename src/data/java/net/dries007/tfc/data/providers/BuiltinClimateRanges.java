@@ -31,53 +31,68 @@ public class BuiltinClimateRanges extends DataManagerProvider<ClimateRange>
     @Override
     protected void addData(HolderLookup.Provider provider)
     {
-        add(SPREADING_BUSHES, BLACKBERRY, b -> b.minHydration(24).temperature(7, 24));
-        add(SPREADING_BUSHES, RASPBERRY, b -> b.minHydration(24).temperature(5, 25));
-        add(SPREADING_BUSHES, BLUEBERRY, b -> b.minHydration(12).temperature(7, 29));
-        add(SPREADING_BUSHES, ELDERBERRY, b -> b.minHydration(12).temperature(10, 33));
-        add(STATIONARY_BUSHES, SNOWBERRY, b -> b.minHydration(24).temperature(-7, 18));
-        add(STATIONARY_BUSHES, BUNCHBERRY, b -> b.minHydration(24).temperature(15, 35));
-        add(STATIONARY_BUSHES, GOOSEBERRY, b -> b.minHydration(24).temperature(5, 27));
-        add(STATIONARY_BUSHES, CLOUDBERRY, b -> b.minHydration(10).temperature(-2, 17));
-        add(STATIONARY_BUSHES, STRAWBERRY, b -> b.minHydration(12).temperature(5, 28));
-        add(STATIONARY_BUSHES, WINTERGREEN_BERRY, b -> b.minHydration(12).temperature(-6, 17));
-        add(CRANBERRY_BUSH, new ClimateRange.Builder().minHydration(30).temperature(-5, 17).build());
-        add(FRUIT_TREES, CHERRY, b -> b.minHydration(60).temperature(10, 42));
-        add(FRUIT_TREES, GREEN_APPLE, b -> b.minHydration(42).temperature(-2, 32));
-        add(FRUIT_TREES, LEMON, b -> b.minHydration(33).temperature(-6, 32));
-        add(FRUIT_TREES, OLIVE, b -> b.minHydration(56).temperature( 3, 37));
-        add(FRUIT_TREES, ORANGE, b -> b.minHydration(60).temperature(2, 37));
-        add(FRUIT_TREES, PEACH, b -> b.minHydration(60).temperature(8, 43));
-        add(FRUIT_TREES, PLUM, b -> b.minHydration(27).temperature(-3, 34));
-        add(FRUIT_TREES, RED_APPLE, b -> b.minHydration(48).temperature(8, 38));
-        add(BANANA_PLANT, new ClimateRange.Builder().minHydration(34).temperature(10, 42).build());
-        add(CROPS, BARLEY, b -> b.hydration(18, 75).temperature(-8, 26));
-        add(CROPS, OAT, b -> b.hydration(35, 100).temperature(3, 40));
-        add(CROPS, RYE, b -> b.hydration(25, 85).temperature(-11, 30));
-        add(CROPS, MAIZE, b -> b.hydration(75, 100).temperature(13, 40));
-        add(CROPS, WHEAT, b -> b.hydration(25, 100).temperature(-4, 35));
-        add(CROPS, RICE, b -> b.hydration(25, 100).temperature(15, 30));
-        add(CROPS, BEET, b -> b.hydration(18, 85).temperature(-5, 20));
-        add(CROPS, CABBAGE, b -> b.hydration(15, 65).temperature(-10, 27));
-        add(CROPS, CARROT, b -> b.hydration(25, 100).temperature(3, 30));
-        add(CROPS, GARLIC, b -> b.hydration(15, 75).temperature(-20, 18));
-        add(CROPS, GREEN_BEAN, b -> b.hydration(38, 100).temperature(2, 35));
-        add(CROPS, POTATO, b -> b.hydration(50, 100).temperature(1, 37));
-        add(CROPS, ONION, b -> b.hydration(25, 90).temperature(0, 30));
-        add(CROPS, SOYBEAN, b -> b.hydration(40, 100).temperature(8, 30));
-        add(CROPS, SQUASH, b -> b.hydration(23, 95).temperature(5, 33));
-        add(CROPS, SUGARCANE, b -> b.hydration(40, 100).temperature(12, 38));
-        add(CROPS, TOMATO, b -> b.hydration(30, 95).temperature(0, 36));
-        add(CROPS, JUTE, b -> b.hydration(25, 100).temperature(5, 37));
-        add(CROPS, PAPYRUS, b -> b.hydration(70, 100).temperature(19, 37));
-        add(CROPS, PUMPKIN, b -> b.hydration(30, 70).temperature(5, 22));
-        add(CROPS, MELON, b -> b.hydration(75, 100).temperature(19, 35));
-        add(CROPS, RED_BELL_PEPPER, b -> b.hydration(25, 60).temperature(16, 30));
-        add(CROPS, YELLOW_BELL_PEPPER, b -> b.hydration(25, 60).temperature(16, 30));
+        // DO NOT EDIT FRUITS DIRECTLY - Imported directly from spreadsheet
+        // https://docs.google.com/spreadsheets/d/1USmCWiRrj5205WyoRNNTUkoNrqm9AStRzwnD1v6633o
+        add(BANANA_PLANT, new ClimateRange.Builder().minHydration(25).temperature(9.8f, 41.2f).build());
+
+        add(FRUIT_TREES, CHERRY, b -> b.hydration(7, 80).temperature(-6.4f, 15.2f));
+        add(FRUIT_TREES, GREEN_APPLE, b -> b.hydration(10, 75).temperature(-11.8f, 11.6f));
+        add(FRUIT_TREES, RED_APPLE, b -> b.hydration(16, 75).temperature(-11.8f, 11.6f));
+        add(FRUIT_TREES, LEMON, b -> b.hydration(19, 95).temperature(6.2f, 26.f));
+        add(FRUIT_TREES, OLIVE, b -> b.hydration(22, 95).temperature(0.8f, 24.2f));
+        add(FRUIT_TREES, ORANGE, b -> b.hydration(27, 100).temperature(8.f, 41.2f));
+        add(FRUIT_TREES, PEACH, b -> b.hydration(15, 95).temperature(-4.6f, 17.f));
+        add(FRUIT_TREES, PLUM, b -> b.hydration(9, 75).temperature(-8.2f, 13.4f));
+
+
+        add(SPREADING_BUSHES, BLACKBERRY, b -> b.hydration(17, 100).temperature(-6.4f, 20.6f));
+        add(SPREADING_BUSHES, RASPBERRY, b -> b.hydration(15, 95).temperature(-11.8f, 15.2f));
+        add(SPREADING_BUSHES, BLUEBERRY, b -> b.hydration(12, 90).temperature(-10.f, 9.8f));
+        add(SPREADING_BUSHES, ELDERBERRY, b -> b.hydration(9, 85).temperature(-6.4f, 17.f));
+
+        add(STATIONARY_BUSHES, SNOWBERRY, b -> b.hydration(17, 100).temperature(-11.8f, 6.2f));
+        add(STATIONARY_BUSHES, BUNCHBERRY, b -> b.hydration(25, 100).temperature(-15.4f, 2.6f));
+        add(STATIONARY_BUSHES, GOOSEBERRY, b -> b.hydration(17, 100).temperature(-8.2f, 13.4f));
+        add(STATIONARY_BUSHES, CLOUDBERRY, b -> b.hydration(5, 80).temperature(-15.4f, 8f));
+        add(STATIONARY_BUSHES, STRAWBERRY, b -> b.hydration(11, 90).temperature(-2.8f, 18.8f));
+        add(STATIONARY_BUSHES, WINTERGREEN_BERRY, b -> b.hydration(7, 85).temperature(-10.f, 8f));
+
+        add(CRANBERRY_BUSH, new ClimateRange.Builder().minHydration(25).temperature(-15.4f, 9.8f).build());
+        // DO NOT EDIT CROPS DIRECTLY - Imported directly from spreadsheet
+        // https://docs.google.com/spreadsheets/d/1USmCWiRrj5205WyoRNNTUkoNrqm9AStRzwnD1v6633o
+        add(CROPS, CASSAVA, b -> b.hydration(45, 100).temperature(10, 47));
+        add(CROPS, GREEN_BEAN, b -> b.hydration(25, 90).temperature(-4, 30));
+        add(CROPS, LENTIL, b -> b.hydration(15, 50).temperature(-7, 30));
+        add(CROPS, PEANUT, b -> b.hydration(20, 80).temperature(12, 47));
+        add(CROPS, SOYBEAN, b -> b.hydration(25, 90).temperature(-9, 27));
+        add(CROPS, BARLEY, b -> b.hydration(10, 70).temperature(-9, 29));
+        add(CROPS, OAT, b -> b.hydration(25, 85).temperature(-9, 27));
+        add(CROPS, RYE, b -> b.hydration(15, 80).temperature(-9, 23));
+        add(CROPS, MAIZE, b -> b.hydration(50, 100).temperature(-9, 32));
+        add(CROPS, WHEAT, b -> b.hydration(15, 85).temperature(-9, 27));
+        add(CROPS, RICE, b -> b.hydration(35, 100).temperature(8, 47));
+        add(CROPS, BEET, b -> b.hydration(10, 70).temperature(-13, 32));
+        add(CROPS, CABBAGE, b -> b.hydration(10, 65).temperature(-13, 32));
+        add(CROPS, CARROT, b -> b.hydration(15, 85).temperature(-13, 32));
+        add(CROPS, GARLIC, b -> b.hydration(10, 70).temperature(-5, 27));
+        add(CROPS, ONION, b -> b.hydration(15, 85).temperature(-7, 31));
+        add(CROPS, POTATO, b -> b.hydration(15, 85).temperature(-9, 27));
+        add(CROPS, SQUASH, b -> b.hydration(15, 85).temperature(-9, 30));
+        add(CROPS, TOMATO, b -> b.hydration(20, 85).temperature(1, 47));
+        add(CROPS, RED_BELL_PEPPER, b -> b.hydration(30, 95).temperature(12, 47));
+        add(CROPS, YELLOW_BELL_PEPPER, b -> b.hydration(30, 95).temperature(12, 47));
+        add(CROPS, PUMPKIN, b -> b.hydration(20, 85).temperature(-9, 32));
+        add(CROPS, MELON, b -> b.hydration(35, 100).temperature(5, 47));
+        add(CROPS, CANOLA, b -> b.hydration(20, 75).temperature(-35, 17));
+        add(CROPS, RADISH, b -> b.hydration(30, 90).temperature(-33, 21));
+        add(CROPS, ALFALFA, b -> b.hydration(40, 100).temperature(-30, 14));
+        add(CROPS, JUTE, b -> b.hydration(15, 90).temperature(1, 30));
+        add(CROPS, PAPYRUS, b -> b.hydration(50, 100).temperature(12, 47));
+        add(CROPS, SUGARCANE, b -> b.hydration(25, 100).temperature(17, 47));
     }
 
     private <T> void add(Map<T, DataManager.Reference<ClimateRange>> map, T value, UnaryOperator<ClimateRange.Builder> builder)
     {
-        add(map.get(value),  builder.apply(new ClimateRange.Builder()).build());
+        add(map.get(value), builder.apply(new ClimateRange.Builder()).build());
     }
 }

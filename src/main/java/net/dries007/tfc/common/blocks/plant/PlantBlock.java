@@ -6,6 +6,7 @@
 
 package net.dries007.tfc.common.blocks.plant;
 
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -20,8 +21,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.Tags;
 
+import net.dries007.tfc.client.ClientHelpers;
+import net.dries007.tfc.client.ClimateRenderCache;
+import net.dries007.tfc.client.particle.Butterfly;
 import net.dries007.tfc.client.particle.TFCParticles;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
@@ -50,6 +53,46 @@ public abstract class PlantBlock extends TFCBushBlock
         };
     }
 
+    public static PlantBlock createShrub(RegistryPlant plant, ExtendedProperties properties)
+    {
+        return new PlantBlock(properties)
+        {
+            static final VoxelShape SHAPE = box(0, 0, 0, 16, 16, 16);
+
+            @Override
+            public RegistryPlant getPlant()
+            {
+                return plant;
+            }
+
+            @Override
+            public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+            {
+                return SHAPE;
+            }
+        };
+    }
+
+    public static PlantBlock createShortShrub(RegistryPlant plant, ExtendedProperties properties)
+    {
+        return new PlantBlock(properties)
+        {
+            static final VoxelShape SHAPE = box(0, 0, 0, 16, 16, 16);
+
+            @Override
+            public RegistryPlant getPlant()
+            {
+                return plant;
+            }
+
+            @Override
+            public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+            {
+                return SHAPE;
+            }
+        };
+    }
+
     public static PlantBlock createDry(RegistryPlant plant, ExtendedProperties properties)
     {
         return new PlantBlock(properties)
@@ -64,6 +107,24 @@ public abstract class PlantBlock extends TFCBushBlock
             public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
             {
                 return isDryBlockPlantable(level.getBlockState(pos.below()));
+            }
+        };
+    }
+
+    public static PlantBlock createPerchedEpiphyte(RegistryPlant plant, ExtendedProperties properties)
+    {
+        return new PlantBlock(properties)
+        {
+            @Override
+            public RegistryPlant getPlant()
+            {
+                return plant;
+            }
+
+            @Override
+            public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
+            {
+                return isEpiphytePlantable(level.getBlockState(pos.below()));
             }
         };
     }
@@ -86,7 +147,7 @@ public abstract class PlantBlock extends TFCBushBlock
         };
     }
 
-    public static PlantBlock createFlat(RegistryPlant plant, ExtendedProperties properties)
+    public static PlantBlock createFlowerbed(RegistryPlant plant, ExtendedProperties properties)
     {
 
         return new PlantBlock(properties)
@@ -104,12 +165,32 @@ public abstract class PlantBlock extends TFCBushBlock
             {
                 return SHAPE;
             }
+
+            // These two methods allow placing extra per block
+            @Override
+            protected boolean canBeReplaced(BlockState state, BlockPlaceContext useContext) {
+                return !useContext.isSecondaryUseActive() && useContext.getItemInHand().is(this.asItem()) && state.getValue(AGE) < 3 || super.canBeReplaced(state, useContext);
+            }
+
+            @Nullable
+            public BlockState getStateForPlacement(BlockPlaceContext context) {
+                BlockState state = context.getLevel().getBlockState(context.getClickedPos());
+                if (Helpers.isBlock(state, this)) {
+                    return state.setValue(AGE, Math.min(3, state.getValue(AGE) + 1));
+                }
+                return super.getStateForPlacement(context);
+            }
         };
     }
 
     public static boolean isDryBlockPlantable(BlockState state)
     {
-        return Helpers.isBlock(state, BlockTags.SAND) || Helpers.isBlock(state, Tags.Blocks.SANDS) || Helpers.isBlock(state, TFCTags.Blocks.BUSH_PLANTABLE_ON);
+        return Helpers.isBlock(state, TFCTags.Blocks.DRY_PLANT_PLANTABLE_ON);
+    }
+
+    public static boolean isEpiphytePlantable(BlockState state)
+    {
+        return Helpers.isBlock(state, TFCTags.Blocks.EPIPHYTE_PLANTABLE_ON);
     }
 
     protected PlantBlock(ExtendedProperties properties)
@@ -128,9 +209,13 @@ public abstract class PlantBlock extends TFCBushBlock
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random)
     {
-        if (random.nextInt(400) == 0 && Helpers.isBlock(state, BlockTags.FLOWERS) && Calendars.CLIENT.getCalendarMonthOfYear().getSeason() == Season.SPRING)
+        if (random.nextInt(400) == 0 && Helpers.isBlock(state, BlockTags.FLOWERS) && Calendars.CLIENT.getHemispheralCalendarMonthOfYear(ClientHelpers.inNorthernHemisphere()).getSeason() == Season.SPRING)
         {
-            level.addParticle(TFCParticles.BUTTERFLY.get(), pos.getX() + random.nextFloat(), pos.getY() + random.nextFloat(), pos.getZ() + random.nextFloat(), 0, 0, 0);
+            final Butterfly but = Butterfly.getRandomButterfly(ClimateRenderCache.INSTANCE.getTemperature(), ClimateRenderCache.INSTANCE.getAverageGroundwater(), random);
+            if (but != null)
+            {
+                level.addParticle(TFCParticles.BUTTERFLIES.get(but).get(), pos.getX() + random.nextFloat(), pos.getY() + random.nextFloat(), pos.getZ() + random.nextFloat(), 0, 0, 0);
+            }
         }
     }
 
@@ -143,7 +228,7 @@ public abstract class PlantBlock extends TFCBushBlock
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
-        final var ageProp = getPlant().getAgeProperty();
+        final IntegerProperty ageProp = getPlant().getAgeProperty();
         if (ageProp != null)
         {
             final int age = state.getValue(ageProp);

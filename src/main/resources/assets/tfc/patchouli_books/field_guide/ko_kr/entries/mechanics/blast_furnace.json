@@ -15,7 +15,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "용광로와 함께 $(thing)굴뚝$()을 건설해야 합니다. 굴뚝은 뜨겁고 강렬한 열기를 감당하기 위해서 $(l:mechanics/fire_clay#fire_bricks)내화벽돌$()로 만들어야 합니다. 그리고서는 굴뚝을 강화하기 위해 $(thing)연철판$()이 필요합니다. 원한다면 $(thing)강철$() 등의 더 강한 재료도 사용할 수 있습니다."
+      "text": "You will then need to construct the blast furnace, along with its $(thing)Chimney$(). The chimney must be composed out of $(l:mechanics/fire_clay#fire_bricks)Reinforced Fire Bricks$(), as they are strong enough to withstand the intense heat. These can be crafted from fire brick blocks, and either wrought iron or steel sheets."
     },
     {
       "type": "patchouli:multiblock",
@@ -26,7 +26,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "용광로의 굴뚝은 최대 5블록까지 높일 수 있습니다. 각 층을 완성하기 위해서는 4개의 $(thing)내화벽돌$()과 12개의 $(thing)연철 판$()이 있어야 합니다. 층을 높일수록 용광로의 용량을 증가시키며, 한 번에 더 많이 강철을 제작할 수 있게 합니다. 최대 5층까지의 각각의 층마다 용광로에 광석 4개 분량의 용량을 추가합니다."
+      "text": "The blast furnace's chimney can be up to five layers - each layer requiring eight $(thing)Reinforced Fire Bricks$() to complete. Having more layers increases the total capacity of the blast furnace, allowing it to smelt more steel at once. Each chimney layer, up to a maximum of five, allows the blast furnace to hold four additional ore items."
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "이제 시작하려면 용광로를 $(l:getting_started/firepit#firestarter)불피우개$()나 $(thing)부싯돌과 부시$()로 켜야 합니다. 그러면 안에 있는 광석들이 가열되기 시작합니다. 용광로의 온도가 숯의 최대 온도까지 도달한 후에는 계속 풀무질을 해야 합니다. 안의 광석들이 충분히 가열되면 광석들이 녹아 $(l:mechanics/steel)선철$()이 만들어집니다."
+      "text": "Finally, to get started, light the blast furnace with a $(l:getting_started/firepit#firestarter)Fire Starter$(), a $(thing)Flint and Pyrite$(), or a $(thing)Flint and Steel$(). It will begin to heat the ores inside. Make sure that the blast furnace continues to have fuel, and use the bellows to add air to the blast furnace after its internal temperature has reached the maximum for charcoal. After the ores inside heat up, they will melt and convert into $(l:mechanics/steel)Pig Iron$()."
     },
     {
       "type": "patchouli:text",

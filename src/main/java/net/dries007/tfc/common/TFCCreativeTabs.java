@@ -97,6 +97,7 @@ public final class TFCCreativeTabs
         out.accept(TFCBlocks.PINK_KAOLIN_CLAY);
         out.accept(TFCBlocks.RED_KAOLIN_CLAY);
         out.accept(TFCBlocks.KAOLIN_CLAY_GRASS);
+        out.accept(TFCBlocks.HARDENED_CLAY);
 
         TFCBlocks.GROUNDCOVER.forEach((type, reg) -> {
             if (type.getVanillaItem() == null)
@@ -173,6 +174,10 @@ public final class TFCCreativeTabs
                 Metal.BlockType.EXPOSED_BLOCK_STAIRS,
                 Metal.BlockType.WEATHERED_BLOCK_STAIRS,
                 Metal.BlockType.OXIDIZED_BLOCK_STAIRS,
+                Metal.BlockType.GRATE,
+                Metal.BlockType.EXPOSED_GRATE,
+                Metal.BlockType.WEATHERED_GRATE,
+                Metal.BlockType.OXIDIZED_GRATE,
                 Metal.BlockType.BARS,
                 Metal.BlockType.CHAIN,
                 Metal.BlockType.TRAPDOOR,
@@ -269,6 +274,9 @@ public final class TFCCreativeTabs
     {
         out.accept(TFCItems.RAW_IRON_BLOOM);
         out.accept(TFCItems.REFINED_IRON_BLOOM);
+        out.accept(TFCBlocks.LIGNITE);
+        out.accept(TFCBlocks.BITUMINOUS_COAL);
+        out.accept(TFCBlocks.HALITE);
         for (Ore ore : Ore.values())
         {
             if (ore.isGraded())
@@ -368,6 +376,7 @@ public final class TFCCreativeTabs
         }
 
         out.accept(TFCItems.FIRESTARTER);
+        out.accept(TFCItems.FLINT_AND_PYRITE);
         out.accept(Items.FLINT_AND_STEEL);
         out.accept(TFCItems.SOOT);
         out.accept(TFCItems.SANDPAPER);
@@ -387,13 +396,18 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.PURE_PHOSPHORUS);
         out.accept(TFCItems.DAUB);
         out.accept(TFCItems.DIRTY_JUTE_NET);
+        out.accept(TFCItems.CACTUS_WOOD);
+        out.accept(TFCItems.DRIED_CACTUS_WOOD);
         out.accept(TFCItems.FIRE_CLAY);
         out.accept(TFCItems.KAOLIN_CLAY);
         out.accept(TFCItems.GLUE);
         out.accept(TFCItems.GOAT_HORN);
+        out.accept(TFCItems.ALFALFA);
+        out.accept(TFCItems.CANOLA);
         out.accept(TFCItems.JUTE);
         out.accept(TFCItems.JUTE_FIBER);
         out.accept(TFCItems.OLIVE_PASTE);
+        out.accept(TFCItems.CANOLA_PASTE);
         out.accept(TFCItems.JUTE_NET);
         out.accept(TFCItems.HANDSTONE);
         out.accept(TFCItems.MORTAR);
@@ -406,10 +420,14 @@ public final class TFCCreativeTabs
         out.accept(Items.BOWL);
         out.accept(TFCItems.STRAW);
         out.accept(TFCItems.WROUGHT_IRON_GRILL);
-        out.accept(TFCItems.LOAM_MUD_BRICK);
-        out.accept(TFCItems.SANDY_LOAM_MUD_BRICK);
-        out.accept(TFCItems.SILTY_LOAM_MUD_BRICK);
-        out.accept(TFCItems.SILT_MUD_BRICK);
+        out.accept(TFCItems.ARIDISOL_MUD_BRICK);
+        out.accept(TFCItems.OXISOL_MUD_BRICK);
+        out.accept(TFCItems.FLUVISOL_MUD_BRICK);
+        out.accept(TFCItems.ENTISOL_MUD_BRICK);
+        out.accept(TFCItems.ANDISOL_MUD_BRICK);
+        out.accept(TFCItems.MOLLISOL_MUD_BRICK);
+        out.accept(TFCItems.ALFISOL_MUD_BRICK);
+        out.accept(TFCItems.PODZOL_MUD_BRICK);
 
         TFCItems.POWDERS.values().forEach(out::accept);
         TFCItems.ORE_POWDERS.values().forEach(out::accept);
@@ -465,6 +483,10 @@ public final class TFCCreativeTabs
         }
         out.accept(TFCItems.UNFIRED_BELL_MOLD);
         out.accept(TFCItems.BELL_MOLD);
+        out.accept(TFCItems.UNFIRED_CHANNEL);
+        out.accept(TFCItems.UNFIRED_MOLD_TABLE);
+        out.accept(TFCBlocks.CHANNEL);
+        out.accept(TFCBlocks.MOLD_TABLE);
 
         out.accept(TFCItems.WOODEN_BUCKET);
         out.accept(TFCItems.JUG);
@@ -540,6 +562,10 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.DEAD_TORCH);
         out.accept(TFCBlocks.BARREL_RACK);
         out.accept(TFCBlocks.FIRE_BRICKS);
+        out.accept(TFCBlocks.REINFORCED_FIRE_BRICKS);
+        out.accept(TFCBlocks.FIRE_BRICK_SHELF);
+        out.accept(TFCBlocks.FIREPROOF_DOOR);
+        out.accept(TFCBlocks.FIREBOX);
         out.accept(TFCBlocks.FIRE_CLAY_BLOCK);
 
         out.accept(TFCBlocks.AGGREGATE);
@@ -591,6 +617,7 @@ public final class TFCCreativeTabs
                 out.accept(TFCBlocks.PALM_MOSAIC_STAIRS);
                 out.accept(TFCBlocks.PALM_MOSAIC_SLAB);
             }
+            out.accept(TFCBlocks.GOLDEN_BAMBOO_BLOCK);
             accept(out, TFCItems.LUMBER, wood);
             accept(out, TFCItems.BOATS, wood);
             accept(out, TFCItems.SUPPORTS, wood);
@@ -614,8 +641,8 @@ public final class TFCCreativeTabs
         });
         out.accept(TFCBlocks.SEA_PICKLE);
     }
-    
-    
+
+
     // Helpers
 
     private static Id register(String name, Supplier<ItemStack> icon, CreativeModeTab.DisplayItemsGenerator displayItems)

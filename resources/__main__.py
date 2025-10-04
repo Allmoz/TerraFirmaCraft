@@ -11,8 +11,10 @@ import json
 import os
 import sys
 from argparse import ArgumentParser
+from typing import Dict, Sequence
 
 from mcresources import ResourceManager, utils
+from mcresources.type_definitions import ResourceIdentifier, Json
 
 import advancements
 import assets
@@ -65,15 +67,15 @@ def main():
             validate_assets.main()
         elif action == 'all':
             touched: set[str] = resources_at(
-                ResourceManager('tfc', resource_dir=RESOURCE_DIR),
-                ResourceManager('minecraft', resource_dir=RESOURCE_DIR),
-                ResourceManager('tfc', resource_dir=TEST_RESOURCE_DIR)
+                TempResourceManager('tfc', resource_dir=RESOURCE_DIR),
+                TempResourceManager('minecraft', resource_dir=RESOURCE_DIR),
+                TempResourceManager('tfc', resource_dir=TEST_RESOURCE_DIR)
             )
             if args.hotswap:
                 resources_at(
-                    ResourceManager('tfc', resource_dir=args.hotswap_main),
-                    ResourceManager('minecraft', resource_dir=args.hotswap_main),
-                    ResourceManager('tfc', resource_dir=args.hotswap_test)
+                    TempResourceManager('tfc', resource_dir=args.hotswap_main),
+                    TempResourceManager('minecraft', resource_dir=args.hotswap_main),
+                    TempResourceManager('tfc', resource_dir=args.hotswap_test)
                 )
             touched |= format_lang.main(False, 'minecraft', MOD_LANGUAGES)  # format_lang
             touched |= format_lang.main(False, 'tfc', MOD_LANGUAGES)
@@ -164,8 +166,26 @@ def validate_no_tags(rm: ResourceManager):
         else:
             raise ValueError('Tag datagen is done in java. Tried to generate %s tags:\n%s' % (tag_type, '\n'.join([t.join() for t in tag_names])))
 
+class TempResourceManager(ResourceManager):
 
-class ValidatingResourceManager(ResourceManager):
+    def __init__(self, domain: str, resource_dir):
+        super().__init__(domain, resource_dir)
+
+    def advancement(self, name_parts: ResourceIdentifier, display: Json = None, parent: str = None, criteria: Dict[str, Dict[str, Json]] = None, requirements: Sequence[Sequence[str]] = None, rewards: Dict[str, Json] = None):
+        res = utils.resource_location(self.domain, name_parts)
+        if requirements is None or requirements == 'or':
+            requirements = [[k for k in criteria.keys()]]
+        elif requirements == 'and':
+            requirements = [[k] for k in criteria.keys()]
+        self.write(('data', res.domain, 'advancement', res.path), {
+            'parent': parent,
+            'criteria': criteria,
+            'display': display,
+            'requirements': requirements,
+            'rewards': rewards
+        })
+
+class ValidatingResourceManager(TempResourceManager):
 
     def __init__(self, domain: str, resource_dir):
         super(ValidatingResourceManager, self).__init__(domain, resource_dir)
@@ -173,7 +193,7 @@ class ValidatingResourceManager(ResourceManager):
 
     def write(self, path_parts, data_to_write):
         data_to_write = utils.del_none({'__comment__': 'This file was automatically created by mcresources', **data_to_write})
-        path = os.path.join(*path_parts) + '.json'
+        path = os.path.normpath(os.path.join(self.resource_dir, *path_parts)) + '.json'
         try:
             if not os.path.isfile(path):
                 print('Error: resource generation created new file \'%s\'' % path, file=sys.stderr)

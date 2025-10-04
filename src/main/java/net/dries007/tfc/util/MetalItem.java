@@ -36,6 +36,11 @@ public record MetalItem(
     private static final MetalItem UNKNOWN = new MetalItem("unknown");
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    /**
+     * Classloading to initialize the cache
+     */
+    public static void init() {}
+
     public static MetalItem unknown()
     {
         return UNKNOWN;
@@ -77,7 +82,7 @@ public record MetalItem(
                 {
                     final String[] path = id.getPath().split("/");
                     if (path.length == 2
-                        && (path[0].equals("ingots") || path[0].equals("double_ingots") || path[0].equals("sheets"))
+                        && (path[0].equals("ingots") || path[0].equals("double_ingots"))
                         && !path[1].contains("/")
                         && !excludedTags.contains(id.getPath())
                     )

@@ -42,9 +42,9 @@ public class PlacedItemBlockEntityRenderer<T extends PlacedItemBlockEntity> impl
         map.accept(TFCItems.JUG, cutout("block/ceramic/jug"));
         map.accept(TFCItems.UNFIRED_JUG, cutout("block/ceramic/unfired_jug"));
         map.accept(TFCItems.VESSEL, cutout("block/ceramic/small_vessel"));
-        map.accept(TFCItems.UNFIRED_VESSEL, cutout("block/ceramic/unfired_small_vessel"));
-        TFCItems.GLAZED_VESSELS.forEach((color, item) -> map.accept(item, cutout("block/ceramic/" + color.getSerializedName() + "_small_vessel")));
-        TFCItems.UNFIRED_GLAZED_VESSELS.forEach((color, item) -> map.accept(item, cutout("block/ceramic/" + color.getSerializedName() + "_small_vessel_unfired")));
+        map.accept(TFCItems.UNFIRED_VESSEL, cutout("block/ceramic/small_vessel_unfired"));
+        TFCItems.GLAZED_VESSELS.forEach((color, item) -> map.accept(item, cutout("block/ceramic/small_vessel/" + color.getSerializedName() + "/small_vessel")));
+        TFCItems.UNFIRED_GLAZED_VESSELS.forEach((color, item) -> map.accept(item, cutout("block/ceramic/small_vessel/" + color.getSerializedName() + "/small_vessel_unfired")));
         map.accept(TFCItems.EMPTY_JAR, translucent("block/jar/empty"));
         map.accept(TFCItems.EMPTY_JAR_WITH_LID, translucent("block/jar"));
         TFCItems.FRUIT_PRESERVES.forEach((fruit, item) -> map.accept(item, translucent("block/jar/" + fruit.getSerializedName())));
@@ -113,7 +113,7 @@ public class PlacedItemBlockEntityRenderer<T extends PlacedItemBlockEntity> impl
             {
                 pose.translate(slotX * 0.5, 0, slotZ * 0.5);
             }
-            pose.translate(0, -0.05, 0);
+            pose.translate(0, -0.0001, 0);
 
             blockRenderer.tesselateWithAO(entity.getLevel(), baked, entity.getBlockState(), entity.getBlockPos(), pose, buffer, true, random, packedLight, packedOverlay, ModelData.EMPTY, RenderType.translucent());
         }

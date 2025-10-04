@@ -21,6 +21,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 public enum ForestType implements StringRepresentable
 {
     GRASSLAND(ForestSubType.NONE, 0, zero(), zero(), zero(), zero(), 2, 0, 0),
+    CLEARING(ForestSubType.NONE, 0, zero(), zero(), zero(), zero(), 2, 0, 0),
     SHRUBLAND(ForestSubType.NONE, 0, zero(), value(10), range(0, 1), range(2, 7), 2, 1, 0),
     SPARSE(ForestSubType.NONE, 0, value(2), value(6), zero(), range(0, 2), 2, 0.08f, 0),
     SAVANNA_MONOCULTURE(ForestSubType.SAVANNA, 1, value(3), value(6), zero(), range(0, 2), 1, 0.55f, 0),
@@ -44,9 +45,9 @@ public enum ForestType implements StringRepresentable
     EDGE_DIVERSE(ForestSubType.EDGE, 2, value(2), value(10), range(0, 1), range(0, 1), 2, 1, 0),
     EDGE_ALTERNATE(ForestSubType.EDGE, 2, value(2), value(10), range(0, 1), range(0, 1), 3, 1, 2),
     EDGE_BAMBOO(ForestSubType.EDGE, 2, value(1), value(10), range(0, 1), range(0, 1), 1, 0.7f, 0),
-    DEAD_MONOCULTURE(ForestSubType.DEAD, 3, value(5), value(25), zero(), range(2, 4), 1, 1, 0),
-    DEAD_DIVERSE(ForestSubType.DEAD, 3, value(5), value(25), zero(), range(2, 4), 2, 1, 0),
-    DEAD_ALTERNATE(ForestSubType.DEAD, 4, value(4), value(40), range(0, 1), range(0, 3), 3, 1, 2),
+    DEAD_MONOCULTURE(ForestSubType.DEAD, 2, value(5), value(25), zero(), range(2, 4), 1, 1, 0),
+    DEAD_DIVERSE(ForestSubType.DEAD, 2, value(5), value(25), zero(), range(2, 4), 2, 1, 0),
+    DEAD_ALTERNATE(ForestSubType.DEAD, 3, value(4), value(40), range(0, 1), range(0, 3), 3, 1, 2),
     DEAD_BAMBOO(ForestSubType.DEAD, 3, value(4), value(25), range(0, 1), range(2, 4), 2, 1, 0),
     ;
 

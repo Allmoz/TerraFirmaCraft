@@ -22,17 +22,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.dries007.tfc.common.blockentities.BarrelBlockEntity;
-import net.dries007.tfc.common.blockentities.BarrelInventoryCallback;
 import net.dries007.tfc.common.blocks.devices.BarrelBlock;
 import net.dries007.tfc.common.blocks.devices.SealableDeviceBlock;
-import net.dries007.tfc.common.capabilities.DelegateFluidHandler;
-import net.dries007.tfc.common.capabilities.FluidTankCallback;
-import net.dries007.tfc.common.container.ISlotCallback;
 import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.util.BlockItemPlacement;
 import net.dries007.tfc.util.Helpers;
@@ -130,43 +123,4 @@ public class BarrelBlockItem extends TooltipBlockItem implements Rackable
         return ((SealableDeviceBlock) getBlock()).getStateForPlacement(level, pos);
     }
 
-    private static class BarrelItemStackInventory implements DelegateFluidHandler, IFluidHandlerItem, ISlotCallback, FluidTankCallback, BarrelInventoryCallback
-    {
-        private final ItemStack stack;
-        private final BarrelBlockEntity.BarrelInventory inventory;
-        private boolean hasActiveRecipe;
-
-        BarrelItemStackInventory(ItemStack stack)
-        {
-            this.stack = stack;
-            this.inventory = new BarrelBlockEntity.BarrelInventory(this);
-            this.hasActiveRecipe = false;
-        }
-
-        @Override
-        public boolean canModify()
-        {
-            return true; // todo 1.21, sealed barrel block entity components
-            //return stack.getTag() == null || !hasActiveRecipe; // As long as not sealed, or sealed but with no active recipe.
-        }
-
-        @Override
-        public void fluidTankChanged()
-        {
-
-        }
-
-        @Override
-        public IFluidHandler getFluidHandler()
-        {
-            return inventory;
-        }
-
-        @NotNull
-        @Override
-        public ItemStack getContainer()
-        {
-            return stack.copy();
-        }
-    }
 }

@@ -44,6 +44,8 @@ import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.TFCTiers;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
+import net.dries007.tfc.common.blocks.GrateBlock;
+import net.dries007.tfc.common.blocks.WeatheringGrateBlock;
 import net.dries007.tfc.common.blocks.IWeatheringBlock.Age;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.TFCChainBlock;
@@ -53,9 +55,10 @@ import net.dries007.tfc.common.blocks.WeatheringStairBlock;
 import net.dries007.tfc.common.blocks.devices.AnvilBlock;
 import net.dries007.tfc.common.blocks.devices.LampBlock;
 import net.dries007.tfc.common.items.ChiselItem;
+import net.dries007.tfc.common.items.HammerItem;
 import net.dries007.tfc.common.items.JavelinItem;
 import net.dries007.tfc.common.items.LampBlockItem;
-import net.dries007.tfc.common.items.MaceItem;
+import net.dries007.tfc.common.items.TFCMaceItem;
 import net.dries007.tfc.common.items.PropickItem;
 import net.dries007.tfc.common.items.ScytheItem;
 import net.dries007.tfc.common.items.TFCFishingRodItem;
@@ -76,20 +79,20 @@ public enum Metal implements StringRepresentable, RegistryMetal
     BISMUTH(0xFF486B72, MapColor.TERRACOTTA_GREEN, Rarity.COMMON, -1, PartType.DEFAULT),
     BISMUTH_BRONZE(0xFF418E4F, MapColor.TERRACOTTA_BLUE, Rarity.COMMON, -1, TFCTiers.BISMUTH_BRONZE, TFCArmorMaterials.BISMUTH_BRONZE),
     BLACK_BRONZE(0xFF3B2636, MapColor.TERRACOTTA_PINK, Rarity.COMMON, -1, TFCTiers.BLACK_BRONZE, TFCArmorMaterials.BLACK_BRONZE),
-    BRONZE(0xFF96892E, MapColor.TERRACOTTA_ORANGE, Rarity.COMMON, 0.5f, TFCTiers.BRONZE, TFCArmorMaterials.BRONZE),
-    BRASS(0xFF7C5E33, MapColor.GOLD, Rarity.COMMON, 0.5f, PartType.DEFAULT_WEATHERING),
+    BRONZE(0xFF96892E, MapColor.TERRACOTTA_ORANGE, Rarity.COMMON, 0.7f, TFCTiers.BRONZE, TFCArmorMaterials.BRONZE),
+    BRASS(0xFF7C5E33, MapColor.GOLD, Rarity.COMMON, 0.7f, PartType.DEFAULT_WEATHERING),
     COPPER(0xFFB64027, MapColor.COLOR_ORANGE, Rarity.COMMON, 0f, TFCTiers.COPPER, TFCArmorMaterials.COPPER),
     GOLD(0xFFDCBF1B, MapColor.GOLD, Rarity.COMMON, -1, PartType.DEFAULT),
     NICKEL(0xFF4E4E3C, MapColor.STONE, Rarity.COMMON, -1, PartType.DEFAULT),
     ROSE_GOLD(0xFFEB7137, MapColor.COLOR_PINK, Rarity.COMMON, -1, PartType.DEFAULT),
-    SILVER(0xFF949495, MapColor.COLOR_LIGHT_GRAY, Rarity.COMMON, 0.9f, PartType.DEFAULT_WEATHERING),
+    SILVER(0xFF949495, MapColor.COLOR_LIGHT_GRAY, Rarity.COMMON, 0.95f, PartType.DEFAULT_WEATHERING),
     TIN(0xFF90A4BB, MapColor.COLOR_LIGHT_GRAY, Rarity.COMMON, -1, PartType.DEFAULT),
     ZINC(0xFFBBB9C4, MapColor.COLOR_LIGHT_GRAY, Rarity.COMMON, -1, PartType.DEFAULT),
-    STERLING_SILVER(0xFFAC927B, MapColor.COLOR_LIGHT_GRAY, Rarity.COMMON, 0.9f, PartType.DEFAULT_WEATHERING),
+    STERLING_SILVER(0xFFAC927B, MapColor.COLOR_LIGHT_GRAY, Rarity.COMMON, 0.95f, PartType.DEFAULT_WEATHERING),
     WROUGHT_IRON(0xFF989897, MapColor.METAL, Rarity.COMMON, 0f, TFCTiers.WROUGHT_IRON, TFCArmorMaterials.WROUGHT_IRON),
     CAST_IRON(0xFF989897, MapColor.COLOR_BROWN, Rarity.COMMON, -1, PartType.DEFAULT),
     PIG_IRON(0xFF6A595C, MapColor.COLOR_GRAY, Rarity.COMMON, -1, PartType.INGOT),
-    STEEL(0xFF5F5F5F, MapColor.COLOR_LIGHT_GRAY, Rarity.UNCOMMON, 0.8f, TFCTiers.STEEL, TFCArmorMaterials.STEEL),
+    STEEL(0xFF5F5F5F, MapColor.COLOR_LIGHT_GRAY, Rarity.UNCOMMON, 0.9f, TFCTiers.STEEL, TFCArmorMaterials.STEEL),
     BLACK_STEEL(0xFF111111, MapColor.COLOR_BLACK, Rarity.RARE, -1, TFCTiers.BLACK_STEEL, TFCArmorMaterials.BLACK_STEEL),
     BLUE_STEEL(0xFF2D5596, MapColor.COLOR_BLUE, Rarity.EPIC, -1, TFCTiers.BLUE_STEEL, TFCArmorMaterials.BLUE_STEEL),
     RED_STEEL(0xFF700503, MapColor.COLOR_RED, Rarity.EPIC, -1, TFCTiers.RED_STEEL, TFCArmorMaterials.RED_STEEL),
@@ -222,11 +225,25 @@ public enum Metal implements StringRepresentable, RegistryMetal
         EXPOSED_BLOCK_STAIRS(PartType.WEATHERED, stairs(EXPOSED_BLOCK, Age.EXPOSED)),
         WEATHERED_BLOCK_STAIRS(PartType.WEATHERED, stairs(WEATHERED_BLOCK, Age.WEATHERED)),
         OXIDIZED_BLOCK_STAIRS(PartType.WEATHERED, stairs(OXIDIZED_BLOCK, Age.OXIDIZED)),
+        GRATE(PartType.ALL, grate(Age.NONE)),
+        EXPOSED_GRATE(PartType.ALL_WEATHERED, grate(Age.EXPOSED)),
+        WEATHERED_GRATE(PartType.ALL_WEATHERED, grate(Age.WEATHERED)),
+        OXIDIZED_GRATE(PartType.ALL_WEATHERED, grate(Age.OXIDIZED)),
         ANVIL(PartType.ALL, metal -> new AnvilBlock(ExtendedProperties.of().mapColor(metal.mapColor()).noOcclusion().sound(SoundType.ANVIL).strength(10, 10).requiresCorrectToolForDrops().blockEntity(TFCBlockEntities.ANVIL), metal.toolTier().level())),
         BARS(PartType.ALL, metal -> new IronBarsBlock(BlockBehaviour.Properties.of().mapColor(metal.mapColor()).requiresCorrectToolForDrops().strength(6.0F, 7.0F).sound(SoundType.METAL).noOcclusion())),
         CHAIN(PartType.ALL, metal -> new TFCChainBlock(Block.Properties.of().mapColor(metal.mapColor()).requiresCorrectToolForDrops().strength(5, 6).sound(SoundType.CHAIN).lightLevel(TFCBlocks.lavaLoggedBlockEmission()))),
         LAMP(PartType.ALL, metal -> new LampBlock(ExtendedProperties.of().mapColor(metal.mapColor()).noOcclusion().sound(SoundType.LANTERN).strength(4, 10).randomTicks().pushReaction(PushReaction.DESTROY).lightLevel(state -> state.getValue(LampBlock.LIT) ? 15 : 0).blockEntity(TFCBlockEntities.LAMP)), (block, properties) -> new LampBlockItem(block, properties.stacksTo(1))),
-        TRAPDOOR(PartType.ALL, metal -> new TrapDoorBlock(BlockSetType.IRON, Block.Properties.of().mapColor(metal.mapColor()).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().isValidSpawn(TFCBlocks::never)));
+        TRAPDOOR(PartType.ALL, metal -> new TrapDoorBlock(BlockSetType.IRON, Block.Properties.of().mapColor(metal.mapColor()).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().isValidSpawn(TFCBlocks::neverEntity)));
+
+        private static Function<RegistryMetal, Block> grate(Age age)
+        {
+            return metal -> {
+                final BlockBehaviour.Properties prop = blockProperties(metal).noOcclusion().sound(SoundType.COPPER_GRATE).noOcclusion().isValidSpawn(TFCBlocks::neverEntity).isRedstoneConductor(TFCBlocks::never).isSuffocating(TFCBlocks::never).isViewBlocking(TFCBlocks::never).lightLevel(TFCBlocks.lavaLoggedBlockEmission());
+                return metal.weatheredParts()
+                    ? new WeatheringGrateBlock(prop, age, metal.weatheringResistance())
+                    : new GrateBlock(prop);
+            };
+        }
 
         private static Function<RegistryMetal, Block> block(Age age)
         {
@@ -325,11 +342,11 @@ public enum Metal implements StringRepresentable, RegistryMetal
         AXE_HEAD(PartType.ALL, true),
         SHOVEL(PartType.ALL, metal -> new ShovelItem(metal.toolTier(), tool(metal, 0.875f, -3.0f))),
         SHOVEL_HEAD(PartType.ALL, true),
-        HOE(PartType.ALL, metal -> new TFCHoeItem(metal.toolTier(), tool(metal, -1f, -2.0f))),
+        HOE(PartType.ALL, metal -> new TFCHoeItem(metal.toolTier(), tool(metal, 0.5f, -2.0f))),
         HOE_HEAD(PartType.ALL, true),
-        CHISEL(PartType.ALL, metal -> new ChiselItem(metal.toolTier(), tool(metal, -0.27f, 1.5f))),
+        CHISEL(PartType.ALL, metal -> new ChiselItem(metal.toolTier(), tool(metal, 0.27f, 1.5f))),
         CHISEL_HEAD(PartType.ALL, true),
-        HAMMER(PartType.ALL, metal -> new ToolItem(metal.toolTier(), TFCTags.Blocks.MINEABLE_WITH_HAMMER, tool(metal, 1f, -3f))),
+        HAMMER(PartType.ALL, metal -> new HammerItem(metal.toolTier(), tool(metal, 1f, -3f))),
         HAMMER_HEAD(PartType.ALL, true),
         SAW(PartType.ALL, metal -> new AxeItem(metal.toolTier(), tool(metal, 0.5f, -3f))),
         SAW_BLADE(PartType.ALL, true),
@@ -337,7 +354,7 @@ public enum Metal implements StringRepresentable, RegistryMetal
         JAVELIN_HEAD(PartType.ALL, true),
         SWORD(PartType.ALL, metal -> new SwordItem(metal.toolTier(), tool(metal, 1f, -2.4f))),
         SWORD_BLADE(PartType.ALL, true),
-        MACE(PartType.ALL, metal -> new MaceItem(metal.toolTier(), tool(metal, 1.3f, -3f))),
+        MACE(PartType.ALL, metal -> new TFCMaceItem(tool(metal, 1.3f, -3.4f).durability(metal.toolTier().getUses()))),
         MACE_HEAD(PartType.ALL, true),
         KNIFE(PartType.ALL, metal -> new ToolItem(metal.toolTier(), TFCTags.Blocks.MINEABLE_WITH_KNIFE, tool(metal, 0.6f, -2.0f))),
         KNIFE_BLADE(PartType.ALL, true),
@@ -417,7 +434,7 @@ public enum Metal implements StringRepresentable, RegistryMetal
 
     enum PartType
     {
-        INGOT, DEFAULT, DEFAULT_WEATHERING, ALL, ALL_WEATHERING, WEATHERED;
+        INGOT, DEFAULT, DEFAULT_WEATHERING, ALL, ALL_WEATHERING, WEATHERED, ALL_WEATHERED;
 
         /**
          * Assuming {@code this} represents a block or item type, which must be one of four values, does the {@code metal}
@@ -428,6 +445,7 @@ public enum Metal implements StringRepresentable, RegistryMetal
             return switch (this)
             {
                 case WEATHERED -> metal == DEFAULT_WEATHERING || metal == ALL_WEATHERING;
+                case ALL_WEATHERED -> metal == ALL_WEATHERING;
                 case ALL -> metal.ordinal() >= ALL.ordinal();
                 case DEFAULT -> metal.ordinal() >= DEFAULT.ordinal();
                 case INGOT -> true;

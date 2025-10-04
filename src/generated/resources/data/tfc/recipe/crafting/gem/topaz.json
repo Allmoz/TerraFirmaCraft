@@ -8,6 +8,9 @@
       "item": "tfc:ore/topaz"
     }
   ],
+  "primary_ingredient": {
+    "item": "tfc:sandpaper"
+  },
   "remainder": {
     "modifiers": [
       {

@@ -64,18 +64,17 @@
                 }
               },
               {
-                "id": "phyllite",
+                "id": "high_grade",
                 "layers": {
                   "gneiss": "bottom",
-                  "phyllite": "bottom",
                   "schist": "bottom"
                 }
               },
               {
-                "id": "slate",
+                "id": "low_grade",
                 "layers": {
-                  "phyllite": "phyllite",
-                  "slate": "bottom"
+                  "phyllite": "high_grade",
+                  "slate": "high_grade"
                 }
               },
               {
@@ -95,22 +94,23 @@
                 "layers": {
                   "chalk": "marble",
                   "chert": "quartzite",
-                  "claystone": "slate",
-                  "conglomerate": "slate",
+                  "claystone": "low_grade",
+                  "conglomerate": "low_grade",
                   "dolomite": "marble",
                   "limestone": "marble",
-                  "shale": "slate"
+                  "shale": "low_grade"
                 }
               },
               {
                 "id": "uplift",
                 "layers": {
-                  "diorite": "sedimentary",
-                  "gabbro": "sedimentary",
-                  "granite": "sedimentary",
+                  "diorite": "low_grade",
+                  "gabbro": "low_grade",
+                  "granite": "low_grade",
                   "marble": "bottom",
+                  "phyllite": "high_grade",
                   "quartzite": "bottom",
-                  "slate": "phyllite"
+                  "slate": "high_grade"
                 }
               }
             ],
@@ -124,6 +124,7 @@
                 "hardened": "tfc:rock/hardened/andesite",
                 "karst": false,
                 "loose": "tfc:rock/loose/andesite",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/andesite",
                 "raw": "tfc:rock/raw/andesite",
                 "sand": "tfc:sand/red",
@@ -136,10 +137,11 @@
                 "hardened": "tfc:rock/hardened/basalt",
                 "karst": false,
                 "loose": "tfc:rock/loose/basalt",
+                "mafic": true,
                 "mossy_loose": "tfc:rock/mossy_loose/basalt",
                 "raw": "tfc:rock/raw/basalt",
-                "sand": "tfc:sand/red",
-                "sandstone": "tfc:raw_sandstone/red",
+                "sand": "tfc:sand/black",
+                "sandstone": "tfc:raw_sandstone/black",
                 "spike": "tfc:rock/spike/basalt"
               },
               "chalk": {
@@ -148,6 +150,7 @@
                 "hardened": "tfc:rock/hardened/chalk",
                 "karst": true,
                 "loose": "tfc:rock/loose/chalk",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/chalk",
                 "raw": "tfc:rock/raw/chalk",
                 "sand": "tfc:sand/white",
@@ -160,10 +163,11 @@
                 "hardened": "tfc:rock/hardened/chert",
                 "karst": false,
                 "loose": "tfc:rock/loose/chert",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/chert",
                 "raw": "tfc:rock/raw/chert",
-                "sand": "tfc:sand/yellow",
-                "sandstone": "tfc:raw_sandstone/yellow",
+                "sand": "tfc:sand/red",
+                "sandstone": "tfc:raw_sandstone/red",
                 "spike": "tfc:rock/spike/chert"
               },
               "claystone": {
@@ -172,6 +176,7 @@
                 "hardened": "tfc:rock/hardened/claystone",
                 "karst": false,
                 "loose": "tfc:rock/loose/claystone",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/claystone",
                 "raw": "tfc:rock/raw/claystone",
                 "sand": "tfc:sand/brown",
@@ -184,10 +189,11 @@
                 "hardened": "tfc:rock/hardened/conglomerate",
                 "karst": false,
                 "loose": "tfc:rock/loose/conglomerate",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/conglomerate",
                 "raw": "tfc:rock/raw/conglomerate",
-                "sand": "tfc:sand/green",
-                "sandstone": "tfc:raw_sandstone/green",
+                "sand": "tfc:sand/brown",
+                "sandstone": "tfc:raw_sandstone/brown",
                 "spike": "tfc:rock/spike/conglomerate"
               },
               "dacite": {
@@ -196,6 +202,7 @@
                 "hardened": "tfc:rock/hardened/dacite",
                 "karst": false,
                 "loose": "tfc:rock/loose/dacite",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/dacite",
                 "raw": "tfc:rock/raw/dacite",
                 "sand": "tfc:sand/red",
@@ -208,10 +215,11 @@
                 "hardened": "tfc:rock/hardened/diorite",
                 "karst": false,
                 "loose": "tfc:rock/loose/diorite",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/diorite",
                 "raw": "tfc:rock/raw/diorite",
-                "sand": "tfc:sand/white",
-                "sandstone": "tfc:raw_sandstone/white",
+                "sand": "tfc:sand/red",
+                "sandstone": "tfc:raw_sandstone/red",
                 "spike": "tfc:rock/spike/diorite"
               },
               "dolomite": {
@@ -220,10 +228,11 @@
                 "hardened": "tfc:rock/hardened/dolomite",
                 "karst": true,
                 "loose": "tfc:rock/loose/dolomite",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/dolomite",
                 "raw": "tfc:rock/raw/dolomite",
-                "sand": "tfc:sand/black",
-                "sandstone": "tfc:raw_sandstone/black",
+                "sand": "tfc:sand/white",
+                "sandstone": "tfc:raw_sandstone/white",
                 "spike": "tfc:rock/spike/dolomite"
               },
               "gabbro": {
@@ -232,6 +241,7 @@
                 "hardened": "tfc:rock/hardened/gabbro",
                 "karst": false,
                 "loose": "tfc:rock/loose/gabbro",
+                "mafic": true,
                 "mossy_loose": "tfc:rock/mossy_loose/gabbro",
                 "raw": "tfc:rock/raw/gabbro",
                 "sand": "tfc:sand/black",
@@ -244,10 +254,11 @@
                 "hardened": "tfc:rock/hardened/gneiss",
                 "karst": false,
                 "loose": "tfc:rock/loose/gneiss",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/gneiss",
                 "raw": "tfc:rock/raw/gneiss",
-                "sand": "tfc:sand/green",
-                "sandstone": "tfc:raw_sandstone/green",
+                "sand": "tfc:sand/yellow",
+                "sandstone": "tfc:raw_sandstone/yellow",
                 "spike": "tfc:rock/spike/gneiss"
               },
               "granite": {
@@ -256,10 +267,11 @@
                 "hardened": "tfc:rock/hardened/granite",
                 "karst": false,
                 "loose": "tfc:rock/loose/granite",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/granite",
                 "raw": "tfc:rock/raw/granite",
-                "sand": "tfc:sand/brown",
-                "sandstone": "tfc:raw_sandstone/brown",
+                "sand": "tfc:sand/yellow",
+                "sandstone": "tfc:raw_sandstone/yellow",
                 "spike": "tfc:rock/spike/granite"
               },
               "limestone": {
@@ -268,6 +280,7 @@
                 "hardened": "tfc:rock/hardened/limestone",
                 "karst": true,
                 "loose": "tfc:rock/loose/limestone",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/limestone",
                 "raw": "tfc:rock/raw/limestone",
                 "sand": "tfc:sand/white",
@@ -280,6 +293,7 @@
                 "hardened": "tfc:rock/hardened/marble",
                 "karst": true,
                 "loose": "tfc:rock/loose/marble",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/marble",
                 "raw": "tfc:rock/raw/marble",
                 "sand": "tfc:sand/white",
@@ -292,10 +306,11 @@
                 "hardened": "tfc:rock/hardened/phyllite",
                 "karst": false,
                 "loose": "tfc:rock/loose/phyllite",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/phyllite",
                 "raw": "tfc:rock/raw/phyllite",
-                "sand": "tfc:sand/brown",
-                "sandstone": "tfc:raw_sandstone/brown",
+                "sand": "tfc:sand/yellow",
+                "sandstone": "tfc:raw_sandstone/yellow",
                 "spike": "tfc:rock/spike/phyllite"
               },
               "quartzite": {
@@ -304,10 +319,11 @@
                 "hardened": "tfc:rock/hardened/quartzite",
                 "karst": false,
                 "loose": "tfc:rock/loose/quartzite",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/quartzite",
                 "raw": "tfc:rock/raw/quartzite",
-                "sand": "tfc:sand/yellow",
-                "sandstone": "tfc:raw_sandstone/yellow",
+                "sand": "tfc:sand/white",
+                "sandstone": "tfc:raw_sandstone/white",
                 "spike": "tfc:rock/spike/quartzite"
               },
               "rhyolite": {
@@ -316,10 +332,11 @@
                 "hardened": "tfc:rock/hardened/rhyolite",
                 "karst": false,
                 "loose": "tfc:rock/loose/rhyolite",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/rhyolite",
                 "raw": "tfc:rock/raw/rhyolite",
-                "sand": "tfc:sand/red",
-                "sandstone": "tfc:raw_sandstone/red",
+                "sand": "tfc:sand/yellow",
+                "sandstone": "tfc:raw_sandstone/yellow",
                 "spike": "tfc:rock/spike/rhyolite"
               },
               "schist": {
@@ -328,10 +345,11 @@
                 "hardened": "tfc:rock/hardened/schist",
                 "karst": false,
                 "loose": "tfc:rock/loose/schist",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/schist",
                 "raw": "tfc:rock/raw/schist",
-                "sand": "tfc:sand/green",
-                "sandstone": "tfc:raw_sandstone/green",
+                "sand": "tfc:sand/yellow",
+                "sandstone": "tfc:raw_sandstone/yellow",
                 "spike": "tfc:rock/spike/schist"
               },
               "shale": {
@@ -340,10 +358,11 @@
                 "hardened": "tfc:rock/hardened/shale",
                 "karst": false,
                 "loose": "tfc:rock/loose/shale",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/shale",
                 "raw": "tfc:rock/raw/shale",
-                "sand": "tfc:sand/black",
-                "sandstone": "tfc:raw_sandstone/black",
+                "sand": "tfc:sand/brown",
+                "sandstone": "tfc:raw_sandstone/brown",
                 "spike": "tfc:rock/spike/shale"
               },
               "slate": {
@@ -352,11 +371,25 @@
                 "hardened": "tfc:rock/hardened/slate",
                 "karst": false,
                 "loose": "tfc:rock/loose/slate",
+                "mafic": false,
                 "mossy_loose": "tfc:rock/mossy_loose/slate",
                 "raw": "tfc:rock/raw/slate",
-                "sand": "tfc:sand/brown",
-                "sandstone": "tfc:raw_sandstone/brown",
+                "sand": "tfc:sand/yellow",
+                "sandstone": "tfc:raw_sandstone/yellow",
                 "spike": "tfc:rock/spike/slate"
+              },
+              "tuff": {
+                "cobble": "tfc:rock/cobble/tuff",
+                "gravel": "tfc:rock/gravel/tuff",
+                "hardened": "tfc:rock/hardened/tuff",
+                "karst": false,
+                "loose": "tfc:rock/loose/tuff",
+                "mafic": false,
+                "mossy_loose": "tfc:rock/mossy_loose/tuff",
+                "raw": "tfc:rock/raw/tuff",
+                "sand": "tfc:sand/green",
+                "sandstone": "tfc:raw_sandstone/green",
+                "spike": "tfc:rock/spike/tuff"
               }
             },
             "uplift": [
