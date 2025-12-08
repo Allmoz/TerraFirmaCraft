@@ -1,8 +1,8 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "parent": "tfc:block/cube_all_tinted_overlay",
+  "parent": "tfc:block/sparse_leaves",
   "textures": {
-    "tinted_overlay": "tfc:block/wood/leaves/sparse_leaves/acacia",
-    "base": "tfc:block/wood/leaves/bare/acacia"
+    "leaves": "tfc:block/wood/leaves/sparse_leaves/acacia",
+    "cross": "tfc:block/wood/leaves/bare/acacia"
   }
 }

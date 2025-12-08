@@ -1854,13 +1854,14 @@ def generate(rm: ResourceManager):
         if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
             rm.block_model('wood/leaves/sparse_leaves/%s' % wood, {
                 'side': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood,
-                'end': 'tfc:block/wood/leaves/sparse_leaves/%s_top' % wood
-            }, parent='tfc:block/tinted_column')
+                'end': 'tfc:block/wood/leaves/sparse_leaves/%s_top' % wood,
+                'cross': 'tfc:block/wood/leaves/bare/%s' % wood
+            }, parent='tfc:block/sparse_leaves_column')
         else:
             rm.block_model('wood/leaves/sparse_leaves/%s' % wood, textures={
-                'tinted_overlay': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood,
-                'base': 'tfc:block/wood/leaves/bare/%s' % wood
-            }, parent='tfc:block/cube_all_tinted_overlay')
+                'leaves': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood,
+                'cross': 'tfc:block/wood/leaves/bare/%s' % wood
+            }, parent='tfc:block/sparse_leaves')
 
         # Bare - No tint, cross model
         rm.block_model('wood/leaves/bare/%s' % wood, {'cross': 'tfc:block/wood/leaves/bare/%s' % wood}, parent='block/cross')
@@ -1875,8 +1876,11 @@ def generate(rm: ResourceManager):
         }, parent='tfc:block/cube_all_tinted_base')
 
         # Blooming - No tint
-        rm.block_model('wood/leaves/blooming/%s' % wood, 'tfc:block/wood/leaves/blooming/%s' % wood, parent='block/cube_all')
-
+        rm.block_model('wood/leaves/blooming/%s' % wood, textures={
+            'leaves': 'tfc:block/wood/leaves/blooming/%s' % wood,
+            'cross': 'tfc:block/wood/leaves/bare/%s' % wood
+        }, parent='tfc:block/blooming_leaves')
+        
         block.with_item_model()
 
         block.with_block_loot(
