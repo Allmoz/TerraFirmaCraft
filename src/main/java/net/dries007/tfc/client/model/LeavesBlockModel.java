@@ -86,7 +86,7 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
      */
     private BakedModel getModelFromBlockState(@Nullable BlockState state, @Nullable BlockPos pos)
     {
-        // TODO: Should add a check here to use the old system if you have fast graphics. Would need to keep winter foliage map around for this to work, though
+        // TODO: Should maybe add a check here to use the old system if you have fast graphics. Would need to keep winter foliage map around for this to work, though
 
         // Checks whether the tree species has a flowering stage
         final boolean flowers;
