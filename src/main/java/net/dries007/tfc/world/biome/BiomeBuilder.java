@@ -45,6 +45,7 @@ public class BiomeBuilder
     private boolean salty;
     private boolean hasCinderCones;
     private boolean hasTuyas;
+    private boolean hasStratovolcanoes;
     private boolean hasTuffRings;
     private int centeredFeatureFrequency;
     private int centeredFeatureRockHeight;
@@ -69,6 +70,7 @@ public class BiomeBuilder
         salty = false;
         hasCinderCones = false;
         hasTuffRings = false;
+        hasStratovolcanoes = false;
         hasTuyas = false;
         centeredFeatureIce = false;
         centeredFeatureFrequency = 0;
@@ -211,6 +213,16 @@ public class BiomeBuilder
         return this;
     }
 
+    public BiomeBuilder stratovolcanoes(int frequency, int baseHeight, int scaleHeight)
+    {
+        this.hasStratovolcanoes = true;
+        this.centeredFeatureFrequency = frequency;
+        this.centeredFeatureBaseHeight = baseHeight;
+        this.centeredFeatureScaleHeight = scaleHeight;
+
+        return this;
+    }
+
     public BiomeBuilder tuyas(int frequency, int baseHeight, int scaleHeight, int tuyaBasaltHeight, boolean icy)
     {
         this.hasTuyas = true;
@@ -227,6 +239,6 @@ public class BiomeBuilder
     {
         assert surfaceBuilderFactory != null : "missing surface builder";
 
-        return new BiomeExtension(key, noiseFactory, surfaceBuilderFactory, aquiferSurfaceHeight, biomeBlendType, riverBlendType, shoreBlendType, salty, hasCinderCones, hasTuffRings, hasTuyas, centeredFeatureFrequency, centeredFeatureRockHeight, centeredFeatureBaseHeight, centeredFeatureScaleHeight, centeredFeatureIce, spawnable, rivers, shore, shoreBaseHeight, sandyRiverShores);
+        return new BiomeExtension(key, noiseFactory, surfaceBuilderFactory, aquiferSurfaceHeight, biomeBlendType, riverBlendType, shoreBlendType, salty, hasCinderCones, hasTuffRings, hasTuyas, hasStratovolcanoes, centeredFeatureFrequency, centeredFeatureRockHeight, centeredFeatureBaseHeight, centeredFeatureScaleHeight, centeredFeatureIce, spawnable, rivers, shore, shoreBaseHeight, sandyRiverShores);
     }
 }

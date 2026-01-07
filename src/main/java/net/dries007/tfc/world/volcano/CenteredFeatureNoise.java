@@ -394,5 +394,106 @@ public class CenteredFeatureNoise
         };
     }
 
+    public static CenteredFeatureNoiseSampler stratovolcano(Seed seed)
+    {
+        return new CenteredFeatureNoiseSampler()
+        {
+            final Cellular2D cellNoise = new Cellular2D(seed.seed()).spread(0.0017f);
 
+            @Override
+            public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)
+            {
+                Cellular2D.Cell cell = cellNoise.cell(x, z);
+                final BiomeExtension biome = biomeSource.getBiomeExtension(QuartPos.fromBlock((int) cell.x()), QuartPos.fromBlock((int) cell.y()));
+                if (biome.hasStratovolcanoes())
+                {
+                    final int rarity = biome.getCenteredFeatureRarity();
+                    if (checkCellRarity(cell, rarity))
+                    {
+                        return modifyHeight(cell, x, z, biome, heightIn);
+                    }
+                }
+                return ChunkHeightFiller.NOT_PRESENT_RETURN;
+            }
+
+            public BiomeExtension getCenterBiome(int x, int z, BiomeSourceExtension biomeSource)
+            {
+                Cellular2D.Cell cell = cellNoise.cell(x, z);
+                return biomeSource.getBiomeExtension(QuartPos.fromBlock((int) cell.x()), QuartPos.fromBlock((int) cell.y()));
+            }
+
+            /**
+             * Calculate the closeness value to a volcano, in the range [0, 1]. 1 = Center of a volcano, 0 = Nowhere near.
+             */
+            public float calculateEasing(int x, int z, int rarity)
+            {
+                final Cellular2D.Cell cell = cellNoise.cell(x, z);
+                if (checkCellRarity(cell, rarity))
+                {
+                    return calculateClampedEasing((float) cell.f1());
+                }
+                return 0;
+            }
+
+            private double modifyHeight(Cellular2D.Cell cell, int x, int z, BiomeExtension biome, double heightIn)
+            {
+                final double f1 = cell.f1();
+                final double easing = Mth.clamp(calculateEasing((float) f1), 0, 1);
+                final double shape = calculateShape(1 - easing);
+                final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight();
+                final double volcanoHeight = (SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight() + volcanoAdditionalHeight);
+                final double weight = 10f * Mth.clamp((float) cell.f2() - f1, 0f, 0.1f);
+                return Mth.lerp(easing * weight, heightIn, (0.2 * volcanoHeight + 0.8 * Math.max(volcanoHeight, heightIn + 0.6f * volcanoAdditionalHeight)));
+
+            }
+
+            private static float calculateEasing(float f1)
+            {
+                return Mth.map(f1, 0, 0.23f, 1, 0);
+            }
+
+            private static float calculateClampedEasing(float f1)
+            {
+                return Mth.clamp(calculateEasing(f1), 0, 1);
+            }
+
+            /**
+             * @param t The unscaled square distance from the volcano, roughly in [0, 1.2]
+             * @return A noise function determining the volcano's height at any given position, in the range [0, 1]
+             */
+            private static double calculateShape(double t)
+            {
+                if (t > 0.025)
+                {
+                    return (5 / (9 * t + 1) - 0.5) * 0.279173646008;
+                }
+                else
+                {
+                    double a = (t * 9 + 0.05);
+                    return (8 * a * a + 2.97663265306) * 0.279173646008;
+                }
+            }
+
+            @Override
+            public boolean isValidBiome(BiomeExtension biome)
+            {
+                return biome.hasStratovolcanoes();
+            }
+
+            /**
+             * Calculate the center of the nearest volcano, if one exists, to the given x, z, at the given y.
+             */
+            @Override
+            @Nullable
+            public BlockPos calculateCenter(int x, int y, int z, int rarity)
+            {
+                final Cellular2D.Cell cell = cellNoise.cell(x, z);
+                if (checkCellRarity(cell, rarity))
+                {
+                    return new BlockPos((int) cell.x(), y, (int) cell.y());
+                }
+                return null;
+            }
+        };
+    }
 }
