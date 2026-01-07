@@ -440,7 +440,8 @@ public class CenteredFeatureNoise
                 final double f1 = cell.f1();
                 final double easing = Mth.clamp(calculateEasing((float) f1), 0, 1);
                 final double shape = calculateShape(1 - easing);
-                final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight();
+                final double radialShape = calculateRadialShape(cell);
+                final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight() + radialShape * Mth.clampedMap(f1, 0, 0.025, 0, 20);
                 final double volcanoHeight = (SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight() + volcanoAdditionalHeight);
                 final double weight = 10f * Mth.clamp((float) cell.f2() - f1, 0f, 0.1f);
                 return Mth.lerp(easing * weight, heightIn, (0.2 * volcanoHeight + 0.8 * Math.max(volcanoHeight, heightIn + 0.6f * volcanoAdditionalHeight)));
@@ -463,15 +464,24 @@ public class CenteredFeatureNoise
              */
             private static double calculateShape(double t)
             {
-                if (t > 0.025)
+                if (t > 0.0125)
                 {
-                    return (5 / (9 * t + 1) - 0.5) * 0.279173646008;
+                    return (5 / (18 * t + 1) - 0.5) * 0.279173646008;
                 }
                 else
                 {
-                    double a = (t * 9 + 0.05);
+                    double a = ((t + 0.0125) * 9 + 0.05);
                     return (8 * a * a + 2.97663265306) * 0.279173646008;
                 }
+            }
+
+            private static double calculateRadialShape(Cellular2D.Cell cell)
+            {
+                final double a = cell.angle();
+                final double noise = Math.abs(100 * cell.noise() % 1);
+                final int ridges = (int) (noise * 10) + 3;
+
+                return Math.abs((a * ridges % 4) - 2) * (1 - noise * 0.5);
             }
 
             @Override
