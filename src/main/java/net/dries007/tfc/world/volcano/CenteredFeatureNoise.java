@@ -444,7 +444,7 @@ public class CenteredFeatureNoise
                 final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight() + radialShape * Mth.clampedMap(f1, 0, 0.025, 0, 20);
                 final double volcanoHeight = (SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight() + volcanoAdditionalHeight);
                 final double weight = 10f * Mth.clamp((float) cell.f2() - f1, 0f, 0.1f);
-                return Mth.lerp(easing * weight, heightIn, (0.2 * volcanoHeight + 0.8 * Math.max(volcanoHeight, heightIn + 0.6f * volcanoAdditionalHeight)));
+                return Mth.lerp(easing * weight, heightIn, volcanoHeight);
 
             }
 

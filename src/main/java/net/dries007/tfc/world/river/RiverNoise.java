@@ -43,6 +43,12 @@ public final class RiverNoise
             @Override
             public double noise(int y, double noiseIn)
             {
+                // Note that the height here is not the final terrain height, but rather the terrain height at the time river noise is being calculated
+                // This if statement will carve a cave roof that is symmetrical to the river floor, and always tall enough to boat through
+                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                {
+                    return 1;
+                }
                 return y > height ? 0 : noiseIn;
             }
         };
@@ -73,6 +79,12 @@ public final class RiverNoise
             @Override
             public double noise(int y, double noiseIn)
             {
+                // Note that the height here is not the final terrain height, but rather the terrain height at the time river noise is being calculated
+                // This if statement will carve a cave roof that is symmetrical to the river floor, and always tall enough to boat through
+                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                {
+                    return 1;
+                }
                 return y > height ? 0 : noiseIn;
             }
         };
@@ -109,10 +121,16 @@ public final class RiverNoise
 
                 return height = Math.min(riverHeight, heightIn);
             }
-
+            
             @Override
             public double noise(int y, double noiseIn)
             {
+                // Note that the height here is not the final terrain height, but rather the terrain height at the time river noise is being calculated
+                // This if statement will carve a cave roof that is symmetrical to the river floor, and always tall enough to boat through
+                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                {
+                    return 1;
+                }
                 return y > height ? 0 : noiseIn;
             }
         };
@@ -141,6 +159,12 @@ public final class RiverNoise
             @Override
             public double noise(int y, double noiseIn)
             {
+                // Note that the height here is not the final terrain height, but rather the terrain height at the time river noise is being calculated
+                // This if statement will carve a cave roof that is symmetrical to the river floor, and always tall enough to boat through
+                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                {
+                    return 1;
+                }
                 return y > height ? 0 : noiseIn;
             }
         };
@@ -169,6 +193,12 @@ public final class RiverNoise
             @Override
             public double noise(int y, double noiseIn)
             {
+                // Note that the height here is not the final terrain height, but rather the terrain height at the time river noise is being calculated
+                // This if statement will carve a cave roof that is symmetrical to the river floor, and always tall enough to boat through
+                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                {
+                    return 1;
+                }
                 return y > height ? 0 : noiseIn;
             }
         };
@@ -199,6 +229,12 @@ public final class RiverNoise
             @Override
             public double noise(int y, double noiseIn)
             {
+                // Note that the height here is not the final terrain height, but rather the terrain height at the time river noise is being calculated
+                // This if statement will carve a cave roof that is symmetrical to the river floor, and always tall enough to boat through
+                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                {
+                    return 1;
+                }
                 return y > height ? 0 : noiseIn;
             }
         };
@@ -213,6 +249,7 @@ public final class RiverNoise
             final Noise2D distNoise = new OpenSimplex2D(seed.next()).octaves(4).spread(0.05f).scaled(-0.3f, 0.2f);
             final Noise3D cliffNoise = new OpenSimplex3D(seed.next()).octaves(2).spread(0.1f).scaled(0, 3);
 
+            double height;
             private double distFac; // 0 ~ center of river, 1 ~ distant from river
             private int x, z;
 
@@ -231,12 +268,17 @@ public final class RiverNoise
                 this.x = x;
                 this.z = z;
 
-                return Math.min(riverHeight, heightIn);
+                height = Math.min(riverHeight, heightIn);
+                return height;
             }
 
             @Override
             public double noise(int y, double noiseIn)
             {
+                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                {
+                    return 1;
+                }
                 return Mth.clampedLerp(rawNoise(y), noiseIn, distFac);
             }
 
@@ -293,6 +335,12 @@ public final class RiverNoise
             @Override
             public double noise(int y, double noiseIn)
             {
+                // Note that the height here is not the final terrain height, but rather the terrain height at the time river noise is being calculated
+                // This if statement will carve a cave roof that is symmetrical to the river floor, and always tall enough to boat through
+                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                {
+                    return 1;
+                }
                 return y > height ? 0 : noiseIn;
             }
         };
@@ -331,6 +379,12 @@ public final class RiverNoise
             @Override
             public double noise(int y, double noiseIn)
             {
+                // Note that the height here is not the final terrain height, but rather the terrain height at the time river noise is being calculated
+                // This if statement will carve a cave roof that is symmetrical to the river floor, and always tall enough to boat through
+                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                {
+                    return 1;
+                }
                 return y > height ? 0 : noiseIn;
             }
         };
@@ -344,7 +398,7 @@ public final class RiverNoise
             final Noise2D carvingCenterNoise = new OpenSimplex2D(seed.next()).octaves(2).spread(0.02f).scaled(SEA_LEVEL_Y - 3, SEA_LEVEL_Y + 3);
             final Noise2D carvingHeightNoise = new OpenSimplex2D(seed.next()).octaves(4).spread(0.15f).scaled(8, 14);
 
-            double distSquared, weight, height, carvingHeight, carvingCenter;
+            double distSquared, weight, height, carvingHeight, carvingCenter, canyonHeight;
 
             @Override
             public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
@@ -354,6 +408,8 @@ public final class RiverNoise
                 height = heightIn;
                 carvingHeight = carvingHeightNoise.noise(x, z);
                 carvingCenter = carvingCenterNoise.noise(x, z);
+                // The height returned by the tall canyon noise function
+                canyonHeight = 55 + info.normDistSq() * 1.3 * 16;
 
                 final double maxHeight = carvingCenter + carvingHeight; // The maximum height of the river tunnel. Any surface height above a cave must only occur above this value.
 
@@ -364,7 +420,7 @@ public final class RiverNoise
                 }
                 else
                 {
-                    final double canyonMaxHeight = Math.min(55 + info.normDistSq() * 1.3 * 16, heightIn);
+                    final double canyonMaxHeight = Math.min(canyonHeight, heightIn);
                     if (caveWeight > 0.5) // Blended cave + exterior carver
                     {
                         final double interiorHeight = Mth.map(caveWeight, 0.5, 0.75, Math.min(maxHeight, heightIn), heightIn);
@@ -383,6 +439,13 @@ public final class RiverNoise
             @Override
             public double noise(int y, double noiseIn)
             {
+                // This if statement will carve a cave roof that is symmetrical to the river floor, ensuring a minimum profile to boat through
+                // Really only needed to deal with volcanoes that occur right at a cave-carver transition
+                if (canyonHeight < SEA_LEVEL_Y && y > canyonHeight && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - canyonHeight))
+                {
+                    return 1;
+                }
+
                 double vertDistance = (y - carvingCenter) / carvingHeight;
                 // Create a cave mouth
                 if (vertDistance > 0)

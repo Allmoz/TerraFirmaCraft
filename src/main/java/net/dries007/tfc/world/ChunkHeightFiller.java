@@ -199,8 +199,6 @@ public class ChunkHeightFiller
 
         assert biomeAt != null;
 
-        height = adjustHeightForVolcanic(height);
-
         computeInitialRiverWeights(biomeWeights);
 
         final double initialCaveWeight = adjustWeightsForRiverCaves();
@@ -208,9 +206,27 @@ public class ChunkHeightFiller
 
         height = adjustHeightForRiverContributions(height, info, initialCaveWeight);
 
+        final double preVolcanicHeight = height;
+
+        // Centered features (volcanoes) are last to override rivers and beaches
+        height = adjustHeightForVolcanic(height);
+
+        // The minimum depth below the surface that noise (excluding river noise) should not be allowed to carve
+        // Typically 0, allowing carving anywhere, but where centered noise features (volcanoes) elevate the terrain the surface is guaranteed to be intact to some depth
+        final double volcanoHeightDelta = height - preVolcanicHeight;
+        final int surfaceIntegrityDepth;
+        if (volcanoHeightDelta > 0)
+        {
+            surfaceIntegrityDepth = (int) volcanoHeightDelta * 3;
+        }
+        else
+        {
+            surfaceIntegrityDepth = 0;
+        }
+
         if (useCache)
         {
-            updateLocalCaches(biomeWeights, biomeAt, info, height, anySaltyBiomesNearby);
+            updateLocalCaches(biomeWeights, biomeAt, info, height, anySaltyBiomesNearby, surfaceIntegrityDepth);
         }
 
         return height;
@@ -352,7 +368,7 @@ public class ChunkHeightFiller
         return volcanoHeight == NOT_PRESENT_RETURN ? heightIn : volcanoHeight;
     }
 
-    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height, boolean couldBeSalty) {}
+    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height, boolean couldBeSalty, int surfaceIntegrityDepth) {}
 
     @Nullable
     protected RiverInfo sampleRiverInfo(boolean useCache)
