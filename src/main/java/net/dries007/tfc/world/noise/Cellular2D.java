@@ -71,11 +71,11 @@ public class Cellular2D implements Noise2D
         double distance0 = Double.MAX_VALUE;
         double distance1 = Double.MAX_VALUE;
         double angle0 = -1;
-        double closestCenterX = 0;
-        double closestCenterY = 0;
+        double thisCenterX = 0;
+        double thisCenterY = 0;
         int closestHash = 0;
-        int closestCellX = 0;
-        int closestCellY = 0;
+        int neighborCenterX = 0;
+        int neighborCenterY = 0;
 
         int xPrimed = (xr - 1) * primeX;
         int yPrimedBase = (yr - 1) * primeY;
@@ -105,17 +105,17 @@ public class Cellular2D implements Noise2D
                     closestHash = hash;
 
                     // Store the last computed centers
-                    closestCenterX = vecX; // Cell 1 X
-                    closestCenterY = vecY; // Cell 1 Y
-                    closestCellX = xi; // Cell 2 X
-                    closestCellY = yi; // Cell 2 Y
+                    thisCenterX = vecX; // Cell 1 X
+                    thisCenterY = vecY; // Cell 1 Y
+                    neighborCenterX = xi; // Cell 2 X
+                    neighborCenterY = yi; // Cell 2 Y
                 }
                 yPrimed += primeY;
             }
             xPrimed += primeX;
         }
 
-        return new Cell(closestCenterX / frequency, closestCenterY / frequency, closestCellX, closestCellY, distance0, distance1, closestHash * (1 / 2147483648.0f), angle0);
+        return new Cell(thisCenterX / frequency, thisCenterY / frequency, neighborCenterX, neighborCenterY, distance0, distance1, closestHash * (1 / 2147483648.0f), angle0);
     }
 
     /**

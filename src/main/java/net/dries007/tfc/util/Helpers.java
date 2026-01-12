@@ -1506,6 +1506,35 @@ public final class Helpers
     }
 
     /**
+     * Returns a y-value on a hyperbolic curve that intersects the x and y axes at the specified locations
+     */
+    public static double hyperbolicSection(double x, double xIntercept, double yIntercept)
+    {
+        return yIntercept * ((2 / (x / xIntercept + 1)) - 1);
+    }
+
+    /**
+     * Returns a new random double in the range [0, 1)
+     * @param input a double in the range [-1, 1]
+     * @param index an index for getting multiple values from one double
+     */
+    public static double hashDouble(double input, int index)
+    {
+        long inputBits = Double.doubleToLongBits(input);
+        long x = mix64(inputBits + index);
+        return (x >>> 11) * 0x1.0p-53;
+    }
+
+    public static long mix64(long x) {
+        x ^= x >>> 33;
+        x *= 0xff51afd7ed558ccdL;
+        x ^= x >>> 33;
+        x *= 0xc4ceb9fe1a85ec53L;
+        x ^= x >>> 33;
+        return x;
+    }
+
+    /**
      * Checks the existence of a <a href="https://en.wikipedia.org/wiki/Perfect_matching">perfect matching</a> of a <a href="https://en.wikipedia.org/wiki/Bipartite_graph">bipartite graph</a>.
      * The graph is interpreted as the matches between the set of inputs, and the set of tests.
      * This algorithm computes the <a href="https://en.wikipedia.org/wiki/Edmonds_matrix">Edmonds Matrix</a> of the graph, which has the property that the determinant is identically zero iff the graph does not admit a perfect matching.

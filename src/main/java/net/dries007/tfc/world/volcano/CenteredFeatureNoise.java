@@ -130,6 +130,15 @@ public class CenteredFeatureNoise
                 return biome.hasCinderCones();
             }
 
+            public double maxSafeDiameter(Cellular2D.Cell cell, int x, int z)
+            {
+                // This step is necessary because the exact center of a cell is not aligned with the exact center of a block
+                // Which causes the sampled position to be on one side of the center, and potentially closer to a different cell
+                final int deltaX = x - (int) cell.x();
+                final int deltaZ = z - (int) cell.y();
+                return cellNoise.cell(Math.signum(deltaX), Math.signum(deltaZ)).f2();
+            }
+
             /**
              * Calculate the center of the nearest volcano, if one exists, to the given x, z, at the given y.
              */
@@ -138,7 +147,7 @@ public class CenteredFeatureNoise
             public BlockPos calculateCenter(int x, int y, int z, int rarity)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, rarity) & maxSafeDiameter(cell, x, z) > 0.46)
                 {
                     return new BlockPos((int) cell.x(), y, (int) cell.y());
                 }
@@ -398,7 +407,8 @@ public class CenteredFeatureNoise
     {
         return new CenteredFeatureNoiseSampler()
         {
-            final Cellular2D cellNoise = new Cellular2D(seed.seed()).spread(0.0017f);
+            final Cellular2D cellNoise = new Cellular2D(seed.seed()).spread(0.0024f);
+            final double verticalScale = 1.3;
 
             @Override
             public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)
@@ -437,14 +447,52 @@ public class CenteredFeatureNoise
 
             private double modifyHeight(Cellular2D.Cell cell, int x, int z, BiomeExtension biome, double heightIn)
             {
+                double noise = cell.noise();
                 final double f1 = cell.f1();
-                final double easing = Mth.clamp(calculateEasing((float) f1), 0, 1);
-                final double shape = calculateShape(1 - easing);
-                final double radialShape = calculateRadialShape(cell);
-                final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight() + radialShape * Mth.clampedMap(f1, 0, 0.025, 0, 20);
+
+                // We start by determining the diameter and height of the cone
+                // Note that apex heights are scaled to equal the actual diameter of the feature
+                // TODO: Scale differently relative to radius if needed
+                double maxDiameter = Math.min(1, maxSafeDiameter(cell));
+                final double remnantApexHeight = 0.5 * (1 + Helpers.hashDouble(noise, 1)) * maxDiameter;
+                final double activeApexHeight = 0.5 * (1 + Helpers.hashDouble(noise, 2)) * maxDiameter;
+
+                // Then we set up our polar coordinate system
+                final double a0 = cell.angle(); // Angle, range [0, 4]
+                final double r0; // Radius, range [0, 1]
+                final double shape; // The output height, domain [0, 1]
+
+                if (activeApexHeight > remnantApexHeight)
+                {
+                    // Simple cone
+                    r0 = Mth.map(f1, 0, activeApexHeight / 2, 0, 1);
+                    final double craterSize = 0.05 + 0.15 * Helpers.hashDouble(noise, 10);
+                    shape = activeApexHeight * calculateSimpleRadialShape(r0, craterSize) * verticalScale;
+                }
+                else
+                {
+                    // Active cone inside a remnant cone with some degree of integrity
+                    // TODO: Trouble right now with this is that the remnant cone can be *way* larger than the active cone, obscuring it completely
+
+                    // r0 is 1 at the edge of remnant cone, as that is the very edge of the function
+                    r0 = Mth.map(f1, 0, remnantApexHeight / 2, 0, 1);
+
+                    // r1 is 1 at the edge of the active cone, and it is most readable to have this as a separate coordinate system
+                    final double r1Scale = remnantApexHeight / activeApexHeight;
+                    final double r1 = r0 * r1Scale;
+
+                    final double activeCraterSize = 0.03 + 0.12 * Helpers.hashDouble(noise, 20);
+                    final double remnantCraterSize = Math.min(2 * activeCraterSize, 0.8 * Helpers.hashDouble(noise, 21));
+                    final double activeShape = activeApexHeight * calculateSimpleRadialShape(r1, activeCraterSize) * verticalScale;
+                    final double remnantShape = remnantApexHeight * calculateSimpleRadialShape(r0, remnantCraterSize * verticalScale);
+                    shape = Math.max(activeShape, remnantShape);
+                }
+
+                 final double radialShape = calculateCircumferentialShape(cell);
+
+                final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight() + radialShape * Mth.clampedMap(f1, 0, 0.025, 0, 8);
                 final double volcanoHeight = (SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight() + volcanoAdditionalHeight);
-                final double weight = 10f * Mth.clamp((float) cell.f2() - f1, 0f, 0.1f);
-                return Mth.lerp(easing * weight, heightIn, volcanoHeight);
+                return Math.max(heightIn, volcanoHeight);
 
             }
 
@@ -459,29 +507,50 @@ public class CenteredFeatureNoise
             }
 
             /**
-             * @param t The unscaled square distance from the volcano, roughly in [0, 1.2]
+             * @param rIn The scaled square distance from the volcano, from 0 at center to 1 at edge of influence
+             * @param rCrater The radius of the crater
              * @return A noise function determining the volcano's height at any given position, in the range [0, 1]
              */
-            private static double calculateShape(double t)
+            private static double calculateSimpleRadialShape(double rIn, double rCrater)
             {
-                if (t > 0.0125)
+                final double r = Math.sqrt(rIn);
+                if (r >= 1)
                 {
-                    return (5 / (18 * t + 1) - 0.5) * 0.279173646008;
+                    return 0;
+                }
+                else if (r > rCrater)
+                {
+                    return Helpers.hyperbolicSection(r - rCrater, 1 - rCrater, 1);
                 }
                 else
                 {
-                    double a = ((t + 0.0125) * 9 + 0.05);
-                    return (8 * a * a + 2.97663265306) * 0.279173646008;
+                    double craterBaseHeight = 1 - 2 * rCrater;
+                    return Helpers.hyperbolicSection(rCrater - r, rCrater, 2 * rCrater) + craterBaseHeight;
                 }
             }
 
-            private static double calculateRadialShape(Cellular2D.Cell cell)
+            private static double calculateCircumferentialShape(Cellular2D.Cell cell)
             {
                 final double a = cell.angle();
-                final double noise = Math.abs(100 * cell.noise() % 1);
+                final double noise = Helpers.hashDouble(cell.noise(), 213);
                 final int ridges = (int) (noise * 10) + 3;
 
-                return Math.abs((a * ridges % 4) - 2) * (1 - noise * 0.5);
+                final double erosion = (2 - noise);
+                final double fluvialShape = Math.abs((a * ridges % 2) - 1);
+//                final double glacialShape = fluvialShape * fluvialShape; // TODO:
+
+                return (fluvialShape - 1) * erosion;
+            }
+
+            public double maxSafeDiameter(Cellular2D.Cell cell)
+            {
+                // This step is necessary because the exact center of a cell is not aligned with the exact center of a block
+                // Which causes the sampled position to be on one side of the center, and potentially closer to a different cell
+                double f2 = Math.min(cellNoise.cell(cell.x() + 1, cell.y()).f2(), cellNoise.cell(cell.x() - 1, cell.y()).f2());
+                f2 = Math.min(f2, cellNoise.cell(cell.x(), cell.y() + 1).f2());
+                f2 = Math.min(f2, cellNoise.cell(cell.x(), cell.y() - 1).f2());
+
+                return f2;
             }
 
             @Override
