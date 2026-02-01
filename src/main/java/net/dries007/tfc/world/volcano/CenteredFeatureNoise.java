@@ -271,13 +271,13 @@ public class CenteredFeatureNoise
     private static double getGapVerticalEasing(Cellular2D.Cell cell)
     {
         // Gap size from 0 to 2
-        final double gapSize = ((1 + cell.noise()) * 100) % 1;
+        final double gapSize = 2 * Helpers.hashDouble(cell.noise(), 112);
 
         // Only adjust this if a gap should exist at all
         double gapVerticalEasing = 1;
         if (gapSize > 0)
         {
-            final double aGap = 4 * (Math.abs(cell.noise() * 10000) % 1);
+            final double aGap = 4 * Helpers.hashDouble(cell.noise(), 113);
             final double a1 = cell.angle();
             final double angleToGap = Math.abs(a1 - aGap);
             // If angle to gap is larger than the gap size, we are far from the gap and can skip calculations
@@ -459,14 +459,15 @@ public class CenteredFeatureNoise
 
                 // Then we set up our polar coordinate system
                 final double a0 = cell.angle(); // Angle, range [0, 4]
-                final double r0; // Radius, range [0, 1]
+                final double r0; // Radius squared, range [0, 1]
                 final double shape; // The output height, domain [0, 1]
+                double craterSize;
 
                 if (activeApexHeight > remnantApexHeight)
                 {
                     // Simple cone
                     r0 = Mth.map(f1, 0, activeApexHeight / 2, 0, 1);
-                    final double craterSize = 0.05 + 0.15 * Helpers.hashDouble(noise, 10);
+                    craterSize = 0.05 + 0.15 * Helpers.hashDouble(noise, 10);
                     shape = activeApexHeight * calculateSimpleRadialShape(r0, craterSize) * verticalScale;
                 }
                 else
@@ -482,13 +483,23 @@ public class CenteredFeatureNoise
                     final double r1 = r0 * r1Scale;
 
                     final double activeCraterSize = 0.03 + 0.12 * Helpers.hashDouble(noise, 20);
-                    final double remnantCraterSize = Math.min(2 * activeCraterSize, 0.8 * Helpers.hashDouble(noise, 21));
+                    craterSize = Math.min(2 * activeCraterSize, 0.8 * Helpers.hashDouble(noise, 21));
                     final double activeShape = activeApexHeight * calculateSimpleRadialShape(r1, activeCraterSize) * verticalScale;
-                    final double remnantShape = remnantApexHeight * calculateSimpleRadialShape(r0, remnantCraterSize * verticalScale);
+                    double remnantShape = remnantApexHeight * calculateSimpleRadialShape(r0, craterSize) * verticalScale;
+
+                    // TODO: This next loop notably doesnt seem to work
+                    // Add up to 3 gaps in the remnant cone
+                    final double gapCountInput = Helpers.hashDouble(noise, 30); // Inversely correlated to size of gap
+                    for (int i = Math.max(0, (int) (5.5 * gapCountInput) - 2); i > 0; i--)
+                    {
+                        remnantShape *= getGapVerticalEasing((2 - gapCountInput) * Helpers.hashDouble(noise, 100 + i), a0, 4 * Helpers.hashDouble(noise, 200 + i));
+                        i--;
+                    }
                     shape = Math.max(activeShape, remnantShape);
+
                 }
 
-                 final double radialShape = calculateCircumferentialShape(cell);
+                final double radialShape = calculateCircumferentialErosion(cell, craterSize);
 
                 final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight() + radialShape * Mth.clampedMap(f1, 0, 0.025, 0, 8);
                 final double volcanoHeight = (SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight() + volcanoAdditionalHeight);
@@ -529,8 +540,9 @@ public class CenteredFeatureNoise
                 }
             }
 
-            private static double calculateCircumferentialShape(Cellular2D.Cell cell)
+            private static double calculateCircumferentialErosion(Cellular2D.Cell cell, double craterSize)
             {
+                final double craterSize2 = craterSize * craterSize;
                 final double a = cell.angle();
                 final double noise = Helpers.hashDouble(cell.noise(), 213);
                 final int ridges = (int) (noise * 10) + 3;
@@ -539,7 +551,35 @@ public class CenteredFeatureNoise
                 final double fluvialShape = Math.abs((a * ridges % 2) - 1);
 //                final double glacialShape = fluvialShape * fluvialShape; // TODO:
 
-                return (fluvialShape - 1) * erosion;
+                final double easing = Mth.clampedMap(cell.f1(), craterSize2, Math.min(1, craterSize2 + 0.012), 0, 1);
+
+                return (fluvialShape - 1) * erosion * easing;
+            }
+
+            /**
+             * Method for adding a single gap to a cellular feature at a random angle
+             * @param gapSize size of the gap in diamond angle units
+             * @param a1 angle of this position
+             * @param aGap angle of the gap
+             * @return a value ranging from 1 far from the gap, to 0 in the middle of a large gap
+             */
+            private static double getGapVerticalEasing(double gapSize, double a1, double aGap)
+            {
+                // Only adjust this if a gap should exist at all
+                double gapVerticalEasing = 1;
+                if (gapSize > 0)
+                {
+                    final double angleToGap = Math.abs(a1 - aGap);
+                    // If angle to gap is larger than the gap size, we are far from the gap and can skip calculations
+                    if (angleToGap < gapSize)
+                    {
+                        final double angleToGapEdge = Math.abs(Math.min(angleToGap + gapSize, angleToGap - gapSize));
+
+                        // Gap scale should be lowest at the center of the gap
+                        gapVerticalEasing = Mth.clampedMap(angleToGapEdge, 0, Math.max(0.3, 0.6 * gapSize), 1, 0);
+                    }
+                }
+                return gapVerticalEasing;
             }
 
             public double maxSafeDiameter(Cellular2D.Cell cell)
