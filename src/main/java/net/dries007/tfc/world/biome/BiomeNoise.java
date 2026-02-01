@@ -1334,7 +1334,7 @@ public final class BiomeNoise
             public double noise(int y)
             {
                 double delta = Math.abs(center - y);
-                return Mth.clamp(0.4f + 0.05f * (height - delta), 0, 1);
+                return Mth.clamp(0.2f + 0.05f * (height - delta), 0, 1);
             }
         };
     }
