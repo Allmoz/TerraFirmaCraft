@@ -540,32 +540,77 @@ public final class BiomeNoise
     }
 
     /**
-     * Cenotes/deep sinkholes, similar noise to tower karsts
-     * Can be applied over any base terrain noise map, subtracts from the base terrain
+     * Cenotes/deep sinkholes with connecting tunnels
      */
-    public static Noise2D cenotes(long seed, Noise2D baseTerrainNoise, double vertScale, double horizScale)
+    public static BiomeNoiseSampler cenotes(long seed, Noise2D heightNoise)
     {
-        final Noise2D cliffScale = new OpenSimplex2D(seed + 78535267L)
-            .spread(0.72 / horizScale)
-            .scaled(0, 0.4);
+        final Cellular2D cells = new Cellular2D(seed + 432, 2).spread(.012);
+        final Noise2D openingHeightNoise = new OpenSimplex2D(seed + 1432).octaves(2).spread(0.04).scaled(-10, 10);
+        final Noise2D tunnelCenterNoise = new OpenSimplex2D(seed + 1112).octaves(3).abs().spread(0.08);
+        final Noise2D tunnelDepthNoise = new OpenSimplex2D(seed + 41).octaves(3).spread(0.05).scaled(-10, -25);
+        final Noise2D tunnelSizeNoise = new OpenSimplex2D(seed + 331).octaves(2).spread(0.07).scaled(0, 5);
+        final Noise3D cliffNoise = BiomeNoise.cliffNoise(Seed.of(seed));
 
-        final Noise2D cliffStartHeight = new OpenSimplex2D(seed + 390798L)
-            .spread(0.72 / horizScale)
-            .scaled(0, 0.7);
+        return new BiomeNoiseSampler()
+        {
+            private int x, z;
+            private double surfaceHeight, centerDist, tunnelDepth, tunnelSize, noise;
+            private double f1 = 1, f2 = 0, scale = 0, maxRadius = 0, distToCenter = 0, openingHeight = 0;
 
-        final Noise2D cliffBase = new OpenSimplex2D(seed)
-            .octaves(2)
-            .spread(0.6 / horizScale)
-            .map(y -> {
-                y = Math.abs(y) - 0.45;
-                y = y > 0 ? Math.sqrt(y / 0.55) : 0;
-                return y;
-            });
-        final Noise2D cenotes = fenglinCliffMap(cliffBase, cliffStartHeight, cliffScale)
-            .map(y -> -vertScale * y);
+            @Override
+            public void setColumn(int x, int z)
+            {
+                Cellular2D.Cell cell = cells.cell(x, z);
+                surfaceHeight = heightNoise.noise(x, z);
+                centerDist = tunnelCenterNoise.noise(x, z);
+                tunnelDepth = tunnelDepthNoise.noise(x, z);
+                tunnelSize = tunnelSizeNoise.noise(x, z);
+                this.x = x;
+                this.z = z;
 
-        return baseTerrainNoise.add(cenotes);
+                noise = cell.noise();
+                if (noise > 0)
+                {
+                    f1 = cell.f1();
+                    f2 = cell.f2();
+                    scale = (noise * 0.4 + 0.6) * Mth.clampedMap(surfaceHeight, SEA_LEVEL_Y, SEA_LEVEL_Y + 30, 0.4, 1);
+                    maxRadius = 0.05 * scale;
+                    distToCenter = f1 + Mth.clampedMap(f2 - f1, 0, 0.1, maxRadius, 0);
+                    openingHeight = openingHeightNoise.noise(x, z);
+                }
+            }
+
+            @Override
+            public double height()
+            {
+                return surfaceHeight;
+            }
+
+            @Override
+            public double noise(int y)
+            {
+                // Cenote chambers
+                if (noise > 0)
+                {
+                    if (distToCenter < maxRadius)
+                    {
+                        final double cenoteHeight = scale * 45;
+
+                        final double depth = Math.max(0, openingHeight + surfaceHeight - y);
+                        final double radius = depth < cenoteHeight / 3 ?
+                            maxRadius * 3 * depth / cenoteHeight : Mth.clampedMap(depth, 0.9 * cenoteHeight, cenoteHeight, maxRadius, 0);
+
+                        return 100 * (radius - distToCenter) + 2 * cliffNoise.noise(x, y, z);
+                    }
+                }
+                return 0;
+
+                // TODO: Caves
+            }
+        };
+
     }
+
 
     /**
      * Multi-tiered sinkholes inspired by the Xiaozhai Tiankeng

@@ -125,7 +125,7 @@ public class Cellular2D implements Noise2D
      * @param cy    "Y"-coordinate of the nearest cell (C2) center
      * @param f1    Distance to x, y
      * @param f2    Distance to cx, cy
-     * @param noise Hash value of the cell, range 0-1
+     * @param noise Hash value of the cell, range -1 to 1
      * @param angle Diamond angle to the center
      */
     public record Cell(double x, double y, int cx, int cy, double f1, double f2, double noise, double angle) {}
