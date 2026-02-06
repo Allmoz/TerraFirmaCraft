@@ -546,23 +546,23 @@ public final class BiomeNoise
     {
         final Cellular2D cells = new Cellular2D(seed + 432, 2).spread(.012);
         final Noise2D openingHeightNoise = new OpenSimplex2D(seed + 1432).octaves(2).spread(0.04).scaled(-10, 10);
-        final Noise2D tunnelCenterNoise = new OpenSimplex2D(seed + 1112).octaves(3).abs().spread(0.08);
-        final Noise2D tunnelDepthNoise = new OpenSimplex2D(seed + 41).octaves(3).spread(0.05).scaled(-10, -25);
-        final Noise2D tunnelSizeNoise = new OpenSimplex2D(seed + 331).octaves(2).spread(0.07).scaled(0, 5);
+        final Noise2D tunnelCenterNoise = new OpenSimplex2D(seed + 1112).octaves(3).abs().spread(0.05);
+        final Noise2D tunnelDepthNoise = new OpenSimplex2D(seed + 41).octaves(3).spread(0.05).scaled(-10, -35);
+        final Noise2D tunnelSizeNoise = new OpenSimplex2D(seed + 331).octaves(2).spread(0.07).scaled(0.6, 1.2);
         final Noise3D cliffNoise = BiomeNoise.cliffNoise(Seed.of(seed));
 
         return new BiomeNoiseSampler()
         {
             private int x, z;
-            private double surfaceHeight, centerDist, tunnelDepth, tunnelSize, noise;
-            private double f1 = 1, f2 = 0, scale = 0, maxRadius = 0, distToCenter = 0, openingHeight = 0;
+            private double surfaceHeight, tunnelCenterDist, tunnelDepth, tunnelSize, noise;
+            private double f1 = 1, f2 = 0, scale = 0, maxRadius = 0, cenoteCenterDist = 0, openingHeight = 0;
 
             @Override
             public void setColumn(int x, int z)
             {
                 Cellular2D.Cell cell = cells.cell(x, z);
                 surfaceHeight = heightNoise.noise(x, z);
-                centerDist = tunnelCenterNoise.noise(x, z);
+                tunnelCenterDist = tunnelCenterNoise.noise(x, z);
                 tunnelDepth = tunnelDepthNoise.noise(x, z);
                 tunnelSize = tunnelSizeNoise.noise(x, z);
                 this.x = x;
@@ -575,7 +575,7 @@ public final class BiomeNoise
                     f2 = cell.f2();
                     scale = (noise * 0.4 + 0.6) * Mth.clampedMap(surfaceHeight, SEA_LEVEL_Y, SEA_LEVEL_Y + 30, 0.4, 1);
                     maxRadius = 0.05 * scale;
-                    distToCenter = f1 + Mth.clampedMap(f2 - f1, 0, 0.1, maxRadius, 0);
+                    cenoteCenterDist = f1 + Mth.clampedMap(f2 - f1, 0, 0.1, maxRadius, 0);
                     openingHeight = openingHeightNoise.noise(x, z);
                 }
             }
@@ -589,10 +589,12 @@ public final class BiomeNoise
             @Override
             public double noise(int y)
             {
+                double cenoteNoise = 0;
+
                 // Cenote chambers
                 if (noise > 0)
                 {
-                    if (distToCenter < maxRadius)
+                    if (cenoteCenterDist < maxRadius)
                     {
                         final double cenoteHeight = scale * 45;
 
@@ -600,12 +602,21 @@ public final class BiomeNoise
                         final double radius = depth < cenoteHeight / 3 ?
                             maxRadius * 3 * depth / cenoteHeight : Mth.clampedMap(depth, 0.9 * cenoteHeight, cenoteHeight, maxRadius, 0);
 
-                        return 100 * (radius - distToCenter) + 2 * cliffNoise.noise(x, y, z);
+                        cenoteNoise = 100 * (radius - cenoteCenterDist) + 2 * cliffNoise.noise(x, y, z);
                     }
                 }
-                return 0;
 
-                // TODO: Caves
+                double tunnelNoise = 0;
+                if (tunnelCenterDist < 0.15)
+                {
+                    final double centerHeight = surfaceHeight + tunnelDepth;
+
+                    final double verticalIntensity = Mth.clampedMap(Math.abs(y - centerHeight), 0, 5, 1, 0);
+                    final double horizontalIntensity = Mth.clampedMap(tunnelCenterDist, 0, 0.15, 1, 0);
+                    tunnelNoise = verticalIntensity * horizontalIntensity * tunnelSize;
+                }
+
+                return cenoteNoise + tunnelNoise;
             }
         };
 
