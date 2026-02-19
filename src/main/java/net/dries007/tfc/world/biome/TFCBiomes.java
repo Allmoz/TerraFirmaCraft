@@ -173,8 +173,8 @@ public final class TFCBiomes
     public static final BiomeExtension CENOTE_PLATEAU = register("cenote_plateau", builder().heightmap(seed -> BiomeNoise.hills(seed, 20, 30)).surface(NormalSurfaceBuilder.INSTANCE).carving(BiomeNoise::cenotes).spawnable().type(RiverBlendType.TALL_CANYON).noSandyRiverShores()); // Very high area, dry cenotes.
 
     // Large dolines with steep sides
-    public static final BiomeExtension EXTREME_DOLINE_PLATEAU = register("extreme_doline_plateau", builder().heightmap(seed -> BiomeNoise.tiankeng(seed, BiomeNoise.hills(seed, 24, 34))).surface(NormalSurfaceBuilder.ROCKY).spawnable().type(RiverBlendType.TALL_CANYON));
-    public static final BiomeExtension EXTREME_DOLINE_MOUNTAINS = register("extreme_doline_mountains", builder().heightmap(seed -> BiomeNoise.tiankeng(seed, BiomeNoise.mountains(seed, 16, 40))).surface(NormalSurfaceBuilder.ROCKY).spawnable().type(RiverBlendType.CAVE));
+    public static final BiomeExtension EXTREME_DOLINE_PLATEAU = register("extreme_doline_plateau", builder().heightmap(seed -> BiomeNoise.tiankeng(seed, BiomeNoise.hills(seed, 24, 34))).carving(BiomeNoise::cenotes).surface(NormalSurfaceBuilder.ROCKY).spawnable().type(RiverBlendType.TALL_CANYON));
+    public static final BiomeExtension EXTREME_DOLINE_MOUNTAINS = register("extreme_doline_mountains", builder().heightmap(seed -> BiomeNoise.tiankeng(seed, BiomeNoise.mountains(seed, 16, 40))).carving(BiomeNoise::cenotes).surface(NormalSurfaceBuilder.ROCKY).spawnable().type(RiverBlendType.CAVE));
 
     // Shield Volcanoes
     public static final BiomeExtension ACTIVE_SHIELD_VOLCANO = register("active_shield_volcano", builder().heightmap(seed -> BiomeNoise.activeShieldVolcano(seed, BiomeNoise.activeHotSpots(seed))).surface(ShieldVolcanoSurfaceBuilder.ACTIVE).cinderCones(4, 15, 25, 28, true).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.CAVE));
