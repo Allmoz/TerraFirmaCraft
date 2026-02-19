@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.util.MetalItem;
+import net.dries007.tfc.util.calendar.Calendars;
 
 public class IngotPileBlockEntity extends TFCBlockEntity
 {
@@ -34,7 +35,7 @@ public class IngotPileBlockEntity extends TFCBlockEntity
         super(TFCBlockEntities.INGOT_PILE.get(), pos, state);
 
         entries = new ArrayList<>();
-        interactionTick = 0;
+        interactionTick = Calendars.get().getTicks();
         isLastInteractionPlacement = true;
     }
 
@@ -136,6 +137,7 @@ public class IngotPileBlockEntity extends TFCBlockEntity
             stacks.add(entry.stack.save(provider));
         }
         tag.put("stacks", stacks);
+        tag.putBoolean("placement", isLastInteractionPlacement);
         tag.putLong("tick", interactionTick);
         super.saveAdditional(tag, provider);
     }
@@ -149,6 +151,7 @@ public class IngotPileBlockEntity extends TFCBlockEntity
         {
             entries.add(new Entry(ItemStack.parseOptional(provider, list.getCompound(i))));
         }
+        isLastInteractionPlacement = tag.getBoolean("placement");
         interactionTick = tag.getLong("tick");
         super.loadAdditional(tag, provider);
     }

@@ -44,6 +44,7 @@ import net.dries007.tfc.common.blocks.IForgeBlockExtension;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.calendar.Calendars;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
 
@@ -129,14 +130,13 @@ public class LogPileBlock extends DeviceBlock implements IForgeBlockExtension, E
     {
         if (!player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof LogPileBlockEntity logPile)
         {
-            if (Helpers.isItem(stack.getItem(), TFCTags.Items.LOG_PILE_LOGS))
-            {
-                insertAndPushUp(stack, state, level, pos, logPile, false);
-            }
-            else if (stack.isEmpty())
-            {
-                extractFromTop(level, pos, player, false);
-            }
+            long currentTick = Calendars.get().getTicks();
+            boolean isDoubleClick = (!logPile.isLastInteractionPlacement() && currentTick - logPile.getInteractionTick() < 6);
+
+            extractFromTop(level, pos, player, isDoubleClick);
+            logPile.setInteractionTick(currentTick);
+            logPile.setLastInteractionPlacement(false);
+
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
@@ -168,6 +168,7 @@ public class LogPileBlock extends DeviceBlock implements IForgeBlockExtension, E
 
     public static void insertAndPushUp(ItemStack stack, BlockState state, Level level, BlockPos pos, LogPileBlockEntity logPile, boolean all)
     {
+        // Insert into the pile clicked on, and return if only adding a single log
         if (dumbInsert(stack, state, level, pos, logPile, all) && !all)
         {
             return;

@@ -7,6 +7,10 @@
 package net.dries007.tfc.common.blockentities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,6 +18,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.calendar.Calendars;
 
 import static net.dries007.tfc.common.blocks.devices.LogPileBlock.*;
 
@@ -22,10 +27,14 @@ public class LogPileBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     public static final int SLOTS = 16;
 
     private boolean needsLogDispersion = true;
+    private long interactionTick;
+    private boolean isLastInteractionPlacement;
 
     public LogPileBlockEntity(BlockPos pos, BlockState state)
     {
         super(TFCBlockEntities.LOG_PILE.get(), pos, state, defaultInventory(SLOTS));
+        interactionTick = Calendars.get().getTicks();
+        isLastInteractionPlacement = true;
     }
 
     @Override
@@ -96,7 +105,6 @@ public class LogPileBlockEntity extends InventoryBlockEntity<ItemStackHandler>
                 }
                 logPileAbove.setAndUpdateSlots(-1);
             }
-
         }
     }
 
@@ -120,6 +128,28 @@ public class LogPileBlockEntity extends InventoryBlockEntity<ItemStackHandler>
         }
     }
 
+    public void setInteractionTick(long tick)
+    {
+        this.interactionTick = tick;
+        setChanged();
+    }
+
+    public long getInteractionTick()
+    {
+        return this.interactionTick;
+    }
+
+    public boolean isLastInteractionPlacement()
+    {
+        return isLastInteractionPlacement;
+    }
+
+    public void setLastInteractionPlacement(boolean lastInteractionPlacement)
+    {
+        isLastInteractionPlacement = lastInteractionPlacement;
+        setChanged();
+    }
+
     @Override
     protected void onLoadAdditional()
     {
@@ -128,6 +158,22 @@ public class LogPileBlockEntity extends InventoryBlockEntity<ItemStackHandler>
             disperseLogsToNewSlots();
             needsLogDispersion = false;
         }
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider)
+    {
+        tag.putBoolean("placement", isLastInteractionPlacement);
+        tag.putLong("tick", interactionTick);
+        super.saveAdditional(tag, provider);
+    }
+
+    @Override
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider)
+    {
+        isLastInteractionPlacement = tag.getBoolean("placement");
+        interactionTick = tag.getLong("tick");
+        super.loadAdditional(tag, provider);
     }
 
     @Override
