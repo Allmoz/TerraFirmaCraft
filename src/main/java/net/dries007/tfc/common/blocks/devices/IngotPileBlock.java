@@ -14,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackLinkedSet;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -35,6 +36,7 @@ import net.dries007.tfc.common.blocks.ExtendedBlock;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.calendar.Calendars;
 
 public class IngotPileBlock extends ExtendedBlock implements EntityBlockExtension
 {
@@ -89,22 +91,45 @@ public class IngotPileBlock extends ExtendedBlock implements EntityBlockExtensio
             final BlockState topState = level.getBlockState(topPos);
             final int topIngots = topState.getValue(getCountProperty());
 
+            int stackSize = 1;
+
             if (level.getBlockEntity(topPos) instanceof IngotPileBlockEntity pile)
             {
+                long currentTick = Calendars.get().getTicks();
+
+                // TODO: There is some awkwardness in that the first click of the double click removes 1 ingot, and then the next click removes a full stack
+                //  Probably the best fix would be to save the last item removed to the block entity as well, and then only remove up to n-1 ingots matching the first on the 2nd click
                 final ItemStack ingot = pile.removeIngot();
+                final int maxStackSize = ingot.getMaxStackSize();
+
+                // 6 ticks feels about right for this (300 ms)
+                if (!pile.isLastInteractionPlacement() && currentTick - pile.getInteractionTick() < 6 && maxStackSize > 1)
+                {
+                    ItemStack nextIngot = pile.getNextIngot();
+                    // Keep removing ingots until we hit a different ingot or a full stack
+                    while (ItemStack.isSameItemSameComponents(ingot, nextIngot) && stackSize < maxStackSize)
+                    {
+                        pile.removeIngot();
+                        stackSize++;
+                        nextIngot = pile.getNextIngot();
+                    }
+                }
+
                 if (!player.isCreative())
                 {
-                    ItemHandlerHelper.giveItemToPlayer(player, ingot);
+                    ItemHandlerHelper.giveItemToPlayer(player, ingot.copyWithCount(stackSize));
                 }
+                pile.setInteractionTick(currentTick);
+                pile.setLastInteractionPlacement(false);
             }
 
-            if (topIngots == 1)
+            if (topIngots == stackSize)
             {
                 level.removeBlock(topPos, false);
             }
             else
             {
-                level.setBlock(topPos, topState.setValue(getCountProperty(), topIngots - 1), Block.UPDATE_CLIENTS);
+                level.setBlock(topPos, topState.setValue(getCountProperty(), topIngots - stackSize), Block.UPDATE_CLIENTS);
             }
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }

@@ -26,12 +26,16 @@ import net.dries007.tfc.util.MetalItem;
 public class IngotPileBlockEntity extends TFCBlockEntity
 {
     private final List<Entry> entries;
+    private long interactionTick;
+    private boolean isLastInteractionPlacement;
 
     public IngotPileBlockEntity(BlockPos pos, BlockState state)
     {
         super(TFCBlockEntities.INGOT_PILE.get(), pos, state);
 
         entries = new ArrayList<>();
+        interactionTick = 0;
+        isLastInteractionPlacement = true;
     }
 
     public void addIngot(ItemStack stack)
@@ -59,6 +63,38 @@ public class IngotPileBlockEntity extends TFCBlockEntity
             return entry.stack;
         }
         return ItemStack.EMPTY;
+    }
+
+    public ItemStack getNextIngot()
+    {
+        if (!entries.isEmpty())
+        {
+            final Entry entry = entries.getLast();
+            return entry.stack;
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public void setInteractionTick(long tick)
+    {
+        this.interactionTick = tick;
+        setChanged();
+    }
+
+    public long getInteractionTick()
+    {
+        return this.interactionTick;
+    }
+
+    public boolean isLastInteractionPlacement()
+    {
+        return isLastInteractionPlacement;
+    }
+
+    public void setLastInteractionPlacement(boolean lastInteractionPlacement)
+    {
+        isLastInteractionPlacement = lastInteractionPlacement;
+        setChanged();
     }
 
     /**
@@ -100,6 +136,7 @@ public class IngotPileBlockEntity extends TFCBlockEntity
             stacks.add(entry.stack.save(provider));
         }
         tag.put("stacks", stacks);
+        tag.putLong("tick", interactionTick);
         super.saveAdditional(tag, provider);
     }
 
@@ -112,6 +149,7 @@ public class IngotPileBlockEntity extends TFCBlockEntity
         {
             entries.add(new Entry(ItemStack.parseOptional(provider, list.getCompound(i))));
         }
+        interactionTick = tag.getLong("tick");
         super.loadAdditional(tag, provider);
     }
 
@@ -122,7 +160,7 @@ public class IngotPileBlockEntity extends TFCBlockEntity
             final ItemStack stack;
             int count = 0;
 
-            Counter(ItemStack stack) { this.stack = stack; }
+            Counter(ItemStack stack) {this.stack = stack;}
         }
 
         final Map<MetalItem, Counter> counts = new LinkedHashMap<>(); // Deterministic iteration order

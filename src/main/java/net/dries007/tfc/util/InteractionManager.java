@@ -335,7 +335,7 @@ public final class InteractionManager
             return InteractionResult.PASS;
         });
 
-        // Piles (Ingots + Sheets)
+        // Piles (Ingots + Double Ingots)
         // Shift + Click = Add to pile (either on the targeted pile, or create a new one)
         // Removal (Non-Shift Click) is handled by the respective pile block
         final BlockItemPlacement ingotPilePlacement = new BlockItemPlacement(Items.AIR, TFCBlocks.INGOT_PILE);
