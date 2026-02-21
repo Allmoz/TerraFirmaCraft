@@ -473,6 +473,48 @@ public final class BiomeNoise
 
     /**
      * Fengcong, aka "Cone Karsts"
+     */
+    public static Noise2D fengcongPlains(long seed, double baseHeight, double scale)
+    {
+        final Noise2D layer0 = new OpenSimplex2D(seed).spread(0.06).octaves(4).abs().scaled(0.25, 1, 0, scale);
+
+        return layer0.max((x, z) -> 0).addConstant(baseHeight + SEA_LEVEL_Y);
+    }
+
+    /**
+     * Fenglin, aka "Tower Karsts"
+     */
+    public static Noise2D fenglinPlains(long seed, double baseHeight, double scale)
+    {
+        final Noise2D cliffCompare1 = new OpenSimplex2D(seed).spread(0.04).octaves(3).scaled(0, 0.2 * scale).addConstant(baseHeight + SEA_LEVEL_Y);
+        final Noise2D cliffCompare2 = new OpenSimplex2D(seed).spread(0.04).octaves(3).scaled(0.15 * scale, 0.3 * scale).addConstant(baseHeight + SEA_LEVEL_Y);
+        final Noise2D cliffHeight = new OpenSimplex2D(seed).spread(0.08).octaves(3).scaled(0, 0.1 * scale);
+
+        return fengcongPlains(seed, baseHeight, 0.9 * scale).cliffMap(cliffCompare2, cliffHeight).cliffMap(cliffCompare1, cliffHeight);
+    }
+
+    /**
+     * Mogotes, aka "Cockpit Karsts"
+     */
+    public static Noise2D mogotes(long seed, double baseHeight, double scale)
+    {
+        final Noise2D layer0 = new OpenSimplex2D(seed).spread(0.03).octaves(4).abs().scaled(0.09, 1, 0, scale);
+
+        return layer0.max((x, z) -> 0).addConstant(baseHeight + SEA_LEVEL_Y);
+    }
+
+    /**
+     * Inspired by the terrain near Xiaozhai Tiankeng
+     */
+    public static Noise2D mogotePlateau(long seed)
+    {
+        final Noise2D layer0 = new OpenSimplex2D(seed).spread(0.04).octaves(3).abs().scaled(0.05, 1, 0, 30);
+
+        return layer0.addConstant(21 + SEA_LEVEL_Y);
+    }
+
+    /**
+     * Fengcong, aka "Cone Karsts"
      * Can be applied over any base terrain noise map, adds to the base terrain
      */
     public static Noise2D fengcong(long seed, Noise2D baseTerrainNoise)
