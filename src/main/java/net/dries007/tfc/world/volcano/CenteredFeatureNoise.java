@@ -266,6 +266,7 @@ public class CenteredFeatureNoise
 
     /**
      * Method for adding a single gap to a cellular feature at a random angle
+     *
      * @return a value ranging from 1 far from the gap, to 0 in the middle of a large gap
      */
     private static double getGapVerticalEasing(Cellular2D.Cell cell)
@@ -408,7 +409,8 @@ public class CenteredFeatureNoise
         return new CenteredFeatureNoiseSampler()
         {
             final Cellular2D cellNoise = new Cellular2D(seed.seed()).spread(0.0024f);
-            final double verticalScale = 1.3;
+            final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
+            final double verticalScale = 1.2; // TODO: This is a temporary variable, get rid of it
 
             @Override
             public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)
@@ -447,64 +449,96 @@ public class CenteredFeatureNoise
 
             private double modifyHeight(Cellular2D.Cell cell, int x, int z, BiomeExtension biome, double heightIn)
             {
-                double noise = cell.noise();
-                final double f1 = cell.f1();
-
                 // We start by determining the diameter and height of the cone
                 // Note that apex heights are scaled to equal the actual diameter of the feature
-                // TODO: Scale differently relative to radius if needed
-                double maxDiameter = Math.min(1, maxSafeDiameter(cell));
-                final double remnantApexHeight = 0.5 * (1 + Helpers.hashDouble(noise, 1)) * maxDiameter;
-                final double activeApexHeight = 0.5 * (1 + Helpers.hashDouble(noise, 2)) * maxDiameter;
+                double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell)));
 
                 // Then we set up our polar coordinate system
-                final double a0 = cell.angle(); // Angle, range [0, 4]
-                final double r0; // Radius squared, range [0, 1]
                 final double shape; // The output height, domain [0, 1]
-                double craterSize;
 
-                if (activeApexHeight > remnantApexHeight)
+                final int borderHeight;
+                if (maxDiameter >= 0.5) // TODO: Work out what this number should be
                 {
-                    // Simple cone
-                    r0 = Mth.map(f1, 0, activeApexHeight / 2, 0, 1);
-                    craterSize = 0.05 + 0.15 * Helpers.hashDouble(noise, 10);
-                    shape = activeApexHeight * calculateSimpleRadialShape(r0, craterSize) * verticalScale;
+                    // TODO: Select a shape for a large volcano
+                    shape = getHeightFuji(cell, maxDiameter, x, z);
+                    borderHeight = 20;
                 }
                 else
                 {
-                    // Active cone inside a remnant cone with some degree of integrity
-                    // TODO: Trouble right now with this is that the remnant cone can be *way* larger than the active cone, obscuring it completely
-
-                    // r0 is 1 at the edge of remnant cone, as that is the very edge of the function
-                    r0 = Mth.map(f1, 0, remnantApexHeight / 2, 0, 1);
-
-                    // r1 is 1 at the edge of the active cone, and it is most readable to have this as a separate coordinate system
-                    final double r1Scale = remnantApexHeight / activeApexHeight;
-                    final double r1 = r0 * r1Scale;
-
-                    final double activeCraterSize = 0.03 + 0.12 * Helpers.hashDouble(noise, 20);
-                    craterSize = Math.min(2 * activeCraterSize, 0.8 * Helpers.hashDouble(noise, 21));
-                    final double activeShape = activeApexHeight * calculateSimpleRadialShape(r1, activeCraterSize) * verticalScale;
-                    double remnantShape = remnantApexHeight * calculateSimpleRadialShape(r0, craterSize) * verticalScale;
-
-                    // TODO: This next loop notably doesnt seem to work
-                    // Add up to 3 gaps in the remnant cone
-                    final double gapCountInput = Helpers.hashDouble(noise, 30); // Inversely correlated to size of gap
-                    for (int i = Math.max(0, (int) (5.5 * gapCountInput) - 2); i > 0; i--)
-                    {
-                        remnantShape *= getGapVerticalEasing((2 - gapCountInput) * Helpers.hashDouble(noise, 100 + i), a0, 4 * Helpers.hashDouble(noise, 200 + i));
-                        i--;
-                    }
-                    shape = Math.max(activeShape, remnantShape);
-
+                    // TODO: Select a shape for a small volcano
+                    shape = getHeightFuji(cell, maxDiameter, x, z);
+                    borderHeight = 10;
                 }
 
-                final double radialShape = calculateCircumferentialErosion(cell, craterSize);
-
-                final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight() + radialShape * Mth.clampedMap(f1, 0, 0.025, 0, 8);
+                final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight();
                 final double volcanoHeight = (SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight() + volcanoAdditionalHeight);
+
+                // TODO: These borders are just for visuals
+                if (cell.f2() - cell.f1() < 0.05)
+                {
+                    return heightIn + borderHeight;
+                }
                 return Math.max(heightIn, volcanoHeight);
 
+            }
+
+            // Simple cone shape, similar to Mt. Fuji
+            private double getHeightFuji(Cellular2D.Cell cell, double maxDiam, int x, int z)
+            {
+                final double noise = cell.noise();
+                final double apexHeight = maxDiam; // TODO: Random heights: 0.25 * (3 + Helpers.hashDouble(noise, 2)) * maxDiam;
+
+                // Simple cone
+                final double r0 = Mth.map(Mth.sqrt((float) cell.f1()), 0, apexHeight / 2, 0, 1); // Radius squared, range [0, 1]
+                final double craterSize = 0.04 + 0.06 * Helpers.hashDouble(noise, 10);
+                double shape = apexHeight * calculateSimpleRadialShape(r0, craterSize) * verticalScale;
+                shape = shape * (0.9 + 0.1 * calculateCircumferentialErosion(cell, craterSize, 0.2, r0, x, z, 3, (int) (maxDiam * 16)));
+
+                return shape;
+            }
+
+            private double calculateCircumferentialErosion(Cellular2D.Cell cell, double craterSize, double fullRidgeDepthRadius, double r, int x, int z, int minRidgeCount, int addedRidgeCount)
+            {
+                final double noise = Helpers.hashDouble(cell.noise(), 213);
+                final int ridges = (int) (noise * addedRidgeCount) + minRidgeCount;
+                final double ridgeWarping = ridgeWarpNoise.noise(x, z) / ridges;
+                double a = cell.angle() + ridgeWarping;
+                a = a >= 4 ? a - 4 : a < 0 ? a + 4 : a;
+
+                final double erosion = (2 - noise);
+                final double fluvialShape = Math.abs((a * 0.5 * ridges % 2) - 1);
+
+                // Make sure ridges don't get too extreme near the top
+                final double easing = Mth.clampedMap(r, craterSize, fullRidgeDepthRadius, 0, 1);
+
+                // Scale ridges larger on volcanoes with fewer ridges, from 0.6 to 1.4
+                final double ridgeScale = Mth.clampedMap(ridges, minRidgeCount, minRidgeCount + addedRidgeCount, 1.5, 0.5);
+
+                return (fluvialShape - 1) * erosion * easing * ridgeScale;
+            }
+
+            /**
+             * @param r The scaled, non-square distance from the volcano, from 0 at center to 1 at edge of influence
+             * @param rCrater The radius of the crater
+             * @return A noise function determining the volcano's height at any given position, in the range [0, 1]
+             */
+            private static double calculateSimpleRadialShape(double r, double rCrater)
+            {
+                if (r >= 1)
+                {
+                    return 0;
+                }
+                else if (r > rCrater)
+                {
+                    // Main slopes
+                    return Helpers.hyperbolicSection(r - rCrater, 1, 1);
+                }
+                else
+                {
+                    // Interior of crater
+                    double craterBaseHeight = 1 - 2 * rCrater;
+                    return Helpers.hyperbolicSection(rCrater - r, rCrater, 2 * rCrater) + craterBaseHeight;
+                }
             }
 
             private static float calculateEasing(float f1)
@@ -515,45 +549,6 @@ public class CenteredFeatureNoise
             private static float calculateClampedEasing(float f1)
             {
                 return Mth.clamp(calculateEasing(f1), 0, 1);
-            }
-
-            /**
-             * @param rIn The scaled square distance from the volcano, from 0 at center to 1 at edge of influence
-             * @param rCrater The radius of the crater
-             * @return A noise function determining the volcano's height at any given position, in the range [0, 1]
-             */
-            private static double calculateSimpleRadialShape(double rIn, double rCrater)
-            {
-                final double r = Math.sqrt(rIn);
-                if (r >= 1)
-                {
-                    return 0;
-                }
-                else if (r > rCrater)
-                {
-                    return Helpers.hyperbolicSection(r - rCrater, 1 - rCrater, 1);
-                }
-                else
-                {
-                    double craterBaseHeight = 1 - 2 * rCrater;
-                    return Helpers.hyperbolicSection(rCrater - r, rCrater, 2 * rCrater) + craterBaseHeight;
-                }
-            }
-
-            private static double calculateCircumferentialErosion(Cellular2D.Cell cell, double craterSize)
-            {
-                final double craterSize2 = craterSize * craterSize;
-                final double a = cell.angle();
-                final double noise = Helpers.hashDouble(cell.noise(), 213);
-                final int ridges = (int) (noise * 10) + 3;
-
-                final double erosion = (2 - noise);
-                final double fluvialShape = Math.abs((a * ridges % 2) - 1);
-//                final double glacialShape = fluvialShape * fluvialShape; // TODO:
-
-                final double easing = Mth.clampedMap(cell.f1(), craterSize2, Math.min(1, craterSize2 + 0.012), 0, 1);
-
-                return (fluvialShape - 1) * erosion * easing;
             }
 
             /**
@@ -582,7 +577,7 @@ public class CenteredFeatureNoise
                 return gapVerticalEasing;
             }
 
-            public double maxSafeDiameter(Cellular2D.Cell cell)
+            public double maxSafeDiameterSquared(Cellular2D.Cell cell)
             {
                 // This step is necessary because the exact center of a cell is not aligned with the exact center of a block
                 // Which causes the sampled position to be on one side of the center, and potentially closer to a different cell
