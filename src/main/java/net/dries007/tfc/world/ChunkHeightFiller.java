@@ -226,7 +226,7 @@ public class ChunkHeightFiller
 
         if (useCache)
         {
-            updateLocalCaches(biomeWeights, biomeAt, info, height, anySaltyBiomesNearby, surfaceIntegrityDepth);
+            updateLocalCaches(biomeWeights, biomeAt, info, height, preVolcanicHeight, anySaltyBiomesNearby, surfaceIntegrityDepth);
         }
 
         return height;
@@ -368,7 +368,7 @@ public class ChunkHeightFiller
         return volcanoHeight == NOT_PRESENT_RETURN ? heightIn : volcanoHeight;
     }
 
-    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height, boolean couldBeSalty, int surfaceIntegrityDepth) {}
+    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height, double preVolcanicHeight, boolean couldBeSalty, int surfaceIntegrityDepth) {}
 
     @Nullable
     protected RiverInfo sampleRiverInfo(boolean useCache)

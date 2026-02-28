@@ -103,6 +103,7 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
     private final ChunkBaseBlockSource baseBlockSource;
 
     private final int[] surfaceHeight; // 16x16, block pos resolution
+    private final int[] preVolcanicHeight; // 16x16, block pos resolution
     private final int[] surfaceIntegrityDepth; // 16x16, block pos resolution
     private final BiomeExtension[] localBiomes; // 16x16, block pos resolution
     private final BiomeExtension[] localBiomesNoRivers; // 16x16, block pos resolution
@@ -162,6 +163,7 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
         this.aquifer = new TFCAquifer(chunk.getPos(), settings, baseBlockSource, seaLevel, sampler.positionalRandomFactory, sampler.barrierNoise);
 
         this.surfaceHeight = new int[16 * 16];
+        this.preVolcanicHeight = new int[16 * 16];
         this.surfaceIntegrityDepth = new int[16 * 16];
         this.localBiomes = new BiomeExtension[16 * 16];
         this.localBiomesNoRivers = new BiomeExtension[16 * 16];
@@ -176,6 +178,11 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
     public int[] surfaceHeight()
     {
         return surfaceHeight;
+    }
+
+    public int[] preVolcanicHeight()
+    {
+        return preVolcanicHeight;
     }
 
     public int[] surfaceIntegrityDepth()
@@ -646,7 +653,7 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
     }
 
     @Override
-    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height, boolean couldBeSalty, int surfaceIntegrityDepth)
+    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height, double preVolcanicHeight, boolean couldBeSalty, int surfaceIntegrityDepth)
     {
         final int localIndex = localX + 16 * localZ;
 
@@ -660,6 +667,7 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
         final double biomeWeightAt = biomeWeights.getOrDefault(biomeAt, 0.5);
         localBiomeWeights[localIndex] = biomeWeightAt;
         surfaceHeight[localIndex] = (int) height;
+        this.preVolcanicHeight[localIndex] = (int) preVolcanicHeight;
         this.surfaceIntegrityDepth[localIndex] = surfaceIntegrityDepth;
 
         baseBlockSource.useAccurateBiome(localX, localZ, biomeAt, biomeWeightAt, couldBeSalty);

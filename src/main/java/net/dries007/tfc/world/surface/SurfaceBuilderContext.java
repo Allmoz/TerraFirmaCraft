@@ -48,6 +48,7 @@ public class SurfaceBuilderContext
     private BiomeExtension stratovolcanoBiome;
     private double biomeWeight;
     private double slope;
+    private int preVolcanicHeight;
     private float temperature;
     private float baseGroundwater;
     private float rainfall;
@@ -80,12 +81,13 @@ public class SurfaceBuilderContext
         defaultFluidStates.add(Blocks.WATER.defaultBlockState());
     }
 
-    public void buildSurface(BiomeExtension biome, BiomeExtension originalBiome, double biomeWeight, boolean salty, SurfaceBuilder builder, int x, int y, int z, double slope)
+    public void buildSurface(BiomeExtension biome, BiomeExtension originalBiome, double biomeWeight, boolean salty, SurfaceBuilder builder, int x, int y, int z, double slope, int preVolcanicHeight)
     {
         this.biome = biome;
         this.originalBiome = originalBiome;
         this.biomeWeight = biomeWeight;
         this.slope = slope;
+        this.preVolcanicHeight = preVolcanicHeight;
         this.temperature = chunkData.getAverageSeaLevelTemp(x, z);
         this.baseGroundwater = chunkData.getBaseGroundwater(x, z);
         this.rainfall = chunkData.getAverageRainfall(x, z);
@@ -278,5 +280,15 @@ public class SurfaceBuilderContext
     public int calculateAltitudeSlopeSurfaceDepth(int y, int minimumReturnValue)
     {
         return calculateAltitudeSlopeSurfaceDepth(y, minimumReturnValue, 5);
+    }
+
+    public int getPreVolcanicHeight()
+    {
+        return preVolcanicHeight;
+    }
+
+    public void setPreVolcanicHeight(int preVolcanicHeight)
+    {
+        this.preVolcanicHeight = preVolcanicHeight;
     }
 }

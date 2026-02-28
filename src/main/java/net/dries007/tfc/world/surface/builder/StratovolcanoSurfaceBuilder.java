@@ -44,7 +44,7 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
         {
             final CenteredFeatureNoiseSampler sampler = CenteredFeatureNoise.stratovolcano(seed);
             final float easing = sampler.calculateEasing(context.pos(), context.stratovolcanoBiome());
-            if (easing > 0.6f && startY > context.stratovolcanoBiome().getCenteredFeatureRockHeight() + heightNoise.noise(context.pos().getX(), context.pos().getZ()))
+            if (startY > context.getPreVolcanicHeight() + 3)
             {
                 buildVolcanicSurface(context, startY, endY, easing, sampler);
                 return;
