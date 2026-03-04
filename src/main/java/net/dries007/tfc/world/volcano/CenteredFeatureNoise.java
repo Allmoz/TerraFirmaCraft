@@ -155,9 +155,9 @@ public class CenteredFeatureNoise
             }
 
             @Override
-            public Cellular2D.Cell getCell(BlockPos pos)
+            public Cellular2D getCellularNoise()
             {
-                return cellNoise.cell(pos.getX(), pos.getZ());
+                return cellNoise;
             }
 
             @Override
@@ -275,9 +275,9 @@ public class CenteredFeatureNoise
             }
 
             @Override
-            public Cellular2D.Cell getCell(BlockPos pos)
+            public Cellular2D getCellularNoise()
             {
-                return cellNoise.cell(pos.getX(), pos.getZ());
+                return cellNoise;
             }
 
             @Override
@@ -427,9 +427,9 @@ public class CenteredFeatureNoise
             }
 
             @Override
-            public Cellular2D.Cell getCell(BlockPos pos)
+            public Cellular2D getCellularNoise()
             {
-                return cellNoise.cell(pos.getX(), pos.getZ());
+                return cellNoise;
             }
 
             @Override
@@ -485,7 +485,7 @@ public class CenteredFeatureNoise
             {
                 // We start by determining the diameter and height of the cone
                 // Note that apex heights are scaled to equal the actual diameter of the feature
-                double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell)));
+                double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell, cellNoise)));
 
                 final int borderHeight;
                 if (maxDiameter >= 0.7) // TODO: Get rid of borders
@@ -530,17 +530,6 @@ public class CenteredFeatureNoise
                 return Mth.clamp(calculateEasing(f1), 0, 1);
             }
 
-            public double maxSafeDiameterSquared(Cellular2D.Cell cell)
-            {
-                // This step is necessary because the exact center of a cell is not aligned with the exact center of a block
-                // Which causes the sampled position to be on one side of the center, and potentially closer to a different cell
-                double f2 = Math.min(cellNoise.cell(cell.x() + 1, cell.y()).f2(), cellNoise.cell(cell.x() - 1, cell.y()).f2());
-                f2 = Math.min(f2, cellNoise.cell(cell.x(), cell.y() + 1).f2());
-                f2 = Math.min(f2, cellNoise.cell(cell.x(), cell.y() - 1).f2());
-
-                return f2;
-            }
-
             @Override
             public boolean isValidBiome(BiomeExtension biome)
             {
@@ -563,9 +552,9 @@ public class CenteredFeatureNoise
             }
 
             @Override
-            public Cellular2D.Cell getCell(BlockPos pos)
+            public Cellular2D getCellularNoise()
             {
-                return cellNoise.cell(pos.getX(), pos.getZ());
+                return cellNoise;
             }
 
             @Override
@@ -573,7 +562,7 @@ public class CenteredFeatureNoise
             {
                 // We start by determining the diameter and height of the cone
                 // Note that apex heights are scaled to equal the actual diameter of the feature
-                double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell))); // TODO: I'd like to do this earlier on, but I shouldn't try and optimize right now
+                double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell, cellNoise))); // TODO: I'd like to do this earlier on, but I shouldn't try and optimize right now
 
                 if (maxDiameter >= 0.7) // TODO: Work out selection process
                 {
@@ -585,5 +574,16 @@ public class CenteredFeatureNoise
                 }
             }
         };
+    }
+
+    public static double maxSafeDiameterSquared(Cellular2D.Cell cell, Cellular2D cellNoise)
+    {
+        // This step is necessary because the exact center of a cell is not aligned with the exact center of a block
+        // Which causes the sampled position to be on one side of the center, and potentially closer to a different cell
+        double f2 = Math.min(cellNoise.cell(cell.x() + 1, cell.y()).f2(), cellNoise.cell(cell.x() - 1, cell.y()).f2());
+        f2 = Math.min(f2, cellNoise.cell(cell.x(), cell.y() + 1).f2());
+        f2 = Math.min(f2, cellNoise.cell(cell.x(), cell.y() - 1).f2());
+
+        return f2;
     }
 }

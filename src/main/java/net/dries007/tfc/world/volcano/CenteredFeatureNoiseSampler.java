@@ -79,7 +79,7 @@ public interface CenteredFeatureNoiseSampler
     /**
      * @return The cell at a given location.
      */
-    Cellular2D.Cell getCell(BlockPos pos);
+    Cellular2D getCellularNoise();
 
     /**
      * @return The cell at a given location.

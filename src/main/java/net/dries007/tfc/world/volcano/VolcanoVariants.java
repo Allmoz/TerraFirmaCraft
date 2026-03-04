@@ -1,7 +1,12 @@
 package net.dries007.tfc.world.volcano;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 
+import net.dries007.tfc.common.blocks.TFCBlocks;
+import net.dries007.tfc.common.blocks.rock.Rock;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.noise.Cellular2D;
@@ -75,7 +80,10 @@ public class VolcanoVariants
             @Override
             public double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
-                return getLandHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+                final double landHeight = getLandHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+                final double waterHeight = getFluidHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+
+                return Math.max(landHeight, waterHeight);
             }
 
             @Override
@@ -108,18 +116,66 @@ public class VolcanoVariants
                 final double craterSize = 0.5 + rimWarpNoise.noise(x, z); // Domain warp the rim to get a wavy shape
                 if (r < craterSize)
                 {
-                    return 0.2;
+                    return scaleShape(0.2, biomeBaseHeight, biomeScaleHeight);
                 }
                 else
                 {
-                    return -1;
+                    return 0;
                 }
             }
 
             @Override
             public void buildSurface(SurfaceBuilderContext context, int startY, int endY, CenteredFeatureNoiseSampler sampler)
             {
+                final BlockPos pos = context.pos();
+                final int x = pos.getX();
+                final int z = pos.getZ();
+
+                final Cellular2D cellNoise = sampler.getCellularNoise();
+                final Cellular2D.Cell cell = cellNoise.cell(x, z);
+                final int heightIn = context.getPreVolcanicHeight();
+                final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
+                final double landHeight = this.getLandHeight(heightIn, x, z, maxDiam, context.biome().getCenteredFeatureScaleHeight(), context.biome().getCenteredFeatureBaseHeight(), cell);
+                final double waterHeight = this.getFluidHeight(heightIn, x, z, maxDiam, context.biome().getCenteredFeatureScaleHeight(), context.biome().getCenteredFeatureBaseHeight(), cell);
+                final int waterDepth = (int) (waterHeight - landHeight);
+
+                if (waterDepth > 0)
+                {
+                    buildWaterSurface(context, startY, endY, waterDepth);
+                }
+
                 NormalSurfaceBuilder.INSTANCE.buildSurface(context, startY, endY);
+            }
+
+            private void buildWaterSurface(SurfaceBuilderContext context, int startY, int endY, int waterDepth)
+            {
+                final BlockState water = Fluids.WATER.getSource().defaultFluidState().createLegacyBlock();
+
+                int surfaceDepth = -1;
+                for (int y = startY; y >= endY; --y)
+                {
+                    BlockState stateAt = context.getBlockState(y);
+                    if (stateAt.isAir())
+                    {
+                        // Reached air, reset surface depth
+                        surfaceDepth = -1; // TODO: Custom handling here to deal with cave leakage
+                    }
+                    else if (context.isDefaultBlock(stateAt))
+                    {
+                        if (surfaceDepth == -1)
+                        {
+                            // Reached surface. Place top state and switch to subsurface layers
+                            surfaceDepth = waterDepth;
+                            context.setBlockState(y, water);
+                        }
+                        else if (surfaceDepth > 0) // TODO: Need to place underwater blocks too
+                        {
+                            // Subsurface layers
+                            surfaceDepth--;
+                            context.setBlockState(y, water);
+                        }
+                    }
+                }
             }
         };
     }

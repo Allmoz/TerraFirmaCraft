@@ -17,6 +17,7 @@ import net.dries007.tfc.world.noise.OpenSimplex2D;
 import net.dries007.tfc.world.surface.SurfaceBuilderContext;
 import net.dries007.tfc.world.volcano.CenteredFeatureNoise;
 import net.dries007.tfc.world.volcano.CenteredFeatureNoiseSampler;
+import net.dries007.tfc.world.volcano.VolcanoVariant;
 
 public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
 {
@@ -43,12 +44,15 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
         if (context.stratovolcanoBiome().hasStratovolcanoes())
         {
             final CenteredFeatureNoiseSampler sampler = CenteredFeatureNoise.stratovolcano(seed);
-            final float easing = sampler.calculateEasing(context.pos(), context.stratovolcanoBiome());
             final int preVolcanicHeight = context.getPreVolcanicHeight();
             if (startY > preVolcanicHeight + 3)
             {
-                buildVolcanicSurface(context, startY, Math.min(endY, preVolcanicHeight), easing, sampler);
-                return;
+                VolcanoVariant variant = sampler.getVolcanoVariant(sampler.getCellularNoise().cell(context.pos().getX(), context.pos().getZ()));
+                if (variant != null)
+                {
+                    variant.buildSurface(context, startY, endY, sampler);
+                    return;
+                }
             }
         }
         parent.buildSurface(context, startY, endY);
