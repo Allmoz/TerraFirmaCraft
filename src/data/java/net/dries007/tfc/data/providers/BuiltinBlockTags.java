@@ -151,7 +151,8 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
         tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES)
             // Already includes base stone overworld, which includes raw and hardened stone
             .addTags(Tags.Blocks.GRAVELS, Tags.Blocks.COBBLESTONES)
-            .add(TFCBlocks.SANDSTONE, SandstoneBlockType.RAW);
+            .add(TFCBlocks.SANDSTONE, SandstoneBlockType.RAW)
+            .remove(Blocks.WATER);
         tag(EXTRA_CAVE_CARVER_REPLACEABLE)
             .add(TFCBlocks.ROCK_BLOCKS.get(Rock.LIMESTONE).get(Rock.BlockType.RAW).get())
             .add(TFCBlocks.ROCK_BLOCKS.get(Rock.DOLOMITE).get(Rock.BlockType.RAW).get())

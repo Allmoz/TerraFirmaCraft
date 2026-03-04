@@ -13,6 +13,7 @@ import net.dries007.tfc.world.noise.Cellular2D;
 import net.dries007.tfc.world.noise.Noise2D;
 import net.dries007.tfc.world.noise.OpenSimplex2D;
 import net.dries007.tfc.world.surface.SurfaceBuilderContext;
+import net.dries007.tfc.world.surface.SurfaceStates;
 import net.dries007.tfc.world.surface.builder.NormalSurfaceBuilder;
 
 import static net.dries007.tfc.world.TFCChunkGenerator.*;
@@ -135,46 +136,29 @@ public class VolcanoVariants
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
                 final int heightIn = context.getPreVolcanicHeight();
                 final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
-                final double landHeight = this.getLandHeight(heightIn, x, z, maxDiam, context.biome().getCenteredFeatureScaleHeight(), context.biome().getCenteredFeatureBaseHeight(), cell);
-                final double waterHeight = this.getFluidHeight(heightIn, x, z, maxDiam, context.biome().getCenteredFeatureScaleHeight(), context.biome().getCenteredFeatureBaseHeight(), cell);
-                final int waterDepth = (int) (waterHeight - landHeight);
+                final int landHeight = (int) Math.round(this.getLandHeight(heightIn, x, z, maxDiam, context.biome().getCenteredFeatureScaleHeight(), context.biome().getCenteredFeatureBaseHeight(), cell));
+                final int waterHeight = (int) Math.round(this.getFluidHeight(heightIn, x, z, maxDiam, context.biome().getCenteredFeatureScaleHeight(), context.biome().getCenteredFeatureBaseHeight(), cell));
 
-                if (waterDepth > 0)
+                if (waterHeight > landHeight)
                 {
-                    buildWaterSurface(context, startY, endY, waterDepth);
+                    buildWaterSurface(context, waterHeight, landHeight);
                 }
 
                 NormalSurfaceBuilder.INSTANCE.buildSurface(context, startY, endY);
             }
 
-            private void buildWaterSurface(SurfaceBuilderContext context, int startY, int endY, int waterDepth)
+            private void buildWaterSurface(SurfaceBuilderContext context, int startY, int landHeight)
             {
                 final BlockState water = Fluids.WATER.getSource().defaultFluidState().createLegacyBlock();
 
-                int surfaceDepth = -1;
-                for (int y = startY; y >= endY; --y)
+                for (int y = startY; y >= landHeight; --y)
                 {
-                    BlockState stateAt = context.getBlockState(y);
-                    if (stateAt.isAir())
-                    {
-                        // Reached air, reset surface depth
-                        surfaceDepth = -1; // TODO: Custom handling here to deal with cave leakage
-                    }
-                    else if (context.isDefaultBlock(stateAt))
-                    {
-                        if (surfaceDepth == -1)
-                        {
-                            // Reached surface. Place top state and switch to subsurface layers
-                            surfaceDepth = waterDepth;
-                            context.setBlockState(y, water);
-                        }
-                        else if (surfaceDepth > 0) // TODO: Need to place underwater blocks too
-                        {
-                            // Subsurface layers
-                            surfaceDepth--;
-                            context.setBlockState(y, water);
-                        }
-                    }
+                    context.setBlockState(y, water);
+                }
+
+                for (int y = landHeight; y >= landHeight - 5; --y)
+                {
+                    context.setBlockState(y, SurfaceStates.RAW);
                 }
             }
         };
