@@ -44,9 +44,10 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
         {
             final CenteredFeatureNoiseSampler sampler = CenteredFeatureNoise.stratovolcano(seed);
             final float easing = sampler.calculateEasing(context.pos(), context.stratovolcanoBiome());
-            if (startY > context.getPreVolcanicHeight() + 3)
+            final int preVolcanicHeight = context.getPreVolcanicHeight();
+            if (startY > preVolcanicHeight + 3)
             {
-                buildVolcanicSurface(context, startY, endY, easing, sampler);
+                buildVolcanicSurface(context, startY, Math.min(endY, preVolcanicHeight), easing, sampler);
                 return;
             }
         }
@@ -55,6 +56,8 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
 
     private void buildVolcanicSurface(SurfaceBuilderContext context, int startY, int endY, float easing, CenteredFeatureNoiseSampler sampler)
     {
+
+
         final BlockState basalt = TFCBlocks.ROCK_BLOCKS.get(Rock.BASALT).get(Rock.BlockType.RAW).get().defaultBlockState();
 
         int surfaceDepth = -1;

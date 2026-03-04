@@ -12,11 +12,9 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.util.Helpers;
-import net.dries007.tfc.world.BiomeNoiseSampler;
 import net.dries007.tfc.world.ChunkHeightFiller;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.biome.BiomeExtension;
-import net.dries007.tfc.world.biome.BiomeNoise;
 import net.dries007.tfc.world.biome.BiomeSourceExtension;
 import net.dries007.tfc.world.biome.TFCBiomes;
 import net.dries007.tfc.world.noise.Cellular2D;
@@ -155,6 +153,18 @@ public class CenteredFeatureNoise
                 }
                 return null;
             }
+
+            @Override
+            public Cellular2D.Cell getCell(BlockPos pos)
+            {
+                return cellNoise.cell(pos.getX(), pos.getZ());
+            }
+
+            @Override
+            public @Nullable VolcanoVariant getVolcanoVariant(Cellular2D.Cell cell)
+            {
+                return null;
+            }
         };
     }
 
@@ -261,6 +271,18 @@ public class CenteredFeatureNoise
                 {
                     return new BlockPos((int) cell.x(), y, (int) cell.y());
                 }
+                return null;
+            }
+
+            @Override
+            public Cellular2D.Cell getCell(BlockPos pos)
+            {
+                return cellNoise.cell(pos.getX(), pos.getZ());
+            }
+
+            @Override
+            public @Nullable VolcanoVariant getVolcanoVariant(Cellular2D.Cell cell)
+            {
                 return null;
             }
         };
@@ -403,6 +425,18 @@ public class CenteredFeatureNoise
                 }
                 return null;
             }
+
+            @Override
+            public Cellular2D.Cell getCell(BlockPos pos)
+            {
+                return cellNoise.cell(pos.getX(), pos.getZ());
+            }
+
+            @Override
+            public @Nullable VolcanoVariant getVolcanoVariant(Cellular2D.Cell cell)
+            {
+                return null;
+            }
         };
     }
 
@@ -411,10 +445,6 @@ public class CenteredFeatureNoise
         return new CenteredFeatureNoiseSampler()
         {
             final Cellular2D cellNoise = new Cellular2D(seed.seed(), 2).spread(0.0024f); // TODO: Evaluate whether we want this extra sample, or if we want lower jitter
-            final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
-            final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(2).scaled(-0.08f, 0.08f).spread(0.03f);
-            final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 24482L).octaves(3).spread(0.06).scaled(0.92, 1.08);
-            final double verticalScale = 1.2; // TODO: This is a temporary variable, get rid of it
 
             @Override
             public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)
@@ -457,122 +487,37 @@ public class CenteredFeatureNoise
                 // Note that apex heights are scaled to equal the actual diameter of the feature
                 double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell)));
 
-                // Then we set up our polar coordinate system
-                final double shape; // The output height, domain [0, 1]
-
                 final int borderHeight;
-                if (maxDiameter >= 0.7) // TODO: Work out what this number should be
+                if (maxDiameter >= 0.7) // TODO: Get rid of borders
                 {
-                    shape = getHeightCraterLake(cell, maxDiameter, x, z);
                     borderHeight = 30;
                 }
                 else if (maxDiameter >= 0.5)
                 {
-                    // TODO: Select a shape for a large volcano
-                    shape = getHeightFuji(cell, maxDiameter, x, z);
                     borderHeight = 20;
                 }
                 else
                 {
-                    // TODO: Select a shape for a small volcano
-                    shape = getHeightFuji(cell, maxDiameter, x, z);
                     borderHeight = 10;
                 }
 
-                final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight();
-                final double volcanoHeight = (SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight() + volcanoAdditionalHeight);
-
-                // TODO: These borders are just for visuals
+                final VolcanoVariant variant = getVolcanoVariant(cell);
+                final double volcanoHeight;
+                if (variant != null)
+                {
+                    volcanoHeight = variant.getHeight(heightIn, x, z, maxDiameter, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
+                }
+                else
+                {
+                    volcanoHeight = heightIn;
+                }
+                // TODO: These borders are just for visual debugging, remove
                 if (cell.f2() - cell.f1() < 0.05)
                 {
                     return heightIn + borderHeight;
                 }
                 return Math.max(heightIn, volcanoHeight);
 
-            }
-
-            // Simple cone shape, similar to Mt. Fuji, Japan
-            private double getHeightFuji(Cellular2D.Cell cell, double maxDiam, int x, int z)
-            {
-                final double noise = cell.noise();
-                final double apexHeight = maxDiam; // TODO: Random heights? 0.25 * (3 + Helpers.hashDouble(noise, 2)) * maxDiam;
-
-                // Simple cone
-                final double r0 = Mth.map(Mth.sqrt((float) cell.f1()), 0, apexHeight * 0.5, 0, 1); // Radius squared, range [0, 1]
-                final double craterSize = 0.04 + 0.06 * Helpers.hashDouble(noise, 10);
-                double shape = apexHeight * calculateSimpleRadialShape(r0, craterSize) * verticalScale;
-                shape = shape * (0.9 + 0.1 * calculateCircumferentialErosion(cell, craterSize, 0.2, 0.9, 1, r0, x, z, 3, (int) (maxDiam * 16)));
-
-                return shape;
-            }
-
-            // Large Crater with a central lake, Similar to Crater Lake, OR
-            private double getHeightCraterLake(Cellular2D.Cell cell, double maxDiam, int x, int z)
-            {
-                final double noise = cell.noise();
-
-                // Simple cone
-                final double f1 = cell.f1();
-                final double r = Mth.map(Mth.sqrt((float) f1), 0, maxDiam * 0.5, 0, 1); // Radius squared, range [0, 1]
-                final double craterSize = 0.5 + rimWarpNoise.noise(x, z); // Domain warp the rim to get a wavy shape
-                final double rimHeight = 0.35;
-                double shape = rimHeight * calculateSimpleRadialShape(r, craterSize) * verticalScale;
-                shape = shape * (0.88 + 0.12 * calculateCircumferentialErosion(cell, craterSize, craterSize + 0.06, 0.95, 1, r, x, z, 24, (int) (maxDiam * 32)));
-                shape = shape * (0.93 + 0.08 * calculateCircumferentialErosion(cell, craterSize * 0.4, craterSize * 0.8, craterSize * 0.8, craterSize, r, x, z, 24, (int) (maxDiam * 32)));
-                return shape * textureNoise.noise(x, z);
-            }
-
-            private double calculateCircumferentialErosion(Cellular2D.Cell cell, double rInner0, double rInner1, double rOuter1, double rOuter0, double r, int x, int z, int minRidgeCount, int addedRidgeCount)
-            {
-                final double noise = Helpers.hashDouble(cell.noise(), 213);
-                final int ridges = (int) (noise * addedRidgeCount) + minRidgeCount;
-                final double ridgeWarping = ridgeWarpNoise.noise(x, z) / ridges;
-                double a = cell.angle() + ridgeWarping;
-                a = a >= 4 ? a - 4 : a < 0 ? a + 4 : a;
-
-                final double erosion = (2 - noise);
-                final double fluvialShape = Math.abs((a * 0.5 * ridges % 2) - 1);
-
-                // Smooth out ridges at an inner and outer radius
-                final double easing;
-                if (r <= rInner1)
-                {
-                    easing = Mth.clampedMap(r, rInner0, rInner1, 0, 1);
-                }
-                else
-                {
-                    easing = Mth.clampedMap(r, rOuter0, rOuter1, 0, 1);
-                }
-
-                // Scale ridges larger on volcanoes with fewer ridges, from 0.6 to 1.4
-                final double ridgeScale = Mth.clampedMap(ridges, minRidgeCount, minRidgeCount + addedRidgeCount, 1.5, 0.5);
-
-                return (fluvialShape - 1) * erosion * easing * ridgeScale;
-            }
-
-            /**
-             * @param r The scaled, non-square distance from the volcano, from 0 at center to 1 at edge of influence
-             * @param rCrater The radius of the crater
-             * @return A noise function determining the volcano's height at any given position, in the range [0, 1]
-             */
-            private static double calculateSimpleRadialShape(double r, double rCrater)
-            {
-                if (r >= 1)
-                {
-                    return 0;
-                }
-                else if (r > rCrater)
-                {
-                    // Main slopes
-                    double x = Mth.map(r, rCrater, 1, 0, 1);
-                    return Helpers.hyperbolicSection(x, 1, 1);
-                }
-                else
-                {
-                    // Interior of crater
-                    double craterBaseHeight = 1 - 2 * rCrater;
-                    return Helpers.hyperbolicSection(rCrater - r, rCrater, 2 * rCrater) + craterBaseHeight;
-                }
             }
 
             private static float calculateEasing(float f1)
@@ -583,32 +528,6 @@ public class CenteredFeatureNoise
             private static float calculateClampedEasing(float f1)
             {
                 return Mth.clamp(calculateEasing(f1), 0, 1);
-            }
-
-            /**
-             * Method for adding a single gap to a cellular feature at a random angle
-             * @param gapSize size of the gap in diamond angle units
-             * @param a1 angle of this position
-             * @param aGap angle of the gap
-             * @return a value ranging from 1 far from the gap, to 0 in the middle of a large gap
-             */
-            private static double getGapVerticalEasing(double gapSize, double a1, double aGap)
-            {
-                // Only adjust this if a gap should exist at all
-                double gapVerticalEasing = 1;
-                if (gapSize > 0)
-                {
-                    final double angleToGap = Math.abs(a1 - aGap);
-                    // If angle to gap is larger than the gap size, we are far from the gap and can skip calculations
-                    if (angleToGap < gapSize)
-                    {
-                        final double angleToGapEdge = Math.abs(Math.min(angleToGap + gapSize, angleToGap - gapSize));
-
-                        // Gap scale should be lowest at the center of the gap
-                        gapVerticalEasing = Mth.clampedMap(angleToGapEdge, 0, Math.max(0.3, 0.6 * gapSize), 1, 0);
-                    }
-                }
-                return gapVerticalEasing;
             }
 
             public double maxSafeDiameterSquared(Cellular2D.Cell cell)
@@ -641,6 +560,29 @@ public class CenteredFeatureNoise
                     return new BlockPos((int) cell.x(), y, (int) cell.y());
                 }
                 return null;
+            }
+
+            @Override
+            public Cellular2D.Cell getCell(BlockPos pos)
+            {
+                return cellNoise.cell(pos.getX(), pos.getZ());
+            }
+
+            @Override
+            public @Nullable VolcanoVariant getVolcanoVariant(Cellular2D.Cell cell)
+            {
+                // We start by determining the diameter and height of the cone
+                // Note that apex heights are scaled to equal the actual diameter of the feature
+                double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell))); // TODO: I'd like to do this earlier on, but I shouldn't try and optimize right now
+
+                if (maxDiameter >= 0.7) // TODO: Work out selection process
+                {
+                    return VolcanoVariants.craterLake(seed);
+                }
+                else
+                {
+                    return VolcanoVariants.fuji(seed);
+                }
             }
         };
     }

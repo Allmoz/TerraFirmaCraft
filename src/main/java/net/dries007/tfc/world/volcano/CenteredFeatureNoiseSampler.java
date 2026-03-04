@@ -75,4 +75,15 @@ public interface CenteredFeatureNoiseSampler
         if (rarity == 0) return false;
         return Math.abs(cell.noise()) <= 1.0 / rarity;
     }
+
+    /**
+     * @return The cell at a given location.
+     */
+    Cellular2D.Cell getCell(BlockPos pos);
+
+    /**
+     * @return The cell at a given location.
+     */
+    @Nullable
+    VolcanoVariant getVolcanoVariant(Cellular2D.Cell cell);
 }
