@@ -25,6 +25,8 @@ import static net.dries007.tfc.world.TFCChunkGenerator.*;
 
 public class CenteredFeatureNoise
 {
+    public static final double STRATOVOLCANO_SPREAD_FACTOR = 0.0024f;
+
     public static CenteredFeatureNoiseSampler cinder(Seed seed)
     {
         return new CenteredFeatureNoiseSampler()
@@ -444,7 +446,7 @@ public class CenteredFeatureNoise
     {
         return new CenteredFeatureNoiseSampler()
         {
-            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 2).spread(0.0024f); // TODO: Evaluate whether we want this extra sample, or if we want lower jitter
+            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 2).spread(STRATOVOLCANO_SPREAD_FACTOR); // TODO: Evaluate whether we want this extra sample, or if we want lower jitter
 
             @Override
             public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)

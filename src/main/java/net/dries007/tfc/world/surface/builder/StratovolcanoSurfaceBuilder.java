@@ -57,38 +57,4 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
         }
         parent.buildSurface(context, startY, endY);
     }
-
-    private void buildVolcanicSurface(SurfaceBuilderContext context, int startY, int endY, float easing, CenteredFeatureNoiseSampler sampler)
-    {
-
-
-        final BlockState basalt = TFCBlocks.ROCK_BLOCKS.get(Rock.BASALT).get(Rock.BlockType.RAW).get().defaultBlockState();
-
-        int surfaceDepth = -1;
-        for (int y = startY; y >= endY; --y)
-        {
-            BlockState stateAt = context.getBlockState(y);
-            if (stateAt.isAir())
-            {
-                // Reached air, reset surface depth
-                surfaceDepth = -1;
-            }
-            else if (context.isDefaultBlock(stateAt))
-            {
-                if (surfaceDepth == -1)
-                {
-                    // Reached surface. Place top state and switch to subsurface layers
-                    surfaceDepth = context.calculateAltitudeSlopeSurfaceDepth(y, 4);
-                    surfaceDepth = Mth.clamp((int) (surfaceDepth * (easing - 0.6f) / 0.4f), 2, 11);
-                    context.setBlockState(y, basalt);
-                }
-                else if (surfaceDepth > 0)
-                {
-                    // Subsurface layers
-                    surfaceDepth--;
-                    context.setBlockState(y, basalt);
-                }
-            }
-        }
-    }
 }
