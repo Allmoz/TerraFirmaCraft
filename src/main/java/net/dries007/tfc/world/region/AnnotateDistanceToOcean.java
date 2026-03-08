@@ -20,14 +20,23 @@ public enum AnnotateDistanceToOcean implements RegionTask
         final Region region = context.region;
         final BitSet explored = new BitSet(region.size());
         final IntArrayFIFOQueue queue = new IntArrayFIFOQueue();
+        final IntArrayFIFOQueue shelfQueue = new IntArrayFIFOQueue();
 
         for (final var point : region.points())
         {
             if (point != null && !point.land())
             {
-                point.distanceToOcean = -1;
-                queue.enqueue(point.index);
-                explored.set(point.index);
+                if (point.oceanDepth == 2)
+                {
+                    point.distanceToOcean = -1;
+                    queue.enqueue(point.index);
+                    explored.set(point.index);
+                }
+                else
+                {
+                    point.distanceToOcean = -2;
+                    shelfQueue.enqueue(point.index);
+                }
             }
         }
 
@@ -53,6 +62,31 @@ public enum AnnotateDistanceToOcean implements RegionTask
                         {
                             point.distanceToOcean = (byte) nextDistance;
                             queue.enqueue(point.index);
+                        }
+                        explored.set(point.index);
+                    }
+                }
+            }
+        }
+
+        explored.clear();
+        while (!shelfQueue.isEmpty())
+        {
+            final int last = shelfQueue.dequeueInt();
+            final Region.Point lastPoint = region.atIndex(last);
+            final int nextDistance = Math.max(lastPoint.distanceToOcean + 1, 0);
+
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                for (int dz = -1; dz <= 1; dz++)
+                {
+                    final @Nullable Region.Point point = region.atOffset(last, dx, dz);
+                    if (point != null && point.oceanDepth == 2 && point.distanceToOcean <= 0 && !point.land())
+                    {
+                        if (!explored.get(point.index))
+                        {
+                            point.distanceToOcean = (byte) nextDistance;
+                            shelfQueue.enqueue(point.index);
                         }
                         explored.set(point.index);
                     }

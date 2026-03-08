@@ -266,8 +266,7 @@ public final class BiomeNoise
         final Noise2D shapeMap = connectedValleyNoise(seed);
 
         // Glacial mountain noise is based on cellular noise. Cells are either bowl-shaped cirques, or cone-shaped horns
-        final double cellScale = 0.010;
-        final Cellular2D cells = new Cellular2D(seed, 2).spread(cellScale);
+        final Cellular2D cells = new Cellular2D(seed, 2).spread(0.010);
         final Noise2D warp = new OpenSimplex2D(seed).spread(0.02).add(shapeMap).scaled(-1, 2, -0.25, 0.2);
         final Noise2D roughPeaks = new OpenSimplex2D(seed).octaves(3).spread(0.08).scaled(0.6, 1.6);
 
@@ -282,7 +281,7 @@ public final class BiomeNoise
             final double f2 = cell.f2();
             final double f2f1 = (f1 > 0 ? (f2 - f1) : 1);
 
-            final double shapeAtCenter = shapeMap.noise(cell.cx() / cellScale, cell.cy() / cellScale);
+            final double shapeAtCenter = shapeMap.noise(cell.x(), cell.y()); // TODO: Check this fix works as intended
 
             // Whether a cell is a cirque or a horn is based on the shape noise, a way of approximating the distance to the nearest valley
             if (shapeAtCenter > 0.60)

@@ -145,15 +145,15 @@ public enum ChooseBiomes implements RegionTask
                     point.biome = randomSeededFrom(rngSeed, areaSeed, ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
                 }
             }
-            else if (point.baseOceanDepth < 3)
+            else if (point.distanceToLand < 3)
             {
                 point.biome = OCEAN;
             }
-            else if (point.baseOceanDepth > 9)
+            else if (point.distanceToLand > 9)
             {
                 point.biome = DEEP_OCEAN_TRENCH;
             }
-            else if (point.baseOceanDepth >= 5 || point.distanceToEdge < 2)
+            else if (point.distanceToLand >= 5 || point.distanceToEdge < 2)
             {
                 point.biome = DEEP_OCEAN;
             }

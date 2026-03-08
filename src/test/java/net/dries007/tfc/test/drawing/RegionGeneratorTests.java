@@ -45,6 +45,10 @@ public class RegionGeneratorTests implements TestSetup
         new Color(0, 100, 0),
         new Color(80, 200, 80));
 
+    final DoubleFunction<Color> teal = Artist.Colors.linearGradient(
+        new Color(0, 150, 150),
+        new Color(40, 250, 250));
+
     final DoubleFunction<Color> temperature = Artist.Colors.multiLinearGradient(
         new Color(180, 20, 240),
         new Color(0, 180, 240),
@@ -138,19 +142,15 @@ public class RegionGeneratorTests implements TestSetup
         {
             case ADD_CONTINENTS, FLOOD_FILL_SMALL_OCEANS, ADD_ISLANDS -> point.land()
                 ? new Color(0, 130, 0)
-                : cellColor(region);
+                : oceanDepthColor(point);
             case ANNOTATE_DISTANCE_TO_CELL_EDGE -> blue.apply(point.distanceToEdge / 24f);
             case ANNOTATE_DISTANCE_TO_OCEAN -> point.land()
                 ? green.apply(point.distanceToOcean / 20f)
+                : point.oceanDepth == 2
+                ? teal.apply(1 - point.distanceToOcean / 20f)
                 : cellColor(region);
             case ANNOTATE_BASE_LAND_HEIGHT -> continentColor(point);
-            case ADD_MOUNTAINS ->
-            {
-                if (!point.mountain()) yield continentColor(point);
-                yield point.baseLandHeight <= 2
-                    ? new Color(240, 110, 50)
-                    : new Color(150, 150, 150);
-            }
+            case ADD_MOUNTAINS -> mountainColor(point);
             case ANNOTATE_DISTANCE_TO_WEST_COAST -> point.land()
                 ? green.apply(point.distanceToWestCoast / 100f)
                 : cellColor(region);
@@ -160,6 +160,8 @@ public class RegionGeneratorTests implements TestSetup
             case ANNOTATE_HOT_SPOT_AGE -> point.hotSpotAge > 0 ? hotspot(point.hotSpotAge) : point.land()
                 ? green.apply(Mth.clampedMap(point.discreteBiomeAltitude(), 0, 3, 0, 1))
                 : continentColor(point);
+            case ANNOTATE_BOUNDARY_TYPES -> point.distanceToEdge < 2 ?
+                point.divergence > 0 ? Color.MAGENTA : Color.RED : point.land() ? green.apply(0.5 * point.divergence + 0.5) : point.divergence > 0 ? Color.BLUE : Color.ORANGE;
             case TEMPERATURE -> temperatureGradient(point, point.temperature, -25f, 35f);
             case RAINFALL, RAINFALL_AFTER_RIVERS -> temperatureGradient(point, point.rainfall, 0, 500);
             case RAINFALL_VARIANCE -> oceanOutlineTemperatureGradient(point, point.rainfallVariance, -1, 1);
@@ -233,9 +235,40 @@ public class RegionGeneratorTests implements TestSetup
     private Color continentColor(Region.Point point)
     {
         if (point.land()) return green.apply(point.baseLandHeight / 24f);
-        if (point.baseOceanDepth < 4) return new Color(150, 160, 255);
-        if (point.baseOceanDepth < 8) return new Color(120, 120, 240);
-        return new Color(100, 100, 200);
+        return oceanDepthColor(point);
+    }
+
+    private Color oceanDepthColor(Region.Point point)
+    {
+        return switch (point.oceanDepth)
+        {
+            case 1 -> new Color(50, 215, 215);
+            case 2 -> new Color(40, 180, 180);
+            case 3 -> new Color(40, 140, 180);
+            case 4 -> new Color(40, 80, 160);
+            case 5 -> new Color(40, 40, 120);
+            default -> new Color(255, 100, 100); // Error detection
+        };
+    }
+
+    private Color mountainColor(Region.Point point)
+    {
+        if (point.mountain())
+        {
+            return point.volcanic()
+                ? point.coastalMountain() ? new Color(200, 90, 40) : new Color(240, 110, 50)
+                : point.coastalMountain() ? new Color(140, 140, 140) : new Color(180, 180, 180);
+        }
+        else if (point.barrierIsland())
+        {
+            return point.volcanic()
+                ? new Color(200, 40, 40)
+                : new Color(220, 140, 140);
+        }
+        else
+        {
+            return continentColor(point);
+        }
     }
 
     private Color temperatureGradient(Region.Point point, float value, float min, float max)
@@ -523,6 +556,7 @@ public class RegionGeneratorTests implements TestSetup
         ADD_CONTINENTS(Task.ADD_CONTINENTS),
         ANNOTATE_DISTANCE_TO_CELL_EDGE(Task.ANNOTATE_DISTANCE_TO_CELL_EDGE),
         FLOOD_FILL_SMALL_OCEANS(Task.FLOOD_FILL_SMALL_OCEANS),
+        ANNOTATE_BOUNDARY_TYPES(Task.FLOOD_FILL_SMALL_OCEANS),
         ANNOTATE_HOT_SPOT_AGE(Task.ADD_HOTSPOTS),
         ADD_ISLANDS(Task.ADD_ISLANDS),
         ANNOTATE_DISTANCE_TO_OCEAN(Task.ANNOTATE_DISTANCE_TO_OCEAN),

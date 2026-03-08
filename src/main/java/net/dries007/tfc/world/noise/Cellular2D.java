@@ -73,9 +73,11 @@ public class Cellular2D implements Noise2D
         double angle0 = -1;
         double thisCenterX = 0;
         double thisCenterY = 0;
+        double neighborCenterX = 0;
+        double neighborCenterY = 0;
         int closestHash = 0;
-        int neighborCenterX = 0;
-        int neighborCenterY = 0;
+        int noJitterCenterX = 0;
+        int noJitterCenterY = 0;
 
         int xPrimed = (xr - 1) * primeX;
         int yPrimedBase = (yr - 1) * primeY;
@@ -84,7 +86,7 @@ public class Cellular2D implements Noise2D
         {
             int yPrimed = yPrimedBase;
 
-            for (int yi = yr - sample; yi <= yr + sample; yi++)
+             for (int yi = yr - sample; yi <= yr + sample; yi++)
             {
                 int hash = FastNoiseLite.Hash(seed, xPrimed, yPrimed);
                 int idx = hash & (255 << 1);
@@ -97,36 +99,48 @@ public class Cellular2D implements Noise2D
                 double newAngle = Helpers.diamondAngle(newDistanceX, newDistanceY);
                 double newDistance = newDistanceX * newDistanceX + newDistanceY * newDistanceY;
 
+                final double oldDist1 = distance1;
                 distance1 = FastNoiseLite.FastMax(FastNoiseLite.FastMin(distance1, newDistance), distance0);
                 if (newDistance < distance0)
                 {
+                    // If the current distance is the smallest so far, update data
                     distance0 = newDistance;
                     angle0 = newAngle;
                     closestHash = hash;
 
                     // Store the last computed centers
+                    neighborCenterX = thisCenterX; // Cell 2 X
+                    neighborCenterY = thisCenterY; // Cell 2 Y
                     thisCenterX = vecX; // Cell 1 X
                     thisCenterY = vecY; // Cell 1 Y
-                    neighborCenterX = xi; // Cell 2 X
-                    neighborCenterY = yi; // Cell 2 Y
+                    noJitterCenterX = xi; // Cell 1 Grid X
+                    noJitterCenterY = yi; // Cell 1 Grid Y
+                }
+                else if (distance1 != oldDist1)
+                {
+                    // If the distance to Cell 2 changed, without updating Cell 1, update data
+                    neighborCenterX = vecX;
+                    neighborCenterY = vecY;
                 }
                 yPrimed += primeY;
             }
             xPrimed += primeX;
         }
 
-        return new Cell(thisCenterX / frequency, thisCenterY / frequency, neighborCenterX, neighborCenterY, distance0, distance1, closestHash * (1 / 2147483648.0f), angle0);
+        return new Cell(thisCenterX / frequency, thisCenterY / frequency, noJitterCenterX, noJitterCenterY, neighborCenterX / frequency, neighborCenterY / frequency, distance0, distance1, closestHash * (1 / 2147483648.0f), angle0);
     }
 
     /**
-     * @param x "X"-coordinate of cell center.
-     * @param y "Y"-coordinate of cell center
-     * @param cx "X"-coordinate of the nearest cell (C2) center
-     * @param cy "Y"-coordinate of the nearest cell (C2) center
-     * @param f1 Distance to x, y
-     * @param f2 Distance to cx, cy
+     * @param x     "X"-coordinate of cell center
+     * @param y     "Y"-coordinate of cell center
+     * @param cx    "X"-coordinate of cell center before jitter, unscaled
+     * @param cy    "Y"-coordinate of cell center before jitter, unscaled
+     * @param nx    "X"-coordinate of neighboring cell center
+     * @param ny    "Y"-coordinate of neighboring cell center
+     * @param f1    Distance to x, y
+     * @param f2    Distance to cx, cy
      * @param noise Hash value of the cell, range 0-1
      * @param angle Diamond angle to the center
      */
-    public record Cell(double x, double y, int cx, int cy, double f1, double f2, double noise, double angle) {}
+    public record Cell(double x, double y, int cx, int cy, double nx, double ny, double f1, double f2, double noise, double angle) {}
 }
