@@ -33,6 +33,12 @@ public class TFCLayers
     public static final int OCEAN_REEF = idFor(TFCBiomes.OCEAN_REEF);
     public static final int DEEP_OCEAN = idFor(TFCBiomes.DEEP_OCEAN);
     public static final int DEEP_OCEAN_TRENCH = idFor(TFCBiomes.DEEP_OCEAN_TRENCH);
+    public static final int OCEANIC_VOLCANIC_ARC = idFor(TFCBiomes.OCEANIC_VOLCANIC_ARC);
+    public static final int BARRIER_ISLANDS = idFor(TFCBiomes.BARRIER_ISLANDS);
+    public static final int OCEAN_RIDGE = idFor(TFCBiomes.OCEAN_RIDGE);
+    public static final int RIFT_VALLEY = idFor(TFCBiomes.RIFT_VALLEY);
+    public static final int RIFT_LAKE = idFor(TFCBiomes.RIFT_LAKE);
+    public static final int COLLISIONAL_MOUNTAINS = idFor(TFCBiomes.COLLISIONAL_MOUNTAINS);
     public static final int PLAINS = idFor(TFCBiomes.PLAINS);
     public static final int HILLS = idFor(TFCBiomes.HILLS);
     public static final int LOWLANDS = idFor(TFCBiomes.LOWLANDS);

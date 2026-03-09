@@ -23,6 +23,16 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
         final Region region = context.region;
         final RandomSource random = context.random;
 
+        // Add collisional ranges first
+        for (Region.Point point : region.points())
+        {
+            if (point.land() && point.divergence < 0 && point.distanceToEdge < 1.5 * context.generator().continentNoise.noise(point.x, point.z) - 5.2)
+            {
+                point.setMountain();
+            }
+        }
+
+        // Then ranges following contours
         for (int attempt = 0, mtnsPlaced = 0, islesPlaced = 0; attempt < 40 && !(mtnsPlaced >= 3 && islesPlaced >= 3); attempt++)
         {
             final @Nullable Region.Point origin = region.random(random);
@@ -31,7 +41,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                 // Attempt to construct a mountain range
                 // We do this with a bit of a DFS / BFS hybrid - intentionally imprecise and random - across a contour of the base land height
                 // Ranges at low altitudes (near ocean) get marked as oceanic ranges, where mid-high altitude ranges get marked as high altitude mountains.
-                if (mtnsPlaced < 3 && origin.land() && origin.baseLandHeight <= 1 || (origin.baseLandHeight >= 4 && origin.baseLandHeight <= 11))
+                if (mtnsPlaced < 3 && (origin.land() && origin.baseLandHeight <= 1 || (origin.baseLandHeight >= 4 && origin.baseLandHeight <= 11)))
                 {
                     final IntSet range = placeRange(region, random, origin.index);
                     if (range.size() > 45)
@@ -55,7 +65,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                 }
                 // Attempt to construct a volcanic arc on the continental shelf in subduction zones
                 // Works similarly to mountain ranges, but based on distance to edge of continental shelf
-                else if (islesPlaced < 3 && origin.oceanDepth == 2 && origin.divergence < 0 && origin.distanceToOcean <= 3)
+                else if (islesPlaced < 3 && !origin.land() && origin.oceanDepth == 2 && origin.divergence < 0 && origin.distanceToOcean <= 3)
                 {
                     final IntSet range = placeVolcanicArc(region, random, origin.index);
                     if (range.size() > 45)
@@ -72,7 +82,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                 }
                 // Attempt to construct a barrier island chain
                 // Works similarly to mountain ranges, but based on distance to land and are thinner
-                else if (origin.oceanDepth == 2 && origin.divergence > 0 && origin.distanceToLand > 2 && origin.distanceToLand < 6)
+                else if (islesPlaced < 3 && !origin.land() && origin.oceanDepth == 2 && origin.divergence > 0 && origin.distanceToLand > 2 && origin.distanceToLand < 6)
                 {
                     final IntSet range = placeBarrier(region, random, origin.index);
                     if (range.size() > 30)
