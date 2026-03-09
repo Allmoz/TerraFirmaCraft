@@ -286,17 +286,24 @@ public class RegionGeneratorTests implements TestSetup
     {
         if (biome == OCEAN) return new Color(0, 0, 220);
         if (biome == OCEAN_REEF) return new Color(70, 160, 250);
-        if (biome == DEEP_OCEAN) return new Color(0, 0, 160);
+        if (biome == OCEAN_RIDGE) return new Color(20, 50, 170);
+        if (biome == DEEP_OCEAN) return new Color(0, 0, 140);
         if (biome == DEEP_OCEAN_TRENCH) return new Color(0, 0, 80);
         if (biome == LAKE) return new Color(30, 30, 255);
         if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
         if (biome == RIVER) return new Color(0, 200, 255);
+
+        if (biome == RIFT_VALLEY) return new Color(80, 0, 80);
+        if (biome == RIFT_LAKE) return new Color(30, 30, 210);
 
         if (biome == OCEANIC_MOUNTAINS || biome == VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 0, 255);
         if (biome == CANYONS || biome == TOWER_KARST_CANYONS || biome == SHILIN_CANYONS || biome == DOLINE_CANYONS || biome == CENOTE_CANYONS) return new Color(180, 60, 255);
         if (biome == LOW_CANYONS) return new Color(200, 110, 255);
         if (biome == LOWLANDS || biome == TOWER_KARST_BAY || biome == SALT_MARSH || biome == TOWER_KARST_LAKE) return new Color(220, 150, 230);
 
+        if (biome == OCEANIC_VOLCANIC_ARC) return new Color(100, 10, 10);
+        if (biome == BARRIER_ISLANDS) return new Color(250, 160, 160);
+        if (biome == COLLISIONAL_MOUNTAINS) return new Color(215, 20, 20);
         if (biome == MOUNTAINS || biome == VOLCANIC_MOUNTAINS) return new Color(255, 50, 50);
         if (biome == OLD_MOUNTAINS || biome == EXTREME_DOLINE_MOUNTAINS) return new Color(240, 100, 100);
         if (biome == PLATEAU || biome == EXTREME_DOLINE_PLATEAU || biome == CENOTE_PLATEAU || biome == DOLINE_PLATEAU || biome == SHILIN_PLATEAU || biome == BURREN_PLATEAU) return new Color(190, 120, 120);
