@@ -65,6 +65,22 @@
           }
         ]
       }
+    },
+    "oceanic_volcanic_arc": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:oceanic_volcanic_arc"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "display": {
@@ -88,7 +104,8 @@
       "volcanic_mountains",
       "volcanic_oceanic_mountains",
       "volcanic_mountain_lake",
-      "volcanic_oceanic_mountain_lake"
+      "volcanic_oceanic_mountain_lake",
+      "oceanic_volcanic_arc"
     ]
   ]
 }

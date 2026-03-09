@@ -1745,6 +1745,102 @@
           }
         ]
       }
+    },
+    "oceanic_volcanic_arc": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:oceanic_volcanic_arc"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "barrier_islands": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:barrier_islands"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "ocean_ridge": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:ocean_ridge"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "rift_valley": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:rift_valley"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "rift_lake": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:rift_lake"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "collisional_mountains": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:collisional_mountains"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "display": {
@@ -2090,6 +2186,24 @@
     ],
     [
       "stone_circles"
+    ],
+    [
+      "oceanic_volcanic_arc"
+    ],
+    [
+      "barrier_islands"
+    ],
+    [
+      "ocean_ridge"
+    ],
+    [
+      "rift_valley"
+    ],
+    [
+      "rift_lake"
+    ],
+    [
+      "collisional_mountains"
     ]
   ]
 }
