@@ -130,15 +130,14 @@ public enum ChooseBiomes implements RegionTask
             }
             else if (point.land())
             {
+                final float rain = point.rainfall;
+                final float maxIceSheetTemp = -17f + 0.006f * rain;
+                final float temp = point.temperature;
                 if (point.distanceToEdge < 3)
                 {
                     point.biome = randomSeededFrom(rngSeed, areaSeed, RIFT_VALLEY_BIOMES);
                 }
-
-                final float rain = point.rainfall;
-                final float maxIceSheetTemp = -17f + 0.006f * rain;
-                final float temp = point.temperature;
-                if (temp < maxIceSheetTemp)
+                else if (temp < maxIceSheetTemp)
                 {
                     int biome = randomSeededFrom(rngSeed, areaSeed, ICE_SHEET_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
 
