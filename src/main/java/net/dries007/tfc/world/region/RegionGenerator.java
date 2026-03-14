@@ -78,7 +78,7 @@ public final class RegionGenerator
         this.settings = settings;
         this.seed = seed;
 
-        this.cellNoise = new Cellular2D(seed.next(), 2).spread(1f / Units.CELL_WIDTH_IN_GRID);
+        this.cellNoise = continentCellNoise(1f);
 
         // Both of these caches are queried, and cached, on a cell-coordinate basis
         // Since cells are large (~12km), a small concurrent cache should be enough
@@ -130,6 +130,11 @@ public final class RegionGenerator
     public Seed seed()
     {
         return seed;
+    }
+
+    public Cellular2D continentCellNoise(float scaleFactor)
+    {
+        return BiomeNoise.continentCellNoise(scaleFactor, seed.seed());
     }
 
     public ChunkDataGenerator chunkDataGenerator()

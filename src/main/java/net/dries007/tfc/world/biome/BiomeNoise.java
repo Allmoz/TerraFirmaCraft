@@ -17,6 +17,7 @@ import net.dries007.tfc.world.noise.Noise2D;
 import net.dries007.tfc.world.noise.Noise3D;
 import net.dries007.tfc.world.noise.OpenSimplex2D;
 import net.dries007.tfc.world.noise.OpenSimplex3D;
+import net.dries007.tfc.world.region.RegionGenerator;
 import net.dries007.tfc.world.region.Units;
 
 import static net.dries007.tfc.world.TFCChunkGenerator.*;
@@ -900,10 +901,58 @@ public final class BiomeNoise
     }
 
     /**
+     * Uses the continent-scale noise to create a spreading ridge aligned with the continent cell border
+     */
+    public static Noise2D oceanRidge(long seed)
+    {
+        final Cellular2D cellNoise = continentCellNoise(1/128f, seed);
+        final OpenSimplex2D warpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.05f).scaled(0, 0.003);
+        final Noise2D bigWarpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.0024f).scaled(-5, 5).map(x -> 0.0045 * Math.round(x));
+        final Noise2D abyssalPlain = ocean(seed, -46, -30); // Match parameters for Deep Ocean biome
+        return abyssalPlain.max((x, y) -> {
+            final Cellular2D.Cell cell = cellNoise.cell(x, y);
+            final double f2f1 = cell.f2() - cell.f1();
+            // Small warp adds some texture to the ridge
+            final double smallWarp =  warpNoise.noise(x, y) * Mth.clampedMap(f2f1, 0, 0.008, 0, 1);
+            // Big warp adds normal faults to the ridge. This noise must be sampled from the same spot on both sides of the edge
+            // To do this, we project the point onto the cell edge
+            // Start by getting a point on the cell edge. We also know that the line between cell centers is perpendicular to the cell edge
+            final double xTrench = 0.5 * (cell.x() + cell.nx());
+            final double yTrench = 0.5 * (cell.y() + cell.ny());
+            final double deltaX = x - xTrench;
+            final double deltaY = y - yTrench;
+            final double dotProduct = ((x - xTrench) * (yTrench - cell.y()) + (y - yTrench) * (cell.x() - xTrench)) / (deltaX * deltaX + deltaY * deltaY);
+            final double xProjected = dotProduct * (yTrench - cell.y());
+            final double yProjected = dotProduct * (cell.x() - xTrench);
+
+            // Signs need to be opposite in opposing cells.
+            final double bigWarp = xTrench > cell.x() ? -bigWarpNoise.noise(xProjected, yProjected) : bigWarpNoise.noise(xProjected, yProjected);
+            // Using absolute value here is needed to stop sudden gaps at cell edges
+            final double warpedNoise = Math.abs(f2f1 + smallWarp + bigWarp);
+            final double rawRidge;
+            if (warpedNoise < 0.004)
+            {
+                rawRidge = Mth.map(warpedNoise, 0, 0.004, SEA_LEVEL_Y - 36, SEA_LEVEL_Y - 12);
+            }
+            else
+            {
+                rawRidge = Mth.clampedMap(warpedNoise, 0.004, 0.018, SEA_LEVEL_Y - 12, SEA_LEVEL_Y - 50);
+            }
+
+            return rawRidge;
+        });
+    }
+
+    public static Cellular2D continentCellNoise(float scaleFactor, long seed)
+    {
+        return new Cellular2D(seed, 2).spread(scaleFactor / Units.CELL_WIDTH_IN_GRID);
+    }
+
+    /**
      * Applies elements from deep ocean and badlands.
      * Inverse power scaled ridge noise (cubic) is used to create ridges, inside the domain warped ocean noise
      */
-    public static Noise2D oceanRidge(long seed, int depthMin, int depthMax)
+    public static Noise2D oceanTrench(long seed, int depthMin, int depthMax)
     {
         final OpenSimplex2D warp = new OpenSimplex2D(seed).octaves(2).spread(0.015f).scaled(-30, 30);
         final Noise2D ridgeNoise = new OpenSimplex2D(seed + 1).octaves(4).spread(0.015f).ridged().map(x -> { // In [-1, 1]

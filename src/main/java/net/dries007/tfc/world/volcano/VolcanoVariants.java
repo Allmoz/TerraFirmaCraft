@@ -73,6 +73,7 @@ public class VolcanoVariants
 
     // Large Crater with a central lake, Similar to Crater Lake, OR
     // This version returns the land height, not the water surface
+    // TODO: Still that surface builder bug with water not occuring in some biomes for some reason
     public static VolcanoVariant craterLake(Seed seed)
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
