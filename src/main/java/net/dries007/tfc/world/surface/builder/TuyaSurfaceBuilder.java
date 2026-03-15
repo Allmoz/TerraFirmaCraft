@@ -68,7 +68,7 @@ public class TuyaSurfaceBuilder implements SurfaceBuilder
             }
             else if (context.isDefaultBlock(stateAt))
             {
-                if (y > context.biome().getCenteredFeatureRockHeight() + noise)
+                if (y > context.tuyaBiome().getCenteredFeatureRockHeight() + noise)
                 {
                     if (surfaceDepth == -1)
                     {
