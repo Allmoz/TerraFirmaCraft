@@ -263,6 +263,7 @@ public class TFCLayers
             && value != ICE_SHEET_SHIELD_VOLCANO && value != GLACIATED_SHIELD_VOLCANO && value != GUANO_ISLAND;
     }
 
+    // TODO: Need to add the new biomes to all these before merge
     public static int shoreFor(int value)
     {
         if (value == LOWLANDS || value == SALT_MARSH)
@@ -377,17 +378,17 @@ public class TFCLayers
 
     public static boolean isOcean(int value)
     {
-        return value == OCEAN || value == DEEP_OCEAN || value == DEEP_OCEAN_TRENCH || value == OCEAN_REEF;
+        return value == OCEAN || value == DEEP_OCEAN || value == DEEP_OCEAN_TRENCH || value == OCEAN_REEF || value == OCEAN_RIDGE;
     }
 
     public static boolean isMountains(int value)
     {
-        return value == MOUNTAINS || value == OCEANIC_MOUNTAINS || value == OLD_MOUNTAINS || value == VOLCANIC_MOUNTAINS || value == VOLCANIC_OCEANIC_MOUNTAINS;
+        return value == MOUNTAINS || value == OCEANIC_MOUNTAINS || value == OLD_MOUNTAINS || value == VOLCANIC_MOUNTAINS || value == VOLCANIC_OCEANIC_MOUNTAINS || value == COLLISIONAL_MOUNTAINS;
     }
 
     public static boolean isLow(int value)
     {
-        return value == PLAINS || value == HILLS || value == LOW_CANYONS || value == LOWLANDS || value == SALT_MARSH || value == MUD_FLATS || value == SALT_FLATS || value == DUNE_SEA;
+        return value == PLAINS || value == HILLS || value == LOW_CANYONS || value == LOWLANDS || value == SALT_MARSH || value == MUD_FLATS || value == SALT_FLATS || value == DUNE_SEA || value == RIFT_VALLEY;
     }
 
     public static boolean isFlats(int value)

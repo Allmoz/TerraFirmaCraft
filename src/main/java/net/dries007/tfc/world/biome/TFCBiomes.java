@@ -50,18 +50,18 @@ public final class TFCBiomes
     public static final Registry<BiomeExtension> REGISTRY = new RegistryBuilder<>(KEY).create();
     public static final DeferredRegister<BiomeExtension> EXTENSIONS = DeferredRegister.create(KEY, TerraFirmaCraft.MOD_ID);
 
-    // Aquatic biomes TODO: Rework for depth
+    // Aquatic biomes
     public static final BiomeExtension OCEAN = register("ocean", builder().heightmap(seed -> BiomeNoise.ocean(seed, -26, -12)).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).salty().type(BiomeBlendType.OCEAN).noRivers()); // Ocean biome found near continents.
     public static final BiomeExtension OCEAN_REEF = register("ocean_reef", builder().heightmap(seed -> BiomeNoise.ocean(seed, -16, -8)).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).salty().type(BiomeBlendType.OCEAN).noRivers()); // Ocean biome with reefs depending on climate. Could be interpreted as either barrier, fringe, or platform reefs.
     public static final BiomeExtension DEEP_OCEAN = register("deep_ocean", builder().heightmap(seed -> BiomeNoise.ocean(seed, -46, -30)).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).type(BiomeBlendType.OCEAN).salty().noRivers()); // Deep ocean biome covering most all oceans.
-    public static final BiomeExtension DEEP_OCEAN_TRENCH = register("deep_ocean_trench", builder().heightmap(seed -> BiomeNoise.oceanTrench(seed, -12, -20)).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).type(BiomeBlendType.OCEAN).salty().noRivers()); // Deeper ocean with sharp relief carving to create very deep trenches
+    public static final BiomeExtension DEEP_OCEAN_TRENCH = register("deep_ocean_trench", builder().heightmap(seed -> BiomeNoise.oceanTrench(seed, -60, -46)).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).type(BiomeBlendType.OCEAN).salty().noRivers()); // Deeper ocean with sharp relief carving to create very deep trenches
     public static final BiomeExtension OCEANIC_VOLCANIC_ARC = register("oceanic_volcanic_arc", builder().heightmap(seed -> BiomeNoise.ocean(seed, -26, -12)).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).salty().type(BiomeBlendType.OCEAN).stratovolcanoes(1, -30, 180).noRivers()); // TODO: Add islands and such
     public static final BiomeExtension BARRIER_ISLANDS = register("barrier_islands", builder().heightmap(seed -> BiomeNoise.ocean(seed, -26, -12)).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).salty().type(BiomeBlendType.OCEAN).noRivers()); // TODO: Add islands and such
 
     // Border Biomes
-    public static final BiomeExtension OCEAN_RIDGE = register("ocean_ridge", builder().heightmap(BiomeNoise::oceanRidge).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).type(BiomeBlendType.OCEAN).salty().noRivers()); // TODO: Ocean spreading ridge
-    public static final BiomeExtension RIFT_VALLEY = register("rift_valley", builder().heightmap(seed -> BiomeNoise.hills(seed, 4, 10)).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.FLOODPLAIN)); // TODO: Land rift valley
-    public static final BiomeExtension RIFT_LAKE = register("rift_lake", builder().heightmap(BiomeNoise::lake).surface(NormalSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).type(BiomeBlendType.LAKE).type(RiverBlendType.WIDE).noRivers()); // TODO: Baikal etc, ensure can't border ocean
+    public static final BiomeExtension OCEAN_RIDGE = register("ocean_ridge", builder().heightmap(BiomeNoise::oceanRidge).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).type(BiomeBlendType.OCEAN).salty().noRivers());
+    public static final BiomeExtension RIFT_VALLEY = register("rift_valley", builder().heightmap(seed -> BiomeNoise.riftValley(seed, 2, 30)).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.TALUS)); // TODO: Land rift valley
+    public static final BiomeExtension RIFT_LAKE = register("rift_lake", builder().heightmap(seed -> BiomeNoise.riftValley(seed, 2, 30)).surface(NormalSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).type(BiomeBlendType.LAKE).type(RiverBlendType.WIDE).noRivers()); // TODO: Baikal etc, ensure can't border ocean
     public static final BiomeExtension COLLISIONAL_MOUNTAINS = register("collisional_mountains", builder().heightmap(seed -> BiomeNoise.mountains(seed, 10, 70)).surface(NormalSurfaceBuilder.ROCKY).spawnable().type(RiverBlendType.CAVE)); // // TODO: Very large mountains
 
     // Low biomes

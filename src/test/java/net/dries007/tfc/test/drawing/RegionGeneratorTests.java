@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.levelgen.RandomSupport;
+import net.minecraft.world.level.levelgen.WorldOptions;
 import org.junit.jupiter.api.Test;
 
 import net.dries007.tfc.data.providers.BuiltinWorldPreset;
@@ -61,7 +62,7 @@ public class RegionGeneratorTests implements TestSetup
     public void testRegionGenerator()
     {
         // Coordinates are given in grid scale, so 1 px = 128 blocks, 150 ~ 20km
-        drawStitchedRegions("", EnumSet.allOf(DrawnTask.class), RandomSupport.generateUniqueSeed(), 0, 75, 200);
+        drawStitchedRegions("", EnumSet.allOf(DrawnTask.class), 153542L, 0, 75, 200);
     }
 
     @SuppressWarnings("SameParameterValue")
@@ -294,7 +295,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == RIVER) return new Color(0, 200, 255);
 
         if (biome == RIFT_VALLEY) return new Color(80, 0, 80);
-        if (biome == RIFT_LAKE) return new Color(30, 30, 210);
+        if (biome == RIFT_LAKE) return new Color(80, 0, 160);
 
         if (biome == OCEANIC_MOUNTAINS || biome == VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 0, 255);
         if (biome == CANYONS || biome == TOWER_KARST_CANYONS || biome == SHILIN_CANYONS || biome == DOLINE_CANYONS || biome == CENOTE_CANYONS) return new Color(180, 60, 255);
@@ -358,7 +359,7 @@ public class RegionGeneratorTests implements TestSetup
     // Only shows Karst biomes and water biomes, color coded by Karst Variety
     private Color karstBiomeColor(int biome)
     {
-        if (biome == OCEAN || biome == OCEAN_REEF || biome == DEEP_OCEAN || biome == DEEP_OCEAN_TRENCH || biome == LAKE || biome == RIVER || biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return Color.GRAY;
+        if (biome == OCEAN_RIDGE || biome == OCEAN || biome == OCEAN_REEF || biome == DEEP_OCEAN || biome == DEEP_OCEAN_TRENCH || biome == LAKE || biome == RIVER || biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return Color.GRAY;
 
         if (biome == TOWER_KARST_BAY) return new Color(230, 120, 220);
         if (biome == TOWER_KARST_LAKE) return new Color(230, 100, 220);
@@ -403,7 +404,8 @@ public class RegionGeneratorTests implements TestSetup
     {
         if (biome == OCEAN) return new Color(0, 0, 220);
         if (biome == OCEAN_REEF) return new Color(70, 160, 250);
-        if (biome == DEEP_OCEAN) return new Color(0, 0, 160);
+        if (biome == OCEAN_RIDGE) return new Color(20, 50, 170);
+        if (biome == DEEP_OCEAN) return new Color(0, 0, 140);
         if (biome == DEEP_OCEAN_TRENCH) return new Color(0, 0, 80);
         if (biome == LAKE) return new Color(30, 30, 255);
         if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
@@ -439,11 +441,11 @@ public class RegionGeneratorTests implements TestSetup
     {
         // Oceans
         if (biome == OCEAN) return new Color(0, 0, 220);
-        if (biome == OCEAN_REEF) return new Color(0, 80, 250);
-        if (biome == DEEP_OCEAN) return new Color(0, 0, 160);
+        if (biome == OCEAN_REEF) return new Color(70, 160, 250);
+        if (biome == OCEAN_RIDGE) return new Color(20, 50, 170);
+        if (biome == DEEP_OCEAN) return new Color(0, 0, 140);
         if (biome == DEEP_OCEAN_TRENCH) return new Color(0, 0, 80);
         if (biome == LAKE) return new Color(30, 30, 255);
-
         if (biome == SHORE) return new Color(255, 230, 200);
 
         // Freshwater

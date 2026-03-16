@@ -66,7 +66,7 @@ public enum AddContinentsAndSetOceanDepths implements RegionTask
         if (point.distanceToEdge <= 5 && point.divergence > 0)
         {
             // Passive margin/rift valley
-            tectonicFeatures = (5 - point.distanceToEdge) * -0.18;
+            tectonicFeatures = (5 - point.distanceToEdge) * -0.12;
         }
         else
         {

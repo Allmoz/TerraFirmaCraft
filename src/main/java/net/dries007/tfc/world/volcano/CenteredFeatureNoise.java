@@ -489,20 +489,6 @@ public class CenteredFeatureNoise
                 // Note that apex heights are scaled to equal the actual diameter of the feature
                 double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell, cellNoise)));
 
-                final int borderHeight;
-                if (maxDiameter >= 0.7) // TODO: Get rid of borders
-                {
-                    borderHeight = 30;
-                }
-                else if (maxDiameter >= 0.5)
-                {
-                    borderHeight = 20;
-                }
-                else
-                {
-                    borderHeight = 10;
-                }
-
                 final VolcanoVariant variant = getVolcanoVariant(cell);
                 final double volcanoHeight;
                 if (variant != null)
@@ -512,11 +498,6 @@ public class CenteredFeatureNoise
                 else
                 {
                     volcanoHeight = heightIn;
-                }
-                // TODO: These borders are just for visual debugging, remove
-                if (cell.f2() - cell.f1() < 0.05)
-                {
-                    return heightIn + borderHeight;
                 }
                 return Math.max(heightIn, volcanoHeight);
 

@@ -133,7 +133,7 @@ public enum ChooseBiomes implements RegionTask
                 final float rain = point.rainfall;
                 final float maxIceSheetTemp = -17f + 0.006f * rain;
                 final float temp = point.temperature;
-                if (point.distanceToEdge < 3)
+                if (point.distanceToEdge < 3 && point.divergence > 0)
                 {
                     point.biome = randomSeededFrom(rngSeed, areaSeed, RIFT_VALLEY_BIOMES);
                 }
