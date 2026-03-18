@@ -44,7 +44,7 @@ public enum ChooseBiomes implements RegionTask
     private static final int[] KNOB_AND_KETTLE_BIOMES = {KNOB_AND_KETTLE, PATTERNED_GROUND, INVERTED_PATTERNED_GROUND};
     private static final int[] ISLAND_BIOMES = {PLAINS, HILLS, ROLLING_HILLS, VOLCANIC_OCEANIC_MOUNTAINS, VOLCANIC_OCEANIC_MOUNTAINS, GUANO_ISLAND};
     private static final int[] MID_DEPTH_OCEAN_BIOMES = {DEEP_OCEAN, OCEAN, OCEAN, OCEAN_REEF, OCEAN_REEF, OCEAN_REEF};
-    private static final int[] RIFT_VALLEY_BIOMES = {RIFT_VALLEY, RIFT_VALLEY, RIFT_VALLEY, RIFT_LAKE};
+    private static final int[] RIFT_VALLEY_BIOMES = {RIFT_VALLEY, RIFT_VALLEY, RIFT_VALLEY, RIFT_LAKE, RIFT_LAKE};
 
 
     @Override
@@ -61,6 +61,18 @@ public enum ChooseBiomes implements RegionTask
             if (point.island())
             {
                 point.biome = randomSeededFrom(rngSeed, areaSeed, ISLAND_BIOMES);
+            }
+            // Rift valleys need to fire before mountains to override them
+            else if (point.distanceToEdge < 3 && point.divergence > 0 && point.land())
+            {
+                if (point.distanceToOcean > 2)
+                {
+                    point.biome = randomSeededFrom(rngSeed, areaSeed, RIFT_VALLEY_BIOMES);
+                }
+                else
+                {
+                    point.biome = RIFT_VALLEY;
+                }
             }
             else if (point.mountain())
             {
@@ -133,11 +145,7 @@ public enum ChooseBiomes implements RegionTask
                 final float rain = point.rainfall;
                 final float maxIceSheetTemp = -17f + 0.006f * rain;
                 final float temp = point.temperature;
-                if (point.distanceToEdge < 3 && point.divergence > 0)
-                {
-                    point.biome = randomSeededFrom(rngSeed, areaSeed, RIFT_VALLEY_BIOMES);
-                }
-                else if (temp < maxIceSheetTemp)
+                if (temp < maxIceSheetTemp)
                 {
                     int biome = randomSeededFrom(rngSeed, areaSeed, ICE_SHEET_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
 

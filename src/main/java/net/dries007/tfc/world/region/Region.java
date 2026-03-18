@@ -212,6 +212,8 @@ public final class Region
 
         /** Distance to the nearest ocean. Note the actual distance may be lower if {@code distanceToEdge} is smaller than this. Negative values indicate an ocean, where {@code -2} indicates an ocean adjacent to land. */
         public byte distanceToOcean = 0;
+        /** Distance to the nearest deep ocean (deep_ocean, deep_ocean_trench, or ocean_ridge) */
+        public byte distanceToDeepOcean = 0;
         /** Distance to the nearest edge of the region. This is important because certain tasks need to not go too near to the edge to avoid continuity issues */
         public byte distanceToEdge = 0;
         public byte distanceToWestCoast = 0;

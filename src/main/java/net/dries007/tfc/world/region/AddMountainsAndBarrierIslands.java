@@ -65,7 +65,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                 }
                 // Attempt to construct a volcanic arc on the continental shelf in subduction zones
                 // Works similarly to mountain ranges, but based on distance to edge of continental shelf
-                else if (islesPlaced < 3 && !origin.land() && origin.oceanDepth == 2 && origin.divergence < 0 && origin.distanceToOcean <= 3)
+                else if (islesPlaced < 3 && !origin.land() && origin.oceanDepth == 2 && origin.divergence < 0 && origin.distanceToDeepOcean <= 3)
                 {
                     final IntSet range = placeVolcanicArc(region, random, origin.index);
                     if (range.size() > 45)
@@ -168,7 +168,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
         arc.add(originIndex);
 
         // So that near-ocean barriers don't start at 0 distance, now they can follow the [0, 1] contour
-        final int originDistanceToOcean = Math.max(1, region.atIndex(originIndex).distanceToOcean);
+        final int originDistanceToDeepOcean = Math.max(1, region.atIndex(originIndex).distanceToDeepOcean);
         final int maxSize = 70 + random.nextInt(40);
 
         while (!queue.isEmpty())
@@ -191,11 +191,11 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                     if (point != null &&
                         point.oceanDepth == 2 &&
                         point.divergence < 0 &&
-                        point.distanceToOcean >= originDistanceToOcean - 1 &&
-                        point.distanceToOcean <= originDistanceToOcean + 1 &&
+                        point.distanceToDeepOcean >= originDistanceToDeepOcean - 1 &&
+                        point.distanceToDeepOcean <= originDistanceToDeepOcean + 1 &&
                         !explored.get(point.index))
                     {
-                        if (lastPoint.distanceToOcean != point.distanceToOcean)
+                        if (lastPoint.distanceToDeepOcean != point.distanceToDeepOcean)
                         {
                             queue.enqueue(point.index);
                         }

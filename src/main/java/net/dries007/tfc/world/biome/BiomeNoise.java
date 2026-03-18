@@ -904,16 +904,15 @@ public final class BiomeNoise
      */
     public static Noise2D oceanRidge(long seed)
     {
-        final Cellular2D cellNoise = continentCellNoise(1/128f, seed);
-        final OpenSimplex2D warpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.05f).scaled(0, 0.003);
-        final Noise2D bigWarpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.0018f).scaled(-4.5, 4.5).map(x -> 0.0045 * Math.round(x));
+        final Cellular2D cellNoise = continentCellNoise(1 / 128f, seed);
+        // Small warp adds some texture to the ridge
+        final OpenSimplex2D warpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.05f).scaled(0, 20);
+        // Big warp adds normal faults to the ridge. This noise must be sampled from the same spot on both sides of the edge
+        final Noise2D bigWarpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.0018f).scaled(-4.5, 4.5).map(x -> 30 * Math.round(x));
         final Noise2D abyssalPlain = ocean(seed, -46, -30); // Match parameters for Deep Ocean biome
         return abyssalPlain.max((x, y) -> {
             final Cellular2D.Cell cell = cellNoise.cell(x, y);
-            // Square roots are needed to stop these features scaling differently in different cells
-            // Small warp adds some texture to the ridge
-            // Big warp adds normal faults to the ridge. This noise must be sampled from the same spot on both sides of the edge
-            // To do this, we project the point onto the cell edge
+            // In order to get a consistently-scaled distance to the cell edge, we project the point onto the cell edge and calculate the distance
             // Start by getting a point on the cell edge. We also know that the line between cell centers is perpendicular to the cell edge
             final double xTrench = 0.5 * (cell.x() + cell.nx());
             final double yTrench = 0.5 * (cell.y() + cell.ny());
@@ -927,22 +926,21 @@ public final class BiomeNoise
             final double dotProductOverMagnitudeSquared = (sampleDX * parallelDX + sampleDY * parallelDY) / (parallelDX * parallelDX + parallelDY * parallelDY);
             final double xProjected = xTrench + dotProductOverMagnitudeSquared * parallelDX;
             final double yProjected = yTrench + dotProductOverMagnitudeSquared * parallelDY;
-            // TODO: Re-scale if we stick with this system
-            final double f2f1 = Mth.map(Math.sqrt((x - xProjected) * (x - xProjected) + (y - yProjected) * (y - yProjected)), 0, 120, 0, 0.018);
+            final double edgeDist = Math.sqrt((x - xProjected) * (x - xProjected) + (y - yProjected) * (y - yProjected));
 
             // Signs need to be opposite in opposing cells.
-            final double smallWarp =  cell.nx() > cell.x() ? -warpNoise.noise(x, y) : warpNoise.noise(x, y);
+            final double smallWarp = cell.nx() > cell.x() ? -warpNoise.noise(x, y) : warpNoise.noise(x, y);
             final double bigWarp = cell.nx() > cell.x() ? -bigWarpNoise.noise(xProjected, yProjected) : bigWarpNoise.noise(xProjected, yProjected);
             // Using absolute value here is needed to stop sudden gaps at cell edges
-            final double warpedNoise = Math.abs(f2f1 + smallWarp + bigWarp);
+            final double warpedEdgeDist = Math.abs(edgeDist + smallWarp + bigWarp);
             final double rawRidge;
-            if (warpedNoise < 0.004)
+            if (warpedEdgeDist < 27)
             {
-                rawRidge = Mth.map(warpedNoise, 0, 0.004, SEA_LEVEL_Y - 36, SEA_LEVEL_Y - 12);
+                rawRidge = Mth.map(warpedEdgeDist, 0, 27, SEA_LEVEL_Y - 36, SEA_LEVEL_Y - 12);
             }
             else
             {
-                rawRidge = Mth.clampedMap(warpedNoise, 0.004, 0.018, SEA_LEVEL_Y - 12, SEA_LEVEL_Y - 50);
+                rawRidge = Mth.clampedMap(warpedEdgeDist, 27, 120, SEA_LEVEL_Y - 12, SEA_LEVEL_Y - 50);
             }
 
             return rawRidge;
@@ -986,72 +984,107 @@ public final class BiomeNoise
     /**
      * Uses the continent-scale noise to create a spreading ridge aligned with the continent cell border
      */
-    public static Noise2D riftValley(long seed, int minHeightIn, int edgeHeightIn)
+    public static Noise2D riftValley(long seed, int minHeightIn, int edgeHeightIn, boolean isLake)
     {
         final int minHeight = SEA_LEVEL_Y + minHeightIn;
         final int edgeHeight = SEA_LEVEL_Y + edgeHeightIn;
-        final Cellular2D cellNoise = continentCellNoise(1/128f, seed);
-        final OpenSimplex2D warpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.05f).scaled(0, 0.002);
-        final Noise2D edgePlateau = hills(seed, edgeHeightIn - 10, edgeHeightIn + 10);
-        final Noise2D centerPlain = hills(seed, minHeight, minHeight + 10);
-        return (x, y) -> {
+        final Cellular2D cellNoise = continentCellNoise(1 / 128f, seed);
+        final OpenSimplex2D widthNoise = new OpenSimplex2D(seed + 8424L).octaves(2).spread(0.005f).scaled(1, 1.4);
+        final OpenSimplex2D textureWarpNoise = new OpenSimplex2D(seed + 2456L).octaves(2).spread(0.05f).scaled(-10, 10);
+        final OpenSimplex2D wiggleNoise = new OpenSimplex2D(seed + 94312L).octaves(3).spread(0.006f).scaled(-130, 130);
+        final Noise2D roughness = new OpenSimplex2D(seed).octaves(3).spread(0.04f).scaled(-8, 8);
+        return roughness.add((x, y) -> {
             final Cellular2D.Cell cell = cellNoise.cell(x, y);
-            // Square roots are needed to stop these features scaling differently in different cells
-            final double f2f1 = Math.sqrt(cell.f2()) - Math.sqrt(cell.f1());
-            // Small warp adds some texture to the ridge
-            final double smallWarp =  warpNoise.noise(x, y) * Mth.clampedMap(f2f1, 0, 0.008, 0, 1);
 
-            final double edgeDistWarped = Math.abs(f2f1 + smallWarp);
+            // In order to get a consistently-scaled distance to the cell edge, we project the point onto the cell edge and calculate the distance
+            // Start by getting a point on the cell edge. We also know that the line between cell centers is perpendicular to the cell edge
+            final double xCentroid = 0.5 * (cell.x() + cell.nx());
+            final double yCentroid = 0.5 * (cell.y() + cell.ny());
+            // Vector from xTrench to sampled point
+            final double sampleDX = x - xCentroid;
+            final double sampleDY = y - yCentroid;
+            // Vector oriented along ocean ridge axis (perpendicular to Cell Center 1 to 2 vector)
+            final double parallelDX = yCentroid - cell.y();
+            final double parallelDY = cell.x() - xCentroid;
 
-            // This is where we define the actual horst-graben shapes
-            final double profile;
+            final double dotProductOverMagnitudeSquared = (sampleDX * parallelDX + sampleDY * parallelDY) / (parallelDX * parallelDX + parallelDY * parallelDY);
+            final double xProjected = xCentroid + dotProductOverMagnitudeSquared * parallelDX;
+            final double yProjected = yCentroid + dotProductOverMagnitudeSquared * parallelDY;
+            final double edgeDist = Math.sqrt((x - xProjected) * (x - xProjected) + (y - yProjected) * (y - yProjected));
+
+            final double widthWarp = widthNoise.noise(xProjected, yProjected);
+            final double wiggleWarp = cell.nx() > cell.x() ? -wiggleNoise.noise(xProjected, yProjected) : wiggleNoise.noise(xProjected, yProjected);
+            final double textureWarp = textureWarpNoise.noise(x, y);
+
+            final double edgeDistWarped = Math.abs(edgeDist * widthWarp + wiggleWarp + textureWarp);
+
+            double profile;
             // Valley Floor
-            if (edgeDistWarped < 0.010)
+            if (edgeDistWarped < 80)
             {
-                final double grabenHeight;
-                if (edgeDistWarped < 0.006)
+                if (isLake)
                 {
-                    grabenHeight = Mth.clampedMap(edgeDistWarped, 0.0035, 0.006, minHeight, minHeight + 20);
+                    profile = Mth.clampedMap(edgeDistWarped, 0, 80, minHeight - 15, minHeight);
                 }
                 else
                 {
-                    grabenHeight = Mth.clampedMap(edgeDistWarped, 0.006, 0.010, minHeight + 20, minHeight);
-                }
-                profile = Math.max(minHeight, grabenHeight);
-            }
-            // Valley edge w/ chance of a graben (dependent on cell)
-            else if (edgeDistWarped < 0.0240)
-            {
-                if (Helpers.hashDouble(cell.noise(), 6353) < 0.6)
-                {
-                    // Graben
-                    if (edgeDistWarped < 0.0160)
+                    final double rangeScale = new OpenSimplex2D(seed + 48993).octaves(2).spread(0.006).scaled(-2, 3).clamped(0, 1).noise(x, y);
+                    if (rangeScale > 0)
                     {
-                        profile = Mth.clampedMap(edgeDistWarped, 0.012, 0.0160, minHeight, edgeHeight + 2);
-                    }
-                    else if (edgeDistWarped < 0.0200)
-                    {
-                        profile = Mth.clampedMap(edgeDistWarped, 0.0160, 0.0200, edgeHeight + 2, edgeHeight - 2);
+                        final double rangeHeight;
+                        if (edgeDistWarped < 48)
+                        {
+                            rangeHeight = Mth.clampedMap(edgeDistWarped, 28, 48, minHeight, minHeight + 20);
+                        }
+                        else
+                        {
+                            rangeHeight = Mth.clampedMap(edgeDistWarped, 48, 80, minHeight + 20, minHeight);
+                        }
+                        profile = Math.max(minHeight, rangeHeight * rangeScale);
                     }
                     else
                     {
-                        profile = Mth.clampedMap(edgeDistWarped, 0.0200, 0.0240, edgeHeight - 2, edgeHeight + 32);
+                        profile = minHeight;
                     }
                 }
-                else
-                {
-                    // No graben
-                    profile = Mth.clampedMap(edgeDistWarped, 0.0160, 0.0240, minHeight, edgeHeight + 32);
-                }
             }
-            // Backslope and edge
+            // Valley edge w/ chance of a fault block (dependent on cell)
             else
             {
-                profile = Math.max(Mth.clampedMap(edgeDistWarped, 0.0240, 0.0350, edgeHeight + 32, edgeHeight), edgePlateau.noise(x, y));
+                if (edgeDistWarped < 192)
+                {
+                    if (Helpers.hashDouble(cell.noise(), 6353) < 0.6)
+                    {
+                        // Fault block
+                        if (edgeDistWarped < 128)
+                        {
+                            profile = Mth.clampedMap(edgeDistWarped, 96, 128, minHeight, edgeHeight + 2);
+                        }
+                        else if (edgeDistWarped < 160)
+                        {
+                            profile = Mth.clampedMap(edgeDistWarped, 128, 160, edgeHeight + 2, edgeHeight - 2);
+                        }
+                        else
+                        {
+                            profile = Mth.clampedMap(edgeDistWarped, 160, 192, edgeHeight - 2, edgeHeight + 32);
+                        }
+                    }
+                    else
+                    {
+                        // No fault block
+                        profile = Mth.clampedMap(edgeDistWarped, 128, 192, minHeight, edgeHeight + 32);
+                    }
+                }
+                // Backslope and edge
+                else
+                {
+                    profile = Math.max(Mth.clampedMap(edgeDistWarped, 192, 280, edgeHeight + 32, edgeHeight), edgeHeight);
+                }
+                final Noise2D valleyNoise = new OpenSimplex2D(seed + 3245L).octaves(2).ridged().scaled(edgeHeight + 60, edgeHeight + 3).spread(0.01);
+                profile = Math.min(profile, valleyNoise.noise(x, y));
             }
-
             return profile;
-        };
+        });
     }
 
     /**

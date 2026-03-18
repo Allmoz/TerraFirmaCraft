@@ -88,7 +88,7 @@ def generate(rm: ResourceManager):
     biome(rm, 'deep_ocean', 'ocean', ocean_features=True)
     biome(rm, 'deep_ocean_trench', 'ocean', ocean_features=True)
     biome(rm, 'ocean_ridge', 'ocean', ocean_features=True)
-    biome(rm, 'rift_valley', 'ocean', ocean_features=True)
+    biome(rm, 'rift_valley', 'ocean')
     biome(rm, 'rift_lake', 'river', lake_features=True)
     biome(rm, 'collisional_mountains', 'extreme_hills')
     biome(rm, 'oceanic_volcanic_arc', 'ocean', ocean_features=True)

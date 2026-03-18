@@ -500,7 +500,6 @@ public class CenteredFeatureNoise
                     volcanoHeight = heightIn;
                 }
                 return Math.max(heightIn, volcanoHeight);
-
             }
 
             private static float calculateEasing(float f1)

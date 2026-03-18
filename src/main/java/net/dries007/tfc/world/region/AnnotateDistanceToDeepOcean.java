@@ -10,7 +10,7 @@ import java.util.BitSet;
 import it.unimi.dsi.fastutil.ints.IntArrayFIFOQueue;
 import org.jetbrains.annotations.Nullable;
 
-public enum AnnotateDistanceToOcean implements RegionTask
+public enum AnnotateDistanceToDeepOcean implements RegionTask
 {
     INSTANCE;
 
@@ -23,9 +23,9 @@ public enum AnnotateDistanceToOcean implements RegionTask
 
         for (final var point : region.points())
         {
-            if (point != null && !point.land())
+            if (point != null && point.oceanDepth > 2)
             {
-                point.distanceToOcean = -1;
+                point.distanceToDeepOcean = -1;
                 queue.enqueue(point.index);
                 explored.set(point.index);
             }
@@ -35,23 +35,18 @@ public enum AnnotateDistanceToOcean implements RegionTask
         {
             final int last = queue.dequeueInt();
             final Region.Point lastPoint = region.atIndex(last);
-            final int nextDistance = lastPoint.distanceToOcean + 1;
+            final int nextDistance = lastPoint.distanceToDeepOcean + 1;
 
             for (int dx = -1; dx <= 1; dx++)
             {
                 for (int dz = -1; dz <= 1; dz++)
                 {
                     final @Nullable Region.Point point = region.atOffset(last, dx, dz);
-                    if (point != null && point.land() && point.distanceToOcean == 0)
+                    if (point != null && point.oceanDepth <= 2 && point.distanceToDeepOcean == 0)
                     {
-                        if (!lastPoint.land() && !point.island())
-                        {
-                            lastPoint.setShore(); // Mark as adjacent to land
-                        }
-
                         if (!explored.get(point.index))
                         {
-                            point.distanceToOcean = (byte) nextDistance;
+                            point.distanceToDeepOcean = (byte) nextDistance;
                             queue.enqueue(point.index);
                         }
                         explored.set(point.index);

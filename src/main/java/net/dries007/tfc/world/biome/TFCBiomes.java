@@ -60,8 +60,8 @@ public final class TFCBiomes
 
     // Border Biomes
     public static final BiomeExtension OCEAN_RIDGE = register("ocean_ridge", builder().heightmap(BiomeNoise::oceanRidge).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).type(BiomeBlendType.OCEAN).salty().noRivers());
-    public static final BiomeExtension RIFT_VALLEY = register("rift_valley", builder().heightmap(seed -> BiomeNoise.riftValley(seed, 2, 30)).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.TALUS)); // TODO: Land rift valley
-    public static final BiomeExtension RIFT_LAKE = register("rift_lake", builder().heightmap(seed -> BiomeNoise.riftValley(seed, 2, 30)).surface(NormalSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).type(BiomeBlendType.LAKE).type(RiverBlendType.WIDE).noRivers()); // TODO: Baikal etc, ensure can't border ocean
+    public static final BiomeExtension RIFT_VALLEY = register("rift_valley", builder().heightmap(seed -> BiomeNoise.riftValley(seed, 2, 30, false)).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.CAVE));
+    public static final BiomeExtension RIFT_LAKE = register("rift_lake", builder().heightmap(seed -> BiomeNoise.riftValley(seed, -10, 30, true)).surface(NormalSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).type(BiomeBlendType.LAKE).type(RiverBlendType.CAVE).noRivers());
     public static final BiomeExtension COLLISIONAL_MOUNTAINS = register("collisional_mountains", builder().heightmap(seed -> BiomeNoise.mountains(seed, 10, 70)).surface(NormalSurfaceBuilder.ROCKY).spawnable().type(RiverBlendType.CAVE)); // // TODO: Very large mountains
 
     // Low biomes

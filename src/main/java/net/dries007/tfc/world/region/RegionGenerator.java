@@ -327,6 +327,7 @@ public final class RegionGenerator
         ADD_ISLANDS(AddIslands.INSTANCE),
         ADD_HOTSPOTS(AddHotspots.INSTANCE),
         ANNOTATE_DISTANCE_TO_OCEAN(AnnotateDistanceToOcean.INSTANCE),
+        ANNOTATE_DISTANCE_TO_DEEP_OCEAN(AnnotateDistanceToDeepOcean.INSTANCE),
         ANNOTATE_BASE_LAND_HEIGHT(AnnotateBaseLandHeight.INSTANCE),
         ANNOTATE_DISTANCE_TO_WEST_COAST(AnnotateDistanceToWestCoast.INSTANCE),
         ADD_MOUNTAINS(AddMountainsAndBarrierIslands.INSTANCE),

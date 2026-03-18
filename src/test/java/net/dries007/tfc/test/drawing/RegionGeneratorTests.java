@@ -18,8 +18,6 @@ import java.util.function.DoubleFunction;
 import java.util.stream.Collectors;
 
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.levelgen.RandomSupport;
-import net.minecraft.world.level.levelgen.WorldOptions;
 import org.junit.jupiter.api.Test;
 
 import net.dries007.tfc.data.providers.BuiltinWorldPreset;
@@ -62,6 +60,7 @@ public class RegionGeneratorTests implements TestSetup
     public void testRegionGenerator()
     {
         // Coordinates are given in grid scale, so 1 px = 128 blocks, 150 ~ 20km
+        // TODO: Set the seed back to random source before committing
         drawStitchedRegions("", EnumSet.allOf(DrawnTask.class), 153542L, 0, 75, 200);
     }
 
@@ -145,10 +144,10 @@ public class RegionGeneratorTests implements TestSetup
                 ? new Color(0, 130, 0)
                 : oceanDepthColor(point);
             case ANNOTATE_DISTANCE_TO_CELL_EDGE -> blue.apply(point.distanceToEdge / 24f);
-            case ANNOTATE_DISTANCE_TO_OCEAN -> point.land()
+            case ANNOTATE_DISTANCE_TO_OCEAN_AND_DEEP_OCEAN -> point.land()
                 ? green.apply(point.distanceToOcean / 20f)
                 : point.oceanDepth == 2
-                ? teal.apply(1 - point.distanceToOcean / 20f)
+                ? teal.apply(1 - point.distanceToDeepOcean / 20f)
                 : cellColor(region);
             case ANNOTATE_BASE_LAND_HEIGHT -> continentColor(point);
             case ADD_MOUNTAINS -> mountainColor(point);
@@ -568,7 +567,7 @@ public class RegionGeneratorTests implements TestSetup
         ANNOTATE_BOUNDARY_TYPES(Task.FLOOD_FILL_SMALL_OCEANS),
         ANNOTATE_HOT_SPOT_AGE(Task.ADD_HOTSPOTS),
         ADD_ISLANDS(Task.ADD_ISLANDS),
-        ANNOTATE_DISTANCE_TO_OCEAN(Task.ANNOTATE_DISTANCE_TO_OCEAN),
+        ANNOTATE_DISTANCE_TO_OCEAN_AND_DEEP_OCEAN(Task.ANNOTATE_DISTANCE_TO_DEEP_OCEAN),
         ANNOTATE_BASE_LAND_HEIGHT(Task.ANNOTATE_BASE_LAND_HEIGHT),
         ANNOTATE_DISTANCE_TO_WEST_COAST(Task.ANNOTATE_DISTANCE_TO_WEST_COAST),
         ADD_MOUNTAINS(Task.ADD_MOUNTAINS),
