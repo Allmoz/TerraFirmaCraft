@@ -41,7 +41,8 @@ public class CreepingOceanPlantFeature extends Feature<CreepingPlantConfig>
         final int radius = context.config().radius();
         final int height = context.config().height();
         final BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
-
+        
+        boolean isSuccessful = false;
         for (int x = -radius; x <= radius; x++)
         {
             for (int z = -radius; z <= radius; z++)
@@ -62,7 +63,7 @@ public class CreepingOceanPlantFeature extends Feature<CreepingPlantConfig>
                                 if (waterloggedState != null)
                                 {
                                     setBlock(level, cursor, waterloggedState.setValue(TFCBlockStateProperties.OPEN, isOpen));
-                                    return true;
+                                    isSuccessful = true;
                                 }
                             }
                         }
@@ -70,7 +71,7 @@ public class CreepingOceanPlantFeature extends Feature<CreepingPlantConfig>
                 }
             }
         }
-
-        return false;
+        
+        return isSuccessful;
     }
 }
