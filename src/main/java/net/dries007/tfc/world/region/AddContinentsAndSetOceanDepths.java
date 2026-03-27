@@ -26,7 +26,7 @@ public enum AddContinentsAndSetOceanDepths implements RegionTask
             }
             // We set ocean depths here as well
             // Unset - 0
-            // Reef - 1
+            // Reef - 1 (Set later)
             // Continental Shelf - 2
             // Oceanic Ridge - 3
             // Abyssal Plain - 4

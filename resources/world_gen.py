@@ -92,7 +92,6 @@ def generate(rm: ResourceManager):
     biome(rm, 'rift_lake', 'river', lake_features=True)
     biome(rm, 'collisional_mountains', 'extreme_hills')
     biome(rm, 'oceanic_volcanic_arc', 'ocean', ocean_features=True)
-    biome(rm, 'barrier_islands', 'ocean', ocean_features=True)
     biome(rm, 'river', 'river')
     biome(rm, 'guano_island', 'beach', ocean_features=True)
     biome(rm, 'shore', 'beach', ocean_features=True)

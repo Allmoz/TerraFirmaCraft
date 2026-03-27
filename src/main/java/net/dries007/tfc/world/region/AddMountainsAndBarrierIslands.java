@@ -33,7 +33,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
         }
 
         // Then ranges following contours
-        for (int attempt = 0, mtnsPlaced = 0, islesPlaced = 0; attempt < 40 && !(mtnsPlaced >= 3 && islesPlaced >= 3); attempt++)
+        for (int attempt = 0, mtnsPlaced = 0, islesPlaced = 0; attempt < 40 && !(mtnsPlaced >= 3 && islesPlaced >= 6); attempt++)
         {
             final @Nullable Region.Point origin = region.random(random);
             if (origin != null)
@@ -65,7 +65,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                 }
                 // Attempt to construct a volcanic arc on the continental shelf in subduction zones
                 // Works similarly to mountain ranges, but based on distance to edge of continental shelf
-                else if (islesPlaced < 3 && !origin.land() && origin.oceanDepth == 2 && origin.divergence < 0 && origin.distanceToDeepOcean <= 3)
+                else if (islesPlaced < 6 && !origin.land() && origin.oceanDepth == 2 && origin.divergence < 0 && origin.distanceToDeepOcean <= 3)
                 {
                     final IntSet range = placeVolcanicArc(region, random, origin.index);
                     if (range.size() > 45)
@@ -77,20 +77,24 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                             point.setVolcanic();
                             point.oceanDepth = 1;
                         });
-                        islesPlaced++;
+                        islesPlaced = islesPlaced + 2;
                     }
                 }
                 // Attempt to construct a barrier island chain
                 // Works similarly to mountain ranges, but based on distance to land and are thinner
-                else if (islesPlaced < 3 && !origin.land() && origin.oceanDepth == 2 && origin.divergence > 0 && origin.distanceToLand > 2 && origin.distanceToLand < 6)
+                else if (islesPlaced < 6 && !origin.land() && origin.oceanDepth == 2 && origin.divergence > 0 && origin.distanceToLand > 2 && origin.distanceToLand < 6)
                 {
                     final IntSet range = placeBarrier(region, random, origin.index);
-                    if (range.size() > 30)
+                    final int startContour = Math.max(1, origin.distanceToLand);
+                    if (range.size() > 45)
                     {
                         range.forEach(index -> {
                             final Region.Point point = region.atIndex(index);
 
-                            point.setBarrierIsland();
+                            if (point.distanceToLand == startContour)
+                            {
+                                point.setBarrierIsland();
+                            }
                             point.oceanDepth = 1;
                         });
                         islesPlaced++;
@@ -242,11 +246,11 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                 {
                     final @Nullable Region.Point point = region.atOffset(last, dx, dz);
 
-                    // Only explore the contour within [-1, 0] of the origin
+                    // Only explore the contour within [-1, 1] of the origin
                     if (point != null &&
                         point.oceanDepth == 2 &&
                         point.distanceToLand >= originDistanceToLand - 1 &&
-                        point.distanceToLand <= originDistanceToLand &&
+                        point.distanceToLand <= originDistanceToLand + 1 &&
                         !explored.get(point.index))
                     {
                         if (lastPoint.distanceToLand != point.distanceToLand)
