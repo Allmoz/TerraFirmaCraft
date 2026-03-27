@@ -45,6 +45,7 @@ public enum ChooseBiomes implements RegionTask
     private static final int[] ISLAND_BIOMES = {PLAINS, HILLS, ROLLING_HILLS, VOLCANIC_OCEANIC_MOUNTAINS, VOLCANIC_OCEANIC_MOUNTAINS, GUANO_ISLAND};
     private static final int[] MID_DEPTH_OCEAN_BIOMES = {DEEP_OCEAN, OCEAN, OCEAN, OCEAN_REEF, OCEAN_REEF, OCEAN_REEF};
     private static final int[] RIFT_VALLEY_BIOMES = {RIFT_VALLEY, RIFT_VALLEY, RIFT_VALLEY, RIFT_LAKE, RIFT_LAKE};
+    private static final int[] VOLCANIC_ARC_BIOMES = {OCEANIC_VOLCANIC_ARC, OCEANIC_VOLCANIC_ARC, VOLCANIC_OCEANIC_MOUNTAINS, VOLCANIC_OCEANIC_MOUNTAINS, CANYONS};
 
 
     @Override
@@ -184,7 +185,7 @@ public enum ChooseBiomes implements RegionTask
             {
                 if (point.volcanic())
                 {
-                    point.biome = OCEANIC_VOLCANIC_ARC;
+                    point.biome = randomSeededFrom(rngSeed, areaSeed, VOLCANIC_ARC_BIOMES);
                 }
                 else
                 {

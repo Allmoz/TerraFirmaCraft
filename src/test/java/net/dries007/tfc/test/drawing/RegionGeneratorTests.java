@@ -292,6 +292,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == LAKE) return new Color(30, 30, 255);
         if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
         if (biome == RIVER) return new Color(0, 200, 255);
+        if (biome == GUANO_ISLAND) return new Color(170, 170, 170);
 
         if (biome == RIFT_VALLEY) return new Color(80, 0, 80);
         if (biome == RIFT_LAKE) return new Color(80, 0, 160);
@@ -306,7 +307,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == COLLISIONAL_MOUNTAINS) return new Color(215, 20, 20);
         if (biome == MOUNTAINS || biome == VOLCANIC_MOUNTAINS) return new Color(255, 50, 50);
         if (biome == OLD_MOUNTAINS || biome == EXTREME_DOLINE_MOUNTAINS) return new Color(240, 100, 100);
-        if (biome == PLATEAU || biome == EXTREME_DOLINE_PLATEAU || biome == CENOTE_PLATEAU || biome == DOLINE_PLATEAU || biome == SHILIN_PLATEAU || biome == BURREN_PLATEAU) return new Color(190, 120, 120);
+        if (biome == PLATEAU || biome == PLATEAU_WIDE || biome == EXTREME_DOLINE_PLATEAU || biome == CENOTE_PLATEAU || biome == DOLINE_PLATEAU || biome == SHILIN_PLATEAU || biome == BURREN_PLATEAU) return new Color(190, 120, 120);
 
         if (biome == BADLANDS || biome == BURREN_BADLANDS || biome == BURREN_BADLANDS_TALL) return new Color(205, 160, 50);
         if (biome == STAIR_STEP_CANYONS) return new Color(250, 190, 0);
@@ -446,9 +447,14 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == DEEP_OCEAN_TRENCH) return new Color(0, 0, 80);
         if (biome == LAKE) return new Color(30, 30, 255);
         if (biome == SHORE) return new Color(255, 230, 200);
+        if (biome == GUANO_ISLAND) return new Color(170, 170, 170);
+
+        // Semi-oceanic
+        if (biome == OCEANIC_VOLCANIC_ARC) return new Color(80, 0, 220);
+        if (biome == BARRIER_ISLANDS) return new Color(120, 80, 220);
 
         // Freshwater
-        if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(120, 170, 200);
+        if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE || biome == RIFT_LAKE) return new Color(120, 170, 200);
         if (biome == RIVER) return new Color(100, 140, 180);
 
         // Lowland / Mixed Water
@@ -461,6 +467,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == MUD_FLATS) return new Color(150, 200, 130);
         if (biome == PLAINS || biome == BURREN_PLAINS || biome == TOWER_KARST_PLAINS || biome == DOLINE_PLAINS || biome == CENOTE_PLAINS
             || biome == SHILIN_PLAINS || biome == PATTERNED_GROUND || biome == INVERTED_PATTERNED_GROUND || biome == STONE_CIRCLES || biome == KNOB_AND_KETTLE) return new Color(110, 190, 110);
+        if (biome == RIFT_VALLEY) return new Color(80, 0, 80);
 
         // Hills
         if (biome == HILLS || biome == SHILIN_HILLS || biome == TOWER_KARST_HILLS || biome == DOLINE_HILLS || biome == CENOTE_HILLS) return new Color(80, 130, 90);
@@ -478,12 +485,13 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == HIGHLANDS || biome == SHILIN_HIGHLANDS || biome == TOWER_KARST_HIGHLANDS || biome == DOLINE_HIGHLANDS || biome == CENOTE_HIGHLANDS) return new Color(250, 120, 0);
 
         // Plateau
-        if (biome == PLATEAU || biome == EXTREME_DOLINE_PLATEAU || biome == CENOTE_PLATEAU || biome == DOLINE_PLATEAU || biome == SHILIN_PLATEAU || biome == ROCKY_PLATEAU) return new Color(200, 60, 60);
+        if (biome == PLATEAU || biome == PLATEAU_WIDE || biome == EXTREME_DOLINE_PLATEAU || biome == CENOTE_PLATEAU || biome == DOLINE_PLATEAU || biome == BURREN_PLATEAU || biome == SHILIN_PLATEAU || biome == ROCKY_PLATEAU) return new Color(200, 60, 60);
 
         // Mountains
         if (biome == OCEANIC_MOUNTAINS || biome == VOLCANIC_OCEANIC_MOUNTAINS) return new Color(160, 30, 160);
         if (biome == OLD_MOUNTAINS || biome == EXTREME_DOLINE_MOUNTAINS) return new Color(200, 50, 200);
         if (biome == MOUNTAINS || biome == VOLCANIC_MOUNTAINS) return new Color(250, 10, 250);
+        if (biome == COLLISIONAL_MOUNTAINS) return new Color(255, 100, 200);
 
         // Shield Volcanoes
         if (biome == ACTIVE_SHIELD_VOLCANO || biome == DORMANT_SHIELD_VOLCANO || biome == EXTINCT_SHIELD_VOLCANO || biome == ANCIENT_SHIELD_VOLCANO || biome == SUNKEN_SHIELD_VOLCANO)
