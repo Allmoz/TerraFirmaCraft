@@ -818,26 +818,27 @@ public final class BiomeNoise
             .slopedCliffMap(thirdCliffStartHeightNoise, thirdCliffNoise, cliffNoise.scaled(0, 7, 3, 6).add(slopeNoise));
     }
 
-    public static Noise2D mountains(long seed, int baseHeight, int scaleHeight)
+    public static Noise2D mountains(long seed, int baseHeight, int scaleHeight, float spreadFactor)
     {
         final Noise2D baseNoise = new OpenSimplex2D(seed) // A simplex noise forms the majority of the base
             .octaves(6) // High octaves to create highly fractal terrain
-            .spread(0.14f)
+            .spread(0.14f * spreadFactor)
             .add(new OpenSimplex2D(seed + 1) // Ridge noise is added to mimic real mountain ridges. It is scaled smaller than the base noise to not be overpowering
                 .octaves(4)
-                .spread(0.02f)
-                .scaled(-0.7f, 0.7f)
+                .spread(0.02f * spreadFactor)
+                .scaled(-0.9f, 0.9f)
                 .ridged() // Ridges are applied after octaves as it creates less directional artifacts this way
             )
             .map(x -> {
-                final double x0 = 0.125f * (x + 1) * (x + 1) * (x + 1); // Power scaled, flattens most areas but maximizes peaks
-                return SEA_LEVEL_Y + baseHeight + scaleHeight * x0; // Scale the entire thing to mountain ranges
+                final double x0 = x + 1;
+                final double x1 = 0.125f * x0 * x0 * x0; // Power scaled, flattens most areas but maximizes peaks
+                return SEA_LEVEL_Y + baseHeight + scaleHeight * x1; // Scale the entire thing to mountain ranges
             });
 
         // Cliff noise consists of noise that's been artificially clamped over half the domain, which is then selectively added above a base height level
         // This matches up with the distinction between dirt and stone
-        final Noise2D cliffNoise = new OpenSimplex2D(seed + 2).octaves(2).spread(0.01f).scaled(-25, 25).map(x -> x > 0 ? x : 0);
-        final Noise2D cliffHeightNoise = new OpenSimplex2D(seed + 3).octaves(2).spread(0.01f).scaled(140 - 20, 140 + 20);
+        final Noise2D cliffNoise = new OpenSimplex2D(seed + 2).octaves(2).spread(0.01f * spreadFactor).scaled(-25, 25).map(x -> x > 0 ? x : 0);
+        final Noise2D cliffHeightNoise = new OpenSimplex2D(seed + 3).octaves(2).spread(0.01f * spreadFactor).scaled(140 - 20, 140 + 20);
 
         return (x, z) -> {
             double height = baseNoise.noise(x, z);

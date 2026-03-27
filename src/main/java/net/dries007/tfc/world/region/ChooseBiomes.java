@@ -81,7 +81,14 @@ public enum ChooseBiomes implements RegionTask
                 if (point.divergence < 0 && point.distanceToEdge < 1.2 * context.generator().continentNoise.noise(point.x, point.z) - 5.2)
                 {
                     // TODO: Glacial variants
-                    point.biome = COLLISIONAL_MOUNTAINS;
+                    if (point.distanceToOcean < 3)
+                    {
+                        point.biome = OCEANIC_MOUNTAINS;
+                    }
+                    else
+                    {
+                        point.biome = COLLISIONAL_MOUNTAINS;
+                    }
                 }
                 else if (point.coastalMountain())
                 {
