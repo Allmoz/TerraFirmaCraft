@@ -16,6 +16,7 @@ import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.Rock;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.Seed;
+import net.dries007.tfc.world.biome.BiomeExtension;
 import net.dries007.tfc.world.noise.Cellular2D;
 import net.dries007.tfc.world.noise.Noise2D;
 import net.dries007.tfc.world.noise.OpenSimplex2D;
@@ -51,7 +52,7 @@ public class VolcanoVariants
                 // Simple cone
                 final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, apexHeight * 0.5, 0, 1); // Radius squared, range [0, 1]
                 final double craterSize = 0.04 + 0.06 * Helpers.hashDouble(noise, 10);
-                double shape = apexHeight * calculateSimpleRadialShape(r, craterSize) * 1.2;
+                double shape = apexHeight * calculateSimpleRadialShape(r, craterSize, cell.f1(), cell.f2()) * 1.2;
                 shape = shape * (0.9 + 0.1 * calculateCircumferentialErosion(cell, craterSize, 0.2, 0.9, 1, r, 3, (int) (maxDiam * 16), ridgeWarpNoise.noise(x, z)));
 
                 return scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
@@ -79,12 +80,12 @@ public class VolcanoVariants
 
     // Large Crater with a central lake, Similar to Crater Lake, OR
     // This version returns the land height, not the water surface
-    // TODO: Still that surface builder bug with water not occuring in some biomes for some reason
     public static VolcanoVariant craterLake(Seed seed)
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
         final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(2).scaled(-0.08f, 0.08f).spread(0.03f);
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 24482L).octaves(3).spread(0.06).scaled(0.92, 1.08);
+        final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.09, 0.09);
 
         return new VolcanoVariant()
         {
@@ -102,10 +103,10 @@ public class VolcanoVariants
             {
                 // Simple cone
                 final double f1 = cell.f1();
-                final double r = Mth.map(Mth.sqrt((float) f1), 0, maxDiam * 0.5, 0, 1); // Radius squared, range [0, 1]
+                final double r = Mth.map(Mth.sqrt((float) f1), 0, maxDiam * 0.45, 0, 1); // Radius, range [0, 1]
                 final double craterSize = 0.5 + rimWarpNoise.noise(x, z); // Domain warp the rim to get a wavy shape
                 final double rimHeight = 0.35;
-                double shape = rimHeight * calculateSimpleRadialShape(r, craterSize) * 1.2;
+                double shape = rimHeight * calculateSimpleRadialShape(r, craterSize, f1, cell.f2()) * 1.2;
                 shape = shape * (0.88 + 0.12 * calculateCircumferentialErosion(cell, craterSize, craterSize + 0.06, 0.95, 1, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
                 shape = shape * (0.93 + 0.08 * calculateCircumferentialErosion(cell, craterSize * 0.4, craterSize * 0.8, craterSize * 0.8, craterSize, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
 
@@ -117,6 +118,11 @@ public class VolcanoVariants
                     double xOffset = -40 + 80 * Helpers.hashDouble(noise, 6);
                     double zOffset = -40 + 80 * Helpers.hashDouble(noise, 7);
                     shape = addOffsetCone(shape, cell.x() + xOffset, cell.y() + zOffset, x, z, 0, apexHeight, apexHeight * maxDiam * 300, noise);
+                }
+                else if (r > 1)
+                {
+                    // Add some texture to the volcano "skirt"
+                    shape += skirtTextureNoise.noise(x, z) * Mth.clampedMap(r, 1, 1.2, 0, 1);
                 }
                 shape *= textureNoise.noise(x, z);
                 return scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
@@ -131,7 +137,7 @@ public class VolcanoVariants
 
                 // Simple cone
                 final double craterSize = 0.03 + 0.03 * Helpers.hashDouble(noise, 10);
-                double shape = calculateSimpleRadialShape(r, craterSize);
+                double shape = calculateSimpleRadialShape(r, craterSize, 0, 0);
                 shape = shape * (0.9 + 0.1 * calculateOffsetCircumferentialErosion(craterSize, 0.2, 0.9, 1, r, a, (int) (3 + Helpers.hashDouble(noise, 1313) * maxDiam * 12), ridgeWarpNoise.noise(x, z), noise));
                 shape = Mth.map(shape, 0, 1, baseHeight, apexHeight);
                 return Math.max(shape, shapeIn);
@@ -159,7 +165,7 @@ public class VolcanoVariants
                     easing = Mth.clampedMap(r, rOuter0, rOuter1, 0, 1);
                 }
 
-                // Scale ridges larger on volcanoes with fewer ridges, from 0.6 to 1.4
+                // Scale ridges larger on volcanoes with fewer ridges
                 final double ridgeScale = Mth.clampedMap(ridges, 3, 10, 1.5, 0.5);
 
                 return (fluvialShape - 1) * erosion * easing * ridgeScale;
@@ -199,8 +205,9 @@ public class VolcanoVariants
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
                 final int heightIn = context.getPreVolcanicHeight();
                 final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
-                final int landHeight = (int) Math.round(this.getLandHeight(heightIn, x, z, maxDiam, context.biome().getCenteredFeatureScaleHeight(), context.biome().getCenteredFeatureBaseHeight(), cell));
-                final int waterHeight = (int) Math.round(this.getFluidHeight(heightIn, x, z, maxDiam, context.biome().getCenteredFeatureScaleHeight(), context.biome().getCenteredFeatureBaseHeight(), cell));
+                final BiomeExtension biome = context.stratovolcanoBiome();
+                final int landHeight = (int) Math.round(this.getLandHeight(heightIn, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
+                final int waterHeight = (int) Math.round(this.getFluidHeight(heightIn, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
 
                 if (waterHeight > landHeight)
                 {
@@ -233,11 +240,12 @@ public class VolcanoVariants
      * @param rCrater The radius of the crater
      * @return A noise function determining the volcano's height at any given position, in the range [0, 1]
      */
-    public static double calculateSimpleRadialShape(double r, double rCrater)
+    public static double calculateSimpleRadialShape(double r, double rCrater, double f1, double f2)
     {
         if (r >= 1)
         {
-            return 0;
+            // Outside of the detailed radius, decrease below base level. Faster near cell edge
+            return (1 - r) * Mth.clampedMap(f2 - f1, 0, 0.1, 5, 1);
         }
         else if (r > rCrater)
         {
