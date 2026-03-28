@@ -10,10 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 
-import net.dries007.tfc.common.blocks.TFCBlocks;
-import net.dries007.tfc.common.blocks.rock.Rock;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.biome.BiomeExtension;
@@ -24,9 +21,7 @@ import net.dries007.tfc.world.surface.SurfaceBuilderContext;
 import net.dries007.tfc.world.surface.SurfaceStates;
 import net.dries007.tfc.world.surface.builder.NormalSurfaceBuilder;
 
-import static com.ibm.icu.impl.ValidIdentifiers.Datatype.*;
 import static net.dries007.tfc.world.TFCChunkGenerator.*;
-import static net.dries007.tfc.world.volcano.CenteredFeatureNoise.*;
 
 public class VolcanoVariants
 {
@@ -34,6 +29,8 @@ public class VolcanoVariants
     public static VolcanoVariant fuji(Seed seed)
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
+        final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.09, 0.09);
+        final double maxDiamScale = 0.9;
 
         return new VolcanoVariant()
         {
@@ -47,13 +44,19 @@ public class VolcanoVariants
             public double getLandHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
                 final double noise = cell.noise();
-                final double apexHeight = maxDiam; // TODO: Random heights? 0.25 * (3 + Helpers.hashDouble(noise, 2)) * maxDiam;
+                final double apexHeight = maxDiam * maxDiamScale; // TODO: Random heights? 0.25 * (3 + Helpers.hashDouble(noise, 2)) * maxDiam;
 
                 // Simple cone
                 final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, apexHeight * 0.5, 0, 1); // Radius squared, range [0, 1]
                 final double craterSize = 0.04 + 0.06 * Helpers.hashDouble(noise, 10);
-                double shape = apexHeight * calculateSimpleRadialShape(r, craterSize, cell.f1(), cell.f2()) * 1.2;
+                double shape = apexHeight * calculateSimpleRadialShapeWithSkirt(r, craterSize, cell.f1(), cell.f2(), 2) * 1.2;
                 shape = shape * (0.9 + 0.1 * calculateCircumferentialErosion(cell, craterSize, 0.2, 0.9, 1, r, 3, (int) (maxDiam * 16), ridgeWarpNoise.noise(x, z)));
+
+                if (r > 1)
+                {
+                    // Add some texture to the volcano "skirt"
+                    shape += skirtTextureNoise.noise(x, z) * Mth.clampedMap(r, 1, 1.2, 0, 1);
+                }
 
                 return scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
             }
@@ -86,6 +89,7 @@ public class VolcanoVariants
         final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(2).scaled(-0.08f, 0.08f).spread(0.03f);
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 24482L).octaves(3).spread(0.06).scaled(0.92, 1.08);
         final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.09, 0.09);
+        final double maxRadiusScale = 0.45;
 
         return new VolcanoVariant()
         {
@@ -103,10 +107,10 @@ public class VolcanoVariants
             {
                 // Simple cone
                 final double f1 = cell.f1();
-                final double r = Mth.map(Mth.sqrt((float) f1), 0, maxDiam * 0.45, 0, 1); // Radius, range [0, 1]
+                final double r = Mth.map(Mth.sqrt((float) f1), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
                 final double craterSize = 0.5 + rimWarpNoise.noise(x, z); // Domain warp the rim to get a wavy shape
                 final double rimHeight = 0.35;
-                double shape = rimHeight * calculateSimpleRadialShape(r, craterSize, f1, cell.f2()) * 1.2;
+                double shape = rimHeight * calculateSimpleRadialShapeWithSkirt(r, craterSize, f1, cell.f2(), 5) * 1.2;
                 shape = shape * (0.88 + 0.12 * calculateCircumferentialErosion(cell, craterSize, craterSize + 0.06, 0.95, 1, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
                 shape = shape * (0.93 + 0.08 * calculateCircumferentialErosion(cell, craterSize * 0.4, craterSize * 0.8, craterSize * 0.8, craterSize, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
 
@@ -133,11 +137,11 @@ public class VolcanoVariants
             {
                 final double maxDiam = apexHeight - baseHeight;
                 final double r = Mth.clampedMap(Math.sqrt((x - xCenter) * (x - xCenter) + (z - zCenter) * (z - zCenter)), 0, maxRadius, 0, 1);
-                final double a = Helpers.diamondAngle((x - xCenter), (z-zCenter)) + Helpers.hashDouble(noise, 3213);
+                final double a = Helpers.diamondAngle((x - xCenter), (z - zCenter)) + Helpers.hashDouble(noise, 3213);
 
                 // Simple cone
                 final double craterSize = 0.03 + 0.03 * Helpers.hashDouble(noise, 10);
-                double shape = calculateSimpleRadialShape(r, craterSize, 0, 0);
+                double shape = calculateSimpleRadialShapeNoSkirt(r, craterSize);
                 shape = shape * (0.9 + 0.1 * calculateOffsetCircumferentialErosion(craterSize, 0.2, 0.9, 1, r, a, (int) (3 + Helpers.hashDouble(noise, 1313) * maxDiam * 12), ridgeWarpNoise.noise(x, z), noise));
                 shape = Mth.map(shape, 0, 1, baseHeight, apexHeight);
                 return Math.max(shape, shapeIn);
@@ -182,7 +186,7 @@ public class VolcanoVariants
             {
                 // Simple cone
                 final double f1 = cell.f1();
-                final double r = Mth.map(Mth.sqrt((float) f1), 0, maxDiam * 0.5, 0, 1); // Radius squared, range [0, 1]
+                final double r = Mth.map(Mth.sqrt((float) f1), 0, maxDiam * maxRadiusScale, 0, 1); // Radius squared, range [0, 1]
                 final double craterSize = 0.5 + rimWarpNoise.noise(x, z); // Domain warp the rim to get a wavy shape
                 if (r < craterSize)
                 {
@@ -236,18 +240,44 @@ public class VolcanoVariants
 
 
     /**
-     * @param r The scaled, non-square distance from the volcano, from 0 at center to 1 at edge of influence
+     * @param r       The scaled, non-square distance from the volcano, from 0 at center to 1 at edge of influence
      * @param rCrater The radius of the crater
      * @return A noise function determining the volcano's height at any given position, in the range [0, 1]
      */
-    public static double calculateSimpleRadialShape(double r, double rCrater, double f1, double f2)
+    public static double calculateSimpleRadialShapeWithSkirt(double r, double rCrater, double f1, double f2, double skirtSlope)
     {
         if (r >= 1)
         {
             // Outside of the detailed radius, decrease below base level. Faster near cell edge
-            return (1 - r) * Mth.clampedMap(f2 - f1, 0, 0.1, 5, 1);
+            return (1 - r) * Mth.clampedMap(f2 - f1, 0, 0.1, skirtSlope, 1);
         }
-        else if (r > rCrater)
+        else
+        {
+            return calculateSimpleRadialShape(r, rCrater);
+        }
+    }
+
+    /**
+     * @param r       The scaled, non-square distance from the volcano, from 0 at center to 1 at edge of influence
+     * @param rCrater The radius of the crater
+     * @return A noise function determining the volcano's height at any given position, in the range [0, 1]
+     */
+    public static double calculateSimpleRadialShapeNoSkirt(double r, double rCrater)
+    {
+        if (r >= 1)
+        {
+            // Outside of the radius, return 0
+            return 0;
+        }
+        else
+        {
+            return calculateSimpleRadialShape(r, rCrater);
+        }
+    }
+
+    public static double calculateSimpleRadialShape(double r, double rCrater)
+    {
+        if (r > rCrater)
         {
             // Main slopes
             double x = Mth.map(r, rCrater, 1, 0, 1);

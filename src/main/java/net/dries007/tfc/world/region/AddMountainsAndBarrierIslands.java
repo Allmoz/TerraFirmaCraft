@@ -70,10 +70,14 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                     final IntSet range = placeVolcanicArc(region, random, origin.index);
                     if (range.size() > 45)
                     {
+                        final byte originContour = origin.distanceToDeepOcean;
                         range.forEach(index -> {
                             final Region.Point point = region.atIndex(index);
 
-                            point.setBarrierIsland();
+                            if (point.distanceToDeepOcean == originContour)
+                            {
+                                point.setBarrierIsland();
+                            }
                             point.setVolcanic();
                             point.oceanDepth = 1;
                         });
@@ -85,7 +89,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                 else if (islesPlaced < 6 && !origin.land() && origin.oceanDepth == 2 && origin.divergence > 0 && origin.distanceToLand > 2 && origin.distanceToLand < 6)
                 {
                     final IntSet range = placeBarrier(region, random, origin.index);
-                    final int startContour = Math.max(1, origin.distanceToLand);
+                    final byte startContour = (byte) Math.max(1, origin.distanceToLand);
                     if (range.size() > 45)
                     {
                         range.forEach(index -> {

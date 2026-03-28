@@ -55,6 +55,7 @@ public class TFCLayers
     public static final int VOLCANIC_OCEANIC_MOUNTAINS = idFor(TFCBiomes.VOLCANIC_OCEANIC_MOUNTAINS);
     public static final int CANYONS = idFor(TFCBiomes.CANYONS);
     public static final int GUANO_ISLAND = idFor(TFCBiomes.GUANO_ISLAND);
+    public static final int VOLCANIC_ISLAND = idFor(TFCBiomes.VOLCANIC_ISLAND);
     public static final int SHORE = idFor(TFCBiomes.SHORE);
     public static final int TIDAL_FLATS = idFor(TFCBiomes.TIDAL_FLATS);
     public static final int SEA_STACKS = idFor(TFCBiomes.SEA_STACKS);
@@ -317,7 +318,7 @@ public class TFCLayers
         {
             return ROCKY_SHORES;
         }
-        if (value == ROLLING_HILLS || value == DOLINE_ROLLING_HILLS || value == CENOTE_ROLLING_HILLS)
+        if (value == ROLLING_HILLS || value == DOLINE_ROLLING_HILLS || value == CENOTE_ROLLING_HILLS || value == VOLCANIC_ISLAND)
         {
             return EMBAYMENTS;
         }

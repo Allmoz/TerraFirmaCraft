@@ -293,6 +293,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
         if (biome == RIVER) return new Color(0, 200, 255);
         if (biome == GUANO_ISLAND) return new Color(170, 170, 170);
+        if (biome == VOLCANIC_ISLAND) return new Color(120, 50, 70);
 
         if (biome == RIFT_VALLEY) return new Color(80, 0, 80);
         if (biome == RIFT_LAKE) return new Color(80, 0, 160);
@@ -447,6 +448,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == LAKE) return new Color(30, 30, 255);
         if (biome == SHORE || biome == TIDAL_FLATS) return new Color(230, 210, 130);
         if (biome == GUANO_ISLAND) return new Color(170, 170, 170);
+        if (biome == VOLCANIC_ISLAND) return new Color(210, 90, 60);
 
         // Semi-oceanic
         if (biome == OCEANIC_VOLCANIC_ARC) return new Color(80, 0, 220);

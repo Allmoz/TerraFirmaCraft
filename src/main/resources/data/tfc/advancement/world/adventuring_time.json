@@ -1825,6 +1825,22 @@
           }
         ]
       }
+    },
+    "volcanic_island": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:volcanic_island"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "display": {
@@ -2185,6 +2201,9 @@
     ],
     [
       "collisional_mountains"
+    ],
+    [
+      "volcanic_island"
     ]
   ]
 }

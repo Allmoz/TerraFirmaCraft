@@ -81,6 +81,22 @@
           }
         ]
       }
+    },
+    "volcanic_island": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:volcanic_island"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "display": {
@@ -105,7 +121,8 @@
       "volcanic_oceanic_mountains",
       "volcanic_mountain_lake",
       "volcanic_oceanic_mountain_lake",
-      "oceanic_volcanic_arc"
+      "oceanic_volcanic_arc",
+      "volcanic_island"
     ]
   ]
 }

@@ -87,6 +87,7 @@ public final class TFCBiomes
 
     // Island Only
     public static final BiomeExtension GUANO_ISLAND = register("guano_island", builder().heightmap(BiomeNoise::rockyIslands).surface(ShoreAndOceanSurfaceBuilder.ROCKY_SHORE).spawnable().type(RiverBlendType.CAVE).noSandyRiverShores().salty()); // Mimic oceanic mountains
+    public static final BiomeExtension VOLCANIC_ISLAND = register("volcanic_island", builder().heightmap(seed -> BiomeNoise.hills(seed, -5, 28)).surface(SimpleSurfaceBuilder.VOLCANIC_SOIL).aquiferHeightOffset(-8).salty().stratovolcanoes(1, 0, 200).type(RiverBlendType.CANYON)); // Volcanic oceanic island lowlands
 
     // Shores
     // Each shore type is paired with a secondary shore type, which is sometimes applied
