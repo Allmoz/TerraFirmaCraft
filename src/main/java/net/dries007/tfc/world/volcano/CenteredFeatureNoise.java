@@ -548,8 +548,20 @@ public class CenteredFeatureNoise
 
                 if (maxDiameter >= 0.7) // TODO: Work out selection process
                 {
-                    return VolcanoVariants.tahoma(seed);
-//                    return VolcanoVariants.craterLake(seed);
+                    double noise = Helpers.hashDouble(cell.noise(), 317);
+                    if (noise > 0.75)
+                    {
+                        return VolcanoVariants.craterLake(seed);
+                    }
+                    if (noise > 0.45)
+                    {
+                        return VolcanoVariants.tahoma(seed);
+                    }
+                    return VolcanoVariants.fuji(seed);
+                }
+                else if (maxDiameter < 0.55)
+                {
+                    return VolcanoVariants.dome(seed);
                 }
                 else
                 {
