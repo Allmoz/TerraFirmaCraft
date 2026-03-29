@@ -318,7 +318,7 @@ public class TFCLayers
         {
             return ROCKY_SHORES;
         }
-        if (value == ROLLING_HILLS || value == DOLINE_ROLLING_HILLS || value == CENOTE_ROLLING_HILLS || value == VOLCANIC_ISLAND)
+        if (value == ROLLING_HILLS || value == DOLINE_ROLLING_HILLS || value == CENOTE_ROLLING_HILLS)
         {
             return EMBAYMENTS;
         }

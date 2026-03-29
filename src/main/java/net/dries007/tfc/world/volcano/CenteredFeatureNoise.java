@@ -25,7 +25,7 @@ import static net.dries007.tfc.world.TFCChunkGenerator.*;
 
 public class CenteredFeatureNoise
 {
-    public static final double STRATOVOLCANO_SPREAD_FACTOR = 0.0024f;
+    public static final double STRATOVOLCANO_SPREAD_FACTOR = 0.0021f;
 
     public static CenteredFeatureNoiseSampler cinder(Seed seed)
     {
@@ -548,7 +548,8 @@ public class CenteredFeatureNoise
 
                 if (maxDiameter >= 0.7) // TODO: Work out selection process
                 {
-                    return VolcanoVariants.craterLake(seed);
+                    return VolcanoVariants.tahoma(seed);
+//                    return VolcanoVariants.craterLake(seed);
                 }
                 else
                 {

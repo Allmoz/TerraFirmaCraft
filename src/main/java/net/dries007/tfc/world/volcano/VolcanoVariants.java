@@ -29,8 +29,8 @@ public class VolcanoVariants
     public static VolcanoVariant fuji(Seed seed)
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
-        final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.09, 0.09);
-        final double maxDiamScale = 0.9;
+        final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.05, 0.05);
+        final double maxRadiusScale = 0.45;
 
         return new VolcanoVariant()
         {
@@ -44,18 +44,17 @@ public class VolcanoVariants
             public double getLandHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
                 final double noise = cell.noise();
-                final double apexHeight = maxDiam * maxDiamScale; // TODO: Random heights? 0.25 * (3 + Helpers.hashDouble(noise, 2)) * maxDiam;
 
                 // Simple cone
-                final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, apexHeight * 0.5, 0, 1); // Radius squared, range [0, 1]
-                final double craterSize = 0.04 + 0.06 * Helpers.hashDouble(noise, 10);
-                double shape = apexHeight * calculateSimpleRadialShapeWithSkirt(r, craterSize, cell.f1(), cell.f2(), 2) * 1.2;
-                shape = shape * (0.9 + 0.1 * calculateCircumferentialErosion(cell, craterSize, 0.2, 0.9, 1, r, 3, (int) (maxDiam * 16), ridgeWarpNoise.noise(x, z)));
+                final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius squared, range [0, 1]
+                final double craterSize = 0.04 + 0.1 * Helpers.hashDouble(noise, 10);
+                double shape = maxDiam * calculateSimpleRadialShapeWithSkirt(r, craterSize, cell.f1(), cell.f2(), 2) * 1.2;
+                shape = shape * (1 - 0.1 * calculateCircumferentialErosion(cell, craterSize, 0.2, 0.9, 1, r, 3, (int) (maxDiam * 16), ridgeWarpNoise.noise(x, z)));
 
-                if (r > 1)
+                if (r > 0.65)
                 {
                     // Add some texture to the volcano "skirt"
-                    shape += skirtTextureNoise.noise(x, z) * Mth.clampedMap(r, 1, 1.2, 0, 1);
+                    shape += skirtTextureNoise.noise(x, z) * Mth.clampedMap(r, 0.65, 1.2, 0, 1);
                 }
 
                 return scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
@@ -81,7 +80,7 @@ public class VolcanoVariants
         };
     }
 
-    // Large Crater with a central lake, Similar to Crater Lake, OR
+    // Large Crater with a central lake, Similar to Crater Lake, Oregon
     // This version returns the land height, not the water surface
     public static VolcanoVariant craterLake(Seed seed)
     {
@@ -111,8 +110,8 @@ public class VolcanoVariants
                 final double craterSize = 0.5 + rimWarpNoise.noise(x, z); // Domain warp the rim to get a wavy shape
                 final double rimHeight = 0.35;
                 double shape = rimHeight * calculateSimpleRadialShapeWithSkirt(r, craterSize, f1, cell.f2(), 5) * 1.2;
-                shape = shape * (0.88 + 0.12 * calculateCircumferentialErosion(cell, craterSize, craterSize + 0.06, 0.95, 1, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
-                shape = shape * (0.93 + 0.08 * calculateCircumferentialErosion(cell, craterSize * 0.4, craterSize * 0.8, craterSize * 0.8, craterSize, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
+                shape = shape * (1 - 0.12 * calculateCircumferentialErosion(cell, craterSize, craterSize + 0.06, 0.95, 1, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
+                shape = shape * (1 - 0.08 * calculateCircumferentialErosion(cell, craterSize * 0.4, craterSize * 0.8, craterSize * 0.8, craterSize, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
 
                 if (r < craterSize)
                 {
@@ -238,6 +237,102 @@ public class VolcanoVariants
         };
     }
 
+    // Complex top crater, similar to Mt. Rainier, Washington
+    public static VolcanoVariant tahoma(Seed seed)
+    {
+        final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
+        final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.05, 0.05);
+        final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 248582L).octaves(3).spread(0.06).scaled(0.94, 1.06);
+        final double maxRadiusScale = 0.45;
+
+        return new VolcanoVariant()
+        {
+            @Override
+            public double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
+            {
+                return getLandHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+            }
+
+            @Override
+            public double getLandHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
+            {
+                final double noise = cell.noise();
+
+                // Simple cone
+                final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius squared, range [0, 1]
+                final double craterSize = 0.20 + 0.25 * Helpers.hashDouble(noise, 1013);
+                double shape = maxDiam * calculateSimpleRadialShapeWithSkirt(r, craterSize, cell.f1(), cell.f2(), 2) * 1.0;
+                shape = shape * (1 - 0.1 * calculateCircumferentialErosion(cell, craterSize, 1.3 * craterSize, 0.9, 1, r, 3, (int) (maxDiam * 16), ridgeWarpNoise.noise(x, z)));
+
+                if (r < 0.65)
+                {
+                    // Large crater rim
+                    shape *= (1 - 0.52 * craterSize * calculateVariableCraterRim(cell, 0.5 * craterSize, craterSize, 0.65, r, (int) (1 + Helpers.hashDouble(noise, 978) * 3), x, z));
+                    // Inner cone
+                    if (r < craterSize)
+                    {
+                        final double innerConeScale = (0.65 + 0.35 * Helpers.hashDouble(noise, 8973)) * craterSize;
+                        final double craterBaseHeight = maxDiam * (1 - 0.9 * craterSize);
+                        final double innerCone = craterBaseHeight + innerConeScale * calculateSimpleRadialShapeNoSkirt(Mth.clampedMap(r, 0, craterSize, 0, 1), 0.7 * craterSize);
+                        shape = Math.max(shape, innerCone);
+                    }
+                }
+                else
+                {
+                    // Add some texture to the volcano "skirt"
+                    shape += skirtTextureNoise.noise(x, z) * Mth.clampedMap(r, 0.65, 1.2, 0, 1);
+                }
+
+                return scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
+            }
+
+            @Override
+            public double getGlacierHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
+            {
+                return VolcanoVariant.super.getGlacierHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+            }
+
+            @Override
+            public double getFluidHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
+            {
+                return VolcanoVariant.super.getFluidHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+            }
+
+            @Override
+            public void buildSurface(SurfaceBuilderContext context, int startY, int endY, CenteredFeatureNoiseSampler sampler)
+            {
+                NormalSurfaceBuilder.INSTANCE.buildSurface(context, startY, endY);
+            }
+
+            public double calculateVariableCraterRim(Cellular2D.Cell cell, double rInner, double rCrater, double rOuter, double r, int peakCount, int x, int z)
+            {
+                final double noise = Helpers.hashDouble(cell.noise(), 43);
+                double a = cell.angle() + noise;
+                a = a >= 4 ? a - 4 : a < 0 ? a + 4 : a;
+
+                final double peakShape = Math.abs((a * 0.5 * peakCount % 2) - 1);
+
+                // Smooth out peaks/valleys away from rim
+                if (r < rInner || r > rOuter)
+                {
+                    return 0;
+                }
+
+                final double easing;
+                if (r <= rCrater)
+                {
+                    easing = Mth.map(r, rInner, rCrater, 0, 1);
+                }
+                else
+                {
+                    easing = Mth.map(r, rCrater, rOuter, 1, 0);
+                }
+
+                return peakShape * easing * textureNoise.noise(x, z);
+            }
+        };
+    }
+
 
     /**
      * @param r       The scaled, non-square distance from the volcano, from 0 at center to 1 at edge of influence
@@ -286,8 +381,8 @@ public class VolcanoVariants
         else
         {
             // Interior of crater
-            double craterBaseHeight = 1 - 2 * rCrater;
-            return Helpers.hyperbolicSection(rCrater - r, rCrater, 2 * rCrater) + craterBaseHeight;
+            double craterBaseHeight = 1 - 0.9 * rCrater;
+            return Helpers.hyperbolicSection(rCrater - r, rCrater, 0.9 * rCrater) + craterBaseHeight;
         }
     }
 
