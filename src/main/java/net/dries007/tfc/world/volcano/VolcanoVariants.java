@@ -387,6 +387,184 @@ public class VolcanoVariants
         };
     }
 
+    // Multiple medium craters with a lakes of different fluids, inspired by Kelimutu, Indonesia
+    public static VolcanoVariant kelimutu(Seed seed)
+    {
+        final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
+        final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(2).scaled(-0.08f, 0.08f).spread(0.03f);
+        final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 24482L).octaves(3).spread(0.06).scaled(0.85, 1.08);
+        final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.09, 0.09);
+        final double maxRadiusScale = 0.45;
+
+        return new VolcanoVariant()
+        {
+            @Override
+            public double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
+            {
+                final double landHeight = getLandHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+                final double waterHeight = getFluidHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+
+                return Math.max(landHeight, waterHeight);
+            }
+
+            @Override
+            public double getLandHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
+            {
+                final double noise = cell.noise();
+
+                // Start by generating 3 truncated cones:
+                // Main Cone
+                final double f1 = cell.f1();
+                final double r = Mth.map(Mth.sqrt((float) f1), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
+                final double crater0Size = 0.06 + 0.06 * Helpers.hashDouble(noise, 67); // Domain warp the rim to get a wavy shape
+                final double rimHeight0 = 0.65;
+                double shape = rimHeight0 * calculateTruncatedCone(r, crater0Size);
+                shape *= (1 - 0.12 * calculateCircumferentialErosion(cell, crater0Size, crater0Size + 0.06, 0.95, 1, r, 6, (int) (maxDiam * 12), ridgeWarpNoise.noise(x, z)));
+
+                // Add secondary cone w/ random height and offset
+                final double randOffsetX1 = Helpers.hashDouble(noise, 68);
+                final double randOffsetZ1 = Helpers.hashDouble(noise, 69);
+                final double xOffset1 = -80 + 160 * randOffsetX1;
+                final double zOffset1 = -80 + 160 * randOffsetZ1;
+
+                // We want the size to be proportional to distance between centers
+                final double crater1Size = 0.06 + 0.04 * (randOffsetX1 + randOffsetZ1);
+
+                // We also want the crater depth to be proportional to the height difference to the center cone
+                final double randRimHeight1 = Helpers.hashDouble(noise, 70);
+                final double rimHeight1 = rimHeight0 * (0.7 + 0.3 * randRimHeight1);
+                shape = addOffsetTruncatedCone(shape, cell.x() + xOffset1, cell.y() + zOffset1, x, z, 0, rimHeight1, rimHeight1 * maxDiam * 300, crater1Size, noise);
+
+                // TODO: should sometimes only have 2 craters
+
+                // Add tertiary cone w/ random height and offset
+                final double randOffsetX2 = Helpers.hashDouble(noise, 71);
+                final double randOffsetZ2 = Helpers.hashDouble(noise, 72);
+                final double xOffset2 = -80 + 160 * randOffsetX2;
+                final double zOffset2 = -80 + 160 * randOffsetZ2;
+                final double crater2Size = 0.06 + 0.06 * (randOffsetX2 + randOffsetZ2);
+
+                final double randRimHeight2 = Helpers.hashDouble(noise, 73);
+                final double rimHeight2 = rimHeight0 * (0.7 + 0.3 * randRimHeight2);
+                shape = addOffsetTruncatedCone(shape, cell.x() + xOffset2, cell.y() + zOffset2, x, z, 0, rimHeight2, rimHeight2 * maxDiam * 300, crater2Size, noise);
+
+                // Add craters for each cone, and subtract them from the overall shape
+                double craterShape = rimHeight0 * calculateCrater(r / crater0Size, crater0Size, 0.6 + Helpers.hashDouble(noise, 74));
+                craterShape = addOffsetCrater(craterShape, cell.x() + xOffset1, cell.y() + zOffset1, x, z, 0, rimHeight1, rimHeight1 * maxDiam * 300, crater1Size, 1.6 + randRimHeight1);
+                craterShape = addOffsetCrater(craterShape, cell.x() + xOffset2, cell.y() + zOffset2, x, z, 0, rimHeight2, rimHeight2 * maxDiam * 300, crater2Size, 1.6 + randRimHeight2);
+
+                shape = Math.min(shape, craterShape);
+
+                shape *= textureNoise.noise(x, z);
+                return scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
+            }
+
+            // Use a point within the cell, rather than the cell center, for the peak of a cone
+            public double addOffsetTruncatedCone(double shapeIn, double xCenter, double zCenter, double x, double z, double baseHeight, double apexHeight, double maxRadius, double craterSize, double noise)
+            {
+                final double maxDiam = apexHeight - baseHeight;
+                final double r = Mth.clampedMap(Math.sqrt((x - xCenter) * (x - xCenter) + (z - zCenter) * (z - zCenter)), 0, maxRadius, 0, 1);
+                final double a = Helpers.diamondAngle((x - xCenter), (z - zCenter)) + Helpers.hashDouble(noise, 3213);
+
+                // Simple cone
+                double shape = calculateTruncatedCone(r, craterSize);
+                // TODO: The ridge selection below should be different for different cones on the same cell, right now it just gets it from the cell noise
+                shape *= (0.9 + 0.1 * calculateOffsetCircumferentialErosion(craterSize, 0.2, 0.9, 1, r, a, (int) (3 + Helpers.hashDouble(noise, 113) * maxDiam * 12), ridgeWarpNoise.noise(x, z), noise));
+                shape = Mth.map(shape, 0, 1, baseHeight, apexHeight);
+                return Math.max(shape, shapeIn);
+            }
+
+            // Use a point within the cell, rather than the cell center, for the center of a crater
+            public double addOffsetCrater(double shapeIn, double xCenter, double zCenter, double x, double z, double baseHeight, double rimHeight, double maxRadius, double craterSize, double craterDepthScale)
+            {
+                final double r = Mth.map(Math.sqrt((x - xCenter) * (x - xCenter) + (z - zCenter) * (z - zCenter)), 0, craterSize * maxRadius, 0, 1);
+
+                // Simple crater
+                double shape = rimHeight * calculateCrater(r, craterSize, craterDepthScale);
+                shape = Mth.map(shape, 0, 1, baseHeight, rimHeight);
+                return Math.min(shape, shapeIn);
+            }
+
+            // Use a point within the cell, rather than the cell center, for the center of circumferential erosion
+            public static double calculateOffsetCircumferentialErosion(double rInner0, double rInner1, double rOuter1, double rOuter0, double r, double aIn, int ridges, double ridgeWarpNoise, double noiseIn)
+            {
+                final double noise = Helpers.hashDouble(noiseIn, 213);
+                final double ridgeWarping = ridgeWarpNoise / ridges;
+                double a = aIn + ridgeWarping;
+                a = a >= 4 ? a - 4 : a < 0 ? a + 4 : a;
+
+                final double erosion = (2 - noise);
+                final double fluvialShape = Math.abs((a * 0.5 * ridges % 2) - 1);
+
+                // Smooth out ridges at an inner and outer radius
+                final double easing;
+                if (r <= rInner1)
+                {
+                    easing = Mth.clampedMap(r, rInner0, rInner1, 0, 1);
+                }
+                else
+                {
+                    easing = Mth.clampedMap(r, rOuter0, rOuter1, 0, 1);
+                }
+
+                // Scale ridges larger on volcanoes with fewer ridges
+                final double ridgeScale = Mth.clampedMap(ridges, 3, 10, 1.5, 0.5);
+
+                return (fluvialShape - 1) * erosion * easing * ridgeScale;
+            }
+
+            @Override
+            public double getGlacierHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
+            {
+                return VolcanoVariant.super.getGlacierHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+            }
+
+            @Override
+            public double getFluidHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
+            {
+                return VolcanoVariant.super.getFluidHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
+            }
+
+            @Override
+            public void buildSurface(SurfaceBuilderContext context, int startY, int endY, CenteredFeatureNoiseSampler sampler)
+            {
+                final BlockPos pos = context.pos();
+                final int x = pos.getX();
+                final int z = pos.getZ();
+
+                final Cellular2D cellNoise = sampler.getCellularNoise();
+                final Cellular2D.Cell cell = cellNoise.cell(x, z);
+                final int heightIn = context.getPreVolcanicHeight();
+                final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
+                final BiomeExtension biome = context.stratovolcanoBiome();
+                final int landHeight = (int) Math.round(this.getLandHeight(heightIn, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
+                final int waterHeight = (int) Math.round(this.getFluidHeight(heightIn, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
+
+                if (waterHeight > landHeight)
+                {
+                    buildWaterSurface(context, waterHeight, landHeight);
+                }
+
+                NormalSurfaceBuilder.ROCKY.buildSurface(context, startY, endY);
+            }
+
+            private void buildWaterSurface(SurfaceBuilderContext context, int startY, int landHeight)
+            {
+                final BlockState water = Fluids.WATER.getSource().defaultFluidState().createLegacyBlock();
+
+                for (int y = startY; y >= landHeight; --y)
+                {
+                    context.setBlockState(y, water);
+                }
+
+                for (int y = landHeight; y >= landHeight - 5; --y)
+                {
+                    context.setBlockState(y, SurfaceStates.RAW);
+                }
+            }
+        };
+    }
+
 
     /**
      * @param r       The scaled, non-square distance from the volcano, from 0 at center to 1 at edge of influence
@@ -438,6 +616,27 @@ public class VolcanoVariants
             double craterBaseHeight = 1 - craterDepthScale * rCrater;
             return Helpers.hyperbolicSection(rCrater - r, rCrater, craterDepthScale * rCrater) + craterBaseHeight;
         }
+    }
+
+    public static double calculateTruncatedCone(double r, double rCrater)
+    {
+        if (r > rCrater)
+        {
+            // Main slopes
+            double x = Mth.map(r, rCrater, 1, 0, 1);
+            return Helpers.hyperbolicSection(x, 1, 1);
+        }
+        else
+        {
+            // Interior of crater
+            return 1;
+        }
+    }
+
+    public static double calculateCrater(double r, double rCrater, double craterDepthScale)
+    {
+        final double craterDepth = rCrater * craterDepthScale;
+        return (1 - craterDepth) + craterDepth * r * r;
     }
 
     public static double calculateCircumferentialErosion(Cellular2D.Cell cell, double rInner0, double rInner1, double rOuter1, double rOuter0, double r, int minRidgeCount, int addedRidgeCount, double ridgeWarpNoise)

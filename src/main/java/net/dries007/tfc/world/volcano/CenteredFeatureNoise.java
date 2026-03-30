@@ -551,7 +551,8 @@ public class CenteredFeatureNoise
                     double noise = Helpers.hashDouble(cell.noise(), 317);
                     if (noise > 0.75)
                     {
-                        return VolcanoVariants.craterLake(seed);
+                        return VolcanoVariants.kelimutu(seed);
+//                        return VolcanoVariants.craterLake(seed);
                     }
                     if (noise > 0.45)
                     {
