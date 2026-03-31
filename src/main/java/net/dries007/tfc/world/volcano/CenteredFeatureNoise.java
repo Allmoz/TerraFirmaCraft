@@ -546,23 +546,39 @@ public class CenteredFeatureNoise
                 // Note that apex heights are scaled to equal the actual diameter of the feature
                 double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell, cellNoise))); // TODO: I'd like to do this earlier on, but I shouldn't try and optimize right now
 
-                if (maxDiameter >= 0.7) // TODO: Work out selection process
+                if (maxDiameter >= 0.7) // TODO: Finalize selection process
                 {
                     double noise = Helpers.hashDouble(cell.noise(), 317);
                     if (noise > 0.75)
                     {
+                        // Kelimutu has a lot of internal variation compared to Crater Lake/Tahoma, so it is relatively common
                         return VolcanoVariants.kelimutu(seed);
-//                        return VolcanoVariants.craterLake(seed);
                     }
-                    if (noise > 0.45)
+                    if (noise > 0.6)
+                    {
+                        return VolcanoVariants.craterLake(seed);
+                    }
+                    if (noise > 0.4)
                     {
                         return VolcanoVariants.tahoma(seed);
                     }
                     return VolcanoVariants.fuji(seed);
                 }
-                else if (maxDiameter < 0.55)
+                else if (maxDiameter < 0.4)
                 {
                     return VolcanoVariants.dome(seed);
+                }
+                else if (maxDiameter < 0.55)
+                {
+                    double noise = Helpers.hashDouble(cell.noise(), 317);
+                    if (noise > 0.5)
+                    {
+                        return VolcanoVariants.dome(seed);
+                    }
+                    else
+                    {
+                        return VolcanoVariants.fuji(seed);
+                    }
                 }
                 else
                 {

@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.Rock;
 import net.dries007.tfc.world.Seed;
+import net.dries007.tfc.world.biome.BiomeExtension;
 import net.dries007.tfc.world.noise.Noise2D;
 import net.dries007.tfc.world.noise.OpenSimplex2D;
 import net.dries007.tfc.world.surface.SurfaceBuilderContext;
@@ -41,7 +42,8 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
     @Override
     public void buildSurface(SurfaceBuilderContext context, int startY, int endY)
     {
-        if (context.stratovolcanoBiome().hasStratovolcanoes())
+        final BiomeExtension biome = context.stratovolcanoBiome();
+        if (biome.hasStratovolcanoes())
         {
             final CenteredFeatureNoiseSampler sampler = CenteredFeatureNoise.stratovolcano(seed);
             final int preVolcanicHeight = context.getPreVolcanicHeight();

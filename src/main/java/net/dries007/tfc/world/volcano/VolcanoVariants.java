@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.Seed;
@@ -49,7 +50,7 @@ public class VolcanoVariants
                 // Simple cone
                 final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
                 final double craterSize = 0.04 + 0.1 * Helpers.hashDouble(noise, 10);
-                double shape = maxDiam * calculateSimpleRadialShapeWithSkirt(r, craterSize, 0.9, cell.f1(), cell.f2(), 2) * 1.2;
+                double shape = maxDiam * calculateSimpleRadialShapeWithSkirt(r, craterSize, 0.9, cell.f1(), cell.f2(), 2);
                 shape = shape * (1 - 0.1 * calculateCircumferentialErosion(cell, craterSize, 0.2, 0.9, 1, r, 3, (int) (maxDiam * 16), ridgeWarpNoise.noise(x, z)));
 
                 if (r > 0.65)
@@ -136,7 +137,7 @@ public class VolcanoVariants
             public double addOffsetCone(double shapeIn, double xCenter, double zCenter, double x, double z, double baseHeight, double apexHeight, double maxRadius, double noise)
             {
                 final double maxDiam = apexHeight - baseHeight;
-                final double r = Mth.clampedMap(Math.sqrt((x - xCenter) * (x - xCenter) + (z - zCenter) * (z - zCenter)), 0, maxRadius, 0, 1);
+                final double r = Mth.map(Math.sqrt((x - xCenter) * (x - xCenter) + (z - zCenter) * (z - zCenter)), 0, maxRadius, 0, 1);
                 final double a = Helpers.diamondAngle((x - xCenter), (z - zCenter)) + Helpers.hashDouble(noise, 3213);
 
                 // Simple cone
@@ -391,9 +392,8 @@ public class VolcanoVariants
     public static VolcanoVariant kelimutu(Seed seed)
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
-        final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(2).scaled(-0.08f, 0.08f).spread(0.03f);
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 24482L).octaves(3).spread(0.06).scaled(0.85, 1.08);
-        final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.09, 0.09);
+        final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.05, 0.05);
         final double maxRadiusScale = 0.45;
 
         return new VolcanoVariant()
@@ -432,45 +432,58 @@ public class VolcanoVariants
 
                 // We also want the crater depth to be proportional to the height difference to the center cone
                 final double randRimHeight1 = Helpers.hashDouble(noise, 70);
-                final double rimHeight1 = rimHeight0 * (0.7 + 0.3 * randRimHeight1);
-                shape = addOffsetTruncatedCone(shape, cell.x() + xOffset1, cell.y() + zOffset1, x, z, 0, rimHeight1, rimHeight1 * maxDiam * 300, crater1Size, noise);
-
-                // TODO: should sometimes only have 2 craters
-
-                // Add tertiary cone w/ random height and offset
-                final double randOffsetX2 = Helpers.hashDouble(noise, 71);
-                final double randOffsetZ2 = Helpers.hashDouble(noise, 72);
-                final double xOffset2 = -80 + 160 * randOffsetX2;
-                final double zOffset2 = -80 + 160 * randOffsetZ2;
-                final double crater2Size = 0.06 + 0.06 * (randOffsetX2 + randOffsetZ2);
-
-                final double randRimHeight2 = Helpers.hashDouble(noise, 73);
-                final double rimHeight2 = rimHeight0 * (0.7 + 0.3 * randRimHeight2);
-                shape = addOffsetTruncatedCone(shape, cell.x() + xOffset2, cell.y() + zOffset2, x, z, 0, rimHeight2, rimHeight2 * maxDiam * 300, crater2Size, noise);
+                final double rimHeight1 = rimHeight0 * (0.8 + 0.2 * randRimHeight1);
+                final int ridgeCount1 = 3 + (int) (rimHeight1 * 8 + Helpers.hashDouble(noise, 101) * 4);
+                shape = addOffsetTruncatedCone(shape, cell.x() + xOffset1, cell.y() + zOffset1, x, z, rimHeight1, rimHeight1 * maxDiam * 300, crater1Size, ridgeCount1, noise);
 
                 // Add craters for each cone, and subtract them from the overall shape
                 double craterShape = rimHeight0 * calculateCrater(r / crater0Size, crater0Size, 0.6 + Helpers.hashDouble(noise, 74));
-                craterShape = addOffsetCrater(craterShape, cell.x() + xOffset1, cell.y() + zOffset1, x, z, 0, rimHeight1, rimHeight1 * maxDiam * 300, crater1Size, 1.6 + randRimHeight1);
-                craterShape = addOffsetCrater(craterShape, cell.x() + xOffset2, cell.y() + zOffset2, x, z, 0, rimHeight2, rimHeight2 * maxDiam * 300, crater2Size, 1.6 + randRimHeight2);
+                craterShape = addOffsetCrater(craterShape, cell.x() + xOffset1, cell.y() + zOffset1, x, z, 0, rimHeight1, rimHeight1 * maxDiam * 300, crater1Size, 1.3 + randRimHeight1);
+
+                // Chance to not add a third cone
+                if (Helpers.hashDouble(cell.noise(), 1066) > 0.3)
+                {
+                    // Add tertiary cone w/ random height and offset
+                    final double randOffsetX2 = Helpers.hashDouble(noise, 71);
+                    final double randOffsetZ2 = Helpers.hashDouble(noise, 72);
+                    final double xOffset2 = -80 + 160 * randOffsetX2;
+                    final double zOffset2 = -80 + 160 * randOffsetZ2;
+                    final double crater2Size = 0.06 + 0.06 * (randOffsetX2 + randOffsetZ2);
+
+                    final double randRimHeight2 = Helpers.hashDouble(noise, 73);
+                    final double rimHeight2 = rimHeight0 * (0.7 + 0.3 * randRimHeight2);
+                    final int ridgeCount2 = 3 + (int) (rimHeight2 * 8 + Helpers.hashDouble(noise, 101) * 4);
+                    shape = addOffsetTruncatedCone(shape, cell.x() + xOffset2, cell.y() + zOffset2, x, z, rimHeight2, rimHeight2 * maxDiam * 300, crater2Size, ridgeCount2, noise);
+
+                    // Add the third crater shape
+                    craterShape = addOffsetCrater(craterShape, cell.x() + xOffset2, cell.y() + zOffset2, x, z, 0, rimHeight2, rimHeight2 * maxDiam * 300, crater2Size, 1.3 + randRimHeight2);
+                }
 
                 shape = Math.min(shape, craterShape);
 
                 shape *= textureNoise.noise(x, z);
+
+                if (r > 0.7)
+                {
+                    // Add some texture to the volcano "skirt"
+                    shape += skirtTextureNoise.noise(x, z) * Mth.clampedMap(r, 0.7, 1, 0, 1);
+
+                    // Simple cell edge handling
+                    shape -= Mth.clampedMap(cell.f2() - cell.f1(), 0, 0.3, 0.2, 0);
+                }
+
                 return scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
             }
 
             // Use a point within the cell, rather than the cell center, for the peak of a cone
-            public double addOffsetTruncatedCone(double shapeIn, double xCenter, double zCenter, double x, double z, double baseHeight, double apexHeight, double maxRadius, double craterSize, double noise)
+            public double addOffsetTruncatedCone(double shapeIn, double xCenter, double zCenter, double x, double z, double rimHeight, double maxRadius, double craterSize, int ridgeCount, double noise)
             {
-                final double maxDiam = apexHeight - baseHeight;
-                final double r = Mth.clampedMap(Math.sqrt((x - xCenter) * (x - xCenter) + (z - zCenter) * (z - zCenter)), 0, maxRadius, 0, 1);
+                final double r = Mth.map(Math.sqrt((x - xCenter) * (x - xCenter) + (z - zCenter) * (z - zCenter)), 0, maxRadius, 0, 1);
                 final double a = Helpers.diamondAngle((x - xCenter), (z - zCenter)) + Helpers.hashDouble(noise, 3213);
 
                 // Simple cone
-                double shape = calculateTruncatedCone(r, craterSize);
-                // TODO: The ridge selection below should be different for different cones on the same cell, right now it just gets it from the cell noise
-                shape *= (0.9 + 0.1 * calculateOffsetCircumferentialErosion(craterSize, 0.2, 0.9, 1, r, a, (int) (3 + Helpers.hashDouble(noise, 113) * maxDiam * 12), ridgeWarpNoise.noise(x, z), noise));
-                shape = Mth.map(shape, 0, 1, baseHeight, apexHeight);
+                double shape = rimHeight * calculateTruncatedCone(r, craterSize);
+                shape *= (1 - 0.15 * calculateOffsetCircumferentialErosion(craterSize, 0.2, 0.9, 1, r, a, ridgeCount, ridgeWarpNoise.noise(x, z), noise));
                 return Math.max(shape, shapeIn);
             }
 
@@ -620,7 +633,11 @@ public class VolcanoVariants
 
     public static double calculateTruncatedCone(double r, double rCrater)
     {
-        if (r > rCrater)
+        if (r > 1)
+        {
+            return 1 - r;
+        }
+        else if (r > rCrater)
         {
             // Main slopes
             double x = Mth.map(r, rCrater, 1, 0, 1);
