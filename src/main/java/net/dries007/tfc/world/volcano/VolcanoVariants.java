@@ -120,8 +120,8 @@ public class VolcanoVariants
                     // Add "Wizard Island" with random height and offset
                     final double noise = cell.noise();
                     final double apexHeight = rimHeight * (0.65 + 0.45 * Helpers.hashDouble(noise, 8));
-                    double xOffset = -40 + 80 * Helpers.hashDouble(noise, 6);
-                    double zOffset = -40 + 80 * Helpers.hashDouble(noise, 7);
+                    double xOffset = -45 + 90 * Helpers.hashDouble(noise, 6);
+                    double zOffset = -45 + 90 * Helpers.hashDouble(noise, 7);
                     shape = addOffsetCone(shape, cell.x() + xOffset, cell.y() + zOffset, x, z, 0, apexHeight, apexHeight * maxDiam * 300, noise);
                 }
                 else if (r > 1)
@@ -388,7 +388,7 @@ public class VolcanoVariants
         };
     }
 
-    // Multiple medium craters with a lakes of different fluids, inspired by Kelimutu, Indonesia
+    // Multiple medium craters with lakes of different fluids, inspired by Kelimutu, Indonesia
     public static VolcanoVariant kelimutu(Seed seed)
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
@@ -422,13 +422,13 @@ public class VolcanoVariants
                 shape *= (1 - 0.12 * calculateCircumferentialErosion(cell, crater0Size, crater0Size + 0.06, 0.95, 1, r, 6, (int) (maxDiam * 12), ridgeWarpNoise.noise(x, z)));
 
                 // Add secondary cone w/ random height and offset
-                final double randOffsetX1 = Helpers.hashDouble(noise, 68);
-                final double randOffsetZ1 = Helpers.hashDouble(noise, 69);
-                final double xOffset1 = -80 + 160 * randOffsetX1;
-                final double zOffset1 = -80 + 160 * randOffsetZ1;
+                final double randOffsetX1 = 2 * (0.5 - Helpers.hashDouble(noise, 68));
+                final double randOffsetZ1 = 2 * (0.5 - Helpers.hashDouble(noise, 69));
+                final double xOffset1 = randOffsetX1 > 0 ? 20 + randOffsetX1 * 70 : -20 + randOffsetX1 * 70;
+                final double zOffset1 = randOffsetZ1 > 0 ? 20 + randOffsetZ1 * 70 : -20 + randOffsetZ1 * 70;
 
                 // We want the size to be proportional to distance between centers
-                final double crater1Size = 0.06 + 0.04 * (randOffsetX1 + randOffsetZ1);
+                final double crater1Size = 0.06 + 0.08 * (Math.abs(randOffsetX1) + Math.abs(randOffsetZ1));
 
                 // We also want the crater depth to be proportional to the height difference to the center cone
                 final double randRimHeight1 = Helpers.hashDouble(noise, 70);
@@ -444,11 +444,11 @@ public class VolcanoVariants
                 if (Helpers.hashDouble(cell.noise(), 1066) > 0.3)
                 {
                     // Add tertiary cone w/ random height and offset
-                    final double randOffsetX2 = Helpers.hashDouble(noise, 71);
-                    final double randOffsetZ2 = Helpers.hashDouble(noise, 72);
-                    final double xOffset2 = -80 + 160 * randOffsetX2;
-                    final double zOffset2 = -80 + 160 * randOffsetZ2;
-                    final double crater2Size = 0.06 + 0.06 * (randOffsetX2 + randOffsetZ2);
+                    final double randOffsetX2 = 2 * (0.5 - Helpers.hashDouble(noise, 71));
+                    final double randOffsetZ2 = 2 * (0.5 - Helpers.hashDouble(noise, 72));
+                    final double xOffset2 = randOffsetX2 > 0 ? 20 + randOffsetX2 * 70 : -20 + randOffsetX2 * 73;
+                    final double zOffset2 = randOffsetZ2 > 0 ? 20 + randOffsetZ2 * 70 : -20 + randOffsetZ2 * 74;
+                    final double crater2Size = 0.06 + 0.08 * (Math.abs(randOffsetX2) + Math.abs(randOffsetZ2));
 
                     final double randRimHeight2 = Helpers.hashDouble(noise, 73);
                     final double rimHeight2 = rimHeight0 * (0.7 + 0.3 * randRimHeight2);
