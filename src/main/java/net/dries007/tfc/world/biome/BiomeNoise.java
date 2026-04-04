@@ -1004,34 +1004,13 @@ public final class BiomeNoise
     public static Noise2D oceanRidge(long seed)
     {
         final Cellular2D cellNoise = continentCellNoise(1 / 128f, seed);
-        // Small warp adds some texture to the ridge
-        final OpenSimplex2D warpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.05f).scaled(0, 20);
-        // Big warp adds normal faults to the ridge. This noise must be sampled from the same spot on both sides of the edge
-        final Noise2D bigWarpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.0018f).scaled(-4.5, 4.5).map(x -> 30 * Math.round(x));
         final Noise2D abyssalPlain = ocean(seed, -46, -30); // Match parameters for Deep Ocean biome
         return abyssalPlain.max((x, y) -> {
-            final Cellular2D.Cell cell = cellNoise.cell(x, y);
-            // In order to get a consistently-scaled distance to the cell edge, we project the point onto the cell edge and calculate the distance
-            // Start by getting a point on the cell edge. We also know that the line between cell centers is perpendicular to the cell edge
-            final double xTrench = 0.5 * (cell.x() + cell.nx());
-            final double yTrench = 0.5 * (cell.y() + cell.ny());
-            // Vector from xTrench to sampled point
-            final double sampleDX = x - xTrench;
-            final double sampleDY = y - yTrench;
-            // Vector oriented along ocean ridge axis (perpendicular to Cell Center 1 to 2 vector)
-            final double parallelDX = yTrench - cell.y();
-            final double parallelDY = cell.x() - xTrench;
 
-            final double dotProductOverMagnitudeSquared = (sampleDX * parallelDX + sampleDY * parallelDY) / (parallelDX * parallelDX + parallelDY * parallelDY);
-            final double xProjected = xTrench + dotProductOverMagnitudeSquared * parallelDX;
-            final double yProjected = yTrench + dotProductOverMagnitudeSquared * parallelDY;
-            final double edgeDist = Math.sqrt((x - xProjected) * (x - xProjected) + (y - yProjected) * (y - yProjected));
 
-            // Signs need to be opposite in opposing cells.
-            final double smallWarp = cell.nx() > cell.x() ? -warpNoise.noise(x, y) : warpNoise.noise(x, y);
-            final double bigWarp = cell.nx() > cell.x() ? -bigWarpNoise.noise(xProjected, yProjected) : bigWarpNoise.noise(xProjected, yProjected);
-            // Using absolute value here is needed to stop sudden gaps at cell edges
-            final double warpedEdgeDist = Math.abs(edgeDist + smallWarp + bigWarp);
+            final double warpedEdgeDist = getOceanRidgeWarpedEdgeDistance(cellNoise.cell(x, y), x, y, seed);
+
+
             final double rawRidge;
             if (warpedEdgeDist < 27)
             {
@@ -1044,6 +1023,36 @@ public final class BiomeNoise
 
             return rawRidge;
         });
+    }
+
+    public static double getOceanRidgeWarpedEdgeDistance(Cellular2D.Cell cell, double x, double y, long seed)
+    {
+        // Small warp adds some texture to the ridge
+        final OpenSimplex2D warpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.05f).scaled(0, 20);
+        // Big warp adds normal faults to the ridge. This noise must be sampled from the same spot on both sides of the edge
+        final Noise2D bigWarpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.0018f).scaled(-4.5, 4.5).map(w -> 30 * Math.round(w));
+
+        // In order to get a consistently-scaled distance to the cell edge, we project the point onto the cell edge and calculate the distance
+        // Start by getting a point on the cell edge. We also know that the line between cell centers is perpendicular to the cell edge
+        final double xTrench = 0.5 * (cell.x() + cell.nx());
+        final double yTrench = 0.5 * (cell.y() + cell.ny());
+        // Vector from xTrench to sampled point
+        final double sampleDX = x - xTrench;
+        final double sampleDY = y - yTrench;
+        // Vector oriented along ocean ridge axis (perpendicular to Cell Center 1 to 2 vector)
+        final double parallelDX = yTrench - cell.y();
+        final double parallelDY = cell.x() - xTrench;
+
+        final double dotProductOverMagnitudeSquared = (sampleDX * parallelDX + sampleDY * parallelDY) / (parallelDX * parallelDX + parallelDY * parallelDY);
+        final double xProjected = xTrench + dotProductOverMagnitudeSquared * parallelDX;
+        final double yProjected = yTrench + dotProductOverMagnitudeSquared * parallelDY;
+        final double edgeDist = Math.sqrt((x - xProjected) * (x - xProjected) + (y - yProjected) * (y - yProjected));
+
+        // Signs need to be opposite in opposing cells.
+        final double smallWarp = cell.nx() > cell.x() ? -warpNoise.noise(x, y) : warpNoise.noise(x, y);
+        final double bigWarp = cell.nx() > cell.x() ? -bigWarpNoise.noise(xProjected, yProjected) : bigWarpNoise.noise(xProjected, yProjected);
+        // Using absolute value here is needed to stop sudden gaps at cell edges
+        return Math.abs(edgeDist + smallWarp + bigWarp);
     }
 
     public static Cellular2D continentCellNoise(float scaleFactor, long seed)

@@ -58,7 +58,7 @@ public final class TFCBiomes
     public static final BiomeExtension OCEANIC_VOLCANIC_ARC = register("oceanic_volcanic_arc", builder().heightmap(seed -> BiomeNoise.ocean(seed, -26, -12)).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).salty().type(BiomeBlendType.OCEAN).stratovolcanoes(1, -12, 200).noRivers()); // Ocean biome with volcanic features
 
     // Border Biomes
-    public static final BiomeExtension OCEAN_RIDGE = register("ocean_ridge", builder().heightmap(BiomeNoise::oceanRidge).surface(ShoreAndOceanSurfaceBuilder.OCEAN).aquiferHeightOffset(-24).type(BiomeBlendType.OCEAN).salty().noRivers());
+    public static final BiomeExtension OCEAN_RIDGE = register("ocean_ridge", builder().heightmap(BiomeNoise::oceanRidge).surface(ShoreAndOceanSurfaceBuilder.OCEAN_RIDGE).aquiferHeightOffset(-24).type(BiomeBlendType.OCEAN).salty().noRivers());
     public static final BiomeExtension RIFT_VALLEY = register("rift_valley", builder().heightmap(seed -> BiomeNoise.riftValley(seed, 2, 30, false)).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.CAVE));
     public static final BiomeExtension RIFT_LAKE = register("rift_lake", builder().heightmap(seed -> BiomeNoise.riftValley(seed, -10, 30, true)).surface(NormalSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).type(BiomeBlendType.LAKE).type(RiverBlendType.CAVE).noRivers());
     public static final BiomeExtension COLLISIONAL_MOUNTAINS = register("collisional_mountains", builder().heightmap(seed -> BiomeNoise.mountains(seed, 18, 90, 0.6f)).surface(NormalSurfaceBuilder.ROCKY).spawnable().type(RiverBlendType.CAVE)); // // TODO: Very large mountains
