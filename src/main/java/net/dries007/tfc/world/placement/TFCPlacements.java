@@ -34,6 +34,7 @@ public final class TFCPlacements
     public static final Id<ShallowWaterPlacement> SHALLOW_WATER = register("shallow_water", () -> ShallowWaterPlacement.CODEC);
     public static final Id<OnTopPlacement> ON_TOP = register("on_top", () -> OnTopPlacement.CODEC);
     public static final Id<NoSolidNeighborsPlacement> NO_SOLID_NEIGHBORS = register("no_solid_neighbors", () -> NoSolidNeighborsPlacement.CODEC);
+    public static final Id<OceanRidgePlacement> OCEAN_RIDGE = register("ocean_ridge", () -> OceanRidgePlacement.CODEC);
 
     private static <C extends PlacementModifier> Id<C> register(String name, PlacementModifierType<C> codec)
     {

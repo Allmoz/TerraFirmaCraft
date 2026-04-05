@@ -35,8 +35,7 @@ public class OceanRidgeSurfaceBuilder implements SurfaceBuilder
         final BlockPos pos = context.pos();
         final int x = pos.getX();
         final int z = pos.getZ();
-        final Cellular2D cellNoise = continentCellNoise(1 / 128f, seed.seed());
-        final double distance = getOceanRidgeWarpedEdgeDistance(cellNoise.cell(x, z), x, z, seed.seed());
+        final double distance = getOceanRidgeWarpedEdgeDistance(x, z, seed.seed());
 
         if (distance >= 50)
         {

@@ -479,6 +479,11 @@ def generate(rm: ResourceManager):
         rm.placed_feature(name, 'tfc:%s' % name, decorate_heightmap('ocean_floor_wg'), decorate_flat_enough(flatness=0.2))
         configured_placed_feature(rm, 'tfc:%s_patch' % name, 'minecraft:random_patch', {'tries': 6, 'xz_spread': 5, 'y_spread': 1, 'feature': 'tfc:%s' % name}, decorate_chance(36), decorate_square())
 
+    # Ocean Ridge Features
+    igneous_rocks = expand_rocks(['igneous_extrusive', 'igneous_intrusive'])
+    rm.configured_feature('ocean_ridge_rivulet', 'tfc:rivulet', {'states': [{'replace': 'tfc:rock/%s/%s' % (var, rock), 'with': 'tfc:rock/magma/%s' % rock} for var in ('raw', 'hardened') for rock in igneous_rocks]})
+    rm.placed_feature('ocean_ridge_rivulet', 'tfc:ocean_ridge_rivulet', decorate_count(2), decorate_square(), ('tfc:ocean_ridge', {'min_distance': 0, 'max_distance': 32}))
+
     # Volcano Features
     rm.configured_feature('volcano_rivulet', 'tfc:rivulet', {'states': [{'replace': 'tfc:rock/%s/basalt' % rock, 'with': 'tfc:rock/magma/basalt'} for rock in ('raw', 'hardened')]})
     rm.configured_feature('volcano_caldera', 'tfc:flood_fill_lake', {
@@ -1834,10 +1839,14 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
         large_features.append('#tfc:feature/boulders')
 
     # Oceans
+    if name == 'ocean_ridge':
+        large_features.append('tfc:ocean_ridge_rivulet')
+
     if ocean_features:
-        if name != 'tidal_flats':
+        if name != 'tidal_flats' and 'deep_ocean' not in name and name != 'ocean_ridge':
+            # Keep deep oceans barren of plant life, but allow them in shallower ocean biomes
             surface_decorations.append('#tfc:feature/ocean_plants')
-        else:
+        if name == 'tidal_flats':
             surface_decorations.append('tfc:sea_stacks_patch')
         if name == 'shore' or name == 'coastal_dunes' or name == 'setback_cliffs':
             surface_decorations.append('tfc:plant/beachgrass_patch')
@@ -1850,7 +1859,7 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
             surface_decorations.append('#tfc:feature/shore_decorations')
             if name == "rocky_shore" or name == "tidal_flats":
                 surface_decorations.append('#tfc:feature/tide_pool_decorations')
-        else:
+        elif 'deep_ocean' not in name and name != 'ocean_ridge':
             surface_decorations.append('#tfc:feature/ocean_decorations')
 
         spawners['water_ambient'] = [entity for entity in OCEAN_AMBIENT.values()]

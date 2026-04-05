@@ -1003,13 +1003,10 @@ public final class BiomeNoise
      */
     public static Noise2D oceanRidge(long seed)
     {
-        final Cellular2D cellNoise = continentCellNoise(1 / 128f, seed);
         final Noise2D abyssalPlain = ocean(seed, -46, -30); // Match parameters for Deep Ocean biome
         return abyssalPlain.max((x, y) -> {
 
-
-            final double warpedEdgeDist = getOceanRidgeWarpedEdgeDistance(cellNoise.cell(x, y), x, y, seed);
-
+            final double warpedEdgeDist = getOceanRidgeWarpedEdgeDistance(x, y, seed);
 
             final double rawRidge;
             if (warpedEdgeDist < 27)
@@ -1025,8 +1022,12 @@ public final class BiomeNoise
         });
     }
 
-    public static double getOceanRidgeWarpedEdgeDistance(Cellular2D.Cell cell, double x, double y, long seed)
+    public static double getOceanRidgeWarpedEdgeDistance(double x, double y, long seed)
     {
+
+        final Cellular2D cellNoise = continentCellNoise(1 / 128f, seed);
+        final Cellular2D.Cell cell = cellNoise.cell(x, y);
+
         // Small warp adds some texture to the ridge
         final OpenSimplex2D warpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.05f).scaled(0, 20);
         // Big warp adds normal faults to the ridge. This noise must be sampled from the same spot on both sides of the edge
