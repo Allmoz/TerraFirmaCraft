@@ -6,11 +6,13 @@
 
 package net.dries007.tfc.world.surface.builder;
 
-import net.minecraft.util.Mth;
+import java.util.Arrays;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.Rock;
+import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.biome.BiomeExtension;
 import net.dries007.tfc.world.noise.Noise2D;
@@ -30,13 +32,10 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
     private final SurfaceBuilder parent;
     private final Seed seed;
 
-    private final Noise2D heightNoise;
-
     public StratovolcanoSurfaceBuilder(SurfaceBuilder parent, Seed seed)
     {
         this.seed = seed;
         this.parent = parent;
-        this.heightNoise = new OpenSimplex2D(seed.next()).octaves(2).spread(0.1f).scaled(-4, 4);
     }
 
     @Override
@@ -47,12 +46,12 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
         {
             final CenteredFeatureNoiseSampler sampler = CenteredFeatureNoise.stratovolcano(seed);
             final int preVolcanicHeight = context.getPreVolcanicHeight();
-            if (startY > preVolcanicHeight + 3)
+            if (startY > preVolcanicHeight)
             {
                 VolcanoVariant variant = sampler.getVolcanoVariant(sampler.getCellularNoise().cell(context.pos().getX(), context.pos().getZ()));
                 if (variant != null)
                 {
-                    variant.buildSurface(context, startY, endY, sampler);
+                    variant.buildSurface(context, startY, preVolcanicHeight, sampler);
                     return;
                 }
             }

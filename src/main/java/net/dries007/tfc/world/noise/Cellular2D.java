@@ -79,8 +79,8 @@ public class Cellular2D implements Noise2D
         int noJitterCenterX = 0;
         int noJitterCenterY = 0;
 
-        int xPrimed = (xr - 1) * primeX;
-        int yPrimedBase = (yr - 1) * primeY;
+        int xPrimed = (xr - sample) * primeX;
+        int yPrimedBase = (yr - sample) * primeY;
 
         for (int xi = xr - sample; xi <= xr + sample; xi++)
         {
@@ -138,7 +138,7 @@ public class Cellular2D implements Noise2D
      * @param nx    "X"-coordinate of neighboring cell center
      * @param ny    "Y"-coordinate of neighboring cell center
      * @param f1    Distance to x, y
-     * @param f2    Distance to cx, cy
+     * @param f2    Distance to nx, ny
      * @param noise Hash value of the cell, range 0-1
      * @param angle Diamond angle to the center
      */
