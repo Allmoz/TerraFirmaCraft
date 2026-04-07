@@ -8,7 +8,9 @@ package net.dries007.tfc.world.surface.builder;
 
 import java.util.Arrays;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.Rock;
@@ -46,12 +48,21 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
         {
             final CenteredFeatureNoiseSampler sampler = CenteredFeatureNoise.stratovolcano(seed);
             final int preVolcanicHeight = context.getPreVolcanicHeight();
-            if (startY > preVolcanicHeight)
+            final int oceanFloorY;
+            if (startY == context.getSeaLevel())
+            {
+                oceanFloorY = context.chunk().getHeight(Heightmap.Types.OCEAN_FLOOR_WG, context.pos().getX(), context.pos().getZ());
+            }
+            else
+            {
+                oceanFloorY = startY;
+            }
+            if (oceanFloorY > preVolcanicHeight + 2)
             {
                 VolcanoVariant variant = sampler.getVolcanoVariant(sampler.getCellularNoise().cell(context.pos().getX(), context.pos().getZ()));
                 if (variant != null)
                 {
-                    variant.buildSurface(context, startY, preVolcanicHeight, sampler);
+                    variant.buildSurface(context, oceanFloorY, preVolcanicHeight, sampler);
                     return;
                 }
             }

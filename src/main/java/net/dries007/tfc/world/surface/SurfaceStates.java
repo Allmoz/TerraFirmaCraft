@@ -88,6 +88,8 @@ public final class SurfaceStates
     public static final SurfaceState VOLCANIC_MID_DIRT_TO_GRAVEL = SoilSurfaceState.buildVolcanicMidType(SoilBlockType.DIRT, SurfaceStates.BASALT_GRAVEL);
     public static final SurfaceState VOLCANIC_TOP_GRASS_TO_LOCAL_GRAVEL = SoilSurfaceState.buildVolcanicSurfaceType(SoilBlockType.GRASS, SurfaceStates.GRAVEL);
     public static final SurfaceState VOLCANIC_MID_DIRT_TO_LOCAL_GRAVEL = SoilSurfaceState.buildVolcanicMidType(SoilBlockType.DIRT, SurfaceStates.GRAVEL);
+    public static final SurfaceState VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL = SoilSurfaceState.buildVolcanicSurfaceType(SoilBlockType.GRASS, SurfaceStates.TUFF_GRAVEL);
+    public static final SurfaceState VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL = SoilSurfaceState.buildVolcanicMidType(SoilBlockType.DIRT, SurfaceStates.TUFF_GRAVEL);
 
     public static final SurfaceState UNDER_GRAVEL = SoilSurfaceState.buildUnderType();
 

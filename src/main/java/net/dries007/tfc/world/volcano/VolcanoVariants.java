@@ -8,6 +8,7 @@ package net.dries007.tfc.world.volcano;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 
@@ -16,6 +17,7 @@ import net.dries007.tfc.common.blocks.rock.Rock;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.biome.BiomeExtension;
+import net.dries007.tfc.world.biome.BiomeNoise;
 import net.dries007.tfc.world.noise.Cellular1D;
 import net.dries007.tfc.world.noise.Cellular2D;
 import net.dries007.tfc.world.noise.Noise2D;
@@ -91,7 +93,7 @@ public class VolcanoVariants
                 final BiomeExtension biome = context.stratovolcanoBiome();
                 final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
 
-                buildNormalSurfaceWithStrata(context, startY, unerodedHeight, baseY, 0, 0, cell.noise(), SurfaceStates.VOLCANIC_TOP_GRASS_TO_LOCAL_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_LOCAL_GRAVEL, Fluids.LAVA.getSource().defaultFluidState().createLegacyBlock());
+                buildNormalSurfaceWithStrata(context, unerodedHeight, baseY, startY, 0, cell.noise(), seed, SurfaceStates.VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL, Fluids.LAVA.getSource().defaultFluidState().createLegacyBlock());
             }
 
             public double getUnerodedHeight(double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
@@ -136,8 +138,8 @@ public class VolcanoVariants
                 final double f1 = cell.f1();
                 final double r = Mth.map(Mth.sqrt((float) f1), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
                 final double craterSize = 0.5 + rimWarpNoise.noise(x, z); // Domain warp the rim to get a wavy shape
-                final double rimHeight = 0.35;
-                double shape = rimHeight * calculateSimpleRadialShapeWithSkirt(r, craterSize, 2, f1, cell.f2(), 5) * 1.2;
+                final double rimHeight = 0.42;
+                double shape = rimHeight * calculateSimpleRadialShapeWithSkirt(r, craterSize, 2, f1, cell.f2(), 5);
                 shape = shape * (1 - 0.12 * calculateCircumferentialErosion(cell, craterSize, craterSize + 0.06, 0.95, 1, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
                 shape = shape * (1 - 0.08 * calculateCircumferentialErosion(cell, craterSize * 0.4, craterSize * 0.8, craterSize * 0.8, craterSize, r, 24, (int) (maxDiam * 32), ridgeWarpNoise.noise(x, z)));
 
@@ -226,7 +228,7 @@ public class VolcanoVariants
             }
 
             @Override
-            public void buildSurface(SurfaceBuilderContext context, int startY, int endY, CenteredFeatureNoiseSampler sampler)
+            public void buildSurface(SurfaceBuilderContext context, int oceanFloorHeight, int endY, CenteredFeatureNoiseSampler sampler)
             {
                 final BlockPos pos = context.pos();
                 final int x = pos.getX();
@@ -234,16 +236,14 @@ public class VolcanoVariants
 
                 final Cellular2D cellNoise = sampler.getCellularNoise();
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                final int heightIn = context.getPreVolcanicHeight();
+                final int baseY = context.getPreVolcanicHeight();
                 final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
                 final BiomeExtension biome = context.stratovolcanoBiome();
-                final int landHeight = (int) Math.round(this.getLandHeight(heightIn, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
-                final int waterHeight = (int) Math.round(this.getFluidHeight(heightIn, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
-
-                final int baseY = context.getPreVolcanicHeight();
+                final int landHeight = (int) Math.round(this.getLandHeight(baseY, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
+                final int waterHeight = (int) Math.round(this.getFluidHeight(baseY, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
                 final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
 
-                buildNormalSurfaceWithStrata(context, startY, unerodedHeight, baseY, landHeight, waterHeight, cell.noise(), SurfaceStates.VOLCANIC_TOP_GRASS_TO_LOCAL_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_LOCAL_GRAVEL, Fluids.WATER.getSource().defaultFluidState().createLegacyBlock());
+                buildNormalSurfaceWithStrata(context, unerodedHeight, baseY, Math.max(landHeight, Math.min(oceanFloorHeight, context.getSeaLevel())), waterHeight, cell.noise(), seed, SurfaceStates.VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL, Fluids.WATER.getSource().defaultFluidState().createLegacyBlock());
             }
 
             public double getUnerodedHeight(double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
@@ -251,11 +251,10 @@ public class VolcanoVariants
                 // Simple cone, we use crater size as an input but just use it to get slope
                 final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
                 final double craterSize = 0.5;
-                double shape = maxDiam * calculateCone(r, craterSize);
+                double shape = 0.42 * calculateCone(r, craterSize);
 
                 return scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
             }
-
         };
     }
 
@@ -334,7 +333,7 @@ public class VolcanoVariants
                 final BiomeExtension biome = context.stratovolcanoBiome();
                 final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
 
-                buildNormalSurfaceWithStrata(context, startY, unerodedHeight, baseY, 0, 0, cell.noise(), SurfaceStates.VOLCANIC_TOP_GRASS_TO_LOCAL_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_LOCAL_GRAVEL, Fluids.LAVA.getSource().defaultFluidState().createLegacyBlock());
+                buildNormalSurfaceWithStrata(context, unerodedHeight, baseY, startY, 0, cell.noise(), seed, SurfaceStates.VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL, Fluids.LAVA.getSource().defaultFluidState().createLegacyBlock());
             }
 
             public double getUnerodedHeight(double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
@@ -581,7 +580,7 @@ public class VolcanoVariants
             }
 
             @Override
-            public void buildSurface(SurfaceBuilderContext context, int startY, int endY, CenteredFeatureNoiseSampler sampler)
+            public void buildSurface(SurfaceBuilderContext context, int oceanFloorHeight, int endY, CenteredFeatureNoiseSampler sampler)
             {
                 final BlockPos pos = context.pos();
                 final int x = pos.getX();
@@ -589,33 +588,24 @@ public class VolcanoVariants
 
                 final Cellular2D cellNoise = sampler.getCellularNoise();
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                final int heightIn = context.getPreVolcanicHeight();
+                final int baseY = context.getPreVolcanicHeight();
                 final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
                 final BiomeExtension biome = context.stratovolcanoBiome();
-                final int landHeight = (int) Math.round(this.getLandHeight(heightIn, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
-                final int waterHeight = (int) Math.round(this.getFluidHeight(heightIn, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
+                final int landHeight = (int) Math.round(this.getLandHeight(baseY, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
+                final int waterHeight = (int) Math.round(this.getFluidHeight(baseY, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
+                final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
 
-                if (waterHeight > landHeight)
-                {
-                    buildWaterSurface(context, waterHeight, landHeight);
-                }
-
-                NormalSurfaceBuilder.ROCKY.buildSurface(context, startY, endY);
+                buildNormalSurfaceWithStrata(context, unerodedHeight, baseY, Math.max(landHeight, Math.min(oceanFloorHeight, context.getSeaLevel())), waterHeight, cell.noise(), seed, SurfaceStates.VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL, Fluids.WATER.getSource().defaultFluidState().createLegacyBlock());
             }
 
-            private void buildWaterSurface(SurfaceBuilderContext context, int startY, int landHeight)
+            public double getUnerodedHeight(double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
-                final BlockState water = Fluids.WATER.getSource().defaultFluidState().createLegacyBlock();
+                // Simple cone, we use crater size as an input but just use it to get slope
+                final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
+                final double craterSize = 0.06 + 0.06 * Helpers.hashDouble(cell.noise(), 67);
+                double shape = 0.65 * calculateCone(r, craterSize);
 
-                for (int y = startY; y >= landHeight; --y)
-                {
-                    context.setBlockState(y, water);
-                }
-
-                for (int y = landHeight; y >= landHeight - 5; --y)
-                {
-                    context.setBlockState(y, SurfaceStates.RAW);
-                }
+                return scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
             }
         };
     }
@@ -737,21 +727,29 @@ public class VolcanoVariants
         return SEA_LEVEL_Y + base + shape * scale;
     }
 
-    public static void buildNormalSurfaceWithStrata(SurfaceBuilderContext context, int startY, int unerodedY, int baseY, int landHeight, int waterHeight, double cellNoise, SurfaceState topState, SurfaceState midState, BlockState fluidState)
+    public static void buildNormalSurfaceWithStrata(SurfaceBuilderContext context, int unerodedY, int baseY, int landHeight, int waterHeight, double cellNoiseIn, Seed seed, SurfaceState topState, SurfaceState midState, BlockState fluidState)
     {
-        final long seed = Double.doubleToLongBits(cellNoise);
-        Cellular1D cells = new Cellular1D(seed).spread(0.3);
+        final double rockTypeNoise = Helpers.hashDouble(cellNoiseIn, 856);
+        Cellular1D cells = new Cellular1D(seed.seed()).spread(0.25);
         int surfaceDepth = -1;
         int surfaceY = 0;
         SurfaceState surfaceState = null;
         boolean isUnderWater;
+        final int shoreLevel = 4 + (int) BiomeNoise.shoreTideLevelNoise(seed).noise(context.pos().getX(), context.pos().getZ());
 
         // Fluid lakes
         if (waterHeight > landHeight)
         {
-            for (int y = startY; y >= landHeight; --y)
+            // This loop is necessary to place the water
+            for (int y = waterHeight; y >= landHeight; --y)
             {
                 context.setBlockState(y, fluidState);
+            }
+            // And this loop is necessary to make sure the water doesn't get carved into by a river
+            context.setBlockState(landHeight, getStratifiedStoneBlock(unerodedY, landHeight, cells, rockTypeNoise, Rock.BlockType.GRAVEL));
+            for (int y = landHeight - 1; y >= landHeight - 5; --y)
+            {
+                context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, rockTypeNoise, Rock.BlockType.RAW));
             }
             isUnderWater = true;
         }
@@ -772,24 +770,24 @@ public class VolcanoVariants
                 if (surfaceDepth == -1)
                 {
                     surfaceY = y; // Reached surface. Place top state and switch to subsurface layers
-                    if (y < context.getSeaLevel() - 1 || isUnderWater)
+                    if (y < shoreLevel || isUnderWater)
                     {
                         surfaceDepth = context.calculateAltitudeSlopeSurfaceDepth(surfaceY, -1);
                         if (surfaceDepth < -1)
                         {
                             // No surface layers
                             surfaceDepth = 0;
-                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, cellNoise, Rock.BlockType.RAW));
+                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, rockTypeNoise, Rock.BlockType.RAW));
                         }
                         else if (surfaceDepth == -1)
                         {
                             // Place one subsurface layer, skipping the top layer entirely
                             surfaceDepth = 0;
-                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, cellNoise, Rock.BlockType.GRAVEL));
+                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, rockTypeNoise, Rock.BlockType.GRAVEL));
                         }
                         else
                         {
-                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, cellNoise, Rock.BlockType.GRAVEL));
+                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, rockTypeNoise, Rock.BlockType.GRAVEL));
                         }
                     }
                     else
@@ -800,12 +798,12 @@ public class VolcanoVariants
                         {
                             // No surface layers
                             surfaceDepth = 0;
-                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, cellNoise, Rock.BlockType.RAW));
+                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, rockTypeNoise, Rock.BlockType.RAW));
                         }
                         else if (surfaceDepth == -1)
                         {
                             surfaceDepth = 0;
-                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, cellNoise, Rock.BlockType.GRAVEL));
+                            context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, rockTypeNoise, Rock.BlockType.GRAVEL));
                         }
                         else
                         {
@@ -820,21 +818,17 @@ public class VolcanoVariants
                     surfaceDepth--;
                     if (surfaceState == null)
                     {
-                        context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, cellNoise, Rock.BlockType.GRAVEL));
+                        context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, rockTypeNoise, Rock.BlockType.GRAVEL));
                     }
                     else
                     {
                         context.setBlockState(y, surfaceState);
                     }
-                    if (surfaceDepth == 0)
-                    {
-                        surfaceDepth = context.calculateAltitudeSlopeSurfaceDepth(surfaceY, 0);
-                    }
                 }
-                // At this point, we are below the surface
+                // At this point, we are below the surface and subsurface
                 else
                 {
-                    context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, cellNoise, Rock.BlockType.RAW));
+                    context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, rockTypeNoise, Rock.BlockType.RAW));
                 }
             }
         }
@@ -845,9 +839,13 @@ public class VolcanoVariants
         final int strataDepth = unerodedY - y;
         final Cellular1D.Cell cell = cells.cell(strataDepth);
 
-        if (cell.noise() > 0.5)
+        if (cell.noise() > 0.3)
         {
             return TFCBlocks.ROCK_BLOCKS.get(Rock.TUFF).get(blockType).get().defaultBlockState();
+        }
+        else if (cell.noise() < -0.8)
+        {
+            return TFCBlocks.ROCK_BLOCKS.get(Rock.BASALT).get(blockType).get().defaultBlockState();
         }
         else
         {
