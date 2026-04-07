@@ -45,6 +45,11 @@ public final class SurfaceStates
     public static final SurfaceState TUFF = context -> TFCBlocks.ROCK_BLOCKS.get(Rock.TUFF).get(Rock.BlockType.RAW).get().defaultBlockState();
     public static final SurfaceState TUFF_GRAVEL = context -> TFCBlocks.ROCK_BLOCKS.get(Rock.TUFF).get(Rock.BlockType.GRAVEL).get().defaultBlockState();
 
+    public static final SurfaceState GRANITE_GRAVEL = context -> TFCBlocks.ROCK_BLOCKS.get(Rock.GRANITE).get(Rock.BlockType.GRAVEL).get().defaultBlockState();
+    public static final SurfaceState DIORITE_GRAVEL = context -> TFCBlocks.ROCK_BLOCKS.get(Rock.DIORITE).get(Rock.BlockType.GRAVEL).get().defaultBlockState();
+    public static final SurfaceState GRANITE = context -> TFCBlocks.ROCK_BLOCKS.get(Rock.GRANITE).get(Rock.BlockType.RAW).get().defaultBlockState();
+    public static final SurfaceState DIORITE = context -> TFCBlocks.ROCK_BLOCKS.get(Rock.DIORITE).get(Rock.BlockType.RAW).get().defaultBlockState();
+
     public static final SurfaceState MORAINE = context -> (Helpers.hash(729375982L, context.pos()) & 127) > 96 ?
         context.getRock().cobble().defaultBlockState() : context.getRock().gravel().defaultBlockState();
     public static final SurfaceState SAND_AND_GRAVEL = context -> (Helpers.hash(728275914L, context.pos()) & 127) > 48 ?
@@ -90,6 +95,10 @@ public final class SurfaceStates
     public static final SurfaceState VOLCANIC_MID_DIRT_TO_LOCAL_GRAVEL = SoilSurfaceState.buildVolcanicMidType(SoilBlockType.DIRT, SurfaceStates.GRAVEL);
     public static final SurfaceState VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL = SoilSurfaceState.buildVolcanicSurfaceType(SoilBlockType.GRASS, SurfaceStates.TUFF_GRAVEL);
     public static final SurfaceState VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL = SoilSurfaceState.buildVolcanicMidType(SoilBlockType.DIRT, SurfaceStates.TUFF_GRAVEL);
+    public static final SurfaceState VOLCANIC_TOP_GRASS_TO_GRANITE_GRAVEL = SoilSurfaceState.buildVolcanicSurfaceType(SoilBlockType.GRASS, SurfaceStates.GRANITE_GRAVEL);
+    public static final SurfaceState VOLCANIC_MID_DIRT_TO_GRANITE_GRAVEL = SoilSurfaceState.buildVolcanicMidType(SoilBlockType.DIRT, SurfaceStates.GRANITE_GRAVEL);
+    public static final SurfaceState VOLCANIC_TOP_GRASS_TO_DIORITE_GRAVEL = SoilSurfaceState.buildVolcanicSurfaceType(SoilBlockType.GRASS, SurfaceStates.DIORITE_GRAVEL);
+    public static final SurfaceState VOLCANIC_MID_DIRT_TO_DIORITE_GRAVEL = SoilSurfaceState.buildVolcanicMidType(SoilBlockType.DIRT, SurfaceStates.DIORITE_GRAVEL);
 
     public static final SurfaceState UNDER_GRAVEL = SoilSurfaceState.buildUnderType();
 

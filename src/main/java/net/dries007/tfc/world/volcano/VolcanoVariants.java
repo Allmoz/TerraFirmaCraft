@@ -8,7 +8,6 @@ package net.dries007.tfc.world.volcano;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 
@@ -26,7 +25,6 @@ import net.dries007.tfc.world.surface.SurfaceBuilderContext;
 import net.dries007.tfc.world.surface.SurfaceState;
 import net.dries007.tfc.world.surface.SurfaceStates;
 import net.dries007.tfc.world.surface.builder.NormalSurfaceBuilder;
-import net.dries007.tfc.world.surface.builder.SimpleSurfaceBuilder;
 
 import static net.dries007.tfc.world.TFCChunkGenerator.*;
 
@@ -401,9 +399,9 @@ public class VolcanoVariants
 
                 // Simple dome, we don't take sqrt of f1 because our end shape is an r2 function anyways
                 final double r2 = Mth.map(cell.f1() + erosionWarp, 0, maxR * maxR, 0, 1); // Radius squared, range [0, 1]
-                final double verticalScale = 1.1 + Helpers.hashDouble(cell.noise(), 83) - maxDiam;
+                final double verticalScale = maxDiam * (0.5 + 0.5 * Helpers.hashDouble(cell.noise(), 83));
 
-                double shape = verticalScale * maxDiam * (1 - r2);
+                double shape = verticalScale * (1 - r2);
                 shape *= textureNoise.noise(x, z);
 
                 return scaleShape(shape, biomeBaseHeight, biomeScaleHeight) ;
@@ -424,7 +422,15 @@ public class VolcanoVariants
             @Override
             public void buildSurface(SurfaceBuilderContext context, int startY, int endY, CenteredFeatureNoiseSampler sampler)
             {
-                SimpleSurfaceBuilder.ROCKY_SHORE.apply(seed).buildSurface(context, startY, endY);
+                final double noise = sampler.getCellularNoise().cell(context.pos().getX(), context.pos().getZ()).noise();
+                if (noise > 0)
+                {
+                    buildNormalBatholithSurface(context, startY, endY, SurfaceStates.VOLCANIC_TOP_GRASS_TO_GRANITE_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_GRANITE_GRAVEL, SurfaceStates.GRANITE_GRAVEL, SurfaceStates.GRANITE_GRAVEL, SurfaceStates.GRANITE_GRAVEL, SurfaceStates.GRANITE);
+                }
+                else
+                {
+                    buildNormalBatholithSurface(context, startY, endY, SurfaceStates.VOLCANIC_TOP_GRASS_TO_DIORITE_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_DIORITE_GRAVEL, SurfaceStates.DIORITE_GRAVEL, SurfaceStates.DIORITE_GRAVEL, SurfaceStates.DIORITE_GRAVEL, SurfaceStates.DIORITE);
+                }
             }
         };
     }
@@ -852,6 +858,103 @@ public class VolcanoVariants
             final double rockTypeNoise = Helpers.hashDouble(rockTypeNoiseIn, 9673);
             final Rock rock =  rockTypeNoise > 0.67 ? Rock.ANDESITE : rockTypeNoise > 0.33 ? Rock.DACITE : Rock.RHYOLITE;
             return TFCBlocks.ROCK_BLOCKS.get(rock).get(blockType).get().defaultBlockState();
+        }
+    }
+
+    public static void buildNormalBatholithSurface(SurfaceBuilderContext context, int startY, int endY, SurfaceState topState, SurfaceState midState, SurfaceState underState, SurfaceState underWaterState, SurfaceState thinUnderWaterState, SurfaceState rockState)
+    {
+        int surfaceDepth = -1;
+        int surfaceY = 0;
+        boolean underwaterLayer = false, firstLayer = false;
+        SurfaceState surfaceState = SurfaceStates.RAW;
+
+        for (int y = startY; y >= endY; --y)
+        {
+            final BlockState stateAt = context.getBlockState(y);
+            if (stateAt.isAir())
+            {
+                surfaceDepth = -1; // Reached air, reset surface depth
+            }
+            else if (context.isDefaultBlock(stateAt))
+            {
+                if (surfaceDepth == -1)
+                {
+                    surfaceY = y; // Reached surface. Place top state and switch to subsurface layers
+                    firstLayer = true;
+                    if (y < context.getSeaLevel() - 1)
+                    {
+                        surfaceDepth = context.calculateAltitudeSlopeSurfaceDepth(surfaceY, -1);
+                        if (surfaceDepth < -1)
+                        {
+                            // No surface layers
+                            surfaceDepth = 0;
+                            context.setBlockState(y, rockState);
+                        }
+                        else if (surfaceDepth == -1)
+                        {
+                            // Place one subsurface layer, skipping the top layer entirely
+                            surfaceDepth = 0;
+                            context.setBlockState(y, thinUnderWaterState);
+                        }
+                        else
+                        {
+                            context.setBlockState(y, underWaterState);
+                        }
+                        surfaceState = underWaterState;
+                        underwaterLayer = true;
+                    }
+                    else
+                    {
+                        surfaceDepth = context.calculateAltitudeSlopeSurfaceDepth(surfaceY, -3);
+                        if (surfaceDepth < -1)
+                        {
+                            // No surface layers
+                            surfaceDepth = 0;
+                            context.setBlockState(y, rockState);
+                        }
+                        else if (surfaceDepth == -1)
+                        {
+                            surfaceDepth = 0;
+                            context.setBlockState(y, underState);
+                        }
+                        else
+                        {
+                            context.setBlockState(y, topState);
+                        }
+                        surfaceState = midState;
+                        underwaterLayer = false;
+                    }
+                }
+                else if (surfaceDepth > 0)
+                {
+                    // Subsurface layers
+                    surfaceDepth--;
+                    context.setBlockState(y, surfaceState);
+                    if (surfaceDepth == 0)
+                    {
+                        // Next subsurface layer
+                        if (firstLayer)
+                        {
+                            firstLayer = false;
+                            if (underwaterLayer)
+                            {
+                                surfaceDepth = context.calculateAltitudeSlopeSurfaceDepth(surfaceY, 0);
+                                surfaceState = thinUnderWaterState;
+                            }
+                            else
+                            {
+                                surfaceDepth = context.calculateAltitudeSlopeSurfaceDepth(surfaceY, 0);
+                                surfaceState = underState;
+                            }
+                        }
+                    }
+                }
+                // At this point, we are below the surface and subsurface
+                else
+                {
+                    context.setBlockState(y, rockState);
+                }
+            }
         }
     }
 }
