@@ -566,14 +566,14 @@ public class CenteredFeatureNoise
                 }
                 else if (maxDiameter < 0.4)
                 {
-                    return VolcanoVariants.dome(seed);
+                    return VolcanoVariants.batholith(seed);
                 }
                 else if (maxDiameter < 0.55)
                 {
                     double noise = Helpers.hashDouble(cell.noise(), 317);
                     if (noise > 0.5)
                     {
-                        return VolcanoVariants.dome(seed);
+                        return VolcanoVariants.batholith(seed);
                     }
                     else
                     {

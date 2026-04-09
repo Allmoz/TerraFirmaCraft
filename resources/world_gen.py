@@ -59,6 +59,7 @@ def generate(rm: ResourceManager):
     rm.placed_feature_tag('feature/surface_grasses', *['tfc:plant/%s_patch' % p for p, data in PLANTS.items() if data.type == 'short_grass'])
     rm.placed_feature_tag('feature/boulders', 'tfc:raw_boulder', 'tfc:cobble_boulder', 'tfc:mossy_boulder', 'tfc:raw_boulder_small_patch', 'tfc:cobble_boulder_small_patch', 'tfc:mossy_boulder_small_patch')
     rm.placed_feature_tag('feature/soil_discs', 'tfc:clay_disc_with_indicator', 'tfc:water_clay_disc_with_indicator', 'tfc:peat_disc', 'tfc:powder_snow', 'tfc:rooted_dirt', 'tfc:mollisol_disc') # Does not include alfisol/podzol discs as those are placed per tree by the forest feature
+    rm.placed_feature_tag('feature/stratovolcanoes', 'tfc:fuji_caldera', 'tfc:fuji_spring', 'tfc:kelimutu_lava', 'tfc:kelimutu_spring_water', 'tfc:kelimutu_water', 'tfc:tahoma_caldera', 'tfc:tahoma_spring', 'tfc:wizard_island_lava', 'tfc:wizard_island_spring')
     rm.placed_feature_tag('feature/volcanoes', 'tfc:volcano_rivulet', 'tfc:volcano_caldera', 'tfc:random_volcano_fissure', 'tfc:pumice_patch', 'tfc:lava_surface_spring')
     rm.placed_feature_tag('feature/tuyas', 'tfc:tuya_rivulet', 'tfc:tuya_caldera', 'tfc:random_tuya_fissure', 'tfc:pumice_patch', 'tfc:lava_surface_spring')
     rm.placed_feature_tag('feature/surface_flood_fill_lakes', 'tfc:flood_fill_lake')
@@ -484,7 +485,76 @@ def generate(rm: ResourceManager):
     rm.configured_feature('ocean_ridge_rivulet', 'tfc:rivulet', {'states': [{'replace': 'tfc:rock/%s/%s' % (var, rock), 'with': 'tfc:rock/magma/%s' % rock} for var in ('raw', 'hardened') for rock in igneous_rocks]})
     rm.placed_feature('ocean_ridge_rivulet', 'tfc:ocean_ridge_rivulet', decorate_count(2), decorate_square(), ('tfc:ocean_ridge', {'min_distance': 0, 'max_distance': 32}))
 
-    # Volcano Features
+    # Stratovolcano Features
+    # Fuji
+    rm.configured_feature('fuji_caldera', 'tfc:flood_fill_lake', {
+        'overfill': True,
+        'replace_fluids': ['minecraft:water'],
+        'state': 'minecraft:lava'
+    })
+    rm.placed_feature('fuji_caldera', 'tfc:fuji_caldera', ('tfc:stratovolcano', {'variant': 'fuji', 'center': True, 'hash_max': 0.6}), decorate_heightmap('world_surface_wg'))
+
+    rm.configured_feature('fuji_spring', 'tfc:flood_fill_lake', {
+        'overfill': True,
+        'replace_fluids': ['minecraft:water'],
+        'state': 'tfc:fluid/spring_water'
+    })
+    rm.placed_feature('fuji_spring', 'tfc:fuji_spring', ('tfc:stratovolcano', {'variant': 'fuji', 'center': True, 'hash_min': 0.8}), decorate_heightmap('world_surface_wg'))
+
+    # Tahoma
+    rm.configured_feature('tahoma_caldera', 'tfc:flood_fill_lake', {
+        'overfill': True,
+        'replace_fluids': ['minecraft:water'],
+        'state': 'minecraft:lava'
+    })
+    rm.placed_feature('tahoma_caldera', 'tfc:tahoma_caldera', ('tfc:stratovolcano', {'variant': 'tahoma', 'center': True, 'hash_max': 0.6}), decorate_heightmap('world_surface_wg'))
+
+    rm.configured_feature('tahoma_spring', 'tfc:flood_fill_lake', {
+        'overfill': True,
+        'replace_fluids': ['minecraft:water'],
+        'state': 'tfc:fluid/spring_water'
+    })
+    rm.placed_feature('tahoma_spring', 'tfc:tahoma_spring', ('tfc:stratovolcano', {'variant': 'tahoma', 'center': True, 'hash_min': 0.8}), decorate_heightmap('world_surface_wg'))
+
+
+    # Kelimutu
+    rm.configured_feature('kelimutu_lava', 'tfc:flood_fill_lake', {
+        'overfill': True,
+        'replace_fluids': ['minecraft:water'],
+        'state': 'minecraft:lava'
+    })
+    rm.placed_feature('kelimutu_lava', 'tfc:kelimutu_lava', ('tfc:stratovolcano', {'variant': 'kelimutu', 'center': True, 'use_offset_center': True, 'hash_min': 0, 'hash_max': 0.25}), decorate_heightmap('world_surface_wg'))
+
+    rm.configured_feature('kelimutu_spring_water', 'tfc:flood_fill_lake', {
+        'overfill': True,
+        'replace_fluids': ['minecraft:water'],
+        'state': 'tfc:fluid/spring_water'
+    })
+    rm.placed_feature('kelimutu_spring_water', 'tfc:kelimutu_spring_water', ('tfc:stratovolcano', {'variant': 'kelimutu', 'center': True, 'use_offset_center': True, 'hash_min': 0.25, 'hash_max': 0.75}), decorate_heightmap('world_surface_wg'))
+
+    rm.configured_feature('kelimutu_water', 'tfc:flood_fill_lake', {
+        'overfill': True,
+        'replace_fluids': [],
+        'state': 'minecraft:water'
+    })
+    rm.placed_feature('kelimutu_water', 'tfc:kelimutu_water', ('tfc:stratovolcano', {'variant': 'kelimutu', 'center': True, 'use_offset_center': True, 'hash_min': 0.75, 'hash_max': 1}), decorate_heightmap('world_surface_wg'))
+
+    # Crater Lake
+    rm.configured_feature('wizard_island_lava', 'tfc:flood_fill_lake', {
+        'overfill': True,
+        'replace_fluids': ['minecraft:water'],
+        'state': 'minecraft:lava'
+    })
+    rm.placed_feature('wizard_island_lava', 'tfc:wizard_island_lava', ('tfc:stratovolcano', {'variant': 'crater_lake', 'center': True, 'use_offset_center': True, 'hash_min': 0, 'hash_max': 0.6}), decorate_heightmap('world_surface_wg'))
+
+    rm.configured_feature('wizard_island_spring', 'tfc:flood_fill_lake', {
+        'overfill': True,
+        'replace_fluids': ['minecraft:water'],
+        'state': 'tfc:fluid/spring_water'
+    })
+    rm.placed_feature('wizard_island_spring', 'tfc:wizard_island_spring', ('tfc:stratovolcano', {'variant': 'crater_lake', 'center': True, 'use_offset_center': True, 'hash_min': 0.8, 'hash_max': 1}), decorate_heightmap('world_surface_wg'))
+
+    # Cinder cone Features
     rm.configured_feature('volcano_rivulet', 'tfc:rivulet', {'states': [{'replace': 'tfc:rock/%s/basalt' % rock, 'with': 'tfc:rock/magma/basalt'} for rock in ('raw', 'hardened')]})
     rm.configured_feature('volcano_caldera', 'tfc:flood_fill_lake', {
         'overfill': True,
@@ -1915,6 +1985,8 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
             large_features.append('tfc:glacial_oceanic_spring')
         else:
             large_features.append('tfc:glacial_spring')
+
+    large_features.append('#tfc:feature/stratovolcanoes')
 
     if volcano_features:
         large_features.append('#tfc:feature/volcanoes')

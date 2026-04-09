@@ -3,6 +3,7 @@
   "replace": false,
   "values": [
     "tfc:lava_hot_spring",
+    "#tfc:feature/stratovolcanoes",
     "#tfc:feature/surface_flood_fill_lakes"
   ]
 }

@@ -24,7 +24,6 @@ import net.dries007.tfc.world.noise.OpenSimplex2D;
 import net.dries007.tfc.world.surface.SurfaceBuilderContext;
 import net.dries007.tfc.world.surface.SurfaceState;
 import net.dries007.tfc.world.surface.SurfaceStates;
-import net.dries007.tfc.world.surface.builder.NormalSurfaceBuilder;
 
 import static net.dries007.tfc.world.TFCChunkGenerator.*;
 
@@ -39,6 +38,12 @@ public class VolcanoVariants
 
         return new VolcanoVariant()
         {
+            @Override
+            public String name()
+            {
+                return "fuji";
+            }
+
             @Override
             public double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
@@ -120,6 +125,12 @@ public class VolcanoVariants
 
         return new VolcanoVariant()
         {
+            @Override
+            public String name()
+            {
+                return "crater_lake";
+            }
+
             @Override
             public double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
@@ -267,6 +278,12 @@ public class VolcanoVariants
         return new VolcanoVariant()
         {
             @Override
+            public String name()
+            {
+                return "tahoma";
+            }
+
+            @Override
             public double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
                 return getLandHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
@@ -375,13 +392,19 @@ public class VolcanoVariants
     }
 
     // Granite dome/batholith: https://en.wikipedia.org/wiki/Granite_dome
-    public static VolcanoVariant dome(Seed seed)
+    public static VolcanoVariant batholith(Seed seed)
     {
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 24852L).octaves(4).spread(0.2).scaled(0.8, 1.2);
         final Noise2D radialWarpNoise = new OpenSimplex2D(seed.seed() + 133L).octaves(2).scaled(-0.006f, 0f).spread(0.05f);
 
         return new VolcanoVariant()
         {
+            @Override
+            public String name()
+            {
+                return "batholith";
+            }
+
             @Override
             public double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
@@ -446,6 +469,12 @@ public class VolcanoVariants
         return new VolcanoVariant()
         {
             @Override
+            public String name()
+            {
+                return "kelimutu";
+            }
+
+            @Override
             public double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
                 final double landHeight = getLandHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
@@ -488,7 +517,7 @@ public class VolcanoVariants
                 craterShape = addOffsetCrater(craterShape, cell.x() + xOffset1, cell.y() + zOffset1, x, z, 0, rimHeight1, rimHeight1 * maxDiam * 300, crater1Size, 1.3 + randRimHeight1);
 
                 // Chance to not add a third cone
-                if (Helpers.hashDouble(cell.noise(), 1066) > 0.3)
+                if (Helpers.hashDouble(noise, 1066) > 0.3)
                 {
                     // Add tertiary cone w/ random height and offset
                     final double randOffsetX2 = 2 * (0.5 - Helpers.hashDouble(noise, 71));
@@ -588,20 +617,67 @@ public class VolcanoVariants
             @Override
             public void buildSurface(SurfaceBuilderContext context, int oceanFloorHeight, int endY, CenteredFeatureNoiseSampler sampler)
             {
+
                 final BlockPos pos = context.pos();
                 final int x = pos.getX();
                 final int z = pos.getZ();
 
                 final Cellular2D cellNoise = sampler.getCellularNoise();
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                final int baseY = context.getPreVolcanicHeight();
+                final double noise = cell.noise();
                 final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
+                final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
+                final int baseY = context.getPreVolcanicHeight();
                 final BiomeExtension biome = context.stratovolcanoBiome();
-                final int landHeight = (int) Math.round(this.getLandHeight(baseY, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
-                final int waterHeight = (int) Math.round(this.getFluidHeight(baseY, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
                 final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
 
-                buildNormalSurfaceWithStrata(context, unerodedHeight, baseY, Math.max(landHeight, Math.min(oceanFloorHeight, context.getSeaLevel())), waterHeight, cell.noise(), seed, SurfaceStates.VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL, Fluids.WATER.getSource().defaultFluidState().createLegacyBlock());
+                // We check if we are inside any of the three craters, and put stone there if so
+                // Main crater
+                boolean insideCrater = r < 0.06 + 0.06 * Helpers.hashDouble(noise, 67);
+
+                // Second crater
+                final double rimHeight0 = 0.65;
+                if (!insideCrater)
+                {
+                    // Add secondary cone w/ random height and offset
+                    final double randOffsetX1 = 2 * (0.5 - Helpers.hashDouble(noise, 68));
+                    final double randOffsetZ1 = 2 * (0.5 - Helpers.hashDouble(noise, 69));
+                    final double xCenter1 = cell.x() + (randOffsetX1 > 0 ? 20 + randOffsetX1 * 70 : -20 + randOffsetX1 * 70);
+                    final double zCenter1 = cell.y() + (randOffsetZ1 > 0 ? 20 + randOffsetZ1 * 70 : -20 + randOffsetZ1 * 70);
+
+                    // We want the size to be proportional to distance between centers
+                    final double randRimHeight1 = Helpers.hashDouble(noise, 70);
+                    final double rimHeight1 = rimHeight0 * (0.8 + 0.2 * randRimHeight1);
+                    final double crater1Size = 0.06 + 0.08 * (Math.abs(randOffsetX1) + Math.abs(randOffsetZ1));
+                    final double r1 = Mth.map(Math.sqrt((x - xCenter1) * (x - xCenter1) + (z - zCenter1) * (z - zCenter1)), 0, rimHeight1 * maxDiam * 300, 0, 1);
+                    insideCrater = r1 < crater1Size;
+                }
+
+                // Third crater
+                if (!insideCrater && Helpers.hashDouble(noise, 1066) > 0.3)
+                {
+                    // Add tertiary cone w/ random height and offset
+                    final double randOffsetX2 = 2 * (0.5 - Helpers.hashDouble(noise, 71));
+                    final double randOffsetZ2 = 2 * (0.5 - Helpers.hashDouble(noise, 72));
+                    final double xCenter2 = cell.x() + (randOffsetX2 > 0 ? 20 + randOffsetX2 * 70 : -20 + randOffsetX2 * 73);
+                    final double zCenter2 = cell.y() + (randOffsetZ2 > 0 ? 20 + randOffsetZ2 * 70 : -20 + randOffsetZ2 * 74);
+
+                    final double randRimHeight2 = Helpers.hashDouble(noise, 73);
+                    final double rimHeight2 = rimHeight0 * (0.7 + 0.3 * randRimHeight2);
+                    final double crater2Size = 0.06 + 0.08 * (Math.abs(randOffsetX2) + Math.abs(randOffsetZ2));
+                    final double r2 = Mth.map(Math.sqrt((x - xCenter2) * (x - xCenter2) + (z - zCenter2) * (z - zCenter2)), 0, rimHeight2 * maxDiam * 300, 0, 1);
+                    insideCrater = r2 < crater2Size;
+                }
+
+                if (insideCrater)
+                {
+                    buildStrataSurfaceOnly(context, unerodedHeight, baseY, oceanFloorHeight, noise, seed);
+                }
+                else
+                {
+
+                    buildNormalSurfaceWithStrata(context, unerodedHeight, baseY, oceanFloorHeight, 0, noise, seed, SurfaceStates.VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL, Fluids.WATER.getSource().defaultFluidState().createLegacyBlock());
+                }
             }
 
             public double getUnerodedHeight(double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
@@ -690,8 +766,7 @@ public class VolcanoVariants
 
     public static double calculateCone(double r, double rCrater)
     {
-        final double h = 1 + rCrater;
-        return h - r;
+        return Mth.map(r, 1, rCrater, 0, 1);
     }
 
     public static double calculateCrater(double r, double rCrater, double craterDepthScale)
@@ -731,6 +806,22 @@ public class VolcanoVariants
     public static double scaleShape(double shape, double base, double scale)
     {
         return SEA_LEVEL_Y + base + shape * scale;
+    }
+
+    // Bare stone, following strata patterns
+    public static void buildStrataSurfaceOnly(SurfaceBuilderContext context, int unerodedY, int baseY, int landHeight, double cellNoiseIn, Seed seed)
+    {
+        final double rockTypeNoise = Helpers.hashDouble(cellNoiseIn, 856);
+        Cellular1D cells = new Cellular1D(seed.seed()).spread(0.25);
+
+        for (int y = landHeight; y >= baseY; --y)
+        {
+            final BlockState stateAt = context.getBlockState(y);
+            if (context.isDefaultBlock(stateAt))
+            {
+                context.setBlockState(y, getStratifiedStoneBlock(unerodedY, y, cells, rockTypeNoise, Rock.BlockType.RAW));
+            }
+        }
     }
 
     public static void buildNormalSurfaceWithStrata(SurfaceBuilderContext context, int unerodedY, int baseY, int landHeight, int waterHeight, double cellNoiseIn, Seed seed, SurfaceState topState, SurfaceState midState, BlockState fluidState)

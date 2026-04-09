@@ -6,7 +6,10 @@
 
 package net.dries007.tfc.world.volcano;
 
+import com.mojang.serialization.Codec;
+
 import net.dries007.tfc.world.noise.Cellular2D;
+import net.dries007.tfc.world.settings.RockLayerSettings;
 import net.dries007.tfc.world.surface.SurfaceBuilderContext;
 
 /**
@@ -14,6 +17,8 @@ import net.dries007.tfc.world.surface.SurfaceBuilderContext;
  */
 public interface VolcanoVariant
 {
+    String name();
+
     default double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
     {
         return heightIn;

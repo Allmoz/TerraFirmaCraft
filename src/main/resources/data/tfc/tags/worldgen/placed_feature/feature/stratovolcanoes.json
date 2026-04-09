@@ -1,0 +1,15 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "tfc:fuji_caldera",
+    "tfc:fuji_spring",
+    "tfc:kelimutu_lava",
+    "tfc:kelimutu_spring_water",
+    "tfc:kelimutu_water",
+    "tfc:tahoma_caldera",
+    "tfc:tahoma_spring",
+    "tfc:wizard_island_lava",
+    "tfc:wizard_island_spring"
+  ]
+}
