@@ -32,6 +32,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.HotPouredGlassBlock;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.calendar.Calendars;
+import net.dries007.tfc.util.calendar.ICalendar;
 
 import static net.dries007.tfc.TerraFirmaCraft.*;
 
@@ -40,6 +42,11 @@ public class HotPouredGlassBlockEntity extends TickableInventoryBlockEntity<Item
     public static void tick(Level level, BlockPos pos, BlockState state, HotPouredGlassBlockEntity glass)
     {
         glass.checkForLastTickSync();
+        if (!level.isClientSide && Calendars.SERVER.getTicks() - glass.created > TICKS_TO_DESTROY)
+        {
+            level.destroyBlock(pos, false);
+            Helpers.playSound(level, pos, SoundEvents.GLASS_BREAK);
+        }
         if (!glass.initialized)
         {
             return;
@@ -156,10 +163,13 @@ public class HotPouredGlassBlockEntity extends TickableInventoryBlockEntity<Item
 
     private static final Component NAME = Component.translatable(MOD_ID + ".block_entity.hot_poured_glass");
 
+    public static final int TICKS_TO_DESTROY = ICalendar.TICKS_IN_HOUR * 4;
+
     private int capacity = 0;
     private boolean isInitialTransition = true;
     private int animationTicks = 0;
     private boolean initialized = false;
+    private long created = -1L;
 
     public HotPouredGlassBlockEntity(BlockPos pos, BlockState state)
     {
@@ -179,6 +189,7 @@ public class HotPouredGlassBlockEntity extends TickableInventoryBlockEntity<Item
         isInitialTransition = nbt.getBoolean("isInitialTransition");
         animationTicks = nbt.getInt("animationTicks");
         initialized = nbt.getBoolean("initialized");
+        created = nbt.contains("created", CompoundTag.TAG_LONG) ? nbt.getLong("created") : -1L;
     }
 
     @Override
@@ -189,6 +200,7 @@ public class HotPouredGlassBlockEntity extends TickableInventoryBlockEntity<Item
         nbt.putBoolean("isInitialTransition", isInitialTransition);
         nbt.putInt("animationTicks", animationTicks);
         nbt.putBoolean("initialized", initialized);
+        nbt.putLong("created", created);
     }
 
     @Override
@@ -197,8 +209,15 @@ public class HotPouredGlassBlockEntity extends TickableInventoryBlockEntity<Item
         return stack.getItem() instanceof BlockItem;
     }
 
+    public long getCreated()
+    {
+        return created;
+    }
+
     public void setGlassItem(ItemStack stack)
     {
+        assert level != null;
+        created = Calendars.get(level).getTicks();
         inventory.setStackInSlot(0, stack);
     }
 

@@ -152,9 +152,10 @@ public final class BlockEntityTooltips
     }
 
     public static final BlockEntityTooltip HOT_POURED_GLASS = (level, state, pos, entity, tooltip) -> {
-        if (state.getBlock() instanceof HotPouredGlassBlock && !state.getValue(HotPouredGlassBlock.FLAT))
+        if (state.getBlock() instanceof HotPouredGlassBlock && entity instanceof HotPouredGlassBlockEntity glass && !state.getValue(HotPouredGlassBlock.FLAT))
         {
             tooltip.accept(Component.translatable("tfc.tooltip.glass.flatten_me"));
+            timeLeft(level, tooltip, HotPouredGlassBlockEntity.TICKS_TO_DESTROY - Calendars.get(level).getTicks() + glass.getCreated());
         }
     };
 
