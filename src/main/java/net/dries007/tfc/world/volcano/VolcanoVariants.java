@@ -488,7 +488,7 @@ public class VolcanoVariants
 
                 // Simple dome, we don't take sqrt of f1 because our end shape is an r2 function anyways
                 final double r2 = Mth.map(cell.f1() + erosionWarp, 0, maxR * maxR, 0, 1); // Radius squared, range [0, 1]
-                final double verticalScale = maxDiam * (0.5 + 0.5 * Helpers.hashDouble(cell.noise(), 83));
+                final double verticalScale = maxDiam * (0.6 + 0.4 * Helpers.hashDouble(cell.noise(), 83));
 
                 double shape = verticalScale * (1 - r2);
                 shape *= textureNoise.noise(x, z);

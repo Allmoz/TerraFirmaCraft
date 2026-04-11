@@ -128,25 +128,33 @@ public final class BiomeNoise
     /**
      * Mountain noise based on the intercutting ridge noise used in Shilin biomes
      */
-    public static Noise2D ridgeMountains(long seed)
+    public static Noise2D ridgeMountains(long seed, double baseHeight, double scaleHeight)
     {
 
         // Basic ridge shapes following zeroes in the noise
-        final Noise2D ridges = new OpenSimplex2D(seed + 3987677L).octaves(4).spread(0.016f).ridged();
+        final Noise2D ridges = new OpenSimplex2D(seed + 3987677L).octaves(4).spread(0.022f).map(y -> {
+            return 1 - 2.8 * y * y; // We want to drag the valleys down to the base biome level, at which point flat valley noise takes over
+        });
 
         // Continuous paths through ridges to make them more passable. Power-scaled to round them. Steepened so that they don't apply everywhere.
-        final Noise2D passes = new OpenSimplex2D(seed + 454379L).octaves(2).spread(0.004f).map(y -> 9 * y * y);
+        final Noise2D passes = new OpenSimplex2D(seed + 454379L).octaves(2).spread(0.003f).map(y -> 16 * y * y);
 
         // We want passes to cut more deeply into terrain near ridges, and fade out in lower areas
         // This gives the height at the bottom of the pass, as a function of the height of the ridge
-        final Noise2D passHeight = ridges.map(y -> Mth.clampedMap(y, 0.3, 0.9, 0.3, 0.7));
-
-        final Noise2D scale = new OpenSimplex2D(seed + 245L).octaves(4).spread(0.02).scaled(0.5, 1.2);
+        final Noise2D passHeight = ridges.map(y -> Mth.clampedMap(y, 0.3, 0.9, 0.3, 0.5));
 
         // Apply peaks to the tops of ridges
-        final Noise2D peaks = new OpenSimplex2D(seed + 4242L).octaves(4).spread(0.1).scaled(-0.2, 1).easeIn(0.3, 0.8, 0.1, 1, ridges);
+        final OpenSimplex2D warp = new OpenSimplex2D(seed).octaves(3).spread(0.025f).scaled(-50f, 50f);
+        final Noise2D peaks = new OpenSimplex2D(seed + 4242L).octaves(3).spread(0.045).scaled(-0.6, 1).warped(warp).easeIn(0.4, 0.8, 0.1, 1, ridges);
 
-        return ridges.min(passes.add(passHeight)).add(peaks).lazyProduct(scale);
+        // Need a scale noise so peaks aren't all the same height
+        // We ease it in over ridges before we scale it
+        final Noise2D scale = new OpenSimplex2D(seed + 245L).octaves(4).spread(0.012).easeIn(0.3, 0.9, 0, 1, ridges).map(y -> 1 + 0.35 * y);
+
+        // Bases of valleys need some texture
+        final Noise2D flatValleys = hills(seed + 525L, (int) (baseHeight - 15), (int) (baseHeight + 15));
+
+        return ridges.min(passes.add(passHeight)).add(peaks).lazyProduct(scale).scaled(0, 1, SEA_LEVEL_Y + baseHeight,  SEA_LEVEL_Y + baseHeight + scaleHeight).max(flatValleys);
     }
 
     /**
@@ -942,7 +950,7 @@ public final class BiomeNoise
 
     public static Noise2D mountains(long seed, int baseHeight, int scaleHeight, float spreadFactor)
     {
-        return ridgeMountains(seed).scaled(0, 1, SEA_LEVEL_Y + baseHeight,  SEA_LEVEL_Y + baseHeight + scaleHeight);
+        final Noise2D baseNoise = ridgeMountains(seed, baseHeight, scaleHeight);
         //TODO
 //        final Noise2D baseNoise = new OpenSimplex2D(seed) // A simplex noise forms the majority of the base
 //            .octaves(6) // High octaves to create highly fractal terrain
@@ -959,24 +967,24 @@ public final class BiomeNoise
 //                return SEA_LEVEL_Y + baseHeight + scaleHeight * x1; // Scale the entire thing to mountain ranges
 //            });
 //
-//        // Cliff noise consists of noise that's been artificially clamped over half the domain, which is then selectively added above a base height level
-//        // This matches up with the distinction between dirt and stone
-//        final Noise2D cliffNoise = new OpenSimplex2D(seed + 2).octaves(2).spread(0.01f * spreadFactor).scaled(-25, 25).map(x -> x > 0 ? x : 0);
-//        final Noise2D cliffHeightNoise = new OpenSimplex2D(seed + 3).octaves(2).spread(0.01f * spreadFactor).scaled(140 - 20, 140 + 20);
-//
-//        return (x, z) -> {
-//            double height = baseNoise.noise(x, z);
-//            if (height > 120) // Only sample each cliff noise layer if the base noise could be influenced by it
-//            {
-//                final double cliffHeight = cliffHeightNoise.noise(x, z) - height;
-//                if (cliffHeight < 0)
-//                {
-//                    final double mappedCliffHeight = Mth.clampedMap(cliffHeight, 0, -1, 0, 1);
-//                    height += mappedCliffHeight * cliffNoise.noise(x, z);
-//                }
-//            }
-//            return height;
-//        };
+        // Cliff noise consists of noise that's been artificially clamped over half the domain, which is then selectively added above a base height level
+        // This matches up with the distinction between dirt and stone
+        final Noise2D cliffNoise = new OpenSimplex2D(seed + 2).octaves(2).spread(0.01f * spreadFactor).scaled(-25, 25).map(x -> x > 0 ? x : 0);
+        final Noise2D cliffHeightNoise = new OpenSimplex2D(seed + 3).octaves(2).spread(0.01f * spreadFactor).scaled(140 - 20, 140 + 20);
+
+        return (x, z) -> {
+            double height = baseNoise.noise(x, z);
+            if (height > 120) // Only sample each cliff noise layer if the base noise could be influenced by it
+            {
+                final double cliffHeight = cliffHeightNoise.noise(x, z) - height;
+                if (cliffHeight < 0)
+                {
+                    final double mappedCliffHeight = Mth.clampedMap(cliffHeight, 0, -1, 0, 1);
+                    height += mappedCliffHeight * cliffNoise.noise(x, z);
+                }
+            }
+            return height;
+        };
     }
 
     /**
