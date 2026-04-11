@@ -6,10 +6,7 @@
 
 package net.dries007.tfc.world.volcano;
 
-import com.mojang.serialization.Codec;
-
 import net.dries007.tfc.world.noise.Cellular2D;
-import net.dries007.tfc.world.settings.RockLayerSettings;
 import net.dries007.tfc.world.surface.SurfaceBuilderContext;
 
 /**
@@ -40,5 +37,5 @@ public interface VolcanoVariant
         return 0;
     }
 
-    void buildSurface(SurfaceBuilderContext context, int startY, int endY, CenteredFeatureNoiseSampler sampler);
+    boolean buildSurface(SurfaceBuilderContext context, int oceanFloorHeight, int preVolcanicHeight, CenteredFeatureNoiseSampler sampler);
 }

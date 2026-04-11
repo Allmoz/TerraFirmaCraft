@@ -6,19 +6,10 @@
 
 package net.dries007.tfc.world.surface.builder;
 
-import java.util.Arrays;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
-import net.dries007.tfc.common.blocks.TFCBlocks;
-import net.dries007.tfc.common.blocks.rock.Rock;
-import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.biome.BiomeExtension;
-import net.dries007.tfc.world.noise.Noise2D;
-import net.dries007.tfc.world.noise.OpenSimplex2D;
 import net.dries007.tfc.world.surface.SurfaceBuilderContext;
 import net.dries007.tfc.world.volcano.CenteredFeatureNoise;
 import net.dries007.tfc.world.volcano.CenteredFeatureNoiseSampler;
@@ -57,12 +48,12 @@ public class StratovolcanoSurfaceBuilder implements SurfaceBuilder
             {
                 oceanFloorY = startY;
             }
-            if (oceanFloorY > preVolcanicHeight + 2)
+
+            VolcanoVariant variant = sampler.getVolcanoVariant(sampler.getCellularNoise().cell(context.pos().getX(), context.pos().getZ()));
+            if (variant != null)
             {
-                VolcanoVariant variant = sampler.getVolcanoVariant(sampler.getCellularNoise().cell(context.pos().getX(), context.pos().getZ()));
-                if (variant != null)
+                if (variant.buildSurface(context, oceanFloorY, preVolcanicHeight, sampler))
                 {
-                    variant.buildSurface(context, oceanFloorY, preVolcanicHeight, sampler);
                     return;
                 }
             }
