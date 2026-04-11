@@ -104,17 +104,17 @@ public enum ChooseBiomes implements RegionTask
                     }
                     else
                     {
-                        if (temp < maxIceSheetTemp + 2)
+                        if (temp < maxIceSheetTemp + 4)
                         {
-                            point.biome = ICE_SHEET_COLLISIONAL_MOUNTAINS;
+                            point.biome = ICE_SHEET_MOUNTAINS;
                         }
-                        else if (temp < maxIceSheetTemp + 6)
+                        else if (temp < maxIceSheetTemp + 8)
                         {
-                            point.biome = GLACIATED_COLLISIONAL_MOUNTAINS;
+                            point.biome = GLACIATED_MOUNTAINS;
                         }
-                        else if (temp < maxIceSheetTemp + 10)
+                        else if (temp < maxIceSheetTemp + 11)
                         {
-                            point.biome = GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS;
+                            point.biome = GLACIALLY_CARVED_MOUNTAINS;
                         }
                         else
                         {
@@ -161,7 +161,7 @@ public enum ChooseBiomes implements RegionTask
                         }
                         else
                         {
-                            point.biome = randomSeededFrom(rngSeed, areaSeed, OCEANIC_MOUNTAIN_ALTITUDE_BIOMES);
+                            point.biome = OCEANIC_MOUNTAINS;
                         }
                     }
                 }
@@ -170,15 +170,15 @@ public enum ChooseBiomes implements RegionTask
                     final float maxIceSheetTemp = -14f + 0.006f * point.rainfall;
                     if (point.volcanic())
                     {
-                        if (temp < maxIceSheetTemp)
+                        if (temp < maxIceSheetTemp + 4)
                         {
                             point.biome = ICE_SHEET_VOLCANIC_MOUNTAINS;
                         }
-                        else if (temp < maxIceSheetTemp + 4)
+                        else if (temp < maxIceSheetTemp + 8)
                         {
                             point.biome = GLACIATED_VOLCANIC_MOUNTAINS;
                         }
-                        else if (temp < maxIceSheetTemp + 10)
+                        else if (temp < maxIceSheetTemp + 11)
                         {
                             point.biome = GLACIALLY_CARVED_VOLCANIC_MOUNTAINS;
                         }
@@ -189,15 +189,15 @@ public enum ChooseBiomes implements RegionTask
                     }
                     else
                     {
-                        if (temp < maxIceSheetTemp)
+                        if (temp < maxIceSheetTemp + 4)
                         {
                             point.biome = ICE_SHEET_MOUNTAINS;
                         }
-                        else if (temp < maxIceSheetTemp + 4)
+                        else if (temp < maxIceSheetTemp + 8)
                         {
                             point.biome = GLACIATED_MOUNTAINS;
                         }
-                        else if (temp < maxIceSheetTemp + 10)
+                        else if (temp < maxIceSheetTemp + 11)
                         {
                             point.biome = GLACIALLY_CARVED_MOUNTAINS;
                         }

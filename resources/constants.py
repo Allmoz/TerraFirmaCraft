@@ -934,8 +934,7 @@ TFC_BIOMES = ['badlands', 'canyons', 'low_canyons', 'plains', 'plateau', 'platea
               'ice_sheet_tuyas_edge', 'ice_sheet_mountains_edge', 'ice_sheet_oceanic_mountains_edge', 'meltwater_lake', 'ice_sheet_oceanic', 'ice_sheet_shore',
               'glaciated_shield_volcano', 'glaciated_mountains', 'glaciated_oceanic_mountains', 'glacially_carved_mountains', 'glacially_carved_oceanic_mountains',
               'drumlins', 'tuyas', 'knob_and_kettle', 'patterned_ground', 'inverted_patterned_ground', 'stone_circles', 'oceanic_volcanic_arc', 'ocean_ridge',
-              'rift_valley', 'rift_lake', 'collisional_mountains', 'volcanic_island', 'volcanic_mountain_islands', 'ice_sheet_collisional_mountains',
-              'ice_sheet_collisional_mountains_edge', 'glaciated_collisional_mountains', 'glacially_carved_collisional_mountains', 'ice_sheet_volcanic_mountains',
+              'rift_valley', 'rift_lake', 'collisional_mountains', 'volcanic_island', 'volcanic_mountain_islands', 'ice_sheet_volcanic_mountains',
               'glaciated_volcanic_mountains', 'glacially_carved_volcanic_mountains', 'ice_sheet_volcanic_oceanic_mountains', 'glaciated_volcanic_oceanic_mountains',
               'glacially_carved_volcanic_oceanic_mountains']
 KAOLIN_BIOMES = ['rolling_hills', 'highlands', 'plateau', 'plateau_wide', 'old_mountains', 'tower_karst_hills', 'tower_karst_highlands', 'extreme_doline_plateau', 'extreme_doline_mountains', 'doline_rolling_hills', 'doline_highlands', 'doline_plateau', 'cenote_rolling_hills', 'cenote_highlands', 'cenote_plateau', 'shilin_hills', 'shilin_highlands', 'shilin_plateau', 'buttes', 'mesas', 'stair_step_canyons', 'dormant_shield_volcano', 'extinct_shield_volcano', 'ancient_shield_volcano', 'badlands', 'canyons']

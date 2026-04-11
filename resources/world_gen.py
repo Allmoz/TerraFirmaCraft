@@ -166,7 +166,6 @@ def generate(rm: ResourceManager):
     # Full ice sheet biomes
     biome(rm, 'ice_sheet', 'extreme_hills', barren=True, boulders=True)
     biome(rm, 'ice_sheet_mountains', 'extreme_hills', barren=True)
-    biome(rm, 'ice_sheet_collisional_mountains', 'extreme_hills', barren=True)
     biome(rm, 'ice_sheet_oceanic_mountains', 'extreme_hills', barren=True, ocean_features='both')
     biome(rm, 'ice_sheet_volcanic_mountains', 'extreme_hills', barren=True)
     biome(rm, 'ice_sheet_volcanic_oceanic_mountains', 'extreme_hills', barren=True, ocean_features='both')
@@ -178,7 +177,6 @@ def generate(rm: ResourceManager):
     biome(rm, 'ice_sheet_edge', 'extreme_hills', boulders=True)
     biome(rm, 'ice_sheet_tuyas_edge', 'plains', tuya_features=True, boulders=True)
     biome(rm, 'ice_sheet_mountains_edge', 'extreme_hills')
-    biome(rm, 'ice_sheet_collisional_mountains_edge', 'extreme_hills')
     biome(rm, 'ice_sheet_oceanic_mountains_edge', 'extreme_hills', ocean_features='both')
     biome(rm, 'meltwater_lake', 'river')
     biome(rm, 'ice_sheet_oceanic', 'beach', barren=True)
@@ -187,14 +185,12 @@ def generate(rm: ResourceManager):
     # Glaciated biomes
     biome(rm, 'glaciated_shield_volcano', 'extreme_hills', boulders=True)
     biome(rm, 'glaciated_mountains', 'extreme_hills')
-    biome(rm, 'glaciated_collisional_mountains', 'extreme_hills')
     biome(rm, 'glaciated_oceanic_mountains', 'extreme_hills', ocean_features='both')
     biome(rm, 'glaciated_volcanic_mountains', 'extreme_hills')
     biome(rm, 'glaciated_volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both')
 
     # Paleo/periglacial biomes
     biome(rm, 'glacially_carved_mountains', 'extreme_hills')
-    biome(rm, 'glacially_carved_collisional_mountains', 'extreme_hills')
     biome(rm, 'glacially_carved_oceanic_mountains', 'extreme_hills', ocean_features='both')
     biome(rm, 'glacially_carved_volcanic_mountains', 'extreme_hills')
     biome(rm, 'glacially_carved_volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both')

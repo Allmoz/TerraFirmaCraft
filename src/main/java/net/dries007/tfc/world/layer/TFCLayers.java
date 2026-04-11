@@ -38,9 +38,6 @@ public class TFCLayers
     public static final int RIFT_VALLEY = idFor(TFCBiomes.RIFT_VALLEY);
     public static final int RIFT_LAKE = idFor(TFCBiomes.RIFT_LAKE);
     public static final int COLLISIONAL_MOUNTAINS = idFor(TFCBiomes.COLLISIONAL_MOUNTAINS);
-    public static final int GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS = idFor(TFCBiomes.GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS);
-    public static final int GLACIATED_COLLISIONAL_MOUNTAINS = idFor(TFCBiomes.GLACIATED_COLLISIONAL_MOUNTAINS);
-    public static final int ICE_SHEET_COLLISIONAL_MOUNTAINS = idFor(TFCBiomes.ICE_SHEET_COLLISIONAL_MOUNTAINS);
     public static final int PLAINS = idFor(TFCBiomes.PLAINS);
     public static final int HILLS = idFor(TFCBiomes.HILLS);
     public static final int LOWLANDS = idFor(TFCBiomes.LOWLANDS);
@@ -138,7 +135,6 @@ public class TFCLayers
     public static final int ICE_SHEET_OCEANIC = idFor(TFCBiomes.ICE_SHEET_OCEANIC);
     public static final int ICE_SHEET_OCEANIC_MOUNTAINS_EDGE = idFor(TFCBiomes.ICE_SHEET_OCEANIC_MOUNTAINS_EDGE);
     public static final int ICE_SHEET_MOUNTAINS_EDGE = idFor(TFCBiomes.ICE_SHEET_MOUNTAINS_EDGE);
-    public static final int ICE_SHEET_COLLISIONAL_MOUNTAINS_EDGE = idFor(TFCBiomes.ICE_SHEET_COLLISIONAL_MOUNTAINS_EDGE);
     public static final int GLACIATED_MOUNTAINS = idFor(TFCBiomes.GLACIATED_MOUNTAINS);
     public static final int GLACIATED_OCEANIC_MOUNTAINS = idFor(TFCBiomes.GLACIATED_OCEANIC_MOUNTAINS);
     public static final int GLACIATED_VOLCANIC_MOUNTAINS = idFor(TFCBiomes.GLACIATED_VOLCANIC_MOUNTAINS);
@@ -270,8 +266,8 @@ public class TFCLayers
     public static boolean hasShore(int value)
     {
         return value != LOW_CANYONS && value != CANYONS && value != OCEANIC_MOUNTAINS && value != VOLCANIC_OCEANIC_MOUNTAINS
-            && value != TOWER_KARST_BAY && value != SUNKEN_SHIELD_VOLCANO && value != GLACIALLY_CARVED_OCEANIC_MOUNTAINS && value != GLACIATED_OCEANIC_MOUNTAINS && value != ICE_SHEET_OCEANIC_MOUNTAINS_EDGE
-            && value != ICE_SHEET_SHIELD_VOLCANO && value != GLACIATED_SHIELD_VOLCANO && value != GUANO_ISLAND;
+            && value != TOWER_KARST_BAY && value != SUNKEN_SHIELD_VOLCANO && value != GLACIALLY_CARVED_OCEANIC_MOUNTAINS && value != ICE_SHEET_OCEANIC_MOUNTAINS_EDGE
+            && value != ICE_SHEET_SHIELD_VOLCANO && value != GLACIATED_SHIELD_VOLCANO && value != GUANO_ISLAND && value != GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS;
     }
 
     // TODO: Need to add the new biomes to all these before merge
@@ -305,13 +301,17 @@ public class TFCLayers
         {
             return ICE_SHEET_SHORE;
         }
-        if (value == ICE_SHEET_OCEANIC_MOUNTAINS)
+        if (value == ICE_SHEET_OCEANIC_MOUNTAINS || value == ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS)
         {
             return ICE_SHEET_OCEANIC_MOUNTAINS_EDGE;
         }
-        if (value == GLACIALLY_CARVED_OCEANIC_MOUNTAINS || value == GLACIALLY_CARVED_MOUNTAINS)
+        if (value == GLACIATED_OCEANIC_MOUNTAINS || value == GLACIATED_MOUNTAINS || value == GLACIALLY_CARVED_MOUNTAINS)
         {
-            return GLACIATED_OCEANIC_MOUNTAINS;
+            return GLACIALLY_CARVED_OCEANIC_MOUNTAINS;
+        }
+        if (value == GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS || value == GLACIATED_VOLCANIC_MOUNTAINS || value == GLACIALLY_CARVED_VOLCANIC_MOUNTAINS)
+        {
+            return GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS;
         }
         if (value == OLD_MOUNTAINS || value == EXTREME_DOLINE_MOUNTAINS)
         {

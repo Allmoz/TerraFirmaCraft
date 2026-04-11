@@ -50,21 +50,14 @@ public enum IceSheetEdgeLayer implements AdjacentTransformLayer
                 return ICE_SHEET_MOUNTAINS_EDGE;
             }
         }
-        if (center == ICE_SHEET_COLLISIONAL_MOUNTAINS)
-        {
-            if (matcher.test(IceSheetEdgeLayer::isNotIceSheet))
-            {
-                return ICE_SHEET_COLLISIONAL_MOUNTAINS_EDGE;
-            }
-        }
 
-        if (center == ICE_SHEET_EDGE && matcher.test(i -> i == ICE_SHEET_MOUNTAINS || i == ICE_SHEET_MOUNTAINS_EDGE || i == ICE_SHEET_OCEANIC_MOUNTAINS || i == ICE_SHEET_OCEANIC || i == ICE_SHEET_COLLISIONAL_MOUNTAINS_EDGE || i == ICE_SHEET_COLLISIONAL_MOUNTAINS))
+        if (center == ICE_SHEET_EDGE && matcher.test(i -> i == ICE_SHEET_MOUNTAINS || i == ICE_SHEET_MOUNTAINS_EDGE || i == ICE_SHEET_OCEANIC_MOUNTAINS || i == ICE_SHEET_OCEANIC))
         {
             return KNOB_AND_KETTLE;
         }
 
         // Lakes near edges of ice sheets
-        if (center == LAKE && matcher.test(TFCLayers::isFlatIceSheet) && !matcher.test(i -> i == ICE_SHEET_MOUNTAINS || i == ICE_SHEET_MOUNTAINS_EDGE || i == ICE_SHEET_COLLISIONAL_MOUNTAINS || i == ICE_SHEET_COLLISIONAL_MOUNTAINS_EDGE || i == ICE_SHEET_OCEANIC_MOUNTAINS || i == ICE_SHEET_OCEANIC))
+        if (center == LAKE && matcher.test(TFCLayers::isFlatIceSheet) && !matcher.test(i -> i == ICE_SHEET_MOUNTAINS || i == ICE_SHEET_MOUNTAINS_EDGE || i == ICE_SHEET_OCEANIC_MOUNTAINS || i == ICE_SHEET_OCEANIC))
         {
             return SUBGLACIAL_LAKE;
         }
@@ -92,10 +85,6 @@ public enum IceSheetEdgeLayer implements AdjacentTransformLayer
             {
                 return GLACIALLY_CARVED_OCEANIC_MOUNTAINS;
             }
-            else if (matcher.test(i -> i == GLACIATED_COLLISIONAL_MOUNTAINS))
-            {
-                return GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS;
-            }
         }
 
         // Prevent borders between ice sheet oceanic mountain edges that could cause icy-cliffs
@@ -122,19 +111,6 @@ public enum IceSheetEdgeLayer implements AdjacentTransformLayer
             if (matcher.test(i -> i == ICE_SHEET_OCEANIC_MOUNTAINS_EDGE))
             {
                 return ICE_SHEET_OCEANIC_MOUNTAINS;
-            }
-        }
-
-        // See above
-        if (center == ICE_SHEET_COLLISIONAL_MOUNTAINS)
-        {
-            if (matcher.test(i -> i == ICE_SHEET_OCEANIC_MOUNTAINS_EDGE))
-            {
-                return ICE_SHEET_OCEANIC_MOUNTAINS;
-            }
-            else if (matcher.test(i -> i == ICE_SHEET_MOUNTAINS_EDGE))
-            {
-                return ICE_SHEET_MOUNTAINS;
             }
         }
 

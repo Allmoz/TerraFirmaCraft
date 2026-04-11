@@ -415,7 +415,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == ICE_SHEET || biome == SUBGLACIAL_LAKE) return new Color(255, 255, 255);
         if (biome == ICE_SHEET_OCEANIC) return new Color(215, 215, 215);
         if (biome == ICE_SHEET_TUYAS) return new Color(235, 235, 235);
-        if (biome == ICE_SHEET_MOUNTAINS || biome == ICE_SHEET_COLLISIONAL_MOUNTAINS || biome == ICE_SHEET_VOLCANIC_MOUNTAINS) return new Color(255, 195, 195);
+        if (biome == ICE_SHEET_MOUNTAINS || biome == ICE_SHEET_VOLCANIC_MOUNTAINS) return new Color(255, 195, 195);
         if (biome == ICE_SHEET_OCEANIC_MOUNTAINS || biome == ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 195, 255);
         if (biome == ICE_SHEET_SHIELD_VOLCANO) return new Color(255, 195, 145);
 
@@ -427,10 +427,10 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == KNOB_AND_KETTLE) return new Color(235, 175, 80);
         if (biome == DRUMLINS || biome == BURREN_ROCHE_MOUTONEE) return new Color(135, 165, 135);
         if (biome == TUYAS) return new Color(115, 145, 115);
-        if (biome == GLACIATED_MOUNTAINS || biome == GLACIATED_VOLCANIC_MOUNTAINS || biome == GLACIATED_COLLISIONAL_MOUNTAINS) return new Color(255, 165, 165);
+        if (biome == GLACIATED_MOUNTAINS || biome == GLACIATED_VOLCANIC_MOUNTAINS) return new Color(255, 165, 165);
         if (biome == GLACIATED_OCEANIC_MOUNTAINS || biome == GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 165, 255);
         if (biome == GLACIATED_SHIELD_VOLCANO) return new Color(255, 185, 125);
-        if (biome == GLACIALLY_CARVED_MOUNTAINS || biome == GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS || biome == GLACIALLY_CARVED_VOLCANIC_MOUNTAINS) return new Color(255, 135, 135);
+        if (biome == GLACIALLY_CARVED_MOUNTAINS || biome == GLACIALLY_CARVED_VOLCANIC_MOUNTAINS) return new Color(255, 135, 135);
         if (biome == GLACIALLY_CARVED_OCEANIC_MOUNTAINS || biome == GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 135, 255);
 
 
@@ -449,8 +449,8 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
         if (biome == RIVER) return new Color(0, 200, 255);
 
-        // Convergent Biomes
-        if (biome == COLLISIONAL_MOUNTAINS || biome == ICE_SHEET_COLLISIONAL_MOUNTAINS || biome == ICE_SHEET_COLLISIONAL_MOUNTAINS_EDGE || biome == GLACIATED_COLLISIONAL_MOUNTAINS || biome == GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS) return new Color(205, 160, 200);
+        // Convergent Biomes - Note that these show up as regular mtns if they are glaciated
+        if (biome == COLLISIONAL_MOUNTAINS) return new Color(205, 160, 200);
 
         // Volcanic Biomes
         if (biome == VOLCANIC_MOUNTAINS || biome == ICE_SHEET_VOLCANIC_MOUNTAINS || biome == GLACIATED_VOLCANIC_MOUNTAINS || biome == GLACIALLY_CARVED_VOLCANIC_MOUNTAINS) return new Color(255, 80, 80);

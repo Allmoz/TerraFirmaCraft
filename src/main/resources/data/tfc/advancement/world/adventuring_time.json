@@ -1858,70 +1858,6 @@
         ]
       }
     },
-    "ice_sheet_collisional_mountains": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "location": {
-                "biomes": "tfc:ice_sheet_collisional_mountains"
-              }
-            }
-          }
-        ]
-      }
-    },
-    "ice_sheet_collisional_mountains_edge": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "location": {
-                "biomes": "tfc:ice_sheet_collisional_mountains_edge"
-              }
-            }
-          }
-        ]
-      }
-    },
-    "glaciated_collisional_mountains": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "location": {
-                "biomes": "tfc:glaciated_collisional_mountains"
-              }
-            }
-          }
-        ]
-      }
-    },
-    "glacially_carved_collisional_mountains": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "location": {
-                "biomes": "tfc:glacially_carved_collisional_mountains"
-              }
-            }
-          }
-        ]
-      }
-    },
     "ice_sheet_volcanic_mountains": {
       "trigger": "minecraft:location",
       "conditions": {
@@ -2383,18 +2319,6 @@
     ],
     [
       "volcanic_mountain_islands"
-    ],
-    [
-      "ice_sheet_collisional_mountains"
-    ],
-    [
-      "ice_sheet_collisional_mountains_edge"
-    ],
-    [
-      "glaciated_collisional_mountains"
-    ],
-    [
-      "glacially_carved_collisional_mountains"
     ],
     [
       "ice_sheet_volcanic_mountains"
