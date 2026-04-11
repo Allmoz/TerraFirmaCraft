@@ -126,38 +126,6 @@ public final class BiomeNoise
     }
 
     /**
-     * Mountain noise based on the intercutting ridge noise used in Shilin biomes
-     */
-    public static Noise2D ridgeMountains(long seed, double baseHeight, double scaleHeight)
-    {
-
-        // Basic ridge shapes following zeroes in the noise
-        final Noise2D ridges = new OpenSimplex2D(seed + 3987677L).octaves(4).spread(0.022f).map(y -> {
-            return 1 - 2.8 * y * y; // We want to drag the valleys down to the base biome level, at which point flat valley noise takes over
-        });
-
-        // Continuous paths through ridges to make them more passable. Power-scaled to round them. Steepened so that they don't apply everywhere.
-        final Noise2D passes = new OpenSimplex2D(seed + 454379L).octaves(2).spread(0.003f).map(y -> 16 * y * y);
-
-        // We want passes to cut more deeply into terrain near ridges, and fade out in lower areas
-        // This gives the height at the bottom of the pass, as a function of the height of the ridge
-        final Noise2D passHeight = ridges.map(y -> Mth.clampedMap(y, 0.3, 0.9, 0.3, 0.5));
-
-        // Apply peaks to the tops of ridges
-        final OpenSimplex2D warp = new OpenSimplex2D(seed).octaves(3).spread(0.025f).scaled(-50f, 50f);
-        final Noise2D peaks = new OpenSimplex2D(seed + 4242L).octaves(3).spread(0.045).scaled(-0.6, 1).warped(warp).easeIn(0.4, 0.8, 0.1, 1, ridges);
-
-        // Need a scale noise so peaks aren't all the same height
-        // We ease it in over ridges before we scale it
-        final Noise2D scale = new OpenSimplex2D(seed + 245L).octaves(4).spread(0.012).easeIn(0.3, 0.9, 0, 1, ridges).map(y -> 1 + 0.35 * y);
-
-        // Bases of valleys need some texture
-        final Noise2D flatValleys = hills(seed + 525L, (int) (baseHeight - 15), (int) (baseHeight + 15));
-
-        return ridges.min(passes.add(passHeight)).add(peaks).lazyProduct(scale).scaled(0, 1, SEA_LEVEL_Y + baseHeight,  SEA_LEVEL_Y + baseHeight + scaleHeight).max(flatValleys);
-    }
-
-    /**
      * Effectively a {@code lerp(noiseA(), noiseB(), piecewise(noiseB()) + noiseC()} with the following additional techniques:
      * <ul>
      *     <li>{@code noiseA} is scaled to outside it's range, then biased towards 1.0, to expose more cliffs, as opposed to hills </li>
@@ -950,23 +918,76 @@ public final class BiomeNoise
 
     public static Noise2D mountains(long seed, int baseHeight, int scaleHeight, float spreadFactor)
     {
-        final Noise2D baseNoise = ridgeMountains(seed, baseHeight, scaleHeight);
-        //TODO
-//        final Noise2D baseNoise = new OpenSimplex2D(seed) // A simplex noise forms the majority of the base
-//            .octaves(6) // High octaves to create highly fractal terrain
-//            .spread(0.14f * spreadFactor)
-//            .add(new OpenSimplex2D(seed + 1) // Ridge noise is added to mimic real mountain ridges. It is scaled smaller than the base noise to not be overpowering
-//                .octaves(4)
-//                .spread(0.02f * spreadFactor)
-//                .scaled(-0.9f, 0.9f)
-//                .ridged() // Ridges are applied after octaves as it creates less directional artifacts this way
-//            )
-//            .map(x -> {
-//                final double x0 = x + 1;
-//                final double x1 = 0.125f * x0 * x0 * x0; // Power scaled, flattens most areas but maximizes peaks
-//                return SEA_LEVEL_Y + baseHeight + scaleHeight * x1; // Scale the entire thing to mountain ranges
-//            });
-//
+        final Noise2D baseNoise = new OpenSimplex2D(seed) // A simplex noise forms the majority of the base
+            .octaves(6) // High octaves to create highly fractal terrain
+            .spread(0.14f * spreadFactor)
+            .add(new OpenSimplex2D(seed + 1) // Ridge noise is added to mimic real mountain ridges. It is scaled smaller than the base noise to not be overpowering
+                .octaves(4)
+                .spread(0.02f * spreadFactor)
+                .scaled(-0.9f, 0.9f)
+                .ridged() // Ridges are applied after octaves as it creates less directional artifacts this way
+            )
+            .map(x -> {
+                final double x0 = x + 1;
+                final double x1 = 0.125f * x0 * x0 * x0; // Power scaled, flattens most areas but maximizes peaks
+                return SEA_LEVEL_Y + baseHeight + scaleHeight * x1; // Scale the entire thing to mountain ranges
+            });
+
+        // Cliff noise consists of noise that's been artificially clamped over half the domain, which is then selectively added above a base height level
+        // This matches up with the distinction between dirt and stone
+        final Noise2D cliffNoise = new OpenSimplex2D(seed + 2).octaves(2).spread(0.01f * spreadFactor).scaled(-25, 25).map(x -> x > 0 ? x : 0);
+        final Noise2D cliffHeightNoise = new OpenSimplex2D(seed + 3).octaves(2).spread(0.01f * spreadFactor).scaled(140 - 20, 140 + 20);
+
+        return (x, z) -> {
+            double height = baseNoise.noise(x, z);
+            if (height > 120) // Only sample each cliff noise layer if the base noise could be influenced by it
+            {
+                final double cliffHeight = cliffHeightNoise.noise(x, z) - height;
+                if (cliffHeight < 0)
+                {
+                    final double mappedCliffHeight = Mth.clampedMap(cliffHeight, 0, -1, 0, 1);
+                    height += mappedCliffHeight * cliffNoise.noise(x, z);
+                }
+            }
+            return height;
+        };
+    }
+
+    /**
+     * Mountain noise based on the intercutting ridge noise used in Shilin biomes
+     */
+    public static Noise2D ridgeMountains(long seed, double baseHeight, double scaleHeight, float spreadFactor)
+    {
+
+        // Basic ridge shapes following zeroes in the noise
+        final Noise2D ridges = new OpenSimplex2D(seed + 3987677L).octaves(4).spread(0.022f).map(y -> {
+            return 1 - 2.8 * y * y; // We want to drag the valleys down to the base biome level, at which point flat valley noise takes over
+        });
+
+        // Continuous paths through ridges to make them more passable. Power-scaled to round them. Steepened so that they don't apply everywhere.
+        final Noise2D passes = new OpenSimplex2D(seed + 454379L).octaves(2).spread(0.003f).map(y -> 16 * y * y);
+
+        // We want passes to cut more deeply into terrain near ridges, and fade out in lower areas
+        // This gives the height at the bottom of the pass, as a function of the height of the ridge
+        final Noise2D passHeight = ridges.map(y -> Mth.clampedMap(y, 0.3, 0.9, 0.3, 0.5));
+
+
+        final Noise2D carvedRidges = ridges.min(passes.add(passHeight));
+
+        // Apply peaks to the tops of ridges
+        final OpenSimplex2D warp = new OpenSimplex2D(seed).octaves(3).spread(0.025f).scaled(-50f, 50f);
+        final Noise2D peaks = new OpenSimplex2D(seed + 4242L).octaves(3).spread(0.045).scaled(-0.6, 1).warped(warp).easeIn(0.4, 0.8, 0.1, 1, carvedRidges);
+
+        // Need a scale noise so peaks aren't all the same height
+        // We ease it in over ridges before we scale it
+        final Noise2D scale = new OpenSimplex2D(seed + 245L).octaves(4).spread(0.012).easeIn(0.3, 0.9, 0, 1, ridges).map(y -> 1 + 0.35 * y);
+
+        // Bases of valleys need some texture
+        final Noise2D flatValleys = hills(seed + 525L, (int) (baseHeight - 15), (int) (baseHeight + 15));
+
+        // Base shape of the terrain, scaled up to full size
+        final Noise2D baseNoise = carvedRidges.add(peaks).lazyProduct(scale).scaled(0, 1, SEA_LEVEL_Y + baseHeight,  SEA_LEVEL_Y + baseHeight + scaleHeight).max(flatValleys).spread(spreadFactor);
+
         // Cliff noise consists of noise that's been artificially clamped over half the domain, which is then selectively added above a base height level
         // This matches up with the distinction between dirt and stone
         final Noise2D cliffNoise = new OpenSimplex2D(seed + 2).octaves(2).spread(0.01f * spreadFactor).scaled(-25, 25).map(x -> x > 0 ? x : 0);

@@ -96,6 +96,7 @@ def generate(rm: ResourceManager):
     biome(rm, 'river', 'river')
     biome(rm, 'guano_island', 'beach', ocean_features=True)
     biome(rm, 'volcanic_island', 'plains', ocean_features='both')
+    biome(rm, 'volcanic_mountain_islands', 'extreme_hills', ocean_features='both')
     biome(rm, 'shore', 'beach', ocean_features=True)
     biome(rm, 'tidal_flats', 'beach', ocean_features=True)
     biome(rm, 'sea_stacks', 'beach', ocean_features='both')
@@ -165,7 +166,10 @@ def generate(rm: ResourceManager):
     # Full ice sheet biomes
     biome(rm, 'ice_sheet', 'extreme_hills', barren=True, boulders=True)
     biome(rm, 'ice_sheet_mountains', 'extreme_hills', barren=True)
+    biome(rm, 'ice_sheet_collisional_mountains', 'extreme_hills', barren=True)
     biome(rm, 'ice_sheet_oceanic_mountains', 'extreme_hills', barren=True, ocean_features='both')
+    biome(rm, 'ice_sheet_volcanic_mountains', 'extreme_hills', barren=True)
+    biome(rm, 'ice_sheet_volcanic_oceanic_mountains', 'extreme_hills', barren=True, ocean_features='both')
     biome(rm, 'ice_sheet_shield_volcano', 'extreme_hills', barren=True)
     biome(rm, 'ice_sheet_tuyas', 'extreme_hills', barren=True, tuya_features=True, boulders=True)
     biome(rm, 'subglacial_lake', 'extreme_hills', barren=True)
@@ -174,6 +178,7 @@ def generate(rm: ResourceManager):
     biome(rm, 'ice_sheet_edge', 'extreme_hills', boulders=True)
     biome(rm, 'ice_sheet_tuyas_edge', 'plains', tuya_features=True, boulders=True)
     biome(rm, 'ice_sheet_mountains_edge', 'extreme_hills')
+    biome(rm, 'ice_sheet_collisional_mountains_edge', 'extreme_hills')
     biome(rm, 'ice_sheet_oceanic_mountains_edge', 'extreme_hills', ocean_features='both')
     biome(rm, 'meltwater_lake', 'river')
     biome(rm, 'ice_sheet_oceanic', 'beach', barren=True)
@@ -182,11 +187,17 @@ def generate(rm: ResourceManager):
     # Glaciated biomes
     biome(rm, 'glaciated_shield_volcano', 'extreme_hills', boulders=True)
     biome(rm, 'glaciated_mountains', 'extreme_hills')
+    biome(rm, 'glaciated_collisional_mountains', 'extreme_hills')
     biome(rm, 'glaciated_oceanic_mountains', 'extreme_hills', ocean_features='both')
+    biome(rm, 'glaciated_volcanic_mountains', 'extreme_hills')
+    biome(rm, 'glaciated_volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both')
 
     # Paleo/periglacial biomes
     biome(rm, 'glacially_carved_mountains', 'extreme_hills')
+    biome(rm, 'glacially_carved_collisional_mountains', 'extreme_hills')
     biome(rm, 'glacially_carved_oceanic_mountains', 'extreme_hills', ocean_features='both')
+    biome(rm, 'glacially_carved_volcanic_mountains', 'extreme_hills')
+    biome(rm, 'glacially_carved_volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both')
     biome(rm, 'drumlins', 'plains', boulders=True)
     biome(rm, 'tuyas', 'plains', tuya_features=True, boulders=True)
     biome(rm, 'knob_and_kettle', 'plains', boulders=True)
@@ -1986,6 +1997,7 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
         else:
             large_features.append('tfc:glacial_spring')
 
+    # Apply stratovolcano features everywhere since they will not always land in the correct biome
     large_features.append('#tfc:feature/stratovolcanoes')
 
     if volcano_features:

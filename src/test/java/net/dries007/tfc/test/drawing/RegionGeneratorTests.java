@@ -199,6 +199,7 @@ public class RegionGeneratorTests implements TestSetup
             case ANNOTATE_BIOMES_BY_HEIGHT -> heightBiomeColor(point.biome);
             case ANNOTATE_KARST_BIOMES -> karstBiomeColor(point.biome);
             case ANNOTATE_GLACIAL_BIOMES -> glaciatedBiomeColor(point.biome);
+            case ANNOTATE_TECTONIC_BIOMES -> tectonicBiomeColor(point.biome);
             case ADD_RIVERS_AND_LAKES ->
             {
                 if (point.river()) yield new Color(120, 120, 240);
@@ -414,8 +415,8 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == ICE_SHEET || biome == SUBGLACIAL_LAKE) return new Color(255, 255, 255);
         if (biome == ICE_SHEET_OCEANIC) return new Color(215, 215, 215);
         if (biome == ICE_SHEET_TUYAS) return new Color(235, 235, 235);
-        if (biome == ICE_SHEET_MOUNTAINS) return new Color(255, 195, 195);
-        if (biome == ICE_SHEET_OCEANIC_MOUNTAINS) return new Color(255, 195, 255);
+        if (biome == ICE_SHEET_MOUNTAINS || biome == ICE_SHEET_COLLISIONAL_MOUNTAINS || biome == ICE_SHEET_VOLCANIC_MOUNTAINS) return new Color(255, 195, 195);
+        if (biome == ICE_SHEET_OCEANIC_MOUNTAINS || biome == ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 195, 255);
         if (biome == ICE_SHEET_SHIELD_VOLCANO) return new Color(255, 195, 145);
 
         if (biome == ICE_SHEET_EDGE || biome == ICE_SHEET_SHORE || biome == ICE_SHEET_TUYAS_EDGE) return new Color(165, 165, 165);
@@ -426,12 +427,48 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == KNOB_AND_KETTLE) return new Color(235, 175, 80);
         if (biome == DRUMLINS || biome == BURREN_ROCHE_MOUTONEE) return new Color(135, 165, 135);
         if (biome == TUYAS) return new Color(115, 145, 115);
-        if (biome == GLACIATED_MOUNTAINS) return new Color(255, 165, 165);
-        if (biome == GLACIATED_OCEANIC_MOUNTAINS) return new Color(255, 165, 255);
+        if (biome == GLACIATED_MOUNTAINS || biome == GLACIATED_VOLCANIC_MOUNTAINS || biome == GLACIATED_COLLISIONAL_MOUNTAINS) return new Color(255, 165, 165);
+        if (biome == GLACIATED_OCEANIC_MOUNTAINS || biome == GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 165, 255);
         if (biome == GLACIATED_SHIELD_VOLCANO) return new Color(255, 185, 125);
-        if (biome == GLACIALLY_CARVED_MOUNTAINS) return new Color(255, 135, 135);
-        if (biome == GLACIALLY_CARVED_OCEANIC_MOUNTAINS) return new Color(255, 135, 255);
+        if (biome == GLACIALLY_CARVED_MOUNTAINS || biome == GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS || biome == GLACIALLY_CARVED_VOLCANIC_MOUNTAINS) return new Color(255, 135, 135);
+        if (biome == GLACIALLY_CARVED_OCEANIC_MOUNTAINS || biome == GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 135, 255);
 
+
+        return Color.BLACK;
+    }
+
+    // Shows only ice sheets, biomes effected by past ice sheets
+    private Color tectonicBiomeColor(int biome)
+    {
+        if (biome == OCEAN) return new Color(0, 0, 220);
+        if (biome == OCEAN_REEF) return new Color(70, 160, 250);
+        if (biome == OCEAN_RIDGE) return new Color(20, 50, 170);
+        if (biome == DEEP_OCEAN) return new Color(0, 0, 140);
+        if (biome == DEEP_OCEAN_TRENCH) return new Color(0, 0, 80);
+        if (biome == LAKE) return new Color(30, 30, 255);
+        if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
+        if (biome == RIVER) return new Color(0, 200, 255);
+
+        // Convergent Biomes
+        if (biome == COLLISIONAL_MOUNTAINS || biome == ICE_SHEET_COLLISIONAL_MOUNTAINS || biome == ICE_SHEET_COLLISIONAL_MOUNTAINS_EDGE || biome == GLACIATED_COLLISIONAL_MOUNTAINS || biome == GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS) return new Color(205, 160, 200);
+
+        // Volcanic Biomes
+        if (biome == VOLCANIC_MOUNTAINS || biome == ICE_SHEET_VOLCANIC_MOUNTAINS || biome == GLACIATED_VOLCANIC_MOUNTAINS || biome == GLACIALLY_CARVED_VOLCANIC_MOUNTAINS) return new Color(255, 80, 80);
+        if (biome == VOLCANIC_OCEANIC_MOUNTAINS || biome == ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS || biome == GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS || biome == GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS) return new Color(165, 40, 40);
+        if (biome == VOLCANIC_ISLAND) return new Color(185, 160, 30);
+        if (biome == VOLCANIC_MOUNTAIN_ISLANDS) return new Color(185, 120, 30);
+        if (biome == OCEANIC_VOLCANIC_ARC) return new Color(135, 100, 20);
+
+        // Hotspots
+        if (biome == ACTIVE_SHIELD_VOLCANO || biome == DORMANT_SHIELD_VOLCANO || biome == EXTINCT_SHIELD_VOLCANO || biome == ANCIENT_SHIELD_VOLCANO || biome == SUNKEN_SHIELD_VOLCANO) return new Color(255, 155, 0);
+
+        // Other Mountain Biomes
+        if (biome == MOUNTAINS || biome == GLACIATED_MOUNTAINS || biome == GLACIALLY_CARVED_MOUNTAINS || biome == ICE_SHEET_MOUNTAINS) return new Color(0, 220, 40);
+        if (biome == OCEANIC_MOUNTAINS || biome == GLACIATED_OCEANIC_MOUNTAINS || biome == GLACIALLY_CARVED_OCEANIC_MOUNTAINS || biome == ICE_SHEET_OCEANIC_MOUNTAINS) return new Color(0, 150, 10);
+        if (biome == OLD_MOUNTAINS || biome == OLD_MOUNTAIN_LAKE) return new Color(0, 70, 10);
+
+        // Divergent Biomes
+        if (biome == RIFT_VALLEY || biome == RIFT_LAKE) return new Color(130, 0, 110);
 
         return Color.BLACK;
     }
@@ -591,6 +628,7 @@ public class RegionGeneratorTests implements TestSetup
         ANNOTATE_BIOMES_BY_HEIGHT(Task.CHOOSE_BIOMES),
         ANNOTATE_KARST_BIOMES(Task.CHOOSE_BIOMES),
         ANNOTATE_GLACIAL_BIOMES(Task.CHOOSE_BIOMES),
+        ANNOTATE_TECTONIC_BIOMES(Task.CHOOSE_BIOMES),
         ADD_RIVERS_AND_LAKES(Task.ADD_RIVERS_AND_LAKES),
         // Draw climate visualizations again after rivers, which modify rainfall
         RAINFALL_AFTER_RIVERS(Task.ADD_RIVERS_AND_LAKES),

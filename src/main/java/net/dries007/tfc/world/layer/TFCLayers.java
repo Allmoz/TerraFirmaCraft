@@ -38,6 +38,9 @@ public class TFCLayers
     public static final int RIFT_VALLEY = idFor(TFCBiomes.RIFT_VALLEY);
     public static final int RIFT_LAKE = idFor(TFCBiomes.RIFT_LAKE);
     public static final int COLLISIONAL_MOUNTAINS = idFor(TFCBiomes.COLLISIONAL_MOUNTAINS);
+    public static final int GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS = idFor(TFCBiomes.GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS);
+    public static final int GLACIATED_COLLISIONAL_MOUNTAINS = idFor(TFCBiomes.GLACIATED_COLLISIONAL_MOUNTAINS);
+    public static final int ICE_SHEET_COLLISIONAL_MOUNTAINS = idFor(TFCBiomes.ICE_SHEET_COLLISIONAL_MOUNTAINS);
     public static final int PLAINS = idFor(TFCBiomes.PLAINS);
     public static final int HILLS = idFor(TFCBiomes.HILLS);
     public static final int LOWLANDS = idFor(TFCBiomes.LOWLANDS);
@@ -56,6 +59,7 @@ public class TFCLayers
     public static final int CANYONS = idFor(TFCBiomes.CANYONS);
     public static final int GUANO_ISLAND = idFor(TFCBiomes.GUANO_ISLAND);
     public static final int VOLCANIC_ISLAND = idFor(TFCBiomes.VOLCANIC_ISLAND);
+    public static final int VOLCANIC_MOUNTAIN_ISLANDS = idFor(TFCBiomes.VOLCANIC_MOUNTAIN_ISLANDS);
     public static final int SHORE = idFor(TFCBiomes.SHORE);
     public static final int TIDAL_FLATS = idFor(TFCBiomes.TIDAL_FLATS);
     public static final int SEA_STACKS = idFor(TFCBiomes.SEA_STACKS);
@@ -123,6 +127,8 @@ public class TFCLayers
     public static final int ICE_SHEET = idFor(TFCBiomes.ICE_SHEET);
     public static final int ICE_SHEET_MOUNTAINS = idFor(TFCBiomes.ICE_SHEET_MOUNTAINS);
     public static final int ICE_SHEET_OCEANIC_MOUNTAINS = idFor(TFCBiomes.ICE_SHEET_OCEANIC_MOUNTAINS);
+    public static final int ICE_SHEET_VOLCANIC_MOUNTAINS = idFor(TFCBiomes.ICE_SHEET_VOLCANIC_MOUNTAINS);
+    public static final int ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS = idFor(TFCBiomes.ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS);
     public static final int ICE_SHEET_SHIELD_VOLCANO = idFor(TFCBiomes.ICE_SHEET_SHIELD_VOLCANO);
     public static final int ICE_SHEET_TUYAS = idFor(TFCBiomes.ICE_SHEET_TUYAS);
     public static final int SUBGLACIAL_LAKE = idFor(TFCBiomes.SUBGLACIAL_LAKE);
@@ -132,14 +138,19 @@ public class TFCLayers
     public static final int ICE_SHEET_OCEANIC = idFor(TFCBiomes.ICE_SHEET_OCEANIC);
     public static final int ICE_SHEET_OCEANIC_MOUNTAINS_EDGE = idFor(TFCBiomes.ICE_SHEET_OCEANIC_MOUNTAINS_EDGE);
     public static final int ICE_SHEET_MOUNTAINS_EDGE = idFor(TFCBiomes.ICE_SHEET_MOUNTAINS_EDGE);
+    public static final int ICE_SHEET_COLLISIONAL_MOUNTAINS_EDGE = idFor(TFCBiomes.ICE_SHEET_COLLISIONAL_MOUNTAINS_EDGE);
     public static final int GLACIATED_MOUNTAINS = idFor(TFCBiomes.GLACIATED_MOUNTAINS);
     public static final int GLACIATED_OCEANIC_MOUNTAINS = idFor(TFCBiomes.GLACIATED_OCEANIC_MOUNTAINS);
+    public static final int GLACIATED_VOLCANIC_MOUNTAINS = idFor(TFCBiomes.GLACIATED_VOLCANIC_MOUNTAINS);
+    public static final int GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS = idFor(TFCBiomes.GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS);
     public static final int MELTWATER_LAKE = idFor(TFCBiomes.MELTWATER_LAKE);
     public static final int GLACIATED_SHIELD_VOLCANO = idFor(TFCBiomes.GLACIATED_SHIELD_VOLCANO);
     public static final int ICE_SHEET_SHORE = idFor(TFCBiomes.ICE_SHEET_SHORE);
 
     public static final int GLACIALLY_CARVED_MOUNTAINS = idFor(TFCBiomes.GLACIALLY_CARVED_MOUNTAINS);
     public static final int GLACIALLY_CARVED_OCEANIC_MOUNTAINS = idFor(TFCBiomes.GLACIALLY_CARVED_OCEANIC_MOUNTAINS);
+    public static final int GLACIALLY_CARVED_VOLCANIC_MOUNTAINS = idFor(TFCBiomes.GLACIALLY_CARVED_VOLCANIC_MOUNTAINS);
+    public static final int GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS = idFor(TFCBiomes.GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS);
     public static final int DRUMLINS = idFor(TFCBiomes.DRUMLINS);
     public static final int TUYAS = idFor(TFCBiomes.TUYAS);
     public static final int KNOB_AND_KETTLE = idFor(TFCBiomes.KNOB_AND_KETTLE);

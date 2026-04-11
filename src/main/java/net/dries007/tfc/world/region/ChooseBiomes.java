@@ -77,25 +77,76 @@ public enum ChooseBiomes implements RegionTask
             }
             else if (point.mountain())
             {
+                // Collisional mountains and surrounding oceanic mountains
                 final float temp = point.temperature;
                 if (point.divergence < 0 && point.distanceToEdge < 1.2 * context.generator().continentNoise.noise(point.x, point.z) - 5.2)
                 {
-                    // TODO: Glacial variants
+                    // Different temperature limits used because biomes at different elevations
+                    final float maxIceSheetTemp = -16f + 0.006f * point.rainfall;
                     if (point.distanceToOcean < 3)
                     {
-                        point.biome = OCEANIC_MOUNTAINS;
+                        if (temp < maxIceSheetTemp + 2)
+                        {
+                            point.biome = ICE_SHEET_OCEANIC_MOUNTAINS;
+                        }
+                        else if (temp < maxIceSheetTemp + 6)
+                        {
+                            point.biome = GLACIATED_OCEANIC_MOUNTAINS;
+                        }
+                        else if (temp < maxIceSheetTemp + 10)
+                        {
+                            point.biome = GLACIALLY_CARVED_OCEANIC_MOUNTAINS;
+                        }
+                        else
+                        {
+                            point.biome = OCEANIC_MOUNTAINS;
+                        }
                     }
                     else
                     {
-                        point.biome = COLLISIONAL_MOUNTAINS;
+                        if (temp < maxIceSheetTemp + 2)
+                        {
+                            point.biome = ICE_SHEET_COLLISIONAL_MOUNTAINS;
+                        }
+                        else if (temp < maxIceSheetTemp + 6)
+                        {
+                            point.biome = GLACIATED_COLLISIONAL_MOUNTAINS;
+                        }
+                        else if (temp < maxIceSheetTemp + 10)
+                        {
+                            point.biome = GLACIALLY_CARVED_COLLISIONAL_MOUNTAINS;
+                        }
+                        else
+                        {
+                            point.biome = COLLISIONAL_MOUNTAINS;
+                        }
                     }
                 }
                 else if (point.coastalMountain())
                 {
+                    // Different temperature limits used because biomes at different elevations
+                    final float maxIceSheetTemp = -16f + 0.006f * point.rainfall;
                     if (point.volcanic())
                     {
-                        // Different temperature limits used because biomes at different elevations
-                        final float maxIceSheetTemp = -16f + 0.006f * point.rainfall;
+                        if (temp < maxIceSheetTemp + 2)
+                        {
+                            point.biome = ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS;
+                        }
+                        else if (temp < maxIceSheetTemp + 6)
+                        {
+                            point.biome = GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS;
+                        }
+                        else if (temp < maxIceSheetTemp + 10)
+                        {
+                            point.biome = GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS;
+                        }
+                        else
+                        {
+                            point.biome = VOLCANIC_OCEANIC_MOUNTAINS;
+                        }
+                    }
+                    else
+                    {
                         if (temp < maxIceSheetTemp + 2)
                         {
                             point.biome = ICE_SHEET_OCEANIC_MOUNTAINS;
@@ -113,17 +164,31 @@ public enum ChooseBiomes implements RegionTask
                             point.biome = randomSeededFrom(rngSeed, areaSeed, OCEANIC_MOUNTAIN_ALTITUDE_BIOMES);
                         }
                     }
-                    else
-                    {
-                        // TODO: Glacial variants
-                        point.biome = VOLCANIC_OCEANIC_MOUNTAINS;
-                    }
                 }
                 else
                 {
+                    final float maxIceSheetTemp = -14f + 0.006f * point.rainfall;
                     if (point.volcanic())
                     {
-                        final float maxIceSheetTemp = -14f + 0.006f * point.rainfall;
+                        if (temp < maxIceSheetTemp)
+                        {
+                            point.biome = ICE_SHEET_VOLCANIC_MOUNTAINS;
+                        }
+                        else if (temp < maxIceSheetTemp + 4)
+                        {
+                            point.biome = GLACIATED_VOLCANIC_MOUNTAINS;
+                        }
+                        else if (temp < maxIceSheetTemp + 10)
+                        {
+                            point.biome = GLACIALLY_CARVED_VOLCANIC_MOUNTAINS;
+                        }
+                        else
+                        {
+                            point.biome = VOLCANIC_MOUNTAINS;
+                        }
+                    }
+                    else
+                    {
                         if (temp < maxIceSheetTemp)
                         {
                             point.biome = ICE_SHEET_MOUNTAINS;
@@ -138,13 +203,8 @@ public enum ChooseBiomes implements RegionTask
                         }
                         else
                         {
-                            point.biome = randomSeededFrom(rngSeed, areaSeed, MOUNTAIN_ALTITUDE_BIOMES);
+                            point.biome = MOUNTAINS;
                         }
-                    }
-                    else
-                    {
-                        // TODO: Glacial variants
-                        point.biome = VOLCANIC_MOUNTAINS;
                     }
                 }
             }
