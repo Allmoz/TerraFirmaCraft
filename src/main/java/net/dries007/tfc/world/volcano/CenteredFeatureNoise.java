@@ -324,8 +324,9 @@ public class CenteredFeatureNoise
     {
         return new CenteredFeatureNoiseSampler()
         {
-            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 0.2f,1).spread(0.002f);
-            final Noise2D heightNoise = new OpenSimplex2D(seed.seed()).octaves(4).spread(0.03f).scaled(SEA_LEVEL_Y - 10, SEA_LEVEL_Y + 10);
+            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 0.5f,2).spread(0.0028f);
+            final Noise2D heightNoise = new OpenSimplex2D(seed.seed()).octaves(4).spread(0.03f).scaled(SEA_LEVEL_Y - 4, SEA_LEVEL_Y + 10);
+            final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(3).scaled(0f, 0.25f).spread(0.029f);
 
             @Override
             public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)
@@ -353,19 +354,37 @@ public class CenteredFeatureNoise
             {
                 if (cell != null)
                 {
-                    final double inverseEasing = (1 - calculateEasing((float) cell.f1())) * (1 - 0.4 * Helpers.hashDouble(cell.noise(), 135));
-                    final double reefHeight = reefShape(inverseEasing);
+                    final double easing = calculateEasing(cell, x, z);
+                    final double lagoonDepth = 0.75 + 0.15 * Helpers.hashDouble(cell.noise(), 15413);
+                    final double reefHeight = reefShape(easing, lagoonDepth);
 
-                    final double atollHeight = Mth.map(reefHeight, 0, 1, SEA_LEVEL_Y - 40, heightNoise.noise(x, z));
+                    final double atollHeight = Mth.map(reefHeight, 0, 1, SEA_LEVEL_Y - 60, heightNoise.noise(x, z));
 
                     return Math.max(heightIn, atollHeight);
                 }
                 return heightIn;
             }
 
-            private double reefShape(double r2)
+            private double reefShape(double easing, double lagoonDepth)
             {
-                return 0.75 + r2 - r2 * r2;
+                final double edgeDist = 0.3;
+                final double beachDist = edgeDist + 0.15;
+                final double lagoonDist = beachDist + 0.25;
+                if (easing < edgeDist)
+                {
+                    // Ocean floor to edge of beach
+                    return Mth.map(easing, 0, edgeDist, 0, lagoonDepth);
+                }
+                else if (easing < beachDist)
+                {
+                    // Shallow sloping beach to crest
+                    return Mth.map(easing, edgeDist, beachDist, lagoonDepth, 1);
+                }
+                else
+                {
+                    // Shallow beach into lagoon
+                    return Mth.clampedMap(easing, beachDist, lagoonDist, 1, lagoonDepth);
+                }
             }
 
             @Override
@@ -380,14 +399,14 @@ public class CenteredFeatureNoise
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
                 if (checkCellRarity(cell, rarity))
                 {
-                    return calculateEasing((float) cell.f1());
+                    return calculateEasing(cell, x, z);
                 }
                 return 0;
             }
 
-            private static float calculateEasing(float f1)
+            private float calculateEasing(Cellular2D.Cell cell, int x, int z)
             {
-                return Mth.map(f1, 0, 0.08f, 1, 0);
+                return (float) (Math.sqrt(cell.f2()) - Math.sqrt(cell.f1()) + rimWarpNoise.noise(x, z));
             }
 
             @Override
