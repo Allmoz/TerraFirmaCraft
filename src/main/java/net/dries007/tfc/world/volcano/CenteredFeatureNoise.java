@@ -15,6 +15,7 @@ import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.ChunkHeightFiller;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.biome.BiomeExtension;
+import net.dries007.tfc.world.biome.BiomeNoise;
 import net.dries007.tfc.world.biome.BiomeSourceExtension;
 import net.dries007.tfc.world.biome.TFCBiomes;
 import net.dries007.tfc.world.noise.Cellular2D;
@@ -319,6 +320,102 @@ public class CenteredFeatureNoise
         return gapVerticalEasing;
     }
 
+    public static CenteredFeatureNoiseSampler atolls(Seed seed)
+    {
+        return new CenteredFeatureNoiseSampler()
+        {
+            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 0.2f,1).spread(0.002f);
+            final Noise2D heightNoise = new OpenSimplex2D(seed.seed()).octaves(4).spread(0.03f).scaled(SEA_LEVEL_Y - 10, SEA_LEVEL_Y + 10);
+
+            @Override
+            public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)
+            {
+                Cellular2D.Cell cell = cellNoise.cell(x, z);
+                final BiomeExtension biome = biomeSource.getBiomeExtension(QuartPos.fromBlock((int) cell.x()), QuartPos.fromBlock((int) cell.y()));
+                if (biome.hasAtolls())
+                {
+                    final int rarity = biome.getCenteredFeatureRarity();
+                    if (checkCellRarity(cell, rarity))
+                    {
+                        return modifyHeight(cell, x, z, biome, heightIn);
+                    }
+                }
+                return ChunkHeightFiller.NOT_PRESENT_RETURN;
+            }
+
+            public BiomeExtension getCenterBiome(int x, int z, BiomeSourceExtension biomeSource)
+            {
+                Cellular2D.Cell cell = cellNoise.cell(x, z);
+                return biomeSource.getBiomeExtension(QuartPos.fromBlock((int) cell.x()), QuartPos.fromBlock((int) cell.y()));
+            }
+
+            private double modifyHeight(Cellular2D.Cell cell, int x, int z, BiomeExtension biome, double heightIn)
+            {
+                if (cell != null)
+                {
+                    final double inverseEasing = (1 - calculateEasing((float) cell.f1())) * (1 - 0.4 * Helpers.hashDouble(cell.noise(), 135));
+                    final double reefHeight = reefShape(inverseEasing);
+
+                    final double atollHeight = Mth.map(reefHeight, 0, 1, SEA_LEVEL_Y - 40, heightNoise.noise(x, z));
+
+                    return Math.max(heightIn, atollHeight);
+                }
+                return heightIn;
+            }
+
+            private double reefShape(double r2)
+            {
+                return 0.75 + r2 - r2 * r2;
+            }
+
+            @Override
+            public boolean isValidBiome(BiomeExtension biome)
+            {
+                return biome.hasAtolls();
+            }
+
+            @Override
+            public float calculateEasing(int x, int z, int rarity)
+            {
+                final Cellular2D.Cell cell = cellNoise.cell(x, z);
+                if (checkCellRarity(cell, rarity))
+                {
+                    return calculateEasing((float) cell.f1());
+                }
+                return 0;
+            }
+
+            private static float calculateEasing(float f1)
+            {
+                return Mth.map(f1, 0, 0.08f, 1, 0);
+            }
+
+            @Override
+            @Nullable
+            public BlockPos calculateCenter(int x, int y, int z, int rarity)
+            {
+                final Cellular2D.Cell cell = cellNoise.cell(x, z);
+                if (checkCellRarity(cell, rarity))
+                {
+                    return new BlockPos((int) cell.x(), y, (int) cell.y());
+                }
+                return null;
+            }
+
+            @Override
+            public Cellular2D getCellularNoise()
+            {
+                return cellNoise;
+            }
+
+            @Override
+            public @Nullable VolcanoVariant getVolcanoVariant(Cellular2D.Cell cell)
+            {
+                return null;
+            }
+        };
+    }
+
     public static CenteredFeatureNoiseSampler tuya(Seed seed)
     {
         return new CenteredFeatureNoiseSampler()
@@ -446,7 +543,7 @@ public class CenteredFeatureNoise
     {
         return new CenteredFeatureNoiseSampler()
         {
-            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 2).spread(STRATOVOLCANO_SPREAD_FACTOR); // TODO: Evaluate whether we want this extra sample, or if we want lower jitter
+            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 2).spread(STRATOVOLCANO_SPREAD_FACTOR);
 
             @Override
             public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)
@@ -546,7 +643,7 @@ public class CenteredFeatureNoise
                 // Note that apex heights are scaled to equal the actual diameter of the feature
                 double maxDiameter = Math.sqrt(Math.min(1, maxSafeDiameterSquared(cell, cellNoise))); // TODO: I'd like to do this earlier on, but I shouldn't try and optimize right now
 
-                if (maxDiameter >= 0.7) // TODO: Finalize selection process
+                if (maxDiameter >= 0.7)
                 {
                     double noise = Helpers.hashDouble(cell.noise(), 317);
                     if (noise > 0.75)

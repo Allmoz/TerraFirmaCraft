@@ -265,15 +265,11 @@ public enum ChooseBiomes implements RegionTask
             }
             else if (point.oceanDepth == 2)
             {
-                point.biome = OCEAN;
+                point.biome = point.temperature > 12 && point.distanceToLand > 3 ? OCEAN_ATOLLS : OCEAN;
             }
             else if (point.oceanDepth == 3)
             {
                 point.biome = OCEAN_RIDGE;
-            }
-            else if (point.oceanDepth == 4)
-            {
-                point.biome = DEEP_OCEAN;
             }
             else if (point.oceanDepth == 5)
             {
@@ -281,7 +277,7 @@ public enum ChooseBiomes implements RegionTask
             }
             else
             {
-                point.biome = DEEP_OCEAN;
+                point.biome = point.temperature > 12 && point.distanceToLand > 3 ? DEEP_OCEAN_ATOLLS : DEEP_OCEAN;
             }
 
             // Add hot spot biomes

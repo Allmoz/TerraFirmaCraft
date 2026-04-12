@@ -30,8 +30,10 @@ public class TFCLayers
      * They are mapped to {@link BiomeExtension} through the internal registry
      */
     public static final int OCEAN = idFor(TFCBiomes.OCEAN);
+    public static final int OCEAN_ATOLLS = idFor(TFCBiomes.OCEAN_ATOLLS);
     public static final int OCEAN_REEF = idFor(TFCBiomes.OCEAN_REEF);
     public static final int DEEP_OCEAN = idFor(TFCBiomes.DEEP_OCEAN);
+    public static final int DEEP_OCEAN_ATOLLS = idFor(TFCBiomes.DEEP_OCEAN_ATOLLS);
     public static final int DEEP_OCEAN_TRENCH = idFor(TFCBiomes.DEEP_OCEAN_TRENCH);
     public static final int OCEANIC_VOLCANIC_ARC = idFor(TFCBiomes.OCEANIC_VOLCANIC_ARC);
     public static final int OCEAN_RIDGE = idFor(TFCBiomes.OCEAN_RIDGE);
@@ -389,7 +391,7 @@ public class TFCLayers
 
     public static boolean isOcean(int value)
     {
-        return value == OCEAN || value == DEEP_OCEAN || value == DEEP_OCEAN_TRENCH || value == OCEAN_REEF || value == OCEAN_RIDGE || value == OCEANIC_VOLCANIC_ARC;
+        return value == OCEAN || value == DEEP_OCEAN || value == DEEP_OCEAN_TRENCH || value == OCEAN_REEF || value == OCEAN_RIDGE || value == OCEANIC_VOLCANIC_ARC || value == OCEAN_ATOLLS || value == DEEP_OCEAN_ATOLLS;
     }
 
     public static boolean isMountains(int value)

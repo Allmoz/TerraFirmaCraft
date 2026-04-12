@@ -15,6 +15,7 @@ public enum CenteredFeatureBlendType
     CINDER_CONE(CenteredFeatureNoise::cinder), // The original, small-cone volcanoes
     TUYA(CenteredFeatureNoise::tuya), // Flat-topped mounds formed around ice sheets
     TUFF_RING(CenteredFeatureNoise::tuffRing), // Rings of tuff, similar to Diamond Head, Molokini, etc.
+    ATOLL(CenteredFeatureNoise::atolls), // Atolls
     STRATOVOLCANO(CenteredFeatureNoise::stratovolcano); // Stratovolcanos, similar to Mt. Fuji etc.
 
     public static final CenteredFeatureBlendType[] ALL = values();

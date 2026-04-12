@@ -46,6 +46,7 @@ public class BiomeBuilder
     private boolean salty;
     private boolean hasCinderCones;
     private boolean hasTuyas;
+    private boolean hasAtolls;
     private boolean hasStratovolcanoes;
     private boolean hasTuffRings;
     private int centeredFeatureFrequency;
@@ -73,6 +74,7 @@ public class BiomeBuilder
         hasTuffRings = false;
         hasStratovolcanoes = false;
         hasTuyas = false;
+        hasAtolls = false;
         centeredFeatureIce = false;
         centeredFeatureFrequency = 0;
         centeredFeatureRockHeight = 0;
@@ -237,10 +239,18 @@ public class BiomeBuilder
         return this;
     }
 
+    public BiomeBuilder atolls(int frequency)
+    {
+        this.hasAtolls = true;
+        this.centeredFeatureFrequency = frequency;
+
+        return this;
+    }
+
     public BiomeExtension build(ResourceKey<Biome> key)
     {
         assert surfaceBuilderFactory != null : "missing surface builder";
 
-        return new BiomeExtension(key, noiseFactory, surfaceBuilderFactory, aquiferSurfaceHeight, biomeBlendType, riverBlendType, shoreBlendType, salty, hasCinderCones, hasTuffRings, hasTuyas, hasStratovolcanoes, centeredFeatureFrequency, centeredFeatureRockHeight, centeredFeatureBaseHeight, centeredFeatureScaleHeight, centeredFeatureIce, spawnable, rivers, shore, shoreBaseHeight, sandyRiverShores);
+        return new BiomeExtension(key, noiseFactory, surfaceBuilderFactory, aquiferSurfaceHeight, biomeBlendType, riverBlendType, shoreBlendType, salty, hasCinderCones, hasTuffRings, hasTuyas, hasAtolls, hasStratovolcanoes, centeredFeatureFrequency, centeredFeatureRockHeight, centeredFeatureBaseHeight, centeredFeatureScaleHeight, centeredFeatureIce, spawnable, rivers, shore, shoreBaseHeight, sandyRiverShores);
     }
 }

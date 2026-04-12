@@ -1953,6 +1953,38 @@
           }
         ]
       }
+    },
+    "ocean_atolls": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:ocean_atolls"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "deep_ocean_atolls": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:deep_ocean_atolls"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "display": {
@@ -2337,6 +2369,12 @@
     ],
     [
       "glacially_carved_volcanic_oceanic_mountains"
+    ],
+    [
+      "ocean_atolls"
+    ],
+    [
+      "deep_ocean_atolls"
     ]
   ]
 }

@@ -44,6 +44,7 @@ public final class BiomeExtension
     private final boolean hasTuffCones;
     private final boolean hasTuyas;
     private final boolean hasStratovolcanoes;
+    private final boolean hasAtolls;
     private final int centeredFeatureRarity;
     private final int centeredFeatureRockHeight;
     private final int centeredFeatureBaseHeight;
@@ -59,7 +60,7 @@ public final class BiomeExtension
     @Nullable private Set<PlacedFeature> flattenedFeatureSet;
     @Nullable private Biome prevBiome;
 
-    BiomeExtension(ResourceKey<Biome> key, @Nullable Function<Seed, BiomeNoiseSampler> noiseFactory, SurfaceBuilderFactory surfaceBuilderFactory, AquiferLookahead aquiferSurfaceHeight, BiomeBlendType biomeBlendType, RiverBlendType riverBlendType, ShoreBlendType shoreBlendType, boolean salty, boolean hasCinderCones, boolean hasTuffCones, boolean hasTuyas, boolean hasStratovolcanoes, int centeredFeatureRarity, int centeredFeatureRockHeight, int centeredFeatureBaseHeight, int centeredFeatureScaleHeight, boolean centeredFeatureIce, boolean spawnable, boolean rivers, boolean shore, int shoreBaseHeight, boolean sandyRiverShores)
+    BiomeExtension(ResourceKey<Biome> key, @Nullable Function<Seed, BiomeNoiseSampler> noiseFactory, SurfaceBuilderFactory surfaceBuilderFactory, AquiferLookahead aquiferSurfaceHeight, BiomeBlendType biomeBlendType, RiverBlendType riverBlendType, ShoreBlendType shoreBlendType, boolean salty, boolean hasCinderCones, boolean hasTuffCones, boolean hasTuyas, boolean hasAtolls, boolean hasStratovolcanoes, int centeredFeatureRarity, int centeredFeatureRockHeight, int centeredFeatureBaseHeight, int centeredFeatureScaleHeight, boolean centeredFeatureIce, boolean spawnable, boolean rivers, boolean shore, int shoreBaseHeight, boolean sandyRiverShores)
     {
         this.key = key;
         this.noiseFactory = noiseFactory;
@@ -72,6 +73,7 @@ public final class BiomeExtension
         this.hasCinderCones = hasCinderCones;
         this.hasTuffCones = hasTuffCones;
         this.hasTuyas = hasTuyas;
+        this.hasAtolls = hasAtolls;
         this.hasStratovolcanoes = hasStratovolcanoes;
         this.centeredFeatureRarity = centeredFeatureRarity;
         this.centeredFeatureRockHeight = centeredFeatureRockHeight;
@@ -128,6 +130,11 @@ public final class BiomeExtension
     public boolean hasTuyas()
     {
         return hasTuyas;
+    }
+
+    public boolean hasAtolls()
+    {
+        return hasAtolls;
     }
 
     public boolean hasStratovolcanoes()
