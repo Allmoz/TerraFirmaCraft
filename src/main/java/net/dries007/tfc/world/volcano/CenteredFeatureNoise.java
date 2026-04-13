@@ -15,7 +15,6 @@ import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.ChunkHeightFiller;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.biome.BiomeExtension;
-import net.dries007.tfc.world.biome.BiomeNoise;
 import net.dries007.tfc.world.biome.BiomeSourceExtension;
 import net.dries007.tfc.world.biome.TFCBiomes;
 import net.dries007.tfc.world.noise.Cellular2D;
@@ -324,9 +323,11 @@ public class CenteredFeatureNoise
     {
         return new CenteredFeatureNoiseSampler()
         {
+            final double minThickness = -0.3, maxThickness = 0.4, thicknessAmplitude = maxThickness - minThickness;
             final Cellular2D cellNoise = new Cellular2D(seed.seed(), 0.5f,2).spread(0.0028f);
-            final Noise2D heightNoise = new OpenSimplex2D(seed.seed()).octaves(4).spread(0.03f).scaled(SEA_LEVEL_Y - 4, SEA_LEVEL_Y + 10);
-            final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(3).scaled(0f, 0.25f).spread(0.029f);
+            final Noise2D heightNoise = new OpenSimplex2D(seed.seed()).octaves(4).spread(0.03f).scaled(SEA_LEVEL_Y - 3, SEA_LEVEL_Y + 7);
+            final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(3).scaled(0f, 0.3f).spread(0.029f);
+            final Noise2D unscaledThicknessNoise = new OpenSimplex2D(seed.seed() + 131L).octaves(3).spread(0.02f);
 
             @Override
             public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)
@@ -354,36 +355,55 @@ public class CenteredFeatureNoise
             {
                 if (cell != null)
                 {
+                    final double integrity = Math.min(0.4 + Helpers.hashDouble(cell.noise(), 523), 1);
+                    final double unclampedThickness = Mth.map(unscaledThicknessNoise.noise(x, z), -1, 1, minThickness, maxThickness);
                     final double easing = calculateEasing(cell, x, z);
-                    final double lagoonDepth = 0.75 + 0.15 * Helpers.hashDouble(cell.noise(), 15413);
-                    final double reefHeight = reefShape(easing, lagoonDepth);
+                    final double lagoonHeight = 0.8 + 0.12 * Helpers.hashDouble(cell.noise(), 15413);
+                    final double reefHeight = reefShape(easing, lagoonHeight, unclampedThickness, integrity);
 
-                    final double atollHeight = Mth.map(reefHeight, 0, 1, SEA_LEVEL_Y - 60, heightNoise.noise(x, z));
+                    double maxHeight = heightNoise.noise(x, z);
+
+                    if (integrity < 1)
+                    {
+                        maxHeight = Mth.clampedMap(unscaledThicknessNoise.noise(x, z) + integrity, -1, 1, lagoonHeight * maxHeight, maxHeight);
+                    }
+                    final double atollHeight = Mth.map(reefHeight, 0, 1, SEA_LEVEL_Y - 60, maxHeight);
 
                     return Math.max(heightIn, atollHeight);
                 }
                 return heightIn;
             }
 
-            private double reefShape(double easing, double lagoonDepth)
+            private double reefShape(double easing, double lagoonDepth, double unclampedThickness, double integrity)
             {
                 final double edgeDist = 0.3;
                 final double beachDist = edgeDist + 0.15;
-                final double lagoonDist = beachDist + 0.25;
+                final double clampedThickness = Math.clamp(unclampedThickness, 0, 0.3);
+                final double lagoonDist = beachDist + 0.25 + clampedThickness;
+                final double baseShape;
                 if (easing < edgeDist)
                 {
                     // Ocean floor to edge of beach
+                    // Return immediately, integrity has no effect here
                     return Mth.map(easing, 0, edgeDist, 0, lagoonDepth);
                 }
                 else if (easing < beachDist)
                 {
                     // Shallow sloping beach to crest
-                    return Mth.map(easing, edgeDist, beachDist, lagoonDepth, 1);
+                    baseShape = Mth.map(easing, edgeDist, beachDist, lagoonDepth, 1);
                 }
                 else
                 {
                     // Shallow beach into lagoon
-                    return Mth.clampedMap(easing, beachDist, lagoonDist, 1, lagoonDepth);
+                    baseShape = Mth.clampedMap(easing, beachDist, lagoonDist, 1, lagoonDepth);
+                }
+                if (integrity >= 1)
+                {
+                    return baseShape;
+                }
+                else
+                {
+                    return Mth.clampedMap(unclampedThickness, minThickness - thicknessAmplitude * integrity, maxThickness - thicknessAmplitude * integrity, lagoonDepth, baseShape);
                 }
             }
 
