@@ -20,6 +20,7 @@ import net.dries007.tfc.world.TFCChunkGenerator;
 import net.dries007.tfc.world.noise.Noise2D;
 import net.dries007.tfc.world.river.RiverBlendType;
 import net.dries007.tfc.world.shore.ShoreBlendType;
+import net.dries007.tfc.world.surface.builder.AtollSurfaceBuilder;
 import net.dries007.tfc.world.surface.builder.StratovolcanoSurfaceBuilder;
 import net.dries007.tfc.world.surface.builder.SurfaceBuilderFactory;
 import net.dries007.tfc.world.surface.builder.TuffRingsSurfaceBuilder;
@@ -99,6 +100,7 @@ public class BiomeBuilder
         this.surfaceBuilderFactory = CinderConeSurfaceBuilder.create(surfaceBuilderFactory);
         this.surfaceBuilderFactory = TuffRingsSurfaceBuilder.create(this.surfaceBuilderFactory);
         this.surfaceBuilderFactory = TuyaSurfaceBuilder.create(this.surfaceBuilderFactory);
+        this.surfaceBuilderFactory = AtollSurfaceBuilder.create(this.surfaceBuilderFactory);
         this.surfaceBuilderFactory = StratovolcanoSurfaceBuilder.create(this.surfaceBuilderFactory);
         return this;
     }

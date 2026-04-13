@@ -324,7 +324,7 @@ public class CenteredFeatureNoise
         return new CenteredFeatureNoiseSampler()
         {
             final double minThickness = -0.3, maxThickness = 0.4, thicknessAmplitude = maxThickness - minThickness;
-            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 0.5f,2).spread(0.0028f);
+            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 0.5f, 2).spread(0.0028f);
             final Noise2D heightNoise = new OpenSimplex2D(seed.seed()).octaves(4).spread(0.03f).scaled(SEA_LEVEL_Y - 3, SEA_LEVEL_Y + 7);
             final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(3).scaled(0f, 0.3f).spread(0.029f);
             final Noise2D unscaledThicknessNoise = new OpenSimplex2D(seed.seed() + 131L).octaves(3).spread(0.02f);
@@ -355,7 +355,7 @@ public class CenteredFeatureNoise
             {
                 if (cell != null)
                 {
-                    final double integrity = Math.min(0.4 + Helpers.hashDouble(cell.noise(), 523), 1);
+                    final double integrity = getAtollIntegrity(cell);
                     final double unclampedThickness = Mth.map(unscaledThicknessNoise.noise(x, z), -1, 1, minThickness, maxThickness);
                     final double easing = calculateEasing(cell, x, z);
                     final double lagoonHeight = 0.8 + 0.12 * Helpers.hashDouble(cell.noise(), 15413);
@@ -426,7 +426,16 @@ public class CenteredFeatureNoise
 
             private float calculateEasing(Cellular2D.Cell cell, int x, int z)
             {
-                return (float) (Math.sqrt(cell.f2()) - Math.sqrt(cell.f1()) + rimWarpNoise.noise(x, z));
+                final double f1 = cell.f1(), f2 = cell.f2(), f2f1 = f2 - f1;
+                final float easing = (float) (Math.sqrt(cell.f2()) - Math.sqrt(cell.f1()) + rimWarpNoise.noise(x, z));
+                if (f2f1 > 0.18) // Ensure no *extremely* sharp edges at cell edges
+                {
+                    return easing;
+                }
+                else
+                {
+                    return easing * (float) Mth.map(f2f1, 0, 0.18, 0, 1);
+                }
             }
 
             @Override
@@ -453,6 +462,11 @@ public class CenteredFeatureNoise
                 return null;
             }
         };
+    }
+
+    public static double getAtollIntegrity(Cellular2D.Cell cell)
+    {
+        return Math.min(0.4 + Helpers.hashDouble(cell.noise(), 523), 1);
     }
 
     public static CenteredFeatureNoiseSampler tuya(Seed seed)

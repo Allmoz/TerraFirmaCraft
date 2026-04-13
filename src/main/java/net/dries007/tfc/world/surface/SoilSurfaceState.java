@@ -99,6 +99,31 @@ public class SoilSurfaceState implements SurfaceState
         return type == SoilBlockType.GRASS ? new SoilSurfaceState.NeedsPostProcessing(regions) : new SoilSurfaceState(regions);
     }
 
+    public static SurfaceState buildSiltySurfaceType(SoilBlockType type, SurfaceState dry)
+    {
+        final ImmutableList<SurfaceState> regions = ImmutableList.of(
+            SurfaceStates.SNOW,
+            SurfaceStates.SNOW,
+            transition(SurfaceStates.SNOW, dry),
+            dry,
+            transition(dry, SurfaceStates.COARSE_FLUVISOL_BASE),
+            SurfaceStates.COARSE_FLUVISOL_BASE,
+            transition(SurfaceStates.COARSE_FLUVISOL_BASE, soil(type, SoilBlockType.Variant.FLUVISOL)),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL),
+            soil(type, SoilBlockType.Variant.FLUVISOL)
+        );
+        return type == SoilBlockType.GRASS ? new SoilSurfaceState.NeedsPostProcessing(regions) : new SoilSurfaceState(regions);
+    }
+
     public static SurfaceState buildMidType(SoilBlockType type, SurfaceState dry)
     {
         final ImmutableList<SurfaceState> regions = ImmutableList.of(
