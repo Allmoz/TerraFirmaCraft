@@ -324,7 +324,7 @@ public class CenteredFeatureNoise
         return new CenteredFeatureNoiseSampler()
         {
             final double minThickness = -0.3, maxThickness = 0.4, thicknessAmplitude = maxThickness - minThickness;
-            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 0.5f, 2).spread(0.0028f);
+            final Cellular2D cellNoise = new Cellular2D(seed.seed(), 0.5f, 2).spread(0.0023f);
             final Noise2D heightNoise = new OpenSimplex2D(seed.seed()).octaves(4).spread(0.03f).scaled(SEA_LEVEL_Y - 3, SEA_LEVEL_Y + 7);
             final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(3).scaled(0f, 0.3f).spread(0.029f);
             final Noise2D unscaledThicknessNoise = new OpenSimplex2D(seed.seed() + 131L).octaves(3).spread(0.02f);
@@ -376,10 +376,10 @@ public class CenteredFeatureNoise
 
             private double reefShape(double easing, double lagoonDepth, double unclampedThickness, double integrity)
             {
-                final double edgeDist = 0.3;
-                final double beachDist = edgeDist + 0.15;
+                final double edgeDist = 0.47;
+                final double beachDist = edgeDist + 0.11;
                 final double clampedThickness = Math.clamp(unclampedThickness, 0, 0.3);
-                final double lagoonDist = beachDist + 0.25 + clampedThickness;
+                final double lagoonDist = beachDist + 0.19 + clampedThickness;
                 final double baseShape;
                 if (easing < edgeDist)
                 {

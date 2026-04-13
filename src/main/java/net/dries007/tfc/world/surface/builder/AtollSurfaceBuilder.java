@@ -93,7 +93,8 @@ public class AtollSurfaceBuilder implements SurfaceBuilder
                         {
                             surfaceDepth = -1; // Reached air, reset surface depth
                         }
-                        else if (y == seaLevel - 1 && CenteredFeatureNoise.getAtollIntegrity(cell) >= 1 && easing > 0.45 && stateAt.is(TFCFluids.SALT_WATER.createSourceBlock().getBlock()))
+                        // Important that the easing threshold matches the beachDist variable in the atoll shape function
+                        else if (y == seaLevel - 1 && CenteredFeatureNoise.getAtollIntegrity(cell) >= 1 && easing > 0.58 && stateAt.is(TFCFluids.SALT_WATER.createSourceBlock().getBlock()))
                         {
                             // Place a single floating layer of fresh water in 100% enclosed lagoons
                             context.setBlockState(y, Fluids.WATER.getSource().defaultFluidState().createLegacyBlock());
