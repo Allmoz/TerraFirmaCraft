@@ -31,6 +31,7 @@ public final class TFCPlacements
     public static final Id<TuffRingPlacement> TUFF_RING = register("tuff_cone", () -> TuffRingPlacement.CODEC);
     public static final Id<TuyaPlacement> TUYA = register("tuya", () -> TuyaPlacement.CODEC);
     public static final Id<StratovolcanoPlacement> STRATOVOLCANO = register("stratovolcano", () -> StratovolcanoPlacement.CODEC);
+    public static final Id<AtollPlacement> ATOLL = register("atoll", () -> AtollPlacement.CODEC);
     public static final Id<NearFluidPlacement> NEAR_FLUID = register("near_fluid", () -> NearFluidPlacement.CODEC);
     public static final Id<ShallowWaterPlacement> SHALLOW_WATER = register("shallow_water", () -> ShallowWaterPlacement.CODEC);
     public static final Id<OnTopPlacement> ON_TOP = register("on_top", () -> OnTopPlacement.CODEC);

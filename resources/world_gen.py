@@ -494,6 +494,15 @@ def generate(rm: ResourceManager):
     rm.configured_feature('ocean_ridge_rivulet', 'tfc:rivulet', {'states': [{'replace': 'tfc:rock/%s/%s' % (var, rock), 'with': 'tfc:rock/magma/%s' % rock} for var in ('raw', 'hardened') for rock in igneous_rocks]})
     rm.placed_feature('ocean_ridge_rivulet', 'tfc:ocean_ridge_rivulet', decorate_count(2), decorate_square(), ('tfc:ocean_ridge', {'min_distance': 0, 'max_distance': 32}))
 
+    # Atoll Features
+    for coral in ('tree', 'mushroom', 'claw'):
+        configured_placed_feature(rm, 'atoll_coral_%s' % coral, 'tfc:coral_%s' % coral, {}, decorate_climate(12, 50), ('minecraft:noise_based_count', {
+            'noise_to_count_ratio': 7,
+            'noise_factor': 160.0,
+            'noise_offset': 1
+        }), decorate_square(), decorate_heightmap('ocean_floor_wg'), ('tfc:atoll', {'min_easing': 0.3, 'max_easing': 0.42}))
+        rm.placed_feature_tag('feature/atoll_corals', 'tfc:atoll_coral_%s' % coral)
+
     # Stratovolcano Features
     # Fuji
     rm.configured_feature('fuji_caldera', 'tfc:flood_fill_lake', {
@@ -571,7 +580,7 @@ def generate(rm: ResourceManager):
         'state': 'minecraft:lava'
     })
 
-    rm.placed_feature('volcano_rivulet', 'tfc:volcano_rivulet', decorate_count(2), decorate_square(), ('tfc:volcano', {'distance': 0.7}))
+    rm.placed_feature('volcano_rivulet', 'tfc:volcano_rivulet', decorate_count(2), decorate_square(), ('tfc:volcano', {'min_easing': 0.7}))
     rm.placed_feature('volcano_caldera', 'tfc:volcano_caldera', ('tfc:volcano', {'center': True}), decorate_heightmap('world_surface_wg'))
 
     configured_placed_feature(rm, 'random_volcano_fissure', 'minecraft:simple_random_selector', {
@@ -611,7 +620,7 @@ def generate(rm: ResourceManager):
     })
 
     # higher values of distance actually restrict the features closer to the volcano center
-    rm.placed_feature('tuya_rivulet', 'tfc:tuya_rivulet', decorate_count(2), decorate_square(), ('tfc:tuya', {'distance': 0.84}))
+    rm.placed_feature('tuya_rivulet', 'tfc:tuya_rivulet', decorate_count(2), decorate_square(), ('tfc:tuya', {'min_easing': 0.84}))
     rm.placed_feature('tuya_caldera', 'tfc:tuya_caldera', ('tfc:tuya', {'center': True}), decorate_heightmap('world_surface_wg'))
 
     configured_placed_feature(rm, 'random_tuya_fissure', 'minecraft:simple_random_selector', {
@@ -1218,7 +1227,7 @@ def generate(rm: ResourceManager):
     configured_patch_feature(rm, 'salt_lick', patch_config('tfc:groundcover/salt_lick[fluid=empty]', 1, 5, 100), decorate_chance(110), decorate_square(), decorate_climate(5, 33, 100, 500, needs_forest=True))
     configured_patch_feature(rm, 'rotten_flesh', patch_config('tfc:groundcover/rotten_flesh[fluid=empty]', 1, 10, 10), decorate_chance(100), decorate_square(), decorate_climate(-30, 30, 0, 400))
     configured_patch_feature(rm, 'bone', patch_config('tfc:groundcover/bone[fluid=empty]', 1, 10, 10), decorate_chance(100), decorate_square(), decorate_climate(-30, 30, 0, 400))
-    configured_patch_feature(rm, 'pumice', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:volcano', {'distance': 0.8}))
+    configured_patch_feature(rm, 'pumice', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:volcano', {'min_easing': 0.8}))
     configured_patch_feature(rm, 'pumice_shield_volcano', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square())
 
     # Loose Rocks - Both Surface + Underground
@@ -1913,6 +1922,9 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
     elif ocean_features == 'atolls':
         ocean_features = True
         land_features = False
+        large_features.append('tfc:atoll_coral_mushroom')
+        large_features.append('tfc:atoll_coral_tree')
+        large_features.append('tfc:atoll_coral_claw')
         large_features += ['tfc:forest']
     else:
         land_features = not ocean_features

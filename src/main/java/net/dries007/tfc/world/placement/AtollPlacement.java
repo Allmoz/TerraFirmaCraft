@@ -13,11 +13,11 @@ import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.volcano.CenteredFeatureNoise;
 import net.dries007.tfc.world.volcano.CenteredFeatureNoiseSampler;
 
-public class TuyaPlacement extends CenterOrDistanceToPlacement<CenteredFeatureNoiseSampler>
+public class AtollPlacement extends CenterOrDistanceToPlacement<CenteredFeatureNoiseSampler>
 {
-    public static final MapCodec<TuyaPlacement> CODEC = codec(TuyaPlacement::new);
+    public static final MapCodec<AtollPlacement> CODEC = codec(AtollPlacement::new);
 
-    public TuyaPlacement(boolean center, float minEasing, float maxEasing)
+    public AtollPlacement(boolean center, float minEasing, float maxEasing)
     {
         super(center, minEasing, maxEasing);
     }
@@ -25,12 +25,12 @@ public class TuyaPlacement extends CenterOrDistanceToPlacement<CenteredFeatureNo
     @Override
     public PlacementModifierType<?> type()
     {
-        return TFCPlacements.TUYA.get();
+        return TFCPlacements.ATOLL.get();
     }
 
     @Override
     protected CenteredFeatureNoiseSampler createContext(Seed seed)
     {
-        return CenteredFeatureNoise.tuya(seed);
+        return CenteredFeatureNoise.atolls(seed);
     }
 }
