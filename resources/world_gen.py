@@ -89,8 +89,8 @@ def generate(rm: ResourceManager):
     biome(rm, 'deep_ocean', 'ocean', ocean_features=True)
     biome(rm, 'deep_ocean_trench', 'ocean', ocean_features=True)
     biome(rm, 'ocean_ridge', 'ocean', ocean_features=True)
-    biome(rm, 'ocean_atolls', 'ocean', ocean_features='both')
-    biome(rm, 'deep_ocean_atolls', 'ocean', ocean_features='both')
+    biome(rm, 'ocean_atolls', 'ocean', ocean_features='atolls')
+    biome(rm, 'deep_ocean_atolls', 'ocean', ocean_features='atolls')
     biome(rm, 'rift_valley', 'ocean')
     biome(rm, 'rift_lake', 'river', lake_features=True)
     biome(rm, 'collisional_mountains', 'extreme_hills')
@@ -670,7 +670,7 @@ def generate(rm: ResourceManager):
                 {'block': 'tfc:rock/hardened/%s' % rock, 'weight': 2}
             ]
         } for rock in igneous_rocks]
-    }, decorate_chance(20), decorate_square(), decorate_heightmap('ocean_floor_wg'))
+    }, decorate_chance(20), decorate_square(), decorate_heightmap('ocean_floor_wg'), decorate_climate(max_elevation=40))
 
     rm.configured_feature('random_empty_hot_spring', 'minecraft:simple_random_selector', {
         'features': count_weighted_list(
@@ -1186,6 +1186,7 @@ def generate(rm: ResourceManager):
         'noise_factor': 80.0,
         'noise_offset': 0.3
     }), decorate_square(), decorate_heightmap('world_surface_wg'))
+
 
     for coral in ('tree', 'mushroom', 'claw'):
         configured_placed_feature(rm, 'coral_%s' % coral, 'tfc:coral_%s' % coral, {}, decorate_climate(12, 50), ('minecraft:noise_based_count', {
@@ -1909,6 +1910,10 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
     if ocean_features == 'both':  # Both applies both ocean + land features. True or false applies only one
         land_features = True
         ocean_features = True
+    elif ocean_features == 'atolls':
+        ocean_features = True
+        land_features = False
+        large_features += ['tfc:forest']
     else:
         land_features = not ocean_features
     if lake_features == 'default':  # Default = Lakes are on all non-ocean biomes. True/False to force either way
