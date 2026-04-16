@@ -17,7 +17,6 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 
 import net.dries007.tfc.world.biome.BiomeNoise;
-import net.dries007.tfc.world.noise.Cellular2D;
 
 public class OceanRidgePlacement extends PlacementModifier
 {
@@ -49,7 +48,7 @@ public class OceanRidgePlacement extends PlacementModifier
 
     final boolean isValid(BlockPos pos, long seed)
     {
-        final double distance = BiomeNoise.getOceanRidgeWarpedEdgeDistance(pos.getX(), pos.getZ(), seed);
+        final double distance = BiomeNoise.getOceanRidgeWarpedEdgeDistanceAndScale(pos.getX(), pos.getZ(), seed, false).x;
         return minDist <= distance && distance <= maxDist;
     }
 }

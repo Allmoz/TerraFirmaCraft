@@ -13,6 +13,7 @@ import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.BiomeNoiseSampler;
 import net.dries007.tfc.world.noise.Cellular2D;
 import net.dries007.tfc.world.Seed;
+import net.dries007.tfc.world.noise.FastNoiseLite;
 import net.dries007.tfc.world.noise.Noise2D;
 import net.dries007.tfc.world.noise.Noise3D;
 import net.dries007.tfc.world.noise.OpenSimplex2D;
@@ -1059,10 +1060,14 @@ public final class BiomeNoise
     public static Noise2D oceanRidge(long seed)
     {
         final Noise2D abyssalPlain = ocean(seed, -46, -30); // Match parameters for Deep Ocean biome
-        return abyssalPlain.max((x, y) -> {
 
-            final double warpedEdgeDist = getOceanRidgeWarpedEdgeDistance(x, y, seed);
+        return (x, z) -> {
 
+            final FastNoiseLite.Vector2 distanceAndScale = getOceanRidgeWarpedEdgeDistanceAndScale(x, z, seed, true);
+            final double warpedEdgeDist = distanceAndScale.x;
+            final double scale = Mth.clampedMap(distanceAndScale.y, 0, 0.05, 0, 1);
+
+            final double abyssalPlainElev = abyssalPlain.noise(x, z);
             final double rawRidge;
             if (warpedEdgeDist < 27)
             {
@@ -1073,20 +1078,27 @@ public final class BiomeNoise
                 rawRidge = Mth.clampedMap(warpedEdgeDist, 27, 120, SEA_LEVEL_Y - 12, SEA_LEVEL_Y - 50);
             }
 
-            return rawRidge;
-        });
+            if (rawRidge <= abyssalPlainElev)
+            {
+                return abyssalPlainElev;
+            }
+
+            return Mth.map(scale, 0, 1, abyssalPlainElev, rawRidge);
+        };
     }
 
-    public static double getOceanRidgeWarpedEdgeDistance(double x, double y, long seed)
+    public static FastNoiseLite.Vector2 getOceanRidgeWarpedEdgeDistanceAndScale(double x, double y, long seed, boolean getDistanceToGaps)
     {
 
         final Cellular2D cellNoise = continentCellNoise(1 / 128f, seed);
         final Cellular2D.Cell cell = cellNoise.cell(x, y);
 
+        final Noise2D baseFaultingNoise = new OpenSimplex2D(seed).octaves(2).spread(0.0018f).scaled(-4.5, 4.5);
+
         // Small warp adds some texture to the ridge
         final OpenSimplex2D warpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.05f).scaled(0, 20);
         // Big warp adds normal faults to the ridge. This noise must be sampled from the same spot on both sides of the edge
-        final Noise2D bigWarpNoise = new OpenSimplex2D(seed).octaves(2).spread(0.0018f).scaled(-4.5, 4.5).map(w -> 30 * Math.round(w));
+        final Noise2D bigWarpNoise = baseFaultingNoise.map(w -> 30 * Math.round(w));
 
         // In order to get a consistently-scaled distance to the cell edge, we project the point onto the cell edge and calculate the distance
         // Start by getting a point on the cell edge. We also know that the line between cell centers is perpendicular to the cell edge
@@ -1108,7 +1120,13 @@ public final class BiomeNoise
         final double smallWarp = cell.nx() > cell.x() ? -warpNoise.noise(x, y) : warpNoise.noise(x, y);
         final double bigWarp = cell.nx() > cell.x() ? -bigWarpNoise.noise(xProjected, yProjected) : bigWarpNoise.noise(xProjected, yProjected);
         // Using absolute value here is needed to stop sudden gaps at cell edges
-        return Math.abs(edgeDist + smallWarp + bigWarp);
+
+        if (getDistanceToGaps)
+        {
+            final double distToFault = Math.abs(Mth.positiveModulo(baseFaultingNoise.noise(xProjected, yProjected), 1) - 0.5);
+            return new FastNoiseLite.Vector2(Math.abs(edgeDist + smallWarp + bigWarp), distToFault);
+        }
+        return new FastNoiseLite.Vector2(Math.abs(edgeDist + smallWarp + bigWarp), 0);
     }
 
     public static Cellular2D continentCellNoise(float scaleFactor, long seed)

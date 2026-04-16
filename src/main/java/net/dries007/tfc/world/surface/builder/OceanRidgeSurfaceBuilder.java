@@ -10,13 +10,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 
 import net.dries007.tfc.world.Seed;
-import net.dries007.tfc.world.noise.Cellular2D;
 import net.dries007.tfc.world.surface.SurfaceBuilderContext;
-import net.dries007.tfc.world.surface.SurfaceState;
-import net.dries007.tfc.world.surface.SurfaceStates;
 
 import static net.dries007.tfc.world.biome.BiomeNoise.*;
-import static net.dries007.tfc.world.surface.SurfaceStates.*;
 
 public class OceanRidgeSurfaceBuilder implements SurfaceBuilder
 {
@@ -35,7 +31,7 @@ public class OceanRidgeSurfaceBuilder implements SurfaceBuilder
         final BlockPos pos = context.pos();
         final int x = pos.getX();
         final int z = pos.getZ();
-        final double distance = getOceanRidgeWarpedEdgeDistance(x, z, seed.seed());
+        final double distance = getOceanRidgeWarpedEdgeDistanceAndScale(x, z, seed.seed(), false).x;
 
         if (distance >= 50)
         {
