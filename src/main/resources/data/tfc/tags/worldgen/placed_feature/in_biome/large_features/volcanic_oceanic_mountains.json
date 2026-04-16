@@ -12,7 +12,6 @@
     "tfc:bamboo_golden",
     "tfc:cave_vegetation",
     "#tfc:feature/stratovolcanoes",
-    "#tfc:feature/volcanoes",
     "#tfc:feature/surface_flood_fill_lakes"
   ]
 }

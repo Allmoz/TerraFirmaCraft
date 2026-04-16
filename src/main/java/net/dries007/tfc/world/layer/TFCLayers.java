@@ -269,7 +269,8 @@ public class TFCLayers
     {
         return value != LOW_CANYONS && value != CANYONS && value != OCEANIC_MOUNTAINS && value != VOLCANIC_OCEANIC_MOUNTAINS
             && value != TOWER_KARST_BAY && value != SUNKEN_SHIELD_VOLCANO && value != GLACIALLY_CARVED_OCEANIC_MOUNTAINS && value != ICE_SHEET_OCEANIC_MOUNTAINS_EDGE
-            && value != ICE_SHEET_SHIELD_VOLCANO && value != GLACIATED_SHIELD_VOLCANO && value != GUANO_ISLAND && value != GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS;
+            && value != ICE_SHEET_SHIELD_VOLCANO && value != GLACIATED_SHIELD_VOLCANO && value != GUANO_ISLAND && value != GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS
+            && value != VOLCANIC_MOUNTAIN_ISLANDS;
     }
 
     // TODO: Need to add the new biomes to all these before merge
