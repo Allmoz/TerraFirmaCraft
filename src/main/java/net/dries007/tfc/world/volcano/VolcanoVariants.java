@@ -98,7 +98,7 @@ public class VolcanoVariants
                 final Cellular2D cellNoise = sampler.getCellularNoise();
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
                 final double noise = cell.noise();
-                final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
+                final double maxDiam = Math.min(1, Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise)));
                 final BiomeExtension biome = context.stratovolcanoBiome();
                 final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
 
@@ -177,15 +177,24 @@ public class VolcanoVariants
                     final double xOffset = -45 + 90 * Helpers.hashDouble(noise, 6);
                     final double zOffset = -45 + 90 * Helpers.hashDouble(noise, 7);
                     shape = addOffsetCone(shape, cell.x() + xOffset, cell.y() + zOffset, x, z, 0, apexHeight, apexHeight * maxDiam * 300, noise);
-                    heightIn = Mth.clampedMap(r, heightIn, SEA_LEVEL_Y, craterSize, craterSize * 0.7);
+                    heightIn = SEA_LEVEL_Y + 10 + biomeBaseHeight;
                 }
                 else if (r > 1)
                 {
                     // Add some texture to the volcano "skirt"
                     shape += skirtTextureNoise.noise(x, z) * Mth.clampedMap(r, 1, 1.2, 0, 1);
                 }
+                else
+                {
+
+                }
                 shape *= textureNoise.noise(x, z);
-                return Math.max(scaleShape(shape, biomeBaseHeight, biomeScaleHeight), heightIn);
+                shape = scaleShape(shape, biomeBaseHeight, biomeScaleHeight);
+                if (r > craterSize && heightIn > shape)
+                {
+                    heightIn = Mth.clampedMap(r, craterSize + 0.1, craterSize, heightIn, shape);
+                }
+                return Math.max(shape, heightIn);
             }
 
             // Use a point within the cell, rather than the cell center, for the peak of a cone
@@ -264,7 +273,7 @@ public class VolcanoVariants
                 final Cellular2D cellNoise = sampler.getCellularNoise();
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
                 final double noise = cell.noise();
-                final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
+                final double maxDiam = Math.min(1, Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise)));
                 final BiomeExtension biome = context.stratovolcanoBiome();
                 final int landHeight = (int) Math.round(this.getLandHeight(preVolcanicHeight, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
                 final int waterHeight = (int) Math.round(this.getFluidHeight(preVolcanicHeight, x, z, maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell));
@@ -273,10 +282,16 @@ public class VolcanoVariants
                 final double rMain = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
                 final double mainCraterSize = 0.5 + rimWarpNoise.noise(x, z); // Domain warp the rim to get a wavy shape
 
+                if (rMain > 1.2 * mainCraterSize && oceanFloorHeight <= preVolcanicHeight + 2)
+                {
+                    // Surface building failed, fall back to default
+                    return false;
+                }
+
                 double r2 = Double.MAX_VALUE;
                 if (rMain < 1.2 * mainCraterSize)
                 {
-                    preVolcanicHeight = (int) Mth.clampedMap(rMain, 1.2 * mainCraterSize, 0.8 * mainCraterSize, preVolcanicHeight, SEA_LEVEL_Y);
+                    preVolcanicHeight = (int) Mth.clampedMap(rMain, mainCraterSize + 0.1, mainCraterSize, preVolcanicHeight, SEA_LEVEL_Y + 10);
                     if (rMain < mainCraterSize)
                     {
                         // Bare rock on wizard island, just do a constant radius of 81
@@ -286,12 +301,6 @@ public class VolcanoVariants
                         final double zCenter = cell.y() + zOffset;
                         r2 = (x - xCenter) * (x - xCenter) + (z - zCenter) * (z - zCenter);
                     }
-                }
-
-                if (oceanFloorHeight <= preVolcanicHeight + 2)
-                {
-                    // Surface building failed, fall back to default
-                    return false;
                 }
 
                 if (r2 < 81)
@@ -399,7 +408,7 @@ public class VolcanoVariants
                 final Cellular2D cellNoise = sampler.getCellularNoise();
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
                 final double noise = cell.noise();
-                final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
+                final double maxDiam = Math.min(1, Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise)));
                 final BiomeExtension biome = context.stratovolcanoBiome();
                 final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
 
@@ -698,7 +707,7 @@ public class VolcanoVariants
                 final Cellular2D cellNoise = sampler.getCellularNoise();
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
                 final double noise = cell.noise();
-                final double maxDiam = Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise));
+                final double maxDiam = Math.min(1, Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise)));
                 final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
                 final BiomeExtension biome = context.stratovolcanoBiome();
                 final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
