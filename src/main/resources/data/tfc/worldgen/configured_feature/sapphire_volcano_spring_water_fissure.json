@@ -3,7 +3,7 @@
   "type": "tfc:fissure",
   "config": {
     "wall_state": "tfc:rock/raw/basalt",
-    "fluid_state": "minecraft:lava",
+    "fluid_state": "tfc:fluid/spring_water",
     "count": 3,
     "radius": 6,
     "decoration": {
@@ -14,7 +14,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/rhyolite"
+              "block": "tfc:ore/sapphire/rhyolite"
             }
           ]
         },
@@ -24,7 +24,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/basalt"
+              "block": "tfc:ore/sapphire/basalt"
             }
           ]
         },
@@ -34,7 +34,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/andesite"
+              "block": "tfc:ore/sapphire/andesite"
             }
           ]
         },
@@ -44,7 +44,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/dacite"
+              "block": "tfc:ore/sapphire/dacite"
             }
           ]
         },
@@ -54,7 +54,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/granite"
+              "block": "tfc:ore/sapphire/granite"
             }
           ]
         },
@@ -64,7 +64,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/diorite"
+              "block": "tfc:ore/sapphire/diorite"
             }
           ]
         },
@@ -74,7 +74,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/gabbro"
+              "block": "tfc:ore/sapphire/gabbro"
             }
           ]
         },
@@ -84,7 +84,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/quartzite"
+              "block": "tfc:ore/sapphire/quartzite"
             }
           ]
         },
@@ -94,7 +94,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/slate"
+              "block": "tfc:ore/sapphire/slate"
             }
           ]
         },
@@ -104,7 +104,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/phyllite"
+              "block": "tfc:ore/sapphire/phyllite"
             }
           ]
         },
@@ -114,7 +114,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/schist"
+              "block": "tfc:ore/sapphire/schist"
             }
           ]
         },
@@ -124,7 +124,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/gneiss"
+              "block": "tfc:ore/sapphire/gneiss"
             }
           ]
         },
@@ -134,7 +134,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/diamond/marble"
+              "block": "tfc:ore/sapphire/marble"
             }
           ]
         }

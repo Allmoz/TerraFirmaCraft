@@ -3,7 +3,7 @@
   "type": "tfc:fissure",
   "config": {
     "wall_state": "tfc:rock/raw/basalt",
-    "fluid_state": "minecraft:lava",
+    "fluid_state": "tfc:fluid/spring_water",
     "count": 3,
     "radius": 6
   }

@@ -1,10 +1,13 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "feature": "tfc:topaz_tuya_fissure",
+  "feature": "tfc:volcano_fissure",
   "placement": [
     {
-      "type": "tfc:tuya",
-      "center": true
+      "type": "tfc:stratovolcano",
+      "variant": "crater_lake",
+      "center": true,
+      "use_offset_center": true,
+      "hash_max": 0.6
     },
     {
       "type": "minecraft:heightmap",

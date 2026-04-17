@@ -3,7 +3,7 @@
   "type": "tfc:fissure",
   "config": {
     "wall_state": "tfc:rock/raw/basalt",
-    "fluid_state": "minecraft:lava",
+    "fluid_state": "tfc:fluid/spring_water",
     "count": 3,
     "radius": 6,
     "decoration": {
@@ -14,7 +14,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/rhyolite"
+              "block": "tfc:ore/emerald/rhyolite"
             }
           ]
         },
@@ -24,7 +24,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/basalt"
+              "block": "tfc:ore/emerald/basalt"
             }
           ]
         },
@@ -34,7 +34,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/andesite"
+              "block": "tfc:ore/emerald/andesite"
             }
           ]
         },
@@ -44,7 +44,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/dacite"
+              "block": "tfc:ore/emerald/dacite"
             }
           ]
         },
@@ -54,7 +54,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/granite"
+              "block": "tfc:ore/emerald/granite"
             }
           ]
         },
@@ -64,7 +64,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/diorite"
+              "block": "tfc:ore/emerald/diorite"
             }
           ]
         },
@@ -74,7 +74,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/gabbro"
+              "block": "tfc:ore/emerald/gabbro"
             }
           ]
         },
@@ -84,7 +84,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/quartzite"
+              "block": "tfc:ore/emerald/quartzite"
             }
           ]
         },
@@ -94,7 +94,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/slate"
+              "block": "tfc:ore/emerald/slate"
             }
           ]
         },
@@ -104,7 +104,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/phyllite"
+              "block": "tfc:ore/emerald/phyllite"
             }
           ]
         },
@@ -114,7 +114,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/schist"
+              "block": "tfc:ore/emerald/schist"
             }
           ]
         },
@@ -124,7 +124,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/gneiss"
+              "block": "tfc:ore/emerald/gneiss"
             }
           ]
         },
@@ -134,7 +134,7 @@
           ],
           "with": [
             {
-              "block": "tfc:ore/topaz/marble"
+              "block": "tfc:ore/emerald/marble"
             }
           ]
         }

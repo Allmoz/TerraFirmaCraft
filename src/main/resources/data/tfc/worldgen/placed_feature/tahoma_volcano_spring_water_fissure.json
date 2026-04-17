@@ -1,10 +1,12 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "feature": "tfc:diamond_tuya_fissure",
+  "feature": "tfc:volcano_spring_water_fissure",
   "placement": [
     {
-      "type": "tfc:tuya",
-      "center": true
+      "type": "tfc:stratovolcano",
+      "variant": "tahoma",
+      "center": true,
+      "hash_max": 0.8
     },
     {
       "type": "minecraft:heightmap",
