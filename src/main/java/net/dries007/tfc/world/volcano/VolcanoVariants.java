@@ -87,7 +87,7 @@ public class VolcanoVariants
             {
                 if (oceanFloorHeight <= preVolcanicHeight + 2)
                 {
-                    // Surface building failed, fall back to default
+                    // Surface building failed because volcano is not influencing height
                     return false;
                 }
 
@@ -102,10 +102,17 @@ public class VolcanoVariants
                 final BiomeExtension biome = context.stratovolcanoBiome();
                 final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
 
-
                 final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
+
+                if (r > 1.2)
+                {
+                    // Surface building failed because far from volcano, fall back to default
+                    return false;
+                }
+
                 final double craterSize = 0.04 + 0.1 * Helpers.hashDouble(noise, 10);
-                if (r <= craterSize)
+                final double featurePlacementHash = Helpers.hashDouble(cell.noise(), 3199);
+                if (r <= craterSize || (featurePlacementHash < 0.6 && r <= 2 * craterSize))
                 {
                     buildStrataSurfaceOnly(context, unerodedHeight, preVolcanicHeight, oceanFloorHeight, noise, seed);
                 }
@@ -414,6 +421,13 @@ public class VolcanoVariants
 
                 final double craterSize = 0.7 * (0.20 + 0.25 * Helpers.hashDouble(noise, 1013));
                 final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
+
+                if (r > 1.2)
+                {
+                    // Surface building failed because far from volcano, fall back to default
+                    return false;
+                }
+
                 if (r <= craterSize)
                 {
                     buildStrataSurfaceOnly(context, unerodedHeight, preVolcanicHeight, oceanFloorHeight, noise, seed);
@@ -709,6 +723,11 @@ public class VolcanoVariants
                 final double noise = cell.noise();
                 final double maxDiam = Math.min(1, Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise)));
                 final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
+                if (r > 1.2)
+                {
+                    // Surface building failed because far from volcano, fall back to default
+                    return false;
+                }
                 final BiomeExtension biome = context.stratovolcanoBiome();
                 final int unerodedHeight = (int) getUnerodedHeight(maxDiam, biome.getCenteredFeatureScaleHeight(), biome.getCenteredFeatureBaseHeight(), cell);
 

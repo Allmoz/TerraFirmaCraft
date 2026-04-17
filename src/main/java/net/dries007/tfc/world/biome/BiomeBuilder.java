@@ -97,11 +97,11 @@ public class BiomeBuilder
 
     public BiomeBuilder surface(SurfaceBuilderFactory surfaceBuilderFactory)
     {
-        this.surfaceBuilderFactory = CinderConeSurfaceBuilder.create(surfaceBuilderFactory);
+        this.surfaceBuilderFactory = StratovolcanoSurfaceBuilder.create(surfaceBuilderFactory);
+        this.surfaceBuilderFactory = AtollSurfaceBuilder.create(this.surfaceBuilderFactory);
         this.surfaceBuilderFactory = TuffRingsSurfaceBuilder.create(this.surfaceBuilderFactory);
         this.surfaceBuilderFactory = TuyaSurfaceBuilder.create(this.surfaceBuilderFactory);
-        this.surfaceBuilderFactory = AtollSurfaceBuilder.create(this.surfaceBuilderFactory);
-        this.surfaceBuilderFactory = StratovolcanoSurfaceBuilder.create(this.surfaceBuilderFactory);
+        this.surfaceBuilderFactory = CinderConeSurfaceBuilder.create(this.surfaceBuilderFactory);
         return this;
     }
 
