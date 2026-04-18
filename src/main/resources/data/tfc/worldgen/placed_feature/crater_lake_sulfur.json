@@ -13,7 +13,7 @@
       "type": "tfc:stratovolcano",
       "variant": "crater_lake",
       "min_easing": 0.6,
-      "hash_min": 0.5
+      "hash_min": 0.83
     }
   ]
 }
