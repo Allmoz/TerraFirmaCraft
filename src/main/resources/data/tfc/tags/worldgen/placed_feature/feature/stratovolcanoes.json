@@ -18,6 +18,8 @@
     "tfc:random_kelimutu_fissure",
     "tfc:random_kelimutu_spring_water_fissure",
     "tfc:random_crater_lake_fissure",
-    "tfc:random_crater_lake_spring_water_fissure"
+    "tfc:random_crater_lake_spring_water_fissure",
+    "tfc:fuji_rivulet",
+    "tfc:tahoma_rivulet"
   ]
 }

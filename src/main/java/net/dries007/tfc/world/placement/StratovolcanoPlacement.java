@@ -37,23 +37,25 @@ public class StratovolcanoPlacement extends PlacementModifier
         Codec.BOOL.optionalFieldOf("center", false).forGetter(c -> c.center),
         Codec.BOOL.optionalFieldOf("use_offset_center", false).forGetter(c -> c.useOffsetCenter),
         Codec.STRING.fieldOf("variant").forGetter(c -> c.variant),
-        Codecs.UNIT_FLOAT.optionalFieldOf("distance", 0f).forGetter(c -> c.distance),
+        Codecs.UNIT_FLOAT.optionalFieldOf("min_easing", 0f).forGetter(c -> c.minEasing),
+        Codecs.UNIT_FLOAT.optionalFieldOf("max_easing", 1f).forGetter(c -> c.maxEasing),
         Codecs.UNIT_FLOAT.optionalFieldOf("hash_min", 0f).forGetter(c -> c.hashMin),
         Codecs.UNIT_FLOAT.optionalFieldOf("hash_max", 1f).forGetter(c -> c.hashMax)
     ).apply(instance, StratovolcanoPlacement::new));
 
     final boolean center, useOffsetCenter;
-    final float distance, hashMin, hashMax;
+    final float minEasing, maxEasing, hashMin, hashMax;
     final String variant;
 
     private final ThreadLocal<LocalContext<CenteredFeatureNoiseSampler>> localContext;
 
-    public StratovolcanoPlacement(boolean center, boolean useOffsetCenter, String variant, float distance, float hashMin, float hashMax)
+    public StratovolcanoPlacement(boolean center, boolean useOffsetCenter, String variant, float minEasing, float maxEasing, float hashMin, float hashMax)
     {
         this.center = center;
         this.useOffsetCenter = useOffsetCenter;
         this.variant = variant;
-        this.distance = distance;
+        this.minEasing = minEasing;
+        this.maxEasing = maxEasing;
         this.hashMin = hashMin;
         this.hashMax = hashMax;
         this.localContext = ThreadLocal.withInitial(() -> null);
@@ -111,9 +113,13 @@ public class StratovolcanoPlacement extends PlacementModifier
                             return Stream.of(centerPos);
                         }
                     }
-                    else if (local.context.calculateEasing(pos, extension) > this.distance)
+                    else
                     {
-                        return Stream.of(pos);
+                        final double easing = local.context.calculateEasing(pos, extension);
+                        if (easing > this.minEasing && easing < this.maxEasing)
+                        {
+                            return Stream.of(pos);
+                        }
                     }
                 }
             }
@@ -148,7 +154,7 @@ public class StratovolcanoPlacement extends PlacementModifier
                 final double distance = (pos.getX() - centerX) * (pos.getX() - centerX) + (pos.getZ() - centerZ) * (pos.getZ() - centerZ);
                 // Within 30 blocks of the center
                 final double easing = Mth.clampedMap(distance, 0, 900, 1, 0);
-                if (easing > this.distance)
+                if (easing > this.minEasing)
                 {
                     return Stream.of(pos);
                 }
@@ -226,7 +232,7 @@ public class StratovolcanoPlacement extends PlacementModifier
             {
                 // Within 50 blocks of the nearest center
                 final double easing = Mth.clampedMap(distance, 0, 2500, 1, 0);
-                if (easing > this.distance)
+                if (easing > this.minEasing)
                 {
                     return Stream.of(pos);
                 }
