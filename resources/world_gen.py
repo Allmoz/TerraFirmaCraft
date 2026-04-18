@@ -59,7 +59,7 @@ def generate(rm: ResourceManager):
     rm.placed_feature_tag('feature/surface_grasses', *['tfc:plant/%s_patch' % p for p, data in PLANTS.items() if data.type == 'short_grass'])
     rm.placed_feature_tag('feature/boulders', 'tfc:raw_boulder', 'tfc:cobble_boulder', 'tfc:mossy_boulder', 'tfc:raw_boulder_small_patch', 'tfc:cobble_boulder_small_patch', 'tfc:mossy_boulder_small_patch')
     rm.placed_feature_tag('feature/soil_discs', 'tfc:clay_disc_with_indicator', 'tfc:water_clay_disc_with_indicator', 'tfc:peat_disc', 'tfc:powder_snow', 'tfc:rooted_dirt', 'tfc:mollisol_disc') # Does not include alfisol/podzol discs as those are placed per tree by the forest feature
-    rm.placed_feature_tag('feature/stratovolcanoes', 'tfc:fuji_caldera', 'tfc:fuji_spring', 'tfc:kelimutu_lava', 'tfc:kelimutu_spring_water', 'tfc:kelimutu_water', 'tfc:tahoma_caldera', 'tfc:tahoma_spring', 'tfc:wizard_island_lava', 'tfc:wizard_island_spring', 'tfc:random_fuji_fissure', 'tfc:random_fuji_spring_water_fissure', 'tfc:random_tahoma_fissure', 'tfc:random_tahoma_spring_water_fissure', 'tfc:random_kelimutu_fissure', 'tfc:random_kelimutu_spring_water_fissure', 'tfc:random_crater_lake_fissure', 'tfc:random_crater_lake_spring_water_fissure', 'tfc:fuji_rivulet', 'tfc:tahoma_rivulet')
+    rm.placed_feature_tag('feature/stratovolcanoes', 'tfc:fuji_caldera', 'tfc:fuji_spring', 'tfc:kelimutu_lava', 'tfc:kelimutu_spring_water', 'tfc:kelimutu_water', 'tfc:tahoma_caldera', 'tfc:tahoma_spring', 'tfc:wizard_island_lava', 'tfc:wizard_island_spring', 'tfc:random_fuji_fissure', 'tfc:random_fuji_spring_water_fissure', 'tfc:random_tahoma_fissure', 'tfc:random_tahoma_spring_water_fissure', 'tfc:random_kelimutu_fissure', 'tfc:random_kelimutu_spring_water_fissure', 'tfc:random_crater_lake_fissure', 'tfc:random_crater_lake_spring_water_fissure', 'tfc:fuji_rivulet', 'tfc:tahoma_rivulet', 'tfc:crater_lake_rivulet', 'tfc:crater_lake_sulfur')
     rm.placed_feature_tag('feature/volcanoes', 'tfc:volcano_rivulet', 'tfc:volcano_caldera', 'tfc:random_volcano_fissure', 'tfc:pumice_patch', 'tfc:lava_surface_spring')
     rm.placed_feature_tag('feature/tuyas', 'tfc:tuya_rivulet', 'tfc:tuya_caldera', 'tfc:random_tuya_fissure', 'tfc:pumice_patch', 'tfc:lava_surface_spring')
     rm.placed_feature_tag('feature/surface_flood_fill_lakes', 'tfc:flood_fill_lake')
@@ -631,6 +631,10 @@ def generate(rm: ResourceManager):
             ('tfc:crater_lake_volcano_spring_water_fissure', 2)
         )
     })
+
+    rm.configured_feature('sulfur_rivulet', 'tfc:rivulet', {'states': [{'replace': 'tfc:rock/%s/%s' % (var, rock), 'with': 'tfc:ore/sulfur/%s' % rock} for var in ('raw', 'hardened') for rock in rivulet_rocks]})
+    rm.placed_feature('crater_lake_rivulet', 'tfc:stratovolcano_rivulet', decorate_count(1), decorate_square(), ('tfc:stratovolcano', {'variant': 'crater_lake', 'min_easing': 0.6, 'hash_min': 0.83}))
+    rm.placed_feature('crater_lake_sulfur', 'tfc:sulfur_rivulet', decorate_count(1), decorate_square(), ('tfc:stratovolcano', {'variant': 'crater_lake', 'min_easing': 0.6, 'hash_min': 0.83}))
 
     # Cinder cone Features
     rm.configured_feature('volcano_rivulet', 'tfc:rivulet', {'states': [{'replace': 'tfc:rock/%s/basalt' % rock, 'with': 'tfc:rock/magma/basalt'} for rock in ('raw', 'hardened')]})

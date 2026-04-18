@@ -13,6 +13,7 @@ import net.minecraft.world.level.material.Fluids;
 
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.Rock;
+import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.biome.BiomeExtension;
@@ -301,7 +302,7 @@ public class VolcanoVariants
                     preVolcanicHeight = (int) Mth.clampedMap(rMain, mainCraterSize + 0.1, mainCraterSize, preVolcanicHeight, SEA_LEVEL_Y + 10);
                     if (rMain < mainCraterSize)
                     {
-                        // Bare rock on wizard island, just do a constant radius of 81
+                        // Bare rock on wizard island, just do a constant radius of 9
                         final double xOffset = -45 + 90 * Helpers.hashDouble(noise, 6);
                         final double zOffset = -45 + 90 * Helpers.hashDouble(noise, 7);
                         final double xCenter = cell.x() + xOffset;
@@ -316,7 +317,11 @@ public class VolcanoVariants
                 }
                 else
                 {
-                    buildNormalSurfaceWithStrata(context, unerodedHeight, preVolcanicHeight, Math.max(landHeight, Math.min(oceanFloorHeight, context.getSeaLevel())), waterHeight, noise, seed, SurfaceStates.VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL, Fluids.WATER.getSource().defaultFluidState().createLegacyBlock());
+                    // We swap out the fluid for a variant inspired by Kawah Ijen
+                    // Need to use the same hash as the feature placement to make sure things line up
+                    final double featurePlacementHash = Helpers.hashDouble(cell.noise(), 3199);
+                    final BlockState fluid = featurePlacementHash < 0.83 ? Fluids.WATER.getSource().defaultFluidState().createLegacyBlock() : TFCFluids.SPRING_WATER.getSource().defaultFluidState().createLegacyBlock();
+                    buildNormalSurfaceWithStrata(context, unerodedHeight, preVolcanicHeight, Math.max(landHeight, Math.min(oceanFloorHeight, context.getSeaLevel())), waterHeight, noise, seed, SurfaceStates.VOLCANIC_TOP_GRASS_TO_TUFF_GRAVEL, SurfaceStates.VOLCANIC_MID_DIRT_TO_TUFF_GRAVEL, fluid);
                 }
                 return true;
             }
