@@ -303,7 +303,7 @@ METAL_TOOL_HEADS = ('chisel', 'hammer', 'hoe', 'javelin', 'knife', 'mace', 'pick
 
 ORES: Dict[str, Ore] = {
     'native_copper': Ore('copper', True, 'copper', 'copper', 'orange'),
-    'native_gold': Ore('gold', True, 'copper', 'gold'),
+    'native_gold': Ore('gold', True, 'copper', 'gold', 'yellow'),
     'hematite': Ore('cast_iron', True, 'copper', 'iron', 'red'),
     'native_silver': Ore('silver', True, 'copper', 'silver', 'light_gray'),
     'cassiterite': Ore('tin', True, 'copper', 'tin', 'gray'),
