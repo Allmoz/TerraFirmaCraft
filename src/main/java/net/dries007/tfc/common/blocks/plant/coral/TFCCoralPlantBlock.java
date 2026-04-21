@@ -105,7 +105,7 @@ public class TFCCoralPlantBlock extends Block implements IFluidLoggable
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
     {
-        if ((entity instanceof LivingEntity || entity instanceof VehicleEntity) && !(entity instanceof AquaticMob || entity instanceof AmphibiousAnimal))
+        if (entity instanceof LivingEntity && !(entity instanceof AquaticMob || entity instanceof AmphibiousAnimal))
         {
             TFCDamageTypes.coral(entity, 0.5f);
         }
