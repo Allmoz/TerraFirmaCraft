@@ -110,7 +110,7 @@ public final class RiverNoise
                 }
                 else if (distFac < 2.0)
                 {
-                    riverHeight = 61.5;
+                    riverHeight = 62.5;
                 }
                 else
                 {

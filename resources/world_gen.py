@@ -1311,7 +1311,7 @@ def generate(rm: ResourceManager):
     rm.configured_feature('geode', 'tfc:geode', {'outer': 'tfc:rock/hardened/basalt', 'middle': 'tfc:rock/hardened/quartzite', 'inner': [
         {'data': 'tfc:ore/amethyst/quartzite', 'weight': 1}, {'data': 'tfc:rock/hardened/quartzite', 'weight': 5}
     ]})
-    rm.placed_feature('geode', 'tfc:geode', decorate_chance(500), decorate_square(), decorate_range(-48, 32))
+    rm.placed_feature('geode', 'tfc:geode', decorate_chance(50), decorate_square(), decorate_range(-48, 160))
 
     rm.biome_tag('has_predictable_winds', '#tfc:is_ocean', 'tfc:shore', 'tfc:tidal_flats')
 

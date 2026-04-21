@@ -49,7 +49,9 @@ import net.dries007.tfc.common.blocks.plant.fruit.FruitBlocks;
 import net.dries007.tfc.common.blocks.rock.Ore;
 import net.dries007.tfc.common.blocks.rock.Rock;
 import net.dries007.tfc.common.blocks.soil.SoilBlockType;
+import net.dries007.tfc.common.blocks.wood.TFCFenceBlock;
 import net.dries007.tfc.common.blocks.wood.Wood;
+import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.data.Accessors;
 import net.dries007.tfc.util.Metal;
 import net.dries007.tfc.util.registry.IdHolder;
@@ -728,6 +730,7 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
         tag(HALOPHYTE).add(
             TFCBlocks.PLANTS.get(Plant.SEA_LAVENDER),
             TFCBlocks.PLANTS.get(Plant.CORDGRASS));
+        tag(BlockTags.GEODE_INVALID_BLOCKS).add(TFCFluids.SALT_WATER.createSourceBlock().getBlock());
         tag(SINGLE_BLOCK_REPLACEABLE)
             .addTag(BlockTags.SMALL_FLOWERS)
             .add(
