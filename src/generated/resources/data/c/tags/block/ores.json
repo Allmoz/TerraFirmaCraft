@@ -53,8 +53,8 @@
     "#c:ores/ruby",
     "#c:ores/sapphire",
     "#c:ores/topaz",
-    "#c:ores/bituminous_coal",
-    "#c:ores/lignite",
-    "#c:ores/halite"
+    "tfc:halite",
+    "tfc:lignite",
+    "tfc:bituminous_coal"
   ]
 }

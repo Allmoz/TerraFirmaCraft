@@ -2,6 +2,7 @@
   "values": [
     "#c:stones",
     "#c:stones/smooth",
-    "#c:cobblestones"
+    "#c:cobblestones",
+    "#c:sandstone/blocks"
   ]
 }
