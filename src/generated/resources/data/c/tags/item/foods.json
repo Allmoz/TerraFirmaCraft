@@ -21,7 +21,6 @@
     "tfc:food/peach",
     "tfc:food/plum",
     "tfc:food/red_apple",
-    "tfc:food/pumpkin_chunks",
     "tfc:food/melon_slice",
     "tfc:food/barley",
     "tfc:food/barley_grain",
@@ -81,6 +80,13 @@
     "tfc:food/squash",
     "tfc:food/tomato",
     "tfc:food/yellow_bell_pepper",
+    "tfc:food/cassava",
+    "tfc:food/cooked_cassava",
+    "tfc:food/lentil",
+    "tfc:food/cooked_lentil",
+    "tfc:food/peanut",
+    "tfc:food/radish",
+    "tfc:food/pumpkin_chunks",
     "tfc:food/cheese",
     "tfc:food/cooked_egg",
     "tfc:food/boiled_egg",
@@ -101,6 +107,7 @@
     "tfc:food/turkey",
     "tfc:food/peafowl",
     "tfc:food/venison",
+    "tfc:food/bison",
     "tfc:food/wolf",
     "tfc:food/rabbit",
     "tfc:food/fox",
@@ -134,6 +141,7 @@
     "tfc:food/cooked_peafowl",
     "tfc:food/cooked_grouse",
     "tfc:food/cooked_venison",
+    "tfc:food/cooked_bison",
     "tfc:food/cooked_wolf",
     "tfc:food/cooked_rabbit",
     "tfc:food/cooked_fox",
@@ -154,6 +162,9 @@
     "tfc:food/cooked_largemouth_bass",
     "tfc:food/cooked_rainbow_trout",
     "tfc:food/cooked_salmon",
-    "tfc:food/cooked_smallmouth_bass"
+    "tfc:food/cooked_smallmouth_bass",
+    "#c:foods/soup",
+    "#c:foods/salad",
+    "#c:foods/sandwiches"
   ]
 }

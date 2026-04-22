@@ -6,7 +6,6 @@
 
 package net.dries007.tfc.common.blocks.plant.fruit;
 
-import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
@@ -53,13 +52,7 @@ public class WaterloggedBerryBushBlock extends StationaryBerryBushBlock implemen
         {
             text.accept(Component.translatable("tfc.tooltip.berry_bush.not_underwater"));
         }
-        text.accept(FarmlandBlock.getTemperatureTooltip(level, sourcePos, range, false));
-    }
-
-    @Override
-    protected int getHydration(LevelAccessor level, BlockPos pos, BlockState state)
-    {
-        return state.getValue(FLUID).getFluid() != Fluids.EMPTY ? 100 : 0;
+        text.accept(FarmlandBlock.getAverageTemperatureTooltip(level, sourcePos, range, false));
     }
 
     @Override
@@ -112,5 +105,21 @@ public class WaterloggedBerryBushBlock extends StationaryBerryBushBlock implemen
     protected boolean canPlaceNewBushAt(Level level, BlockPos pos, BlockState placementState)
     {
         return placementState.canSurvive(level, pos) && (FluidHelpers.isAirOrEmptyFluid(level.getBlockState(pos)) && getFluidProperty().canContain(level.getFluidState(pos).getType()));
+    }
+
+    @Override
+    public void onUpdate(Level level, BlockPos pos, BlockState state)
+    {
+        if (state.getValue(getFluidProperty()).getFluid() == Fluids.EMPTY)
+        {
+            if (state.getBlock() instanceof WaterloggedBerryBushBlock)
+            {
+                level.setBlock(pos, state.setValue(LIFECYCLE, Lifecycle.DORMANT), 3);
+            }
+        }
+        else
+        {
+            super.onUpdate(level, pos, state);
+        }
     }
 }

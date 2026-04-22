@@ -2,7 +2,7 @@
   "__comment__": "This file was automatically created by mcresources",
   "type": "tfc:canyon",
   "config": {
-    "probability": 0.03,
+    "probability": 0.01,
     "y": {
       "type": "uniform",
       "min_inclusive": {

@@ -42,7 +42,8 @@ public abstract class DairyAnimal extends ProducingMammal
     public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
         final ItemStack held = player.getItemInHand(hand);
-        final @Nullable IFluidHandlerItem destFluidItemHandler = held.getCapability(Capabilities.FluidHandler.ITEM);
+        // Without copying the stack the dest handler is the same as the input handler, and gets filled with fluid
+        final @Nullable IFluidHandlerItem destFluidItemHandler = held.copy().getCapability(Capabilities.FluidHandler.ITEM);
 
         if (!held.isEmpty() && destFluidItemHandler != null)
         {
@@ -56,14 +57,15 @@ public abstract class DairyAnimal extends ProducingMammal
                     final FluidTank sourceFluidHandler = new FluidTank(Integer.MAX_VALUE);
                     sourceFluidHandler.setFluid(event.getFluidProduct());
 
-                    FluidHelpers.transferBetweenItemAndOther(held, destFluidItemHandler, sourceFluidHandler, destFluidItemHandler, sound -> {
+                    if (FluidHelpers.transferBetweenItemAndOther(held, destFluidItemHandler, sourceFluidHandler, destFluidItemHandler, sound -> {
                         player.playSound(SoundEvents.COW_MILK, 1.0f, 1.0f); // play a custom sound, not the bucket fill sound
-                    }, FluidHelpers.with(player, hand));
-
-                    setProductsCooldown();
-                    addUses(event.getUses());
-
-                    return InteractionResult.sidedSuccess(level().isClientSide);
+                    }, FluidHelpers.with(player, hand)))
+                    {
+                        setProductsCooldown();
+                        addUses(event.getUses());
+                        return InteractionResult.sidedSuccess(level().isClientSide);
+                    }
+                    return InteractionResult.PASS;
                 }
             }
             else

@@ -65,6 +65,7 @@ public class BuiltinFluidTags extends TagsProvider<Fluid> implements Accessors
                 TFCFluids.SALT_WATER.getSource(), TFCFluids.SALT_WATER.getFlowing(),
                 TFCFluids.SPRING_WATER.getSource(), TFCFluids.SPRING_WATER.getFlowing());
         tag(FRESH_WATER).add(Fluids.WATER);
+        tag(SALT_WATER).add(TFCFluids.SALT_WATER.getSource(), TFCFluids.SALT_WATER.getFlowing());
         tag(INFINITE_WATER)
             .addTag(FRESH_WATER)
             .add(
@@ -84,6 +85,9 @@ public class BuiltinFluidTags extends TagsProvider<Fluid> implements Accessors
             fluidOf(CORN_WHISKEY),
             fluidOf(RYE_WHISKEY));
         tag(MOLTEN_METALS).add(TFCFluids.METALS);
+        TFCFluids.METALS.forEach((metal, fluid) -> {
+            tag(commonTagOf(Registries.FLUID, "molten_" + metal.getSerializedName())).add(fluid.getSource());
+        });
 
         Drinkable.MANAGER.getValues().forEach(drink -> tag(DRINKABLES).add(drink.ingredient()));
         tag(INGREDIENTS)
@@ -122,12 +126,23 @@ public class BuiltinFluidTags extends TagsProvider<Fluid> implements Accessors
     {
         FluidTagAppender(TagBuilder builder, String modId)
         {
-            super(builder, modId);
+            super(builder);
         }
 
-        FluidTagAppender add(Fluid... fluids) { return add(Arrays.stream(fluids)); }
-        FluidTagAppender add(Stream<Fluid> fluids) { fluids.forEach(b -> add(key(b))); return this; }
-        FluidTagAppender add(Map<?, ? extends FluidHolder<? extends Fluid>> fluids) { fluids.values().forEach(v -> add(v.getSource())); return this; }
+        FluidTagAppender add(Fluid... fluids) {return add(Arrays.stream(fluids));}
+
+        FluidTagAppender add(Stream<Fluid> fluids)
+        {
+            fluids.forEach(b -> add(key(b)));
+            return this;
+        }
+
+        FluidTagAppender add(Map<?, ? extends FluidHolder<? extends Fluid>> fluids)
+        {
+            fluids.values().forEach(v -> add(v.getSource()));
+            return this;
+        }
+
         FluidTagAppender add(FluidIngredient ingredient)
         {
             switch (ingredient)
@@ -140,7 +155,8 @@ public class BuiltinFluidTags extends TagsProvider<Fluid> implements Accessors
             return this;
         }
 
-        @Override public FluidTagAppender addTag(TagKey<Fluid> tag) { return (FluidTagAppender) super.addTag(tag); }
+        @Override
+        public FluidTagAppender addTag(TagKey<Fluid> tag) {return (FluidTagAppender) super.addTag(tag);}
 
         private ResourceKey<Fluid> key(Fluid fluid)
         {

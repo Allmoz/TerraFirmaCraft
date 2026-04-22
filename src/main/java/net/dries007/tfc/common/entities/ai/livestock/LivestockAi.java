@@ -7,7 +7,10 @@
 package net.dries007.tfc.common.entities.ai.livestock;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.Brain;
@@ -20,18 +23,18 @@ import net.minecraft.world.entity.ai.behavior.FollowTemptation;
 import net.minecraft.world.entity.ai.behavior.LookAtTargetSink;
 import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
 import net.minecraft.world.entity.ai.behavior.RandomStroll;
+import net.minecraft.world.entity.ai.behavior.RunOne;
 import net.minecraft.world.entity.ai.behavior.SetWalkTargetAwayFrom;
 import net.minecraft.world.entity.ai.behavior.SetWalkTargetFromLookTarget;
 import net.minecraft.world.entity.ai.behavior.Swim;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.schedule.Activity;
-
-import net.dries007.tfc.common.entities.ai.FastGateBehavior;
 import net.dries007.tfc.common.entities.ai.SetLookTarget;
 import net.dries007.tfc.common.entities.ai.TFCBrain;
-import net.dries007.tfc.common.entities.ai.prey.AvoidPredatorBehavior;
+import net.dries007.tfc.common.entities.ai.prey.AvoidPredatorAndRammersBehavior;
 import net.dries007.tfc.common.entities.ai.prey.PreyAi;
 import net.dries007.tfc.common.entities.livestock.TFCAnimal;
 
@@ -89,7 +92,7 @@ public class LivestockAi
     {
         brain.addActivity(Activity.IDLE, 0, ImmutableList.of(
             SetLookTarget.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60)), // looks at player, but its only try it every so often -- "Run Sometimes"
-            AvoidPredatorBehavior.create(true),
+            AvoidPredatorAndRammersBehavior.create(true),
             new BreedBehavior<>(1.0F), // custom TFC breed behavior
             new AnimalPanic<>(2.0F), // if memory of being hit, runs away
             new FollowTemptation(e -> e.isBaby() ? 1.5F : 1.25F), // sets the walk and look targets to whomever it has a memory of being tempted by
@@ -110,14 +113,17 @@ public class LivestockAi
         );
     }
 
-    public static FastGateBehavior<TFCAnimal> createIdleMovementBehaviors()
+    public static RunOne<TFCAnimal> createIdleMovementBehaviors()
     {
-        return FastGateBehavior.runOne(ImmutableList.of(
-            // Chooses one of these behaviors to run. Notice that all three of these are basically the fallback walking around behaviors, and it doesn't make sense to check them all every time
-            RandomStroll.stroll(1.0F), // picks a random place to walk to
-            SetWalkTargetFromLookTarget.create(1.0F, 3), // walk to what it is looking at
-            new DoNothing(30, 60)
-        )); // do nothing for a certain period of time
+        return new RunOne<>(
+            ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT),
+            ImmutableList.of(
+                // Chooses one of these behaviors to run. Notice that all three of these are basically the fallback walking around behaviors, and it doesn't make sense to check them all every time
+                Pair.of(RandomStroll.stroll(1.0F), 1), // picks a random place to walk to
+                Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 1), // walk to what it is looking at
+                Pair.of(new DoNothing(30, 60), 1) // do nothing for a certain period of time
+            )
+        );
     }
 
     /**

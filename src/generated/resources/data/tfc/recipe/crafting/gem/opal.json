@@ -8,6 +8,9 @@
       "item": "tfc:ore/opal"
     }
   ],
+  "primary_ingredient": {
+    "item": "tfc:sandpaper"
+  },
   "remainder": {
     "modifiers": [
       {

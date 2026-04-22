@@ -16,6 +16,7 @@ import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.recipes.AnvilRecipe;
@@ -24,9 +25,9 @@ import net.dries007.tfc.util.tooltip.Tooltips;
 
 public class AnvilRecipeCategory extends BaseRecipeCategory<AnvilRecipe>
 {
-    public AnvilRecipeCategory(RecipeType<AnvilRecipe> type, IGuiHelper helper)
+    public AnvilRecipeCategory(RecipeType<RecipeHolder<AnvilRecipe>> type, IGuiHelper helper)
     {
-        super(type, helper, helper.createBlankDrawable(98, 26), new ItemStack(TFCBlocks.METALS.get(Metal.BRONZE).get(Metal.BlockType.ANVIL).get()));
+        super(type, helper, 98, 26, new ItemStack(TFCBlocks.METALS.get(Metal.BRONZE).get(Metal.BlockType.ANVIL).get()));
     }
 
     @Override
@@ -39,7 +40,7 @@ public class AnvilRecipeCategory extends BaseRecipeCategory<AnvilRecipe>
         inputSlot.setBackground(slot, -1, -1);
         outputSlot.addItemStack(recipe.getResultItem(registryAccess()));
         outputSlot.setBackground(slot, -1, -1);
-        outputSlot.addTooltipCallback((view, tooltip) -> tooltip.add(Component.translatable("tfc.tooltip.anvil_tier_required", Tooltips.tier(recipe.getMinTier()))));
+        outputSlot.addRichTooltipCallback((view, tooltip) -> tooltip.add(Component.translatable("tfc.tooltip.anvil_tier_required", Tooltips.tier(recipe.getMinTier()))));
     }
 
     @Override

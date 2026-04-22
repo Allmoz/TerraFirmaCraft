@@ -68,11 +68,13 @@ public enum IngameOverlays
     public static final ResourceLocation TEXTURE = Helpers.identifier("textures/gui/icons/overlay.png");
     public static final ResourceLocation INK_TEXTURE = Helpers.identifier("textures/misc/ink_splatter.png");
     public static final ResourceLocation GLOW_INK_TEXTURE = Helpers.identifier("textures/misc/glow_ink_splatter.png");
+    final static int HEALTH_TEXT_SHADOW_COLOR = new Color(104,0,0).getRGB();
 
     private static final ResourceLocation VANILLA_HEALTH = VanillaGuiLayers.PLAYER_HEALTH;
     private static final ResourceLocation VANILLA_MOUNT_HEALTH = VanillaGuiLayers.VEHICLE_HEALTH;
     private static final ResourceLocation VANILLA_FOOD = VanillaGuiLayers.FOOD_LEVEL;
     private static final ResourceLocation VANILLA_EXP = VanillaGuiLayers.EXPERIENCE_BAR;
+    private static final ResourceLocation VANILLA_EXP_LEVEL = VanillaGuiLayers.EXPERIENCE_LEVEL;
     private static final ResourceLocation VANILLA_JUMP = VanillaGuiLayers.JUMP_METER;
 
     public static void registerOverlays(RegisterGuiLayersEvent event)
@@ -103,11 +105,7 @@ public enum IngameOverlays
     public static void checkGuiOverlays(RenderGuiLayerEvent.Pre event)
     {
         final ResourceLocation id = event.getName();
-        if (id.equals(VANILLA_EXP) || id.equals(VANILLA_JUMP))
-        {
-            event.setCanceled(true);
-        }
-        else if (enableThisOrThat(id, TFCConfig.CLIENT.enableHungerBar.get(), FOOD.id, VANILLA_FOOD) || enableThisOrThat(id, TFCConfig.CLIENT.enableHealthBar.get(), HEALTH.id, VANILLA_HEALTH) || enableThisOrThat(id, TFCConfig.CLIENT.enableHealthBar.get(), MOUNT_HEALTH.id, VANILLA_MOUNT_HEALTH))
+        if (enableThisOrThat(id, TFCConfig.CLIENT.enableHungerBar.get(), FOOD.id, VANILLA_FOOD) || enableThisOrThat(id, TFCConfig.CLIENT.enableHealthBar.get(), HEALTH.id, VANILLA_HEALTH) || enableThisOrThat(id, TFCConfig.CLIENT.enableHealthBar.get(), MOUNT_HEALTH.id, VANILLA_MOUNT_HEALTH))
         {
             event.setCanceled(true);
         }
@@ -115,13 +113,7 @@ public enum IngameOverlays
         {
             event.setCanceled(true);
         }
-        if (!TFCConfig.CLIENT.enableExperienceBar.get() && id.equals(VANILLA_EXP))
-        {
-            event.setCanceled(true);
-        }
-        final boolean isShowingExperience = TFCConfig.CLIENT.enableExperienceBar.get();
-        final boolean isStyleLeftHotbar = (TFCConfig.CLIENT.disabledExperienceBarStyle.get() == DisabledExperienceBarStyle.LEFT_HOTBAR);
-        if (!(isShowingExperience || !isStyleLeftHotbar))
+        if (!TFCConfig.CLIENT.enableExperienceBar.get() && (id.equals(VANILLA_EXP) || id.equals(VANILLA_JUMP) || id.equals(VANILLA_EXP_LEVEL)))
         {
             event.setCanceled(true);
         }
@@ -179,9 +171,9 @@ public enum IngameOverlays
             float percentFood = (float) player.getFoodData().getFoodLevel() / PlayerInfo.MAX_HUNGER;
 
             stack.pushPose();
-            stack.translate(x + 1, y + 4, 0);
-            graphics.blit(TEXTURE, 0, 0, 0, 20, 90, 5);
-            graphics.blit(TEXTURE, 0, 0, 0, 25, (int) (90 * percentFood), 5);
+            stack.translate(x + 10, y + 4, 0);
+            graphics.blit(TEXTURE, 0, 0, 0, 19, 81, 5);
+            graphics.blit(TEXTURE, 0, 0, 0, 24, (int) (81 * percentFood), 5);
             stack.popPose();
 
             gui.rightHeight += 6;
@@ -206,13 +198,13 @@ public enum IngameOverlays
             float overheat = info.getThirstContributionFromTemperature();
 
             stack.pushPose();
-            stack.translate(x + 1, y + 4, 0);
-            graphics.blit(TEXTURE, 0, 0, 90, 20, 90, 5);
-            graphics.blit(TEXTURE, 0, 0, 90, 25, (int) (90 * percentThirst), 5);
+            stack.translate(x + 10, y + 4, 0);
+            graphics.blit(TEXTURE, 0, 0, 90, 19, 81, 5);
+            graphics.blit(TEXTURE, 0, 0, 90, 24, (int) (81 * percentThirst), 5);
             if (overheat > 0)
             {
                 RenderSystem.setShaderColor(1f, 1f, 1f, overheat / PlayerInfo.MAX_TEMPERATURE_THIRST_DECAY);
-                graphics.blit(TEXTURE, 0, 0, 90, 30, 90, 5);
+                graphics.blit(TEXTURE, 0, 0, 90, 29, 81, 5);
                 RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
             }
             stack.popPose();
@@ -283,7 +275,7 @@ public enum IngameOverlays
             else
             {
                 final int x = graphics.guiWidth() / 2 - 91;
-                final int y = graphics.hashCode() - 29;
+                final int y = graphics.guiHeight() - 29;
                 final int amount = Mth.ceil(Mth.clampedMap(hook.pullExhaustion, 0, 100, 0, 183));
                 graphics.blit(TEXTURE, x, y, 0, 111, 182, 5);
                 if (amount > 0)
@@ -326,7 +318,7 @@ public enum IngameOverlays
             final int x = graphics.guiWidth() / 2 - 97;
             final int y = graphics.guiHeight() - barHeight;
             final int texturePos = 36 + barHeight;
-            final int charge = (int) (localPlayer.getJumpRidingScale() *  (float) (barHeight + 1));
+            final int charge = (int) (localPlayer.getJumpRidingScale() * (float) (barHeight + 1));
             graphics.blit(TEXTURE, x, y, uOffset, 36, 5, barHeight);
             if (charge > 0)
             {
@@ -368,7 +360,7 @@ public enum IngameOverlays
 
         stack.pushPose();
         stack.translate(centerX - 91, y, 0);
-        graphics.blit(TEXTURE, 0, 0, 0, 0, 90, 10);
+        graphics.blit(TEXTURE, 0, 0, 0, 0, 81, 9);
 
         float absorption = entity.getAbsorptionAmount();
         absorption = Float.isNaN(absorption) ? 0 : absorption;
@@ -376,13 +368,13 @@ public enum IngameOverlays
         float currentHealth = percentHealth * maxHealth;
         percentHealth = Mth.clamp(percentHealth, 0, 1);
 
-        graphics.blit(TEXTURE, 0, 0, 0, 10, (int) (90 * percentHealth), 10);
+        graphics.blit(TEXTURE, 0, 0, 0, 9, (int) (81 * percentHealth), 9);
 
         boolean isHurt = entity.getHealth() > 0.0F && entity.getHealth() < entity.getMaxHealth();
         boolean playerHasSaturation = entity instanceof Player player && player.getFoodData().getSaturationLevel() > 0;
         if ((playerHasSaturation && isHurt) || entity.hurtTime > 0 || entity.hasEffect(MobEffects.REGENERATION))
         {
-            graphics.blit(TEXTURE, 0, 1, 0, 30, 90, 8);
+            graphics.blit(TEXTURE, 0, 0, 0, 29, 81, 9);
         }
 
         float surplusPercent = Mth.clamp(percentHealth + (absorption / 20f) - 1, 0, 1);
@@ -390,7 +382,7 @@ public enum IngameOverlays
         {
             // fill up the yellow bar until you get a second full bar, then just fill it up
             float percent = Math.min(surplusPercent, 1);
-            graphics.blit(TEXTURE, 0, 0, 90, 10, (int) (90 * percent), 10);
+            graphics.blit(TEXTURE, 0, 0, 90, 9, (int) (81 * percent), 9);
         }
         stack.popPose();
 
@@ -399,9 +391,12 @@ public enum IngameOverlays
 
         String text = style.format(currentHealth * healthModifier, maxHealth * healthModifier);
         stack.pushPose();
-        stack.translate(centerX - 45, y + 2.5, 0);
-        stack.scale(0.8f, 0.8f, 1.0f);
-        graphics.drawString(gui.getFont(), text, -1 * gui.getFont().width(text) / 2, 0, surplusPercent < 0.6 ? Color.WHITE.getRGB() : Color.BLACK.getRGB(), false);
+        stack.translate(centerX - 50, y, 0);
+        stack.scale(1f, 1f, 1.0f);
+
+        graphics.drawString(gui.getFont(), text, (-1 * gui.getFont().width(text) / 2) + 1, 1, HEALTH_TEXT_SHADOW_COLOR, false);
+        graphics.drawString(gui.getFont(), text, -1 * gui.getFont().width(text) / 2, 1, Color.WHITE.getRGB(), false);
+
         stack.popPose();
 
         gui.leftHeight += 10;
@@ -449,21 +444,21 @@ public enum IngameOverlays
                     {
                         String string = String.format("%.2f", familiarity * 100);
 
-                        graphics.drawString(mc.font, string,-mc.font.width(string) / 2, 0, fontColor, false);
+                        graphics.drawString(mc.font, string, -mc.font.width(string) / 2, 0, fontColor, false);
 
                     }
                     else
                     {
                         graphics.blit(IngameOverlays.TEXTURE, -8, 0, u, 40, 16, 16);
 
-                        stack.translate(0F, 0F,-0.001F);
+                        stack.translate(0F, 0F, 0.001F);
                         graphics.blit(IngameOverlays.TEXTURE, -6, 14 - (int) (12 * familiarity), familiarity == 1.0F ? 114 : 94, 74 - (int) (12 * familiarity), 12, (int) (12 * familiarity));
                     }
                     if (animal instanceof MammalProperties mammal && mammal.getPregnantTime() > 0 && mammal.isFertilized())
                     {
                         stack.translate(0, -15F, 0F);
                         String string = Component.translatable("tfc.tooltip.animal.pregnant", entity.getName().getString()).getString();
-                        graphics.drawString(mc.font, string,-mc.font.width(string) / 2, 0, Color.WHITE.getRGB(), false);
+                        graphics.drawString(mc.font, string, -mc.font.width(string) / 2, 0, Color.WHITE.getRGB(), false);
                     }
 
                     stack.popPose();

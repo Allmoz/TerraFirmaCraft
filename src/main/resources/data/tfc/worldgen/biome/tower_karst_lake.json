@@ -24,6 +24,7 @@
     "#tfc:in_biome/surface_structures",
     "#tfc:in_biome/strongholds",
     "#tfc:in_biome/veins",
+    "#tfc:in_biome/veins/river",
     "#tfc:in_biome/underground_decoration",
     "#tfc:in_biome/large_features/tower_karst_lake",
     "#tfc:in_biome/surface_decoration/tower_karst_lake",
@@ -71,14 +72,6 @@
     "water_creature": [
       {
         "type": "tfc:manatee",
-        "weight": 1,
-        "minCount": 1,
-        "maxCount": 2
-      }
-    ],
-    "underground_water_creature": [
-      {
-        "type": "tfc:octopoteuthis",
         "weight": 1,
         "minCount": 1,
         "maxCount": 2
@@ -246,8 +239,14 @@
       {
         "type": "tfc:wildebeest",
         "weight": 2,
-        "minCount": 1,
-        "maxCount": 2
+        "minCount": 3,
+        "maxCount": 6
+      },
+      {
+        "type": "tfc:bison",
+        "weight": 2,
+        "minCount": 3,
+        "maxCount": 6
       },
       {
         "type": "tfc:moose",
@@ -348,10 +347,5 @@
     ]
   },
   "creature_spawn_probability": 0.1,
-  "spawn_costs": {
-    "tfc:octopoteuthis": {
-      "energy_budget": 0.12,
-      "charge": 1.0
-    }
-  }
+  "spawn_costs": {}
 }

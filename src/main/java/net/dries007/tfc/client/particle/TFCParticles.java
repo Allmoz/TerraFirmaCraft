@@ -7,6 +7,8 @@
 package net.dries007.tfc.client.particle;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.function.Function;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -19,6 +21,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.registry.RegistryHolder;
 
 import static net.dries007.tfc.TerraFirmaCraft.*;
@@ -28,6 +31,8 @@ public final class TFCParticles
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(Registries.PARTICLE_TYPE, MOD_ID);
 
     public static final Id<SimpleParticleType> BUBBLE = register("bubble");
+    public static final Id<SimpleParticleType> BUBBLE_COLUMN_UP = register("bubble_column_up");
+    public static final Id<SimpleParticleType> BUBBLE_COLUMN_DOWN = register("bubble_column_down");
     public static final Id<SimpleParticleType> WATER_FLOW = register("water_flow");
     public static final Id<SimpleParticleType> STEAM = register("steam");
     public static final Id<SimpleParticleType> NITROGEN = register("nitrogen");
@@ -43,7 +48,7 @@ public final class TFCParticles
     public static final Id<ParticleType<BlockParticleOption>> FALLING_LEAF = register("falling_leaf", BlockParticleOption::codec, BlockParticleOption::streamCodec);
     public static final Id<SimpleParticleType> FEATHER = register("feather");
     public static final Id<SimpleParticleType> SPARK = register("spark");
-    public static final Id<SimpleParticleType> BUTTERFLY = register("butterfly");
+    public static final Map<Butterfly, Id<SimpleParticleType>> BUTTERFLIES = Helpers.mapOf(Butterfly.class, b -> register(b.name().toLowerCase(Locale.ROOT)));
     public static final Id<SimpleParticleType> SMOKE_0 = register("smoke_0");
     public static final Id<SimpleParticleType> SMOKE_1 = register("smoke_1");
     public static final Id<SimpleParticleType> SMOKE_2 = register("smoke_2");
@@ -53,6 +58,7 @@ public final class TFCParticles
     public static final Id<ParticleType<FluidParticleOption>> FLUID_FALL = register("fluid_fall", FluidParticleOption::codec, FluidParticleOption::streamCodec);
     public static final Id<ParticleType<FluidParticleOption>> FLUID_LAND = register("fluid_land", FluidParticleOption::codec, FluidParticleOption::streamCodec);
     public static final Id<ParticleType<FluidParticleOption>> BARREL_DRIP = register("barrel_drip", FluidParticleOption::codec, FluidParticleOption::streamCodec);
+    public static final Id<ParticleType<FluidParticleOption>> BARREL_SPILL = register("barrel_spill", FluidParticleOption::codec, FluidParticleOption::streamCodec);
 
     public static final List<Id<SimpleParticleType>> SMOKES = List.of(SMOKE_0, SMOKE_1, SMOKE_2, SMOKE_3, SMOKE_4);
 

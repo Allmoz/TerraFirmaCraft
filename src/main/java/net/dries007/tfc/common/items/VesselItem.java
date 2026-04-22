@@ -192,6 +192,10 @@ public class VesselItem extends Item
                 {
                     TFCContainerProviders.MOLD_LIKE_ALLOY.openScreen(serverPlayer, hand);
                 }
+                else if (vessel.getTemperature() > 0 && !vessel.hasFluidContent())
+                {
+                    player.displayClientMessage(Component.translatable("tfc.tooltip.small_vessel.inventory_too_hot"), true);
+                }
                 else
                 {
                     player.displayClientMessage(Component.translatable("tfc.tooltip.small_vessel.alloy_solid"), true);
@@ -205,7 +209,7 @@ public class VesselItem extends Item
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag)
     {
         final @Nullable Vessel vessel = Vessel.get(stack);
-        if (vessel != null && vessel.isEmpty()) // Only show the 'contents' label if we actually have contents
+        if (vessel != null && !vessel.isEmpty()) // Only show the 'contents' label if we actually have contents
         {
             if (vessel.isInventory())
             {

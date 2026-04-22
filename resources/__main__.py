@@ -11,8 +11,10 @@ import json
 import os
 import sys
 from argparse import ArgumentParser
+from typing import Dict, Sequence
 
 from mcresources import ResourceManager, utils
+from mcresources.type_definitions import ResourceIdentifier, Json
 
 import advancements
 import assets
@@ -26,7 +28,7 @@ import generate_trees
 import validate_assets
 import world_gen
 
-BOOK_LANGUAGES = ('en_us', 'ja_jp', 'ko_kr', 'pt_br', 'ru_ru', 'uk_ua', 'zh_cn', 'zh_tw', 'zh_hk')
+BOOK_LANGUAGES = ('en_us', 'ja_jp', 'ko_kr', 'pt_br', 'ru_ru', 'uk_ua', 'zh_cn', 'zh_tw', 'zh_hk', 'tr_tr')
 MOD_LANGUAGES = ('en_us', 'es_es', 'de_de', 'ja_jp', 'ko_kr', 'pl_pl', 'pt_br', 'ru_ru', 'tr_tr', 'uk_ua', 'zh_cn', 'zh_tw', 'zh_hk')
 RESOURCE_DIR = 'src/main/resources'
 TEST_RESOURCE_DIR = 'src/test/resources'
@@ -164,7 +166,6 @@ def validate_no_tags(rm: ResourceManager):
         else:
             raise ValueError('Tag datagen is done in java. Tried to generate %s tags:\n%s' % (tag_type, '\n'.join([t.join() for t in tag_names])))
 
-
 class ValidatingResourceManager(ResourceManager):
 
     def __init__(self, domain: str, resource_dir):
@@ -173,7 +174,7 @@ class ValidatingResourceManager(ResourceManager):
 
     def write(self, path_parts, data_to_write):
         data_to_write = utils.del_none({'__comment__': 'This file was automatically created by mcresources', **data_to_write})
-        path = os.path.join(*path_parts) + '.json'
+        path = os.path.normpath(os.path.join(self.resource_dir, *path_parts)) + '.json'
         try:
             if not os.path.isfile(path):
                 print('Error: resource generation created new file \'%s\'' % path, file=sys.stderr)

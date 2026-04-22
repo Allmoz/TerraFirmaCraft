@@ -42,6 +42,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
@@ -262,7 +263,7 @@ public class BarrelBlock extends SealableDeviceBlock
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving)
     {
-        if (!(Helpers.isBlock(state, newState.getBlock())) && state.getValue(RACK) && !(newState.getBlock() instanceof BarrelRackBlock))
+        if (!(Helpers.isBlock(state, newState.getBlock())) && state.getValue(RACK) && !(newState.getBlock() instanceof BarrelRackBlock) && !isMoving)
         {
             Helpers.spawnItem(level, pos, new ItemStack(TFCBlocks.BARREL_RACK.get()));
         }
@@ -273,6 +274,26 @@ public class BarrelBlock extends SealableDeviceBlock
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         super.createBlockStateDefinition(builder.add(FACING, RACK));
+    }
+
+    @Override
+    protected boolean hasAnalogOutputSignal(BlockState state)
+    {
+        return TFCConfig.SERVER.barrelEnableAutomation.get();
+    }
+
+    @Override
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos)
+    {
+        if (level.getBlockEntity(pos) instanceof BarrelBlockEntity barrel)
+        {
+            final FluidStack tank = barrel.getInventory().getFluidInTank(0);
+            if (!tank.isEmpty())
+            {
+                return Mth.clamp(tank.getAmount() * 15 / TFCConfig.SERVER.barrelCapacity.get(), 1, 15);
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -300,7 +321,7 @@ public class BarrelBlock extends SealableDeviceBlock
     }
 
     @Override
-    protected boolean isStackSealed(ItemStack stack)
+    public boolean isStackSealed(ItemStack stack)
     {
         return stack.has(TFCComponents.BARREL);
     }

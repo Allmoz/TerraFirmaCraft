@@ -13,6 +13,7 @@ import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
+import net.dries007.tfc.world.biome.BiomeBlendType;
 import net.dries007.tfc.world.biome.BiomeExtension;
 import net.dries007.tfc.world.biome.BiomeSourceExtension;
 import net.dries007.tfc.world.noise.Noise2D;
@@ -24,11 +25,16 @@ import net.dries007.tfc.world.river.MidpointFractal;
 import net.dries007.tfc.world.river.RiverBlendType;
 import net.dries007.tfc.world.river.RiverInfo;
 import net.dries007.tfc.world.river.RiverNoiseSampler;
+import net.dries007.tfc.world.shore.ShoreBlendType;
+import net.dries007.tfc.world.shore.ShoreNoiseSampler;
+import net.dries007.tfc.world.volcano.CenteredFeatureBlendType;
+import net.dries007.tfc.world.volcano.CenteredFeatureNoiseSampler;
 
 public class ChunkHeightFiller
 {
     protected static final int RIVER_TYPE_NONE = RiverBlendType.NONE.ordinal();
     protected static final int RIVER_TYPE_CAVE = RiverBlendType.CAVE.ordinal();
+    public static final int NOT_PRESENT_RETURN = Integer.MIN_VALUE;
 
     protected final Map<BiomeExtension, BiomeNoiseSampler> biomeNoiseSamplers; // Biome -> Noise Samplers
     protected final Object2DoubleMap<BiomeNoiseSampler> columnBiomeNoiseSamplers; // Per column weighted map of biome noises samplers
@@ -42,13 +48,18 @@ public class ChunkHeightFiller
     protected final double[] riverBlendWeights; // Indexed by RiverBlendType.ordinal
 
     // Shores
-    private final Noise2D shoreSampler;
+    protected final Map<ShoreBlendType, ShoreNoiseSampler> shoreNoiseSamplers;
+    protected final double[] shoreBlendWeights; // Indexed by ShoreBlendType.ordinal
     protected final int seaLevel;
+    protected final Noise2D tideHeightNoise;
+
+    // Centered Features, such as volcanoes
+    protected final Map<CenteredFeatureBlendType, CenteredFeatureNoiseSampler> volcanoNoiseSamplers;
 
     protected int blockX, blockZ; // Absolute x/z positions
     protected int localX, localZ; // Chunk-local x/z
 
-    public ChunkHeightFiller(Object2DoubleMap<BiomeExtension>[] sampledBiomeWeights, BiomeSourceExtension biomeSource, Map<BiomeExtension, BiomeNoiseSampler> biomeNoiseSamplers, Map<RiverBlendType, RiverNoiseSampler> riverNoiseSamplers, Noise2D shoreSampler, int seaLevel)
+    public ChunkHeightFiller(Object2DoubleMap<BiomeExtension>[] sampledBiomeWeights, BiomeSourceExtension biomeSource, Map<BiomeExtension, BiomeNoiseSampler> biomeNoiseSamplers, Map<RiverBlendType, RiverNoiseSampler> riverNoiseSamplers, Map<ShoreBlendType, ShoreNoiseSampler> shoreNoiseSamplers, Map<CenteredFeatureBlendType, CenteredFeatureNoiseSampler> volcanoNoiseSamplers, int seaLevel, Noise2D tideHeightNoise)
     {
         this.biomeNoiseSamplers = biomeNoiseSamplers;
         this.columnBiomeNoiseSamplers = new Object2DoubleOpenHashMap<>();
@@ -59,8 +70,12 @@ public class ChunkHeightFiller
         this.riverNoiseSamplers = riverNoiseSamplers;
         this.riverBlendWeights = new double[RiverBlendType.SIZE];
 
-        this.shoreSampler = shoreSampler;
+        this.shoreNoiseSamplers = shoreNoiseSamplers;
+        this.shoreBlendWeights = new double[ShoreBlendType.SIZE];
         this.seaLevel = seaLevel;
+        this.tideHeightNoise = tideHeightNoise;
+
+        this.volcanoNoiseSamplers = volcanoNoiseSamplers;
     }
 
     /**
@@ -97,16 +112,22 @@ public class ChunkHeightFiller
         columnBiomeNoiseSamplers.clear();
 
         double height = 0, normalHeight = 0, shoreHeight = 0;
-        double shoreWeight = 0;
+        double shoreWeight = 0, oceanWeight = 0;
 
-        BiomeExtension biomeAt = null, normalBiomeAt = null, shoreBiomeAt = null;
-        double maxNormalWeight = 0, maxShoreWeight = 0; // Partition on biome type
+        BiomeExtension biomeAt = null, normalBiomeAt = null, shoreBiomeAt = null, oceanBiomeAt = null;
+        double maxNormalWeight = 0, maxShoreWeight = 0, maxOceanWeight = 0; // Partition on biome type
 
+        boolean anySaltyBiomesNearby = false;
         for (Object2DoubleMap.Entry<BiomeExtension> entry : biomeWeights.object2DoubleEntrySet())
         {
             final double biomeWeight = entry.getDoubleValue();
             final BiomeExtension biome = entry.getKey();
             final BiomeNoiseSampler sampler = biomeNoiseSamplers.get(biome);
+
+            if (biome.isSalty())
+            {
+                anySaltyBiomesNearby = true;
+            }
 
             assert sampler != null : "Non-existent sampler for biome: " + biome.key();
 
@@ -133,6 +154,15 @@ public class ChunkHeightFiller
                     maxShoreWeight = biomeWeight;
                 }
             }
+            else if (biome.biomeBlendType() == BiomeBlendType.OCEAN)
+            {
+                oceanWeight += biomeWeight;
+                if (maxOceanWeight < biomeWeight)
+                {
+                    oceanBiomeAt = biome;
+                    maxOceanWeight = biomeWeight;
+                }
+            }
             else
             {
                 normalHeight += biomeHeight;
@@ -145,51 +175,29 @@ public class ChunkHeightFiller
         }
 
         biomeAt = normalBiomeAt;
-        if (biomeAt == null)
+        computeInitialShoreWeights(biomeWeights);
+
+        final double landWeight = 1 - oceanWeight - shoreWeight;
+        if (shoreWeight > 0 && shoreBiomeAt != null)
         {
-            biomeAt = shoreBiomeAt;
+            height = adjustHeightForShoreContributions(height, oceanWeight, landWeight, shoreWeight, maxShoreWeight, shoreBiomeAt, shoreHeight, normalHeight);
+            if (shoreWeight > 0.5) biomeAt = shoreBiomeAt;
         }
 
-        // Adjust shore weights to produce varied cliffs where they intersect landmass
-        // Only do this for the height of the shore biome _above_ sea level, to prevent creating cliffs underwater
-        if (shoreWeight > 0.5 && shoreBiomeAt != null)
+        if (biomeAt == null)
         {
-            // First, calculate cliff "influence" factor (between 0 = no cliffs, 1.0 = full cliffs)
-            // This is computed from a global influence noise, plus a factor from the initial height - higher areas have larger cliff influence
-            final double cliffInfluence = Mth.clamp(
-                shoreSampler.noise(blockX, blockZ) + Mth.map(height, seaLevel, seaLevel + 20, 0, 0.6),
-                0.0, 1.0
-            );
-            final double adjustedCliffInfluence = 1.0 - (1.0 - cliffInfluence) * (1.0 - cliffInfluence);
+            biomeAt = oceanBiomeAt;
+        }
 
-            // Then, calculate the re-weighted shore and normal biome height
-            final double x2 = Mth.lerp(adjustedCliffInfluence, 0.8, 0.515);
-            final double y2 = 1.15 - 0.3 * x2;
-
-            // Adjust shore weight based on a piecewise function that creates a sharper cliff, then a smoother flatter area
-            final double adjustedShoreWeight = shoreWeight < x2
-                ? Mth.map(shoreWeight, 0.5, x2, 0.5, y2) // Cliff from [0.5, x2] -> rapidly increase shore weight
-                : Mth.map(shoreWeight, x2, 1.0, y2, 1.0); // From [x2, 1.0], interpolate high shore weight, creates flatter area
-
-            final double normalWeight = 1.0 - shoreWeight;
-            final double adjustedNormalWeight = 1.0 - adjustedShoreWeight;
-
-            // Calculate the adjusted height, using this re-weighting
-            // Only apply if we are above sea level, by taking a max here
-            final double adjustedHeight = Math.max(
-                (adjustedShoreWeight / shoreWeight) * shoreHeight + (adjustedNormalWeight / normalWeight) * normalHeight,
-                seaLevel
-            );
-
-            if (adjustedHeight < height)
-            {
-                height = adjustedHeight;
-            }
-
-            biomeAt = shoreBiomeAt;
+        if (oceanWeight >= 0.25)
+        {
+            final double tideAdjustedSeaEdgeHeight = tideHeightNoise.noise(blockX, blockZ) - 4;
+            height = Mth.clampedMap(landWeight, 0.32, 0.36, Math.min(height, tideAdjustedSeaEdgeHeight), height);
         }
 
         assert biomeAt != null;
+
+        height = adjustHeightForVolcanic(height);
 
         computeInitialRiverWeights(biomeWeights);
 
@@ -200,7 +208,7 @@ public class ChunkHeightFiller
 
         if (useCache)
         {
-            updateLocalCaches(biomeWeights, biomeAt, info, height);
+            updateLocalCaches(biomeWeights, biomeAt, info, height, anySaltyBiomesNearby);
         }
 
         return height;
@@ -212,6 +220,42 @@ public class ChunkHeightFiller
         this.blockZ = z;
         this.localX = x & 15;
         this.localZ = z & 15;
+    }
+
+    /**
+     * Initializes {@link #shoreBlendWeights} from the biome weights, using the shore type of each biome.
+     */
+    private void computeInitialShoreWeights(Object2DoubleMap<BiomeExtension> biomeWeights)
+    {
+        // Sum weights by biome extension -> river blend type first
+        Arrays.fill(shoreBlendWeights, 0d);
+        for (Object2DoubleMap.Entry<BiomeExtension> entry : biomeWeights.object2DoubleEntrySet())
+        {
+            shoreBlendWeights[entry.getKey().shoreBlendType().ordinal()] += entry.getDoubleValue();
+        }
+    }
+
+    private double adjustHeightForShoreContributions(final double height, final double oceanWeight, final double landWeight, final double shoreWeight, final double thisWeight, final BiomeExtension biome, final double shoreHeight, final double normalHeight)
+    {
+
+        // Iterate through blend types, and sample once
+        // Each sampler gets the original terrain height, modifies it, and is interpolated together
+        double shoreBlendHeight = 0d;
+        for (ShoreBlendType type : ShoreBlendType.ALL)
+        {
+            final double weight = shoreBlendWeights[type.ordinal()];
+            final ShoreNoiseSampler sampler = shoreNoiseSamplers.get(type);
+            if (type == ShoreBlendType.NONE)
+            {
+                shoreBlendHeight += weight * height;
+            }
+            else if (weight > 0)
+            {
+                final double newShoreHeight = sampler.setColumnAndSampleHeight(height, blockX, blockZ, oceanWeight, landWeight, shoreWeight, thisWeight, biome, shoreHeight, normalHeight);
+                shoreBlendHeight += weight * newShoreHeight;
+            }
+        }
+        return shoreBlendHeight;
     }
 
     /**
@@ -230,6 +274,7 @@ public class ChunkHeightFiller
     /**
      * Adjusts {@link #riverBlendWeights} to bias towards river caves, creating sharper cutoffs and preventing caves
      * from pinching off rivers.
+     *
      * @return The initial weight of the river cave type.
      */
     private double adjustWeightsForRiverCaves()
@@ -238,12 +283,13 @@ public class ChunkHeightFiller
         final double initialCaveWeight = riverBlendWeights[RIVER_TYPE_CAVE];
         if (initialCaveWeight > 0)
         {
+            final double totalWeight = 1.0 - riverBlendWeights[RIVER_TYPE_NONE];
             // Delegate weight entirely to the cave carver after a point, and let it handle interpolation into the mouth of the cave
             // This needs to be very carefully managed not to pinch off the edge, and interpolating a canyon and cave together leads to subpar results.
             // So, we supply the river carve weight (initial value) to the cave carver, and run it at 1.0 weight instead, which will create a smooth transition.
             final double adjustedCaveWeight = initialCaveWeight < 0.25 ?
-                Mth.map(initialCaveWeight, 0.0, 0.25, 0, 0.1) :
-                1.0 - riverBlendWeights[RIVER_TYPE_NONE];
+                Mth.map(initialCaveWeight, 0.0, 0.25, 0, 0.1 * totalWeight) :
+                totalWeight;
 
             for (RiverBlendType type : RiverBlendType.ALL)
             {
@@ -275,7 +321,7 @@ public class ChunkHeightFiller
                 }
                 else if (weight > 0)
                 {
-                    final double riverHeight = sampler.setColumnAndSampleHeight(info, blockX, blockZ, height, initialCaveWeight);
+                    final double riverHeight = sampler.setColumnAndSampleHeight(info, blockX, blockZ, height, initialCaveWeight, weight);
                     riverBlendHeight += weight * riverHeight;
                 }
             }
@@ -291,7 +337,20 @@ public class ChunkHeightFiller
         }
     }
 
-    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height) {}
+    private double adjustHeightForVolcanic(final double heightIn)
+    {
+        double volcanoHeight = NOT_PRESENT_RETURN;
+
+        for (CenteredFeatureBlendType type : CenteredFeatureBlendType.ALL)
+        {
+            final CenteredFeatureNoiseSampler sampler = volcanoNoiseSamplers.get(type);
+            volcanoHeight = Math.max(sampler.setColumnAndSampleHeight(heightIn, blockX, blockZ, biomeSource), volcanoHeight);
+        }
+
+        return volcanoHeight == NOT_PRESENT_RETURN ? heightIn : volcanoHeight;
+    }
+
+    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height, boolean couldBeSalty) {}
 
     @Nullable
     protected RiverInfo sampleRiverInfo(boolean useCache)

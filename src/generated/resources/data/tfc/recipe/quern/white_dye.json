@@ -27,10 +27,16 @@
     },
     {
       "item": "tfc:plant/lily_of_the_valley"
+    },
+    {
+      "item": "tfc:plant/edelweiss"
+    },
+    {
+      "item": "tfc:plant/beachgrass"
     }
   ],
   "result": {
-    "count": 1,
+    "count": 2,
     "id": "minecraft:white_dye"
   }
 }

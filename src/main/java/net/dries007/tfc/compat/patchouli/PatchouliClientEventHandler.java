@@ -15,16 +15,21 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.joml.Vector2ic;
 import org.lwjgl.opengl.GL11;
+import vazkii.patchouli.api.BookDrawScreenEvent;
 import vazkii.patchouli.client.base.ClientTicker;
 import vazkii.patchouli.client.book.BookEntry;
 import vazkii.patchouli.client.book.gui.GuiBook;
@@ -35,9 +40,12 @@ import vazkii.patchouli.common.book.BookRegistry;
 import vazkii.patchouli.common.item.ItemModBook;
 import vazkii.patchouli.common.util.ItemStackUtil;
 
+import net.dries007.tfc.client.ClientForgeEventHandler;
+import net.dries007.tfc.client.screen.button.PlayerInventoryTabButton;
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.network.OpenFieldGuidePacket;
 import net.dries007.tfc.network.PacketHandler;
+import net.dries007.tfc.util.Helpers;
 
 /**
  * This is modified from {@link TooltipHandler}, in order to render additional tooltips, as we don't have an explicit book item. We render a tooltip,
@@ -46,10 +54,14 @@ import net.dries007.tfc.network.PacketHandler;
 public final class PatchouliClientEventHandler
 {
     private static float lexiconLookupTime = 0;
+    private static final int backgroundLength = 28;
+    private static final int backgroundHeight = 34;
 
     public static void init()
     {
-        NeoForge.EVENT_BUS.addListener(PatchouliClientEventHandler::renderBookTooltipWithoutBook);
+        final IEventBus bus = NeoForge.EVENT_BUS;
+
+        bus.addListener(PatchouliClientEventHandler::renderBookTooltipWithoutBook);
     }
 
     public static void renderBookTooltipWithoutBook(RenderTooltipEvent.Pre event)
@@ -60,7 +72,7 @@ public final class PatchouliClientEventHandler
         final GuiGraphics graphics = event.getGraphics();
         final ItemStack stack = event.getItemStack();
         final int tooltipX = event.getX();
-        final int tooltipY = event.getY() - 4;
+        final int tooltipY = event.getY();
 
         if (wouldPatchouliRenderATooltipHere(minecraft, stack))
         {
@@ -76,17 +88,54 @@ public final class PatchouliClientEventHandler
             final ItemStack bookStack = ItemModBook.forBook(book);
 
             int x = tooltipX - 34;
+            int y = tooltipY - 4;
+
+            // Estimate the item tooltip position and size
+            // and move the book to a better position if needed
+            int itemTooltipLength = 0;
+            int itemTooltipHeight = 0;
+            for (ClientTooltipComponent component : event.getComponents())
+            {
+                itemTooltipLength = Integer.max(itemTooltipLength, component.getWidth(event.getFont()));
+                itemTooltipHeight += component.getHeight();
+            }
+            Vector2ic itemTooltipPos = event.getTooltipPositioner().positionTooltip(event.getScreenWidth(), event.getScreenHeight(), tooltipX, tooltipY, itemTooltipLength, itemTooltipHeight);
+            int itemTooltipX = itemTooltipPos.x();
+            int itemTooltipY = itemTooltipPos.y();
+            if (itemTooltipX < tooltipX)
+            {
+                // Displayed tooltip is to the left of the cursor and would cover it, move the book to the right
+                x = tooltipX + 18;
+            }
+            if (x + backgroundLength > event.getScreenWidth())
+            {
+                // Off the right side of the screen
+                x = itemTooltipX + itemTooltipLength - backgroundLength;
+                y = itemTooltipY - backgroundHeight - 8;
+            }
+            else if (x - 8 < 0)
+            {
+                // Off the left side of the screen
+                x = itemTooltipX;
+                y = itemTooltipY - backgroundHeight - 8;
+            }
+            if (y < 0)
+            {
+                // Off the top of the screen
+                y = itemTooltipY + itemTooltipHeight + 20;
+            }
+
             RenderSystem.disableDepthTest();
 
-            graphics.fill(x - 4, tooltipY - 4, x + 20, tooltipY + 26, 0x44000000);
-            graphics.fill(x - 6, tooltipY - 6, x + 22, tooltipY + 28, 0x44000000);
+            graphics.fill(x - 4, y - 4, x + 20, y + 26, 0x44000000);
+            graphics.fill(x - (backgroundLength - 22), y - (backgroundHeight - 28), x + (backgroundLength - 6), y + (backgroundHeight - 6), 0x44000000);
 
             if (PatchouliConfig.get().useShiftForQuickLookup() ? Screen.hasShiftDown() : Screen.hasControlDown())
             {
                 lexiconLookupTime += ClientTicker.delta;
 
                 int cx = x + 8;
-                int cy = tooltipY + 8;
+                int cy = y + 8;
                 float r = 12;
                 float time = 20F;
                 float angles = lexiconLookupTime / time * 360F;
@@ -128,19 +177,19 @@ public final class PatchouliClientEventHandler
 
             graphics.pose().pushPose();
             graphics.pose().translate(0, 0, 300);
-            graphics.renderItem(bookStack, x, tooltipY);
-            graphics.renderItemDecorations(minecraft.font, bookStack, x, tooltipY);
+            graphics.renderItem(bookStack, x, y);
+            graphics.renderItemDecorations(minecraft.font, bookStack, x, y);
             graphics.pose().popPose();
 
             graphics.pose().pushPose();
             graphics.pose().translate(0, 0, 500);
-            graphics.drawString(minecraft.font, "?", x + 10, tooltipY + 8, 0xFFFFFFFF, true);
+            graphics.drawString(minecraft.font, "?", x + 10, y + 8, 0xFFFFFFFF, true);
 
             graphics.pose().scale(0.5F, 0.5F, 1F);
             boolean mac = Minecraft.ON_OSX;
             Component key = Component.literal(PatchouliConfig.get().useShiftForQuickLookup() ? "Shift" : mac ? "Cmd" : "Ctrl")
                 .withStyle(ChatFormatting.BOLD);
-            graphics.drawString(minecraft.font, key, (x + 10) * 2 - 16, (tooltipY + 8) * 2 + 20, 0xFFFFFFFF, true);
+            graphics.drawString(minecraft.font, key, (x + 10) * 2 - 16, (y + 8) * 2 + 20, 0xFFFFFFFF, true);
             graphics.pose().popPose();
 
             RenderSystem.enableDepthTest();

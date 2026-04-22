@@ -82,6 +82,7 @@ import net.dries007.tfc.mixin.accessor.ChunkGeneratorAccessor;
 import net.dries007.tfc.mixin.accessor.ChunkMapAccessor;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.biome.BiomeExtension;
+import net.dries007.tfc.world.biome.BiomeNoise;
 import net.dries007.tfc.world.biome.BiomeSourceExtension;
 import net.dries007.tfc.world.biome.TFCBiomes;
 import net.dries007.tfc.world.chunkdata.ChunkData;
@@ -93,12 +94,16 @@ import net.dries007.tfc.world.layer.framework.ConcurrentArea;
 import net.dries007.tfc.world.noise.ChunkNoiseSamplingSettings;
 import net.dries007.tfc.world.noise.Noise2D;
 import net.dries007.tfc.world.noise.NoiseSampler;
-import net.dries007.tfc.world.noise.OpenSimplex2D;
 import net.dries007.tfc.world.region.RegionGenerator;
 import net.dries007.tfc.world.river.RiverBlendType;
 import net.dries007.tfc.world.river.RiverNoiseSampler;
 import net.dries007.tfc.world.settings.Settings;
+import net.dries007.tfc.world.shore.ShoreBlendType;
+import net.dries007.tfc.world.shore.ShoreNoiseSampler;
 import net.dries007.tfc.world.surface.SurfaceManager;
+import net.dries007.tfc.world.volcano.CenteredFeatureBlendType;
+import net.dries007.tfc.world.volcano.CenteredFeatureNoise;
+import net.dries007.tfc.world.volcano.CenteredFeatureNoiseSampler;
 
 @SuppressWarnings("NotNullFieldNotInitialized") // Since we do a separate `init` step
 public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorExtension
@@ -129,6 +134,7 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
     private ChunkDataGenerator chunkDataGenerator;
     private SurfaceManager surfaceManager;
     private NoiseSampler noiseSampler;
+    private Noise2D tideHeightNoise;
 
     public TFCChunkGenerator(BiomeSourceExtension biomeSource, Holder<NoiseGeneratorSettings> noiseSettings, Settings settings)
     {
@@ -206,6 +212,7 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
         this.noiseSampler = new NoiseSampler(seed.next(), level.registryAccess().lookupOrThrow(Registries.NOISE), level.registryAccess().lookupOrThrow(Registries.DENSITY_FUNCTION));
         this.chunkDataGenerator = regionGenerator.chunkDataGenerator();
         this.surfaceManager = new SurfaceManager(seed);
+        this.tideHeightNoise = BiomeNoise.shoreTideLevelNoise(seed);
 
         this.customBiomeSource.initRandomState(regionGenerator, biomeLayer);
 
@@ -218,7 +225,7 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
     public ChunkHeightFiller createHeightFillerForChunk(ChunkPos pos)
     {
         final Object2DoubleMap<BiomeExtension>[] biomeWeights = ChunkBiomeSampler.sampleBiomes(pos, this::sampleBiomeNoRiver, BiomeExtension::biomeBlendType);
-        return new ChunkHeightFiller(biomeWeights, customBiomeSource, createBiomeSamplersForChunk(null), createRiverSamplersForChunk(), createShoreSamplerForChunk(), getSeaLevel());
+        return new ChunkHeightFiller(biomeWeights, customBiomeSource, createBiomeSamplersForChunk(null), createRiverSamplersForChunk(), createShoreSamplersForChunk(), createVolcanoSamplersForChunk(), getSeaLevel(), tideHeightNoise);
     }
 
     @Override
@@ -255,8 +262,7 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
         final ChunkBaseBlockSource baseBlockSource = createBaseBlockSourceForChunk(chunk);
         final TFCAquifer aquifer = getOrCreateAquifer(chunk, settings, baseBlockSource);
 
-        @SuppressWarnings("ConstantConditions")
-        final CarvingContext context = new CarvingContext(stupidMojangChunkGenerator, null, chunk.getHeightAccessorForGeneration(), null, state, this.noiseSettings.value().surfaceRule());
+        @SuppressWarnings("ConstantConditions") final CarvingContext context = new CarvingContext(stupidMojangChunkGenerator, null, chunk.getHeightAccessorForGeneration(), null, state, this.noiseSettings.value().surfaceRule());
         final CarvingMask carvingMask = ((ProtoChunk) chunk).getOrCreateCarvingMask(step);
 
         for (int offsetX = -8; offsetX <= 8; ++offsetX)
@@ -266,8 +272,7 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
                 final ChunkPos offsetChunkPos = new ChunkPos(chunkPos.x + offsetX, chunkPos.z + offsetZ);
                 final ChunkAccess offsetChunk = level.getChunk(offsetChunkPos.x, offsetChunkPos.z);
 
-                @SuppressWarnings("deprecation")
-                final Iterable<Holder<ConfiguredWorldCarver<?>>> iterable = offsetChunk
+                @SuppressWarnings("deprecation") final Iterable<Holder<ConfiguredWorldCarver<?>>> iterable = offsetChunk
                     .carverBiome(() -> customBiomeSource.getBiome(QuartPos.fromBlock(offsetChunkPos.getMinBlockX()), QuartPos.fromBlock(offsetChunkPos.getMinBlockZ())).value().getGenerationSettings())
                     .getCarvers(step);
 
@@ -302,14 +307,15 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
         final WorldgenRandom random = new WorldgenRandom(new XoroshiroRandomSource(RandomSupport.generateUniqueSeed()));
         final long baseSeed = Helpers.hash(128739412341L, originPos);
 
-        final Set<Biome> allAdjacentBiomes = new ObjectArraySet<>();
+        final Set<Holder<Biome>> allAdjacentBiomes = new ObjectArraySet<>();
         ChunkPos.rangeClosed(sectionPos.chunk(), 1).forEach((chunkPos1_) -> {
             final ChunkAccess adjChunk = level.getChunk(chunkPos1_.x, chunkPos1_.z);
             for (LevelChunkSection adjSection : adjChunk.getSections())
             {
-                adjSection.getBiomes().getAll(biome -> allAdjacentBiomes.add(biome.value()));
+                adjSection.getBiomes().getAll(allAdjacentBiomes::add);
             }
         });
+        allAdjacentBiomes.retainAll(this.biomeSource.possibleBiomes());
 
         for (int decorationIndex = 0; decorationIndex < Math.max(DECORATION_STEPS, orderedFeatures.size()); ++decorationIndex)
         {
@@ -330,8 +336,9 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
             if (decorationIndex < orderedFeatures.size())
             {
                 final IntSet featureIndices = new IntArraySet();
-                for (Biome biome : allAdjacentBiomes)
+                for (Holder<Biome> biomeHolder : allAdjacentBiomes)
                 {
+                    final Biome biome = biomeHolder.value();
                     List<HolderSet<PlacedFeature>> featuresPerBiome = TFCBiomes.getExtensionOrThrow(level, biome).getFlattenedFeatures(biome);
                     if (decorationIndex < featuresPerBiome.size())
                     {
@@ -427,19 +434,24 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
 
         final Object2DoubleMap<BiomeExtension>[] biomeWeights = ChunkBiomeSampler.sampleBiomes(chunkPos, this::sampleBiomeNoRiver, BiomeExtension::biomeBlendType);
         final ChunkBaseBlockSource baseBlockSource = createBaseBlockSourceForChunk(chunk);
-        final ChunkNoiseFiller filler = new ChunkNoiseFiller((ProtoChunk) chunk, biomeWeights, customBiomeSource, createBiomeSamplersForChunk(chunk), createRiverSamplersForChunk(), createShoreSamplerForChunk(), noiseSampler, baseBlockSource, settings, getSeaLevel(), Beardifier.forStructuresInChunk(structureManager, chunkPos));
+        final ChunkNoiseFiller filler = new ChunkNoiseFiller((ProtoChunk) chunk, biomeWeights, customBiomeSource, createBiomeSamplersForChunk(chunk), createRiverSamplersForChunk(), createShoreSamplersForChunk(), createVolcanoSamplersForChunk(), noiseSampler, baseBlockSource, settings, getSeaLevel(), tideHeightNoise, Beardifier.forStructuresInChunk(structureManager, chunkPos));
+
+        final BiomeExtension cinderConeBiome = CenteredFeatureNoise.cinder(seed).getCenterBiome(chunkPos.getBlockX(8), chunkPos.getBlockZ(8), customBiomeSource);
+        final BiomeExtension tuffRingBiome = CenteredFeatureNoise.tuffRing(seed).getCenterBiome(chunkPos.getBlockX(8), chunkPos.getBlockZ(8), customBiomeSource);
+        final BiomeExtension tuyaBiome = CenteredFeatureNoise.tuya(seed).getCenterBiome(chunkPos.getBlockX(8), chunkPos.getBlockZ(8), customBiomeSource);
 
         return CompletableFuture.supplyAsync(() -> {
             filler.sampleAquiferSurfaceHeight(this::sampleBiomeNoRiver);
             chunkData.generateFull(filler.surfaceHeight(), filler.aquifer().surfaceHeights());
             chunkData.getRockData().useCache(chunkPos);
             filler.fillFromNoise();
+            chunkData.modifyBaseGroundwater(filler.surfaceHeight());
 
             aquiferCache.set(chunkPos.x, chunkPos.z, filler.aquifer());
 
             sections.forEach(LevelChunkSection::release);
 
-            surfaceManager.buildSurface(actualLevel, chunk, rockLayerSettings(), chunkData, filler.localBiomes(), filler.localBiomesNoRivers(), filler.localBiomeWeights(), filler.createSlopeMap(), random, getSeaLevel(), settings.minY());
+            surfaceManager.buildSurface(actualLevel, chunk, rockLayerSettings(), chunkData, filler.localBiomes(), filler.localBiomesNoRivers(), filler.localBiomeWeights(), filler.createSlopeMap(), random, getSeaLevel(), settings.minY(), cinderConeBiome, tuffRingBiome, tuyaBiome);
 
             return chunk;
         }, Util.backgroundExecutor());
@@ -473,7 +485,6 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
     @Override
     public void addDebugScreenInfo(List<String> list, RandomState state, BlockPos pos)
     {
-        list.add("Shore: " + createShoreSamplerForChunk().noise(pos.getX(), pos.getZ()));
     }
 
     /**
@@ -596,12 +607,26 @@ public class TFCChunkGenerator extends ChunkGenerator implements ChunkGeneratorE
         return builder;
     }
 
-    private Noise2D createShoreSamplerForChunk()
+    private Map<ShoreBlendType, ShoreNoiseSampler> createShoreSamplersForChunk()
     {
-        return new OpenSimplex2D(seed.seed() + 8719234132L)
-            .octaves(2)
-            .spread(0.003f)
-            .scaled(-0.1, 1.1);
+        final Seed noiseSamplerSeed = seed.forkStable();
+        final EnumMap<ShoreBlendType, ShoreNoiseSampler> builder = new EnumMap<>(ShoreBlendType.class);
+        for (ShoreBlendType blendType : ShoreBlendType.ALL)
+        {
+            builder.put(blendType, blendType.createNoiseSampler(noiseSamplerSeed));
+        }
+        return builder;
+    }
+
+    private Map<CenteredFeatureBlendType, CenteredFeatureNoiseSampler> createVolcanoSamplersForChunk()
+    {
+        final Seed noiseSamplerSeed = seed.forkStable();
+        final EnumMap<CenteredFeatureBlendType, CenteredFeatureNoiseSampler> builder = new EnumMap<>(CenteredFeatureBlendType.class);
+        for (CenteredFeatureBlendType blendType : CenteredFeatureBlendType.ALL)
+        {
+            builder.put(blendType, blendType.createNoiseSampler(noiseSamplerSeed));
+        }
+        return builder;
     }
 
     private TFCChunkGenerator copy()

@@ -15,14 +15,11 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.NetherVines;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
@@ -31,18 +28,25 @@ import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.IForgeBlockExtension;
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.registry.RegistryPlant;
 
 public class TopPlantBlock extends GrowingPlantHeadBlock implements IForgeBlockExtension
 {
     protected static final float AABB_OFFSET = 3.0F;
     private final Supplier<? extends Block> bodyBlock;
     private final ExtendedProperties properties;
+    private final int minHeight;
+    private final int maxHeight;
+    private final Plant plant;
 
-    public TopPlantBlock(ExtendedProperties properties, Supplier<? extends Block> bodyBlock, Direction direction, VoxelShape shape)
+    public TopPlantBlock(ExtendedProperties properties, Supplier<? extends Block> bodyBlock, Direction direction, VoxelShape shape, int minHeight, int maxHeight, Plant plant)
     {
         super(properties.properties().dynamicShape().offsetType(OffsetType.XZ), direction, shape, false, 0);
         this.bodyBlock = bodyBlock;
         this.properties = properties;
+        this.minHeight = minHeight;
+        this.maxHeight = maxHeight;
+        this.plant = plant;
     }
 
     @Override
@@ -70,7 +74,17 @@ public class TopPlantBlock extends GrowingPlantHeadBlock implements IForgeBlockE
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
         BlockState state = super.getStateForPlacement(context);
-        return state == null ? null : state.setValue(AGE, Mth.nextInt(context.getLevel().getRandom(), 10, 18));
+        if (state == null)
+        {
+            return null;
+        }
+        // Only the head has the age property
+        if (state.getBlock().equals(this.getBodyBlock()))
+        {
+            return state;
+        }
+        BlockState belowState = context.getLevel().getBlockState(context.getClickedPos().relative(growthDirection.getOpposite()));
+        return belowState.getBlock() == this ? state.setValue(AGE, Math.min(belowState.getValue(AGE) + 1, 25)) : state.setValue(AGE, Mth.nextInt(context.getLevel().getRandom(), 26 - maxHeight, 26 - minHeight));
     }
 
     @Override
@@ -113,4 +127,8 @@ public class TopPlantBlock extends GrowingPlantHeadBlock implements IForgeBlockE
         return fakeBlockCodec();
     }
 
+    public RegistryPlant getPlant()
+    {
+        return plant;
+    }
 }

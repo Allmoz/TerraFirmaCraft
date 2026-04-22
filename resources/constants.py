@@ -1,6 +1,6 @@
 #  Work under Copyright. Licensed under the EUPL.
 #  See the project README.md and LICENSE.txt for more information.
-
+import itertools
 from typing import Dict, NamedTuple, Sequence, Optional, Tuple, Any, Literal
 
 
@@ -21,6 +21,7 @@ class Ore(NamedTuple):
     required_tool: str
     tag: str
     dye_color: Optional[str] = None
+    simple_blocks: bool = False
 
 
 class OreGrade(NamedTuple):
@@ -37,7 +38,7 @@ class Vein(NamedTuple):
     density: float
     grade: tuple[int, int, int]  # (poor, normal, rich) weights
     rocks: tuple[str, ...]  # Rock, or rock categories
-    biomes: str | None
+    rivers_only: bool
     height: int
     radius: int
     deposits: bool
@@ -47,6 +48,7 @@ class Vein(NamedTuple):
     project: bool | None  # Project to surface
     project_offset: bool | None  # Project offset
     near_lava: bool | None
+    simple_blocks: bool
 
     @staticmethod
     def new(
@@ -57,10 +59,9 @@ class Vein(NamedTuple):
         max_y: int,
         density: float,
         rocks: tuple[str, ...],
-
+        rivers_only: bool = False,
         vein_type: str = 'cluster',
         grade: tuple[int, int, int] = (),
-        biomes: str = None,
         height: int = 2,  # For disc type veins, `size` is the width
         radius: int = 5,  # For pipe type veins, `size` is the height
         deposits: bool = False,
@@ -68,6 +69,7 @@ class Vein(NamedTuple):
         deep_indicator: tuple[int, int] = (1, 0),  # Pair of (rarity, count) for underground indicators
         project: str | bool = None,  # Projects to surface. Either True or 'offset'
         near_lava: bool | None = None,
+        simple_blocks: bool = False,
     ):
         assert 0 < density < 1
         assert isinstance(rocks, tuple), 'Forgot the trailing comma in a single element tuple: %s' % repr(rocks)
@@ -75,7 +77,7 @@ class Vein(NamedTuple):
         assert project is None or project is True or project == 'offset'
 
         underground_rarity, underground_count = deep_indicator
-        return Vein(ore, 'tfc:%s_vein' % vein_type, rarity, size, min_y, max_y, density, grade, rocks, biomes, height, radius, deposits, indicator, underground_rarity, underground_count, None if project is None else True, None if project != 'offset' else True, near_lava)
+        return Vein(ore, 'tfc:%s_vein' % vein_type, rarity, size, min_y, max_y, density, grade, rocks, rivers_only, height, radius, deposits, indicator, underground_rarity, underground_count, None if project is None else True, None if project != 'offset' else True, near_lava, simple_blocks)
 
     def config(self) -> dict[str, Any]:
         cfg = {
@@ -85,7 +87,6 @@ class Vein(NamedTuple):
             'max_y': self.max_y,
             'project': self.project,
             'project_offset': self.project_offset,
-            'biomes': self.biomes,
             'near_lava': self.near_lava,
         }
         if self.vein_type == 'tfc:cluster_vein':
@@ -113,6 +114,10 @@ class Wood(NamedTuple):
 
 
 class Berry(NamedTuple):
+    wild_min_temp: float
+    wild_max_temp: float
+    wild_min_water: float
+    wild_max_water: float
     min_temp: float
     max_temp: float
     min_water: float
@@ -123,6 +128,10 @@ class Berry(NamedTuple):
 
 
 class Fruit(NamedTuple):
+    wild_min_temp: float
+    wild_max_temp: float
+    wild_min_water: float
+    wild_max_water: float
     min_temp: float
     max_temp: float
     min_water: float
@@ -131,16 +140,21 @@ class Fruit(NamedTuple):
 
 class Crop(NamedTuple):
     type: str
+    category: str
     stages: int
-    nutrient: str
-    min_temp: float
-    max_temp: float
+    min_temp_wg: float
+    max_temp_wg: float
     min_water: float
     max_water: float
-    min_hydration: int
-    max_hydration: int
-    min_forest: Optional[str]
-    max_forest: Optional[str]
+    min_temp_growth: float
+    max_temp_growth: float
+    min_hydration: float
+    max_hydration: float
+    nitrogen: float
+    phosphorous: float
+    potassium: float
+    min_forest: Optional[int]
+    max_forest: Optional[int]
 
 
 class Metal(NamedTuple):
@@ -174,6 +188,7 @@ ROCKS: dict[str, Rock] = {
     'dolomite': Rock('sedimentary', 'black'),
     'chert': Rock('sedimentary', 'yellow'),
     'chalk': Rock('sedimentary', 'white'),
+    'tuff': Rock('sedimentary', 'black'),
     'rhyolite': Rock('igneous_extrusive', 'red'),
     'basalt': Rock('igneous_extrusive', 'red'),
     'andesite': Rock('igneous_extrusive', 'red'),
@@ -228,6 +243,10 @@ METAL_BLOCKS: dict[str, MetalItem] = {
     'exposed_block_stairs': MetalItem('weathering', 'block/block', False),
     'weathered_block_stairs': MetalItem('weathering', 'block/block', False),
     'oxidized_block_stairs': MetalItem('weathering', 'block/block', False),
+    'grate': MetalItem('all', 'block/block', False),
+    'exposed_grate': MetalItem('all', 'block/block', False),
+    'weathered_grate': MetalItem('all', 'block/block', False),
+    'oxidized_grate': MetalItem('all', 'block/block', False),
     'anvil': MetalItem('part', 'tfc:block/anvil', False),
     'bars': MetalItem('part', 'item/generated', False),
     'chain': MetalItem('part', 'tfc:block/chain', False),
@@ -288,7 +307,7 @@ METAL_ITEMS: dict[str, MetalItem] = {
 
 ORES: dict[str, Ore] = {
     'native_copper': Ore('copper', True, 'copper', 'copper', 'orange'),
-    'native_gold': Ore('gold', True, 'copper', 'gold'),
+    'native_gold': Ore('gold', True, 'copper', 'gold', 'yellow'),
     'hematite': Ore('cast_iron', True, 'copper', 'iron', 'red'),
     'native_silver': Ore('silver', True, 'copper', 'silver', 'light_gray'),
     'cassiterite': Ore('tin', True, 'copper', 'tin', 'gray'),
@@ -299,8 +318,8 @@ ORES: dict[str, Ore] = {
     'limonite': Ore('cast_iron', True, 'copper', 'iron', 'yellow'),
     'sphalerite': Ore('zinc', True, 'copper', 'zinc', 'gray'),
     'tetrahedrite': Ore('copper', True, 'copper', 'copper', 'gray'),
-    'bituminous_coal': Ore(None, False, 'copper', 'coal'),
-    'lignite': Ore(None, False, 'copper', 'coal'),
+    'bituminous_coal': Ore(None, False, 'copper', 'coal', simple_blocks=True),
+    'lignite': Ore(None, False, 'copper', 'coal', simple_blocks=True),
     'gypsum': Ore(None, False, 'copper', 'gypsum'),
     'graphite': Ore(None, False, 'copper', 'graphite'),
     'sulfur': Ore(None, False, 'copper', 'sulfur'),
@@ -309,7 +328,7 @@ ORES: dict[str, Ore] = {
     'saltpeter': Ore(None, False, 'copper', 'saltpeter'),
     'sylvite': Ore(None, False, 'copper', 'sylvite'),
     'borax': Ore(None, False, 'copper', 'borax'),
-    'halite': Ore(None, False, 'bronze', 'halite'),
+    'halite': Ore(None, False, 'bronze', 'halite', simple_blocks=True),
     'amethyst': Ore(None, False, 'steel', 'amethyst'),  # Mohs: 7
     'diamond': Ore(None, False, 'black_steel', 'diamond'),  # Mohs: 10
     'emerald': Ore(None, False, 'steel', 'emerald'),  # Mohs: 7.5-8
@@ -373,11 +392,12 @@ ORE_VEINS: dict[str, Vein] = {
     'graphite': Vein.new('graphite', 20, 20, -30, 60, 0.4, ('gneiss', 'marble', 'quartzite', 'schist')),
 
     # Coal, spawns roughly based on IRL grade (lignite -> bituminous -> anthracite), big flat discs
-    'lignite': Vein.new('lignite', 160, 40, -20, -8, 0.85, ('sedimentary',), vein_type='disc', height=2, project='offset'),
-    'bituminous_coal': Vein.new('bituminous_coal', 210, 50, -35, -12, 0.9, ('sedimentary',), vein_type='disc', height=3, project='offset'),
+    'lignite': Vein.new('lignite', 160, 40, -20, -8, 0.85, ('sedimentary',), vein_type='disc', height=2, project='offset', simple_blocks=True),
+    'bituminous_coal': Vein.new('bituminous_coal', 210, 50, -35, -12, 0.9, ('sedimentary',), vein_type='disc', height=3, project='offset', simple_blocks=True),
 
-    # Sulfur spawns near lava level in any low-level rock, common, but small veins
+    # Sulfur spawns near lava level in any low-level rock, common, but small veins, or in tuff near the surface
     'sulfur': Vein.new('sulfur', 4, 18, -64, -45, 0.25, ('igneous_intrusive', 'metamorphic'), vein_type='disc', height=5, near_lava=True),
+    'tuff_sulfur': Vein.new('sulfur', 4, 18, 40, 120, 0.45, ('tuff',), vein_type='disc', height=4),
 
     # Redstone: Cryolite is deep II, cinnabar is deep MM, both are common enough within these rocks but rare to find
     'cryolite': Vein.new('cryolite', 16, 18, -70, -10, 0.7, ('granite', 'diorite')),
@@ -390,7 +410,7 @@ ORE_VEINS: dict[str, Vein] = {
     'sylvite': Vein.new('sylvite', 60, 35, 40, 100, 0.35, ('shale', 'claystone', 'chert'), vein_type='disc', height=5),
     'borax': Vein.new('borax', 40, 23, 40, 100, 0.2, ('claystone', 'limestone', 'shale'), vein_type='disc', height=3),
     'gypsum': Vein.new('gypsum', 70, 25, 40, 100, 0.3, ('sedimentary',), vein_type='disc', height=5),
-    'halite': Vein.new('halite', 110, 35, -45, -12, 0.85, ('sedimentary',), vein_type='disc', height=4, project='offset'),
+    'halite': Vein.new('halite', 110, 35, -45, -12, 0.85, ('sedimentary',), vein_type='disc', height=4, project='offset', simple_blocks=True),
 
     # Gems - these are all fairly specific but since we don't have a gameplay need for gems they can be a bit niche
     'lapis_lazuli': Vein.new('lapis_lazuli', 30, 30, -20, 80, 0.12, ('limestone', 'marble')),
@@ -398,8 +418,9 @@ ORE_VEINS: dict[str, Vein] = {
     'diamond': Vein.new('diamond', 30, 60, -64, 100, 0.15, ('gabbro',), vein_type='pipe', radius=5),
     'emerald': Vein.new('emerald', 80, 60, -64, 100, 0.15, ('igneous_intrusive',), vein_type='pipe', radius=5),
 
-    'amethyst': Vein.new('amethyst', 25, 8, 40, 60, 0.2, ('sedimentary', 'metamorphic'), vein_type='disc', biomes='#tfc:is_river', height=4),
-    'opal': Vein.new('opal', 25, 8, 40, 60, 0.2, ('sedimentary', 'igneous_extrusive'), vein_type='disc', biomes='#tfc:is_river', height=4),
+    'amethyst': Vein.new('amethyst', 25, 8, 40, 60, 0.2, ('sedimentary', 'metamorphic'), vein_type='disc', rivers_only=True, height=4),
+    'opal': Vein.new('opal', 25, 8, 40, 60, 0.2, ('sedimentary', 'igneous_extrusive'), vein_type='disc', rivers_only=True, height=4),
+    'ruby': Vein.new('ruby', 12, 22, -70, -10, 0.2, ('schist', 'gneiss')),
 }
 
 ALL_MINERALS = ('bituminous_coal', 'lignite', 'graphite', 'cinnabar', 'cryolite', 'saltpeter', 'sulfur', 'sylvite', 'borax', 'gypsum', 'lapis_lazuli', 'halite', 'diamond', 'emerald', 'sulfur', 'amethyst', 'opal')
@@ -415,6 +436,7 @@ DEPOSIT_RARES: Dict[str, str] = {
     'dolomite': 'amethyst',
     'chert': 'ruby',
     'chalk': 'sapphire',
+    'tuff': 'pyrite',
     'rhyolite': 'pyrite',
     'basalt': 'pyrite',
     'andesite': 'pyrite',
@@ -430,14 +452,21 @@ DEPOSIT_RARES: Dict[str, str] = {
 ROCK_DECORATIONS = ('raw', 'bricks', 'cobble', 'smooth', 'mossy_cobble', 'mossy_bricks', 'cracked_bricks')
 ROCK_SPIKE_PARTS = ('base', 'middle', 'tip')
 SAND_BLOCK_TYPES = ('brown', 'white', 'black', 'red', 'yellow', 'green', 'pink')
-SOIL_BLOCK_VARIANTS = ('silt', 'loam', 'sandy_loam', 'silty_loam')
+SOIL_BLOCK_VARIANTS = ('entisol', 'aridisol', 'oxisol', 'fluvisol', 'andisol', 'podzol', 'alfisol', 'mollisol')
+PLAIN_CUBE_SOIL_BLOCK_VARIANTS = ('entisol', 'aridisol', 'oxisol', 'andisol', 'alfisol', 'mollisol')
+COLUMN_SOIL_BLOCK_VARIANTS = ('podzol', 'fluvisol')
+ALFISOL_REPLACEABLE = ('entisol', 'aridisol', 'oxisol')
+PODZOL_REPLACEABLE = ('entisol', 'aridisol', 'oxisol', 'alfisol')
+FOREST_SOIL_DISC_REPLACED = ('dirt', 'duff', 'mud', 'clay', 'clay_duff', 'rooted_dirt', 'coarse_dirt')
+NATURAL_SOIL_BLOCKS = ('dirt', 'duff', 'mud', 'clay', 'clay_duff', 'rooted_dirt', 'coarse_dirt', 'grass', 'clay_grass')
 KAOLIN_CLAY_TYPES = ('red', 'pink', 'white')
 ORE_DEPOSITS = ('native_copper', 'cassiterite', 'native_silver', 'native_gold')
 GEMS = ('amethyst', 'diamond', 'emerald', 'lapis_lazuli', 'opal', 'pyrite', 'ruby', 'sapphire', 'topaz')
 TRIM_MATERIALS = (*GEMS, 'rose_gold', 'gold', 'silver', 'sterling_silver', 'bismuth')
-MISC_GROUNDCOVER = ('bone', 'clam', 'driftwood', 'mollusk', 'mussel', 'pinecone', 'seaweed', 'stick', 'dead_grass', 'feather', 'flint', 'guano', 'humus', 'rotten_flesh', 'salt_lick', 'sea_urchin', 'pumice')
+MISC_GROUNDCOVER = ('bone', 'clam', 'driftwood', 'mollusk', 'mussel', 'pinecone', 'seaweed', 'stick', 'feather', 'flint', 'guano', 'humus', 'rotten_flesh', 'salt_lick', 'sea_urchin', 'pumice')
 COLORS = ('white', 'orange', 'magenta', 'light_blue', 'yellow', 'lime', 'pink', 'gray', 'light_gray', 'cyan', 'purple', 'blue', 'brown', 'green', 'red', 'black')
-SIMPLE_FLUIDS = ('brine', 'curdled_milk', 'limewater', 'lye', 'milk_vinegar', 'olive_oil', 'olive_oil_water', 'tallow', 'tannin', 'vinegar', 'beer', 'cider', 'rum', 'sake', 'vodka', 'whiskey', 'corn_whiskey', 'rye_whiskey')
+NON_WHITE_COLORS = COLORS[1:]
+SIMPLE_FLUIDS = ('brine', 'curdled_milk', 'limewater', 'lye', 'milk_vinegar', 'olive_oil', 'olive_oil_water', 'canola_oil', 'canola_oil_water', 'tallow', 'tannin', 'vinegar', 'beer', 'cider', 'rum', 'sake', 'vodka', 'whiskey', 'corn_whiskey', 'rye_whiskey')
 
 WOODS: dict[str, Wood] = {
     'acacia': Wood(650, 1000),
@@ -463,31 +492,37 @@ WOODS: dict[str, Wood] = {
 }
 
 # DO NOT EDIT DIRECTLY - Imported directly from spreadsheet
-# https://docs.google.com/spreadsheets/d/1Ghw3dCmVO5Gv0MMGBydUxox_nwLYmmcZkGSbbf0QSAE/
+# https://docs.google.com/spreadsheets/d/1USmCWiRrj5205WyoRNNTUkoNrqm9AStRzwnD1v6633o
 CROPS: dict[str, Crop] = {
-    'barley': Crop('default', 8, 'nitrogen', -8, 26, 70, 310, 18, 75, None, 'edge'),
-    'oat': Crop('default', 8, 'phosphorus', 3, 40, 140, 400, 35, 100, None, 'edge'),
-    'rye': Crop('default', 8, 'phosphorus', -11, 30, 100, 350, 25, 85, None, 'edge'),
-    'maize': Crop('double', 6, 'phosphorus', 13, 40, 300, 500, 75, 100, None, 'edge'),
-    'wheat': Crop('default', 8, 'phosphorus', -4, 35, 100, 400, 25, 100, None, 'edge'),
-    'rice': Crop('default', 8, 'phosphorus', 15, 30, 100, 500, 25, 100, 'normal', None),
-    'beet': Crop('default', 6, 'potassium', -5, 20, 70, 300, 18, 85, None, None),
-    'cabbage': Crop('default', 6, 'nitrogen', -10, 27, 60, 280, 15, 65, None, None),
-    'carrot': Crop('default', 5, 'potassium', 3, 30, 100, 400, 25, 100, None, None),
-    'garlic': Crop('default', 5, 'nitrogen', -20, 18, 60, 310, 15, 75, None, None),
-    'green_bean': Crop('double_stick', 8, 'nitrogen', 2, 35, 150, 410, 38, 100, 'normal', None),
-    'potato': Crop('default', 7, 'potassium', -1, 37, 200, 410, 50, 100, None, None),
-    'onion': Crop('default', 7, 'nitrogen', 0, 30, 100, 390, 25, 90, None, None),
-    'soybean': Crop('default', 7, 'nitrogen', 8, 30, 160, 410, 40, 100, 'normal', None),
-    'squash': Crop('default', 8, 'potassium', 5, 33, 90, 390, 23, 95, 'normal', None),
-    'sugarcane': Crop('double', 8, 'potassium', 12, 38, 160, 500, 40, 100, None, None),
-    'tomato': Crop('double_stick', 8, 'potassium', 0, 36, 120, 390, 30, 95, 'normal', None),
-    'jute': Crop('double', 6, 'potassium', 5, 37, 100, 410, 25, 100, None, None),
-    'papyrus': Crop('double', 6, 'potassium', 19, 37, 310, 500, 70, 100, None, None),
-    'pumpkin': Crop('spreading', 8, 'phosphorus', 5, 22, 120, 390, 30, 70, None, None),
-    'melon': Crop('spreading', 8, 'phosphorus', 19, 35, 200, 500, 75, 100, 'normal', None),
-    'red_bell_pepper': Crop('pickable', 7, 'potassium', 16, 30, 190, 400, 25, 60, None, None),
-    'yellow_bell_pepper': Crop('pickable', 7, 'potassium', 16, 30, 190, 400, 25, 60, None, None),
+    'cassava': Crop('default', 'legume', 6, 10.4, 40, 260, 500, 10, 31, 45, 100, -50, 40, 20, 3, None),
+    'green_bean': Crop('double_stick', 'legume', 8, -4, 19.4, 150, 410, -2, 25, 25, 90, -80, 50, 40, 3, None),
+    'lentil': Crop('default', 'legume', 6, -7.6, 19.4, 75, 190, -5, 25, 15, 50, -80, 20, 20, None, None),
+    'peanut': Crop('default', 'legume', 6, 12.2, 40, 130, 360, 11, 31, 20, 80, -90, 50, 50, None, None),
+    'soybean': Crop('default', 'legume', 7, -9.4, 15.8, 160, 410, -7, 22, 25, 90, -80, 60, 30, 3, None),
+    'barley': Crop('default', 'cereal', 8, -9.4, 17.6, 70, 310, -7, 23, 10, 70, 75, -20, -20, None, 2),
+    'oat': Crop('default', 'cereal', 8, -9.4, 15.8, 140, 400, -7, 22, 25, 85, 100, -40, -30, None, 2),
+    'rye': Crop('default', 'cereal', 8, -9.4, 8.6, 100, 350, -7, 18, 15, 80, 100, -20, -40, None, 2),
+    'maize': Crop('double', 'cereal', 6, -9.4, 23., 300, 500, -7, 27, 50, 100, 90, -25, -25, None, 2),
+    'wheat': Crop('default', 'cereal', 8, -9.4, 15.8, 100, 400, -7, 22, 15, 85, 100, -30, -30, None, 2),
+    'rice': Crop('default', 'cereal', 8, 8.6, 40, 200, 500, 8, 31, 35, 100, 40, 30, 30, 3, None),
+    'beet': Crop('default', 'vegetable', 6, -13, 23., 70, 300, -10, 27, 10, 70, 40, 30, 50, None, None),
+    'cabbage': Crop('default', 'vegetable', 6, -13, 23., 60, 280, -10, 27, 10, 65, 50, 20, 40, None, None),
+    'carrot': Crop('default', 'vegetable', 5, -13, 23., 100, 400, -10, 27, 15, 85, 50, 30, 40, None, None),
+    'garlic': Crop('default', 'vegetable', 5, -5.8, 15.8, 60, 310, -3, 22, 10, 70, 40, 20, 50, None, None),
+    'onion': Crop('default', 'vegetable', 7, -7.6, 21.2, 100, 390, -5, 26, 15, 85, 40, 40, 40, None, None),
+    'potato': Crop('default', 'vegetable', 7, -9.4, 15.8, 200, 420, -7, 22, 35, 90, 40, 20, 60, None, None),
+    'squash': Crop('default', 'vegetable', 8, -9.4, 19.4, 90, 390, -7, 25, 15, 85, 25, 45, 50, 3, None),
+    'tomato': Crop('double_stick', 'vegetable', 8, 1.4, 40, 120, 390, 2, 31, 20, 85, 40, 50, 60, 3, None),
+    'red_bell_pepper': Crop('pickable', 'pickable vegetable', 7, 12.2, 40, 190, 450, 11, 31, 30, 95, 30, 40, 50, None, None),
+    'yellow_bell_pepper': Crop('pickable', 'pickable vegetable', 7, 12.2, 40, 190, 450, 11, 31, 30, 95, 30, 40, 50, None, None),
+    'pumpkin': Crop('spreading', 'spreading vegetable', 8, -9.4, 23., 120, 390, -7, 27, 20, 85, 40, 30, 60, None, None),
+    'melon': Crop('spreading', 'spreading vegetable', 8, 5, 40, 200, 500, 5, 31, 35, 100, 30, 40, 65, None, None),
+    'canola': Crop('default', 'cover', 6, -13, 3.2, 120, 320, -30, 6, 20, 75, -30, -60, -100, None, 2),
+    'radish': Crop('default', 'cover', 6, -11.2, 6.8, 190, 410, -28, 10, 30, 90, -50, -100, -60, None, None),
+    'alfalfa': Crop('default', 'cover', 6, -14.8, 5, 240, 480, -32, 8, 40, 100, -80, -50, -60, None, 2),
+    'jute': Crop('double', 'misc', 6, 1.4, 19.4, 100, 410, 2, 25, 15, 90, 60, 40, -40, None, None),
+    'papyrus': Crop('double', 'misc', 6, 12.2, 40, 310, 500, 11, 31, 50, 100, 60, -40, 40, None, None),
+    'sugarcane': Crop('double', 'misc', 8, 17.6, 40, 160, 500, 16, 31, 25, 100, 50, 50, 50, None, None),
 }
 
 PLANTS: dict[str, Plant] = {
@@ -508,6 +543,7 @@ PLANTS: dict[str, Plant] = {
     'star_grass': Plant(False, 5, 40, 50, 260, 'grass_water', False),
     'timothy_grass': Plant(False, -16.4, 17.5, 289, 500, 'short_grass', False),
     'raddia_grass': Plant(False, 19.3, 40, 330, 500, 'short_grass', False),
+    'red_oat_grass': Plant(False, 15.8, 40, 90, 500, 'short_grass', False),
 
     'allium': Plant(False, -5.7, 1.4, 150, 400, 'standard'),
     'anthurium': Plant(False, 13.9, 40, 290, 500, 'standard'),
@@ -604,22 +640,63 @@ PLANTS: dict[str, Plant] = {
     'purple_water_lily': Plant(False, 9.5, 40, 0, 500, 'floating_fresh'),
     'water_taro': Plant(False, 13.9, 40, 260, 500, 'emergent_fresh'),
     'yucca': Plant(False, -0.4, 22.9, 0, 75, 'dry'),
+
+    'bear_grass': Plant(False, -2.2, -13, 380, 500, 'tall_plant'),
+    'edelweiss': Plant(False, -9.4, 5, 200, 450, 'standard'),
+    'elegant_sunburst_lichen': Plant(False, -33, -11.5, 0, 225, 'creeping'),
+    'kinnikinnick': Plant(False, -18.4, -13, 210, 500, 'standard'),
+    'moss_campion': Plant(False, -30, -7.6, 0, 210, 'dry'),
+    'ramunda': Plant(False, -13, -0.4, 0, 190, 'standard'),
+    'shawiash': Plant(False, -16.6, -2.2, 250, 500, 'standard'),
+    'yellow_saxifrage': Plant(False, -16.6, -4, 160, 500, 'standard'),
+
+    'prickly_pear': Plant(False, -4, 21.2, 55, 155, 'cactus'),
+    'prickly_pear_purple': Plant(False, 8.6, 14., 40, 140, 'cactus'),
+
+    'azalea': Plant(False, -4, 15.8, 420, 500, 'tall_plant'),
+    'bird_nest_fern': Plant(False, 17.6, 40, 260, 500, 'perched_epiphyte'),
+    'buttercup': Plant(False, -9.4, 15.8, 200, 400, 'standard'),
+    'cornflower': Plant(False, -15.7, 2.5, 135, 310, 'standard'),
+    'dry_grass': Plant(False, -13, 40, 35, 95, 'dry'),
+    'fan_palm': Plant(False, 23., 40, 270, 420, 'tall_plant'),
+    'mountain_hullwort': Plant(False, 15.8, 40, 270, 500, 'tall_plant'),
+    'palash': Plant(False, 15.8, 24.8, 190, 500, 'tall_plant'),
+    'penwortel': Plant(False, 12.2, 24.8, 135, 380, 'standard'),
+    'qantu': Plant(False, 10.4, 23., 200, 350, 'standard'),
+    'ramirezella': Plant(False, 17.6, 40, 210, 430, 'epiphyte'),
+    'silken_pincushion_cactus': Plant(False, 17.6, 40, 0, 170, 'standard'),
+    'silver_bromeliad': Plant(False, 21.2, 28.4, 25, 110, 'perched_epiphyte'),
+    'sunflower': Plant(False, 8.6, 17.6, 100, 205, 'standard'),
+    'tank_bromeliad': Plant(False, 17.6, 26.6, 320, 500, 'perched_epiphyte'),
+
+    'anemone_purple': Plant(False, -14, 12, 50, 470, 'ocean_creeping'),
+    'anemone_green': Plant(False, -16, 10, 50, 470, 'ocean_creeping'),
+    'barnacles': Plant(False, -25, 25, 0, 500, 'ocean_creeping'),
+    'mussels': Plant(False, -15, 10, 0, 500, 'ocean_creeping'),
+    'starfish': Plant(False, -25, 35, 0, 500, 'rotatable_water_plant'),
+    'anemone_large_purple': Plant(False, -10, 8, 0, 500, 'ocean_creeping'),
+    'anemone_large_orange': Plant(False, 0, 16, 0, 500, 'ocean_creeping'),
 }
 
 FLOWERPOT_CROSS_PLANTS = {
     'allium': 'allium_0',
     'anthurium': 'anthurium_0',
     'athyrium_fern': 'single',
+    'bear_grass': 'potted',
     'black_orchid': 'black_orchid_0',
     'blood_lily': 'blood_lily_0',
     'blue_orchid': 'blue_orchid_0',
     'blue_ginger': 'blue_ginger_0',
+    'buttercup': 'potted',
     'butterfly_milkweed': 'potted',
     'calendula': 'calendula_0',
     'canna': 'canna_0',
+    'cornflower': 'cornflower_0',
     'dandelion': 'dandelion_0',
     'dead_bush': 'dead_bush0',
     'desert_flame': 'desert_flame_0',
+    'dry_grass': 'short_dry_grass',
+    'edelweiss': 'edelweiss_0',
     'field_horsetail': 'potted',
     'foxglove': 'item',
     'goldenrod': 'goldenrod_0',
@@ -634,12 +711,12 @@ FLOWERPOT_CROSS_PLANTS = {
     'maiden_pink': 'potted',
     'meads_milkweed': 'meads_milkweed_0',
     'nasturtium': 'nasturtium_0',
-    'ostrich_fern': 'ostrich_fern_0',
     'oxeye_daisy': 'oxeye_daisy_0',
     'perovskia': 'perovskia_0',
     'poppy': 'poppy_0',
     'primrose': 'primrose',
     'pulsatilla': 'pulsatilla_0',
+    'ramunda': 'ramunda_0',
     'rose': 'classic',
     'sacred_datura': 'sacred_datura_0',
     'sagebrush': 'sagebrush_0',
@@ -659,11 +736,13 @@ FLOWERPOT_CROSS_PLANTS = {
     'tulip_pink': 'tulip_pink_0',
     'tulip_red': 'tulip_red_0',
     'tulip_white': 'tulip_white_0',
+    'yellow_saxifrage': 'potted',
     'yucca': 'potted'
 }
 
-MISC_POTTED_PLANTS = ('barrel_cactus', 'morning_glory', 'moss', 'reindeer_lichen', 'rose', 'toquilla_palm', 'tree_fern', 'sea_palm', 'philodendron', 'golden_bamboo')
+MISC_POTTED_PLANTS = ('barrel_cactus', 'morning_glory', 'moss', 'reindeer_lichen', 'rose', 'toquilla_palm', 'tree_fern', 'sea_palm', 'philodendron', 'golden_bamboo', 'moss_campion', 'shawiash', 'kinnikinnick', 'azalea', 'cycad', 'ostrich_fern', 'elegant_sunburst_lichen', 'silken_pincushion_cactus', 'hibiscus', 'mountain_hullwort', 'lilac', 'palash', 'penwortel', 'prickly_pear', 'prickly_pear_purple', 'qantu', 'sunflower')
 
+# Single block, cross model, just say how many stages
 SIMPLE_STAGE_PLANTS: dict[str, int] = {
     'allium': 6,
     'anthurium': 2,
@@ -673,6 +752,7 @@ SIMPLE_STAGE_PLANTS: dict[str, int] = {
     'blue_orchid': 3,
     'butterfly_milkweed': 6,
     'desert_flame': 2,
+    'edelweiss': 3,
     'heliconia': 3,
     'houstonia': 3,
     'goldenrod': 5,
@@ -684,9 +764,10 @@ SIMPLE_STAGE_PLANTS: dict[str, int] = {
     'nasturtium': 5,
     'oxeye_daisy': 6,
     'perovskia': 6,
-    'poppy': 5,
+    'poppy': 4,
     'primrose': 3,
     'pulsatilla': 6,
+    'ramunda': 2,
     'sacred_datura': 6,  # different
     'saguaro_fruit': 2,
     'silver_spurflower': 3,
@@ -696,6 +777,7 @@ SIMPLE_STAGE_PLANTS: dict[str, int] = {
     'yucca': 4
 }
 
+# Any single-block plant, just generates blockstates and dynamic models
 # Blooming, Seeding, Dying, Dormant, Sprouting, Budding
 SINGLE_BLOCK_STAGE_PLANTS: dict[str, list[int, int, int, int, int, int]] = {
     'allium': [0, 1, 2, 3, 4, 5],
@@ -706,27 +788,36 @@ SINGLE_BLOCK_STAGE_PLANTS: dict[str, list[int, int, int, int, int, int]] = {
     'blue_orchid': [0, 1, 2, 2, 2, 2],
     'butterfly_milkweed': [0, 1, 2, 3, 4, 5],
     'calendula': [0, 1, 2, 3, 4, 5],
+    'cornflower': [0, 1, 1, 1, 1, 2],
     'dandelion': [0, 1, 2, 2, 3, 3],
     'desert_flame': [0, 0, 1, 1, 1, 0],
+    'edelweiss': [0, 1, 1, 1, 1, 2],
     'heather': [0, 0, 1, 1, 1, 0],
     'heliconia': [0, 0, 1, 1, 1, 2],
     'houstonia': [0, 0, 1, 1, 1, 2],
     'goldenrod': [0, 0, 1, 2, 3, 4],
     'grape_hyacinth': [0, 1, 2, 2, 2, 3],
-    'kangaroo_paw': [0, 1, 1, 1, 1, 1, 1],  # tinted
+    'kangaroo_paw': [0, 1, 1, 1, 1, 1],  # tinted
     'labrador_tea': [0, 1, 2, 3, 4, 5],
     'lily_of_the_valley': [0, 1, 2, 3, 4, 5],
+    'kinnikinnick': [0, 1, 2, 3, 4, 4],
     'meads_milkweed': [0, 1, 2, 3, 4, 5,],
+    'moss_campion': [0, 1, 1, 1, 2, 3],
     'nasturtium': [0, 1, 1, 2, 3, 4],
     'oxeye_daisy': [0, 1, 2, 3, 4, 5],
+    'penwortel': [0, 1, 1, 1, 1, 1],
     'perovskia': [0, 1, 2, 3, 4, 5],
     'poppy': [0, 1, 1, 1, 2, 3],
     'primrose': [0, 1, 1, 2, 2, 2],
     'pulsatilla': [0, 1, 2, 3, 4, 5],
+    'qantu': [0, 1, 1, 1, 1, 1],
+    'ramunda': [0, 1, 1, 1, 1, 1],
     'sacred_datura': [0, 1, 2, 3, 4, 5],
     'saguaro_fruit': [0, 1, 1, 1, 1, 1],
+    'shawiash': [0, 1, 2, 3, 4, 4],
     'silver_spurflower': [0, 1, 1, 1, 1, 2],
     'strelitzia': [0, 1, 2, 3, 4, 5],
+    'tank_bromeliad': [0, 1, 1, 1, 1, 1],
     'tropical_milkweed': [0, 1, 1, 1, 2, 3],
     'yucca': [0, 1, 2, 2, 2, 3]
 }
@@ -735,6 +826,7 @@ MODEL_PLANTS = ('arundo', 'arundo_plant', 'athyrium_fern', 'dry_phragmite', 'dry
 SEAGRASS = ('star_grass', 'manatee_grass', 'eel_grass', 'turtle_grass', 'coontail')
 
 SEAWEED = ('sago', 'gutweed', 'laminaria', 'milfoil')
+DROPS_MORE_FOR_AGE = ('buttercup', 'yellow_saxifrage', 'maiden_pink', 'silken_pincushion_cactus')
 
 VESSEL_TYPES = {
     'blue': 'a',
@@ -755,8 +847,8 @@ VESSEL_TYPES = {
     'green': 'd'
 }
 
-SIMPLE_BLOCKS = ('peat', 'aggregate', 'fire_bricks', 'fire_clay_block', 'smooth_mud_bricks')
-SIMPLE_ITEMS = ('alabaster_brick', 'bone_needle', 'blank_disc', 'blubber', 'brass_mechanisms', 'burlap_cloth', 'compost', 'daub', 'dirty_jute_net', 'empty_jar', 'empty_jar_with_lid', 'fire_clay', 'goat_horn', 'gem_saw', 'glow_arrow', 'glue', 'hematitic_glass_batch', 'jacks', 'jar_lid', 'jute', 'jute_fiber', 'jute_net', 'kaolin_clay', 'lamp_glass', 'lens', 'mortar', 'olive_paste', 'olivine_glass_batch', 'paddle', 'papyrus', 'papyrus_strip', 'pure_nitrogen', 'pure_phosphorus', 'pure_potassium', 'rope', 'rotten_compost', 'sandpaper', 'silica_glass_batch', 'silk_cloth', 'soaked_papyrus_strip', 'soot', 'spindle', 'stick_bunch', 'stick_bundle', 'straw', 'treated_hide', 'unrefined_paper', 'volcanic_glass_batch', 'wool', 'wool_cloth', 'wool_yarn', 'wrought_iron_grill')
+SIMPLE_BLOCKS = ('peat', 'aggregate', 'fire_bricks', 'smooth_mud_bricks')
+SIMPLE_ITEMS = ('alabaster_brick', 'bone_needle', 'blank_disc', 'blubber', 'brass_mechanisms', 'burlap_cloth', 'cactus_wood', 'compost', 'daub', 'dirty_jute_net', 'dried_cactus_wood', 'empty_jar', 'empty_jar_with_lid', 'fire_clay', 'goat_horn', 'gem_saw', 'glow_arrow', 'glue', 'hematitic_glass_batch', 'jacks', 'jar_lid', 'canola', 'alfalfa', 'jute', 'jute_fiber', 'jute_net', 'kaolin_clay', 'lamp_glass', 'lens', 'mortar', 'olive_paste', 'canola_paste', 'olivine_glass_batch', 'paddle', 'papyrus', 'papyrus_strip', 'pure_nitrogen', 'pure_phosphorus', 'pure_potassium', 'rotten_compost', 'sandpaper', 'silica_glass_batch', 'silk_cloth', 'soaked_papyrus_strip', 'soot', 'spindle', 'stick_bunch', 'stick_bundle', 'straw', 'treated_hide', 'unrefined_paper', 'volcanic_glass_batch', 'wool', 'wool_cloth', 'wool_yarn', 'wrought_iron_grill')
 
 GENERIC_POWDERS = {
     'charcoal': 'black',
@@ -771,62 +863,67 @@ SIMPLE_POTTERY = ('bowl', 'fire_brick', 'pot', 'spindle_head', 'vessel')
 SIMPLE_UNFIRED_POTTERY = ('brick', 'crucible', 'flower_pot', 'jug', 'pan', 'blowpipe')
 GLASS_TYPES = ('silica', 'hematitic', 'olivine', 'volcanic')
 SHORE_DECORATORS = ('driftwood', 'clam', 'mollusk', 'mussel', 'seaweed', 'sticks_shore', 'guano')
-FOREST_DECORATORS = ('sticks_forest', 'pinecone', 'salt_lick', 'dead_grass', 'humus', 'rotten_flesh', 'bone')
-OCEAN_PLANT_TYPES = ('grass_water', 'floating', 'water', 'emergent', 'tall_water')
-MISC_PLANT_FEATURES = ('hanging_vines', 'hanging_vines_cave', 'spanish_moss', 'saguaro_patch', 'jungle_vines', 'liana', 'moss_cover', 'reindeer_lichen_cover', 'morning_glory_cover', 'philodendron_cover', 'tree_fern', 'arundo')
-UNDERGROUND_FEATURES = ('cave_column', 'cave_spike', 'large_cave_spike', 'water_spring', 'lava_spring', 'calcite', 'mega_calcite', 'icicle', 'underground_loose_rocks', 'underground_guano_patch')
+FOREST_DECORATORS = ('sticks_forest', 'pinecone', 'salt_lick', 'humus', 'rotten_flesh', 'bone')
+OCEAN_PLANT_TYPES = ('grass_water', 'floating', 'water', 'emergent', 'tall_water', 'ocean_creeping', 'rotatable_water_plant', 'ocean_rock_creeping')
+MISC_PLANT_FEATURES = ('hanging_vines', 'hanging_vines_cave', 'spanish_moss', 'saguaro_patch', 'jungle_vines', 'liana', 'moss_cover', 'reindeer_lichen_cover', 'morning_glory_cover', 'philodendron_cover', 'tree_fern', 'arundo', 'flame_vine', 'cycad')
+UNDERGROUND_FEATURES = ('cave_column', 'cave_spike', 'large_cave_spike', 'water_spring', 'lava_spring', 'water_surface_spring', 'extra_water_surface_spring', 'glacial_spring', 'ice_sheet_spring', 'calcite', 'mega_calcite', 'icicle', 'underground_loose_rocks')
 
-# todo: bush hydration / groundwater separation and proper ranges
 # Note, this may be worth moving entirely to groundwater now that we have that system
-# When this gest updated, it needs to be updated in both the book (generate_book.py) and in the climate range (data.py) to use the new hydration and rainfall values
+# When this gets updated, it needs to be updated in both the book (generate_book.py) and in the climate range (data.py) to use the new hydration and rainfall values
 # Alternatively, we ditch rainfall and/or hydration entirely.
+# Generated from Spreadsheet Data
 BERRIES: dict[str, Berry] = {
-    'blackberry': Berry(7, 24, 200, 500, 'spreading', 'none', 'edge'),
-    'raspberry': Berry(5, 25, 200, 500, 'spreading', 'none', 'edge'),
-    'blueberry': Berry(7, 29, 100, 400, 'spreading', 'none', 'edge'),
-    'elderberry': Berry(10, 33, 100, 400, 'spreading', 'none', 'edge'),
+    'blackberry': Berry(-5.2, 19.4, 200, 500, -6.4, 20.6, 17, 100, 'spreading', 0, 2),
+    'raspberry': Berry(-10.6, 14, 180, 450, -11.8, 15.2, 15, 95, 'spreading', 0, 2),
+    'blueberry': Berry(-8.8, 8.6, 150, 400, -10, 9.8, 12, 90, 'spreading', 0, 2),
+    'elderberry': Berry(-5.2, 15.8, 120, 380, -6.4, 17, 9, 85, 'spreading', 0, 2),
 
-    'snowberry': Berry(-7, 18, 200, 500, 'stationary', 'edge', 'old_growth'),
-    'bunchberry': Berry(15, 35, 200, 500, 'stationary', 'edge', 'old_growth'),
-    'gooseberry': Berry(5, 27, 200, 500, 'stationary', 'edge', 'old_growth'),
-    'cloudberry': Berry(-2, 17, 80, 380, 'stationary', 'edge', 'old_growth'),
-    'strawberry': Berry(5, 28, 100, 400, 'stationary', 'edge', 'old_growth'),
-    'wintergreen_berry': Berry(-6, 17, 100, 400, 'stationary', 'edge', 'old_growth'),
+    'snowberry': Berry(-10.6, 5, 200, 500, -11.8, 6.2, 17, 100, 'stationary', 2, 4),
+    'bunchberry': Berry(-14.2, 1.4, 280, 500, -15.4, 2.6, 25, 100, 'stationary', 2, 4),
+    'gooseberry': Berry(-7, 12.2, 200, 500, -8.2, 13.4, 17, 100, 'stationary', 2, 4),
+    'cloudberry': Berry(-14.2, 6.8, 80, 320, -15.4, 8, 5, 80, 'stationary', 2, 4),
+    'strawberry': Berry(-1.6, 17.6, 140, 400, -2.8, 18.8, 11, 90, 'stationary', 2, 4),
+    'wintergreen_berry': Berry(-8.8, 6.8, 100, 370, -10, 8, 7, 85, 'stationary', 2, 4),
 
-    'cranberry': Berry(-5, 17, 250, 500, 'waterlogged', 'edge', 'old_growth')
+    'cranberry': Berry(-14.2, 8.6, 250, 500, -15.4, 9.8, 25, 100, 'waterlogged', 2, 4),
 }
 
+# Generated from Spreadsheet Data
 FRUITS: dict[str, Fruit] = {
-    'banana': Fruit(17, 35, 280, 500),
+    'banana': Fruit(11, 40, 280, 500, 9.8, 41.2, 25, 100),
 
-    'cherry': Fruit(5, 25, 100, 350),
-    'green_apple': Fruit(1, 25, 110, 280),
-    'lemon': Fruit(10, 30, 180, 470),
-    'olive': Fruit(5, 30, 150, 500),
-    'orange': Fruit(15, 36, 250, 500),
-    'peach': Fruit(4, 27, 60, 230),
-    'plum': Fruit(15, 31, 250, 400),
-    'red_apple': Fruit(1, 25, 100, 280)
+    'cherry': Fruit(-5.2, 14, 100, 350, -6.4, 15.2, 7, 80),
+    'green_apple': Fruit(-10.6, 10.4, 130, 280, -11.8, 11.6, 10, 75),
+    'red_apple': Fruit(-10.6, 10.4, 190, 310, -11.8, 11.6, 16, 75),
+    'lemon': Fruit(7.4, 24.8, 220, 440, 6.2, 26, 19, 95),
+    'olive': Fruit(2, 23, 250, 450, 0.8, 24.2, 22, 95),
+    'orange': Fruit(9.2, 40, 300, 500, 8, 41.2, 27, 100),
+    'peach': Fruit(-3.4, 15.8, 180, 470, -4.6, 17, 15, 95),
+    'plum': Fruit(-7, 12.2, 120, 300, -8.2, 13.4, 9, 75),
 }
-JAR_FRUITS = tuple([*BERRIES.keys(), *FRUITS.keys(), 'pumpkin_chunks', 'melon_slice'])
+JAR_FRUITS = tuple([*BERRIES.keys(), *FRUITS.keys(), 'melon_slice', 'peanut'])
 
 SIMPLE_FRESHWATER_FISH = ('bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass',)
+ADVANCEMENT_FISH = ('cod', 'calamari', 'shellfish', 'tropical_fish', *SIMPLE_FRESHWATER_FISH)
 
 GRAINS = ('barley', 'maize', 'oat', 'rice', 'rye', 'wheat')
 GRAIN_SUFFIXES = ('', '_grain', '_flour', '_dough', '_bread', '_bread_sandwich', '_bread_jam_sandwich')
-MISC_FOODS = ('beet', 'cabbage', 'carrot', 'garlic', 'green_bean', 'green_bell_pepper', 'onion', 'potato', 'baked_potato', 'red_bell_pepper', 'soybean', 'squash', 'tomato', 'yellow_bell_pepper', 'cheese', 'cooked_egg', 'boiled_egg', 'fresh_seaweed', 'dried_seaweed', 'dried_kelp', 'cattail_root', 'taro_root', 'sugarcane', 'cooked_rice', 'pumpkin_chunks', 'melon_slice')
-MEATS = ('beef', 'pork', 'chicken', 'quail', 'mutton', 'bear', 'horse_meat', 'pheasant', 'turkey', 'peafowl', 'grouse', 'venison', 'wolf', 'rabbit', 'hyena', 'duck', 'chevon', 'gran_feline', 'camelidae', 'cod', 'tropical_fish', 'turtle', 'calamari', 'shellfish', *SIMPLE_FRESHWATER_FISH, 'frog_legs', 'fox')
+MISC_FOODS = ('beet', 'cabbage', 'carrot', 'garlic', 'green_bean', 'green_bell_pepper', 'onion', 'potato', 'baked_potato', 'red_bell_pepper', 'soybean', 'squash', 'tomato', 'yellow_bell_pepper', 'cheese', 'cooked_egg', 'boiled_egg', 'fresh_seaweed', 'dried_seaweed', 'dried_kelp', 'cattail_root', 'taro_root', 'sugarcane', 'cooked_rice', 'pumpkin_chunks', 'melon_slice', 'cassava', 'cooked_cassava', 'lentil', 'cooked_lentil', 'peanut', 'radish')
+MEATS = ('beef', 'pork', 'chicken', 'quail', 'mutton', 'bear', 'horse_meat', 'pheasant', 'turkey', 'peafowl', 'grouse', 'venison', 'bison', 'wolf', 'rabbit', 'hyena', 'duck', 'chevon', 'gran_feline', 'camelidae', 'cod', 'tropical_fish', 'turtle', 'calamari', 'shellfish', *SIMPLE_FRESHWATER_FISH, 'frog_legs', 'fox')
 NUTRIENTS = ('grain', 'fruit', 'vegetables', 'protein', 'dairy')
 
-SPAWN_EGG_ENTITIES = ('isopod', 'lobster', 'crayfish', 'cod', 'pufferfish', 'tropical_fish', 'jellyfish', 'orca', 'dolphin', 'manatee', 'penguin', 'frog', 'turtle', 'horseshoe_crab', 'polar_bear', 'grizzly_bear', 'black_bear', 'cougar', 'panther', 'lion', 'sabertooth', 'squid', 'octopoteuthis', 'pig', 'cow', 'goat', 'yak', 'alpaca', 'musk_ox', 'sheep', 'chicken', 'duck', 'quail', 'rabbit', 'fox', 'boar', 'donkey', 'mule', 'horse', 'deer', 'moose', 'boar', 'rat', 'cat', 'dog', 'wolf', 'panda', 'grouse', 'pheasant', 'turkey', 'ocelot', 'direwolf', 'hyena', 'tiger', 'crocodile', 'bongo', 'caribou', 'gazelle', 'wildebeest', 'peafowl', *SIMPLE_FRESHWATER_FISH)
+SPAWN_EGG_ENTITIES = ('isopod', 'lobster', 'crayfish', 'cod', 'pufferfish', 'tropical_fish', 'jellyfish', 'orca', 'dolphin', 'manatee', 'penguin', 'leopard_seal', 'frog', 'turtle', 'horseshoe_crab', 'polar_bear', 'grizzly_bear', 'black_bear', 'cougar', 'panther', 'lion', 'sabertooth', 'squid', 'octopoteuthis', 'pig', 'cow', 'goat', 'yak', 'alpaca', 'musk_ox', 'sheep', 'chicken', 'duck', 'quail', 'rabbit', 'fox', 'boar', 'donkey', 'mule', 'horse', 'deer', 'moose', 'boar', 'rat', 'cat', 'dog', 'wolf', 'panda', 'grouse', 'pheasant', 'turkey', 'ocelot', 'direwolf', 'hyena', 'tiger', 'crocodile', 'bongo', 'caribou', 'gazelle', 'wildebeest', 'bison', 'peafowl', 'jerboa', 'lemming', 'mongoose', *SIMPLE_FRESHWATER_FISH)
 BUCKETABLE_FISH = ('cod', 'pufferfish', 'tropical_fish', 'jellyfish', *SIMPLE_FRESHWATER_FISH)
 
-BLOCK_ENTITIES = ('log_pile', 'burning_log_pile', 'placed_item', 'pit_kiln', 'charcoal_forge', 'quern', 'scraping', 'crucible', 'bellows', 'composter', 'chest', 'trapped_chest', 'barrel', 'loom', 'sluice', 'tool_rack', 'sign', 'lamp', 'berry_bush', 'crop', 'firepit', 'pot', 'grill', 'pile', 'farmland', 'tick_counter', 'nest_box', 'bloomery', 'bloom', 'anvil', 'ingot_pile', 'sheet_pile', 'blast_furnace', 'large_vessel', 'powderkeg', 'bowl', 'hot_poured_glass', 'glass_basin', 'axle', 'hand_wheel', 'sewing_table', 'shelf', 'thatch_bed', 'trip_hammer', 'windmill')
+BLOCK_ENTITIES = ('log_pile', 'burning_log_pile', 'placed_item', 'pit_kiln', 'charcoal_forge', 'quern', 'scraping', 'crucible', 'bellows', 'composter', 'chest', 'trapped_chest', 'barrel', 'loom', 'sluice', 'tool_rack', 'sign', 'lamp', 'berry_bush', 'crop', 'firepit', 'pot', 'grill', 'pile', 'farmland', 'tick_counter', 'nest_box', 'bloomery', 'bloom', 'anvil', 'ingot_pile', 'blast_furnace', 'large_vessel', 'powderkeg', 'bowl', 'hot_poured_glass', 'glass_basin', 'axle', 'sewing_table', 'shelf', 'thatch_bed', 'trip_hammer', 'windmill', 'firebox', 'mold_table', 'channel', 'power_loom')
 
 ARMOR_SECTIONS = ('chestplate', 'leggings', 'boots', 'helmet')
 TFC_ARMOR_SECTIONS = ('helmet', 'chestplate', 'greaves', 'boots')
-TFC_BIOMES = ('badlands', 'inverted_badlands', 'canyons', 'low_canyons', 'plains', 'plateau', 'hills', 'rolling_hills', 'lake', 'lowlands', 'salt_marsh', 'mountains', 'volcanic_mountains', 'old_mountains', 'oceanic_mountains', 'volcanic_oceanic_mountains', 'ocean', 'ocean_reef', 'deep_ocean', 'deep_ocean_trench', 'river', 'shore', 'tidal_shore', 'mountain_river', 'volcanic_mountain_river', 'old_mountain_river', 'oceanic_mountain_river', 'volcanic_oceanic_mountain_river', 'mountain_lake', 'volcanic_mountain_lake', 'old_mountain_lake', 'oceanic_mountain_lake', 'volcanic_oceanic_mountain_lake', 'plateau_lake')
-VANILLA_TRIMS = ('coast', 'sentry', 'dune', 'wild', 'ward', 'eye', 'vex', 'tide', 'snout', 'rib', 'spire', 'wayfinder', 'shaper', 'silence', 'raiser', 'host')
+TFC_BIOMES = ['badlands', 'canyons', 'low_canyons', 'plains', 'plateau', 'plateau_wide', 'hills', 'rolling_hills', 'highlands', 'lake', 'lowlands', 'salt_marsh', 'mountains', 'volcanic_mountains', 'old_mountains', 'oceanic_mountains', 'volcanic_oceanic_mountains', 'ocean', 'ocean_reef', 'deep_ocean', 'deep_ocean_trench', 'river', 'guano_island', 'shore', 'tidal_flats', 'sea_stacks', 'terrace_upper', 'terrace_lower', 'setback_cliffs', 'coastal_dunes', 'rocky_shores', 'embayments', 'salt_flats', 'mud_flats', 'dune_sea', 'grassy_dunes', 'whorled_canyons', 'stair_step_canyons', 'mesas', 'buttes', 'hoodoos', 'rocky_plateau', 'tower_karst_plains', 'burren_plains', 'shilin_plains', 'doline_plains', 'cenote_plains', 'tower_karst_canyons', 'doline_canyons', 'cenote_canyons', 'shilin_canyons', 'tower_karst_hills', 'shilin_hills', 'doline_hills', 'cenote_hills', 'tower_karst_highlands', 'burren_badlands_tall', 'shilin_highlands', 'doline_highlands', 'cenote_highlands', 'extreme_doline_plateau', 'burren_plateau', 'shilin_plateau', 'doline_plateau', 'cenote_plateau', 'tower_karst_lake', 'tower_karst_bay', 'extreme_doline_mountains', 'burren_badlands', 'doline_rolling_hills', 'cenote_rolling_hills', 'burren_roche_moutonee', 'active_shield_volcano', 'dormant_shield_volcano', 'extinct_shield_volcano', 'ancient_shield_volcano', 'sunken_shield_volcano', 'shield_volcano_shore', 'old_shield_volcano_shore', 'mountain_lake', 'volcanic_mountain_lake', 'old_mountain_lake', 'oceanic_mountain_lake', 'volcanic_oceanic_mountain_lake', 'plateau_lake', 'ice_sheet', 'ice_sheet_mountains', 'ice_sheet_oceanic_mountains', 'ice_sheet_shield_volcano', 'ice_sheet_tuyas', 'subglacial_lake', 'ice_sheet_edge', 'ice_sheet_tuyas_edge', 'ice_sheet_mountains_edge', 'ice_sheet_oceanic_mountains_edge', 'meltwater_lake', 'ice_sheet_oceanic', 'ice_sheet_shore', 'glaciated_shield_volcano', 'glaciated_mountains', 'glaciated_oceanic_mountains', 'glacially_carved_mountains', 'glacially_carved_oceanic_mountains', 'drumlins', 'tuyas', 'knob_and_kettle', 'patterned_ground', 'inverted_patterned_ground', 'stone_circles']
+KAOLIN_BIOMES = ['rolling_hills', 'highlands', 'plateau', 'plateau_wide', 'old_mountains', 'tower_karst_hills', 'tower_karst_highlands', 'extreme_doline_plateau', 'extreme_doline_mountains', 'doline_rolling_hills', 'doline_highlands', 'doline_plateau', 'cenote_rolling_hills', 'cenote_highlands', 'cenote_plateau', 'shilin_hills', 'shilin_highlands', 'shilin_plateau', 'buttes', 'mesas', 'stair_step_canyons', 'dormant_shield_volcano', 'extinct_shield_volcano', 'ancient_shield_volcano', 'badlands', 'canyons']
+VANILLA_TRIMS = ('coast', 'sentry', 'dune', 'wild', 'ward', 'eye', 'vex', 'tide', 'snout', 'rib', 'spire', 'wayfinder', 'shaper', 'silence', 'raiser', 'host', 'flow', 'bolt')
+
+BUTTERFLIES = ('golden_birdwing', 'papilio_rumanzovia', 'papilio_palinurus', 'moth_diaphora', 'peacock', 'sericinus', 'papilio_blumei', 'adonis_blue', 'silverwashed_fritillary', 'moth_saturnia', 'moth_argema', 'moth_attacus', 'moth_luna', 'moth_trosia')
 
 ALLOYS: Dict[str, Tuple[Tuple[str, float, float], ...]] = {
     'bismuth_bronze': (('zinc', 0.2, 0.3), ('copper', 0.5, 0.65), ('bismuth', 0.1, 0.2)),
@@ -850,10 +947,9 @@ OXIDIZED_METAL_NAMES: dict[str, str] = {
     'copper': 'oxidized'
 }
 
-
 # This is here because it's used all over, and it's easier to import with all constants
 def lang(key: str, *args) -> str:
-    return ((key % args) if len(args) > 0 else key).replace('_', ' ').replace('/', ' ').title()
+    return ((key % args) if len(args) > 0 else key).replace('_', ' ').replace('/', ' ').strip().title()
 
 
 def lang_enum(name: str, values: Sequence[str]) -> Dict[str, str]:
@@ -863,6 +959,7 @@ def lang_enum(name: str, values: Sequence[str]) -> Dict[str, str]:
 VANILLA_OVERRIDE_LANG = {
     'item.minecraft.glow_ink_sac': 'Glowing Ink Sac',
     'item.minecraft.shield': 'Wooden Shield',
+    'block.minecraft.bed.no_sleep': 'You can only sleep at night',
     'block.minecraft.bell': 'Golden Bell',
     'block.minecraft.slime_block': 'Glue Block',
     'block.minecraft.loom': 'Banner Loom',
@@ -872,6 +969,7 @@ VANILLA_OVERRIDE_LANG = {
 # This is here as it's used only once in a generic lang call by generate_resources.py
 DEFAULT_LANG = {
     # Misc
+    'fml.menu.mods.info.description.tfc': 'TerraFirmaCraft',
     'death.attack.tfc.grill': '%1$s grilled themself to death',
     'death.attack.tfc.grill.player': '%1$s grilled themselves while trying to escape %2$s',
     'death.attack.tfc.pot': '%1$s boiled themselves into soup',
@@ -882,7 +980,6 @@ DEFAULT_LANG = {
     'death.attack.tfc.coral.player': '%1$s impaled themself on a coral reef while trying to escape %2$s',
     'death.attack.tfc.pluck': '%1$s was plucked to death.',
     'death.attack.tfc.pluck.player': '%1$s was plucked to death by %2$s, which is surprising, because people don\'t typically grow feathers.',
-    'effect.tfc.pinned': 'Pinned',
     'effect.tfc.ink': 'Ink',
     'effect.tfc.glow_ink': 'Glowing Ink',
     'effect.tfc.overburdened': 'Overburdened',
@@ -891,6 +988,28 @@ DEFAULT_LANG = {
     'tfc.key.place_block': 'Place Block',
     'tfc.key.cycle_chisel_mode': 'Cycle Chisel Mode',
     'tfc.key.stack_food': 'Stack Food',
+    'glass_operation.tfc.blow': 'Blow',
+    'glass_operation.tfc.roll': 'Roll',
+    'glass_operation.tfc.stretch': 'Stretch',
+    'glass_operation.tfc.pinch': 'Pinch',
+    'glass_operation.tfc.flatten': 'Flatten',
+    'glass_operation.tfc.saw': 'Saw',
+    'glass_operation.tfc.amethyst': 'Amethyst Powder',
+    'glass_operation.tfc.soda_ash': 'Soda Ash',
+    'glass_operation.tfc.sulfur': 'Sulfur',
+    'glass_operation.tfc.iron': 'Iron Powder',
+    'glass_operation.tfc.ruby': 'Ruby Powder',
+    'glass_operation.tfc.lapis_lazuli': 'Lapis Powder',
+    'glass_operation.tfc.pyrite': 'Pyrite Powder',
+    'glass_operation.tfc.sapphire': 'Sapphire Powder',
+    'glass_operation.tfc.gold': 'Gold Powder',
+    'glass_operation.tfc.graphite': 'Graphite Powder',
+    'glass_operation.tfc.copper': 'Copper Powder',
+    'glass_operation.tfc.nickel': 'Nickel Powder',
+    'glass_operation.tfc.tin': 'Tin Powder',
+    'glass_operation.tfc.silver': 'Silver Powder',
+    'glass_operation.tfc.table_pour': 'Table Pour',
+    'glass_operation.tfc.basin_pour': 'Basin Pour',
     # Sounds
     'subtitles.block.tfc.crop.stick_add': 'Stick placed in farmland',
     'subtitles.block.tfc.bloomery.crackle': 'Bloomery crackles',
@@ -936,6 +1055,11 @@ DEFAULT_LANG = {
     'subtitles.entity.tfc.penguin.ambient': 'Penguin quacks',
     'subtitles.entity.tfc.penguin.hurt': 'Penguin quacks angrily',
     'subtitles.entity.tfc.penguin.death': 'Penguin dies',
+    'subtitles.entity.tfc.seal.ambient': 'Seal barks',
+    'subtitles.entity.tfc.seal.footsteps': 'Seal flops',
+    'subtitles.entity.tfc.seal.hurt': 'Seal barks angrily',
+    'subtitles.entity.tfc.seal.death': 'Seal dies',
+    'subtitles.entity.tfc.seal.attack': 'Seal bites',
     'subtitles.entity.tfc.quail.ambient': 'Quail calls',
     'subtitles.entity.tfc.quail.hurt': 'Quail yelps',
     'subtitles.entity.tfc.quail.death': 'Quail dies',
@@ -989,10 +1113,14 @@ DEFAULT_LANG = {
     'subtitles.entity.tfc.boar.ambient': 'Boar oinks',
     'subtitles.entity.tfc.boar.hurt': 'Boar squeals',
     'subtitles.entity.tfc.boar.attack': 'Boar grunts',
-    'subtitles.entity.tfc.wildbeest.death': 'Wildebeest dies',
+    'subtitles.entity.tfc.wildebeest.death': 'Wildebeest dies',
     'subtitles.entity.tfc.wildebeest.ambient': 'Wildebeest grunts',
     'subtitles.entity.tfc.wildebeest.hurt': 'Wildebeest yelps',
     'subtitles.entity.tfc.wildebeest.attack': 'Wildebeest rams',
+    'subtitles.entity.tfc.bison.death': 'Bison dies',
+    'subtitles.entity.tfc.bison.ambient': 'Bison grunts',
+    'subtitles.entity.tfc.bison.hurt': 'Bison yelps',
+    'subtitles.entity.tfc.bison.attack': 'Bison rams',
     'subtitles.entity.tfc.grouse.death': 'Grouse dies',
     'subtitles.entity.tfc.grouse.ambient': 'Grouse calls',
     'subtitles.entity.tfc.grouse.hurt': 'Grouse squeals',
@@ -1009,6 +1137,15 @@ DEFAULT_LANG = {
     'subtitles.entity.tfc.rat.death': 'Rat dies',
     'subtitles.entity.tfc.rat.ambient': 'Rat squeaks',
     'subtitles.entity.tfc.rat.hurt': 'Rat squeals',
+    'subtitles.entity.tfc.jerboa.death': 'Jerboa dies',
+    'subtitles.entity.tfc.jerboa.ambient': 'Jerboa squeaks',
+    'subtitles.entity.tfc.jerboa.hurt': 'Jerboa squeals',
+    'subtitles.entity.tfc.lemming.death': 'Lemming dies',
+    'subtitles.entity.tfc.lemming.ambient': 'Lemming squeaks',
+    'subtitles.entity.tfc.lemming.hurt': 'Lemming squeals',
+    'subtitles.entity.tfc.mongoose.death': 'Mongoose dies',
+    'subtitles.entity.tfc.mongoose.ambient': 'Mongoose squeaks',
+    'subtitles.entity.tfc.mongoose.hurt': 'Mongoose squeals',
     'subtitles.entity.tfc.rooster.cry': 'Rooster calls',
     'subtitles.entity.tfc.dog.ambient': 'Dog Barks',
     'subtitles.entity.tfc.dog.hurt': 'Dog Yelps',
@@ -1055,6 +1192,7 @@ DEFAULT_LANG = {
     'tfc.screen.scribing_table': 'Rename Items',
     'tfc.screen.pet_command': 'Pet Commands',
     'tfc.screen.sewing_table': 'Sewing Table',
+    'tfc.tab.field_guide': 'Field Guide',
     # Tooltips (found in Tooltips.java)
     'tfc.tooltip.fluid_units': '%s mB',
     'tfc.tooltip.fluid_units_of': '%s mB of %s',
@@ -1085,17 +1223,29 @@ DEFAULT_LANG = {
     'tfc.tooltip.welding': '§f - Can Weld',
     'tfc.tooltip.danger': '§f - Danger!!',
     'tfc.tooltip.anvil_plan': 'Plans',
+    'tfc.tooltip.anvil_weld': 'Weld',
     'tfc.tooltip.anvil_tier_required': 'Requires %s Anvil',
     'tfc.tooltip.calendar_days_years': '%d, %04d',
+    'tfc.tooltip.calendar_days_left_in_month': '%s days left in %s',
+    "tfc.tooltip.calendar_second_last_day_in_month": "%s day left in %s",
+    "tfc.tooltip.calendar_last_day_in_month": "Last day of %s!",
     'tfc.tooltip.calendar_hour_minute_month_day_year': '%s %s %d, %04d',
+    'tfc.tooltip.calendar_month': 'Month : %s',
     'tfc.tooltip.calendar_season': 'Season : %s',
     'tfc.tooltip.calendar_day': 'Day : %s',
     'tfc.tooltip.calendar_birthday': '%s\'s Birthday!',
     'tfc.tooltip.calendar_date': 'Date : %s',
     'tfc.tooltip.climate_average_temperature': 'Avg. Temp: %s',
-    'tfc.tooltip.climate_annual_rainfall': 'Avg. Rainfall: %smm/yr',
-    'tfc.tooltip.climate_peak_rainfall_summer': 'Peak: %smm/yr in Summer',
-    'tfc.tooltip.climate_peak_rainfall_winter': 'Peak: %smm/yr in Winter',
+    "tfc.tooltip.climate_temperature_name": "Temp:",
+    "tfc.tooltip.climate_temperature_now": "Now: %s",
+    "tfc.tooltip.climate_temperature_average": "Avg: %s",
+    "tfc.tooltip.climate_temperature_average_full": "Avg. Temp: %s",
+    "tfc.tooltip.climate_rainfall_name": "Rain:",
+    "tfc.tooltip.climate_rainfall_now": "Now: %smm",
+    "tfc.tooltip.climate_rainfall_average": "Avg: %smm",
+    "tfc.tooltip.climate_peak_rainfall": "Peak:",
+    "tfc.tooltip.climate_peak_rainfall_july": "%smm in July",
+    "tfc.tooltip.climate_peak_rainfall_january": "%smm in January",
     'tfc.tooltip.climate_current_temp': 'Current Temp: %s',
     'tfc.tooltip.food_expiry_date': 'Expires on: %s',
     'tfc.tooltip.food_expiry_left': 'Expires in: %s',
@@ -1145,7 +1295,8 @@ DEFAULT_LANG = {
     'tfc.tooltip.temperature_rankine': '%s\u00b0R',
     'tfc.tooltip.temperature_kelvin': '%s K',
     'tfc.tooltip.farmland.mature': '§aMature',
-    'tfc.tooltip.farmland.hydration': '§1Hydration: §r%s%%',
+    'tfc.tooltip.farmland.hydration_simple': '§1Hydration: §r%s%%',
+    'tfc.tooltip.farmland.hydration': '§1Hydration:§r %s%% (§6Min: §r%s%% §3Max: §r%s%%)',
     'tfc.tooltip.farmland.hydration_too_low': ' - §4Too low! §r(>%s%%)',
     'tfc.tooltip.farmland.hydration_too_high': ' - §4Too high! §r(<%s%%)',
     'tfc.tooltip.farmland.temperature': '§4Temperature: §r%s\u00b0C',
@@ -1157,21 +1308,39 @@ DEFAULT_LANG = {
     'tfc.tooltip.fruit_tree.growing': 'This block could grow under the right conditions.',
     'tfc.tooltip.fruit_tree.sapling_wrong_month': 'Wrong season to grow a tree.',
     'tfc.tooltip.fruit_tree.sapling_splice': 'May be spliced',
+    'tfc.tooltip.fruit_tree.check_leaves': 'Check leaves or topmost branch for climate information',
     'tfc.tooltip.berry_bush.not_underwater': 'Must be underwater to grow!',
     'tfc.tooltip.fertilizer.nitrogen': '§b(N) Nitrogen: §r%s%%',
     'tfc.tooltip.fertilizer.phosphorus': '§6(P) Phosphorus: §r%s%%',
     'tfc.tooltip.fertilizer.potassium': '§d(K) Potassium: §r%s%%',
+    'tfc.tooltip.plantable.hold_shift': 'Hold (Shift) for Plant Info',
+    'tfc.tooltip.plantable.climate': 'Climate:',
+    'tfc.tooltip.plantable.climate.temperature': '§1Temperature:§r %s §7-§r %s \u00b0C',
+    'tfc.tooltip.plantable.climate.hydration': '§1Hydration:§r %s%% §7-§r %s%%',
+    'tfc.tooltip.plantable.nutrients': 'Nutrients:',
+    'tfc.tooltip.plantable.lifecycle': 'Lifecycle:',
+    'tfc.tooltip.plantable.lifecycle.healthy': 'Can Plant:',
+    'tfc.tooltip.plantable.lifecycle.fruiting': 'Starts Fruiting:',
+    'tfc.tooltip.plantable.lifecycle.growth_speed': 'Grows in:',
     'tfc.tooltip.seal_barrel': 'Seal',
     'tfc.tooltip.unseal_barrel': 'Unseal',
     'tfc.tooltip.while_sealed': 'While sealed',
     'tfc.tooltip.while_sealed_description': 'While the barrel is sealed and the required fluid is present',
     'tfc.tooltip.windmill_not_enough_space': 'There is not enough space to place a windmill here!',
+    'tfc.tooltip.calendar_clock_month_mode': 'Month Mode',
+    'tfc.tooltip.calendar_clock_hour_mode': 'Hour Mode',
+    'tfc.tooltip.calendar_clock_timer_mode': 'Timer Mode',
+    'tfc.tooltip.thermometer_ambient_mode': 'Reading Ambient Temperature',
+    'tfc.tooltip.thermometer_device_mode': 'Reading Device Temperature',
+    'tfc.tooltip.anemometer_speed': 'Wind Speed: %skmh',
+    'tfc.tooltip.vane_direction': 'Wind Direction: %s',
     'tfc.tooltip.anvil_is_too_low_tier_to_weld': 'The Anvil is not a high enough tier to weld that!',
     'tfc.tooltip.anvil_is_too_low_tier_to_work': 'The Anvil is not a high enough tier to work that!',
     'tfc.tooltip.not_hot_enough_to_weld': 'Not hot enough to weld!',
     'tfc.tooltip.not_hot_enough_to_work': 'Not hot enough to work!',
     'tfc.tooltip.no_flux_to_weld': 'There is no flux in the anvil!',
     'tfc.tooltip.hammer_required_to_work': 'A hammer is required to work in the anvil!',
+    'tfc.tooltip.hammer_required_to_weld': 'A hammer is required to weld in the anvil!',
     'tfc.tooltip.anvil_has_been_worked': 'Worked',
     'tfc.tooltip.blast_furnace_ore': 'Input: %d / %d',
     'tfc.tooltip.blast_furnace_fuel': 'Fuel: %d / %d',
@@ -1213,6 +1382,7 @@ DEFAULT_LANG = {
     'tfc.tooltip.glass.olivine': 'Olivine Glass',
     'tfc.tooltip.glass.volcanic': 'Volcanic Glass',
     'tfc.tooltip.glass.flatten_me': 'Right click with a paddle to flatten',
+    'tfc.tooltip.glass.step_count': '%s of %s',
     'tfc.tooltip.sealed': 'Sealed',
     'tfc.tooltip.unsealed': 'Unsealed',
     'tfc.tooltip.switch_sides': 'Switch Sides',
@@ -1220,13 +1390,30 @@ DEFAULT_LANG = {
     'tfc.tooltip.chance': '%s%% chance',
     'tfc.tooltip.wind_speed': '%s km/h, %s%% %s, %s%% %s',
     'tfc.tooltip.javelin.thrown_damage': '%s Thrown Damage',
-    'tfc.tooltip.rotation.angular_velocity': 'Rotating at \u03c9=%s rad/s',
+    'tfc.tooltip.rotation.angular_velocity.radians_per_second': 'Rotating at \u03c9=%s rad/s',
+    'tfc.tooltip.rotation.angular_velocity.degrees_per_second': 'Rotating at \u03c9=%s deg/s',
+    'tfc.tooltip.rotation.angular_velocity.revolutions_per_second': 'Rotating at %s rev/s',
+    'tfc.tooltip.rotation.angular_velocity.revolutions_per_minute': 'Rotating at %s RPM',
+    'tfc.tooltip.rotation.cannot_rotate.too_few_blades': 'Cannot rotate with only one blade!',
+    'tfc.tooltip.rotation.cannot_rotate.obstructed': 'Cannot rotate! Obstructed!',
     'tfc.tooltip.sewing.dark_cloth': 'Dark Cloth',
     'tfc.tooltip.sewing.light_cloth': 'Light Cloth',
     'tfc.tooltip.sewing.stitch': 'Stitch',
     'tfc.tooltip.sewing.remove_stitch': 'Remove Stitch',
     'tfc.tooltip.sewing.select_recipe': 'Select Recipe',
-    'tfc.tooltip.rope.throw_me': 'Right click again to throw the rope in the direction you\'re facing.',
+    'tfc.tooltip.firebox.time_to_heat': 'Heating %s blocks in %s',
+    'tfc.tooltip.firebox.heated': 'Heated %s blocks',
+    'tfc.tooltip.firebox.no_heat': 'No heatable area detected',
+    'tfc.tooltip.scraping.placement': 'Place item on top of block',
+    'tfc.tooltip.kindling': 'Increases the chance of creating a fire pit',
+    'tfc.tooltip.barrel.instant': "Instant",
+    'tfc.tooltip.barrel.infinite': "While sealed",
+
+    'tfc.direction.cardinal_granular': '%s by %s',
+    'tfc.direction.cardinal_northeast': 'Northeast',
+    'tfc.direction.cardinal_southeast': 'Southeast',
+    'tfc.direction.cardinal_southwest': 'Southwest',
+    'tfc.direction.cardinal_northwest': 'Northwest',
 
     **dict(('trim_material.tfc.%s' % mat, lang('%s material', mat)) for mat in TRIM_MATERIALS),
 
@@ -1284,6 +1471,7 @@ DEFAULT_LANG = {
     'config.jade.plugin_tfc.composter': 'Composter',
     'config.jade.plugin_tfc.crop': 'Crop',
     'config.jade.plugin_tfc.crucible': 'Crucible',
+    'config.jade.plugin_tfc.firebox': 'Firebox',
     'config.jade.plugin_tfc.firepit': 'Firepit',
     'config.jade.plugin_tfc.fruit_tree_sapling': 'Fruit Tree Sapling',
     'config.jade.plugin_tfc.hoe_overlay': 'Hoe Overlay',
@@ -1300,18 +1488,25 @@ DEFAULT_LANG = {
     'config.jade.plugin_tfc.mud_bricks': 'Mud Bricks',
     'config.jade.plugin_tfc.decaying': 'Decaying Block',
     'config.jade.plugin_tfc.loom': 'Loom',
-    'config.jade.plugin_tfc.sheet_pile': 'Sheet Pile',
+    'config.jade.plugin_tfc.power_loom': 'Power Loom',
     'config.jade.plugin_tfc.ingot_pile': 'Ingot Pile',
     'config.jade.plugin_tfc.axle': 'Axle',
     'config.jade.plugin_tfc.encased_axle': 'Encased Axle',
     'config.jade.plugin_tfc.clutch': 'Clutch',
-    'config.jade.plugin_tfc.hand_wheel': 'Hand Wheel',
     'config.jade.plugin_tfc.gearbox': 'Gearbox',
     'config.jade.plugin_tfc.crankshaft': 'Crankshaft',
     'config.jade.plugin_tfc.quern': 'Quern',
+    'config.jade.plugin_tfc.creative_motor': 'Creative Motor',
     'config.jade.plugin_tfc.water_wheel': 'Water Wheel',
     'config.jade.plugin_tfc.windmill': 'Windmill',
     'config.jade.plugin_tfc.hot_poured_glass': 'Hot Poured Glass',
+    'config.jade.plugin_tfc.shelf': 'Shelf',
+    'config.jade.plugin_tfc.placed_item': 'Placed Item',
+    'config.jade.plugin_tfc.mold_table': 'Mold Table',
+    'config.jade.plugin_tfc.anemometer': 'Anemometer',
+    'config.jade.plugin_tfc.vane': 'Weather Vane',
+    'config.jade.plugin_tfc.thermometer': 'Thermometer',
+    'config.jade.plugin_tfc.calendar_clock': 'Precision Clock',
 
     'config.jade.plugin_tfc.animal': 'Animal',
     'config.jade.plugin_tfc.frog': 'Frog',
@@ -1329,7 +1524,7 @@ DEFAULT_LANG = {
 
     # Commands
 
-    'tfc.commands.disabled_by_tfc': 'This command has been disabled by TerraFirmaCraft, use /time instead',
+    'tfc.commands.disabled_by_tfc': 'This command has been disabled by TerraFirmaCraft, use "%s" instead',
     'tfc.commands.time.set_day_length': 'Day length has been set to %s minutes/day',
     'tfc.commands.time.set_day_length_disabled': 'Daylight cycle has been disabled',
     'tfc.commands.time.set_month_length': 'Month length has been set to %s days/month',
@@ -1381,6 +1576,8 @@ DEFAULT_LANG = {
     'tfc.create_world.continentalness.tooltip': 'The proportion of the world that is made up of land rather than water',
     'tfc.create_world.grass_density': 'Grass Density',
     'tfc.create_world.grass_density.tooltip': 'Multiplier that applies to the amount of short and tall grass placed within a chunk.',
+    'tfc.create_world.finite_continents': 'Finite Continents',
+    'tfc.create_world.finite_continents.tooltip': 'Should there be a finite amount of continents in the world?',
 
     # Entities
     **dict(('entity.tfc.%s' % fish, lang(fish)) for fish in SIMPLE_FRESHWATER_FISH),
@@ -1396,6 +1593,7 @@ DEFAULT_LANG = {
     'entity.tfc.crayfish': 'Crayfish',
     'entity.tfc.horseshoe_crab': 'Horseshoe Crab',
     'entity.tfc.penguin': 'Penguin',
+    'entity.tfc.leopard_seal': 'Leopard Seal',
     'entity.tfc.frog': 'Frog',
     'entity.tfc.turtle': 'Turtle',
     'entity.tfc.pig': 'Pig',
@@ -1434,7 +1632,6 @@ DEFAULT_LANG = {
     'entity.tfc.fishing_bobber': 'Fishing Bobber',
     'entity.tfc.chest_minecart': 'Chest Minecart',
     'entity.tfc.holding_minecart': 'Holding Minecart',
-    'entity.tfc.rope_knot': 'Rope',
     'entity.tfc.squid': 'Squid',
     'entity.tfc.octopoteuthis': 'Octopoteuthis',
     'entity.tfc.glow_arrow': 'Glowing Arrow',
@@ -1454,6 +1651,7 @@ DEFAULT_LANG = {
     'entity.tfc.panda': 'Panda',
     'entity.tfc.boar': 'Boar',
     'entity.tfc.wildebeest': 'Wildebeest',
+    'entity.tfc.bison': 'Bison',
     'entity.tfc.ocelot': 'Ocelot',
     'entity.tfc.bongo': 'Bongo',
     'entity.tfc.caribou': 'Caribou',
@@ -1467,6 +1665,9 @@ DEFAULT_LANG = {
     'entity.tfc.peafowl.male': 'Peacock',
     'entity.tfc.peafowl.female': 'Peahen',
     'entity.tfc.rat': 'Rat',
+    'entity.tfc.jerboa': 'Jerboa',
+    'entity.tfc.lemming': 'Lemming',
+    'entity.tfc.mongoose': 'Mongoose',
     'entity.tfc.cat': 'Cat',
     'entity.tfc.cat.female': 'Female Cat',
     'entity.tfc.cat.male': 'Male Cat',
@@ -1485,6 +1686,7 @@ DEFAULT_LANG = {
     'entity.tfc.horse': 'Horse',
     'entity.tfc.horse.male': 'Stallion',
     'entity.tfc.horse.female': 'Mare',
+    'entity.tfc.rope_knot': 'Rope',
     **{'entity.tfc.boat.%s' % wood: lang('%s boat', wood) for wood in WOODS.keys()},
     **{'entity.tfc.chest_boat.%s' % wood: lang('%s boat with chest', wood) for wood in WOODS.keys()},
 
@@ -1511,18 +1713,18 @@ DEFAULT_LANG = {
     'tfc.enum.koppenclimateclassification.cfa': 'Oceanic Subtropical',
     'tfc.enum.koppenclimateclassification.cfb': 'Oceanic',
     'tfc.enum.koppenclimateclassification.cfc': 'Cold Oceanic',
-    'tfc.enum.koppenclimateclassification.dsa': 'Continental',
-    'tfc.enum.koppenclimateclassification.dsb': 'Cold Continental',
-    'tfc.enum.koppenclimateclassification.dsc': 'Subarctic',
-    'tfc.enum.koppenclimateclassification.dsd': 'Cold Subarctic',
+    'tfc.enum.koppenclimateclassification.dsa': 'Coastal Continental',
+    'tfc.enum.koppenclimateclassification.dsb': 'Cold Coastal Continental',
+    'tfc.enum.koppenclimateclassification.dsc': 'Coastal Subarctic',
+    'tfc.enum.koppenclimateclassification.dsd': 'Coastal Cold Subarctic',
     'tfc.enum.koppenclimateclassification.dwa': 'Monsoonal Continental',
     'tfc.enum.koppenclimateclassification.dwb': 'Cold Monsoonal Continental',
     'tfc.enum.koppenclimateclassification.dwc': 'Monsoonal Subarctic',
     'tfc.enum.koppenclimateclassification.dwd': 'Cold Monsoonal Subarctic',
-    'tfc.enum.koppenclimateclassification.dfa': 'Coastal Continental',
-    'tfc.enum.koppenclimateclassification.dfb': 'Cold Coastal Continental',
-    'tfc.enum.koppenclimateclassification.dfc': 'Coastal Subarctic',
-    'tfc.enum.koppenclimateclassification.dfd': 'Cold Coastal Subarctic',
+    'tfc.enum.koppenclimateclassification.dfa': 'Continental',
+    'tfc.enum.koppenclimateclassification.dfb': 'Cold Continental',
+    'tfc.enum.koppenclimateclassification.dfc': 'Subarctic',
+    'tfc.enum.koppenclimateclassification.dfd': 'Cold Subarctic',
     'tfc.enum.koppenclimateclassification.et': 'Tundra',
     'tfc.enum.koppenclimateclassification.ef': 'Polar',
     'tfc.enum.season.january': 'Winter',
@@ -1587,28 +1789,6 @@ DEFAULT_LANG = {
     'tfc.enum.order.not_last': 'Not Last',
     'tfc.enum.order.second_last': 'Second Last',
     'tfc.enum.order.third_last': 'Third Last',
-    'tfc.enum.glassoperation.blow': 'Blow',
-    'tfc.enum.glassoperation.roll': 'Roll',
-    'tfc.enum.glassoperation.stretch': 'Stretch',
-    'tfc.enum.glassoperation.pinch': 'Pinch',
-    'tfc.enum.glassoperation.flatten': 'Flatten',
-    'tfc.enum.glassoperation.saw': 'Saw',
-    'tfc.enum.glassoperation.amethyst': 'Amethyst Powder',
-    'tfc.enum.glassoperation.soda_ash': 'Soda Ash',
-    'tfc.enum.glassoperation.sulfur': 'Sulfur',
-    'tfc.enum.glassoperation.iron': 'Iron Powder',
-    'tfc.enum.glassoperation.ruby': 'Ruby Powder',
-    'tfc.enum.glassoperation.lapis_lazuli': 'Lapis Powder',
-    'tfc.enum.glassoperation.pyrite': 'Pyrite Powder',
-    'tfc.enum.glassoperation.sapphire': 'Sapphire Powder',
-    'tfc.enum.glassoperation.gold': 'Gold Powder',
-    'tfc.enum.glassoperation.graphite': 'Graphite Powder',
-    'tfc.enum.glassoperation.copper': 'Copper Powder',
-    'tfc.enum.glassoperation.nickel': 'Nickel Powder',
-    'tfc.enum.glassoperation.tin': 'Tin Powder',
-    'tfc.enum.glassoperation.silver': 'Silver Powder',
-    'tfc.enum.glassoperation.table_pour': 'Table Pour',
-    'tfc.enum.glassoperation.basin_pour': 'Basin Pour',
     'tfc.enum.command.relax': 'Relax',
     'tfc.enum.command.home': 'We\'re Home',
     'tfc.enum.command.sit': 'Sit',
@@ -1642,6 +1822,7 @@ DEFAULT_LANG = {
     'tfc.enum.rockdisplaycategory.metamorphic': 'Metamorphic',
     'tfc.enum.foresttype.sparse': 'sparse',
     'tfc.enum.foresttype.grassland': 'Grassland',
+    'tfc.enum.foresttype.clearing': 'Clearing',
     'tfc.enum.foresttype.shrubland': 'Shrubland',
     'tfc.enum.foresttype.primary_monoculture': 'Primary Monoculture',
     'tfc.enum.foresttype.primary_diverse': 'Primary',
@@ -1729,6 +1910,27 @@ DEFAULT_LANG = {
     'tfc.jei.transfer.error.anvil_welding_tier_too_low': 'Anvil tier too low to weld that',
     'tfc.jei.transfer.error.anvil_forging_tier_too_low': 'Anvil tier is too low to work',
 
+    'emi.category.tfc.heating': 'Heating',
+    'emi.category.tfc.quern': 'Grinding',
+    'emi.category.tfc.scraping': 'Scraping',
+    'emi.category.tfc.clay_knapping': 'Clay Knapping',
+    'emi.category.tfc.fire_clay_knapping': 'Fire Clay Knapping',
+    'emi.category.tfc.leather_knapping': 'Leather Knapping',
+    'emi.category.tfc.rock_knapping': 'Rock Knapping',
+    'emi.category.tfc.goat_horn_knapping': 'Goat Horn Knapping',
+    'emi.category.tfc.pot': 'Boiling',
+    'emi.category.tfc.casting': 'Casting',
+    'emi.category.tfc.alloying': 'Alloying',
+    'emi.category.tfc.loom': 'Weaving',
+    'emi.category.tfc.glassworking': 'Glassworking',
+    'emi.category.tfc.blast_furnace': 'Blast Furnace',
+    'emi.category.tfc.barrel': 'Barrel',
+    'emi.category.tfc.bloomery': 'Bloomery',
+    'emi.category.tfc.welding': 'Welding',
+    'emi.category.tfc.anvil': 'Metalworking',
+    'emi.category.tfc.chisel': 'Chiseling',
+    'emi.category.tfc.sewing': 'Sewing',
+
     'tfc.field_guide.book_name': 'TerraFirmaCraft',
     'tfc.field_guide.book_landing_text': 'Welcome traveller! This book will be the source of all you need to know as you explore the world of TerraFirmaCraft (TFC).',
 
@@ -1739,6 +1941,7 @@ DEFAULT_LANG = {
     'tfc.configuration.blastFurnace': 'Blast Furnace',
     'tfc.configuration.blocks': 'Blocks',
     'tfc.configuration.bloomery': 'Bloomery',
+    'tfc.configuration.bubbleColumn': 'Bubble Column',
     'tfc.configuration.calendar': 'Calendar',
     'tfc.configuration.candle': 'Candle',
     'tfc.configuration.cat': 'Cat',
@@ -1760,6 +1963,7 @@ DEFAULT_LANG = {
     'tfc.configuration.dryingBricks': 'Drying Bricks',
     'tfc.configuration.duck': 'Duck',
     'tfc.configuration.farmland': 'Farmland',
+    'tfc.configuration.firebox': 'Firebox',
     'tfc.configuration.firepit': 'Firepit',
     'tfc.configuration.fluids': 'Fluids',
     'tfc.configuration.foodTraits': 'Food Traits',
@@ -1782,7 +1986,7 @@ DEFAULT_LANG = {
     'tfc.configuration.mud': 'Mud',
     'tfc.configuration.mule': 'Mule',
     'tfc.configuration.muskOx': 'Musk Ox',
-    'tfc.configuration.nestBox': 'Nest box',
+    'tfc.configuration.nestBox': 'Nest Box',
     'tfc.configuration.pig': 'Pig',
     'tfc.configuration.pitKiln': 'Pit Kiln',
     'tfc.configuration.placedItems': 'Placed Items',
@@ -1803,9 +2007,9 @@ DEFAULT_LANG = {
     'tfc.configuration.thatch': 'Thatch',
     'tfc.configuration.thatchBed': 'Thatch Bed',
     'tfc.configuration.torch': 'Torch',
-    'tfc.configuration.vanillaChanges': 'Vanilla Chanes',
+    'tfc.configuration.vanillaChanges': 'Vanilla Changes',
     'tfc.configuration.weird': 'Weird',
-    'tfc.configuration.woodenBucket': 'Wooden Bucket',
+    'tfc.configuration.buckets': 'Buckets',
     'tfc.configuration.yak': 'Yak',
     'tfc.configuration.display': 'Display',
 
@@ -1818,6 +2022,7 @@ DEFAULT_LANG = {
     'tfc.config.client.effectHorizontalAdjustment': 'Effect Horizontal Adjustment',
     'tfc.config.client.enableDebug': 'Enable Debug',
     'tfc.config.client.enableExperienceBar': 'Enable Experience Bar',
+    'tfc.config.client.rotationDisplayStyle': 'Rotional Speed Display Units',
     'tfc.config.client.enableHealthBar': 'Enable Health Bar',
     'tfc.config.client.enableHungerBar': 'Enable Hunger Bar',
     'tfc.config.client.enableInkSplatter': 'Enable Ink Splatter',
@@ -1825,7 +2030,7 @@ DEFAULT_LANG = {
     'tfc.config.client.enableThirstBar': 'Enable Thirst Bar',
     'tfc.config.client.enableVanillaTutorialToasts': 'Enable Vanilla Tutorial Toasts',
     'tfc.config.client.enableWindParticles': 'Enable Wind Particles',
-    'tfc.config.client.foodExpiryOverlayColor': 'Food Expiry Overlay Color',
+    'tfc.config.client.foodExpiryOverlayColor1': 'Food Expiry Overlay Color',
     'tfc.config.client.foodExpiryTooltipStyle': 'Food Expiry Tooltip Style',
     'tfc.config.client.healthDisplayStyle': 'Health Display Style',
     'tfc.config.client.heatTooltipStyle': 'Heat Tooltip Style',
@@ -1839,10 +2044,22 @@ DEFAULT_LANG = {
 
     'tfc.config.common.defaultCalendarStartDay': 'Default Calendar Start Day',
     'tfc.config.common.defaultMonthLength': 'Default Month Length',
+    'tfc.config.common.defaultCalendarDayLength': 'Default Calendar Day Length',
     'tfc.config.common.defaultWorldPreset': 'Default World Preset',
     'tfc.config.common.enableDatapackTests': 'Enable Datapack Tests',
 
-    'tfc.config.server.acaciaSaplingGrowthDays': 'Acacia Sapling Growth Days',
+    'tfc.config.server.enableNetherPortals': 'Enable Nether Portals',
+    'tfc.config.server.enableForcedTFCGameRules': 'Enabled Forced Gamerules',
+    'tfc.config.server.enableTimeStopWhenServerEmpty': 'Stop Time When Server is Empty',
+    'tfc.config.server.enableFireArrowSpreading': 'Flaming Arrows Spread Fire',
+    'tfc.config.server.fireStarterChance': 'Fire Starter Chance',
+    'tfc.config.server.enableInfestations': 'Enable Infestations',
+    'tfc.config.server.enableLightning': 'Enable Lightning',
+    'tfc.config.server.enableLightningStrippingLogs': 'Enable Lightning Stripping Logs',
+    'tfc.config.server.oceanWindScale': 'Ocean Wind Scale',
+    'tfc.config.server.inferredMetals': 'Inferred Metals',
+    
+    'tfc.config.server.acaciaSaplingGrowthTicks': 'Acacia Sapling Growth Ticks',
     'tfc.config.server.alpacaAdulthoodDays': 'Adulthood Days',
     'tfc.config.server.alpacaChildCount': 'Child Count',
     'tfc.config.server.alpacaEatsRottenFood': 'Eats Rotten Food',
@@ -1859,14 +2076,15 @@ DEFAULT_LANG = {
     'tfc.config.server.anvilModestlyForgedThreshold': 'Modestly Forged Threshold',
     'tfc.config.server.anvilPerfectlyForgedThreshold': 'Perfectly Forged Threshod',
     'tfc.config.server.anvilWellForgedThreshold': 'Well Forged Threshold',
-    'tfc.config.server.ashSaplingGrowthDays': 'Ash Sapling Growth Days',
-    'tfc.config.server.aspenSaplingGrowthDays': 'Aspen Sapling Growth Days',
-    'tfc.config.server.bananaSaplingGrowthDays': 'Banana Sapling Growth Days',
+    'tfc.config.server.ashSaplingGrowthTicks': 'Ash Sapling Growth Ticks',
+    'tfc.config.server.aspenSaplingGrowthTicks': 'Aspen Sapling Growth Ticks',
+    'tfc.config.server.bananaPlantGrowthTicks': 'Banana Plant Growth Ticks',
+    'tfc.config.server.bananaSaplingGrowthTicks': 'Banana Sapling Growth Ticks',
     'tfc.config.server.barrelCapacity': 'Capacity',
     'tfc.config.server.barrelEnableAutomation': 'Enable Automation',
     'tfc.config.server.barrelEnableRedstoneSeal': 'Enable Redstone Seal',
-    'tfc.config.server.birchSaplingGrowthDays': 'Birch Sapling Growth Days',
-    'tfc.config.server.blackwoodSaplingGrowthDays': 'Blackwood Sapling Growth Days',
+    'tfc.config.server.birchSaplingGrowthTicks': 'Birch Sapling Growth Ticks',
+    'tfc.config.server.blackwoodSaplingGrowthTicks': 'Blackwood Sapling Growth Ticks',
     'tfc.config.server.blastFurnaceCapacity': 'Capacity',
     'tfc.config.server.blastFurnaceEnableAutomation': 'Enable Automation',
     'tfc.config.server.blastFurnaceFluidCapacity': 'Fluid Capacity',
@@ -1874,6 +2092,7 @@ DEFAULT_LANG = {
     'tfc.config.server.blastFurnaceMaxChimneyHeight': 'Max Chimney Height',
     'tfc.config.server.bloomeryCapacity': 'Capacity',
     'tfc.config.server.bloomeryMaxChimneyHeight': 'Max Chimney Height',
+    'tfc.config.server.bubbleColumnProvidesAir': 'Bubble Column Provides Air',
     'tfc.config.server.candleTicks': 'Ticks',
     'tfc.config.server.catAdulthoodDays': 'Adulthood Days',
     'tfc.config.server.catChildCount': 'Child Count',
@@ -1883,9 +2102,9 @@ DEFAULT_LANG = {
     'tfc.config.server.catUses': 'Uses',
     'tfc.config.server.charcoalForgeEnableAutomation': 'Enable Automation',
     'tfc.config.server.charcoalTicks': 'Ticks',
-    'tfc.config.server.cherrySaplingGrowthDays': 'Cherry Sapling Growth Days',
+    'tfc.config.server.cherrySaplingGrowthTicks': 'Cherry Sapling Growth Ticks',
     'tfc.config.server.chestMaximumItemSize': 'Maximum Item Size',
-    'tfc.config.server.chestnutSaplingGrowthDays': 'Chestnut Sapling Growth Days',
+    'tfc.config.server.chestnutSaplingGrowthTicks': 'Chestnut Sapling Growth Ticks',
     'tfc.config.server.chickenAdulthoodDays': 'Adulthood Days',
     'tfc.config.server.chickenEatsRottenFood': 'Eats Rotten Food',
     'tfc.config.server.chickenFamiliarityCap': 'Familiarity Cap',
@@ -1930,7 +2149,7 @@ DEFAULT_LANG = {
     'tfc.config.server.donkeyFamiliarityCap': 'Familiarity Cap',
     'tfc.config.server.donkeyGestationDays': 'Gestation Days',
     'tfc.config.server.donkeyUses': 'Uses',
-    'tfc.config.server.douglas_firSaplingGrowthDays': 'Douglas Fir Sapling Growth Days',
+    'tfc.config.server.douglasFirSaplingGrowthTicks': 'Douglas Fir Sapling Growth Ticks',
     'tfc.config.server.duckAdulthoodDays': 'Adulthood Days',
     'tfc.config.server.duckEatsRottenFood': 'Eats Rotten Food',
     'tfc.config.server.duckFamiliarityCap': 'Familiarity Cap',
@@ -1940,7 +2159,6 @@ DEFAULT_LANG = {
     'tfc.config.server.duckUses': 'Uses',
     'tfc.config.server.enableBlockCollapsing': 'Enable Collapsing',
     'tfc.config.server.enableBlockLandslides': 'Enable Landslides',
-    'tfc.config.server.enableBucketsPlacingSources': 'Enable Buckets Placing Sources',
     'tfc.config.server.enableChickenJockies': 'Enable Chicken Jockies',
     'tfc.config.server.enableChiselsStartCollapses': 'Enable Chisels Start Collapses',
     'tfc.config.server.enableDirtToMudCreation': 'Enable Dirt to Mud Creation',
@@ -1956,8 +2174,11 @@ DEFAULT_LANG = {
     'tfc.config.server.enableRootedDirtToDirtCreation': 'Enable Rooted Dirt to Dirt Creation',
     'tfc.config.server.enableSmallVesselInventoryInteraction': 'Enable Small Vessel Inventory Interaction',
     'tfc.config.server.enableSnowSlowEntities': 'Enable Snow Slow Entities',
+    'tfc.config.server.snowMaxAccumulationOnUpdate': 'Max Snow Accumulation on Update',
+    'tfc.config.server.ticksPerSnowAccumulation': 'Ticks Per Snow Accumulation',
+    'tfc.config.server.snowMeltMultiplier': 'Snow Melt Multiplier',
     'tfc.config.server.enableThatchBedSleeping': 'Enable Thatch Bed Sleeping',
-    'tfc.config.server.enableThatchBedSpawnSetting': 'Enable Thatch Bed Spawn Settings',
+    'tfc.config.server.enableThatchBedSpawnSetting': 'Enable Thatch Bed Spawn Setting',
     'tfc.config.server.enableThirstOverheating': 'Enable Thirst Overheating',
     'tfc.config.server.enableVanillaBonemeal': 'Enable Vanilla Bonemeal',
     'tfc.config.server.enableVanillaDrinkingMilkClearsPotionEffects': 'Enable Vanilla Drinking Milk Clearing Potion Effects',
@@ -1971,11 +2192,13 @@ DEFAULT_LANG = {
     'tfc.config.server.enableVanillaWeatherEffects': 'Enable Vanilla Weather Effects',
     'tfc.config.server.familiarityDecayLimit': 'Familiarity Decay Limit',
     'tfc.config.server.farmlandMakesTheBestRaceTracks': 'Farmland Makes the Best Race Tracks',
+    'tfc.config.server.fireboxEnableAutomation': 'Enable Automation',
     'tfc.config.server.firePitEnableAutomation': 'Enable Automation',
     'tfc.config.server.foodDecayModifier': 'Food Decay Modifier',
-    'tfc.config.server.foodDecayStackWindow': 'Food Decay Stack Window',
-    'tfc.config.server.globalFruitSaplingGrowthModifier': 'Fruit Sapling Growth Modifier',
-    'tfc.config.server.globalSaplingGrowthModifier': 'Sapling Growth Modifier',
+    'tfc.config.server.foodDecayStackTicks1': 'Food Decay Stack Ticks',
+    'tfc.config.server.fruitBranchGrowthTicks': 'Fruit Branch Growth Ticks',
+    'tfc.config.server.fruitPickBloomDelayTicks': 'Fruit Pick Bloom Delay Ticks',
+    'tfc.config.server.saplingGrowthModifier': 'Sapling Growth Modifier',
     'tfc.config.server.goatAdulthoodDays': 'Adulthood Days',
     'tfc.config.server.goatChildCount': 'Child Count',
     'tfc.config.server.goatEatsRottenFood': 'Eats Rotten Food',
@@ -1985,10 +2208,10 @@ DEFAULT_LANG = {
     'tfc.config.server.goatProduceTicks': 'Produce Ticks',
     'tfc.config.server.goatUses': 'Uses',
     'tfc.config.server.grassSpawningRocksChance': 'Grass Spawning Rocks Chance',
-    'tfc.config.server.green_appleSaplingGrowthDays': 'Green Apple Sapling Growth Days',
+    'tfc.config.server.greenAppleSaplingGrowthTicks': 'Green Apple Sapling Growth Ticks',
     'tfc.config.server.hematiticGlassBottleBreakChance': 'Hematitic Glass Bottle Break Chance',
     'tfc.config.server.hematiticGlassBottleCapacity': 'Hematitic Glass Bottle Capacity',
-    'tfc.config.server.hickorySaplingGrowthDays': 'Hickory Sapling Growth Days',
+    'tfc.config.server.hickorySaplingGrowthTicks': 'Hickory Sapling Growth Ticks',
     'tfc.config.server.horseAdulthoodDays': 'Adulthood Days',
     'tfc.config.server.horseChildCount': 'Child Count',
     'tfc.config.server.horseEatsRottenFood': 'Eats Rotten Food',
@@ -2001,18 +2224,21 @@ DEFAULT_LANG = {
     'tfc.config.server.jackOLanternTicks': 'Jack\'O\'Lantern Ticks',
     'tfc.config.server.jugBreakChance': 'Break Chance',
     'tfc.config.server.jugCapacity': 'Capacity',
-    'tfc.config.server.kapokSaplingGrowthDays': 'Kapok Sapling Growth Days',
+    'tfc.config.server.kapokSaplingGrowthTicks': 'Kapok Sapling Growth Ticks',
     'tfc.config.server.keepNutritionAfterDeath': 'Keep Nutrition After Death',
     'tfc.config.server.lampCapacity': 'Capacity',
     'tfc.config.server.largeVesselEnableAutomation': 'Enable Automation',
-    'tfc.config.server.largeVesselEnableRedstoneSeal': 'Enable Redstone Steal',
+    'tfc.config.server.largeVesselEnableRedstoneSeal': 'Enable Redstone Seal',
     'tfc.config.server.leavesMovementModifier': 'Movement Modifier',
-    'tfc.config.server.lemonSaplingGrowthDays': 'Lemon Sapling Growth Days',
+    'tfc.config.server.lemonSaplingGrowthTicks': 'Lemon Sapling Growth Ticks',
     'tfc.config.server.loomEnableAutomation': 'Enable Automation',
-    'tfc.config.server.mangroveSaplingGrowthDays': 'Mangrove Sapling Growth Days',
-    'tfc.config.server.mapleSaplingGrowthDays': 'Maple Sapling Growth Days',
+    'tfc.config.server.mangroveSaplingGrowthTicks': 'Mangrove Sapling Growth Ticks',
+    'tfc.config.server.mapleSaplingGrowthTicks': 'Maple Sapling Growth Ticks',
+    'tfc.config.server.maxIntoxicationTicks': 'Max Intoxication Ticks',
     'tfc.config.server.maxPlacedItemSize': 'Max Placed Item Size',
     'tfc.config.server.maxPlacedLargeItemSize': 'Max Placed Large Item Size',
+    'tfc.config.server.metalBucketCanPlaceSources': 'Metal Bucket Can Place Sources',
+    'tfc.config.server.metalBucketCapacity': 'Metal Bucket Capacity',
     'tfc.config.server.moldAxeHeadCapacity': 'Axe Head Mold Capacity',
     'tfc.config.server.moldChiselHeadCapacity': 'Chisel Head Mold Capacity',
     'tfc.config.server.moldHammerHeadCapacity': 'Hammer Head Mold Capacity',
@@ -2049,28 +2275,28 @@ DEFAULT_LANG = {
     'tfc.config.server.nutritionMaximumHealthModifier': 'Maximum Health Modifier',
     'tfc.config.server.nutritionMinimumHealthModifier': 'Minimum Health Modifier',
     'tfc.config.server.nutritionRotationHungerWindow': 'Nutrition Rotation Hunger Window',
-    'tfc.config.server.oakSaplingGrowthDays': 'Oak Sapling Growth Days',
-    'tfc.config.server.oliveSaplingGrowthDays': 'Olive Sapling Growth Days',
+    'tfc.config.server.oakSaplingGrowthTicks': 'Oak Sapling Growth Ticks',
+    'tfc.config.server.oliveSaplingGrowthTicks': 'Olive Sapling Growth Ticks',
     'tfc.config.server.olivineGlassBottleBreakChance': 'Olivine Glass Bottle Break Chance',
     'tfc.config.server.olivineGlassBottleCapacity': 'Olivine Glass Bottle Capacity',
-    'tfc.config.server.orangeSaplingGrowthDays': 'Orange Sapling Growth Days',
-    'tfc.config.server.palmSaplingGrowthDays': 'Palm Sapling Growth Days',
+    'tfc.config.server.orangeSaplingGrowthTicks': 'Orange Sapling Growth Ticks',
+    'tfc.config.server.palmSaplingGrowthTicks': 'Palm Sapling Growth Ticks',
     'tfc.config.server.passiveExhaustionMultiplier': 'Passive Exhaustion Multiplier',
-    'tfc.config.server.peachSaplingGrowthDays': 'Peach Sapling Growth Days',
+    'tfc.config.server.peachSaplingGrowthTicks': 'Peach Sapling Growth Ticks',
     'tfc.config.server.pigAdulthoodDays': 'Adulthood Days',
     'tfc.config.server.pigChildCount': 'Child Count',
     'tfc.config.server.pigEatsRottenFood': 'Eats Rotten Food',
     'tfc.config.server.pigFamiliarityCap': 'Familiarity Cap',
     'tfc.config.server.pigGestationDays': 'Gestation Days',
     'tfc.config.server.pigUses': 'Uses',
-    'tfc.config.server.pineSaplingGrowthDays': 'Pine Sapling Growth Days',
+    'tfc.config.server.pineSaplingGrowthTicks': 'Pine Sapling Growth Ticks',
     'tfc.config.server.pitKilnTemperature': 'Temperature',
     'tfc.config.server.pitKilnTicks': 'Ticks',
     'tfc.config.server.plantGrowthChance': 'Growth Chance',
     'tfc.config.server.plantLongGrowthChance': 'Long Growth Chance',
     'tfc.config.server.plantSpreadChance': 'Spread Chance',
     'tfc.config.server.plantsMovementModifier': 'Movement Modifier',
-    'tfc.config.server.plumSaplingGrowthDays': 'Plum Sapling Growth Days',
+    'tfc.config.server.plumSaplingGrowthTicks': 'Plum Sapling Growth Ticks',
     'tfc.config.server.powderBowlEnableAutomation': 'Enable Automation',
     'tfc.config.server.powderKegEnableAutomation': 'Enable Automation',
     'tfc.config.server.powderKegEnabled': 'Enabled',
@@ -2091,9 +2317,9 @@ DEFAULT_LANG = {
     'tfc.config.server.rabbitFamiliarityCap': 'Familiarity Cap',
     'tfc.config.server.rabbitGestationDays': 'Gestation Days',
     'tfc.config.server.rabbitUses': 'Uses',
-    'tfc.config.server.red_appleSaplingGrowthDays': 'Red Apple Sapling Growth Days',
-    'tfc.config.server.rosewoodSaplingGrowthDays': 'Rosewood Sapling Growth Days',
-    'tfc.config.server.sequoiaSaplingGrowthDays': 'Sequoia Sapling Growth Days',
+    'tfc.config.server.redAppleSaplingGrowthTicks': 'Red Apple Sapling Growth Ticks',
+    'tfc.config.server.rosewoodSaplingGrowthTicks': 'Rosewood Sapling Growth Ticks',
+    'tfc.config.server.sequoiaSaplingGrowthTicks': 'Sequoia Sapling Growth Ticks',
     'tfc.config.server.sheepAdulthoodDays': 'Adulthood Days',
     'tfc.config.server.sheepChildCount': 'Child Count',
     'tfc.config.server.sheepEatsRottenFood': 'Eats Rotten Food',
@@ -2109,8 +2335,8 @@ DEFAULT_LANG = {
     'tfc.config.server.smallVesselMaximumItemSize': 'Maximum Item Size',
     'tfc.config.server.snowAccumulateChance': 'Accumulate Chance',
     'tfc.config.server.snowMeltChance': 'Melt Chance',
-    'tfc.config.server.spruceSaplingGrowthDays': 'Spruce Sapling Growth Days',
-    'tfc.config.server.sycamoreSaplingGrowthDays': 'Sycamore Sapling Growth Days',
+    'tfc.config.server.spruceSaplingGrowthTicks': 'Spruce Sapling Growth Ticks',
+    'tfc.config.server.sycamoreSaplingGrowthTicks': 'Sycamore Sapling Growth Ticks',
     'tfc.config.server.thatchBedNoSleepInThunderstorms': 'No Sleeping in Thunderstorms',
     'tfc.config.server.thatchMovementMultiplier': 'Movement Modifier',
     'tfc.config.server.thirstGainedFromDrinkingInTheRain': 'Thirst Gained from Drinking in the Rain',
@@ -2119,6 +2345,7 @@ DEFAULT_LANG = {
     'tfc.config.server.torchTicks': 'Ticks',
     'tfc.config.server.traitBrinedModifier': 'Brined Decay Modifier',
     'tfc.config.server.traitBurntToACrispModifier': 'Burnt to a Crisp Decay Modifier',
+    'tfc.config.server.traitCannedModifier': 'Canned Modifier',
     'tfc.config.server.traitCharcoalGrilledModifier': 'Charcoal Grilled Modifier',
     'tfc.config.server.traitPickledModifier': 'Pickled Modifier',
     'tfc.config.server.traitPreservedModifier': 'Preserved Modifier',
@@ -2129,8 +2356,9 @@ DEFAULT_LANG = {
     'tfc.config.server.usePlacedItemWhitelist': 'Use Placed Item Whitelist',
     'tfc.config.server.volcanicGlassBottleBreakChance': 'Volcanic Glass Bottle Break Chance',
     'tfc.config.server.volcanicGlassBottleCapacity': 'Volcanic Glass Bottle Capacity',
-    'tfc.config.server.white_cedarSaplingGrowthDays': 'White Cedar Sapling Growth Days',
-    'tfc.config.server.willowSaplingGrowthDays': 'Willow Sapling Growth Days',
+    'tfc.config.server.whiteCedarSaplingGrowthTicks': 'White Cedar Sapling Growth Ticks',
+    'tfc.config.server.willowSaplingGrowthTicks': 'Willow Sapling Growth Ticks',
+    'tfc.config.server.woodenBucketCanPlaceSources': 'Wooden Bucket Can Place Sources',
     'tfc.config.server.woodenBucketCapacity': 'Wooden Bucket Capacity',
     'tfc.config.server.yakAdulthoodDays': 'Adulthood Days',
     'tfc.config.server.yakChildCount': 'Child Count',
@@ -2140,12 +2368,339 @@ DEFAULT_LANG = {
     'tfc.config.server.yakMinProduceFamiliarity': 'Yak Min Produce Familiarity',
     'tfc.config.server.yakProduceTicks': 'Produce Ticks',
     'tfc.config.server.yakUses': 'Uses',
+    # Recipes
+    'tfc.recipe.barrel.tfc.barrel.small_soaked_hide': 'Small Soaked Hide',
+    'tfc.recipe.barrel.tfc.barrel.small_prepared_hide': 'Small Prepared Hide',
+    'tfc.recipe.barrel.tfc.barrel.small_leather': 'Leather',
+    'tfc.recipe.barrel.tfc.barrel.medium_soaked_hide': 'Medium Soaked Hide',
+    'tfc.recipe.barrel.tfc.barrel.medium_prepared_hide': 'Medium Prepared Hide',
+    'tfc.recipe.barrel.tfc.barrel.medium_leather': 'Leather',
+    'tfc.recipe.barrel.tfc.barrel.large_soaked_hide': 'Large Soaked Hide',
+    'tfc.recipe.barrel.tfc.barrel.large_prepared_hide': 'Large Prepared Hide',
+    'tfc.recipe.barrel.tfc.barrel.large_leather': 'Leather',
+    'tfc.recipe.barrel.tfc.barrel.tannin': 'Tannin',
+    'tfc.recipe.barrel.tfc.barrel.jute_fiber': 'Jute Fiber',
+    'tfc.recipe.barrel.tfc.barrel.sugar': 'Sugar',
+    'tfc.recipe.barrel.tfc.barrel.glue': 'Glue',
+    'tfc.recipe.barrel.tfc.barrel.soaked_papyrus_strip': 'Soaking Papyrus Strips',
+    'tfc.recipe.barrel.tfc.barrel.beer': 'Fermenting Beer',
+    'tfc.recipe.barrel.tfc.barrel.cider': 'Fermenting Cider',
+    'tfc.recipe.barrel.tfc.barrel.rum': 'Fermenting Rum',
+    'tfc.recipe.barrel.tfc.barrel.sake': 'Fermenting Sake',
+    'tfc.recipe.barrel.tfc.barrel.vodka': 'Fermenting Vodka',
+    'tfc.recipe.barrel.tfc.barrel.whiskey': 'Fermenting Whiskey',
+    'tfc.recipe.barrel.tfc.barrel.corn_whiskey': 'Fermenting Corn Whiskey',
+    'tfc.recipe.barrel.tfc.barrel.rye_whiskey': 'Fermenting Rye Whiskey',
+    'tfc.recipe.barrel.tfc.barrel.vinegar': 'Vinegar',
+    'tfc.recipe.barrel.tfc.barrel.brined': 'Brining',
+    'tfc.recipe.barrel.tfc.barrel.pickled': 'Pickling',
+    'tfc.recipe.barrel.tfc.barrel.preserved_in_vinegar': 'Preserving In Vinegar',
+    'tfc.recipe.barrel.tfc.barrel.mortar': 'Mortar',
+    'tfc.recipe.barrel.tfc.barrel.curdled_milk': 'Curdling Milk',
+    'tfc.recipe.barrel.tfc.barrel.cheese': 'Cheese',
+    'tfc.recipe.barrel.tfc.barrel.raw_alabaster': 'Raw Plaster',
+    'tfc.recipe.barrel.tfc.barrel.clean_jute_net': 'Cleaning Jute Net',
+    'tfc.recipe.barrel.tfc.barrel.candle': 'Candle',
+    'tfc.recipe.barrel.tfc.barrel.bleach_wool': 'Bleaching Wool',
+    'tfc.recipe.barrel.tfc.barrel.bleach_carpet': 'Bleaching Carpet',
+    'tfc.recipe.barrel.tfc.barrel.bleach_bed': 'Bleaching Bed',
+    'tfc.recipe.barrel.tfc.barrel.bleach_terracotta': 'Bleaching Terracotta',
+    'tfc.recipe.barrel.tfc.barrel.bleach_banner': 'Bleaching Banner',
+    'tfc.recipe.barrel.tfc.barrel.bleach_glazed_terracotta': 'Bleaching Glazed Terracotta',
+    'tfc.recipe.barrel.tfc.barrel.bleach_shulker_box': 'Bleaching Shulker Box',
+    'tfc.recipe.barrel.tfc.barrel.bleach_ceramic.unfired_vessel': 'Bleaching Unfired Vessel',
+    'tfc.recipe.barrel.tfc.barrel.bleach_ceramic.unfired_large_vessel': 'Bleaching Unfired Large Vessel',
+    'tfc.recipe.barrel.tfc.barrel.bleach_aggregate': 'Bleaching Concrete Powder',
+    'tfc.recipe.barrel.tfc.barrel.bleach_candle': 'Bleaching Candle',
+    'tfc.recipe.barrel.tfc.barrel.bleach_windmill_blade': 'Bleaching Windmill Blade',
+    'tfc.recipe.barrel.tfc.barrel.bleach_alabaster.raw': 'Bleaching Raw Plaster',
+    'tfc.recipe.barrel.tfc.barrel.bleach_alabaster.bricks': 'Bleaching Plaster Bricks',
+    'tfc.recipe.barrel.tfc.barrel.bleach_alabaster.polished': 'Bleaching Polished Plaster',
+    'tfc.recipe.barrel.tfc.barrel.bleach_dyeable': 'Bleaching Item',
+    'tfc.recipe.barrel.tfc.barrel.disc_strad': 'Imprinting Strad Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_blocks': 'Imprinting Blocks Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_mellohi': 'Imprinting Mellohi Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_wait': 'Imprinting Wait Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_13': 'Imprinting 13 Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_cat': 'Imprinting Cat Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_otherside': 'Imprinting Otherside Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_mall': 'Imprinting Mall Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_ward': 'Imprinting Ward Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_far': 'Imprinting Far Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_chirp': 'Imprinting Chirp Disc',
+    'tfc.recipe.barrel.tfc.barrel.disc_stal': 'Imprinting Stal Disc',
+    **{
+        entry[0] % color: entry[1] % color.replace('_', ' ').title()
+        for color, entry in list(itertools.product(COLORS,
+        [
+            ('tfc.recipe.barrel.tfc.barrel.%s_wool', 'Dyeing Wool %s', NON_WHITE_COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.%s_carpet', 'Dyeing Carpet %s', NON_WHITE_COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.%s_bed', 'Dyeing Bed %s', NON_WHITE_COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.%s_terracotta', 'Dyeing Terracotta %s', NON_WHITE_COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.%s_banner', 'Dyeing Banner %s', NON_WHITE_COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.%s_glazed_terracotta', 'Dyeing Glazed Terracotta %s', NON_WHITE_COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.%s_shulker_box', 'Dyeing Shulker %s', COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.ceramic.%s_unfired_vessel', 'Dyeing Unfired Vessel %s', COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.ceramic.unfired_large_vessel.%s', 'Dyeing Unfired Large Vessel %s', COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.%s_concrete_powder', 'Dyeing Aggregate %s', COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.candle.%s', 'Dyeing Candle %s', COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.alabaster.raw.%s', 'Dyeing Plaster Raw %s', COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.alabaster.bricks.%s', 'Dyeing Plaster Bricks %s', COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.alabaster.polished.%s', 'Dyeing Plaster Polished %s', COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.windmill_blade.%s', 'Dyeing Windmill Blade %s', NON_WHITE_COLORS),
+            ('tfc.recipe.barrel.tfc.barrel.%s_dyeable', 'Dyeing Item %s', COLORS)
+        ])) if color in entry[2]
+    },
 
     **{
         'tfc.block_entity.%s' % block: lang(block)
         for block in BLOCK_ENTITIES
     },
 }
+
+MOLD_PATTERNS = {
+    'tfc:ceramic/ingot_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/hammer_head_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXX  XXXXXXX',
+        'XXXX    XXXXXX',
+        'XXX      XXXXX',
+        'XX        XXXX',
+        'XX         XXX',
+        'XXX         XX',
+        'XXXX        XX',
+        'XXXXX      XXX',
+        'XXXXXX    XXXX',
+        'XXXXXXX  XXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/hoe_head_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XX       XXXXX',
+        'XXX       XXXX',
+        'XXXXXX     XXX',
+        'XXXXXXXX    XX',
+        'XXXXXXXXX   XX',
+        'XXXXXXXXXX  XX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/javelin_head_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XX  XXXXXXXXXX',
+        'XX    XXXXXXXX',
+        'XXX     XXXXXX',
+        'XXX      XXXXX',
+        'XXXX      XXXX',
+        'XXXX       XXX',
+        'XXXXX      XXX',
+        'XXXXXX     XXX',
+        'XXXXXXX     XX',
+        'XXXXXXXXXX  XX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/knife_blade_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XX  XXXXXXXXXX',
+        'XX   XXXXXXXXX',
+        'XX    XXXXXXXX',
+        'XX     XXXXXXX',
+        'XXX     XXXXXX',
+        'XXXX     XXXXX',
+        'XXXXX     XXXX',
+        'XXXXXX     XXX',
+        'XXXXXXXXX   XX',
+        'XXXXXXXXXX  XX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/axe_head_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXX  XXXXXX',
+        'XXXXX    XXXXX',
+        'XXXX     XXXXX',
+        'XXX      XXXXX',
+        'XX        XXXX',
+        'XX         XXX',
+        'XXX         XX',
+        'XXXXXX      XX',
+        'XXXXXXX     XX',
+        'XXXXXXXX   XXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/chisel_head_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXX XXXXXXXXX',
+        'XXX   XXXXXXXX',
+        'XX     XXXXXXX',
+        'XXX     XXXXXX',
+        'XXXX     XXXXX',
+        'XXXXX     XXXX',
+        'XXXXXX     XXX',
+        'XXXXXXX     XX',
+        'XXXXXXXX    XX',
+        'XXXXXXXXX  XXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/mace_head_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXX  XXXX',
+        'XXXXXX     XXX',
+        'XXXXXX      XX',
+        'XXXX        XX',
+        'XXXX       XXX',
+        'XXX        XXX',
+        'XXX      XXXXX',
+        'XXX      XXXXX',
+        'XXXX   XXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/propick_head_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XX     XXXXXXX',
+        'XXX     XXXXXX',
+        'XXXX     XXXXX',
+        'XXXXX     XXXX',
+        'XXXXXX     XXX',
+        'XXXXXXX     XX',
+        'XXXXXXXX    XX',
+        'XXXXXXXXX  XXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/pickaxe_head_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XX      XXXXXX',
+        'XXX       XXXX',
+        'XXXX       XXX',
+        'XXXXXXX    XXX',
+        'XXXXXXXX    XX',
+        'XXXXXXXXX   XX',
+        'XXXXXXXXX   XX',
+        'XXXXXXXXX   XX',
+        'XXXXXXXXXX  XX',
+        'XXXXXXXXXXX XX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/saw_blade_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXX  XXXXXXXXX',
+        'XX     XXXXXXX',
+        'XX       XXXXX',
+        'XX        XXXX',
+        'XXXX        XX',
+        'XXXX        XX',
+        'XXXXXX      XX',
+        'XXXXXX      XX',
+        'XXXXXXXX    XX',
+        'XXXXXXXX   XXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/scythe_blade_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXX      XXXX',
+        'XX         XXX',
+        'XXXXXX      XX',
+        'XXXXXXXX    XX',
+        'XXXXXXXXX  XXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/shovel_head_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXX    XXXX',
+        'XXXXX      XXX',
+        'XXXX       XXX',
+        'XXX        XXX',
+        'XXX        XXX',
+        'XXXX      XXXX',
+        'XXXXX    XXXXX',
+        'XXXXXX  XXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/sword_blade_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXX   XX',
+        'XXXXXXXX    XX',
+        'XXXXXXX     XX',
+        'XXXXXX     XXX',
+        'XXXXX     XXXX',
+        'XXXX     XXXXX',
+        'XXX     XXXXXX',
+        'XX     XXXXXXX',
+        'XX    XXXXXXXX',
+        'XXX  XXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+    'tfc:ceramic/bell_mold': [
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXX  XXXXXX',
+        'XXXXX    XXXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXXX      XXXX',
+        'XXX        XXX',
+        'XX          XX',
+        'XX          XX',
+        'XXXXXXXXXXXXXX',
+        'XXXXXXXXXXXXXX',
+    ],
+}
+MOLD_PATTERNS['tfc:ceramic/fire_ingot_mold'] = MOLD_PATTERNS['tfc:ceramic/ingot_mold']
 
 # Automatically Generated by generate_trees.py
 TREE_SAPLING_DROP_CHANCES = {

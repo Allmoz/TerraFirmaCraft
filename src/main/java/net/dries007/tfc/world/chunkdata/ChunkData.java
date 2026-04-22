@@ -6,9 +6,11 @@
 
 package net.dries007.tfc.world.chunkdata;
 
+import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -19,7 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.TFCAttachments;
 import net.dries007.tfc.network.ChunkWatchPacket;
+import net.dries007.tfc.util.climate.ClimateModel;
 
+import static net.dries007.tfc.world.TFCChunkGenerator.*;
 
 public sealed class ChunkData
 {
@@ -29,6 +33,8 @@ public sealed class ChunkData
     private static final float UNKNOWN_TEMPERATURE = 10;
     private static final float UNKNOWN_RAIN_VARIANCE = 0;
     private static final float UNKNOWN_BASE_GROUNDWATER = 0;
+
+    public static float MAX_RAINFALL_CONTRIBUTION = 60.0f;
 
     /**
      * Accesses the chunk data from a given level, at a given position. This method <strong>may deadlock</strong> if called on a {@link ServerLevel}
@@ -83,12 +89,16 @@ public sealed class ChunkData
     private final RockData rockData;
     private @Nullable LerpFloatLayer rainfallLayer;
     private @Nullable LerpFloatLayer rainVarianceLayer;
-    @Nullable private LerpFloatLayer baseGroundwaterLayer;
-    @Nullable private LerpFloatLayer temperatureLayer;
+    @Nullable
+    private LerpFloatLayer baseGroundwaterLayer;
+    @Nullable
+    private LerpFloatLayer temperatureLayer;
     private int @Nullable [] aquiferSurfaceHeight;
     private ForestType forestType;
+    private final byte[] shuffledBlockPositions = getShuffledByteArray();
 
     private long lastRandomTick;
+    private byte nextSnowPosition;
 
     public ChunkData(ChunkPos pos)
     {
@@ -102,7 +112,8 @@ public sealed class ChunkData
         this.status = Status.EMPTY;
         this.rockData = new RockData(generator);
         this.forestType = ForestType.GRASSLAND;
-        this.lastRandomTick = -1;
+        this.lastRandomTick = Integer.MIN_VALUE;
+        this.nextSnowPosition = 0;
     }
 
     public ChunkPos getPos()
@@ -124,12 +135,40 @@ public sealed class ChunkData
         return aquiferSurfaceHeight;
     }
 
-    public float getRainfall(BlockPos pos)
+    // Minimum hydration a block can experience due to rain
+    public float getMinRainfallHydration(BlockPos pos)
     {
-        return getRainfall(pos.getX(), pos.getZ());
+        final int x = pos.getX();
+        final int y = pos.getY();
+        final float rainfall = getAverageRainfall(x, y);
+        final float rainVar = Math.abs(getRainVariance(x, y));
+        // Max instantaneous rainfall value is actually double the max rainfall, this caps rainfall contribution at the max average rainfall
+        return rainfall * (1 - rainVar) * (MAX_RAINFALL_CONTRIBUTION / ClimateModel.MAX_CROP_RAINFALL);
     }
 
-    public float getRainfall(int x, int z)
+    // Maximum hydration a block can experience due to rain
+    public float getMaxRainfallHydration(BlockPos pos)
+    {
+        final int x = pos.getX();
+        final int y = pos.getY();
+        final float rainfall = getAverageRainfall(x, y);
+        final float rainVar = Math.abs(getRainVariance(x, y));
+        // Max instantaneous rainfall value is actually double the max rainfall, this caps rainfall contribution at the max average rainfall
+        return Math.min(rainfall * (1 + rainVar) * (MAX_RAINFALL_CONTRIBUTION / ClimateModel.MAX_CROP_RAINFALL), MAX_RAINFALL_CONTRIBUTION);
+    }
+
+    /**
+     * Returns the time-invariant rainfall for this position.
+     */
+    public float getAverageRainfall(BlockPos pos)
+    {
+        return getAverageRainfall(pos.getX(), pos.getZ());
+    }
+
+    /**
+     * Returns the time-invariant rainfall for this position.
+     */
+    public float getAverageRainfall(int x, int z)
     {
         return rainfallLayer == null ? UNKNOWN_RAINFALL : rainfallLayer.getValue((x & 15) / 16f, (z & 15) / 16f);
     }
@@ -154,22 +193,28 @@ public sealed class ChunkData
         return baseGroundwaterLayer == null ? UNKNOWN_BASE_GROUNDWATER : baseGroundwaterLayer.getValue((x & 15) / 16f, (z & 15) / 16f);
     }
 
-    public float getGroundwater(BlockPos pos)
+    /**
+     * Returns the time-invariant total groundwater (rivers + rainfall) for this position.
+     */
+    public float getAverageGroundwater(BlockPos pos)
     {
-        return getGroundwater(pos.getX(), pos.getZ());
+        return getAverageGroundwater(pos.getX(), pos.getZ());
     }
 
-    public float getGroundwater(int x, int z)
+    /**
+     * Returns the time-invariant total groundwater (rivers + rainfall) for this position.
+     */
+    public float getAverageGroundwater(int x, int z)
     {
-        return getBaseGroundwater(x, z) + getRainfall(x, z);
+        return Math.min(getBaseGroundwater(x, z) + getAverageRainfall(x, z), 500f);
     }
 
-    public float getAverageTemp(BlockPos pos)
+    public float getAverageSeaLevelTemp(BlockPos pos)
     {
-        return getAverageTemp(pos.getX(), pos.getZ());
+        return getAverageSeaLevelTemp(pos.getX(), pos.getZ());
     }
 
-    public float getAverageTemp(int x, int z)
+    public float getAverageSeaLevelTemp(int x, int z)
     {
         return temperatureLayer == null ? UNKNOWN_TEMPERATURE : temperatureLayer.getValue((x & 15) / 16f, (z & 15) / 16f);
     }
@@ -192,6 +237,24 @@ public sealed class ChunkData
     public void setLastRandomTick(ChunkAccess chunk, long lastRandomTick)
     {
         this.lastRandomTick = lastRandomTick;
+        chunk.setUnsaved(true); // Flag the chunk, since we need to re-save the data
+    }
+
+    public BlockPos getNextSnowPos(ChunkPos chunkPos)
+    {
+        // Convert byte into local coordinates x, z = [0, 15]
+        byte b = shuffledBlockPositions[nextSnowPosition - Byte.MIN_VALUE];
+        final byte mask = 15; // 0000 1111
+        int x = b & mask;
+        int z = b >> 4 & mask;
+
+        return new BlockPos(chunkPos.getMinBlockX() + x, 0, chunkPos.getMinBlockZ() + z);
+    }
+
+    public void iterateSnowPos(ChunkAccess chunk)
+    {
+        // Iterate to the next snow position
+        nextSnowPosition++;
         chunk.setUnsaved(true); // Flag the chunk, since we need to re-save the data
     }
 
@@ -221,6 +284,22 @@ public sealed class ChunkData
         this.aquiferSurfaceHeight = aquiferSurfaceHeight;
         this.status = Status.FULL;
     }
+
+    public void modifyBaseGroundwater(int[] surfaceHeight)
+    {
+        assert this.baseGroundwaterLayer != null;
+        float groundwater00 = modifyBaseGroundwaterPoint(surfaceHeight[0], this.baseGroundwaterLayer.value00()); // Constant = x + 16z, x=0, z=0
+        float groundwater10 = modifyBaseGroundwaterPoint(surfaceHeight[15], this.baseGroundwaterLayer.value10()); // Constant = x + 16z, x=15, z=0
+        float groundwater01 = modifyBaseGroundwaterPoint(surfaceHeight[240], this.baseGroundwaterLayer.value01()); // Constant = x + 16z, x=0, z=15
+        float groundwater11 = modifyBaseGroundwaterPoint(surfaceHeight[255], this.baseGroundwaterLayer.value11()); // Constant = x + 16z, x=15, z=15
+        this.baseGroundwaterLayer = new LerpFloatLayer(groundwater00, groundwater01, groundwater10, groundwater11);
+    }
+
+    public float modifyBaseGroundwaterPoint(int height, float startingWater)
+    {
+        return startingWater * Mth.clampedMap(height, SEA_LEVEL_Y + 10, SEA_LEVEL_Y + 25, 1, 0);
+    }
+
 
     /**
      * Create an update packet to send to client with necessary information
@@ -271,6 +350,8 @@ public sealed class ChunkData
             nbt.put("baseGroundwater", baseGroundwaterLayer.write());
             nbt.put("temperature", temperatureLayer.write());
             nbt.putByte("forestType", (byte) forestType.ordinal());
+            nbt.putLong("lastRandomTick", lastRandomTick);
+            nbt.putByte("nextSnowPosition", nextSnowPosition);
         }
         return nbt;
     }
@@ -292,6 +373,8 @@ public sealed class ChunkData
             baseGroundwaterLayer = new LerpFloatLayer(nbt.getCompound("baseGroundwater"));
             temperatureLayer = new LerpFloatLayer(nbt.getCompound("temperature"));
             forestType = ForestType.valueOf(nbt.getByte("forestType"));
+            lastRandomTick = nbt.getLong("lastRandomTick");
+            nextSnowPosition = nbt.getByte("nextSnowPosition");
         }
     }
 
@@ -329,16 +412,28 @@ public sealed class ChunkData
         }
 
         @Override
-        public void generatePartial(LerpFloatLayer rainfallLayer, LerpFloatLayer rainVarianceLayer, LerpFloatLayer baseGroundwaterLayer, LerpFloatLayer temperatureLayer, ForestType forestType) { error(); }
+        public void generatePartial(LerpFloatLayer rainfallLayer, LerpFloatLayer rainVarianceLayer, LerpFloatLayer baseGroundwaterLayer, LerpFloatLayer temperatureLayer, ForestType forestType)
+        {
+            error();
+        }
 
         @Override
-        public void generateFull(int[] surfaceHeight, int[] aquiferSurfaceHeight) { error(); }
+        public void generateFull(int[] surfaceHeight, int[] aquiferSurfaceHeight)
+        {
+            error();
+        }
 
         @Override
-        public void onUpdatePacket(LerpFloatLayer rainfallLayer, LerpFloatLayer rainVarianceLayer, LerpFloatLayer baseGroundwaterLayer, LerpFloatLayer temperatureLayer, ForestType forestType) { error(); }
+        public void onUpdatePacket(LerpFloatLayer rainfallLayer, LerpFloatLayer rainVarianceLayer, LerpFloatLayer baseGroundwaterLayer, LerpFloatLayer temperatureLayer, ForestType forestType)
+        {
+            error();
+        }
 
         @Override
-        public void deserializeNBT(CompoundTag nbt) { error(); }
+        public void deserializeNBT(CompoundTag nbt)
+        {
+            error();
+        }
 
         @Override
         public Status status()
@@ -356,5 +451,22 @@ public sealed class ChunkData
         {
             throw new UnsupportedOperationException("Tried to modify immutable chunk data");
         }
+    }
+
+    // Returns an array of length 256 containing every byte in a random order
+    private byte[] getShuffledByteArray() {
+        byte[] arr = new byte[256];
+        for (int i = 0; i < 256; i++) {
+            arr[i] = (byte) (i - 128); // -128 to 127
+        }
+        // Fisher-Yates shuffle
+        Random rand = new Random();
+        for (int i = arr.length - 1; i > 0; i--) {
+            int j = rand.nextInt(i + 1);
+            byte tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+        }
+        return arr;
     }
 }

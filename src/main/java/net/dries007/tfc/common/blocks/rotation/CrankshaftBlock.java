@@ -51,7 +51,7 @@ public class CrankshaftBlock extends HorizontalDirectionalBlock implements IForg
     ));
 
     private static final VoxelShape[] SHAFT_SHAPES = Helpers.computeHorizontalShapes(dir -> Helpers.rotateShape(dir, 0, 7, 8, 16, 9, 10));
-    private static final TagKey<Item> STEEL_RODS = TagKey.create(Registries.ITEM, Helpers.resourceLocation("forge", "rods/steel"));
+    private static final TagKey<Item> STEEL_RODS = TagKey.create(Registries.ITEM, Helpers.resourceLocation("c", "rods/steel"));
 
     private final ExtendedProperties properties;
 

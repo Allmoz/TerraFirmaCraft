@@ -113,9 +113,9 @@ public class HeatingRecipe implements INoopInputRecipe, IRecipePredicate<ItemSta
      * A variant of {@link #assembleItem(ItemStack)} which respects a stacked input item.
      * @param stackSizeCap The slot limit of the output container. This method will return no more than this limit.
      */
-    public ItemStack assembleStacked(ItemStack inputStack, int stackSizeCap)
+    public ItemStack assembleStacked(ItemStack inputStack, int stackSizeCap, boolean isDisplay)
     {
-        final ItemStack outputStack = outputItem.getSingleStack(inputStack);
+        final ItemStack outputStack = isDisplay ? outputItem.getStackDisplayOnly(inputStack) : outputItem.getStack(inputStack);
 
         // We always upgrade the heat regardless
         final @Nullable IHeat inputHeat = HeatCapability.get(inputStack);
@@ -124,9 +124,9 @@ public class HeatingRecipe implements INoopInputRecipe, IRecipePredicate<ItemSta
             HeatCapability.setTemperature(outputStack, inputHeat.getTemperature());
         }
 
-        // Set the stack size to the best possible (output count * input count), then limit to stack size / inventory limit
+        // Set the stack size to the best possible, then limit to stack size / inventory limit
         outputStack.setCount(Math.min(
-            outputStack.getCount() * inputStack.getCount(),
+            outputStack.getCount(),
             Math.min(outputStack.getMaxStackSize(), stackSizeCap)
         ));
 

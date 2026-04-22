@@ -8,9 +8,11 @@ package net.dries007.tfc.util.calendar;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.util.Helpers;
 
@@ -25,6 +27,7 @@ public enum Day
     SUNDAY;
 
     private static final Map<String, String> BIRTHDAYS = new HashMap<>();
+    private static final Map<String, Component> HOLIDAYS = new HashMap<>();
     private static final Day[] VALUES = values();
 
     static
@@ -43,6 +46,10 @@ public enum Day
         BIRTHDAYS.put("JANUARY20", "Therighthon");
         BIRTHDAYS.put("FEBRUARY21", "CtrlAltDavid");
         BIRTHDAYS.put("MARCH10", "Disastermoo");
+        BIRTHDAYS.put("OCTOBER30", "Dodo");
+        BIRTHDAYS.put("OCTOBER31", "alekiponi");
+        BIRTHDAYS.put("JULY14", "Daniel");
+        BIRTHDAYS.put("JANUARY6", "Char");
     }
 
     public static Day valueOf(int i)
@@ -50,13 +57,18 @@ public enum Day
         return i < 0 ? MONDAY : i >= VALUES.length ? SUNDAY : VALUES[i];
     }
 
-    public static MutableComponent getDayName(long totalDays, Month month, int dayOfMonth)
+    public static Optional<MutableComponent> getBirthday(long totalDays, Month month, int dayOfMonth)
     {
         String birthday = BIRTHDAYS.get(month.name() + dayOfMonth);
         if (birthday != null)
         {
-            return Component.translatable("tfc.tooltip.calendar_birthday", birthday);
+            return Optional.of(Component.translatable("tfc.tooltip.calendar_birthday", birthday));
         }
+        return Optional.empty();
+    }
+
+    public static MutableComponent getDayName(long totalDays, Month month, int dayOfMonth)
+    {
         Day day = Day.valueOf((int) totalDays % 7);
         return Helpers.translateEnum(day);
     }

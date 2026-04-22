@@ -3,7 +3,6 @@
   "replace": false,
   "values": [
     "tfc:vein/gravel",
-    "tfc:vein/kaolin_disc",
     "tfc:vein/granite_dike",
     "tfc:vein/diorite_dike",
     "tfc:vein/gabbro_dike",
@@ -31,6 +30,7 @@
     "tfc:vein/lignite",
     "tfc:vein/bituminous_coal",
     "tfc:vein/sulfur",
+    "tfc:vein/tuff_sulfur",
     "tfc:vein/cryolite",
     "tfc:vein/cinnabar",
     "tfc:vein/saltpeter",
@@ -41,8 +41,7 @@
     "tfc:vein/lapis_lazuli",
     "tfc:vein/diamond",
     "tfc:vein/emerald",
-    "tfc:vein/amethyst",
-    "tfc:vein/opal",
+    "tfc:vein/ruby",
     "tfc:geode"
   ]
 }

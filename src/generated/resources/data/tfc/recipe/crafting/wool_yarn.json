@@ -8,6 +8,9 @@
       "item": "tfc:wool"
     }
   ],
+  "primary_ingredient": {
+    "item": "tfc:spindle"
+  },
   "remainder": {
     "modifiers": [
       {

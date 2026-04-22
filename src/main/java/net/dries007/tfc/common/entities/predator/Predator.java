@@ -48,12 +48,12 @@ public class Predator extends WildAnimal
 {
     public static AttributeSupplier.Builder createAttributes()
     {
-        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 40).add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_KNOCKBACK, 1).add(Attributes.ATTACK_DAMAGE, 6);
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 40).add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_KNOCKBACK, 1).add(Attributes.ATTACK_DAMAGE, 6).add(Attributes.STEP_HEIGHT, 1.0F);
     }
 
     public static AttributeSupplier.Builder createBearAttributes()
     {
-        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 40).add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_KNOCKBACK, 1).add(Attributes.ATTACK_DAMAGE, 6).add(Attributes.KNOCKBACK_RESISTANCE, 0.8);
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 40).add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.ATTACK_KNOCKBACK, 1).add(Attributes.ATTACK_DAMAGE, 6).add(Attributes.KNOCKBACK_RESISTANCE, 0.8).add(Attributes.STEP_HEIGHT, 1.0F);
     }
 
     public static final EntityDataAccessor<Boolean> DATA_SLEEPING = SynchedEntityData.defineId(Predator.class, EntityDataSerializers.BOOLEAN);
@@ -160,20 +160,9 @@ public class Predator extends WildAnimal
     @Override
     public boolean doHurtTarget(Entity target)
     {
-        return this.doHurtTarget(target, 5);
-    }
-
-    public boolean doHurtTarget(Entity target, int pinChance)
-    {
         boolean hurt = super.doHurtTarget(target);
         level().broadcastEntityEvent(this, (byte) 4);
         playSound(getAttackSound(), 1.0f, getVoicePitch());
-
-        if (pinChance > 0 && hurt && target instanceof Player player && random.nextInt(pinChance) == 0 && player.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE) <= 0)
-        {
-            pinPlayer(player);
-        }
-
         return hurt;
     }
 
@@ -248,18 +237,5 @@ public class Predator extends WildAnimal
         {
             predator.getBrain().setMemory(MemoryModuleType.HOME, GlobalPos.of(level().dimension(), PredatorAi.getHomePos(this)));
         }
-    }
-
-    public boolean pinPlayer(Player player)
-    {
-        if (distanceToSqr(player) < 6D)
-        {
-            if (!player.level().isClientSide)
-            {
-                player.addEffect(new MobEffectInstance(TFCEffects.PINNED.holder(), 35, 0, false, false));
-            }
-            return true;
-        }
-        return false;
     }
 }

@@ -6,10 +6,10 @@
 
 package net.dries007.tfc.client.render.blockentity;
 
-import java.util.Map;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -20,22 +20,17 @@ import net.minecraft.world.level.block.Block;
 
 import net.dries007.tfc.client.RenderHelpers;
 import net.dries007.tfc.common.blockentities.LoomBlockEntity;
-import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.TFCLoomBlock;
-import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.recipes.LoomRecipe;
-import net.dries007.tfc.util.Helpers;
 
 public class LoomBlockEntityRenderer implements BlockEntityRenderer<LoomBlockEntity>
 {
-    public static final Map<Block, ResourceLocation> TEXTURES = RenderHelpers.mapOf(map ->
-        TFCBlocks.WOODS.forEach((wood, m) ->
-            map.accept(m.get(Wood.BlockType.LOOM), Helpers.identifier("block/wood/planks/" + wood.getSerializedName()))));
-
     @Override
     public void render(LoomBlockEntity loom, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
     {
-        final ResourceLocation texture = TEXTURES.get(loom.getBlockState().getBlock());
+        Block block = loom.getBlockState().getBlock();
+        assert block instanceof TFCLoomBlock;
+        final @Nullable ResourceLocation texture = ((TFCLoomBlock) block).getTextureLocation();
         if (texture == null)
         {
             return;
@@ -93,7 +88,7 @@ public class LoomBlockEntityRenderer implements BlockEntityRenderer<LoomBlockEnt
     {
         for (float[] v : RenderHelpers.getDiagonalPlaneVertices(0.1875F, 0.9375F, 0.75F - 0.001F, 0.8125F, 0.9375F - 0.625F * progress, 0.75F - 0.001F, 0F, 0F, 1F, progress))
         {
-            RenderHelpers.renderTexturedVertex(poseStack, buffer, packedLight, packedOverlay, v[0], v[1], v[2], sprite.getU(v[3] * 16f), sprite.getV(v[4] * 16f), 0, 1, 0);
+            RenderHelpers.renderTexturedVertex(poseStack, buffer, packedLight, packedOverlay, v[0], v[1], v[2], sprite.getU(v[3]), sprite.getV(v[4]), 0, 1, 0);
         }
     }
 
@@ -137,7 +132,7 @@ public class LoomBlockEntityRenderer implements BlockEntityRenderer<LoomBlockEnt
 
             for (float[] v : RenderHelpers.getDiagonalPlaneVertices(0.1875F + 0.625F / maxPieces * i, y1, z1 - 0.001F, 0.1875F + 0.625F / maxPieces * (i + 1F), y2, z2 - 0.001F, texX1, texY1, texX2, texY2))
             {
-                RenderHelpers.renderTexturedVertex(poseStack, buffer, packedLight, packedOverlay, v[0], v[1], v[2], sprite.getU(v[3] * 16f), sprite.getV(v[4] * 16f), 0, 1, 0);
+                RenderHelpers.renderTexturedVertex(poseStack, buffer, packedLight, packedOverlay, v[0], v[1], v[2], sprite.getU(v[3]), sprite.getV(v[4]), 0, 1, 0);
             }
 
             if (i % 2 == 0)
@@ -149,7 +144,7 @@ public class LoomBlockEntityRenderer implements BlockEntityRenderer<LoomBlockEnt
 
             for (float[] v : RenderHelpers.getDiagonalPlaneVertices(0.1875F + 0.625F / maxPieces * i, (float) 0, z1 - 0.001F, 0.1875F + 0.625F / maxPieces * (i + 1), y2, z2 - 0.001F, texX1, texY1, texX2, texY2))
             {
-                RenderHelpers.renderTexturedVertex(poseStack, buffer, packedLight, packedOverlay, v[0], v[1], v[2], sprite.getU(v[3] * 16f), sprite.getV(v[4] * 16f), 0, 1, 0);
+                RenderHelpers.renderTexturedVertex(poseStack, buffer, packedLight, packedOverlay, v[0], v[1], v[2], sprite.getU(v[3]), sprite.getV(v[4]), 0, 1, 0);
             }
         }
     }

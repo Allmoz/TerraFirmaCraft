@@ -8,9 +8,8 @@
     "id": "tfc:brass_mechanisms"
   },
   "rules": [
-    "punch_last",
+    "punch_third_last",
     "hit_second_last",
-    "punch_third_last"
-  ],
-  "tier": 0
+    "punch_last"
+  ]
 }

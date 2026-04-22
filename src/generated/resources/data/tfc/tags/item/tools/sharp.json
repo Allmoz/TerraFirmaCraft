@@ -1,8 +1,7 @@
 {
   "values": [
-    "#minecraft:axes",
+    "#minecraft:hoes",
     "#c:tools/knife",
-    "#c:tools/scythe",
-    "#c:tools/saw"
+    "#c:tools/scythe"
   ]
 }

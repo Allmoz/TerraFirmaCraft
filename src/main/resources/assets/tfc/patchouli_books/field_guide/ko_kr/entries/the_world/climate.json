@@ -28,7 +28,7 @@
     {
       "type": "patchouli:text",
       "anchor": "climate",
-      "text": "인벤토리의 또다른 탭은 $(thing)기후$() 창입니다. 이 탭에서는 자신의 위치에 대한 정보를 보여줍니다.$(br2)첫 번째 줄은 대략적인 $(l:https://ko.wikipedia.org/wiki/%EC%BE%A8%ED%8E%9C%EC%9D%98_%EA%B8%B0%ED%9B%84_%EA%B5%AC%EB%B6%84)기후$()를 나타냅니다.$(br2)두 번째 줄은 $(l:the_world/geology)지질학적 지역$()을 나타냅니다.$(br2)세 번째 줄은 $(thing)연평균 기온$()을 나타냅니다.",
+      "text": "Another tab on the main inventory screen is the $(thing)Climate$() screen. This one shows information about the current location$(br2)From top to bottom, the screen displays the $(l:https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification)Local Climate$(), the $(thing)Average Annual Temperature$(), the current temperature, the $(thing)Average Annual Rainfall$(), the current rainfall, the peak rainfall, and the season when the peak occurs.",
       "title": "§l기후"
     },
     {
@@ -42,7 +42,8 @@
     {
       "type": "patchouli:text",
       "anchor": "temperature",
-      "text": "TerraFirmaCraft의 기온은 많은 요인에 의해 결정됩니다.$(br)$(li)첫째로는 지역, 그 중에서도 특히 위도 (Z 좌표)가 가장 큰 영향을 미칩니다.$(li)다음으로, 계절 또한 기온에 영향을 줍니다. 여름에는 더워지며, 겨울에는 추워집니다.$(li)마지막으로, 기온은 매일 달라질 수 있으며 심지어 시간마다 달라질 수도 있습니다."
+      "text": "TerraFirmaCraft의 기온은 많은 요인에 의해 결정됩니다.$(br)$(li)첫째로는 지역, 그 중에서도 특히 위도 (Z 좌표)가 가장 큰 영향을 미칩니다.$(li)다음으로, 계절 또한 기온에 영향을 줍니다. 여름에는 더워지며, 겨울에는 추워집니다.$(li)마지막으로, 기온은 매일 달라질 수 있으며 심지어 시간마다 달라질 수도 있습니다.",
+      "title": "Temperature"
     },
     {
       "type": "patchouli:text",
@@ -51,8 +52,16 @@
     {
       "type": "patchouli:text",
       "anchor": "rainfall",
-      "text": "강수량은 당신이 어디에 있는지에 따라 달라지는 또 다른 기후입니다. 연강수량은 0mm - 500mm 사이의 밀리리터 (mm) 단위로 측정됩니다. 강수량은 특정 지역에서 발견되는 식물들 과 모래, 실트나 양토 등의 흙의 종류, 그리고 케이폭나무에 이르기까지 영향을 미칩니다.",
+      "text": "Rainfall is influenced by a number of factors:$(br2)The region, especially the longitude (X coordinate) will play the largest role, with wetter climates generally to the east of spawn. Distance from the coast also plays a role, with drier climates farther inland.",
       "title": "§l강수량"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The current season and local climate will also influence rainfall levels. These effects are also determined by the region: west coasts generally have dry summers, whereas the east sides of large continents have dramatic summer monsoons. The centers of continents and oceanic islands tend to have less seasonal variance."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The annual rainfall is measured in millimeters (mm) and can be between 0mm - 500mm, though the instantaneous rainfall can reach 1000mm in highly seasonal climates. Rainfall affects the types of flora and fauna that are found in an area, as well as how often rain and snow occur.$(br)"
     },
     {
       "type": "patchouli:text",

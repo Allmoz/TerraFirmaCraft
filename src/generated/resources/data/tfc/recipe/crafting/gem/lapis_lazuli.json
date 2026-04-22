@@ -8,6 +8,9 @@
       "item": "tfc:ore/lapis_lazuli"
     }
   ],
+  "primary_ingredient": {
+    "item": "tfc:sandpaper"
+  },
   "remainder": {
     "modifiers": [
       {

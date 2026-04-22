@@ -28,7 +28,7 @@
     {
       "type": "patchouli:text",
       "anchor": "climate",
-      "text": "Ще одна вкладка на головному екрані інвентаря – це інформація про $(thing)клімат$(). Ця інформація стосується поточного місця твого знаходження$(br2)Перший рядок вкаже загальний $(l:https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification)клімат$() .$(br2)Другий рядок вказує на $(l:the_world/geology)тектонічний рельєф$().$(br2)Третій рядок вказує $(thing)середньорічну температуру$().",
+      "text": "Another tab on the main inventory screen is the $(thing)Climate$() screen. This one shows information about the current location$(br2)From top to bottom, the screen displays the $(l:https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification)Local Climate$(), the $(thing)Average Annual Temperature$(), the current temperature, the $(thing)Average Annual Rainfall$(), the current rainfall, the peak rainfall, and the season when the peak occurs.",
       "title": "Клімат"
     },
     {
@@ -42,7 +42,8 @@
     {
       "type": "patchouli:text",
       "anchor": "temperature",
-      "text": "На температуру в TerraFirmaCraft впливає ряд факторів:$(br)$(li)По-перше, найбільшу роль відіграватиме географічна широта (координата Z).$(li)По-друге, на температуру вплине нинішня пора року – найспекотніше влітку, а найхолодніше взимку.$(li)Нарешті, температура може змінюватися щодня, а також коливатися час від часу."
+      "text": "На температуру в TerraFirmaCraft впливає ряд факторів:$(br)$(li)По-перше, найбільшу роль відіграватиме географічна широта (координата Z).$(li)По-друге, на температуру вплине нинішня пора року – найспекотніше влітку, а найхолодніше взимку.$(li)Нарешті, температура може змінюватися щодня, а також коливатися час від часу.",
+      "title": "Temperature"
     },
     {
       "type": "patchouli:text",
@@ -51,8 +52,16 @@
     {
       "type": "patchouli:text",
       "anchor": "rainfall",
-      "text": "Кількість опадів – ще одна кліматична величина, яка може змінюватися залежно від того, де ти знаходишся. Річна кількість опадів вимірюється в міліметрах (мм) і може становити від 0 мм до 500 мм. Опади впливають на типи флори, які зустрічаються в цій місцевості, а також на типи ґрунту, від піску та кактусів до суглинку, мулу та бавовняних дерев.",
+      "text": "Rainfall is influenced by a number of factors:$(br2)The region, especially the longitude (X coordinate) will play the largest role, with wetter climates generally to the east of spawn. Distance from the coast also plays a role, with drier climates farther inland.",
       "title": "Опади"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The current season and local climate will also influence rainfall levels. These effects are also determined by the region: west coasts generally have dry summers, whereas the east sides of large continents have dramatic summer monsoons. The centers of continents and oceanic islands tend to have less seasonal variance."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The annual rainfall is measured in millimeters (mm) and can be between 0mm - 500mm, though the instantaneous rainfall can reach 1000mm in highly seasonal climates. Rainfall affects the types of flora and fauna that are found in an area, as well as how often rain and snow occur.$(br)"
     },
     {
       "type": "patchouli:text",

@@ -24,6 +24,8 @@ import static net.dries007.tfc.common.blockentities.FarmlandBlockEntity.Nutrient
  */
 public interface IFarmland
 {
+    float WATER_DISSIPATION_RATE = 0.001f;
+
     static void addNutrientParticles(ServerLevel level, BlockPos pos, Fertilizer fertilizer)
     {
         final float n = fertilizer.nitrogen(), p = fertilizer.phosphorus(), k = fertilizer.potassium();
@@ -49,7 +51,7 @@ public interface IFarmland
     /**
      * Implementations should clamp {@code value} on a range [0, 1]
      *
-     * @param type the nutrient type to be set
+     * @param type  the nutrient type to be set
      * @param value the amount (clamped [0-1]) of the nutrient to set
      */
     void setNutrient(NutrientType type, float value);
@@ -73,32 +75,62 @@ public interface IFarmland
         addNutrient(POTASSIUM, fertilizer.potassium() * multiplier);
     }
 
+    float getAdditionalWater();
+
+    void waterTick();
+
+    void setAdditionalWater(float rainfall);
+
+    void setAdditionalWaterWithoutSync(float rainfall);
+
+    default void addAdditionalWater(float additionalWater)
+    {
+        setAdditionalWater(getAdditionalWater() + additionalWater);
+    }
+
+    long getLastWaterTick();
+
+    void setLastWaterTick(long lastWaterTick);
 
     /**
      * Consume up to {@code amount} of nutrient {@code type}.
-     * Resupplies other nutrient by 1/6 of the amount consumed.
+     *
      * @return The amount of nutrient {@code type} that was actually consumed.
      */
-    default float consumeNutrientAndResupplyOthers(NutrientType type, float amount)
+    default float consumeNutrients(float amount, NutrientType type)
     {
-        final float startValue = getNutrient(type);
+        if (amount <= 0)
+        {
+            return 0;
+        }
+        float startValue = getNutrient(type);
+
         final float consumed = Math.min(startValue, amount);
 
         setNutrient(type, startValue - consumed);
-        for (NutrientType other : NutrientType.VALUES)
-        {
-            if (other != type)
-            {
-                addNutrient(other, consumed * 1 / 6f);
-            }
-        }
 
         return consumed;
+    }
+
+    default void produceNutrients(float amount, NutrientType type, float percentOtherNutrientsConsumed, float growthDelta)
+    {
+        if (amount <= 0)
+        {
+            // Nutrient-producing crops will always add some amount of nutrients to the soil, but using fertilizer will boost this up to 3x
+            amount = -(0.3f + 0.7f * percentOtherNutrientsConsumed) * amount * growthDelta;
+            addNutrient(type, amount);
+        }
     }
 
     default boolean isMaxedOut()
     {
         return getNutrient(NITROGEN) == 1 && getNutrient(PHOSPHOROUS) == 1 && getNutrient(POTASSIUM) == 1;
+    }
+
+    default void updateAdditionalWater(long fromTick, long toTick)
+    {
+        long deltaTicks = toTick - fromTick;
+        addAdditionalWater(deltaTicks * WATER_DISSIPATION_RATE);
     }
 
     default void saveNutrients(CompoundTag nbt)
@@ -113,6 +145,23 @@ public interface IFarmland
         setNutrient(NITROGEN, nbt.getFloat("n"));
         setNutrient(PHOSPHOROUS, nbt.getFloat("p"));
         setNutrient(POTASSIUM, nbt.getFloat("k"));
+    }
+
+    default void loadNutrientsWithoutSync(CompoundTag nbt)
+    {
+        setNutrientWithoutSync(NITROGEN, nbt.getFloat("n"));
+        setNutrientWithoutSync(PHOSPHOROUS, nbt.getFloat("p"));
+        setNutrientWithoutSync(POTASSIUM, nbt.getFloat("k"));
+    }
+
+    default void loadAdditionalWaterWithoutSync(CompoundTag nbt)
+    {
+        setAdditionalWaterWithoutSync(nbt.getFloat("water"));
+    }
+
+    default void saveAdditionalWater(CompoundTag nbt)
+    {
+        nbt.putFloat("water", getAdditionalWater());
     }
 
     /**

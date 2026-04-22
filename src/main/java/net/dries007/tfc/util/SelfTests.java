@@ -64,12 +64,14 @@ import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.dries007.tfc.common.blocks.PouredGlassBlock;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.devices.IngotPileBlock;
+import net.dries007.tfc.common.blocks.devices.MoldTableBlock;
 import net.dries007.tfc.common.blocks.devices.ScrapingBlock;
-import net.dries007.tfc.common.blocks.devices.SheetPileBlock;
 import net.dries007.tfc.common.blocks.plant.BodyPlantBlock;
 import net.dries007.tfc.common.blocks.plant.BranchingCactusBlock;
 import net.dries007.tfc.common.blocks.plant.GrowingBranchingCactusBlock;
 import net.dries007.tfc.common.blocks.plant.Plant;
+import net.dries007.tfc.common.blocks.plant.PlantBlock;
+import net.dries007.tfc.common.blocks.plant.TopPlantBlock;
 import net.dries007.tfc.common.blocks.plant.fruit.GrowingFruitTreeBranchBlock;
 import net.dries007.tfc.common.blocks.rock.RockDisplayCategory;
 import net.dries007.tfc.common.component.food.Nutrient;
@@ -101,7 +103,7 @@ import net.dries007.tfc.world.chunkdata.ForestType;
  */
 public final class SelfTests
 {
-    public static final boolean THROW_ON_FAIL = false; // todo 1.21, re-enable
+    public static final boolean THROW_ON_FAIL = true;
     public static final boolean ENABLED = Boolean.getBoolean("tfc.enableDebugSelfTests");
 
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -110,7 +112,7 @@ public final class SelfTests
     @SuppressWarnings({"ConstantConditions", "deprecation"})
     public static void runWorldVersionTest()
     {
-        assert SharedConstants.WORLD_VERSION == 3953 : "If this fails, you need to update the world version here, AND in resources/generate_trees.py, then run `python resources trees`. This updates them and avoids triggering DFU when placed!";
+        assert SharedConstants.WORLD_VERSION == 3955 : "If this fails, you need to update the world version here, AND in resources/generate_trees.py, then run `python resources trees`. This updates them and avoids triggering DFU when placed!";
     }
 
     public static void runClientSelfTests()
@@ -271,7 +273,7 @@ public final class SelfTests
 
     private static boolean validateOwnBlockLootTables(MinecraftServer server)
     {
-        final Set<Block> expectedNoLootTableBlocks = Stream.of(TFCBlocks.PLACED_ITEM, TFCBlocks.PIT_KILN, TFCBlocks.LOG_PILE, TFCBlocks.BURNING_LOG_PILE, TFCBlocks.BLOOM, TFCBlocks.MOLTEN, TFCBlocks.SCRAPING, TFCBlocks.THATCH_BED, TFCBlocks.INGOT_PILE, TFCBlocks.DOUBLE_INGOT_PILE, TFCBlocks.SHEET_PILE, TFCBlocks.PLANTS.get(Plant.GIANT_KELP_PLANT), TFCBlocks.PUMPKIN, TFCBlocks.MELON, TFCBlocks.CAKE, TFCBlocks.CALCITE, TFCBlocks.ICICLE, TFCBlocks.RIVER_WATER, TFCBlocks.SPRING_WATER, TFCBlocks.LIGHT, TFCBlocks.SALTWATER_BUBBLE_COLUMN, TFCBlocks.FRESHWATER_BUBBLE_COLUMN, TFCBlocks.HOT_POURED_GLASS, TFCBlocks.GLASS_BASIN)
+        final Set<Block> expectedNoLootTableBlocks = Stream.of(TFCBlocks.PLACED_ITEM, TFCBlocks.PIT_KILN, TFCBlocks.LOG_PILE, TFCBlocks.BURNING_LOG_PILE, TFCBlocks.BLOOM, TFCBlocks.MOLTEN, TFCBlocks.SCRAPING, TFCBlocks.THATCH_BED, TFCBlocks.INGOT_PILE, TFCBlocks.DOUBLE_INGOT_PILE, TFCBlocks.PLANTS.get(Plant.GIANT_KELP_PLANT), TFCBlocks.PUMPKIN, TFCBlocks.MELON, TFCBlocks.CAKE, TFCBlocks.CALCITE, TFCBlocks.ICICLE, TFCBlocks.RIVER_WATER, TFCBlocks.SPRING_WATER, TFCBlocks.LIGHT, TFCBlocks.SALTWATER_BUBBLE_COLUMN, TFCBlocks.FRESHWATER_BUBBLE_COLUMN, TFCBlocks.HOT_POURED_GLASS, TFCBlocks.GLASS_BASIN)
             .map(Supplier::get)
             .collect(Collectors.toSet());
         final Set<Class<?>> expectedNoLootTableClasses = ImmutableSet.of(BodyPlantBlock.class, GrowingFruitTreeBranchBlock.class, LiquidBlock.class, BranchingCactusBlock.class, GrowingBranchingCactusBlock.class, PouredGlassBlock.class);
@@ -298,7 +300,7 @@ public final class SelfTests
             .toList();
         final List<BlockState> missingParticleErrors = TFCBlocks.BLOCKS.getEntries()
             .stream()
-            .flatMap(states(s -> !s.isAir() && !(s.getBlock() instanceof IngotPileBlock) && !(s.getBlock() instanceof SheetPileBlock) && !(s.getBlock() instanceof ScrapingBlock) && shaper.getParticleIcon(s) == missingParticle))
+            .flatMap(states(s -> !s.isAir() && !(s.getBlock() instanceof IngotPileBlock) && !(s.getBlock() instanceof PlantBlock) && !(s.getBlock() instanceof BodyPlantBlock) && !(s.getBlock() instanceof TopPlantBlock) && !(s.getBlock() instanceof ScrapingBlock) && !(s.getBlock() instanceof MoldTableBlock) && shaper.getParticleIcon(s) == missingParticle))
             .toList();
 
         return logErrors("{} block states with missing models:", missingModelErrors, LOGGER)
@@ -323,18 +325,18 @@ public final class SelfTests
         }));
 
         final Set<Item> technicalItemsWithNoTab = Stream.of(
-            List.of(
-                TFCBlocks.SNOW_PILE,
-                TFCBlocks.ICE_PILE,
-                TFCBlocks.BLOOM,
-                TFCBlocks.MOLTEN,
-                TFCBlocks.LIGHT,
-                TFCBlocks.POURED_GLASS,
-                TFCItems.FILLED_PAN
-            ),
-            TFCBlocks.COLORED_POURED_GLASS.values(),
-            TFCBlocks.ROCK_ANVILS.values()
-        )
+                List.of(
+                    TFCBlocks.SNOW_PILE,
+                    TFCBlocks.ICE_PILE,
+                    TFCBlocks.BLOOM,
+                    TFCBlocks.MOLTEN,
+                    TFCBlocks.LIGHT,
+                    TFCBlocks.POURED_GLASS,
+                    TFCItems.FILLED_PAN
+                ),
+                TFCBlocks.COLORED_POURED_GLASS.values(),
+                TFCBlocks.ROCK_ANVILS.values()
+            )
             .<ItemLike>flatMap(Collection::stream)
             .map(ItemLike::asItem)
             .collect(Collectors.toSet());

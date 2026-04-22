@@ -23,8 +23,10 @@ import net.dries007.tfc.common.blockentities.rotation.AxleBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.BladedAxleBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.ClutchBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.CrankshaftBlockEntity;
+import net.dries007.tfc.common.blockentities.rotation.CreativeRotationBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.EncasedAxleBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.GearBoxBlockEntity;
+import net.dries007.tfc.common.blockentities.rotation.PowerLoomBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.PumpBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.TripHammerBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.WaterWheelBlockEntity;
@@ -45,33 +47,54 @@ public final class TFCBlockEntities
 
     public static final Id<FarmlandBlockEntity> FARMLAND = register("farmland", FarmlandBlockEntity::new, TFCBlocks.SOIL.get(SoilBlockType.FARMLAND).values().stream());
     public static final Id<PileBlockEntity> PILE = register("pile", PileBlockEntity::new, Stream.of(TFCBlocks.ICE_PILE, TFCBlocks.SNOW_PILE));
-    public static final Id<FirepitBlockEntity> FIREPIT = register("firepit", FirepitBlockEntity::new, TFCBlocks.FIREPIT);
+    public static final Id<FirepitBlockEntity> FIREPIT = register("firepit", FirepitBlockEntity::new, Stream.of(TFCBlocks.FIREPIT, TFCBlocks.STOVE));
     public static final Id<GrillBlockEntity> GRILL = register("grill", GrillBlockEntity::new, TFCBlocks.GRILL);
-    public static final Id<PotBlockEntity> POT = register("pot", PotBlockEntity::new, TFCBlocks.POT);
+    public static final Id<PotBlockEntity> POT = register("pot", PotBlockEntity::new, Stream.of(TFCBlocks.POT, TFCBlocks.STOVE_POT));
     public static final Id<BowlBlockEntity> BOWL = register("bowl", BowlBlockEntity::new, Stream.of(TFCBlocks.CERAMIC_BOWL, TFCBlocks.WOODEN_BOWL));
     public static final Id<HotPouredGlassBlockEntity> HOT_POURED_GLASS = register("hot_poured_glass", HotPouredGlassBlockEntity::new, TFCBlocks.HOT_POURED_GLASS);
     public static final Id<GlassBasinBlockEntity> GLASS_BASIN = register("glass_basin", GlassBasinBlockEntity::new, TFCBlocks.GLASS_BASIN);
-    public static final Id<ShelfBlockEntity> SHELF = register("shelf", ShelfBlockEntity::new, woodBlocks(Wood.BlockType.SHELF));
+    public static final Id<ShelfBlockEntity> SHELF = register("shelf", ShelfBlockEntity::new, Stream.concat(Stream.of(TFCBlocks.FIRE_BRICK_SHELF), woodBlocks(Wood.BlockType.SHELF)));
+    public static final Id<FireboxBlockEntity> FIREBOX = register("firebox", FireboxBlockEntity::new, TFCBlocks.FIREBOX);
+    public static final Id<CalendarClockBlockEntity> CALENDAR_CLOCK = register("calendar_clock", CalendarClockBlockEntity::new, TFCBlocks.CALENDAR_CLOCK);
+    public static final Id<ThermometerBlockEntity> THERMOMETER = register("thermometer", ThermometerBlockEntity::new, TFCBlocks.THERMOMETER);
 
     public static final Id<TickCounterBlockEntity> TICK_COUNTER = register("tick_counter", TickCounterBlockEntity::new, Stream.of(
             woodBlocks(Wood.BlockType.SAPLING),
-            TFCBlocks.FRUIT_TREE_SAPLINGS.values().stream(),
-            TFCBlocks.FRUIT_TREE_GROWING_BRANCHES.values().stream(),
             Stream.of(
                 TFCBlocks.TORCH,
                 TFCBlocks.WALL_TORCH,
                 TFCBlocks.DEAD_BERRY_BUSH,
                 TFCBlocks.DEAD_CANE,
-                TFCBlocks.BANANA_SAPLING,
                 TFCBlocks.DEAD_BANANA_PLANT,
                 TFCBlocks.JACK_O_LANTERN,
-                TFCBlocks.CANDLE
+                TFCBlocks.CANDLE,
+                TFCBlocks.CANDLE_CAKE
             ),
             TFCBlocks.DYED_CANDLE.values().stream(),
             TFCBlocks.DYED_CANDLE_CAKES.values().stream(),
             TFCBlocks.SOIL.get(SoilBlockType.DRYING_BRICKS).values().stream()
         ).flatMap(e -> e)
     );
+
+    // TODO: Rename at an appropriate time to break block entities
+    public static final Id<TickingPlantBlockEntity> TICK_COUNTING_PLANT = register("tick_counting_branch", TickingPlantBlockEntity::new, Stream.of(
+            TFCBlocks.FRUIT_TREE_SAPLINGS.values().stream(),
+            TFCBlocks.FRUIT_TREE_GROWING_BRANCHES.values().stream(),
+            Stream.of(
+                TFCBlocks.BANANA_SAPLING
+            )
+        ).flatMap(e -> e)
+    );
+    public static final Id<BerryBushBlockEntity> BERRY_BUSH = register("berry_bush", BerryBushBlockEntity::new, Stream.of(
+        List.of(
+            TFCBlocks.BANANA_PLANT,
+            TFCBlocks.CRANBERRY_BUSH
+        ),
+        TFCBlocks.SPREADING_BUSHES.values(),
+        TFCBlocks.SPREADING_CANES.values(),
+        TFCBlocks.STATIONARY_BUSHES.values(),
+        TFCBlocks.FRUIT_TREE_LEAVES.values()
+    ).flatMap(Collection::stream));
 
     public static final Id<LogPileBlockEntity> LOG_PILE = register("log_pile", LogPileBlockEntity::new, TFCBlocks.LOG_PILE);
     public static final Id<BurningLogPileBlockEntity> BURNING_LOG_PILE = register("burning_log_pile", BurningLogPileBlockEntity::new, TFCBlocks.BURNING_LOG_PILE);
@@ -103,16 +126,6 @@ public final class TFCBlockEntities
     ).flatMap(woodMap -> woodMap.values().stream().flatMap(metalMap -> metalMap.values().stream())));
     public static final Id<LampBlockEntity> LAMP = register("lamp", LampBlockEntity::new, TFCBlocks.METALS.values().stream().filter(map -> map.get(Metal.BlockType.LAMP) != null).map(map -> map.get(Metal.BlockType.LAMP)));
     public static final Id<ThatchBedBlockEntity> THATCH_BED = register("thatch_bed", ThatchBedBlockEntity::new, TFCBlocks.THATCH_BED);
-    public static final Id<BerryBushBlockEntity> BERRY_BUSH = register("berry_bush", BerryBushBlockEntity::new, Stream.of(
-        List.of(
-            TFCBlocks.BANANA_PLANT,
-            TFCBlocks.CRANBERRY_BUSH
-        ),
-        TFCBlocks.SPREADING_BUSHES.values(),
-        TFCBlocks.SPREADING_CANES.values(),
-        TFCBlocks.STATIONARY_BUSHES.values(),
-        TFCBlocks.FRUIT_TREE_LEAVES.values()
-    ).flatMap(Collection::stream));
     public static final Id<CropBlockEntity> CROP = register("crop", CropBlockEntity::new, TFCBlocks.CROPS.values().stream());
     public static final Id<DecayingBlockEntity> DECAYING = register("decaying", DecayingBlockEntity::new, Stream.of(TFCBlocks.MELON, TFCBlocks.PUMPKIN));
     public static final Id<NestBoxBlockEntity> NEST_BOX = register("nest_box", NestBoxBlockEntity::new, TFCBlocks.NEST_BOX);
@@ -125,7 +138,6 @@ public final class TFCBlockEntities
         TFCBlocks.ROCK_ANVILS.values().stream(),
         TFCBlocks.METALS.values().stream().map(m -> m.get(Metal.BlockType.ANVIL)).filter(Objects::nonNull)
     ));
-    public static final Id<SheetPileBlockEntity> SHEET_PILE = register("sheet_pile", SheetPileBlockEntity::new, TFCBlocks.SHEET_PILE);
     public static final Id<IngotPileBlockEntity> INGOT_PILE = register("ingot_pile", IngotPileBlockEntity::new, Stream.of(TFCBlocks.INGOT_PILE, TFCBlocks.DOUBLE_INGOT_PILE));
     public static final Id<BlastFurnaceBlockEntity> BLAST_FURNACE = register("blast_furnace", BlastFurnaceBlockEntity::new, TFCBlocks.BLAST_FURNACE);
     public static final Id<TFCBellBlockEntity> BELL = register("bell", TFCBellBlockEntity::new, Stream.of(TFCBlocks.BRONZE_BELL, TFCBlocks.BRASS_BELL));
@@ -134,11 +146,18 @@ public final class TFCBlockEntities
     public static final Id<AxleBlockEntity> CLUTCH = register("clutch", ClutchBlockEntity::new, woodBlocks(Wood.BlockType.CLUTCH));
     public static final Id<EncasedAxleBlockEntity> ENCASED_AXLE = register("encased_axle", EncasedAxleBlockEntity::new, woodBlocks(Wood.BlockType.ENCASED_AXLE));
     public static final Id<GearBoxBlockEntity> GEAR_BOX = register("gear_box", GearBoxBlockEntity::new, woodBlocks(Wood.BlockType.GEAR_BOX));
+    public static final Id<CreativeRotationBlockEntity> CREATIVE_MOTOR = register("creative_motor", CreativeRotationBlockEntity::new, TFCBlocks.CREATIVE_MOTOR);
     public static final Id<WindmillBlockEntity> WINDMILL = register("windmill", WindmillBlockEntity::new, woodBlocks(Wood.BlockType.WINDMILL));
     public static final Id<WaterWheelBlockEntity> WATER_WHEEL = register("water_wheel", WaterWheelBlockEntity::new, woodBlocks(Wood.BlockType.WATER_WHEEL));
     public static final Id<CrankshaftBlockEntity> CRANKSHAFT = register("crankshaft", CrankshaftBlockEntity::new, TFCBlocks.CRANKSHAFT);
     public static final Id<TripHammerBlockEntity> TRIP_HAMMER = register("trip_hammer", TripHammerBlockEntity::new, TFCBlocks.TRIP_HAMMER);
+    public static final Id<PowerLoomBlockEntity> POWER_LOOM = register("power_loom", PowerLoomBlockEntity::new, TFCBlocks.POWER_LOOM);
+    public static final Id<VaneBlockEntity> VANE = register("vane", VaneBlockEntity::new, TFCBlocks.VANE);
+    public static final Id<AnemometerBlockEntity> ANEMOMETER = register("anemometer", AnemometerBlockEntity::new, TFCBlocks.ANEMOMETER);
+
     public static final Id<PumpBlockEntity> PUMP = register("pump", PumpBlockEntity::new, TFCBlocks.STEEL_PUMP);
+    public static final Id<MoldTableBlockEntity> MOLD_TABLE = register("mold_table", MoldTableBlockEntity::new, TFCBlocks.MOLD_TABLE);
+    public static final Id<ChannelBlockEntity> CHANNEL = register("channel", ChannelBlockEntity::new, TFCBlocks.CHANNEL);
 
     private static <T extends BlockEntity> Id<T> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<? extends Block> block)
     {
@@ -154,7 +173,7 @@ public final class TFCBlockEntities
     {
         return TFCBlocks.WOODS.values().stream().map(map -> map.get(type));
     }
-    
+
     public record Id<T extends BlockEntity>(DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> holder)
         implements RegistryHolder<BlockEntityType<?>, BlockEntityType<T>> {}
 }

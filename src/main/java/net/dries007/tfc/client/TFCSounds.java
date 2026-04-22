@@ -96,6 +96,7 @@ public final class TFCSounds
     public static final EntityId MUSK_OX = registerEntity("musk_ox", false, false);
     public static final EntityId DUCK = registerEntity("duck", false, false);
     public static final EntityId PENGUIN = registerEntity("penguin", false, false);
+    public static final EntityId SEAL = registerEntity("seal", true, false);
     public static final EntityId QUAIL = registerEntity("quail", false, false);
     public static final EntityId LION = registerEntity("lion", true, true);
     public static final EntityId COUGAR = registerEntity("cougar", true, true);
@@ -106,6 +107,7 @@ public final class TFCSounds
     public static final EntityId DEER = registerEntity("deer", false, false);
     public static final EntityId BOAR = registerEntity("boar", true, false);
     public static final EntityId WILDEBEEST = registerEntity("wildebeest", true, false);
+    public static final EntityId BISON = registerEntity("bison", true, false);
     public static final EntityId MOOSE = registerEntity("moose", true, false);
     public static final EntityId GROUSE = registerEntity("grouse", false, false);
     public static final EntityId PHEASANT = registerEntity("pheasant", false, false);

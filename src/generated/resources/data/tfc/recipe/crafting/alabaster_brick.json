@@ -8,6 +8,9 @@
       "item": "tfc:ore/gypsum"
     }
   ],
+  "primary_ingredient": {
+    "tag": "c:tools/chisel"
+  },
   "remainder": {
     "modifiers": [
       {

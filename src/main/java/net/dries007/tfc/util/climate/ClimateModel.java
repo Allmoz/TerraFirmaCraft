@@ -44,8 +44,12 @@ import net.dries007.tfc.util.events.SelectClimateModelEvent;
 public interface ClimateModel
 {
     // N.B. These min-max values are only for rainfall values that are average annual, not time-variant or groundwater-inclusive
-    float MIN_RAINFALL = 0f;
-    float MAX_RAINFALL = 500f;
+    float MIN_AVERAGE_RAINFALL = 0f;
+    float MAX_AVERAGE_RAINFALL = 500f;
+    int NUM_SAMPLES_FOR_DELTAS = 4;
+
+    float MAX_CROP_RAINFALL = 600f;
+    float MAX_INSTANTANEOUS_RAINFALL = MAX_AVERAGE_RAINFALL * 2;
 
     /**
      * The type of this climate model. Must be registered through {@link ClimateModels#REGISTRY}
@@ -62,29 +66,49 @@ public interface ClimateModel
     }
 
     /**
-     * Get the base average annual temperature for a given XZ position.
+     * Get the base average annual temperature for a given XYZ position.
      *
      * @return The average annual temperature at the given {@code pos} for this climate model. Should be time-invariant, and
-     * typically in the range {@code [-25, 25]} but is not required to be.
+     * typically in the range {@code [-20, 30]} but is not required to be.
      */
     float getAverageTemperature(LevelReader level, BlockPos pos);
 
     /**
      * @return The current temperature at the given {@code pos}.
      */
-    default float getTemperature(LevelReader level, BlockPos pos)
+    default float getInstantTemperature(LevelReader level, BlockPos pos)
     {
         final ICalendar calendar = Calendars.get(level);
-        return getTemperature(level, pos, calendar.getCalendarTicks(), calendar.getCalendarDaysInMonth());
+        return getInstantTemperature(level, pos, calendar.getCalendarTicks(), calendar.getCalendarDaysInMonth());
     }
 
     /**
      * @return The temperature at the given {@code pos} and timestamp given by {@code calendarTicks} and {@code daysInMonth}.
      * This is typically in the range {@code [-40, 40]} but is not required to be.
      */
-    default float getTemperature(LevelReader level, BlockPos pos, long calendarTicks, int daysInMonth)
+    default float getInstantTemperature(LevelReader level, BlockPos pos, long calendarTicks, int daysInMonth)
     {
         return getAverageTemperature(level, pos);
+    }
+
+    /**
+     * @return The short-term average temperature, in {@code mm/year}, at the given {@code pos} over the time delta given by {@code fromTick} and {@code toTick}.
+     * This is typically in the range {@code [-40, 40]} but is not required to be.
+     *
+     * This is done to properly consider the impact of any time-based variation of temperature
+     */
+    default float getTimeAverageTemperature(LevelReader level, BlockPos pos, long fromTick, long toTick, int daysInMonth)
+    {
+        final long deltaTicks = toTick - fromTick;
+
+        float temperatureSum = 0;
+        for (int i = 0; i < NUM_SAMPLES_FOR_DELTAS; i++)
+        {
+            final long sampleTick = fromTick + (deltaTicks * i / (NUM_SAMPLES_FOR_DELTAS - 1));
+            temperatureSum += getInstantTemperature(level, pos, sampleTick, daysInMonth);
+        }
+
+        return temperatureSum / NUM_SAMPLES_FOR_DELTAS;
     }
 
     /**
@@ -105,12 +129,12 @@ public interface ClimateModel
     }
 
     /**
-     * @return The average rainfall, in {@code mm/year}, at the given {@code pos} at the current time.
+     * @return The instantaneous rainfall, in {@code mm/year}, at the given {@code pos} at the current time.
      */
-    default float getRainfall(LevelReader level, BlockPos pos)
+    default float getInstantRainfall(LevelReader level, BlockPos pos)
     {
         final ICalendar calendar = Calendars.get(level);
-        return getRainfall(level, pos, calendar.getCalendarTicks(), calendar.getCalendarDaysInMonth());
+        return getInstantRainfall(level, pos, calendar.getCalendarTicks(), calendar.getCalendarDaysInMonth());
     }
 
     /**
@@ -118,9 +142,28 @@ public interface ClimateModel
      * {@code daysInMonth}. Note that this is allowed to vary with seasonal effects, but still returns an average.
      * <strong>Must</strong> be within the range {@code [0, 500]}.
      */
-    default float getRainfall(LevelReader level, BlockPos pos, long calendarTicks, int daysInMonth)
+    default float getInstantRainfall(LevelReader level, BlockPos pos, long calendarTicks, int daysInMonth)
     {
         return getAverageRainfall(level, pos);
+    }
+
+    /**
+     * @return The short-term average rainfall, in {@code mm/year}, at the given {@code pos} over the time delta given by {@code fromTick} and {@code toTick}.
+     *
+     * This is done to properly consider the impact of any time-based variation of rainfall
+     */
+    default float getTimeAverageRainfall(LevelReader level, BlockPos pos, long fromTick, long toTick, int daysInMonth)
+    {
+        final long deltaTicks = toTick - fromTick;
+
+        float rainfallSum = 0;
+        for (int i = 0; i < NUM_SAMPLES_FOR_DELTAS; i++)
+        {
+            final long sampleTick = fromTick + (deltaTicks * i / (NUM_SAMPLES_FOR_DELTAS - 1));
+            rainfallSum += getInstantRainfall(level, pos, sampleTick, daysInMonth);
+        }
+
+        return rainfallSum / NUM_SAMPLES_FOR_DELTAS;
     }
 
     /**
@@ -148,22 +191,42 @@ public interface ClimateModel
      * @return The groundwater - sum of base groundwater and the time-varying rainfall, at the provided {@code pos} and current time.
      * Should be in the range {@code [0, 100]}, in {@code mm/year}.
      */
-    default float getGroundwater(LevelReader level, BlockPos pos)
+    default float getInstantGroundwater(LevelReader level, BlockPos pos)
     {
         final ICalendar calendar = Calendars.get(level);
-        return getGroundwater(level, pos, calendar.getCalendarTicks(), calendar.getCalendarDaysInMonth());
+        return getInstantGroundwater(level, pos, calendar.getCalendarTicks(), calendar.getCalendarDaysInMonth());
     }
 
     /**
      * @return The groundwater - sum of base groundwater and the time-varying rainfall, at the provided {@code pos} and the timestamp
      * provided by {@code calendarTicks} and {@code daysInMonth}. Should be in the range {@code [0, 100]}, in {@code mm/year}.
      */
-    default float getGroundwater(LevelReader level, BlockPos pos, long calendarTicks, int daysInMonth)
+    default float getInstantGroundwater(LevelReader level, BlockPos pos, long calendarTicks, int daysInMonth)
     {
-        return getRainfall(level, pos, calendarTicks, daysInMonth);
+        return getInstantRainfall(level, pos, calendarTicks, daysInMonth);
     }
 
-     /**
+    /**
+     * @return The short-term average groundwater, in {@code mm/year}, at the given {@code pos} over the time delta given by {@code fromTick} and {@code toTick}.
+     *
+     * This is done to properly consider the impact of any time-based variation of groundwater
+     */
+    default float getTimeAverageGroundwater(LevelReader level, BlockPos pos, long fromTick, long toTick, int daysInMonth)
+    {
+        final long deltaTicks = toTick - fromTick;
+
+        float groundWaterSum = 0;
+        for (int i = 0; i < NUM_SAMPLES_FOR_DELTAS; i++)
+        {
+            final long sampleTick = fromTick + (deltaTicks * i / (NUM_SAMPLES_FOR_DELTAS - 1));
+            groundWaterSum += getInstantGroundwater(level, pos, sampleTick, daysInMonth);
+        }
+
+        return groundWaterSum / NUM_SAMPLES_FOR_DELTAS;
+    }
+
+
+    /**
      * Check if it is raining at the timestamp given by {@code calendarTicks} - not annual average
      * rainfall. This is used for purposes of simulation, because we want to be able to query the exact rainfall
      * patterns historically for an area.

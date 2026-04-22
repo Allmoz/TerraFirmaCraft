@@ -7,23 +7,25 @@
 package net.dries007.tfc.compat.patchouli;
 
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeverBlock;
+import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.RedstoneSide;
 import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.items.ItemStackHandler;
+
 import org.slf4j.Logger;
 import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.IStateMatcher;
@@ -31,12 +33,12 @@ import vazkii.patchouli.api.PatchouliAPI;
 
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.dries007.tfc.common.blocks.CharcoalPileBlock;
-import net.dries007.tfc.common.blocks.DirectionPropertyBlock;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.devices.BlastFurnaceBlock;
 import net.dries007.tfc.common.blocks.devices.BloomeryBlock;
+import net.dries007.tfc.common.blocks.devices.ChannelBlock;
 import net.dries007.tfc.common.blocks.devices.CharcoalForgeBlock;
-import net.dries007.tfc.common.blocks.devices.SheetPileBlock;
+import net.dries007.tfc.common.blocks.devices.MoldTableBlock;
 import net.dries007.tfc.common.blocks.rock.Rock;
 import net.dries007.tfc.common.blocks.rock.RockCategory;
 import net.dries007.tfc.common.blocks.rotation.AxleBlock;
@@ -49,7 +51,6 @@ import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.Metal;
-import net.dries007.tfc.util.MetalItem;
 
 public final class PatchouliIntegration
 {
@@ -91,6 +92,7 @@ public final class PatchouliIntegration
         registerMultiblock("full_blast_furnace", api -> blastFurnace(api, true));
         registerMultiblock("rock_anvil", PatchouliIntegration::rockAnvil);
         registerMultiblock("charcoal_forge", PatchouliIntegration::charcoalForge);
+        registerMultiblock("channel_casting", PatchouliIntegration::channelCasting);
         registerMultiblock("windmill", PatchouliIntegration::windmill);
         registerMultiblock("water_wheel", PatchouliIntegration::waterWheel);
         registerMultiblock("clutch_off", api -> clutch(api, false));
@@ -101,10 +103,6 @@ public final class PatchouliIntegration
 
     private static IMultiblock blastFurnace(PatchouliAPI.IPatchouliAPI api, boolean fullSize)
     {
-        final Block sheetPile = TFCBlocks.SHEET_PILE.get();
-        final Function<Direction, IStateMatcher> oneSheet = face -> api.predicateMatcher(sheetPile.defaultBlockState().setValue(DirectionPropertyBlock.getProperty(face), true), state -> Helpers.isBlock(state, sheetPile) && SheetPileBlock.countSheets(state, Direction.Plane.HORIZONTAL) >= 1);
-        final BiFunction<Direction, Direction, IStateMatcher> twoSheets = (face1, face2) -> api.predicateMatcher(sheetPile.defaultBlockState().setValue(DirectionPropertyBlock.getProperty(face1), true).setValue(DirectionPropertyBlock.getProperty(face2), true), state -> Helpers.isBlock(state, sheetPile) && SheetPileBlock.countSheets(state, Direction.Plane.HORIZONTAL) >= 2);
-
         //        ^ W
         //   1    |
         //  2.3   +-> S
@@ -113,57 +111,26 @@ public final class PatchouliIntegration
         //   8
         final String[][] pattern = fullSize ?
             new String[][] {
-                {"  1  ", " 2S3 ", "4SAS5", " 6S7 ", "  8  "},
-                {"  1  ", " 2S3 ", "4SAS5", " 6S7 ", "  8  "},
-                {"  1  ", " 2S3 ", "4SAS5", " 6S7 ", "  8  "},
-                {"  1  ", " 2S3 ", "4SAS5", " 6S7 ", "  8  "},
-                {"  1  ", " 2S3 ", "4SAS5", " 6S7 ", "  8  "},
-                {"     ", "     ", "  0B ", "     ", "     "},
-                {"     ", "     ", "  C  ", "     ", "     "},
+                { "RRR", "R R", "RRR"},
+                { "RRR", "R R", "RRR"},
+                { "RRR", "R R", "RRR"},
+                { "RRR", "R R", "RRR"},
+                { "RRR", "R R", "RRR"},
+                {"   ", " 0B", "   "},
+                {"   ", " C ", "   "},
             } :
             new String[][] {
-                {"  1  ", " 2S3 ", "4SAS5", " 6S7 ", "  8  "},
-                {"     ", "     ", "  0  ", "     ", "     "},
+                { "RRR", "R R", "RRR"},
+                {"   ", " 0 ", "   "},
             };
 
         final IMultiblock multiblock = api.makeMultiblock(pattern,
             '0', api.looseBlockMatcher(TFCBlocks.BLAST_FURNACE.get()),
             ' ', api.anyMatcher(),
-            'A', api.airMatcher(),
-            'S', api.predicateMatcher(TFCBlocks.FIRE_BRICKS.get(), BlastFurnaceBlock::isBlastFurnaceInsulationBlock),
-            '1', oneSheet.apply(Direction.EAST),
-            '2', twoSheets.apply(Direction.EAST, Direction.SOUTH),
-            '3', twoSheets.apply(Direction.EAST, Direction.NORTH),
-            '4', oneSheet.apply(Direction.SOUTH),
-            '5', oneSheet.apply(Direction.NORTH),
-            '6', twoSheets.apply(Direction.WEST, Direction.SOUTH),
-            '7', twoSheets.apply(Direction.WEST, Direction.NORTH),
-            '8', oneSheet.apply(Direction.WEST),
+            'R', api.predicateMatcher(TFCBlocks.REINFORCED_FIRE_BRICKS.get(), BlastFurnaceBlock::isBlastFurnaceInsulationBlock),
             'B', api.looseBlockMatcher(TFCBlocks.BELLOWS.get()),
             'C', api.looseBlockMatcher(TFCBlocks.CRUCIBLE.get())
         );
-
-        sneakIntoMultiblock(multiblock).ifPresent(access -> {
-            final MetalItem wroughtIron = new MetalItem("wrought_iron");
-            for (int x = 0; x < 5; x++)
-            {
-                for (int z = 0; z < 5; z++)
-                {
-                    if (fullSize)
-                    {
-                        for (int y = 2; y <= 6; y++)
-                        {
-                            access.getBlockEntity(new BlockPos(x, y, z), TFCBlockEntities.SHEET_PILE.get()).ifPresent(pile -> pile.setAllMetalsFromOutsideWorld(wroughtIron));
-                        }
-                    }
-                    else
-                    {
-                        access.getBlockEntity(new BlockPos(x, 1, z), TFCBlockEntities.SHEET_PILE.get()).ifPresent(pile -> pile.setAllMetalsFromOutsideWorld(wroughtIron));
-                    }
-                }
-            }
-        });
-
         return multiblock;
     }
 
@@ -222,6 +189,53 @@ public final class PatchouliIntegration
         return multiblock;
     }
 
+    private static IMultiblock channelCasting(PatchouliAPI.IPatchouliAPI api)
+    {
+        // ^ W
+        // |
+        // +-> S
+
+        final IMultiblock multiblock = api.makeMultiblock(
+            new String[][] {
+                {"     ", "   R ", "   | ", " S-+c", "     "},
+                {"  XXX", "  XFX", "  0XX", "CNXXX", "  XXX"},
+                {"     ", "     ", "XXX  ", "XXX  ", "XXX  "},
+            },
+            'R',
+            api.stateMatcher(TFCBlocks.CRUCIBLE.get().defaultBlockState()
+                    .setValue(PipeBlock.EAST, true)),
+            'F', api.looseBlockMatcher(TFCBlocks.CHARCOAL_FORGE.get()), ' ', api.airMatcher(),
+            'X',
+            api.looseBlockMatcher(
+                    TFCBlocks.ROCK_BLOCKS.get(Rock.GRANITE).get(Rock.BlockType.BRICKS).get()),
+            '0',
+            api.looseBlockMatcher(
+                    TFCBlocks.ROCK_BLOCKS.get(Rock.GRANITE).get(Rock.BlockType.BRICKS).get()),
+            '|',
+            api.stateMatcher(TFCBlocks.CHANNEL.get().defaultBlockState()
+                    .setValue(ChannelBlock.WEST, true).setValue(ChannelBlock.EAST, true)),
+            '-',
+            api.stateMatcher(TFCBlocks.CHANNEL.get().defaultBlockState()
+                    .setValue(ChannelBlock.SOUTH, true).setValue(ChannelBlock.NORTH, true)),
+            '+',
+            api.stateMatcher(TFCBlocks.CHANNEL.get().defaultBlockState()
+                    .setValue(ChannelBlock.SOUTH, true).setValue(ChannelBlock.NORTH, true)
+                    .setValue(ChannelBlock.WEST, true)),
+            'S',
+            api.stateMatcher(TFCBlocks.CHANNEL.get().defaultBlockState()
+                    .setValue(ChannelBlock.SOUTH, true)),
+            'N',
+            api.stateMatcher(TFCBlocks.CHANNEL.get().defaultBlockState()
+                    .setValue(ChannelBlock.NORTH, true)),
+            'C',
+            api.stateMatcher(TFCBlocks.MOLD_TABLE.get().defaultBlockState()
+                    .setValue(MoldTableBlock.SOUTH, true)),
+            'c', api.stateMatcher(TFCBlocks.MOLD_TABLE.get().defaultBlockState()
+                    .setValue(MoldTableBlock.NORTH, true)));
+
+        return multiblock;
+    }
+
     private static IMultiblock windmill(PatchouliAPI.IPatchouliAPI api)
     {
         final IMultiblock multiblock = api.makeMultiblock(new String[][] {
@@ -245,7 +259,14 @@ public final class PatchouliIntegration
 
         sneakIntoMultiblock(multiblock)
             .flatMap(access -> access.getBlockEntity(new BlockPos(0, 6, 6), TFCBlockEntities.WINDMILL.get()))
-            .ifPresent(entity -> entity.getRotationNode().setRotationFromOutsideWorld());
+            .ifPresent(entity -> {
+                entity.getRotationNode().setRotationFromOutsideWorld();
+                final ItemStackHandler inventory = entity.getInventory();
+                for (int i = 0; i < inventory.getSlots(); i++)
+                {
+                    inventory.setStackInSlot(i, new ItemStack(TFCItems.WINDMILL_BLADES.get(DyeColor.WHITE)));
+                }
+            });
 
         return multiblock;
     }
@@ -327,6 +348,7 @@ public final class PatchouliIntegration
             access.getBlockEntity(new BlockPos(0, 1, 0), TFCBlockEntities.QUERN.get()).ifPresent(quern -> {
                 quern.getRotationNode().setRotationFromOutsideWorld();
                 quern.setHandstoneFromOutsideWorld();
+                quern.setAxleAboveFromOutsideWorld(TFCBlocks.WOODS.get(Wood.OAK).get(Wood.BlockType.AXLE).get());
             });
             access.getBlockEntity(new BlockPos(0, 2, 0), TFCBlockEntities.AXLE.get()).ifPresent(axle -> axle.getRotationNode().setRotationFromOutsideWorld());
         });

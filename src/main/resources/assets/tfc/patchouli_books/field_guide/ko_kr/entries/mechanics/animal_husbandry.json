@@ -109,6 +109,19 @@
     },
     {
       "type": "patchouli:text",
+      "anchor": "rabbit",
+      "text": "$(thing)Rabbits$() spawn in $(l:the_world/climate#temperature)temperatures$() above -16°C, and at least 15mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#mammals)Mammals$() with no special abilities. They will eat any food, even if it is rotten. They have 1-6 children, are pregnant for just 19 days, and reach adulthood in 20 days. They can have children 6 times.",
+      "title": "Rabbits"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:rabbit{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "A rabbit."
+    },
+    {
+      "type": "patchouli:text",
       "anchor": "cow",
       "text": "$(thing)소$()는 $(l:the_world/climate#temperature)기온$()이 -10°C 이상 35°C 이하이고, $(l:the_world/climate#rainfall)강수량$()이 250mm 이상인 대부분의 기후에서 생성됩니다. 소는 $(l:mechanics/animal_husbandry#dairy_animals)우유$()를 짤 수 있습니다. 소는 $(thing)곡물$()만 먹으며 썩은 음식도 먹을 수 있습니다. 1-2마리의 새끼를 58일의 임신 후 낳으며, 192일 뒤에 성체가 됩니다. 우유를 짜지 않는다면 최대 13번 새끼를 가질 수 있으며, 번식하지 않는다면 최대 128번 우유를 짤 수 있습니다. 우유는 매일 짤 수 있습니다",
       "title": "§l소"
@@ -262,6 +275,19 @@
       "scale": 0.6,
       "name": " ",
       "text": "말."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "frog",
+      "text": "$(thing)Frogs$() spawn in $(l:the_world/climate#temperature)temperatures$() above -13°C, and at least 150mm of $(l:the_world/climate#rainfall)rainfall$(). They can be familiarized, and when bred they will lay eggs in fresh water, which hatch into tadpoles. They will eat fish and spider eyes. ",
+      "title": "Frogs"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:frog{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "A frog."
     }
   ],
   "read_by_default": true

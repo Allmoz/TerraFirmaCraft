@@ -13,22 +13,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import net.dries007.tfc.common.blocks.plant.fruit.IBushBlock;
-import net.dries007.tfc.util.calendar.Calendars;
-import net.dries007.tfc.util.calendar.ICalendar;
-import net.dries007.tfc.util.calendar.ICalendarTickable;
-
-public class BerryBushBlockEntity extends TFCBlockEntity implements ICalendarTickable
+public class BerryBushBlockEntity extends TickingPlantBlockEntity
 {
-    public static void serverTick(Level level, BlockPos pos, BlockState state, BerryBushBlockEntity bush)
+    public static void reset(Level level, BlockPos pos)
     {
-        bush.checkForCalendarUpdate();
+        level.getBlockEntity(pos, TFCBlockEntities.BERRY_BUSH.get()).ifPresent(TickCounterBlockEntity::resetCounter);
     }
 
-    private long lastTick; // The last tick this bush was ticked via the block entity's serverTick() method. A delta of > 1 is used to detect time skips
-    private long lastUpdateTick; // The last tick the bush block was ticked via IBushBlock#onUpdate()
+    public static void resetPickedTick(Level level, BlockPos pos)
+    {
+        level.getBlockEntity(pos, TFCBlockEntities.BERRY_BUSH.get()).ifPresent(BerryBushBlockEntity::resetLastPickedCounter);
+    }
 
-    public BerryBushBlockEntity(BlockPos pos, BlockState state)
+    // Allows for large bushes without runaway spreading
+    private int growthsRemaining = 24;
+
+    protected BerryBushBlockEntity(BlockPos pos, BlockState state)
     {
         this(TFCBlockEntities.BERRY_BUSH.get(), pos, state);
     }
@@ -36,65 +36,40 @@ public class BerryBushBlockEntity extends TFCBlockEntity implements ICalendarTic
     protected BerryBushBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state)
     {
         super(type, pos, state);
-        lastTick = Integer.MIN_VALUE;
-        lastUpdateTick = Calendars.SERVER.getTicks();
-    }
-
-    /**
-     * @return The number of ticks since this bush block was ticked in {@link IBushBlock#onUpdate(Level, BlockPos, BlockState)}
-     */
-    public long getTicksSinceBushUpdate()
-    {
-        return Calendars.SERVER.getTicks() - lastUpdateTick;
     }
 
     @Override
     public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider)
     {
-        lastUpdateTick = nbt.getLong("lastUpdateTick");
-        lastTick = nbt.getLong("lastTick");
+        growthsRemaining = nbt.getInt("growthsRemaining");
         super.loadAdditional(nbt, provider);
     }
 
     @Override
     public void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider)
     {
-        nbt.putLong("lastUpdateTick", lastUpdateTick);
-        nbt.putLong("lastTick", lastTick);
+        nbt.putInt("growthsRemaining", growthsRemaining);
         super.saveAdditional(nbt, provider);
     }
 
-    @Override
-    public void onCalendarUpdate(long ticks)
+    /**
+     * Adds to the amount of time counted by setting the lastUpdateTick farther in the past
+     */
+    public void decreaseGrowthsRemaining(int amount)
     {
-        if (level != null && ticks >= ICalendar.TICKS_IN_DAY)
-        {
-            final BlockState state = level.getBlockState(worldPosition);
-            if (state.getBlock() instanceof IBushBlock bush)
-            {
-                bush.onUpdate(level, worldPosition, state); // Update the bush
-                lastUpdateTick = Calendars.SERVER.getTicks(); // And the current time
-                setChanged();
-            }
-        }
+        growthsRemaining -= amount;
+        setChanged();
     }
 
-    @Override
-    @Deprecated
-    public long getLastCalendarUpdateTick()
+    public void setGrowthsRemaining(int growths)
     {
-        return lastTick;
+        growthsRemaining = growths;
+        setChanged();
     }
 
-    @Override
-    @Deprecated
-    public void setLastCalendarUpdateTick(long tick)
+    public int getGrowthsRemaining()
     {
-        lastTick = tick;
+        return growthsRemaining;
     }
 
-    public void setLastBushTick(long ticks)
-    {
-        lastUpdateTick = ticks;
-    }
 }

@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -21,22 +20,20 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.dries007.tfc.common.blockentities.TickableInventoryBlockEntity;
+import net.dries007.tfc.common.blocks.rotation.AxleBlock;
 import net.dries007.tfc.common.blocks.rotation.WindmillBlock;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.climate.Climate;
 import net.dries007.tfc.util.rotation.NetworkAction;
 import net.dries007.tfc.util.rotation.Node;
 import net.dries007.tfc.util.rotation.Rotation;
 import net.dries007.tfc.util.rotation.SourceNode;
 
-import static net.dries007.tfc.TerraFirmaCraft.*;
-
-
 public class WindmillBlockEntity extends TickableInventoryBlockEntity<ItemStackHandler> implements RotatingBlockEntity
 {
     public static final int SLOTS = 5;
     public static final float MIN_SPEED = Mth.TWO_PI / (20 * 20);
-    public static final float MAX_SPEED = Mth.TWO_PI / (8 * 20);
-
+    public static final float MAX_SPEED = Mth.TWO_PI / (8 * 20) - MIN_SPEED;
     private static final float LERP_SPEED = MIN_SPEED / (5 * 20);
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, WindmillBlockEntity windmill)
@@ -49,10 +46,15 @@ public class WindmillBlockEntity extends TickableInventoryBlockEntity<ItemStackH
 
         clientTick(level, pos, state, windmill);
 
-        if (level.getGameTime() % 40 == 0 && isObstructedBySolidBlocks(level, pos, state.getValue(WindmillBlock.AXIS)))
+        if (level.getGameTime() % 40 == 0)
         {
-            // Check every two seconds if the windmill is obstructed, and if so, break
-            level.destroyBlock(pos, true);
+            boolean obstructedNow = isObstructedBySolidBlocks(level, pos, state.getValue(WindmillBlock.AXIS));
+            if (obstructedNow != windmill.obstructed)
+            {
+                windmill.obstructed = obstructedNow;
+                windmill.markForSync();
+            }
+
         }
     }
 
@@ -60,15 +62,32 @@ public class WindmillBlockEntity extends TickableInventoryBlockEntity<ItemStackH
     {
         final Rotation.Tickable rotation = windmill.node.rotation();
 
-        rotation.tick();
+        if (windmill.obstructed)
+        {
+            rotation.setSpeed(0);
+        }
+        else
+        {
+            rotation.tick();
 
-        final float targetSpeed = Mth.map(state.getValue(WindmillBlock.COUNT), 1, SLOTS, MIN_SPEED, MAX_SPEED);
-        final float currentSpeed = rotation.speed();
-        final float nextSpeed = targetSpeed > currentSpeed
-            ? Math.min(targetSpeed, currentSpeed + LERP_SPEED)
-            : Math.max(targetSpeed, currentSpeed - LERP_SPEED);
+            final float targetBeforeWind = Mth.map(state.getValue(WindmillBlock.COUNT), 1, SLOTS, 0, MAX_SPEED) + (state.getValue(WindmillBlock.COUNT) > 1 ? MIN_SPEED : 0);
 
-        rotation.setSpeed(nextSpeed);
+            float wind = Climate.get(level).getWind(level, pos).length();
+
+            float windFactor = Math.min(wind, 0.5f) * 4f; // clamp below ~57 kmh and do a little mixing math
+
+            final float targetSpeed = windFactor * targetBeforeWind;
+            final float currentSpeed = rotation.speed();
+            final float nextSpeed = targetSpeed > currentSpeed
+                ? Math.min(targetSpeed, currentSpeed + LERP_SPEED)
+                : Math.max(targetSpeed, currentSpeed - LERP_SPEED);
+            rotation.setSpeed(nextSpeed);
+        }
+    }
+
+    public boolean isObstructed()
+    {
+        return this.obstructed;
     }
 
     public static boolean isObstructedBySolidBlocks(Level level, BlockPos pos, Direction.Axis axis)
@@ -99,6 +118,8 @@ public class WindmillBlockEntity extends TickableInventoryBlockEntity<ItemStackH
     private boolean invalid;
     private boolean needsStateUpdate = true;
 
+    private boolean obstructed = false;
+
     public WindmillBlockEntity(BlockPos pos, BlockState state)
     {
         this(TFCBlockEntities.WINDMILL.get(), pos, state, defaultInventory(SLOTS));
@@ -115,7 +136,8 @@ public class WindmillBlockEntity extends TickableInventoryBlockEntity<ItemStackH
         final Direction.Axis axis = state.getValue(WindmillBlock.AXIS);
 
         this.invalid = false;
-        this.node = new SourceNode(pos, Node.ofAxis(axis), Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE), 0f) {
+        this.node = new SourceNode(pos, Node.ofAxis(axis), Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE), 0f)
+        {
             @Override
             public String toString()
             {
@@ -138,8 +160,8 @@ public class WindmillBlockEntity extends TickableInventoryBlockEntity<ItemStackH
         }
         if (count == 0)
         {
-            BlockState axleState = ((WindmillBlock) getBlockState().getBlock()).getAxle().defaultBlockState();
-            axleState = Helpers.copyProperties(axleState, getBlockState());
+            final AxleBlock axle = ((WindmillBlock) getBlockState().getBlock()).getAxle();
+            BlockState axleState = axle.defaultBlockState().setValue(AxleBlock.AXIS, getBlockState().getValue(WindmillBlock.AXIS));
             level.setBlockAndUpdate(worldPosition, axleState);
         }
         else
@@ -174,6 +196,7 @@ public class WindmillBlockEntity extends TickableInventoryBlockEntity<ItemStackH
         super.saveAdditional(tag, provider);
         node.rotation().saveToTag(tag);
         tag.putBoolean("invalid", invalid);
+        tag.putBoolean("obstructed", obstructed);
     }
 
     @Override
@@ -182,6 +205,7 @@ public class WindmillBlockEntity extends TickableInventoryBlockEntity<ItemStackH
         super.loadAdditional(tag, provider);
         node.rotation().loadFromTag(tag);
         invalid = tag.getBoolean("invalid");
+        obstructed = tag.getBoolean("obstructed");
     }
 
     @Override

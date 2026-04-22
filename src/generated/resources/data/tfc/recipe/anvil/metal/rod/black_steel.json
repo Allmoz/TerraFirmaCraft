@@ -1,16 +1,16 @@
 {
   "type": "tfc:anvil",
   "ingredient": {
-    "tag": "c:double_ingots/black_steel"
+    "tag": "c:ingots/black_steel"
   },
   "result": {
     "count": 2,
     "id": "tfc:metal/rod/black_steel"
   },
   "rules": [
-    "hit_last",
+    "hit_third_last",
     "hit_second_last",
-    "hit_third_last"
+    "hit_last"
   ],
   "tier": 5
 }

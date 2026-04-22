@@ -8,6 +8,9 @@
       "item": "tfc:wood/planks/chestnut"
     }
   ],
+  "primary_ingredient": {
+    "tag": "c:tools/saw"
+  },
   "remainder": {
     "modifiers": [
       {

@@ -6,10 +6,16 @@
     },
     {
       "item": "tfc:plant/sapphire_tower"
+    },
+    {
+      "item": "tfc:plant/mountain_hullwort"
+    },
+    {
+      "item": "tfc:plant/penwortel"
     }
   ],
   "result": {
-    "count": 1,
+    "count": 2,
     "id": "minecraft:light_blue_dye"
   }
 }

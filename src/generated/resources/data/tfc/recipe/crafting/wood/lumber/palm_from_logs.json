@@ -8,6 +8,9 @@
       "tag": "tfc:palm_logs"
     }
   ],
+  "primary_ingredient": {
+    "tag": "c:tools/saw"
+  },
   "remainder": {
     "modifiers": [
       {

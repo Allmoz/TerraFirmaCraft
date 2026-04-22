@@ -811,8 +811,6 @@
     "tfc:plant/spruce_krummholz",
     "tfc:plant/white_cedar_krummholz",
     "tfc:bellows",
-    "tfc:barrel_rack",
-    "tfc:rope",
-    "tfc:hanging_rope"
+    "tfc:barrel_rack"
   ]
 }

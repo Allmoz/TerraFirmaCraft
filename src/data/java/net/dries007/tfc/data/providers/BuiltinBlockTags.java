@@ -126,7 +126,6 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
             .add(TFCBlocks.WILD_CROPS);
         // todo: other crops?
         tag(BlockTags.CLIMBABLE).add(
-            TFCBlocks.HANGING_ROPE.get(),
             TFCBlocks.PLANTS.get(Plant.JUNGLE_VINES).get(),
             TFCBlocks.PLANTS.get(Plant.HANGING_VINES).get(),
             TFCBlocks.PLANTS.get(Plant.HANGING_VINES_PLANT).get(),
@@ -172,9 +171,7 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
                 TFCBlocks.SPRUCE_KRUMMHOLZ,
                 TFCBlocks.WHITE_CEDAR_KRUMMHOLZ,
                 TFCBlocks.BELLOWS,
-                TFCBlocks.BARREL_RACK,
-                TFCBlocks.ROPE,
-                TFCBlocks.HANGING_ROPE
+                TFCBlocks.BARREL_RACK
             );
         // Note, our hoes do not use this tag, but instead we co-opt the values as a 'sharp tool'
         tag(BlockTags.MINEABLE_WITH_HOE)
@@ -243,7 +240,6 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
                 TFCBlocks.FIREPIT,
                 TFCBlocks.INGOT_PILE,
                 TFCBlocks.DOUBLE_INGOT_PILE,
-                TFCBlocks.SHEET_PILE,
                 TFCBlocks.BLAST_FURNACE,
                 TFCBlocks.CERAMIC_BOWL,
                 TFCBlocks.CRANKSHAFT,
@@ -379,8 +375,6 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
             .add(TFCBlocks.SAND)
             .add2(TFCBlocks.ORE_DEPOSITS)
             .add(TFCBlocks.SOIL.get(SoilBlockType.MUD))
-            .add(TFCBlocks.SOIL.get(SoilBlockType.CRACKED_EARTH))
-            .add(TFCBlocks.SOIL.get(SoilBlockType.SALTED_EARTH))
             .add(
                 TFCBlocks.WHITE_KAOLIN_CLAY,
                 TFCBlocks.PINK_KAOLIN_CLAY,
@@ -423,7 +417,6 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
             .add(TFCBlocks.WOODS, Wood.BlockType.HORIZONTAL_SUPPORT)
             .add(TFCBlocks.WOODS, Wood.BlockType.VERTICAL_SUPPORT);
         tag(AQUEDUCTS).add(TFCBlocks.ROCK_BLOCKS, Rock.BlockType.AQUEDUCT);
-        tag(ROPE_ANCHORS).add(TFCBlocks.ROCK_BLOCKS, Rock.BlockType.ROPE_ANCHOR);
 
         tag(CHARCOAL_PIT_INSULATION).add(
             TFCBlocks.LOG_PILE,

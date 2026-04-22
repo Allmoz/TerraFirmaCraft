@@ -7,6 +7,7 @@
 package net.dries007.tfc.common.blockentities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -56,7 +57,7 @@ import net.dries007.tfc.util.data.Fuel;
 
 import static net.dries007.tfc.TerraFirmaCraft.*;
 
-public class BlastFurnaceBlockEntity extends TickableInventoryBlockEntity<BlastFurnaceBlockEntity.BlastFurnaceInventory> implements ICalendarTickable
+public class BlastFurnaceBlockEntity extends TickableInventoryBlockEntity<BlastFurnaceBlockEntity.BlastFurnaceInventory> implements ICalendarTickable, IHeatable
 {
     public static void serverTick(Level level, BlockPos pos, BlockState state, BlastFurnaceBlockEntity entity)
     {
@@ -348,7 +349,7 @@ public class BlastFurnaceBlockEntity extends TickableInventoryBlockEntity<BlastF
         nbt.put("catalystStacks", Helpers.writeItemStacksToNbt(provider, catalystStacks));
         nbt.put("fuelStacks", Helpers.writeItemStacksToNbt(provider, fuelStacks));
 
-        nbt.put("inputFluid", inputFluid.save(provider));
+        nbt.put("inputFluid", inputFluid.saveOptional(provider));
         nbt.put("outputFluidTank", outputFluidTank.writeToNBT(provider, new CompoundTag()));
 
         nbt.putFloat("temperature", temperature);
@@ -364,19 +365,21 @@ public class BlastFurnaceBlockEntity extends TickableInventoryBlockEntity<BlastF
     public void onCalendarUpdate(long ticks)
     {
         assert level != null;
-
-        final HeatCapability.Remainder remainder = HeatCapability.consumeFuelForTicks(ticks, burnTicks, burnTemperature, fuelStacks);
-
-        burnTicks = remainder.burnTicks();
-        burnTemperature = remainder.burnTemperature();
-
-        if (remainder.ticks() > 0)
+        if (level.getBlockState(worldPosition).getValue(BlastFurnaceBlock.LIT))
         {
-            // Consumed all fuel, so extinguish and cool instantly
-            extinguish(getBlockState());
-            for (ItemStack stack : inputStacks)
+            final HeatCapability.Remainder remainder = HeatCapability.consumeFuelForTicks(ticks, burnTicks, burnTemperature, fuelStacks);
+
+            burnTicks = remainder.burnTicks();
+            burnTemperature = remainder.burnTemperature();
+
+            if (remainder.ticks() > 0)
             {
-                HeatCapability.setTemperature(stack, 0);
+                // Consumed all fuel, so extinguish and cool instantly
+                extinguish(getBlockState());
+                for (ItemStack stack : inputStacks)
+                {
+                    HeatCapability.setTemperature(stack, 0);
+                }
             }
         }
     }

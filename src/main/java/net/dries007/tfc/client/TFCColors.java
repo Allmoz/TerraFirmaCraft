@@ -139,7 +139,8 @@ public final class TFCColors
     {
         final Level level = ClientHelpers.getLevel();
         float temp = Climate.getAverageTemperature(level, pos);
-        float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
+        final float offset = ClientHelpers.inNorthernHemisphere() ? 0f : 0.5f; // Offset for Southern Hemisphere
+        float timeOfYear = (Calendars.CLIENT.getCalendarFractionOfYear() + offset) % 1f;
         final float tempClamped = temp > 12f ? 12f : Math.max(temp, -20f);
 
         final float cubedTerm = 1.5f * (float) Math.pow(tempClamped + 3f, 3f) / 4913f;
@@ -214,11 +215,22 @@ public final class TFCColors
         if (level != null)
         {
             final ClimateModel model = Climate.get(level);
-            final float temperature = model.getTemperature(level, pos);
-            final float groundwater = model.getGroundwater(level, pos);
+            final float temperature = model.getInstantTemperature(level, pos);
+            final float groundwater = model.getInstantGroundwater(level, pos);
             return getClimateColor(colorCache, temperature, groundwater);
         }
         return 0;
+    }
+
+    /**
+     * Queries a color map based on temperature and groundwater parameters. Temperature is horizontal, left is high. Groundwater is vertical, up is high.
+     * Values
+     */
+    private static int getClimateColor(int[] colorCache, float temperature, float groundwater)
+    {
+        final int temperatureIndex = 255 - Mth.clamp((int) ((temperature + 20f) * 255f / 50f), 0, 255);
+        final int rainfallIndex = 255 - Mth.clamp((int) (groundwater * 255f / 500f), 0, 255);
+        return colorCache[temperatureIndex | (rainfallIndex << 8)];
     }
 
     private static int getAverageClimateColor(int[] colorCache, BlockPos pos, float averageTemperature)
@@ -226,21 +238,10 @@ public final class TFCColors
         final Level level = ClientHelpers.getLevel();
         if (level != null)
         {
-            final float groundwater = Climate.getGroundwater(level, pos);
+            final float groundwater = Climate.getAverageGroundwater(level, pos);
             return getClimateColor(colorCache, averageTemperature, groundwater);
         }
         return 0;
-    }
-
-
-    /**
-     * Queries a color map based on temperature and groundwater parameters. Temperature is horizontal, left is high. Groundwater is vertical, up is high.
-     */
-    private static int getClimateColor(int[] colorCache, float temperature, float groundwater)
-    {
-        final int temperatureIndex = 255 - Mth.clamp((int) ((temperature + 20f) * 255f / 50f), 0, 255);
-        final int rainfallIndex = 255 - Mth.clamp((int) (groundwater * 255f / 500f), 0, 255);
-        return colorCache[temperatureIndex | (rainfallIndex << 8)];
     }
 
     private static int getAutumnColor(int[] colorCache, float timeOfYear, float autumnStart, float autumnEnd, BlockPos pos, int autumnIndex)

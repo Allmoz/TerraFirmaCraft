@@ -10,10 +10,7 @@
       "tag": "c:tools/shear"
     },
     {
-      "tag": "c:tools/glassworking"
-    },
-    {
-      "tag": "c:tools/blowpipe"
+      "item": "tfc:firestarter"
     }
   ],
   "size": "large",

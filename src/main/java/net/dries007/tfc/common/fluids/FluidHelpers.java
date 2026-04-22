@@ -50,6 +50,7 @@ import org.jetbrains.annotations.Nullable;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.AqueductBlock;
+import net.dries007.tfc.common.component.size.ItemSizeManager;
 import net.dries007.tfc.mixin.accessor.FlowingFluidAccessor;
 import net.dries007.tfc.util.Helpers;
 
@@ -155,11 +156,11 @@ public final class FluidHelpers
     /**
      * Invoked from a block entity when an item is interacting with it. Assumes:
      * <ul>
-     *     <li>The block entity has a arbitrary sized, continuous valued fluid tank</li>
+     *     <li>The block entity has an arbitrary sized, continuous valued fluid tank</li>
      *     <li>The item has an arbitrary sized, <strong>possibly discrete</strong>, possibly continuous valued fluid tank.</li>
      * </ul>
      * <br>
-     * If the item is empty, it will attempt to fill the item from the fluid tank. If the item contains any fluid, it will attempt to fill the fluid block entity from the item.
+     * If the item is empty or the block is full, it will attempt to fill the item from the fluid tank. Otherwise, it will attempt to fill the fluid block entity from the item.
      *
      * @return {@code true} if a transfer occurred.
      */
@@ -182,7 +183,7 @@ public final class FluidHelpers
         }
 
         final FluidStack aggressiveDrained = itemHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
-        if (aggressiveDrained.isEmpty())
+        if (aggressiveDrained.isEmpty() || blockHandler.fill(aggressiveDrained, IFluidHandler.FluidAction.SIMULATE) <= 0)
         {
             // Transfer block -> item.
             return transferBetweenItemAndOther(originalStack, itemHandler, blockHandler, itemHandler, Transfer.FILL, level, pos, after);
@@ -430,7 +431,7 @@ public final class FluidHelpers
                 return false;
             }
 
-            if (state.getBlock() != toPlace.getBlock())
+            if (state.getBlock() != toPlace.getBlock() || (fluid instanceof FlowingFluid && toPlace.getFluidState().isSource()))
             {
                 if (!level.isClientSide && state.canBeReplaced(fluid) && !state.liquid())
                 {
@@ -761,6 +762,9 @@ public final class FluidHelpers
             }
             if (!newContainerStack.isEmpty())
             {
+                // Update the new container's stack size in case it has a new
+                // size or weight, eg. sealed barrels
+                ItemSizeManager.get(newContainerStack).modifyWeight(newContainerStack);
                 // Always ensure that we've only created one new container stack.
                 ItemHandlerHelper.giveItemToPlayer(player, newContainerStack.copyWithCount(1));
             }

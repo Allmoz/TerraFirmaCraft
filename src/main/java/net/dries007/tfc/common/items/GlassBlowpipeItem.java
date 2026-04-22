@@ -73,12 +73,12 @@ public class GlassBlowpipeItem extends BlowpipeItem
 
             // test on a copy so that if it doesn't work we don't cause irreversible changes
             final ItemStack copy = item.copy();
-            GlassWorking.apply(copy, GlassOperation.BASIN_POUR);
+            GlassWorking.apply(copy, GlassOperation.BASIN_POUR.value());
 
             final @Nullable GlassworkingRecipe recipe = GlassworkingRecipe.get(level, copy);
             if (recipe != null)
             {
-                if (!GlassOperation.BASIN_POUR.hasRequiredTemperature(copy))
+                if (!GlassOperation.BASIN_POUR.value().hasRequiredTemperature(copy))
                 {
                     player.displayClientMessage(Component.translatable("tfc.tooltip.glass.not_hot_enough"), true);
                 }
@@ -105,12 +105,12 @@ public class GlassBlowpipeItem extends BlowpipeItem
 
             // test on a copy so that if it doesn't work we don't cause irreversible changes
             final ItemStack copy = item.copy();
-            GlassWorking.apply(copy, GlassOperation.TABLE_POUR);
+            GlassWorking.apply(copy, GlassOperation.TABLE_POUR.value());
 
             final @Nullable GlassworkingRecipe recipe = GlassworkingRecipe.get(level, copy);
             if (recipe != null)
             {
-                if (!GlassOperation.TABLE_POUR.hasRequiredTemperature(copy))
+                if (!GlassOperation.TABLE_POUR.value().hasRequiredTemperature(copy))
                 {
                     player.displayClientMessage(Component.translatable("tfc.tooltip.glass.not_hot_enough"), true);
                 }
@@ -175,16 +175,7 @@ public class GlassBlowpipeItem extends BlowpipeItem
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity)
     {
-        if (entity instanceof Player player)
-        {
-            stopUsing(player, stack);
-        }
-        return super.finishUsingItem(stack, level, entity);
-    }
-
-    protected void stopUsing(LivingEntity entity, ItemStack stack)
-    {
-        if (entity instanceof Player player)
+        if (entity instanceof Player player && !level.isClientSide)
         {
             final ItemStack otherHand = getOtherHandItem(player);
             final GlassOperation op = GlassOperation.get(otherHand, player);
@@ -192,12 +183,11 @@ public class GlassBlowpipeItem extends BlowpipeItem
             {
                 GlassWorking.apply(stack, op);
 
-                final Level level = entity.level();
                 final @Nullable GlassworkingRecipe recipe = GlassworkingRecipe.get(level, stack);
                 if (recipe != null)
                 {
                     final boolean broken = consumeBlowpipe(player, player.getUsedItemHand(), stack);
-                    ItemHandlerHelper.giveItemToPlayer(player, recipe.getResultItem(level.registryAccess()));
+                    ItemHandlerHelper.giveItemToPlayer(player, recipe.getResultItem(level.registryAccess()).copy());
                     level.playSound(null, player.blockPosition(), broken ? SoundEvents.ITEM_BREAK : SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS);
                 }
             }
@@ -206,6 +196,9 @@ public class GlassBlowpipeItem extends BlowpipeItem
             // Cooldown all blowpipe items
             player.getCooldowns().addCooldown(TFCItems.BLOWPIPE.asItem(), 80);
             player.getCooldowns().addCooldown(TFCItems.CERAMIC_BLOWPIPE.asItem(), 80);
+            player.getCooldowns().addCooldown(TFCItems.BLOWPIPE_WITH_GLASS.asItem(), 80);
+            player.getCooldowns().addCooldown(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem(), 80);
         }
+        return super.finishUsingItem(stack, level, entity);
     }
 }

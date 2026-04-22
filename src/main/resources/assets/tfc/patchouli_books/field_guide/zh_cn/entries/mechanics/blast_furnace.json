@@ -15,7 +15,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "接下来就可以开始搭建高炉的$(thing)烟囱$()了。烟囱必须用足以承受炼钢高温的$(l:mechanics/fire_clay#fire_bricks)耐火砖块$()搭建。耐火砖块的外层还需要用$(thing)锻铁薄板$()围绕一圈加固。如果材料富裕，也可以用更高级的金属薄板（如$(thing)钢$()）来代替锻铁薄板。"
+      "text": "然后你需要建造高炉及其$(thing)烟囱$()。烟囱必须由$(l:mechanics/fire_clay#fire_bricks)高强度耐火砖$()砌成，因为它们足够坚固，可以承受高温。这些砖可以用耐火砖块和锻铁薄板或钢薄板制作。"
     },
     {
       "type": "patchouli:multiblock",
@@ -26,7 +26,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "高炉的烟囱最多可以搭建 5 层，每层烟囱需要额外 4 块$(thing)耐火砖块$()和 12 张$(thing)锻铁薄板$()。每额外搭建一层烟囱，高炉就可以同时多烧炼 4 个物品，从而提升工作效率。"
+      "text": "高炉的烟囱最多可以有五层——每层需要八个$(thing)高强度耐火砖$()。层数越多，高炉的总容量越大，一次能冶炼更多的钢。每增加一层烟囱（最多五层），高炉就能多容纳四个矿石物品。"
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "最后，用$(l:getting_started/firepit#firestarter)起火器$()或$(thing)打火石$()点燃高炉方块就可以开始炼钢了。高炉会缓慢加热矿石，同时要注意不断鼓风和添加木炭。当高炉内的温度足以熔化矿石时，矿石就会熔化并转化为$(l:mechanics/steel)生铁$()。"
+      "text": "最后，开始操作，用$(l:getting_started/firepit#firestarter)起火器$()、$(thing)燧石和黄铁矿$()或$(thing)打火石$()点燃高炉。它会开始加热里面的矿石。确保高炉持续有燃料，并在其内部温度达到木炭的极限后，使用风箱向高炉鼓风。当里面的矿石加热后，它们会熔化并转化为$(l:mechanics/steel)生铁$()。"
     },
     {
       "type": "patchouli:text",

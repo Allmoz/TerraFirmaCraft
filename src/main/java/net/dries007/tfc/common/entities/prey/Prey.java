@@ -26,7 +26,7 @@ public class Prey extends WildAnimal
 {
     public static AttributeSupplier.Builder createAttributes()
     {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.3F);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.3F).add(Attributes.STEP_HEIGHT, 1.0F);
     }
 
     public static AttributeSupplier.Builder createLargeAttributes()

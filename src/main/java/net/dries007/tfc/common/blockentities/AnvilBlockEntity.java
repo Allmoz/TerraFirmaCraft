@@ -8,7 +8,9 @@ package net.dries007.tfc.common.blockentities;
 
 import java.util.Collection;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -19,7 +21,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -65,6 +66,9 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
     public static final int[] SLOTS_BY_HAND_EXTRACT = new int[] {SLOT_INPUT_MAIN, SLOT_INPUT_SECOND};
     public static final int[] SLOTS_BY_HAND_INSERT = new int[] {SLOT_CATALYST, SLOT_INPUT_MAIN, SLOT_INPUT_SECOND};
 
+    @Nullable
+    private ResourceLocation lastRecipe = null;
+
     public AnvilBlockEntity(BlockPos pos, BlockState state)
     {
         this(TFCBlockEntities.ANVIL.get(), pos, state, AnvilInventory::new);
@@ -85,7 +89,27 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
      */
     public MenuProvider planProvider()
     {
-        return new SimpleMenuProvider(this::createPlanContainer, getDisplayName());
+        return new MenuProvider()
+        {
+            @Override
+            public Component getDisplayName()
+            {
+                return AnvilBlockEntity.this.getDisplayName();
+            }
+
+            @Nullable
+            @Override
+            public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player)
+            {
+                return createPlanContainer(containerId, playerInventory, player);
+            }
+
+            @Override
+            public boolean shouldTriggerClientSideContainerClosingOnOpen()
+            {
+                return false;
+            }
+        };
     }
 
     /**
@@ -103,6 +127,12 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
         return AnvilContainer.create(this, player.getInventory(), containerId);
     }
 
+    @Override
+    public boolean shouldTriggerClientSideContainerClosingOnOpen()
+    {
+        return false;
+    }
+
     @Nullable
     public AbstractContainerMenu createPlanContainer(int containerId, Inventory inventory, Player player)
     {
@@ -113,12 +143,12 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
     public boolean isItemValid(int slot, ItemStack stack)
     {
         return switch (slot)
-            {
-                case SLOT_INPUT_MAIN, SLOT_INPUT_SECOND -> true;
-                case SLOT_HAMMER -> Helpers.isItem(stack, TFCTags.Items.TOOLS_HAMMER);
-                case SLOT_CATALYST -> Helpers.isItem(stack, TFCTags.Items.WELDING_FLUX);
-                default -> false;
-            };
+        {
+            case SLOT_INPUT_MAIN, SLOT_INPUT_SECOND -> true;
+            case SLOT_HAMMER -> Helpers.isItem(stack, TFCTags.Items.TOOLS_HAMMER);
+            case SLOT_CATALYST -> Helpers.isItem(stack, TFCTags.Items.WELDING_FLUX);
+            default -> false;
+        };
     }
 
     @Override
@@ -137,6 +167,26 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
     }
 
     @Override
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider)
+    {
+        super.loadAdditional(nbt, provider);
+        if (nbt.contains("lastRecipe", CompoundTag.TAG_STRING))
+        {
+            lastRecipe = ResourceLocation.tryParse(nbt.getString("lastRecipe"));
+        }
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider)
+    {
+        super.saveAdditional(nbt, provider);
+        if (lastRecipe != null)
+        {
+            nbt.putString("lastRecipe", lastRecipe.toString());
+        }
+    }
+
+    @Override
     public void setAndUpdateSlots(int slot)
     {
         assert level != null;
@@ -149,15 +199,23 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
             if (recipe == null)
             {
                 // Select a default recipe if we only find a single recipe for this item
-                final Collection<RecipeHolder<AnvilRecipe>> all = AnvilRecipe.getAll(level, stack, getTier());
-                if (all.size() == 1 && !level.isClientSide)
+                if (!level.isClientSide)
                 {
-                    // Update the recipe held by the forging item
-                    forge.setRecipe(all.iterator().next(), inventory);
+                    final Collection<RecipeHolder<AnvilRecipe>> all = AnvilRecipe.getAll(level, stack, getTier());
+                    if (all.size() == 1)
+                    {
+                        // Update the recipe held by the forging item
+                        forge.setRecipe(all.iterator().next(), inventory);
+                    }
+                    else if (lastRecipe != null)
+                    {
+                        // set a remembered recipe
+                        all.stream().filter(r -> r.id().equals(lastRecipe)).findAny().ifPresent(r -> forge.setRecipe(r, inventory));
+                    }
                 }
             }
         }
-        setChanged();
+        markForSync();
     }
 
     @Override
@@ -176,6 +234,7 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
         if (!stack.isEmpty() && recipe != null)
         {
             ForgingCapability.get(stack).setRecipe(new RecipeHolder<>(recipeId, recipe), inventory);
+            lastRecipe = recipeId;
         }
     }
 
@@ -191,18 +250,20 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
 
         // Check that we have a hammer, either in the anvil or in the player inventory
         ItemStack hammer = inventory.getStackInSlot(SLOT_HAMMER);
+        if (!Helpers.isItem(hammer, TFCTags.Items.TOOLS_HAMMER))
+            hammer = ItemStack.EMPTY;
         InteractionHand hammerSlot = null;
         if (hammer.isEmpty())
         {
-            hammer = player.getMainHandItem();
+            hammer = Helpers.isItem(player.getMainHandItem(), TFCTags.Items.TOOLS_HAMMER) ? player.getMainHandItem() : ItemStack.EMPTY;
             hammerSlot = InteractionHand.MAIN_HAND;
         }
         if (hammer.isEmpty())
         {
-            hammer = player.getOffhandItem();
+            hammer = Helpers.isItem(player.getOffhandItem(), TFCTags.Items.TOOLS_HAMMER) ? player.getOffhandItem() : ItemStack.EMPTY;
             hammerSlot = InteractionHand.OFF_HAND;
         }
-        if (hammerSlot == null || hammer.isEmpty() || !Helpers.isItem(hammer, TFCTags.Items.TOOLS_HAMMER))
+        if (hammer.isEmpty())
         {
             player.displayClientMessage(Component.translatable("tfc.tooltip.hammer_required_to_work"), false);
             return;
@@ -359,7 +420,7 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
         return true;
     }
 
-    private void createForgingEffects()
+    public void createForgingEffects()
     {
         assert level != null;
         level.playSound(null, worldPosition, TFCSounds.ANVIL_HIT.get(), SoundSource.PLAYERS, 0.4f, 1.0f);
@@ -373,12 +434,11 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
     }
 
     /**
-     * Sends feedback to the action bar, as the anvil gui will be closed.
      * @return {@code SUCCESS} if welding was successful, {@code FAIL} if it failed, and {@code PASS} if it was not attempted.
      */
     public InteractionResult weld(Player player)
     {
-        final ItemStack left = inventory.getLeft(), right = inventory.getRight();
+        final ItemStack left = inventory.getMain(), right = inventory.getSecondary();
         if (left.isEmpty() && right.isEmpty())
         {
             return InteractionResult.PASS;
@@ -391,7 +451,7 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
         {
             if (!recipe.isCorrectTier(getTier()))
             {
-                player.displayClientMessage(Component.translatable("tfc.tooltip.anvil_is_too_low_tier_to_weld"), true);
+                player.displayClientMessage(Component.translatable("tfc.tooltip.anvil_is_too_low_tier_to_weld"), false);
                 return InteractionResult.FAIL;
             }
 
@@ -400,13 +460,13 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
 
             if ((leftHeat != null && !leftHeat.canWeld()) || (rightHeat != null && !rightHeat.canWeld()))
             {
-                player.displayClientMessage(Component.translatable("tfc.tooltip.not_hot_enough_to_weld"), true);
+                player.displayClientMessage(Component.translatable("tfc.tooltip.not_hot_enough_to_weld"), false);
                 return InteractionResult.FAIL;
             }
 
             if (inventory.getStackInSlot(SLOT_CATALYST).isEmpty())
             {
-                player.displayClientMessage(Component.translatable("tfc.tooltip.no_flux_to_weld"), true);
+                player.displayClientMessage(Component.translatable("tfc.tooltip.no_flux_to_weld"), false);
                 return InteractionResult.FAIL;
             }
 
@@ -428,6 +488,57 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return InteractionResult.PASS;
+    }
+
+    public boolean canWeldNow()
+    {
+        return getWeldStatus() == WeldStatus.WELDABLE;
+    }
+
+    public WeldStatus getWeldStatus()
+    {
+        final ItemStack left = inventory.getMain(), right = inventory.getSecondary();
+        if (left.isEmpty() && right.isEmpty())
+        {
+            return WeldStatus.PROBLEM_INGOTS;
+        }
+
+        assert level != null;
+        final WeldingRecipe recipe = RecipeHelpers.unbox(RecipeHelpers.getHolder(level, TFCRecipeTypes.WELDING, inventory));
+        if (recipe != null)
+        {
+            if (!recipe.isCorrectTier(getTier()))
+            {
+                return WeldStatus.PROBLEM_TIER;
+            }
+
+            final @Nullable IHeat leftHeat = HeatCapability.get(left);
+            final @Nullable IHeat rightHeat = HeatCapability.get(right);
+
+            if ((leftHeat != null && !leftHeat.canWeld()) || (rightHeat != null && !rightHeat.canWeld()))
+            {
+                return WeldStatus.PROBLEM_HEAT;
+            }
+
+            if (inventory.getStackInSlot(SLOT_CATALYST).isEmpty())
+            {
+                return WeldStatus.PROBLEM_FLUX;
+            }
+
+            return WeldStatus.WELDABLE;
+        }
+        return WeldStatus.PROBLEM_UNKNOWN;
+    }
+
+    public enum WeldStatus
+    {
+        PROBLEM_TIER,
+        PROBLEM_HEAT,
+        PROBLEM_FLUX,
+        PROBLEM_HAMMER,
+        PROBLEM_INGOTS,
+        PROBLEM_UNKNOWN,
+        WELDABLE
     }
 
     public int getTier()
@@ -464,13 +575,13 @@ public class AnvilBlockEntity extends InventoryBlockEntity<AnvilBlockEntity.Anvi
         }
 
         @Override
-        public ItemStack getLeft()
+        public ItemStack getMain()
         {
             return getStackInSlot(SLOT_INPUT_MAIN);
         }
 
         @Override
-        public ItemStack getRight()
+        public ItemStack getSecondary()
         {
             return getStackInSlot(SLOT_INPUT_SECOND);
         }

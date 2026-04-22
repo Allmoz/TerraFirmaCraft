@@ -8,6 +8,7 @@
     "id": "tfc:metal/double_sheet/nickel"
   },
   "second_input": {
-    "tag": "c:ingots/nickel"
-  }
+    "tag": "c:sheets/nickel"
+  },
+  "tier": -1
 }

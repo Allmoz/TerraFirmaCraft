@@ -8,6 +8,7 @@ package net.dries007.tfc.common.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
+import net.dries007.tfc.common.blockentities.IPotInventory;
 import net.dries007.tfc.common.blockentities.PotBlockEntity;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.dries007.tfc.common.recipes.outputs.PotOutput;
@@ -28,7 +30,8 @@ public class SimplePotRecipe extends PotRecipe
     public static final MapCodec<SimplePotRecipe> CODEC = RecordCodecBuilder.<SimplePotRecipe>mapCodec(i -> i.group(
         PotRecipe.CODEC.forGetter(c -> c),
         FluidStack.CODEC.optionalFieldOf("fluid_output", FluidStack.EMPTY).forGetter(c -> c.outputFluid),
-        ItemStackProvider.CODEC.listOf(0, 5).optionalFieldOf("item_output", List.of()).forGetter(c -> c.outputItems)
+        ItemStackProvider.CODEC.listOf(0, 5).optionalFieldOf("item_output", List.of()).forGetter(c -> c.outputItems),
+        Codec.BOOL.optionalFieldOf("uses_all_fluid", true).forGetter(c -> c.usesAllFluid)
     ).apply(i, SimplePotRecipe::new))
         .validate(recipe -> {
             final boolean anyProvidersDependOnInput = recipe.outputItems.stream().anyMatch(ItemStackProvider::dependsOnInput);
@@ -43,17 +46,20 @@ public class SimplePotRecipe extends PotRecipe
         PotRecipe.STREAM_CODEC, c -> c,
         FluidStack.OPTIONAL_STREAM_CODEC, c -> c.outputFluid,
         ItemStackProvider.STREAM_CODEC.apply(ByteBufCodecs.list(5)), c -> c.outputItems,
+        ByteBufCodecs.BOOL, c -> c.usesAllFluid,
         SimplePotRecipe::new
     );
 
     protected final FluidStack outputFluid;
     protected final List<ItemStackProvider> outputItems;
+    protected final boolean usesAllFluid;
 
-    public SimplePotRecipe(PotRecipe base, FluidStack outputFluid, List<ItemStackProvider> outputProviders)
+    public SimplePotRecipe(PotRecipe base, FluidStack outputFluid, List<ItemStackProvider> outputProviders, boolean usesAllFluid)
     {
         super(base);
         this.outputFluid = outputFluid;
         this.outputItems = outputProviders;
+        this.usesAllFluid = usesAllFluid;
     }
 
     public FluidStack getDisplayFluid()
@@ -67,16 +73,36 @@ public class SimplePotRecipe extends PotRecipe
     }
 
     @Override
-    public PotOutput getOutput(PotBlockEntity.PotInventory inventory)
+    public PotOutput getOutput(IPotInventory inventory)
     {
         // Compute the outputs here, before the pot inventory is cleared
         final List<ItemStack> outputs = new ArrayList<>(5);
-        for (int i = 0; i < Math.min(outputItems.size(), inventory.getSlots()); i++)
+        final List<ItemStackProvider> providers = new ArrayList<>(outputItems);
+        for (int i = inventory.inputStart(); i <= inventory.inputEnd(); i++)
         {
-            final ItemStack input = inventory.getStackInSlot(PotBlockEntity.SLOT_EXTRA_INPUT_START + i);
-            outputs.add(outputItems.get(i).getSingleStack(input));
+            if (providers.isEmpty())
+                break;
+            final ItemStack input = inventory.getStackInSlot(i);
+
+            // The only case where non-empty itemstacks are actually required by the provider, is if the recipe transforms the input items in some way
+            // If no items are part of the recipe, we can therefore safely add outputs using empty itemstacks without having to worry about breaking anything
+            if (!input.isEmpty() || itemIngredients.isEmpty())
+            {
+                outputs.add(providers.removeFirst().getSingleStack(input));
+            }
         }
-        return new SimpleOutput(outputFluid.copy(), outputs);
+        return new SimpleOutput(usesAllFluid ? outputFluid.copy() : favorNewFluidStack(inventory.getFluidHandler().getFluidInTank(0), outputFluid), outputs);
+    }
+
+    public FluidStack favorNewFluidStack(FluidStack input, FluidStack output)
+    {
+        input = input.copy();
+        if (input.getAmount() > fluidIngredient.amount() && output.isEmpty())
+        {
+            input.setAmount(input.getAmount() - fluidIngredient.amount());
+            return input;
+        }
+        return output.copy();
     }
 
     @Override
@@ -91,13 +117,14 @@ public class SimplePotRecipe extends PotRecipe
     record SimpleOutput(FluidStack fluidOutput, List<ItemStack> itemOutputs) implements PotOutput
     {
         @Override
-        public void onFinish(PotBlockEntity.PotInventory inventory)
+        public void onFinish(IPotInventory inventory)
         {
             // Copy the outputs to the pot inventory
             for (int i = 0; i < itemOutputs.size(); i++)
             {
-                inventory.setStackInSlot(PotBlockEntity.SLOT_EXTRA_INPUT_START + i, itemOutputs.get(i));
+                inventory.setStackInSlot(inventory.inputStart() + i, itemOutputs.get(i));
             }
+            inventory.clearFluid();
             inventory.fill(fluidOutput, IFluidHandler.FluidAction.EXECUTE);
         }
     }

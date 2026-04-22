@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -62,7 +63,7 @@ public abstract class TFCTallGrassBlock extends ShortGrassBlock implements ITall
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         super.randomTick(state, level, pos, random);
-        if (PlantRegrowth.canSpread(level, random) && state.getValue(PART) == Part.LOWER)
+        if (PlantRegrowth.canSpread(level, random, pos) && state.getValue(PART) == Part.LOWER)
         {
             final BlockPos newPos = PlantRegrowth.spreadSelf(state, level, pos, random, 2, 2, 4);
             if (newPos != null && PlantRegrowth.DEFAULT_PLACEMENT_TEST.test(level.getBlockState(newPos.above()), newPos.above()))
@@ -170,8 +171,17 @@ public abstract class TFCTallGrassBlock extends ShortGrassBlock implements ITall
 
     public void placeTwoHalves(LevelAccessor level, BlockPos pos, int flags, RandomSource random)
     {
-        int age = random.nextInt(3) + 1;
-        level.setBlock(pos, Helpers.setProperty(defaultBlockState().setValue(TFCBlockStateProperties.TALL_PLANT_PART, Part.LOWER), PlantBlock.AGE, age), flags);
-        level.setBlock(pos.above(), Helpers.setProperty(defaultBlockState().setValue(TFCBlockStateProperties.TALL_PLANT_PART, Part.UPPER), PlantBlock.AGE, age), flags);
+        IntegerProperty ageProp = getPlant().getAgeProperty();
+        BlockState lower = defaultBlockState().setValue(TFCBlockStateProperties.TALL_PLANT_PART, Part.LOWER);
+        BlockState upper = defaultBlockState().setValue(TFCBlockStateProperties.TALL_PLANT_PART, Part.UPPER);
+        if (ageProp != null)
+        {
+            int maxAge = getMaxAgeValue();
+            int age = maxAge > 0 ? random.nextInt(maxAge) + 1 : 0;
+            lower = Helpers.setProperty(lower, ageProp, age);
+            upper = Helpers.setProperty(upper, ageProp, age);
+        }
+        level.setBlock(pos, lower, flags);
+        level.setBlock(pos.above(), upper, flags);
     }
 }

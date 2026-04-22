@@ -8,6 +8,9 @@
       "tag": "c:tools/chisel"
     }
   ],
+  "primary_ingredient": {
+    "tag": "c:tools/chisel"
+  },
   "remainder": {
     "modifiers": [
       {

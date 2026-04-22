@@ -116,6 +116,27 @@ public interface Noise2D
         return (x, y) -> Noise2D.this.noise(x, y) * scale + shift;
     }
 
+    default Noise2D clampedScaled(double min, double max)
+    {
+        return clampedScaled(-1, 1, min, max);
+    }
+
+    /**
+     * Re-scales the output of the noise to a new range, clamped between the minimum and maximum values
+     *
+     * @param oldMin the old minimum value (typically -1)
+     * @param oldMax the old maximum value (typically 1)
+     * @param min    the new minimum value
+     * @param max    the new maximum value
+     * @return a new noise function
+     */
+    default Noise2D clampedScaled(double oldMin, double oldMax, double min, double max)
+    {
+        final double scale = (max - min) / (oldMax - oldMin);
+        final double shift = min - oldMin * scale;
+        return (x, y) -> Math.clamp(Noise2D.this.noise(x, y) * scale + shift, min, max);
+    }
+
     default Noise2D warped(OpenSimplex2D warp)
     {
         warp.fnl.SetDomainWarpType(FastNoiseLite.DomainWarpType.OpenSimplex2);
@@ -151,6 +172,14 @@ public interface Noise2D
     }
 
     /**
+     * Sum of a noise and a constant.
+     */
+    default Noise2D addConstant(double constant)
+    {
+        return (x, y) -> Noise2D.this.noise(x, y) + constant;
+    }
+
+    /**
      * Minimum of two noises.
      */
     default Noise2D min(Noise2D other)
@@ -180,5 +209,66 @@ public interface Noise2D
     default Noise2D map(DoubleUnaryOperator mappingFunction)
     {
         return (x, y) -> mappingFunction.applyAsDouble(Noise2D.this.noise(x, y));
+    }
+
+    /**
+     * Used to generate varying-height cliffs starting at various noise values
+     *
+     * @param compare value above which cliffs should be added
+     * @param addend  cliff height noise
+     */
+    default Noise2D cliffMap(Noise2D compare, Noise2D addend)
+    {
+        return (x, z) -> {
+            final double noise = Noise2D.this.noise(x, z);
+            if (noise > compare.noise(x, z))
+            {
+                return noise + addend.noise(x, z);
+            }
+            else
+            {
+                return noise;
+            }
+        };
+    }
+
+    /**
+     * Used to generate varying-height cliffs starting at various noise values
+     *
+     * @param compareNoise value above which cliffs should be added
+     * @param addendNoise  cliff height noise
+     * @param slope multiplier between the slope of the base noise and the slope of the added cliff
+     */
+    default Noise2D slopedCliffMap(Noise2D compareNoise, Noise2D addendNoise, Noise2D slopeNoise)
+    {
+        return (x, z) -> {
+            final double noise = Noise2D.this.noise(x, z);
+            final double compare = compareNoise.noise(x, z);
+            final double addend = addendNoise.noise(x, z);
+            final double slope = slopeNoise.noise(x, z);
+            // Well above the cliff, add the full cliff height amount
+            if (noise > compare + addend)
+            {
+                return noise + addend;
+            }
+            else if (noise > compare)
+            {
+                return noise + Math.min((noise - compare) * slope, addend);
+            }
+            else
+            {
+                return noise;
+            }
+        };
+    }
+
+    default Noise2D stretchZ(double stretch)
+    {
+        return (x, z) -> this.noise(x, z / stretch);
+    }
+
+    default Noise2D stretchX(double stretch)
+    {
+        return (x, z) -> this.noise(x / stretch, z);
     }
 }

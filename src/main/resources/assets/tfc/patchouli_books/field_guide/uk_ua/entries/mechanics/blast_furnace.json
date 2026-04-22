@@ -15,7 +15,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Потім тобі треба збудувати саму конструкцію - $(thing)димар$(). Димар будується з $(l:mechanics/fire_clay#fire_bricks)вогнетривкої глини$(), оскільки тільки вона може витримати високу температуру. Далі потрібно цей димар обшити $(thing)листами ковкого заліза$() для додаткового зміцнення всієї конструкції. За бажанням, або можливістю, конструкцію можна обшити навіть $(thing)сталевими листами$()."
+      "text": "You will then need to construct the blast furnace, along with its $(thing)Chimney$(). The chimney must be composed out of $(l:mechanics/fire_clay#fire_bricks)Reinforced Fire Bricks$(), as they are strong enough to withstand the intense heat. These can be crafted from fire brick blocks, and either wrought iron or steel sheets."
     },
     {
       "type": "patchouli:multiblock",
@@ -26,7 +26,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Димар може мати до п'яти шарів заввишки. Кожен шар повинен містити 4 блоки $(thing)вогнетривкої цегли$() та дванадцять $(thing)листів ковкого заліза$(). Наявність більшої кількості шарів збільшує загальну потужність доменної печі, дозволяючи їй виплавляти більше сталі одночасно. Кожен шар димової труби, щонайбільше п’ять, дозволяє доменній печі вміщувати чотири додаткові елементи руди."
+      "text": "The blast furnace's chimney can be up to five layers - each layer requiring eight $(thing)Reinforced Fire Bricks$() to complete. Having more layers increases the total capacity of the blast furnace, allowing it to smelt more steel at once. Each chimney layer, up to a maximum of five, allows the blast furnace to hold four additional ore items."
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Щоб почати процес плавлення, піч треба запалити $(l:getting_started/firepit#firestarter)запальничкою$() або $(thing)кресалом$(). Руда всередині печі почне нагріватись. Переконайся, що в доменній печі залишається паливо, і використовуй міхи, щоб додати повітря в доменну піч після того, як її внутрішня температура досягне максимуму для деревного вугілля. Після того як руда всередині нагріється та розплавиться, вона перетвориться на $(l:mechanics/steel)чавун$()."
+      "text": "Finally, to get started, light the blast furnace with a $(l:getting_started/firepit#firestarter)Fire Starter$(), a $(thing)Flint and Pyrite$(), or a $(thing)Flint and Steel$(). It will begin to heat the ores inside. Make sure that the blast furnace continues to have fuel, and use the bellows to add air to the blast furnace after its internal temperature has reached the maximum for charcoal. After the ores inside heat up, they will melt and convert into $(l:mechanics/steel)Pig Iron$()."
     },
     {
       "type": "patchouli:text",

@@ -73,7 +73,7 @@ public interface IFood
      */
     default long getRottenDate()
     {
-        return getCreationDate() + FoodCapability.getRemainingTime(getDecayDateModifier());
+        return getCreationDate() + FoodCapability.getLifeTime(getDecayDateModifier());
     }
 
     /**
@@ -159,12 +159,12 @@ public interface IFood
             creationDate != TRANSIENT_NEVER_DECAY_FLAG &&
             creationDate != INVISIBLE_NEVER_DECAY_FLAG)
         {
-            final long remainingTime = FoodCapability.getRemainingTime(getDecayDateModifier()); // Player ticks
+            final long rottenDate = getRottenDate(); // Player ticks
             final MutableComponent foodExpiry = switch (TFCConfig.CLIENT.foodExpiryTooltipStyle.get())
             {
-                case EXPIRY -> Component.translatable("tfc.tooltip.food_expiry_date", Calendars.CLIENT.getOffsetTimeAndDate(remainingTime));
-                case TIME_LEFT -> Component.translatable("tfc.tooltip.food_expiry_left", Calendars.CLIENT.getCalendarTimeDelta(remainingTime));
-                case BOTH -> Component.translatable("tfc.tooltip.food_expiry_date_and_left", Calendars.CLIENT.getOffsetTimeAndDate(remainingTime), Calendars.CLIENT.getCalendarTimeDelta(remainingTime));
+                case EXPIRY -> Component.translatable("tfc.tooltip.food_expiry_date", Calendars.CLIENT.getExactTimeAndDate(rottenDate));
+                case TIME_LEFT -> Component.translatable("tfc.tooltip.food_expiry_left", Calendars.CLIENT.getTimeDelta(rottenDate - Calendars.CLIENT.getTicks()));
+                case BOTH -> Component.translatable("tfc.tooltip.food_expiry_date_and_left", Calendars.CLIENT.getExactTimeAndDate(rottenDate), Calendars.CLIENT.getTimeDelta(rottenDate - Calendars.CLIENT.getTicks()));
                 default -> null;
             };
             if (foodExpiry != null)

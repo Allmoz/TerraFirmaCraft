@@ -644,11 +644,11 @@
           ]
         ],
         "mapping": {
-          "X": "tfc:ore/lignite/dolomite"
+          "X": "tfc:lignite"
         }
       },
       "name": "",
-      "text": "Lignite in Dolomite.",
+      "text": "Lignite.",
       "enable_visualize": false
     },
     {
@@ -671,11 +671,11 @@
           ]
         ],
         "mapping": {
-          "X": "tfc:ore/bituminous_coal/chert"
+          "X": "tfc:bituminous_coal"
         }
       },
       "name": "",
-      "text": "Bituminous Coal in Chert.",
+      "text": "Bituminous Coal.",
       "enable_visualize": false
     },
     {
@@ -955,7 +955,7 @@
       "item": "tfc:ore/gypsum",
       "title": "Gypsum",
       "link_recipes": false,
-      "text": "Gypsum is a decorative $(thing)Mineral$() which can be used to make $(l:mechanics/advanced_building_materials#alabaster)Alabaster$(). It can be found in very large flat deposits near the surface in $(l:the_world/geology#sedimentary)Sedimentary$() rocks."
+      "text": "Gypsum is a decorative $(thing)Mineral$() which can be used to make $(l:mechanics/advanced_building_materials#plaster)Plaster$(). It can be found in very large flat deposits near the surface in $(l:the_world/geology#sedimentary)Sedimentary$() rocks."
     },
     {
       "type": "patchouli:multiblock",
@@ -996,11 +996,11 @@
           ]
         ],
         "mapping": {
-          "X": "tfc:ore/halite/chalk"
+          "X": "tfc:halite"
         }
       },
       "name": "",
-      "text": "Halite in Chalk.",
+      "text": "Halite.",
       "enable_visualize": false
     },
     {
@@ -1131,11 +1131,38 @@
           ]
         ],
         "mapping": {
-          "X": "tfc:ore/amethyst/basalt"
+          "X": "tfc:ore/opal/basalt"
         }
       },
       "name": "",
       "text": "Opal in Basalt.",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:spotlight",
+      "anchor": "ruby",
+      "item": "tfc:ore/ruby",
+      "title": "Ruby",
+      "link_recipes": false,
+      "text": "Ruby is a decorative $(thing)Mineral$(). It can be found in $(thing)Schist$() and $(thing)Gneiss$() rock below y=-10."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "multiblock": {
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:ore/ruby/schist"
+        }
+      },
+      "name": "",
+      "text": "Ruby in Schist.",
       "enable_visualize": false
     }
   ],
@@ -1210,6 +1237,7 @@
     "tfc:ore/diamond": 52,
     "tfc:ore/lapis_lazuli": 54,
     "tfc:ore/amethyst": 56,
-    "tfc:ore/opal": 58
+    "tfc:ore/opal": 58,
+    "tfc:ore/ruby": 60
   }
 }

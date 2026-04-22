@@ -35,10 +35,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import net.dries007.tfc.common.TFCTags;
-import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
 import net.dries007.tfc.common.blockentities.PitKilnBlockEntity;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
+import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.util.Helpers;
 
 public class PitKilnBlock extends DeviceBlock
@@ -46,6 +46,7 @@ public class PitKilnBlock extends DeviceBlock
     public static final IntegerProperty STAGE = TFCBlockStateProperties.PIT_KILN_STAGE;
     public static final int STRAW_END = 7;
     public static final int LOG_START = 8;
+    public static final int LOG_END = 15;
     public static final int LIT = 16;
     public static final VoxelShape[] SHAPE_BY_LAYER = Util.make(new VoxelShape[17], shapes -> {
         for (int i = 0; i < 8; i++)
@@ -115,13 +116,14 @@ public class PitKilnBlock extends DeviceBlock
         {
             if (level.getBlockEntity(pos) instanceof PitKilnBlockEntity kiln)
             {
-                ItemStack held = player.getItemInHand(hand);
-                Item item = held.getItem();
-                int stage = state.getValue(STAGE);
-                if (stage < STRAW_END && Helpers.isItem(item, TFCTags.Items.PIT_KILN_STRAW))
+                final ItemStack held = player.getItemInHand(hand);
+                final Item item = held.getItem();
+                final int stage = state.getValue(STAGE);
+                final int strawValue = strawValue(item);
+                if (stage <= STRAW_END - strawValue && (Helpers.isItem(item, TFCTags.Items.PIT_KILN_STRAW) || Helpers.isItem(item, TFCTags.Items.PIT_KILN_4_STRAW)))
                 {
-                    level.setBlock(pos, state.setValue(STAGE, stage + 1), 10);
-                    kiln.addStraw(held.split(1), stage + 1);
+                    level.setBlock(pos, state.setValue(STAGE, stage + strawValue), 10);
+                    kiln.addStraw(held.split(1), stage + strawValue);
                     Helpers.playPlaceSound(null, level, pos, SoundType.GRASS);
                 }
                 else if (stage >= STRAW_END && stage < LIT - 1 && Helpers.isItem(item, TFCTags.Items.PIT_KILN_LOGS))
@@ -134,30 +136,33 @@ public class PitKilnBlock extends DeviceBlock
                 {
                     if (stage != LIT)
                     {
-                        NonNullList<ItemStack> logItems = kiln.getLogs();
-                        NonNullList<ItemStack> strawItems = kiln.getStraws();
-                        ItemStack dropStack;
+                        final NonNullList<ItemStack> logItems = kiln.getLogs();
+                        final NonNullList<ItemStack> strawItems = kiln.getStraws();
+                        final ItemStack dropStack;
+                        final int stagesToRemove;
                         if (stage >= LOG_START)
                         {
                             dropStack = logItems.get(stage - LOG_START).copy();
                             kiln.deleteLog(stage - LOG_START);
+                            stagesToRemove = 1;
                         }
                         else
                         {
                             dropStack = strawItems.get(stage).copy();
                             kiln.deleteStraw(stage);
+                            stagesToRemove = strawValue(dropStack);
                         }
                         if (!dropStack.isEmpty())
                         {
                             ItemHandlerHelper.giveItemToPlayer(player, dropStack);
                         }
-                        if (stage == 0)
+                        if (stage == stagesToRemove - 1)
                         {
-                            PitKilnBlockEntity.convertPitKilnToPlacedItem(level, pos);
+                            PitKilnBlockEntity.convertPitKilnToPlacedItem(level, pos, false);
                         }
                         else
                         {
-                            level.setBlock(pos, state.setValue(STAGE, stage - 1), 10);
+                            level.setBlock(pos, state.setValue(STAGE, stage - stagesToRemove), 10);
                         }
                     }
                 }
@@ -207,9 +212,21 @@ public class PitKilnBlock extends DeviceBlock
         return ItemStack.EMPTY;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    protected void beforeRemove(InventoryBlockEntity<?> entity)
+    protected float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
     {
-        // No-op - we don't want to call ejectInventory()
+        return state.getValue(STAGE) == LIT ? 0F : super.getDestroyProgress(state, player, level, pos);
+    }
+
+    public static int strawValue(ItemStack stack)
+    {
+        return stack.getCount() * strawValue(stack.getItem());
+    }
+
+    public static int strawValue(Item item)
+    {
+        return Helpers.isItem(item, TFCTags.Items.PIT_KILN_4_STRAW) ? 4
+            : Helpers.isItem(item, TFCTags.Items.PIT_KILN_STRAW) ? 1 : 0;
     }
 }

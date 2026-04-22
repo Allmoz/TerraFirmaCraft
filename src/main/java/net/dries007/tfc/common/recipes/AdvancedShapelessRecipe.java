@@ -8,7 +8,9 @@ package net.dries007.tfc.common.recipes;
 
 import java.util.Optional;
 import java.util.function.Function;
-import com.mojang.serialization.Codec;
+
+import org.jetbrains.annotations.VisibleForTesting;
+
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -22,7 +24,6 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 
@@ -98,7 +99,12 @@ public class AdvancedShapelessRecipe extends ShapelessRecipe
     @Override
     public NonNullList<ItemStack> getRemainingItems(CraftingInput input)
     {
-        return remainder.map(remainder -> RecipeHelpers.getRemainderItemsWithProvider(input, remainder))
+        return remainder.map(remainder -> {
+                RecipeHelpers.setCraftingInput(input);
+                final var remain = RecipeHelpers.getRemainderItemsWithProvider(input, remainder, getPrimaryInput(input));
+                RecipeHelpers.clearCraftingInput();
+                return remain;
+            })
             .orElseGet(() -> super.getRemainingItems(input));
     }
 
@@ -126,5 +132,22 @@ public class AdvancedShapelessRecipe extends ShapelessRecipe
     public RecipeSerializer<?> getSerializer()
     {
         return TFCRecipeSerializers.ADVANCED_SHAPELESS_CRAFTING.get();
+    }
+
+    public ItemStackProvider getResult()
+    {
+        return result; // todo this doesn't actually take into account setting the crafting container.
+    }
+
+    @VisibleForTesting
+    public Optional<ItemStackProvider> getRemainder()
+    {
+        return remainder;
+    }
+
+    @VisibleForTesting
+    public Optional<Ingredient> getPrimaryIngredient()
+    {
+        return primaryIngredient;
     }
 }

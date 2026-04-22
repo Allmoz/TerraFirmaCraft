@@ -36,11 +36,14 @@
 
 # Splash / Logo Images
 !/img/**/*.png
+!/img/**/*.gif
 
 # Other exclusions
 __pycache__/
 *.pyc
 *.pdn
+.DS_Store
+/.vscode/
 
 /run/
 /out/

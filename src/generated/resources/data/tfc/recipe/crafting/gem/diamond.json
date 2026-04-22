@@ -8,6 +8,9 @@
       "item": "tfc:ore/diamond"
     }
   ],
+  "primary_ingredient": {
+    "item": "tfc:sandpaper"
+  },
   "remainder": {
     "modifiers": [
       {

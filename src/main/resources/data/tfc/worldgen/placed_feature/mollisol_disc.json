@@ -1,0 +1,27 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "feature": "tfc:mollisol_disc",
+  "placement": [
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:count",
+      "count": 2
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "WORLD_SURFACE_WG"
+    },
+    {
+      "type": "tfc:climate",
+      "min_temperature": -9,
+      "max_temperature": 3,
+      "min_groundwater": 250,
+      "forest_types": [
+        "grassland"
+      ],
+      "ignore_rivers": true
+    }
+  ]
+}

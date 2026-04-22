@@ -16,16 +16,60 @@
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "tag": "tfc:tools/sharp"
+                    "items": "#tfc:tools/sharp"
                   }
                 },
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "tag": "c:tools/shear"
+                    "items": "#c:tools/shear"
                   }
                 }
               ]
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "tfc:plant/maiden_pink",
+                  "properties": {
+                    "age": "1"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 3,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "tfc:plant/maiden_pink",
+                  "properties": {
+                    "age": "2"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 4,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "tfc:plant/maiden_pink",
+                  "properties": {
+                    "age": "3"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:explosion_decay"
             }
           ]
         }

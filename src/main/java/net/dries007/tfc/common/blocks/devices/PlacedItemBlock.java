@@ -7,14 +7,27 @@
 package net.dries007.tfc.common.blocks.devices;
 
 import java.util.Map;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
+import net.dries007.tfc.common.TFCTags;
+import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
+import net.dries007.tfc.common.blockentities.PitKilnBlockEntity;
+import net.dries007.tfc.common.blockentities.PlacedItemBlockEntity;
+import net.dries007.tfc.common.blockentities.TFCBlockEntities;
+import net.dries007.tfc.common.blocks.EntityBlockExtension;
+import net.dries007.tfc.common.blocks.ExtendedProperties;
+import net.dries007.tfc.common.blocks.IForgeBlockExtension;
+import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
+import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -30,17 +43,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import net.dries007.tfc.common.TFCTags;
-import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
-import net.dries007.tfc.common.blockentities.PitKilnBlockEntity;
-import net.dries007.tfc.common.blockentities.PlacedItemBlockEntity;
-import net.dries007.tfc.common.blockentities.TFCBlockEntities;
-import net.dries007.tfc.common.blocks.EntityBlockExtension;
-import net.dries007.tfc.common.blocks.ExtendedProperties;
-import net.dries007.tfc.common.blocks.IForgeBlockExtension;
-import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
-import net.dries007.tfc.util.Helpers;
 
 public class PlacedItemBlock extends DeviceBlock implements IForgeBlockExtension, EntityBlockExtension
 {
@@ -66,6 +68,15 @@ public class PlacedItemBlock extends DeviceBlock implements IForgeBlockExtension
             if (!state.getValue(property))
                 return false;
         return true;
+    }
+
+    /**
+     * @return If the given {@code state} has the {@code ITEM[n]} property of the targetted slot set to {@code true}. This
+     * is required in order to place a new placed item block.
+     */
+    public static boolean isSlotSupported(BlockState state, BlockHitResult rayTrace)
+    {
+        return state.getValue(ITEM_PROPERTIES[PlacedItemBlockEntity.getSlotSelected(rayTrace)]);
     }
 
     /**
@@ -161,7 +172,7 @@ public class PlacedItemBlock extends DeviceBlock implements IForgeBlockExtension
             .ifPresent(entity -> entity.ejectInventoryIfNeeded(newState));
 
         // Default super() behavior
-        if (state.hasBlockEntity() && (!state.is(newState.getBlock()) || !newState.hasBlockEntity()))
+        if (state.hasBlockEntity() && (!Helpers.isBlock(state, newState.getBlock()) || !newState.hasBlockEntity()))
         {
             level.removeBlockEntity(pos);
         }
@@ -180,7 +191,7 @@ public class PlacedItemBlock extends DeviceBlock implements IForgeBlockExtension
         if (placedItem != null)
         {
             final ItemStack held = player.getItemInHand(hand);
-            if (Helpers.isItem(held.getItem(), TFCTags.Items.PIT_KILN_STRAW) && !held.isEmpty() && PitKilnBlockEntity.isValid(level, pos))
+            if (!held.isEmpty() && (Helpers.isItem(held.getItem(), TFCTags.Items.PIT_KILN_STRAW) || Helpers.isItem(held.getItem(), TFCTags.Items.PIT_KILN_4_STRAW)) && PitKilnBlockEntity.isValid(level, pos))
             {
                 if (!level.isClientSide())
                 {
@@ -216,12 +227,13 @@ public class PlacedItemBlock extends DeviceBlock implements IForgeBlockExtension
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult result, LevelReader level, BlockPos pos, Player player)
     {
+        final ItemStack backup = asItem() == Items.AIR ? ItemStack.EMPTY : new ItemStack(asItem());
         if (result instanceof BlockHitResult blockResult)
         {
             return level.getBlockEntity(pos, TFCBlockEntities.PLACED_ITEM.get())
                 .map(placedItem -> placedItem.getCloneItemStack(state, blockResult))
-                .orElse(ItemStack.EMPTY);
+                .orElse(backup);
         }
-        return ItemStack.EMPTY;
+        return backup;
     }
 }

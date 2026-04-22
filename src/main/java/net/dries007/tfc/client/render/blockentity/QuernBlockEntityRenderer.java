@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
+import net.minecraft.world.level.block.Block;
 import net.dries007.tfc.client.RenderHelpers;
 import net.dries007.tfc.common.blockentities.QuernBlockEntity;
 import net.dries007.tfc.common.blocks.rotation.ConnectedAxleBlock;
@@ -88,18 +88,18 @@ public class QuernBlockEntityRenderer implements BlockEntityRenderer<QuernBlockE
         final float rotationAngle = quern.getRotationAngle(partialTicks);
 
         // If connected to the network, with a connected axle above, then render the axle connection to the quern
-        if (isConnectedToNetwork && level.getBlockState(quern.getBlockPos().above()).getBlock() instanceof ConnectedAxleBlock axleBlock)
+        if (isConnectedToNetwork && getBlockAboveQuern(level, quern) instanceof ConnectedAxleBlock axleBlock)
         {
             final VertexConsumer buffer = bufferSource.getBuffer(RenderType.cutout());
             final TextureAtlasSprite sprite = RenderHelpers.blockTexture(axleBlock.getAxleTextureLocation());
 
             stack.pushPose();
             stack.translate(0.5f, 0.5f, 0.5f);
-            stack.mulPose(Axis.XP.rotationDegrees(90));
+            stack.mulPose(Axis.XN.rotationDegrees(90));
             stack.mulPose(Axis.ZN.rotation(rotationAngle));
             stack.translate(-0.5f, -0.5f, -0.5f);
 
-            RenderHelpers.renderTexturedCuboid(stack, buffer, sprite, packedLight, packedOverlay, 6f / 16f, 6f / 16f, 0f, 10f / 16f, 10f / 16f, 0.5f, false);
+            RenderHelpers.renderTexturedCuboid(stack, buffer, sprite, packedLight, packedOverlay, 6f / 16f, 6f / 16f, 0.5f, 10f / 16f, 10f / 16f, 1f, false);
 
             stack.popPose();
         }
@@ -110,7 +110,7 @@ public class QuernBlockEntityRenderer implements BlockEntityRenderer<QuernBlockE
 
             stack.pushPose();
             stack.translate(center, 0.705D, center);
-            stack.mulPose(Axis.YP.rotation(rotationAngle));
+            stack.mulPose(Axis.YN.rotation(rotationAngle));
             stack.translate(0.5f - center, 0, 0.5f - center);
 
 
@@ -139,5 +139,15 @@ public class QuernBlockEntityRenderer implements BlockEntityRenderer<QuernBlockE
 
             stack.popPose();
         }
+    }
+
+    private Block getBlockAboveQuern(Level level, QuernBlockEntity quern)
+    {
+        Block blockAbove = quern.getAxleAboveOverride();
+        if (blockAbove != null)
+        {
+            return blockAbove;
+        }
+        return level.getBlockState(quern.getBlockPos().above()).getBlock();
     }
 }

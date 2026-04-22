@@ -11,6 +11,9 @@
       "item": "tfc:groundcover/pumice"
     }
   ],
+  "primary_ingredient": {
+    "tag": "c:tools/hammer"
+  },
   "remainder": {
     "modifiers": [
       {

@@ -167,7 +167,7 @@ public interface Accessors
         return switch (type)
         {
             case ANVIL -> 1400;
-            case BLOCK, EXPOSED_BLOCK, WEATHERED_BLOCK, OXIDIZED_BLOCK, LAMP -> 100;
+            case BLOCK, EXPOSED_BLOCK, WEATHERED_BLOCK, OXIDIZED_BLOCK, LAMP, GRATE, EXPOSED_GRATE, WEATHERED_GRATE, OXIDIZED_GRATE -> 100;
             case BLOCK_SLAB, EXPOSED_BLOCK_SLAB, WEATHERED_BLOCK_SLAB, OXIDIZED_BLOCK_SLAB -> 50;
             case BLOCK_STAIRS, EXPOSED_BLOCK_STAIRS, WEATHERED_BLOCK_STAIRS, OXIDIZED_BLOCK_STAIRS -> 75;
             case BARS -> 25;
@@ -181,9 +181,16 @@ public interface Accessors
         return FluidHeat.MANAGER.getOrThrow(Helpers.identifier(metal.getSerializedName())).meltTemperature();
     }
 
+    /**
+     * Converts a number of hours into player ticks, since recipe durations are defined in player ticks.
+     * Recipes using this will take the same amount of real-world time to complete regardless of the
+     * server config's specified day length.
+     * @param hours The number of in-game hours
+     * @return The equivalent number of player ticks
+     */
     default int hours(int hours)
     {
-        return hours * ICalendar.CALENDAR_TICKS_IN_HOUR;
+        return hours * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR;
     }
 
     /**

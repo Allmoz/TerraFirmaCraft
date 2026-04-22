@@ -15,10 +15,13 @@
     },
     {
       "item": "tfc:plant/silver_spurflower"
+    },
+    {
+      "item": "tfc:plant/azalea"
     }
   ],
   "result": {
-    "count": 1,
+    "count": 2,
     "id": "minecraft:magenta_dye"
   }
 }

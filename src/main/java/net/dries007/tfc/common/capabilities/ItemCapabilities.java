@@ -6,6 +6,7 @@
 
 package net.dries007.tfc.common.capabilities;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -16,7 +17,6 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-import net.dries007.tfc.common.blockentities.BarrelBlockEntity;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.component.TFCComponents;
@@ -30,10 +30,12 @@ import net.dries007.tfc.common.component.mold.IMold;
 import net.dries007.tfc.common.component.mold.Mold;
 import net.dries007.tfc.common.component.mold.Vessel;
 import net.dries007.tfc.common.items.FluidContainerItem;
+import net.dries007.tfc.common.items.LampBlockItem;
 import net.dries007.tfc.common.items.MoldItem;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.common.items.VesselItem;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.Metal;
 
 public final class ItemCapabilities
 {
@@ -90,6 +92,13 @@ public final class ItemCapabilities
 
         event.registerItem(FLUID, (stack, context) -> new Barrel(stack), barrels);
 
+        final ItemLike[] lamps = Arrays.stream(Metal.values())
+            .filter(m -> Metal.BlockType.LAMP.has(m))
+            .map(m -> TFCBlocks.METALS.get(m).get(Metal.BlockType.LAMP))
+            .toArray(ItemLike[]::new);
+
+        event.registerItem(FLUID, ItemCapabilities::forLamp, lamps);
+
         event.registerItem(FLUID, ItemCapabilities::forBucket,
             TFCItems.JUG,
             TFCItems.WOODEN_BUCKET,
@@ -109,6 +118,12 @@ public final class ItemCapabilities
     public static @Nullable Vessel forVessel(ItemStack stack, @Nullable Void context)
     {
         return stack.getItem() instanceof VesselItem item ? new Vessel(stack, item.containerInfo()) : null;
+    }
+
+    public static @Nullable FluidContainerHandler forLamp(ItemStack stack, @Nullable Void context)
+    {
+        // Lamps need their own case since LampBlockItem isn't and can't be a FluidContainerItem
+        return stack.getItem() instanceof LampBlockItem item ? new FluidContainerHandler(stack, item.containerInfo()) : null;
     }
 
     public static @Nullable FluidContainerHandler forBucket(ItemStack stack, @Nullable Void context)

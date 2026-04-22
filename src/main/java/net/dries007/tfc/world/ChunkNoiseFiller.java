@@ -42,6 +42,10 @@ import net.dries007.tfc.world.river.MidpointFractal;
 import net.dries007.tfc.world.river.RiverBlendType;
 import net.dries007.tfc.world.river.RiverInfo;
 import net.dries007.tfc.world.river.RiverNoiseSampler;
+import net.dries007.tfc.world.shore.ShoreBlendType;
+import net.dries007.tfc.world.shore.ShoreNoiseSampler;
+import net.dries007.tfc.world.volcano.CenteredFeatureBlendType;
+import net.dries007.tfc.world.volcano.CenteredFeatureNoiseSampler;
 
 import static net.dries007.tfc.world.TFCChunkGenerator.*;
 
@@ -113,15 +117,17 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
         BiomeSourceExtension biomeSource,
         Map<BiomeExtension, BiomeNoiseSampler> biomeNoiseSamplers,
         Map<RiverBlendType, RiverNoiseSampler> riverNoiseSamplers,
-        Noise2D shoreSampler,
+        Map<ShoreBlendType, ShoreNoiseSampler> shoreSamplers,
+        Map<CenteredFeatureBlendType, CenteredFeatureNoiseSampler> volcanoSamplers,
         NoiseSampler sampler,
         ChunkBaseBlockSource baseBlockSource,
         ChunkNoiseSamplingSettings settings,
         int seaLevel,
+        Noise2D tideHeightNoise,
         Beardifier beardifier
     )
     {
-        super(sampledBiomeWeights, biomeSource, biomeNoiseSamplers, riverNoiseSamplers, shoreSampler, seaLevel);
+        super(sampledBiomeWeights, biomeSource, biomeNoiseSamplers, riverNoiseSamplers, shoreSamplers, volcanoSamplers, seaLevel, tideHeightNoise);
 
         this.chunk = chunk;
         this.chunkMinX = chunk.getPos().getMinBlockX();
@@ -525,7 +531,7 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
     }
 
     /**
-     * @param y The y position
+     * @param y                The y position
      * @param heightNoiseValue The calculated average height noise, from {@link BiomeNoiseSampler#height()}
      * @return The density noise for the given y position, where positive noise is solid, in the range [0, 1]
      */
@@ -553,6 +559,21 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
             else if (weight > 0)
             {
                 final RiverNoiseSampler sampler = riverNoiseSamplers.get(type);
+                noise += weight * sampler.noise(y, initialNoise);
+            }
+        }
+
+        // Apply transformations from shores
+        for (ShoreBlendType type : ShoreBlendType.ALL)
+        {
+            final double weight = shoreBlendWeights[type.ordinal()];
+            if (type == ShoreBlendType.NONE)
+            {
+                noise += weight * initialNoise;
+            }
+            else if (weight > 0)
+            {
+                final ShoreNoiseSampler sampler = shoreNoiseSamplers.get(type);
                 noise += weight * sampler.noise(y, initialNoise);
             }
         }
@@ -606,7 +627,7 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
     }
 
     @Override
-    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height)
+    protected void updateLocalCaches(Object2DoubleMap<BiomeExtension> biomeWeights, BiomeExtension biomeAt, @Nullable RiverInfo info, double height, boolean couldBeSalty)
     {
         final int localIndex = localX + 16 * localZ;
 
@@ -617,10 +638,11 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
         }
 
         localBiomes[localIndex] = biomeAt;
-        localBiomeWeights[localIndex] = biomeWeights.getOrDefault(biomeAt, 0.5);
+        final double biomeWeightAt = biomeWeights.getOrDefault(biomeAt, 0.5);
+        localBiomeWeights[localIndex] = biomeWeightAt;
         surfaceHeight[localIndex] = (int) height;
 
-        baseBlockSource.useAccurateBiome(localX, localZ, biomeAt);
+        baseBlockSource.useAccurateBiome(localX, localZ, biomeAt, biomeWeightAt, couldBeSalty);
     }
 
     private void sampleRiverData()

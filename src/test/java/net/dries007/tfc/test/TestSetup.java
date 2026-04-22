@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -58,6 +57,7 @@ import net.dries007.tfc.data.providers.BuiltinFluidHeat;
 import net.dries007.tfc.data.providers.BuiltinFluidTags;
 import net.dries007.tfc.data.providers.BuiltinFoods;
 import net.dries007.tfc.data.providers.BuiltinItemHeat;
+import net.dries007.tfc.data.providers.BuiltinItemSizes;
 import net.dries007.tfc.data.providers.BuiltinItemTags;
 import net.dries007.tfc.data.providers.BuiltinKnappingTypes;
 import net.dries007.tfc.data.providers.BuiltinRecipes;
@@ -87,7 +87,7 @@ public interface TestSetup
             final CompletableFuture<HolderLookup.Provider> provider = CompletableFuture.completedFuture(lookup);
             final Path path = Path.of(".");
             final PackOutput output = new PackOutput(path);
-            final GatherDataEvent event = new GatherDataEvent(null, new DataGenerator(path, null, true), new GatherDataEvent.DataGeneratorConfig(Set.of(), path, Set.of(), provider, true, true, true, true, true, true), null);
+            final GatherDataEvent event = new GatherDataEvent(null, new DataGenerator(path, null, true), new GatherDataEvent.DataGeneratorConfig(Set.of(), path, Set.of(), provider, true, true, true, true, true, true, null, null, Set.of()), null);
             final CompletableFuture<?> now = CompletableFuture.completedFuture(null);
 
             final TagMap itemTagMap = new TagMap();
@@ -118,6 +118,7 @@ public interface TestSetup
             new BuiltinFluidHeat(output, provider).run(lookup);
             final var itemHeat = new BuiltinItemHeat(output, provider, now);
             itemHeat.run(lookup);
+            new BuiltinItemSizes(output, provider).run(lookup);
             new BuiltinKnappingTypes(output, provider).run(lookup); // Must run before recipes
 
             final RecipeManager recipeManager = new RecipeManager(lookup);

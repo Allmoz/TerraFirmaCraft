@@ -3,10 +3,13 @@
   "type": "tfc:forest_entry",
   "config": {
     "climate": {
-      "min_temperature": -1.1,
-      "max_temperature": 13.4,
+      "min_temperature": 1.4,
+      "max_temperature": 15.8,
       "min_groundwater": 60,
-      "max_groundwater": 240
+      "max_groundwater": 380,
+      "min_rain_variance": -0.2,
+      "max_rain_variance": 1,
+      "rain_variance_absolute": false
     },
     "groundcover": [
       {
@@ -18,6 +21,7 @@
     ],
     "normal_tree": "tfc:tree/ash",
     "dead_tree": "tfc:tree/ash_dead",
+    "soil_disc": "tfc:alfisol_disc",
     "fallen_log": "tfc:wood/log/ash",
     "fallen_leaves": "tfc:wood/fallen_leaves/ash",
     "bush_log": {

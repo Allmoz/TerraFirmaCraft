@@ -3,10 +3,13 @@
   "type": "tfc:forest_entry",
   "config": {
     "climate": {
-      "min_temperature": 17.1,
-      "max_temperature": 38,
-      "min_groundwater": 320,
-      "max_groundwater": 500
+      "min_temperature": 19.4,
+      "max_temperature": 40,
+      "min_groundwater": 300,
+      "max_groundwater": 500,
+      "min_rain_variance": -0.55,
+      "max_rain_variance": 0.55,
+      "rain_variance_absolute": false
     },
     "groundcover": [
       {
@@ -18,6 +21,7 @@
     ],
     "normal_tree": "tfc:tree/kapok",
     "dead_tree": "tfc:tree/kapok_dead",
+    "soil_disc": "tfc:duff_disc",
     "fallen_log": "tfc:wood/log/kapok",
     "fallen_leaves": "tfc:wood/fallen_leaves/kapok",
     "bush_log": {

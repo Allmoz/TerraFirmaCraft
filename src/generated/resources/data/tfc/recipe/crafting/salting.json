@@ -38,8 +38,14 @@
   "result": {
     "modifiers": [
       {
+        "type": "tfc:copy_input"
+      },
+      {
         "type": "tfc:add_trait",
         "trait": "tfc:salted"
+      },
+      {
+        "type": "tfc:round_creation_date"
       }
     ]
   }

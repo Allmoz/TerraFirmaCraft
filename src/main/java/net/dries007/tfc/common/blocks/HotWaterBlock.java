@@ -8,7 +8,6 @@ package net.dries007.tfc.common.blocks;
 
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,14 +29,13 @@ public class HotWaterBlock extends LiquidBlock
     @Override
     public void animateTick(BlockState stateIn, Level level, BlockPos pos, RandomSource random)
     {
-        double x = pos.getX() + 0.5D;
-        double y = pos.getY() + 1.0D;
-        double z = pos.getZ() + 0.5D;
-
-        if (random.nextInt(4) == 0)
-            level.addParticle(ParticleTypes.BUBBLE, x + random.nextFloat() - random.nextFloat(), y, z + random.nextFloat() - random.nextFloat(), 0.0D, 0.0D, 0.0D);
+        double x = pos.getX() + random.nextFloat();
+        double y = pos.getY();
+        double z = pos.getZ() + random.nextFloat();
         if (level.isEmptyBlock(pos.above()))
-            level.addParticle(TFCParticles.STEAM.get(), x, y, z, 0.0D, 0.0D, 0.0D);
+            level.addParticle(TFCParticles.STEAM.get(), x, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
+        if (random.nextInt(3) == 0)
+            level.addParticle(TFCParticles.BUBBLE.get(), x, y + random.nextFloat(), z, 0.0, 0.04, 0.0);
     }
 
     @Override

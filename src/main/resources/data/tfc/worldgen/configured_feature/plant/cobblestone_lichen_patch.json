@@ -5,6 +5,7 @@
     "block": "tfc:plant/cobblestone_lichen",
     "height": 5,
     "radius": 5,
-    "integrity": 0.4
+    "integrity": 0.55,
+    "tide_height": 2
   }
 }
