@@ -3,7 +3,7 @@
   "type": "tfc:dynamic_random_patch",
   "config": {
     "tries": 10,
-    "xz_spread": 15,
+    "xz_spread": 6,
     "y_spread": 1,
     "feature": "tfc:plant/rose"
   }
