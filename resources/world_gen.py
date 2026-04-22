@@ -1013,7 +1013,7 @@ def generate(rm: ResourceManager):
     configured_plant_patch_feature(rm, ('plant', 'goldenrod'), plant_config('tfc:plant/goldenrod[age=1,stage=1]', 1, 6, 16, requires_clay=True), decorate_climate(-15.7, -4.8, 75, 500))
     configured_plant_patch_feature(rm, ('plant', 'pampas_grass'), plant_config('tfc:plant/pampas_grass[age=1,stage=1,part=lower]', 1, 6, 16, requires_clay=True, tall_plant=True), decorate_climate(8, 38, 0, 300))
     configured_plant_patch_feature(rm, ('plant', 'perovskia'), plant_config('tfc:plant/perovskia[age=1,stage=1]', 1, 6, 16, requires_clay=True), decorate_climate(-8.4, 11.6, 0, 280))
-    configured_plant_patch_feature(rm, ('plant', 'rose'), plant_config('tfc:plant/rose[age=1,stage=1,part=lower]', 1, 6, 10, True, tall_plant=True, limit_density=True), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(-7.4, 17.6, 150, 300))
+    configured_plant_patch_feature(rm, ('plant', 'rose'), plant_config('tfc:plant/rose[age=1,stage=1,part=lower]', 1, 6, 10, True, tall_plant=True), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(-7.4, 17.6, 150, 300))
     configured_noise_plant_feature(rm, ('plant', 'water_canna'), plant_config('tfc:plant/water_canna[age=1,stage=1]', 1, 6, 16, requires_clay=True), decorate_climate(11.6, 38, 150, 500))
 
     # Crops
