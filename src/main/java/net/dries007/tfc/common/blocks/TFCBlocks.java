@@ -279,7 +279,7 @@ public final class TFCBlocks
 
     public static final Map<Metal, Map<Metal.BlockType, Id<Block>>> METALS = Helpers.mapOf(Metal.class, metal ->
         Helpers.mapOf(Metal.BlockType.class, type -> type.has(metal), type ->
-            register(type.createName(metal), type.create(metal), type.createBlockItem(new Item.Properties()))
+            register(type.createName(metal), type.create(metal), type.createBlockItem(new Item.Properties().rarity(metal.rarity())))
         )
     );
 

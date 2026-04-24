@@ -118,7 +118,7 @@ public final class TFCItems
 
     public static final Map<Wood, Map<Metal, ItemId>> HANGING_SIGNS = Helpers.mapOf(Wood.class, wood ->
         Helpers.mapOf(Metal.class, Metal::allParts, metal ->
-            register("wood/hanging_sign/" + metal.name() + "/" + wood.name(), () -> new HangingSignItem(TFCBlocks.CEILING_HANGING_SIGNS.get(wood).get(metal).get(), TFCBlocks.WALL_HANGING_SIGNS.get(wood).get(metal).get(), new Properties()))
+            register("wood/hanging_sign/" + metal.name() + "/" + wood.name(), () -> new HangingSignItem(TFCBlocks.CEILING_HANGING_SIGNS.get(wood).get(metal).get(), TFCBlocks.WALL_HANGING_SIGNS.get(wood).get(metal).get(), new Properties().rarity(metal.rarity())))
         )
     );
 
