@@ -1308,10 +1308,19 @@ def generate(rm: ResourceManager):
 
     # Underground decoration
     configured_placed_feature(rm, 'underground_loose_rocks', 'tfc:loose_rock', decorate_carving_mask(), decorate_chance(0.05), decorate_count(25), decorate_range(-32, 59), decorate_scanner('down', 12), decorate_random_offset(0, 1))
-    rm.configured_feature('geode', 'tfc:geode', {'outer': 'tfc:rock/hardened/basalt', 'middle': 'tfc:rock/hardened/quartzite', 'inner': [
-        {'data': 'tfc:ore/amethyst/quartzite', 'weight': 1}, {'data': 'tfc:rock/hardened/quartzite', 'weight': 5}
-    ]})
-    rm.placed_feature('geode', 'tfc:geode', decorate_chance(50), decorate_square(), decorate_range(-48, 160))
+    rm.configured_feature('geode', 'minecraft:geode', {
+        'blocks': {
+            'filling_provider': {'type': 'minecraft:simple_state_provider', 'state': {'Name': 'minecraft:air'}},
+            'outer_layer_provider': {'type': 'minecraft:simple_state_provider', 'state': {'Name': 'tfc:rock/hardened/basalt'}},
+            'middle_layer_provider': {'type': 'minecraft:simple_state_provider', 'state': {'Name': 'tfc:rock/hardened/quartzite'}},
+            'inner_layer_provider': {'type': 'minecraft:simple_state_provider', 'state': {'Name': 'tfc:rock/hardened/quartzite'}},
+            'alternate_inner_layer_provider': {'type': 'minecraft:simple_state_provider', 'state': {'Name': 'tfc:ore/amethyst/quartzite'}},
+            'invalid_blocks': '#minecraft:geode_invalid_blocks', 'cannot_replace': '#minecraft:features_cannot_replace',
+            "inner_placements": [{"Name": "minecraft:air"}],
+        },
+        'use_alternate_layer0_chance': 0.3, 'invalid_blocks_threshold': 1, 'crack': {}, 'layers': {}
+    })
+    rm.placed_feature('geode', 'tfc:geode', decorate_chance(50), decorate_square(), decorate_range(-48, 30))
 
     rm.biome_tag('has_predictable_winds', '#tfc:is_ocean', 'tfc:shore', 'tfc:tidal_flats')
 
