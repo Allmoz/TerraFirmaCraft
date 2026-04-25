@@ -6,6 +6,7 @@
 
 package net.dries007.tfc.common.items;
 
+import java.util.Objects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -31,6 +32,7 @@ import net.dries007.tfc.common.blockentities.HotPouredGlassBlockEntity;
 import net.dries007.tfc.common.blocks.GlassBasinBlock;
 import net.dries007.tfc.common.blocks.HotPouredGlassBlock;
 import net.dries007.tfc.common.blocks.TFCBlocks;
+import net.dries007.tfc.common.component.TFCComponents;
 import net.dries007.tfc.common.component.glass.GlassOperation;
 import net.dries007.tfc.common.component.glass.GlassWorking;
 import net.dries007.tfc.common.recipes.GlassworkingRecipe;
@@ -51,7 +53,7 @@ public class GlassBlowpipeItem extends BlowpipeItem
 
     private final float breakChance;
 
-    public GlassBlowpipeItem(Properties properties,float breakChance)
+    public GlassBlowpipeItem(Properties properties, float breakChance)
     {
         super(properties);
         this.breakChance = breakChance;
@@ -71,9 +73,15 @@ public class GlassBlowpipeItem extends BlowpipeItem
         {
             final ItemStack item = context.getItemInHand();
 
+            if (emptyIfNoBatch(context.getHand(), item, player))
+            {
+                return InteractionResult.CONSUME;
+            }
+
             // test on a copy so that if it doesn't work we don't cause irreversible changes
             final ItemStack copy = item.copy();
             GlassWorking.apply(copy, GlassOperation.BASIN_POUR.value());
+
 
             final @Nullable GlassworkingRecipe recipe = GlassworkingRecipe.get(level, copy);
             if (recipe != null)
@@ -140,12 +148,30 @@ public class GlassBlowpipeItem extends BlowpipeItem
         return broken;
     }
 
+    private static boolean emptyIfNoBatch(InteractionHand hand, ItemStack stack, Player player)
+    {
+        if (stack.has(TFCComponents.GLASS) && Objects.requireNonNull(stack.get(TFCComponents.GLASS)).isEmpty())
+        {
+            // todo translatable
+            player.displayClientMessage(Component.literal("debug[There was no valid batch on this blowpipe. This may be because it was picked from the Creative menu. Add a batch with crafting.]"), false);
+            player.setItemInHand(hand, BlowpipeItem.transform(stack.getItem()).getDefaultInstance());
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
     {
         final ItemStack held = player.getItemInHand(hand);
         final ItemStack otherItem = getOtherHandItem(player, hand);
         final GlassOperation op = GlassOperation.get(otherItem, player);
+
+        if (emptyIfNoBatch(hand, held, player))
+        {
+            return InteractionResultHolder.consume(held);
+        }
+
         if (op != null)
         {
             if (!op.hasRequiredTemperature(held))
