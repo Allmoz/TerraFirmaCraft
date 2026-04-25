@@ -20,7 +20,7 @@ import net.minecraft.util.Mth;
 
 import net.dries007.tfc.common.entities.aquatic.TFCDolphin;
 
-public class OrcaModel extends EntityModel<TFCDolphin>
+public class OrcaModel extends HierarchicalAnimatedModel<TFCDolphin>
 {
     public static LayerDefinition createBodyLayer()
     {
@@ -66,6 +66,7 @@ public class OrcaModel extends EntityModel<TFCDolphin>
 
     public OrcaModel(ModelPart root)
     {
+        super(root);
         body = root.getChild("body");
         rump = body.getChild("rump");
         front = body.getChild("front");
