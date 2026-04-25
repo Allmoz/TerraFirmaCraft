@@ -280,7 +280,7 @@ public class TFCLayers
         {
             return SALT_MARSH;
         }
-        if (value == MOUNTAINS)
+        if (value == MOUNTAINS || value == COLLISIONAL_MOUNTAINS)
         {
             return OCEANIC_MOUNTAINS;
         }
@@ -345,7 +345,7 @@ public class TFCLayers
 
     public static boolean hasLake(int value)
     {
-        return (!isOcean(value) && value != BADLANDS && value != ACTIVE_SHIELD_VOLCANO && value != DORMANT_SHIELD_VOLCANO
+        return (!isOcean(value) && !isLake(value) && value != BADLANDS && value != ACTIVE_SHIELD_VOLCANO && value != DORMANT_SHIELD_VOLCANO
             && value != EXTINCT_SHIELD_VOLCANO && value != ANCIENT_SHIELD_VOLCANO && value != ICE_SHEET_MOUNTAINS
             && value != ICE_SHEET_MOUNTAINS_EDGE && value != ICE_SHEET_OCEANIC_MOUNTAINS && value != ICE_SHEET_OCEANIC_MOUNTAINS_EDGE
             && value != ICE_SHEET_SHIELD_VOLCANO && value != ICE_SHEET_SHORE && value != GLACIATED_SHIELD_VOLCANO
@@ -355,7 +355,7 @@ public class TFCLayers
 
     public static int lakeFor(int value)
     {
-        if (value == MOUNTAINS)
+        if (value == MOUNTAINS || value == COLLISIONAL_MOUNTAINS)
         {
             return MOUNTAIN_LAKE;
         }
@@ -413,6 +413,11 @@ public class TFCLayers
     public static boolean isFlatIceSheet(int value)
     {
         return value == ICE_SHEET || value == ICE_SHEET_TUYAS || value == SUBGLACIAL_LAKE;
+    }
+
+    public static boolean isLake(int value)
+    {
+        return value == LAKE || value == MELTWATER_LAKE || value == MOUNTAIN_LAKE || value == OCEANIC_MOUNTAIN_LAKE || value == PLATEAU_LAKE || value == OLD_MOUNTAIN_LAKE || value == SUBGLACIAL_LAKE || value == RIFT_LAKE || value == TOWER_KARST_LAKE || value == VOLCANIC_OCEANIC_MOUNTAIN_LAKE || value == VOLCANIC_MOUNTAIN_LAKE;
     }
 
     public static int idFor(BiomeExtension extension)

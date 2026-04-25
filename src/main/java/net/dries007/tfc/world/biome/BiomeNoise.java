@@ -957,9 +957,8 @@ public final class BiomeNoise
     /**
      * Mountain noise based on the intercutting ridge noise used in Shilin biomes
      */
-    public static Noise2D ridgeMountains(long seed, double baseHeight, double scaleHeight, float spreadFactor)
+    public static Noise2D ridgeMountains(long seed, double baseHeight, double scaleHeight, float spreadFactor, int cliffStartHeight, int cliffStartVariance)
     {
-
         // Basic ridge shapes following zeroes in the noise
         final Noise2D ridges = new OpenSimplex2D(seed + 3987677L).octaves(4).spread(0.022f).map(y -> {
             return 1 - 2.8 * y * y; // We want to drag the valleys down to the base biome level, at which point flat valley noise takes over
@@ -983,20 +982,23 @@ public final class BiomeNoise
         // We ease it in over ridges before we scale it
         final Noise2D scale = new OpenSimplex2D(seed + 245L).octaves(4).spread(0.012).easeIn(0.3, 0.9, 0, 1, ridges).map(y -> 1 + 0.35 * y);
 
-        // Bases of valleys need some texture
+        // Bases of valleys cut off below a point
         final Noise2D flatValleys = hills(seed + 525L, (int) (baseHeight - 15), (int) (baseHeight + 15));
 
+        // Add texture everywhere
+        final Noise2D textureNoise = new OpenSimplex2D(seed + 5).octaves(6).spread(0.4).scaled(-30, 30);
+
         // Base shape of the terrain, scaled up to full size
-        final Noise2D baseNoise = carvedRidges.add(peaks).lazyProduct(scale).scaled(0, 1, SEA_LEVEL_Y + baseHeight,  SEA_LEVEL_Y + baseHeight + scaleHeight).max(flatValleys).spread(spreadFactor);
+        final Noise2D baseNoise = carvedRidges.add(peaks).lazyProduct(scale).scaled(0, 1, SEA_LEVEL_Y + baseHeight,  SEA_LEVEL_Y + baseHeight + scaleHeight).max(flatValleys).add(textureNoise).spread(spreadFactor);
 
         // Cliff noise consists of noise that's been artificially clamped over half the domain, which is then selectively added above a base height level
         // This matches up with the distinction between dirt and stone
         final Noise2D cliffNoise = new OpenSimplex2D(seed + 2).octaves(2).spread(0.01f * spreadFactor).scaled(-25, 25).map(x -> x > 0 ? x : 0);
-        final Noise2D cliffHeightNoise = new OpenSimplex2D(seed + 3).octaves(2).spread(0.01f * spreadFactor).scaled(140 - 20, 140 + 20);
+        final Noise2D cliffHeightNoise = new OpenSimplex2D(seed + 3).octaves(2).spread(0.01f * spreadFactor).scaled(cliffStartHeight - cliffStartVariance, cliffStartHeight + cliffStartVariance);
 
         return (x, z) -> {
             double height = baseNoise.noise(x, z);
-            if (height > 120) // Only sample each cliff noise layer if the base noise could be influenced by it
+            if (height > cliffStartHeight - cliffStartVariance) // Only sample each cliff noise layer if the base noise could be influenced by it
             {
                 final double cliffHeight = cliffHeightNoise.noise(x, z) - height;
                 if (cliffHeight < 0)
