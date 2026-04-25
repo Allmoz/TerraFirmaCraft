@@ -20,7 +20,7 @@ import net.minecraft.util.Mth;
 
 import net.dries007.tfc.common.entities.aquatic.Manatee;
 
-public class ManateeModel extends EntityModel<Manatee>
+public class ManateeModel extends HierarchicalAnimatedModel<Manatee>
 {
     public static LayerDefinition createBodyLayer()
     {
@@ -59,6 +59,7 @@ public class ManateeModel extends EntityModel<Manatee>
 
     public ManateeModel(ModelPart root)
     {
+        super(root);
         this.head = root.getChild("head");
         this.finright = root.getChild("finright");
         this.finleft = root.getChild("finleft");
