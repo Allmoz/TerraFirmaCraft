@@ -27,43 +27,68 @@ public class GlassblowingOverlays
         final BlockPos targetedPos = ClientHelpers.getTargetedPos();
         final Direction targetedFace = ClientHelpers.getTargetedFace();
 
-        if (level != null && targetedPos != null && targetedFace != null && player != null)
+        if (player != null)
         {
-            final BlockState targetedState = level.getBlockState(targetedPos);
-            final BlockPos center = targetedPos.relative(targetedFace);
-            if (GlassBasinBlock.isValid(level, center))
-            {
-                int x = graphics.guiWidth() / 2 + 3;
-                int y = graphics.guiHeight() / 2 + 8;
-                // todo translatable
-                Component line = Component.literal("debug[Basin Pour]");
-                drawCenteredText(minecraft, graphics, line, x, y);
-                return true;
-            }
-            if (targetedFace == Direction.UP && Helpers.isBlock(targetedState, TFCTags.Blocks.GLASS_POURING_TABLE) && level.getBlockState(targetedPos.above()).isAir())
-            {
-                int x = graphics.guiWidth() / 2 + 3;
-                int y = graphics.guiHeight() / 2 + 8;
-                // todo translatable
-                Component line = Component.literal("debug[Table Pour]");
-                drawCenteredText(minecraft, graphics, line, x, y);
-                return true;
-            }
             ItemStack held = player.getMainHandItem();
             ItemStack otherItem = player.getOffhandItem();
-            if (!Helpers.isItem(held, TFCTags.Items.GLASS_BLOWPIPES))
+            if (!Helpers.isItem(player.getMainHandItem(), TFCTags.Items.GLASS_BLOWPIPES))
             {
                 held = player.getOffhandItem();
                 otherItem = player.getMainHandItem();
             }
-            final GlassOperation op = GlassOperation.get(otherItem, player);
-            if (op != null){
-                Component line = Component.translatable(op.getTranslationId());
+
+            if (player.getCooldowns().isOnCooldown(held.getItem()))
+            {
+                // todo translatable
+                Component line = Component.literal("Complete");
+
                 int x = graphics.guiWidth() / 2 + 3;
                 int y = graphics.guiHeight() / 2 + 8;
                 drawCenteredText(minecraft, graphics, line, x, y);
+                return true;
+            }
+
+            if (level != null && targetedPos != null && targetedFace != null)
+            {
+                final BlockState targetedState = level.getBlockState(targetedPos);
+                final BlockPos center = targetedPos.relative(targetedFace);
+                if (GlassBasinBlock.isValid(level, center))
+                {
+                    int x = graphics.guiWidth() / 2 + 3;
+                    int y = graphics.guiHeight() / 2 + 8;
+                    Component line = Component.translatable(GlassOperation.BASIN_POUR.get().getTranslationId());
+                    drawCenteredText(minecraft, graphics, line, x, y);
+                    return true;
+                }
+                if (targetedFace == Direction.UP && Helpers.isBlock(targetedState, TFCTags.Blocks.GLASS_POURING_TABLE) && level.getBlockState(targetedPos.above()).isAir())
+                {
+                    int x = graphics.guiWidth() / 2 + 3;
+                    int y = graphics.guiHeight() / 2 + 8;
+                    Component line = Component.translatable(GlassOperation.TABLE_POUR.get().getTranslationId());
+                    drawCenteredText(minecraft, graphics, line, x, y);
+                    return true;
+                }
+            }
+
+            final GlassOperation op = GlassOperation.get(otherItem, player);
+            if (op != null)
+            {
+                StringBuilder progress = new StringBuilder();
+                if (player.isUsingItem())
+                {
+                    int tally = (40 - player.getUseItemRemainingTicks()) / 8 + 1;
+                    progress.append("|".repeat(tally));
+                }
+
+                Component line = Component.translatable(op.getTranslationId()).append(" " + progress);
+
+                int x = graphics.guiWidth() / 2 + 3;
+                int y = graphics.guiHeight() / 2 + 8;
+                drawCenteredText(minecraft, graphics, line, x, y);
+                return true;
             }
         }
+
 
         return false;
     }
