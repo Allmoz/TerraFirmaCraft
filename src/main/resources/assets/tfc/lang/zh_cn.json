@@ -1372,7 +1372,7 @@
   "tfc.config.server.fireboxEnableAutomation": "启用自动化",
   "tfc.config.server.firePitEnableAutomation": "启用自动化",
   "tfc.config.server.foodDecayModifier": "食物腐烂修正",
-  "tfc.config.server.foodDecayStackTicks1": "单个食物腐烂速度",
+  "tfc.config.server.foodDecayStackTicks": "Food Decay Stack Ticks",
   "tfc.config.server.fruitBranchGrowthTicks": "果树枝条生长刻数",
   "tfc.config.server.fruitPickBloomDelayTicks": "果实采摘开花延迟刻数",
   "tfc.config.server.saplingGrowthModifier": "树苗生长修正",

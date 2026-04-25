@@ -1364,7 +1364,7 @@
   "tfc.config.server.fireboxEnableAutomation": "Включить автоматизацию топки",
   "tfc.config.server.firePitEnableAutomation": "Включить автоматизацию костра",
   "tfc.config.server.foodDecayModifier": "Модификатор порчи пищи",
-  "tfc.config.server.foodDecayStackTicks1": "Допустимая разность тиков объединяемой еды",
+  "tfc.config.server.foodDecayStackTicks": "Food Decay Stack Ticks",
   "tfc.config.server.fruitBranchGrowthTicks": "Тиков роста ветки фруктового дерева",
   "tfc.config.server.fruitPickBloomDelayTicks": "Тиков до следующего сбора фруктов",
   "tfc.config.server.saplingGrowthModifier": "Модификатор роста саженцев",
