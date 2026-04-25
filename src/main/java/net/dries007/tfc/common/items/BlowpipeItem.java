@@ -48,7 +48,7 @@ public class BlowpipeItem extends Item
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity entity)
     {
-        return 80;
+        return 40;
     }
 
     @Override

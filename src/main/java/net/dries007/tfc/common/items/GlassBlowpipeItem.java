@@ -194,10 +194,10 @@ public class GlassBlowpipeItem extends BlowpipeItem
             player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
 
             // Cooldown all blowpipe items
-            player.getCooldowns().addCooldown(TFCItems.BLOWPIPE.asItem(), 80);
-            player.getCooldowns().addCooldown(TFCItems.CERAMIC_BLOWPIPE.asItem(), 80);
-            player.getCooldowns().addCooldown(TFCItems.BLOWPIPE_WITH_GLASS.asItem(), 80);
-            player.getCooldowns().addCooldown(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem(), 80);
+            player.getCooldowns().addCooldown(TFCItems.BLOWPIPE.asItem(), 10);
+            player.getCooldowns().addCooldown(TFCItems.CERAMIC_BLOWPIPE.asItem(), 10);
+            player.getCooldowns().addCooldown(TFCItems.BLOWPIPE_WITH_GLASS.asItem(), 10);
+            player.getCooldowns().addCooldown(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem(), 10);
         }
         return super.finishUsingItem(stack, level, entity);
     }
