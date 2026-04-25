@@ -6,6 +6,8 @@
 
 package net.dries007.tfc.data.recipes;
 
+import net.dries007.tfc.common.blocks.wood.Wood;
+import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +32,8 @@ import net.dries007.tfc.common.recipes.outputs.ChanceModifier;
 import net.dries007.tfc.common.recipes.outputs.CopyFoodModifier;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.dries007.tfc.util.Metal;
+
+import java.util.Map;
 
 public interface HeatRecipes extends Recipes
 {
@@ -137,6 +141,15 @@ public interface HeatRecipes extends Recipes
             ItemStackProvider.empty(),
             new FluidStack(meltFluidFor(metal), units(type)),
             temperatureOf(metal), new ItemStack(item).isDamageableItem()))));
+
+        Helpers.mapOf(Metal.class, Metal::allParts, metal ->
+            Helpers.mapOf(Wood.class, wood -> TFCItems.HANGING_SIGNS.get(wood).get(metal)).values()
+        ).forEach((metal, items) -> add("hanging_signs/" + metal.name(), new HeatingRecipe(
+            Ingredient.of(items.stream().map(ItemStack::new)),
+            ItemStackProvider.empty(),
+            new FluidStack(meltFluidFor(metal), 4),
+            temperatureOf(metal), false)));
+
     }
 
     private Fluid meltFluidFor(Metal metal)
