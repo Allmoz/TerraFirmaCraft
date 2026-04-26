@@ -2,30 +2,20 @@
   "__comment__": "This file was automatically created by mcresources",
   "type": "tfc:cluster_vein",
   "config": {
-    "rarity": 12,
+    "rarity": 80,
     "density": 0.2,
     "min_y": -70,
     "max_y": -10,
     "size": 22,
-    "random_name": "ruby",
+    "random_name": "deep_ruby",
     "blocks": [
       {
         "replace": [
-          "tfc:rock/raw/schist"
+          "tfc:rock/raw/marble"
         ],
         "with": [
           {
-            "block": "tfc:ore/ruby/schist"
-          }
-        ]
-      },
-      {
-        "replace": [
-          "tfc:rock/raw/gneiss"
-        ],
-        "with": [
-          {
-            "block": "tfc:ore/ruby/gneiss"
+            "block": "tfc:ore/ruby/marble"
           }
         ]
       }

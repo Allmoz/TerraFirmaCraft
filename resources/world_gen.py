@@ -26,6 +26,9 @@ def generate(rm: ResourceManager):
         *['tfc:vein/%s' % name for name, vein in ORE_VEINS.items() if not vein.rivers_only],
         'tfc:geode'
     ])
+    rm.placed_feature_tag('in_biome/veins/collisional_mountains', *[
+        'tfc:vein/ruby_marble_belt'
+    ])
     rm.placed_feature_tag('in_biome/veins/kaolin', *[
         'tfc:vein/kaolin_disc'
     ])
@@ -909,6 +912,29 @@ def generate(rm: ResourceManager):
                     'with': mineral_ore_blocks(vein, rock)
                 } for rock in rocks],
             })
+
+    # Rubies in belts of marble in collisional-mountains
+    # Inspired by the fact that IRL rubies are mostly from marble belts in the Himalayas
+    # Vein is common, because collisional mountains are rare
+    rocks = expand_rocks(['igneous_extrusive', 'igneous_intrusive', 'metamorphic',])
+    configured_placed_feature(rm, ('vein', 'ruby_marble_belt'), 'tfc:disc_vein', {
+        'rarity': 16,
+        'density': 1,
+        'min_y': -40,
+        'max_y': -4,
+        'project': True,
+        'project_offset': True,
+        'size': 50,
+        'height': 5,
+        'random_name': 'ruby_marble_belt',
+        'blocks': [{
+            'replace': ['tfc:rock/raw/%s' % rock],
+            'with': [
+                {'block': 'tfc:rock/raw/marble', 'weight': 94},
+                {'block': 'tfc:ore/ruby/marble', 'weight': 6}
+            ]
+        } for rock in rocks]
+    })
 
     configured_placed_feature(rm, ('vein', 'kaolin_disc'), 'tfc:kaolin_disc_vein', {
         'rarity': 50,
@@ -2128,6 +2154,7 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
         '#tfc:in_biome/veins',  # Underground Ores
         '#tfc:in_biome/veins/kaolin' if name in KAOLIN_BIOMES else None,
         '#tfc:in_biome/veins/river' if category == 'river' else None,
+        '#tfc:in_biome/veins/collisional_mountains' if 'collisional' in name else None,
         '#tfc:in_biome/underground_decoration',  # Underground Decoration
         '#tfc:in_biome/large_features/%s' % name,  # Fluid Springs (we co-opt this as they likely won't interfere and it's in the right order)
         '#tfc:in_biome/surface_decoration/%s' % name,  # Vegetal Decoration
@@ -2139,7 +2166,33 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
     rm.placed_feature_tag(('in_biome/surface_decoration', name), *surface_decorations)
 
     if volcano_features:
-        rm.biome_tag('is_volcanic', name)
+        rm.biome_tag('has_cinder_cones', name)
+    if tuya_features:
+        rm.biome_tag('has_tuyas', name)
+    if 'atoll' in name:
+        rm.biome_tag('has_atolls', name)
+    if 'shield_volcano' in name and 'active' not in name:
+        rm.biome_tag('has_tuff_cones', name)
+    if 'volcanic' in name and 'volcanic_mountain_islands' not in name:
+        rm.biome_tag('has_stratovolcanos')
+    if 'ice_sheet' in name or 'subglacial_lake' in name:
+        rm.biome_tag('is_ice_sheet', name)
+    if 'glaciated' in name:
+        rm.biome_tag('is_glaciated', name)
+    if 'doline' in name and 'extreme' not in name:
+        rm.biome_tag('is_dolines', name)
+    if 'doline' in name and 'extreme' in name:
+        rm.biome_tag('is_extreme_dolines', name)
+    if 'tower_karst' in name:
+        rm.biome_tag('is_tower_karst', name)
+    if 'shilin' in name:
+        rm.biome_tag('is_shilin', name)
+    if 'burren' in name:
+        rm.biome_tag('is_burren', name)
+    if 'doline' in name or 'karst' in name or 'shilin' in name or 'burren' in name:
+        rm.biome_tag('is_karst', name)
+    if 'shield_volcano' in name:
+        rm.biome_tag('is_shield_volcano')
     if 'lake' in name:
         rm.biome_tag('is_lake', name)
     if 'river' in name:
@@ -2148,6 +2201,8 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
         rm.biome_tag('is_ocean', name)
     if 'shore' in name or 'stacks' in name or 'tidal' in name or 'embayments' in name or 'coastal' in name or 'terrace' in name or 'setback_cliffs' in name:
         rm.biome_tag('is_ocean', name)
+    if 'rift' in name:
+        rm.biome_tag('is_rift', name)
 
     rm.lang('biome.tfc.%s' % name, lang(name))
     assert name in TFC_BIOMES, 'Error: Biome not in TFC_BIOMES list: %s' % name

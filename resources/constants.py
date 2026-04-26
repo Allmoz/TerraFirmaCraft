@@ -312,7 +312,7 @@ ORES: dict[str, Ore] = {
     'native_silver': Ore('silver', True, 'copper', 'silver', 'light_gray'),
     'cassiterite': Ore('tin', True, 'copper', 'tin', 'gray'),
     'bismuthinite': Ore('bismuth', True, 'copper', 'bismuth', 'green'),
-    'garnierite': Ore('nickel', True, 'bronze', 'nickel', 'brown'),
+    'garnierite': Ore('nickel', True, 'copper', 'nickel', 'brown'),
     'malachite': Ore('copper', True, 'copper', 'copper', 'green'),
     'magnetite': Ore('cast_iron', True, 'copper', 'iron', 'gray'),
     'limonite': Ore('cast_iron', True, 'copper', 'iron', 'yellow'),
@@ -323,21 +323,21 @@ ORES: dict[str, Ore] = {
     'gypsum': Ore(None, False, 'copper', 'gypsum'),
     'graphite': Ore(None, False, 'copper', 'graphite'),
     'sulfur': Ore(None, False, 'copper', 'sulfur'),
-    'cinnabar': Ore(None, False, 'bronze', 'redstone'),
-    'cryolite': Ore(None, False, 'bronze', 'redstone'),
+    'cinnabar': Ore(None, False, 'copper', 'redstone'),
+    'cryolite': Ore(None, False, 'copper', 'redstone'),
     'saltpeter': Ore(None, False, 'copper', 'saltpeter'),
     'sylvite': Ore(None, False, 'copper', 'sylvite'),
     'borax': Ore(None, False, 'copper', 'borax'),
-    'halite': Ore(None, False, 'bronze', 'halite', simple_blocks=True),
-    'amethyst': Ore(None, False, 'steel', 'amethyst'),  # Mohs: 7
-    'diamond': Ore(None, False, 'black_steel', 'diamond'),  # Mohs: 10
-    'emerald': Ore(None, False, 'steel', 'emerald'),  # Mohs: 7.5-8
-    'lapis_lazuli': Ore(None, False, 'wrought_iron', 'lapis'),  # Mohs: 5-6
-    'opal': Ore(None, False, 'wrought_iron', 'opal'),  # Mohs: 5.5-6.5
+    'halite': Ore(None, False, 'copper', 'halite', simple_blocks=True),
+    'amethyst': Ore(None, False, 'copper', 'amethyst'),  # Mohs: 7
+    'diamond': Ore(None, False, 'copper', 'diamond'),  # Mohs: 10
+    'emerald': Ore(None, False, 'copper', 'emerald'),  # Mohs: 7.5-8
+    'lapis_lazuli': Ore(None, False, 'copper', 'lapis'),  # Mohs: 5-6
+    'opal': Ore(None, False, 'copper', 'opal'),  # Mohs: 5.5-6.5
     'pyrite': Ore(None, False, 'copper', 'pyrite'),
-    'ruby': Ore(None, False, 'black_steel', 'ruby'),  # Mohs: 9
-    'sapphire': Ore(None, False, 'black_steel', 'sapphire'),  # Mohs: 9
-    'topaz': Ore(None, False, 'steel', 'topaz')  # Mohs: 8
+    'ruby': Ore(None, False, 'copper', 'ruby'),  # Mohs: 9
+    'sapphire': Ore(None, False, 'copper', 'sapphire'),  # Mohs: 9
+    'topaz': Ore(None, False, 'copper', 'topaz')  # Mohs: 8
 }
 ORE_GRADES = ('poor', 'normal', 'rich')
 
@@ -420,7 +420,7 @@ ORE_VEINS: dict[str, Vein] = {
 
     'amethyst': Vein.new('amethyst', 25, 8, 40, 60, 0.2, ('sedimentary', 'metamorphic'), vein_type='disc', rivers_only=True, height=4),
     'opal': Vein.new('opal', 25, 8, 40, 60, 0.2, ('sedimentary', 'igneous_extrusive'), vein_type='disc', rivers_only=True, height=4),
-    'ruby': Vein.new('ruby', 12, 22, -70, -10, 0.2, ('schist', 'gneiss')),
+    'deep_ruby': Vein.new('ruby', 80, 22, -70, -10, 0.2, ('marble',)),
 }
 
 ALL_MINERALS = ('bituminous_coal', 'lignite', 'graphite', 'cinnabar', 'cryolite', 'saltpeter', 'sulfur', 'sylvite', 'borax', 'gypsum', 'lapis_lazuli', 'halite', 'diamond', 'emerald', 'sulfur', 'amethyst', 'opal')

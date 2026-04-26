@@ -157,6 +157,7 @@ public final class BuiltinWorldPreset
     private static final String BOTTOM = "bottom";
     private static final String IGNEOUS_EXTRUSIVE = "igneous_extrusive";
     private static final String IGNEOUS_EXTRUSIVE_X2 = "igneous_extrusive_x2";
+    private static final String IGNEOUS_INTRUSIVE = "igneous_intrusive";
     private static final String SEDIMENTARY = "sedimentary";
     private static final String UPLIFT = "uplift";
     private static final String FELSIC = "felsic";
@@ -191,6 +192,11 @@ public final class BuiltinWorldPreset
                     DACITE, IGNEOUS_EXTRUSIVE,
                     BASALT, IGNEOUS_EXTRUSIVE
                 )),
+                layerOf(IGNEOUS_INTRUSIVE, Map.of(
+                    GRANITE, FELSIC,
+                    DIORITE, INTERMEDIATE,
+                    GABBRO, MAFIC
+                )),
                 layerOf(MM_HIGH_GRADE, Map.of(
                     SCHIST, BOTTOM,
                     GNEISS, BOTTOM
@@ -222,9 +228,9 @@ public final class BuiltinWorldPreset
             ),
             // List of layers that can be the top layer for each variety of rock region
             List.of(IGNEOUS_EXTRUSIVE),
-            List.of(IGNEOUS_EXTRUSIVE, SEDIMENTARY),
-            List.of(IGNEOUS_EXTRUSIVE, IGNEOUS_EXTRUSIVE_X2),
-            List.of(SEDIMENTARY, UPLIFT)
+            List.of(SEDIMENTARY, SEDIMENTARY, IGNEOUS_EXTRUSIVE),
+            List.of(IGNEOUS_EXTRUSIVE, IGNEOUS_EXTRUSIVE_X2, IGNEOUS_INTRUSIVE),
+            List.of(UPLIFT, UPLIFT, UPLIFT, SEDIMENTARY)
         )).getOrThrow();
     }
 
