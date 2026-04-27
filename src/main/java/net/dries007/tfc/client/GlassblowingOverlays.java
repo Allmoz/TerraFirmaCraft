@@ -30,6 +30,8 @@ public class GlassblowingOverlays
         final Player player = minecraft.player;
         final BlockPos targetedPos = ClientHelpers.getTargetedPos();
         final Direction targetedFace = ClientHelpers.getTargetedFace();
+        final int x = graphics.guiWidth() / 2 + 3;
+        final int y = graphics.guiHeight() / 2 + 8;
 
         if (player != null)
         {
@@ -50,11 +52,7 @@ public class GlassblowingOverlays
 
             if (player.getCooldowns().isOnCooldown(held.getItem()))
             {
-                // todo translatable
-                Component line = Component.literal("Complete");
-
-                int x = graphics.guiWidth() / 2 + 3;
-                int y = graphics.guiHeight() / 2 + 8;
+                Component line = Component.translatable("glass_operation.tfc.complete");
                 drawCenteredText(minecraft, graphics, line, x, y);
                 return true;
             }
@@ -65,16 +63,12 @@ public class GlassblowingOverlays
                 final BlockPos center = targetedPos.relative(targetedFace);
                 if (GlassBasinBlock.isValid(level, center))
                 {
-                    int x = graphics.guiWidth() / 2 + 3;
-                    int y = graphics.guiHeight() / 2 + 8;
                     Component line = Component.translatable(GlassOperation.BASIN_POUR.get().getTranslationId()).withStyle(color);
                     drawCenteredText(minecraft, graphics, line, x, y);
                     return true;
                 }
                 if (targetedFace == Direction.UP && Helpers.isBlock(targetedState, TFCTags.Blocks.GLASS_POURING_TABLE) && level.getBlockState(targetedPos.above()).isAir())
                 {
-                    int x = graphics.guiWidth() / 2 + 3;
-                    int y = graphics.guiHeight() / 2 + 8;
                     Component line = Component.translatable(GlassOperation.TABLE_POUR.get().getTranslationId()).withStyle(color);
                     drawCenteredText(minecraft, graphics, line, x, y);
                     return true;
@@ -93,8 +87,6 @@ public class GlassblowingOverlays
 
                 Component line = Component.translatable(op.getTranslationId()).append(" " + progress).withStyle(color);
 
-                int x = graphics.guiWidth() / 2 + 3;
-                int y = graphics.guiHeight() / 2 + 8;
                 drawCenteredText(minecraft, graphics, line, x, y);
                 return true;
             }

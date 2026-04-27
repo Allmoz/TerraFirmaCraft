@@ -41,6 +41,7 @@ import net.dries007.tfc.util.advancements.TFCAdvancements;
 
 public class GlassBlowpipeItem extends BlowpipeItem
 {
+
     private static ItemStack getOtherHandItem(Player player)
     {
         return player.getItemInHand(player.getUsedItemHand() == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
@@ -81,7 +82,6 @@ public class GlassBlowpipeItem extends BlowpipeItem
             // test on a copy so that if it doesn't work we don't cause irreversible changes
             final ItemStack copy = item.copy();
             GlassWorking.apply(copy, GlassOperation.BASIN_POUR.value());
-
 
             final @Nullable GlassworkingRecipe recipe = GlassworkingRecipe.get(level, copy);
             if (recipe != null)
@@ -152,8 +152,7 @@ public class GlassBlowpipeItem extends BlowpipeItem
     {
         if (stack.has(TFCComponents.GLASS) && Objects.requireNonNull(stack.get(TFCComponents.GLASS)).isEmpty())
         {
-            // todo translatable
-            player.displayClientMessage(Component.literal("debug[There was no valid batch on this blowpipe. This may be because it was picked from the Creative menu. Add a batch with crafting.]"), false);
+            player.displayClientMessage(Component.translatable("glass.tfc.fix_batch"), false);
             player.setItemInHand(hand, BlowpipeItem.transform(stack.getItem()).getDefaultInstance());
             return true;
         }
