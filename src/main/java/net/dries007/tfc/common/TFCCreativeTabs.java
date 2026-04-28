@@ -87,86 +87,6 @@ public final class TFCCreativeTabs
         event.getSearchEntries().forEach(FoodCapability::setTransientNonDecaying);
     }
 
-    private static void fillEarthTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
-    {
-        for (SoilBlockType.Variant variant : SoilBlockType.Variant.values())
-        {
-            for (SoilBlockType type : SoilBlockType.VALUES)
-            {
-                accept(out, TFCBlocks.SOIL, type, variant);
-                if (type == SoilBlockType.MUD_BRICKS)
-                {
-                    accept(out, TFCBlocks.MUD_BRICK_DECORATIONS.get(variant));
-                }
-            }
-        }
-        out.accept(TFCBlocks.SMOOTH_MUD_BRICKS);
-        out.accept(TFCBlocks.TREE_ROOTS);
-        out.accept(TFCBlocks.PEAT);
-        out.accept(TFCBlocks.PEAT_GRASS);
-        out.accept(TFCBlocks.WHITE_KAOLIN_CLAY);
-        out.accept(TFCBlocks.PINK_KAOLIN_CLAY);
-        out.accept(TFCBlocks.RED_KAOLIN_CLAY);
-        out.accept(TFCBlocks.KAOLIN_CLAY_GRASS);
-        out.accept(TFCBlocks.HARDENED_CLAY);
-
-        TFCBlocks.GROUNDCOVER.forEach((type, reg) -> {
-            if (type.getVanillaItem() == null)
-            {
-                out.accept(reg);
-            }
-            else
-            {
-                out.accept(type.getVanillaItem());
-            }
-        });
-        TFCBlocks.SMALL_ORES.values().forEach(out::accept);
-        TFCItems.GEMS.values().forEach(out::accept);
-
-        for (SandBlockType type : SandBlockType.values())
-        {
-            accept(out, TFCBlocks.SAND, type);
-            TFCBlocks.SANDSTONE.get(type).values().forEach(out::accept);
-            TFCBlocks.SANDSTONE_DECORATIONS.get(type).values().forEach(reg -> accept(out, reg));
-        }
-
-        out.accept(Blocks.ICE);
-        out.accept(TFCBlocks.SEA_ICE);
-        out.accept(Blocks.PACKED_ICE);
-        out.accept(Blocks.BLUE_ICE);
-
-        TFCBlocks.MAGMA_BLOCKS.values().forEach(out::accept);
-
-        for (Crop crop : Crop.values())
-        {
-            accept(out, TFCBlocks.WILD_CROPS, crop);
-            if (crop == Crop.PUMPKIN)
-                out.accept(TFCBlocks.PUMPKIN);
-            else if (crop == Crop.MELON)
-                out.accept(TFCBlocks.MELON);
-            accept(out, TFCItems.CROP_SEEDS, crop);
-        }
-        TFCBlocks.SPREADING_BUSHES.values().forEach(out::accept);
-        TFCBlocks.STATIONARY_BUSHES.values().forEach(out::accept);
-        out.accept(TFCBlocks.CRANBERRY_BUSH);
-
-        for (FruitBlocks.Tree tree : FruitBlocks.Tree.values())
-        {
-            accept(out, TFCBlocks.FRUIT_TREE_SAPLINGS, tree);
-            accept(out, TFCBlocks.FRUIT_TREE_LEAVES, tree);
-        }
-        out.accept(TFCBlocks.BANANA_SAPLING);
-
-        out.accept(TFCBlocks.CALCITE);
-        out.accept(TFCBlocks.ICICLE);
-        for (Coral coral : Coral.values())
-        {
-            TFCBlocks.CORAL.get(coral).values().forEach(out::accept);
-            accept(out, TFCItems.CORAL_FANS, coral);
-            accept(out, TFCItems.DEAD_CORAL_FANS, coral);
-        }
-    }
-
     private static void fillBuildingBlocksTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
     {
         for (Wood wood : Wood.VALUES)
@@ -343,6 +263,7 @@ public final class TFCCreativeTabs
             for (Rock.BlockType type : new Rock.BlockType[] {
                 Rock.BlockType.HARDENED,
                 Rock.BlockType.SPIKE,
+                Rock.BlockType.RAW,
                 Rock.BlockType.COBBLE,
                 Rock.BlockType.MOSSY_COBBLE,
                 Rock.BlockType.GRAVEL,
@@ -778,14 +699,6 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.STICK_BUNDLE);
         out.accept(Items.BOWL);
         out.accept(TFCItems.STRAW);
-        out.accept(TFCItems.ARIDISOL_MUD_BRICK);
-        out.accept(TFCItems.OXISOL_MUD_BRICK);
-        out.accept(TFCItems.FLUVISOL_MUD_BRICK);
-        out.accept(TFCItems.ENTISOL_MUD_BRICK);
-        out.accept(TFCItems.ANDISOL_MUD_BRICK);
-        out.accept(TFCItems.MOLLISOL_MUD_BRICK);
-        out.accept(TFCItems.ALFISOL_MUD_BRICK);
-        out.accept(TFCItems.PODZOL_MUD_BRICK);
 
         TFCItems.POWDERS.values().forEach(out::accept);
         TFCItems.ORE_POWDERS.values().forEach(out::accept);
@@ -918,6 +831,15 @@ public final class TFCCreativeTabs
                 accept(out, TFCItems.METAL_ITEMS, metal, itemType);
             }
         }
+
+        out.accept(TFCItems.ARIDISOL_MUD_BRICK);
+        out.accept(TFCItems.OXISOL_MUD_BRICK);
+        out.accept(TFCItems.FLUVISOL_MUD_BRICK);
+        out.accept(TFCItems.ENTISOL_MUD_BRICK);
+        out.accept(TFCItems.ANDISOL_MUD_BRICK);
+        out.accept(TFCItems.MOLLISOL_MUD_BRICK);
+        out.accept(TFCItems.ALFISOL_MUD_BRICK);
+        out.accept(TFCItems.PODZOL_MUD_BRICK);
 
         for (SoilBlockType.Variant variant : SoilBlockType.Variant.values())
         {
