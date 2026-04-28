@@ -16,7 +16,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
@@ -59,7 +58,7 @@ public final class TFCCreativeTabs
     public static final Id TFC_COLORED_BLOCKS = register("tfc_1colored_blocks",
         () -> new ItemStack(TFCBlocks.STAINED_WATTLE.get(DyeColor.CYAN)), TFCCreativeTabs::fillColoredBlocksTab);
     public static final Id TFC_NATURAL_BLOCKS = register("tfc_2natural_blocks",
-        () -> new ItemStack(TFCBlocks.SOIL.get(SoilBlockType.GRASS).get(SoilBlockType.Variant.ANDISOL)), TFCCreativeTabs::fillSoilsStonesTab);
+        () -> new ItemStack(TFCBlocks.SOIL.get(SoilBlockType.GRASS).get(SoilBlockType.Variant.ANDISOL)), TFCCreativeTabs::fillNaturalBlocks);
     public static final Id TFC_FLORA_CROPS = register("tfc_3flora_crops",
         () -> new ItemStack(TFCBlocks.PLANTS.get(Plant.ATHYRIUM_FERN)), TFCCreativeTabs::fillFloraCropsTab);
     public static final Id TFC_FUNCTIONAL_BLOCKS = register("tfc_4functional_blocks",
@@ -242,7 +241,7 @@ public final class TFCCreativeTabs
         }
     }
 
-    private static void fillSoilsStonesTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
+    private static void fillNaturalBlocks(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
     {
         for (SoilBlockType.Variant variant : SoilBlockType.Variant.values())
         {
@@ -314,6 +313,10 @@ public final class TFCCreativeTabs
         }
 
         TFCBlocks.MAGMA_BLOCKS.values().forEach(out::accept);
+
+        out.accept(TFCBlocks.LIGNITE);
+        out.accept(TFCBlocks.BITUMINOUS_COAL);
+        out.accept(TFCBlocks.HALITE);
 
         out.accept(TFCBlocks.CALCITE);
         out.accept(TFCBlocks.ICICLE);
@@ -448,6 +451,7 @@ public final class TFCCreativeTabs
         out.accept(TFCBlocks.BARREL_RACK);
         out.accept(TFCBlocks.CERAMIC_BOWL);
         out.accept(Items.BOWL);
+        out.accept(Items.FLOWER_POT);
         out.accept(TFCBlocks.QUERN);
         out.accept(TFCItems.HANDSTONE);
 
@@ -532,6 +536,11 @@ public final class TFCCreativeTabs
 
     private static void fillToolsUtilitiesTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
     {
+        out.accept(TFCItems.VESSEL);
+        out.accept(TFCItems.WOODEN_BUCKET);
+        out.accept(TFCItems.JUG);
+        out.accept(TFCItems.SILICA_GLASS_BOTTLE);
+
         out.accept(TFCItems.FIRESTARTER);
         out.accept(TFCItems.FLINT_AND_PYRITE);
         out.accept(Items.FLINT_AND_STEEL);
@@ -598,6 +607,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.HANDSTONE);
         out.accept(Items.BOWL);
         out.accept(TFCBlocks.CERAMIC_BOWL);
+        out.accept(TFCItems.EMPTY_PAN);
 
         for (Wood wood : Wood.VALUES)
         {
@@ -616,17 +626,11 @@ public final class TFCCreativeTabs
         out.accept(Items.DETECTOR_RAIL);
         out.accept(Items.ACTIVATOR_RAIL);
 
-        out.accept(TFCItems.EMPTY_PAN);
-        out.accept(TFCItems.VESSEL);
         for (DyeColor color : DyeColor.values())
         {
             accept(out, TFCItems.GLAZED_VESSELS, color);
         }
 
-        out.accept(TFCItems.WOODEN_BUCKET);
-        out.accept(TFCItems.JUG);
-
-        out.accept(TFCItems.SILICA_GLASS_BOTTLE);
         out.accept(TFCItems.HEMATITIC_GLASS_BOTTLE);
         out.accept(TFCItems.OLIVINE_GLASS_BOTTLE);
         out.accept(TFCItems.VOLCANIC_GLASS_BOTTLE);
@@ -784,6 +788,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.STICK_BUNCH);
         out.accept(TFCItems.STICK_BUNDLE);
         out.accept(Items.BOWL);
+        out.accept(TFCBlocks.CERAMIC_BOWL);
         out.accept(TFCItems.STRAW);
 
         TFCItems.POWDERS.values().forEach(out::accept);
@@ -805,9 +810,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.FIRE_BRICK);
         out.accept(TFCItems.UNFIRED_CRUCIBLE);
         out.accept(TFCItems.UNFIRED_FLOWER_POT);
-        out.accept(Items.FLOWER_POT);
         out.accept(TFCItems.UNFIRED_BOWL);
-        out.accept(TFCBlocks.CERAMIC_BOWL);
         out.accept(TFCItems.UNFIRED_PAN);
         out.accept(TFCItems.UNFIRED_SPINDLE_HEAD);
         out.accept(TFCItems.SPINDLE_HEAD);
@@ -816,19 +819,27 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.UNFIRED_LARGE_VESSEL);
         out.accept(TFCItems.UNFIRED_JUG);
 
-
         for (DyeColor color : DyeColor.values())
         {
             accept(out, TFCItems.UNFIRED_GLAZED_VESSELS, color);
+        }
+        for (DyeColor color : DyeColor.values())
+        {
             accept(out, TFCItems.UNFIRED_GLAZED_LARGE_VESSELS, color);
         }
         for (Metal.ItemType type : Metal.ItemType.values())
         {
             accept(out, TFCItems.UNFIRED_MOLDS, type);
-            accept(out, TFCItems.MOLDS, type);
             if (type == Metal.ItemType.INGOT)
             {
                 out.accept(TFCItems.UNFIRED_FIRE_INGOT_MOLD);
+            }
+        }
+        for (Metal.ItemType type : Metal.ItemType.values())
+        {
+            accept(out, TFCItems.MOLDS, type);
+            if (type == Metal.ItemType.INGOT)
+            {
                 out.accept(TFCItems.FIRE_INGOT_MOLD);
             }
         }
@@ -871,9 +882,6 @@ public final class TFCCreativeTabs
         TFCItems.GEMS.values().forEach(out::accept);
 
         out.accept(Items.CHARCOAL);
-        out.accept(TFCBlocks.LIGNITE);
-        out.accept(TFCBlocks.BITUMINOUS_COAL);
-        out.accept(TFCBlocks.HALITE);
 
         for (RockCategory.ItemType type : RockCategory.ItemType.values())
         {
