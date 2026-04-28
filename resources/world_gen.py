@@ -2178,10 +2178,10 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
         rm.biome_tag('has_tuyas', name)
     if 'atoll' in name:
         rm.biome_tag('has_atolls', name)
-    if 'shield_volcano' in name and 'active' not in name:
+    if 'shield_volcano' in name and 'active' not in name and 'ice' not in name and 'active' not in name:
         rm.biome_tag('has_tuff_cones', name)
     if 'volcanic' in name and 'volcanic_mountain_islands' not in name:
-        rm.biome_tag('has_stratovolcanoes')
+        rm.biome_tag('has_stratovolcanoes', name)
     if 'ice_sheet' in name or 'subglacial_lake' in name:
         rm.biome_tag('is_ice_sheet', name)
     if 'glaciated' in name:
