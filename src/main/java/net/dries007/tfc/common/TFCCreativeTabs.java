@@ -12,17 +12,16 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.BedItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -587,6 +586,12 @@ public final class TFCCreativeTabs
 
         out.accept(TFCItems.BONE_NEEDLE);
 
+        out.accept(Items.WRITABLE_BOOK);
+        out.accept(Items.SPYGLASS);
+        out.accept(Items.CLOCK);
+        out.accept(Items.LEAD);
+        out.accept(Items.SADDLE);
+
         out.accept(TFCItems.SPINDLE);
         out.accept(TFCItems.JUTE_NET);
 
@@ -597,9 +602,19 @@ public final class TFCCreativeTabs
         for (Wood wood : Wood.VALUES)
         {
             accept(out, TFCItems.BOATS, wood);
+        }
+
+        out.accept(Items.MINECART);
+
+        for (Wood wood : Wood.VALUES)
+        {
             accept(out, TFCItems.CHEST_MINECARTS, wood);
         }
-        out.accept(Items.MINECART);
+
+        out.accept(Items.RAIL);
+        out.accept(Items.POWERED_RAIL);
+        out.accept(Items.DETECTOR_RAIL);
+        out.accept(Items.ACTIVATOR_RAIL);
 
         out.accept(TFCItems.EMPTY_PAN);
         out.accept(TFCItems.VESSEL);
@@ -670,8 +685,12 @@ public final class TFCCreativeTabs
             }
         }
 
+        out.accept(Items.GUNPOWDER);
+        out.accept(TFCBlocks.POWDERKEG);
+        out.accept(Items.SNOWBALL);
         out.accept(Items.BOW);
         out.accept(Items.CROSSBOW);
+        out.accept(Items.ARROW);
         out.accept(TFCItems.GLOW_ARROW);
     }
 
@@ -699,7 +718,8 @@ public final class TFCCreativeTabs
             if (fluid.getId().toString().endsWith("beer"))
             {
                 out.accept(fluid.value().getBucket());
-            } else if (fluid.getId().toString().endsWith("cider"))
+            }
+            else if (fluid.getId().toString().endsWith("cider"))
             {
                 out.accept(fluid.value().getBucket());
             }
@@ -725,9 +745,11 @@ public final class TFCCreativeTabs
     private static void fillMetalsIngredientsTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
     {
         out.accept(Items.LEATHER);
+        out.accept(Items.GUNPOWDER);
         out.accept(TFCItems.SOOT);
         out.accept(TFCItems.SANDPAPER);
-        out.accept(TFCItems.BONE_NEEDLE);
+        out.accept(Items.PAPER);
+        out.accept(Items.BOOK);
         out.accept(TFCItems.BLANK_DISC);
         out.accept(TFCItems.BRASS_MECHANISMS);
         out.accept(TFCItems.BURLAP_CLOTH);
@@ -848,6 +870,7 @@ public final class TFCCreativeTabs
 
         TFCItems.GEMS.values().forEach(out::accept);
 
+        out.accept(Items.CHARCOAL);
         out.accept(TFCBlocks.LIGNITE);
         out.accept(TFCBlocks.BITUMINOUS_COAL);
         out.accept(TFCBlocks.HALITE);
@@ -1003,4 +1026,16 @@ public final class TFCCreativeTabs
     }
 
     public record Id(DeferredHolder<CreativeModeTab, CreativeModeTab> tab, CreativeModeTab.DisplayItemsGenerator generator) {}
+
+    public static void addToVanillaTabs(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
+            event.accept(Wood.OAK.getBlock(Wood.BlockType.BARREL).get());
+            event.accept(Wood.OAK.getBlock(Wood.BlockType.CLUTCH).get());
+            event.accept(TFCBlocks.VANE);
+            event.accept(TFCBlocks.ANEMOMETER);
+            event.accept(TFCBlocks.CALENDAR_CLOCK);
+            event.accept(TFCBlocks.THERMOMETER);
+        }
+    }
 }
