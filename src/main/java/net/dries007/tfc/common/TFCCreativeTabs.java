@@ -64,7 +64,7 @@ public final class TFCCreativeTabs
     public static final Id TFC_TOOLS_UTILITIES = register("tfc_5tools_utilities",
         () -> new ItemStack(TFCItems.METAL_ITEMS.get(Metal.STEEL).get(Metal.ItemType.SAW)), TFCCreativeTabs::fillToolsUtilitiesTab);
     public static final Id TFC_COMBAT = register("tfc_6combat",
-        () -> new ItemStack(TFCItems.METAL_ITEMS.get(Metal.RED_STEEL).get(Metal.ItemType.MACE)), TFCCreativeTabs::fillCombatTab);
+        () -> new ItemStack(TFCItems.METAL_ITEMS.get(Metal.RED_STEEL).get(Metal.ItemType.JAVELIN)), TFCCreativeTabs::fillCombatTab);
     public static final Id TFC_FOODS_DRINKS = register("tfc_7foods_drinks",
         () -> new ItemStack(TFCItems.FOOD.get(Food.GREEN_APPLE)), TFCCreativeTabs::fillFoodsDrinksTab);
     public static final Id TFC_METALS_INGREDIENTS = register("tfc_8metals_ingredients",
@@ -402,11 +402,10 @@ public final class TFCCreativeTabs
 
         out.accept(TFCBlocks.THATCH_BED);
         out.accept(TFCBlocks.FIREPIT);
+        out.accept(TFCItems.WROUGHT_IRON_GRILL);
         out.accept(TFCBlocks.GRILL);
         out.accept(TFCItems.POT);
         out.accept(TFCBlocks.POT);
-        out.accept(TFCItems.WROUGHT_IRON_GRILL);
-        out.accept(TFCBlocks.GRILL);
         out.accept(TFCBlocks.STOVE);
         out.accept(TFCBlocks.STOVE_POT);
         out.accept(TFCBlocks.BELLOWS);
