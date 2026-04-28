@@ -74,11 +74,6 @@ public class GlassBlowpipeItem extends BlowpipeItem
         {
             final ItemStack item = context.getItemInHand();
 
-            if (emptyIfNoBatch(context.getHand(), item, player))
-            {
-                return InteractionResult.CONSUME;
-            }
-
             // test on a copy so that if it doesn't work we don't cause irreversible changes
             final ItemStack copy = item.copy();
             GlassWorking.apply(copy, GlassOperation.BASIN_POUR.value());
@@ -148,28 +143,12 @@ public class GlassBlowpipeItem extends BlowpipeItem
         return broken;
     }
 
-    private static boolean emptyIfNoBatch(InteractionHand hand, ItemStack stack, Player player)
-    {
-        if (stack.has(TFCComponents.GLASS) && Objects.requireNonNull(stack.get(TFCComponents.GLASS)).isEmpty())
-        {
-            player.displayClientMessage(Component.translatable("glass.tfc.fix_batch"), false);
-            player.setItemInHand(hand, BlowpipeItem.transform(stack.getItem()).getDefaultInstance());
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
     {
         final ItemStack held = player.getItemInHand(hand);
         final ItemStack otherItem = getOtherHandItem(player, hand);
         final GlassOperation op = GlassOperation.get(otherItem, player);
-
-        if (emptyIfNoBatch(hand, held, player))
-        {
-            return InteractionResultHolder.consume(held);
-        }
 
         if (op != null)
         {

@@ -52,7 +52,7 @@ public class GlassblowingOverlays
 
             if (player.getCooldowns().isOnCooldown(held.getItem()))
             {
-                Component line = Component.translatable("glass_operation.tfc.complete");
+                Component line = Component.translatable("glass.tfc.complete");
                 drawCenteredText(minecraft, graphics, line, x, y);
                 return true;
             }
