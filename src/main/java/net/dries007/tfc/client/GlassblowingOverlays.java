@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.GlassBasinBlock;
 import net.dries007.tfc.common.component.glass.GlassOperation;
-import net.dries007.tfc.common.component.glass.GlassOperations;
 import net.dries007.tfc.common.component.heat.Heat;
 import net.dries007.tfc.common.component.heat.HeatCapability;
 import net.dries007.tfc.util.Helpers;
