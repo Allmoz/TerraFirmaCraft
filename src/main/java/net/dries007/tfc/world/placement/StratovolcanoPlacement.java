@@ -36,7 +36,7 @@ public class StratovolcanoPlacement extends PlacementModifier
     public static MapCodec<StratovolcanoPlacement> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         Codec.BOOL.optionalFieldOf("center", false).forGetter(c -> c.center),
         Codec.BOOL.optionalFieldOf("use_offset_center", false).forGetter(c -> c.useOffsetCenter),
-        Codec.STRING.fieldOf("variant").forGetter(c -> c.variant),
+        Codec.STRING.optionalFieldOf("variant", "all").forGetter(c -> c.variant),
         Codecs.UNIT_FLOAT.optionalFieldOf("min_easing", 0f).forGetter(c -> c.minEasing),
         Codecs.UNIT_FLOAT.optionalFieldOf("max_easing", 1f).forGetter(c -> c.maxEasing),
         Codecs.UNIT_FLOAT.optionalFieldOf("hash_min", 0f).forGetter(c -> c.hashMin),
@@ -80,7 +80,7 @@ public class StratovolcanoPlacement extends PlacementModifier
         {
             final Cellular2D.Cell cell = local.context.getCellularNoise().cell(pos.getX(), pos.getZ());
             final VolcanoVariant variantAt = local.context.getVolcanoVariant(cell);
-            if (variantAt != null && Objects.equals(variantAt.name(), variant))
+            if (variantAt != null && (variant.equals("all") || Objects.equals(variantAt.name(), variant)))
             {
                 // Special handling for volcanoes with crater centers offset from the cell center
                 if (useOffsetCenter)

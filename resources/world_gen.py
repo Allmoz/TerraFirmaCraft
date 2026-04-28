@@ -62,16 +62,17 @@ def generate(rm: ResourceManager):
     rm.placed_feature_tag('feature/surface_grasses', *['tfc:plant/%s_patch' % p for p, data in PLANTS.items() if data.type == 'short_grass'])
     rm.placed_feature_tag('feature/boulders', 'tfc:raw_boulder', 'tfc:cobble_boulder', 'tfc:mossy_boulder', 'tfc:raw_boulder_small_patch', 'tfc:cobble_boulder_small_patch', 'tfc:mossy_boulder_small_patch')
     rm.placed_feature_tag('feature/soil_discs', 'tfc:clay_disc_with_indicator', 'tfc:water_clay_disc_with_indicator', 'tfc:peat_disc', 'tfc:powder_snow', 'tfc:rooted_dirt', 'tfc:mollisol_disc') # Does not include alfisol/podzol discs as those are placed per tree by the forest feature
-    rm.placed_feature_tag('feature/stratovolcanoes', 'tfc:fuji_caldera', 'tfc:fuji_spring', 'tfc:kelimutu_lava', 'tfc:kelimutu_spring_water', 'tfc:kelimutu_water', 'tfc:tahoma_caldera', 'tfc:tahoma_spring', 'tfc:wizard_island_lava', 'tfc:wizard_island_spring', 'tfc:random_fuji_fissure', 'tfc:random_fuji_spring_water_fissure', 'tfc:random_tahoma_fissure', 'tfc:random_tahoma_spring_water_fissure', 'tfc:random_kelimutu_fissure', 'tfc:random_kelimutu_spring_water_fissure', 'tfc:random_crater_lake_fissure', 'tfc:random_crater_lake_spring_water_fissure', 'tfc:fuji_rivulet', 'tfc:tahoma_rivulet', 'tfc:crater_lake_rivulet', 'tfc:crater_lake_sulfur')
-    rm.placed_feature_tag('feature/volcanoes', 'tfc:volcano_rivulet', 'tfc:volcano_caldera', 'tfc:random_volcano_fissure', 'tfc:pumice_patch', 'tfc:lava_surface_spring')
-    rm.placed_feature_tag('feature/tuyas', 'tfc:tuya_rivulet', 'tfc:tuya_caldera', 'tfc:random_tuya_fissure', 'tfc:pumice_patch', 'tfc:lava_surface_spring')
+    rm.placed_feature_tag('feature/stratovolcanoes', 'tfc:stratovolcano_pumice', 'tfc:fuji_caldera', 'tfc:fuji_spring', 'tfc:kelimutu_lava', 'tfc:kelimutu_spring_water', 'tfc:kelimutu_water', 'tfc:tahoma_caldera', 'tfc:tahoma_spring', 'tfc:wizard_island_lava', 'tfc:wizard_island_spring', 'tfc:random_fuji_fissure', 'tfc:random_fuji_spring_water_fissure', 'tfc:random_tahoma_fissure', 'tfc:random_tahoma_spring_water_fissure', 'tfc:random_kelimutu_fissure', 'tfc:random_kelimutu_spring_water_fissure', 'tfc:random_crater_lake_fissure', 'tfc:random_crater_lake_spring_water_fissure', 'tfc:fuji_rivulet', 'tfc:tahoma_rivulet', 'tfc:crater_lake_rivulet', 'tfc:crater_lake_sulfur')
+    rm.placed_feature_tag('feature/cinder_cones', 'tfc:volcano_rivulet', 'tfc:volcano_caldera', 'tfc:random_volcano_fissure', 'tfc:cinder_cone_pumice')
+    rm.placed_feature_tag('feature/volcanic', 'tfc:lava_surface_spring')
+    rm.placed_feature_tag('feature/tuyas', 'tfc:tuya_rivulet', 'tfc:tuya_caldera', 'tfc:random_tuya_fissure', 'tfc:tuya_pumice')
     rm.placed_feature_tag('feature/surface_flood_fill_lakes', 'tfc:flood_fill_lake')
     rm.placed_feature_tag('feature/shield_volcanoes', 'tfc:pumice_shield_volcano_patch')
     rm.placed_feature_tag('feature/guano_islands', 'tfc:extra_island_guano_patch')
 
     # Biomes
     biome(rm, 'badlands', 'mesa', lake_features=False)
-    biome(rm, 'canyons', 'plains', boulders=True, lake_features=False, volcano_features=True, hot_spring_features=True)
+    biome(rm, 'canyons', 'plains', boulders=True, lake_features=False, cinder_cone_features=True, hot_spring_features=True)
     biome(rm, 'low_canyons', 'swamp', boulders=True, lake_features=False, hot_spring_features='empty')
     biome(rm, 'plains', 'plains')
     biome(rm, 'plateau', 'extreme_hills', boulders=True, hot_spring_features='empty')
@@ -83,10 +84,10 @@ def generate(rm: ResourceManager):
     biome(rm, 'lowlands', 'swamp', lake_features=False)
     biome(rm, 'salt_marsh', 'swamp', lake_features=False, ocean_features='both')
     biome(rm, 'mountains', 'extreme_hills')
-    biome(rm, 'volcanic_mountains', 'extreme_hills', hot_spring_features=True)
+    biome(rm, 'volcanic_mountains', 'extreme_hills', hot_spring_features=True, stratovolcano_features=True)
     biome(rm, 'old_mountains', 'extreme_hills', hot_spring_features=True)
     biome(rm, 'oceanic_mountains', 'extreme_hills', ocean_features='both')
-    biome(rm, 'volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both', reef_features=True)
+    biome(rm, 'volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both', reef_features=True, stratovolcano_features=True)
     biome(rm, 'ocean', 'ocean', ocean_features=True)
     biome(rm, 'ocean_reef', 'ocean', ocean_features=True, reef_features=True)
     biome(rm, 'deep_ocean', 'ocean', ocean_features=True)
@@ -97,11 +98,11 @@ def generate(rm: ResourceManager):
     biome(rm, 'rift_valley', 'ocean')
     biome(rm, 'rift_lake', 'river', lake_features=True)
     biome(rm, 'collisional_mountains', 'extreme_hills')
-    biome(rm, 'oceanic_volcanic_arc', 'ocean', ocean_features='both', reef_features=True)
+    biome(rm, 'oceanic_volcanic_arc', 'ocean', ocean_features='both', reef_features=True, stratovolcano_features=True)
     biome(rm, 'river', 'river')
     biome(rm, 'guano_island', 'beach', ocean_features=True)
-    biome(rm, 'volcanic_island', 'plains', ocean_features='both')
-    biome(rm, 'volcanic_mountain_islands', 'extreme_hills', volcano_features=True, ocean_features='both')
+    biome(rm, 'volcanic_island', 'plains', ocean_features='both', stratovolcano_features=True)
+    biome(rm, 'volcanic_mountain_islands', 'extreme_hills', cinder_cone_features=True, ocean_features='both')
     biome(rm, 'shore', 'beach', ocean_features=True)
     biome(rm, 'tidal_flats', 'beach', ocean_features=True)
     biome(rm, 'sea_stacks', 'beach', ocean_features='both')
@@ -153,7 +154,7 @@ def generate(rm: ResourceManager):
     biome(rm, 'cenote_rolling_hills', 'plains')
     biome(rm, 'burren_roche_moutonee', 'extreme_hills')
 
-    biome(rm, 'active_shield_volcano', 'extreme_hills', volcano_features=True, shield_volcano_features=True)
+    biome(rm, 'active_shield_volcano', 'extreme_hills', cinder_cone_features=True, shield_volcano_features=True)
     biome(rm, 'dormant_shield_volcano', 'extreme_hills', hot_spring_features=True, shield_volcano_features=True)
     biome(rm, 'extinct_shield_volcano', 'extreme_hills', hot_spring_features='empty', shield_volcano_features=True)
     biome(rm, 'ancient_shield_volcano', 'extreme_hills', shield_volcano_features=True)
@@ -162,18 +163,18 @@ def generate(rm: ResourceManager):
     biome(rm, 'old_shield_volcano_shore', 'beach', ocean_features=True, shield_volcano_features=True)
 
     biome(rm, 'mountain_lake', 'extreme_hills')
-    biome(rm, 'volcanic_mountain_lake', 'extreme_hills')
+    biome(rm, 'volcanic_mountain_lake', 'extreme_hills', stratovolcano_features=True)
     biome(rm, 'old_mountain_lake', 'extreme_hills')
     biome(rm, 'oceanic_mountain_lake', 'river', ocean_features='both')
-    biome(rm, 'volcanic_oceanic_mountain_lake', 'river', ocean_features='both')
+    biome(rm, 'volcanic_oceanic_mountain_lake', 'river', ocean_features='both', stratovolcano_features=True)
     biome(rm, 'plateau_lake', 'extreme_hills', boulders=True)
 
     # Full ice sheet biomes
     biome(rm, 'ice_sheet', 'extreme_hills', barren=True, boulders=True)
     biome(rm, 'ice_sheet_mountains', 'extreme_hills', barren=True)
     biome(rm, 'ice_sheet_oceanic_mountains', 'extreme_hills', barren=True, ocean_features='both')
-    biome(rm, 'ice_sheet_volcanic_mountains', 'extreme_hills', barren=True)
-    biome(rm, 'ice_sheet_volcanic_oceanic_mountains', 'extreme_hills', barren=True, ocean_features='both')
+    biome(rm, 'ice_sheet_volcanic_mountains', 'extreme_hills', barren=True, stratovolcano_features=True)
+    biome(rm, 'ice_sheet_volcanic_oceanic_mountains', 'extreme_hills', barren=True, ocean_features='both', stratovolcano_features=True)
     biome(rm, 'ice_sheet_shield_volcano', 'extreme_hills', barren=True)
     biome(rm, 'ice_sheet_tuyas', 'extreme_hills', barren=True, tuya_features=True, boulders=True)
     biome(rm, 'subglacial_lake', 'extreme_hills', barren=True)
@@ -191,14 +192,14 @@ def generate(rm: ResourceManager):
     biome(rm, 'glaciated_shield_volcano', 'extreme_hills', boulders=True)
     biome(rm, 'glaciated_mountains', 'extreme_hills')
     biome(rm, 'glaciated_oceanic_mountains', 'extreme_hills', ocean_features='both')
-    biome(rm, 'glaciated_volcanic_mountains', 'extreme_hills')
-    biome(rm, 'glaciated_volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both')
+    biome(rm, 'glaciated_volcanic_mountains', 'extreme_hills', stratovolcano_features=True)
+    biome(rm, 'glaciated_volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both', stratovolcano_features=True)
 
     # Paleo/periglacial biomes
     biome(rm, 'glacially_carved_mountains', 'extreme_hills')
     biome(rm, 'glacially_carved_oceanic_mountains', 'extreme_hills', ocean_features='both')
-    biome(rm, 'glacially_carved_volcanic_mountains', 'extreme_hills')
-    biome(rm, 'glacially_carved_volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both')
+    biome(rm, 'glacially_carved_volcanic_mountains', 'extreme_hills', stratovolcano_features=True)
+    biome(rm, 'glacially_carved_volcanic_oceanic_mountains', 'extreme_hills', ocean_features='both', stratovolcano_features=True)
     biome(rm, 'drumlins', 'plains', boulders=True)
     biome(rm, 'tuyas', 'plains', tuya_features=True, boulders=True)
     biome(rm, 'knob_and_kettle', 'plains', boulders=True)
@@ -1325,7 +1326,9 @@ def generate(rm: ResourceManager):
     configured_patch_feature(rm, 'salt_lick', patch_config('tfc:groundcover/salt_lick[fluid=empty]', 1, 5, 100), decorate_chance(110), decorate_square(), decorate_climate(5, 33, 100, 500, needs_forest=True))
     configured_patch_feature(rm, 'rotten_flesh', patch_config('tfc:groundcover/rotten_flesh[fluid=empty]', 1, 10, 10), decorate_chance(100), decorate_square(), decorate_climate(-30, 30, 0, 400))
     configured_patch_feature(rm, 'bone', patch_config('tfc:groundcover/bone[fluid=empty]', 1, 10, 10), decorate_chance(100), decorate_square(), decorate_climate(-30, 30, 0, 400))
-    configured_patch_feature(rm, 'pumice', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:volcano', {'min_easing': 0.8}))
+    configured_patch_feature(rm, 'cinder_cone_pumice', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:volcano', {'min_easing': 0.8}))
+    configured_patch_feature(rm, 'tuya_pumice', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:tuya', {'min_easing': 0.8}))
+    configured_patch_feature(rm, 'stratovolcano_pumice', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:stratovolcano', {'min_easing': 0.8}))
     configured_patch_feature(rm, 'pumice_shield_volcano', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square())
 
     # Loose Rocks - Both Surface + Underground
@@ -2016,7 +2019,7 @@ VANILLA_MONSTERS: Dict[str, Dict[str, Any]] = {
 }
 
 
-def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False, ocean_features: Union[bool, Literal['both']] = False, lake_features: Union[bool, Literal['default']] = 'default', volcano_features: bool = False, shield_volcano_features: bool = False, tuya_features: bool = False, reef_features: bool = False, barren: bool = False, hot_spring_features: Union[bool, Literal['empty']] = False):
+def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False, ocean_features: Union[bool, Literal['both']] = False, lake_features: Union[bool, Literal['default']] = 'default', cinder_cone_features: bool = False, shield_volcano_features: bool = False, tuya_features: bool = False, stratovolcano_features: bool = False, reef_features: bool = False, barren: bool = False, hot_spring_features: Union[bool, Literal['empty']] = False):
     spawners = {}
     soil_discs = []
     large_features = []
@@ -2119,17 +2122,21 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
         else:
             large_features.append('tfc:glacial_spring')
 
-    # Apply stratovolcano features everywhere since they will not always land in the correct biome
-    large_features.append('#tfc:feature/stratovolcanoes')
+    if stratovolcano_features:
+        large_features.append('#tfc:feature/stratovolcanoes')
 
-    if volcano_features:
-        large_features.append('#tfc:feature/volcanoes')
+    if cinder_cone_features:
+        large_features.append('#tfc:feature/cinder_cones')
 
     if tuya_features:
         large_features.append('#tfc:feature/tuyas')
 
+    if stratovolcano_features or cinder_cone_features or tuya_features:
+        large_features.append('#tfc:feature/volcanic')
+
     if shield_volcano_features:
         large_features.append('#tfc:feature/shield_volcanoes')
+
 
     if 'guano' in name:
         large_features.append('#tfc:feature/guano_islands')
@@ -2165,7 +2172,7 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
     rm.placed_feature_tag(('in_biome/large_features', name), *large_features)
     rm.placed_feature_tag(('in_biome/surface_decoration', name), *surface_decorations)
 
-    if volcano_features:
+    if cinder_cone_features:
         rm.biome_tag('has_cinder_cones', name)
     if tuya_features:
         rm.biome_tag('has_tuyas', name)

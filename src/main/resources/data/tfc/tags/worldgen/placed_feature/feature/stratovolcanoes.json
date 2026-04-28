@@ -2,6 +2,7 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
+    "tfc:stratovolcano_pumice",
     "tfc:fuji_caldera",
     "tfc:fuji_spring",
     "tfc:kelimutu_lava",

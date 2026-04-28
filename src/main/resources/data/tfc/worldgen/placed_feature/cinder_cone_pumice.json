@@ -1,6 +1,6 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "feature": "tfc:pumice",
+  "feature": "tfc:cinder_cone_pumice",
   "placement": [
     {
       "type": "minecraft:heightmap",

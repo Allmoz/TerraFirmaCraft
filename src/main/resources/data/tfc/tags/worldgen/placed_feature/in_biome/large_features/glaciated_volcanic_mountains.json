@@ -10,6 +10,7 @@
     "tfc:cave_vegetation",
     "tfc:glacial_spring",
     "#tfc:feature/stratovolcanoes",
+    "#tfc:feature/volcanic",
     "#tfc:feature/surface_flood_fill_lakes"
   ]
 }

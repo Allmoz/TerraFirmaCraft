@@ -1,6 +1,6 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "feature": "tfc:pumice_patch",
+  "feature": "tfc:cinder_cone_pumice_patch",
   "placement": [
     {
       "type": "minecraft:rarity_filter",
