@@ -20,6 +20,8 @@ import net.dries007.tfc.common.component.heat.Heat;
 import net.dries007.tfc.common.component.heat.HeatCapability;
 import net.dries007.tfc.util.Helpers;
 
+import static net.dries007.tfc.common.items.BlowpipeItem.*;
+
 
 public class GlassblowingOverlays
 {
@@ -80,7 +82,7 @@ public class GlassblowingOverlays
                 StringBuilder progress = new StringBuilder();
                 if (player.isUsingItem())
                 {
-                    int tally = (40 - player.getUseItemRemainingTicks()) / 8 + 1;
+                    int tally = (OPERATION_USE_DURATION - player.getUseItemRemainingTicks()) / 8 + 1;
                     progress.append("|".repeat(tally));
                 }
 
