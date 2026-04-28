@@ -129,7 +129,7 @@ def generate(rm: ResourceManager):
     biome(rm, 'doline_plains', 'plains')
     biome(rm, 'cenote_plains', 'plains')
     biome(rm, 'tower_karst_canyons', 'plains')
-    biome(rm, 'doline_canyons', 'plains')
+    biome(rm, 'doline_canyons', 'plains', cinder_cone_features=True)
     biome(rm, 'cenote_canyons', 'plains')
     biome(rm, 'shilin_canyons', 'plains')
     biome(rm, 'tower_karst_hills', 'plains')
