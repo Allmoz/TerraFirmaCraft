@@ -12,13 +12,17 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BedItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -55,7 +59,7 @@ public final class TFCCreativeTabs
         () -> new ItemStack(TFCBlocks.ROCK_BLOCKS.get(Rock.SHALE).get(Rock.BlockType.CHISELED)), TFCCreativeTabs::fillBuildingBlocksTab);
     public static final Id TFC_COLORED_BLOCKS = register("tfc_1colored_blocks",
         () -> new ItemStack(TFCBlocks.STAINED_WATTLE.get(DyeColor.CYAN)), TFCCreativeTabs::fillColoredBlocksTab);
-    public static final Id TFC_SOILS_STONES = register("tfc_2soils_stones",
+    public static final Id TFC_NATURAL_BLOCKS = register("tfc_2natural_blocks",
         () -> new ItemStack(TFCBlocks.SOIL.get(SoilBlockType.GRASS).get(SoilBlockType.Variant.ANDISOL)), TFCCreativeTabs::fillSoilsStonesTab);
     public static final Id TFC_FLORA_CROPS = register("tfc_3flora_crops",
         () -> new ItemStack(TFCBlocks.PLANTS.get(Plant.ATHYRIUM_FERN)), TFCCreativeTabs::fillFloraCropsTab);
@@ -75,7 +79,7 @@ public final class TFCCreativeTabs
 
     public static Stream<CreativeModeTab.DisplayItemsGenerator> generators()
     {
-        return Stream.of(TFC_BUILDING_BLOCKS, TFC_COLORED_BLOCKS, TFC_SOILS_STONES, TFC_FLORA_CROPS, TFC_FUNCTIONAL_BLOCKS, TFC_TOOLS_UTILITIES, TFC_COMBAT, TFC_FOODS_DRINKS, TFC_METALS_INGREDIENTS, TFC_SPAWN_EGGS).map(holder -> holder.generator);
+        return Stream.of(TFC_BUILDING_BLOCKS, TFC_COLORED_BLOCKS, TFC_NATURAL_BLOCKS, TFC_FLORA_CROPS, TFC_FUNCTIONAL_BLOCKS, TFC_TOOLS_UTILITIES, TFC_COMBAT, TFC_FOODS_DRINKS, TFC_METALS_INGREDIENTS, TFC_SPAWN_EGGS).map(holder -> holder.generator);
     }
 
     public static void setAllTabContentAsNonDecaying(BuildCreativeModeTabContentsEvent event)
@@ -201,6 +205,10 @@ public final class TFCCreativeTabs
         out.accept(TFCBlocks.UNSTAINED_WATTLE);
         TFCBlocks.STAINED_WATTLE.values().forEach(out::accept);
 
+        out.accept(TFCBlocks.PLAIN_ALABASTER);
+        out.accept(TFCBlocks.PLAIN_ALABASTER_BRICKS);
+        out.accept(TFCBlocks.PLAIN_POLISHED_ALABASTER);
+
         for (DyeColor color : DyeColor.values())
         {
             accept(out, TFCBlocks.RAW_ALABASTER, color);
@@ -210,14 +218,8 @@ public final class TFCCreativeTabs
             accept(out, TFCBlocks.ALABASTER_POLISHED_DECORATIONS.get(color));
         }
 
-        out.accept(TFCItems.UNFIRED_VESSEL);
-        TFCItems.UNFIRED_GLAZED_VESSELS.values().forEach(out::accept);
-
         out.accept(TFCItems.VESSEL);
         TFCItems.GLAZED_VESSELS.values().forEach(out::accept);
-
-        out.accept(TFCItems.UNFIRED_LARGE_VESSEL);
-        TFCItems.UNFIRED_GLAZED_LARGE_VESSELS.values().forEach(out::accept);
 
         out.accept(TFCBlocks.LARGE_VESSEL);
         TFCBlocks.GLAZED_LARGE_VESSELS.values().forEach(out::accept);
@@ -229,6 +231,16 @@ public final class TFCCreativeTabs
         }
 
         TFCItems.WINDMILL_BLADES.values().forEach(out::accept);
+
+        for (DyeColor color : DyeColor.values())
+        {
+            TFCFluids.FLUIDS.getEntries().forEach(fluid -> {
+                if (fluid.getId().toString().endsWith("_dye"))
+                {
+                    out.accept(fluid.value().getBucket());
+                }
+            });
+        }
     }
 
     private static void fillSoilsStonesTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
@@ -311,6 +323,21 @@ public final class TFCCreativeTabs
         out.accept(TFCBlocks.SEA_ICE);
         out.accept(Blocks.PACKED_ICE);
         out.accept(Blocks.BLUE_ICE);
+
+        out.accept(Items.WATER_BUCKET);
+
+        TFCFluids.FLUIDS.getEntries().forEach(fluid -> {
+            if (fluid.getId().toString().contains("salt_water"))
+            {
+                out.accept(fluid.value().getBucket());
+            }
+            else if (fluid.getId().toString().contains("spring_water"))
+            {
+                out.accept(fluid.value().getBucket());
+            }
+        });
+
+        out.accept(Items.LAVA_BUCKET);
     }
 
     private static void fillFloraCropsTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
@@ -393,6 +420,15 @@ public final class TFCCreativeTabs
         {
             for (Metal.BlockType type : new Metal.BlockType[] {
                 Metal.BlockType.LAMP,
+            })
+            {
+                accept(out, TFCBlocks.METALS, metal, type);
+            }
+        }
+
+        for (Metal metal : Metal.values())
+        {
+            for (Metal.BlockType type : new Metal.BlockType[] {
                 Metal.BlockType.ANVIL
             })
             {
@@ -471,6 +507,7 @@ public final class TFCCreativeTabs
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.BOOKSHELF));
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.SHELF));
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.TOOL_RACK));
+            accept(out, TFCItems.SUPPORTS, wood);
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.SIGN));
             for (Metal metal : Metal.values())
             {
@@ -603,6 +640,13 @@ public final class TFCCreativeTabs
             }
         }
 
+        out.accept(Items.LEATHER_HELMET);
+        out.accept(Items.LEATHER_CHESTPLATE);
+        out.accept(Items.LEATHER_LEGGINGS);
+        out.accept(Items.LEATHER_BOOTS);
+        out.accept(Items.SHIELD);
+        out.accept(Items.LEATHER_HORSE_ARMOR);
+
         for (Metal metal : Metal.values())
         {
             for (Metal.ItemType itemType : new Metal.ItemType[] {
@@ -626,14 +670,6 @@ public final class TFCCreativeTabs
             }
         }
 
-        out.accept(Items.LEATHER_HELMET);
-        out.accept(Items.LEATHER_CHESTPLATE);
-        out.accept(Items.LEATHER_LEGGINGS);
-        out.accept(Items.LEATHER_BOOTS);
-
-        out.accept(Items.LEATHER_HORSE_ARMOR);
-
-        out.accept(Items.SHIELD);
         out.accept(Items.BOW);
         out.accept(Items.CROSSBOW);
         out.accept(TFCItems.GLOW_ARROW);
@@ -655,6 +691,35 @@ public final class TFCCreativeTabs
             accept(out, TFCItems.UNSEALED_FRUIT_PRESERVES, food);
             accept(out, TFCItems.JAM, food);
         }
+
+        out.accept(Items.WATER_BUCKET);
+        out.accept(Items.MILK_BUCKET);
+
+        TFCFluids.FLUIDS.getEntries().forEach(fluid -> {
+            if (fluid.getId().toString().endsWith("beer"))
+            {
+                out.accept(fluid.value().getBucket());
+            } else if (fluid.getId().toString().endsWith("cider"))
+            {
+                out.accept(fluid.value().getBucket());
+            }
+            else if (fluid.getId().toString().endsWith("rum"))
+            {
+                out.accept(fluid.value().getBucket());
+            }
+            else if (fluid.getId().toString().endsWith("sake"))
+            {
+                out.accept(fluid.value().getBucket());
+            }
+            else if (fluid.getId().toString().endsWith("vodka"))
+            {
+                out.accept(fluid.value().getBucket());
+            }
+            else if (fluid.getId().toString().endsWith("whiskey"))
+            {
+                out.accept(fluid.value().getBucket());
+            }
+        });
     }
 
     private static void fillMetalsIngredientsTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
@@ -770,6 +835,17 @@ public final class TFCCreativeTabs
             accept(out, TFCItems.LUMBER, wood);
         }
 
+        out.accept(TFCItems.UNFIRED_VESSEL);
+        TFCItems.UNFIRED_GLAZED_VESSELS.values().forEach(out::accept);
+
+        out.accept(TFCItems.UNFIRED_LARGE_VESSEL);
+        TFCItems.UNFIRED_GLAZED_LARGE_VESSELS.values().forEach(out::accept);
+
+        for (DyeColor color : DyeColor.values())
+        {
+            out.accept(DyeItem.byColor(color));
+        }
+
         TFCItems.GEMS.values().forEach(out::accept);
 
         out.accept(TFCBlocks.LIGNITE);
@@ -791,7 +867,18 @@ public final class TFCCreativeTabs
 
         for (Metal metal : Metal.values())
         {
-            accept(out, TFCItems.METAL_ITEMS, metal, Metal.ItemType.UNFINISHED_LAMP);
+            TFCFluids.FLUIDS.getEntries().forEach(fluid -> {
+                if (fluid.getId().toString().endsWith("/" + metal.getSerializedName()))
+                {
+                    out.accept(fluid.value().getBucket());
+                }
+            });
+            for (Metal.BlockType type : new Metal.BlockType[] {
+                Metal.BlockType.ANVIL
+            })
+            {
+                accept(out, TFCBlocks.METALS, metal, type);
+            }
 
             if (metal == Metal.WROUGHT_IRON)
             {
@@ -805,6 +892,8 @@ public final class TFCCreativeTabs
                 Metal.ItemType.SHEET,
                 Metal.ItemType.DOUBLE_SHEET,
                 Metal.ItemType.ROD,
+
+                Metal.ItemType.UNFINISHED_LAMP,
 
                 Metal.ItemType.PICKAXE_HEAD,
                 Metal.ItemType.PROPICK_HEAD,
@@ -854,14 +943,16 @@ public final class TFCCreativeTabs
         {
             if (ore.isGraded())
             {
-                accept(out, TFCItems.GRADED_ORES, ore, Ore.Grade.POOR);
                 accept(out, TFCBlocks.SMALL_ORES, ore);
+                accept(out, TFCItems.GRADED_ORES, ore, Ore.Grade.POOR);
                 accept(out, TFCItems.GRADED_ORES, ore, Ore.Grade.NORMAL);
                 accept(out, TFCItems.GRADED_ORES, ore, Ore.Grade.RICH);
             }
         }
 
-        TFCFluids.FLUIDS.getEntries().forEach(fluid -> out.accept(fluid.value().getBucket()));
+        TFCFluids.FLUIDS.getEntries().forEach(fluid -> {
+            out.accept(fluid.value().getBucket());
+        });
     }
 
     private static void fillSpawnEggsTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
