@@ -1540,11 +1540,11 @@ public final class BiomeNoise
      * @param accelScale    second-order distance scaling
      * @return this noise function, with a cellular domain warp effect
      */
-    public static Noise2D hotSpotWarp(Noise2D noiseToWarp, Noise2D warp, int velocityScale, double accelScale)
+    public static Noise2D hotSpotWarp(Noise2D noiseToWarp, Cellular2D warpCells, int velocityScale, double accelScale)
     {
         return (x, z) -> {
             // Random vector
-            final double ux = warp.noise(x, z);
+            final double ux = warpCells.noise(x, z);
             // Random magnitude from pev vector by multiplying and taking modulo, random direction based on magnitude
             final double uz = (Math.abs(ux * 16) % 1 > 0.5 ? 1 : -1) * (ux * 256) % 1;
 
@@ -1558,7 +1558,11 @@ public final class BiomeNoise
             final double ax = -(vz) * accelScale;
             final double az = vx * accelScale;
 
-            return noiseToWarp.noise(x + vx + ax, z + vz + az);
+            // Scale down input noise near cellular borders to prevent sharp cliffs
+            final Cellular2D.Cell cell = warpCells.cell(x, z);
+            final double scale = Mth.clampedMap(cell.f2() - cell.f1(), 0, 0.002, 0, 1);
+
+            return noiseToWarp.noise(x + vx + ax, z + vz + az) * scale;
         };
     }
 
