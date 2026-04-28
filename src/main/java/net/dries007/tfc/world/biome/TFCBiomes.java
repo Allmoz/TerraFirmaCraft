@@ -131,15 +131,15 @@ public final class TFCBiomes
     public static final BiomeExtension PLATEAU_LAKE = register("plateau_lake", builder().heightmap(seed -> BiomeNoise.hills(seed, 20, 30)).surface(NormalSurfaceBuilder.INSTANCE).carving(BiomeNoise::undergroundLakes).stratovolcanoes(1, 0, 200).type(BiomeBlendType.LAKE).noRivers());
 
     // Dry Biomes
-    public static final BiomeExtension MUD_FLATS = register("mud_flats", builder().heightmap(BiomeNoise::flats).surface(FlatsSurfaceBuilder.MUDDY).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.TALL_BANKED).noSandyRiverShores());
-    public static final BiomeExtension SALT_FLATS = register("salt_flats", builder().heightmap(BiomeNoise::saltFlats).surface(FlatsSurfaceBuilder.SALTY).aquiferHeightOffset(-16).salty().spawnable().type(RiverBlendType.TALL_BANKED).noSandyRiverShores());
-    public static final BiomeExtension DUNE_SEA = register("dune_sea", builder().heightmap(seed -> BiomeNoise.dunes(seed, 2, 16)).surface(DuneSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.WIDE));
-    public static final BiomeExtension GRASSY_DUNES = register("grassy_dunes", builder().heightmap(seed -> BiomeNoise.dunes(seed, 2, 16)).surface(GrassyDunesSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.WIDE));
-    public static final BiomeExtension WHORLED_CANYONS = register("whorled_canyons", builder().heightmap(seed -> BiomeNoise.canyons(seed, 8, 60)).surface(BadlandsSurfaceBuilder.WARPED).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.TALL_CANYON)); // Zhangye danxia
-    public static final BiomeExtension STAIR_STEP_CANYONS = register("stair_step_canyons", builder().heightmap(seed -> BiomeNoise.stairCanyons(seed)).surface(BadlandsSurfaceBuilder.MESAS).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.TERRACES));
-    public static final BiomeExtension MESAS = register("mesas", builder().heightmap(seed -> BiomeNoise.mesas(seed)).surface(BadlandsSurfaceBuilder.MESAS).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.TERRACES));
-    public static final BiomeExtension BUTTES = register("buttes", builder().heightmap(seed -> BiomeNoise.buttes(seed)).surface(BadlandsSurfaceBuilder.MESAS).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.TERRACES));
-    public static final BiomeExtension HOODOOS = register("hoodoos", builder().heightmap(seed -> BiomeNoise.hoodoos(seed)).surface(BadlandsSurfaceBuilder.HOODOOS).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.TERRACES));
+    public static final BiomeExtension MUD_FLATS = register("mud_flats", builder().heightmap(BiomeNoise::flats).surface(FlatsSurfaceBuilder.MUDDY).aquiferHeightOffset(-24).spawnable().type(RiverBlendType.TALL_BANKED).noSandyRiverShores());
+    public static final BiomeExtension SALT_FLATS = register("salt_flats", builder().heightmap(BiomeNoise::saltFlats).surface(FlatsSurfaceBuilder.SALTY).aquiferHeightOffset(-24).salty().spawnable().type(RiverBlendType.TALL_BANKED).noSandyRiverShores());
+    public static final BiomeExtension DUNE_SEA = register("dune_sea", builder().heightmap(seed -> BiomeNoise.dunes(seed, 2, 16)).surface(DuneSurfaceBuilder.INSTANCE).aquiferHeightOffset(-24).spawnable().type(RiverBlendType.WIDE));
+    public static final BiomeExtension GRASSY_DUNES = register("grassy_dunes", builder().heightmap(seed -> BiomeNoise.dunes(seed, 2, 16)).surface(GrassyDunesSurfaceBuilder.INSTANCE).aquiferHeightOffset(-24).spawnable().type(RiverBlendType.WIDE));
+    public static final BiomeExtension WHORLED_CANYONS = register("whorled_canyons", builder().heightmap(seed -> BiomeNoise.canyons(seed, 8, 60)).surface(BadlandsSurfaceBuilder.WARPED).aquiferHeightOffset(-24).spawnable().type(RiverBlendType.TALL_CANYON)); // Zhangye danxia
+    public static final BiomeExtension STAIR_STEP_CANYONS = register("stair_step_canyons", builder().heightmap(seed -> BiomeNoise.stairCanyons(seed)).surface(BadlandsSurfaceBuilder.MESAS).aquiferHeightOffset(-24).spawnable().type(RiverBlendType.TERRACES));
+    public static final BiomeExtension MESAS = register("mesas", builder().heightmap(seed -> BiomeNoise.mesas(seed)).surface(BadlandsSurfaceBuilder.MESAS).aquiferHeightOffset(-24).spawnable().type(RiverBlendType.TERRACES));
+    public static final BiomeExtension BUTTES = register("buttes", builder().heightmap(seed -> BiomeNoise.buttes(seed)).surface(BadlandsSurfaceBuilder.MESAS).aquiferHeightOffset(-24).spawnable().type(RiverBlendType.TERRACES));
+    public static final BiomeExtension HOODOOS = register("hoodoos", builder().heightmap(seed -> BiomeNoise.hoodoos(seed)).surface(BadlandsSurfaceBuilder.HOODOOS).aquiferHeightOffset(-24).spawnable().type(RiverBlendType.TERRACES));
     public static final BiomeExtension ROCKY_PLATEAU = register("rocky_plateau", builder().heightmap(seed -> BiomeNoise.bowlDolines(seed, BiomeNoise.hills(seed, 22, 32), 16).max(BiomeNoise.canyons(seed, 0, 52).spread(1.5))).surface(RockyPlateauSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.TALUS).noSandyRiverShores());
 
     // Karst Biomes
@@ -202,8 +202,8 @@ public final class TFCBiomes
     public static final BiomeExtension ANCIENT_SHIELD_VOLCANO = register("ancient_shield_volcano", builder().heightmap(seed -> BiomeNoise.ancientShieldVolcano(seed, 90, 130, BiomeNoise.ancientHotSpots(seed))).surface(ShieldVolcanoSurfaceBuilder.DORMANT).tuffRings(3, -16, 30).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.CAVE));
     public static final BiomeExtension SUNKEN_SHIELD_VOLCANO = register("sunken_shield_volcano", builder().heightmap(seed -> BiomeNoise.sunkenShieldVolcano(seed, BiomeNoise.ancientHotSpots(seed))).surface(ShieldVolcanoSurfaceBuilder.DORMANT).tuffRings(2, -8, 24).aquiferHeightOffset(-16).spawnable().salty().type(RiverBlendType.CAVE));
 
-    public static final BiomeExtension SHIELD_VOLCANO_SHORE = register("shield_volcano_shore", builder().heightmap(BiomeNoise::shore).surface(ShoreAndOceanSurfaceBuilder.ACTIVE_SHIELD_VOLCANO).spawnable().salty().shore().type(RiverBlendType.TALL_CANYON).type(ShoreBlendType.EMBAYMENTS));
-    public static final BiomeExtension OLD_SHIELD_VOLCANO_SHORE = register("old_shield_volcano_shore", builder().heightmap(BiomeNoise::shore).surface(ShoreAndOceanSurfaceBuilder.OLD_SHIELD_VOLCANO).tuffRings(3, -8, 26).spawnable().salty().shore().type(RiverBlendType.TALL_CANYON).type(ShoreBlendType.SANDY));
+    public static final BiomeExtension SHIELD_VOLCANO_SHORE = register("shield_volcano_shore", builder().heightmap(BiomeNoise::shore).surface(ShoreAndOceanSurfaceBuilder.ACTIVE_SHIELD_VOLCANO).spawnable().salty().shore().type(RiverBlendType.TALL_CANYON).aquiferHeightOffset(-16).type(ShoreBlendType.EMBAYMENTS));
+    public static final BiomeExtension OLD_SHIELD_VOLCANO_SHORE = register("old_shield_volcano_shore", builder().heightmap(BiomeNoise::shore).surface(ShoreAndOceanSurfaceBuilder.OLD_SHIELD_VOLCANO).tuffRings(3, -8, 26).spawnable().salty().shore().type(RiverBlendType.TALL_CANYON).aquiferHeightOffset(-16).type(ShoreBlendType.SANDY));
 
     // Full Ice Sheet Biomes
     public static final BiomeExtension ICE_SHEET = register("ice_sheet", builder().heightmap(seed -> BiomeNoise.iceSheetSurfaceHeight(seed).add(BiomeNoise.glacialSurfaceTexture(seed))).surface(IceSheetSurfaceBuilder.NORMAL).spawnable().type(RiverBlendType.CAVE).noSandyRiverShores());
@@ -244,7 +244,7 @@ public final class TFCBiomes
     public static final BiomeExtension TUYAS = register("tuyas", builder().heightmap(BiomeNoise::drumlins).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.WIDE).tuyas(2, 0, 35, -6, false).type(RiverBlendType.CANYON));
 
     // Low-elevation biomes
-    public static final BiomeExtension KNOB_AND_KETTLE = register("knob_and_kettle", builder().heightmap(BiomeNoise::knobAndKettle).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.WIDE));
+    public static final BiomeExtension KNOB_AND_KETTLE = register("knob_and_kettle", builder().heightmap(BiomeNoise::knobAndKettle).surface(NormalSurfaceBuilder.INSTANCE).spawnable().aquiferHeightOffset(-16).type(RiverBlendType.WIDE));
     public static final BiomeExtension PATTERNED_GROUND = register("patterned_ground", builder().heightmap(seed -> BiomeNoise.hills(seed, -4, 3).add(BiomeNoise.patternedGround(seed))).surface(PatternedGroundSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.WIDE));
     public static final BiomeExtension INVERTED_PATTERNED_GROUND = register("inverted_patterned_ground", builder().heightmap(BiomeNoise::invertedPatternedGround).surface(PatternedGroundSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.WIDE));
     public static final BiomeExtension STONE_CIRCLES = register("stone_circles", builder().heightmap(seed -> BiomeNoise.hills(seed, -2, 4).add(BiomeNoise.stoneCircles(seed))).surface(StoneCirclesSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.WIDE));
