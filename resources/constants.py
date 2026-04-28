@@ -606,7 +606,7 @@ PLANTS: dict[str, Plant] = {
     'red_algae': Plant(False, -20, 30, 215, 450, 'floating'),
     'red_sealing_wax_palm': Plant(False, 19.3, 40, 280, 500, 'tall_plant'),
     'reindeer_lichen': Plant(False, -30, -8, 50, 470, 'creeping'),
-    'rose': Plant(True, -5, 20, 150, 300, 'tall_plant'),
+    'rose': Plant(False, -0.4, 17.6, 150, 300, 'tall_plant'),
     'sacred_datura': Plant(False, 6.8, 19.3, 75, 150, 'standard'),
     'sagebrush': Plant(False, -5.7, 15.7, 0, 120, 'dry'),
     'sago': Plant(False, -12.9, 19.3, 200, 500, 'water_fresh'),
