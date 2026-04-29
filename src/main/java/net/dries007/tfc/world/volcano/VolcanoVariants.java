@@ -338,10 +338,10 @@ public class VolcanoVariants
         };
     }
 
-    // Complex top crater, similar to Mt. Rainier, Washington
+    // Large ridges, similar to Mt. Rainier, Washington
     public static VolcanoVariant tahoma(Seed seed)
     {
-        final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
+        final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.5f, 0.5f).spread(0.03f);
         final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.05, 0.05);
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 248582L).octaves(3).spread(0.06).scaled(0.94, 1.06);
         final double maxRadiusScale = 0.45;
@@ -365,22 +365,34 @@ public class VolcanoVariants
             {
                 final double noise = cell.noise();
 
+                // A large center crater
+                final double craterSize = 0.1 + 0.15 * Helpers.hashDouble(noise, 1013);
+
+                // Transition points between inner and outer ridge systems
+                final double transitionLength = 0.15;
+                final double transitionCenter = craterSize + 2 * transitionLength;
+                final double innerTransition = transitionCenter - transitionLength;
+                final double outerTransition = transitionCenter + transitionLength;
+
                 // Simple cone
                 final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
-                final double craterSize = 0.20 + 0.25 * Helpers.hashDouble(noise, 1013);
-                double shape = maxDiam * calculateSimpleRadialShapeWithSkirt(r, craterSize, 1.1, cell.f1(), cell.f2(), 2) * 1.0;
-                shape = shape * (1 - 0.1 * calculateCircumferentialErosion(cell, craterSize, 1.3 * craterSize, 0.9, 1, r, 3, (int) (maxDiam * 16), ridgeWarpNoise.noise(x, z)));
+                double shape = maxDiam * calculateSimpleRadialShapeWithSkirt(r, craterSize, 0.9, cell.f1(), cell.f2(), 2);
+
+                // Transition to different number of ridges farther from center
+                final double innerRidgeErosion = r > outerTransition ? 0 : calculateCircumferentialErosion(cell, craterSize, craterSize + transitionLength, innerTransition, outerTransition, r, 3, (int) (maxDiam * 8), ridgeWarpNoise.noise(x, z));
+                final double outerRidgeErosion = r < innerTransition ? 0 : calculateCircumferentialErosion(cell, innerTransition, outerTransition, 1 - transitionLength, 1, r, 6, 2 * (int) (maxDiam * 8), ridgeWarpNoise.noise(x, z));
+                shape = shape - Mth.clampedMap(r, craterSize, transitionCenter, 0, 0.12) * (1 + innerRidgeErosion + outerRidgeErosion);
 
                 if (r < 0.65)
                 {
                     // Large crater rim
-                    shape *= (1 - 0.52 * craterSize * calculateVariableCraterRim(cell, 0.5 * craterSize, craterSize, 0.65, r, (int) (1 + Helpers.hashDouble(noise, 978) * 3), x, z));
+                    shape *= (1 - 0.52 * craterSize * calculateVariableCraterRim(cell, 0.5 * craterSize, craterSize, 2 * craterSize, r, (int) (1 + Helpers.hashDouble(noise, 978) * 3), x, z));
                     // Inner cone
                     if (r < craterSize)
                     {
-                        final double innerConeScale = (0.65 + 0.35 * Helpers.hashDouble(noise, 8973)) * craterSize;
+                        final double innerConeScale = 1.1 * (0.65 + 0.35 * Helpers.hashDouble(noise, 8973)) * craterSize;
                         final double craterBaseHeight = maxDiam * (1 - 0.9 * craterSize);
-                        final double innerCone = craterBaseHeight + innerConeScale * calculateSimpleRadialShapeNoSkirt(Mth.clampedMap(r, 0, craterSize, 0, 1), 0.7 * craterSize, 1);
+                        final double innerCone = craterBaseHeight + innerConeScale * calculateSimpleRadialShapeNoSkirt(Mth.clampedMap(r, 0, 1.4 * craterSize, 0, 1), craterSize, 1);
                         shape = Math.max(shape, innerCone);
                     }
                 }
@@ -926,6 +938,34 @@ public class VolcanoVariants
 
         // Scale ridges larger on volcanoes with fewer ridges, from 0.6 to 1.4
         final double ridgeScale = Mth.clampedMap(ridges, minRidgeCount, minRidgeCount + addedRidgeCount, 1.5, 0.5);
+
+        return (fluvialShape - 1) * erosion * easing * ridgeScale;
+    }
+
+    public static double calculateForkingCircumferentialErosion(Cellular2D.Cell cell, double rInner0, double rInner1, double rOuter1, double rOuter0, double r, int minRidgeCount, int addedRidgeCount, double ridgeWarpNoise)
+    {
+        final double noise = Helpers.hashDouble(cell.noise(), 213);
+        final int ridges = (int) (noise * addedRidgeCount) + minRidgeCount;
+        final double ridgeWarping = ridgeWarpNoise / ridges;
+        double a = cell.angle() + ridgeWarping;
+        a = a >= 4 ? a - 4 : a < 0 ? a + 4 : a;
+
+        final double erosion = (2 - noise);
+        final double fluvialShape = Math.abs((a * 0.5 * ridges % 2) - 1);
+
+        // Smooth out ridges at an inner and outer radius
+        final double easing;
+        if (r <= rInner1)
+        {
+            easing = Mth.clampedMap(r, rInner0, rInner1, 0, 1);
+        }
+        else
+        {
+            easing = Mth.clampedMap(r, rOuter0, rOuter1, 0, 1);
+        }
+
+        // Scale ridges larger on volcanoes with fewer ridges, from 0.8 to 1.6
+        final double ridgeScale = Mth.clampedMap(ridges, minRidgeCount, minRidgeCount + addedRidgeCount, 1.6, 0.8);
 
         return (fluvialShape - 1) * erosion * easing * ridgeScale;
     }

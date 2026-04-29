@@ -159,7 +159,7 @@ dependencies {
 
     // TODO: Remove this before merge, doesn't need to be in typical startup
     // Distant Horizons - for looking at large-scale terrain
-    runtimeOnly(group = "curse.maven", name = "distant-horizons-508933", version = "7375285")
+    runtimeOnly(group = "curse.maven", name = "distant-horizons-508933", version = "7977110")
 
     // Data
     "dataImplementation"(sourceSets["main"].output)
