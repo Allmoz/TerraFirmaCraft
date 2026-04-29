@@ -381,7 +381,7 @@ public class VolcanoVariants
                 // Transition to different number of ridges farther from center
                 final double innerRidgeErosion = r > outerTransition ? 0 : calculateCircumferentialErosion(cell, craterSize, craterSize + transitionLength, innerTransition, outerTransition, r, 3, (int) (maxDiam * 8), ridgeWarpNoise.noise(x, z));
                 final double outerRidgeErosion = r < innerTransition ? 0 : calculateCircumferentialErosion(cell, innerTransition, outerTransition, 1 - transitionLength, 1, r, 6, 2 * (int) (maxDiam * 8), ridgeWarpNoise.noise(x, z));
-                shape = shape - Mth.clampedMap(r, craterSize, transitionCenter, 0, 0.12) * (1 + innerRidgeErosion + outerRidgeErosion);
+                shape = shape - Mth.clampedMap(r, craterSize, transitionCenter, 0, 0.12) * (1.6 + innerRidgeErosion + outerRidgeErosion);
 
                 if (r < 0.65)
                 {
@@ -392,7 +392,7 @@ public class VolcanoVariants
                     {
                         final double innerConeScale = 1.1 * (0.65 + 0.35 * Helpers.hashDouble(noise, 8973)) * craterSize;
                         final double craterBaseHeight = maxDiam * (1 - 0.9 * craterSize);
-                        final double innerCone = craterBaseHeight + innerConeScale * calculateSimpleRadialShapeNoSkirt(Mth.clampedMap(r, 0, 1.4 * craterSize, 0, 1), craterSize, 1);
+                        final double innerCone = craterBaseHeight + innerConeScale * calculateSimpleRadialShapeNoSkirt(Mth.clampedMap(r, 0, 0.9 * craterSize, 0, 1), craterSize, 1);
                         shape = Math.max(shape, innerCone);
                     }
                 }
