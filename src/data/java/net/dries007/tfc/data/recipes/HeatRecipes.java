@@ -6,9 +6,6 @@
 
 package net.dries007.tfc.data.recipes;
 
-import net.dries007.tfc.common.blocks.wood.Wood;
-import net.dries007.tfc.util.Helpers;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -22,6 +19,7 @@ import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.plant.Plant;
 import net.dries007.tfc.common.blocks.rock.Ore;
+import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.Powder;
 import net.dries007.tfc.common.items.TFCItems;
@@ -31,9 +29,8 @@ import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
 import net.dries007.tfc.common.recipes.outputs.ChanceModifier;
 import net.dries007.tfc.common.recipes.outputs.CopyFoodModifier;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
+import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.Metal;
-
-import java.util.Map;
 
 public interface HeatRecipes extends Recipes
 {
@@ -144,7 +141,7 @@ public interface HeatRecipes extends Recipes
 
         Helpers.mapOf(Metal.class, Metal::allParts, metal ->
             Helpers.mapOf(Wood.class, wood -> TFCItems.HANGING_SIGNS.get(wood).get(metal)).values()
-        ).forEach((metal, items) -> add("hanging_signs/" + metal.name(), new HeatingRecipe(
+        ).forEach((metal, items) -> add("hanging_sign/" + metal.name(), new HeatingRecipe(
             Ingredient.of(items.stream().map(ItemStack::new)),
             ItemStackProvider.empty(),
             new FluidStack(meltFluidFor(metal), 4),

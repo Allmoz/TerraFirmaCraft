@@ -8,6 +8,7 @@ package net.dries007.tfc.data.providers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -16,16 +17,17 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.plant.Plant;
 import net.dries007.tfc.common.blocks.rock.Ore;
+import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.component.heat.HeatCapability;
 import net.dries007.tfc.common.component.heat.HeatDefinition;
 import net.dries007.tfc.common.items.Food;
@@ -102,6 +104,12 @@ public class BuiltinItemHeat extends DataManagerProvider<HeatDefinition> impleme
             add(metal, Metal.BlockType.CHAIN);
             add(metal, Metal.BlockType.LAMP);
             add(metal, Metal.BlockType.TRAPDOOR);
+
+            if (metal.allParts())
+            {
+                Collection<TFCItems.ItemId> items = Helpers.mapOf(Wood.class, wood -> TFCItems.HANGING_SIGNS.get(wood).get(metal)).values();
+                add(metal, "hanging_sign", Ingredient.of(items.stream().map(ItemStack::new)), 4);
+            }
         });
         TFCItems.METAL_ITEMS.forEach((metal, items) -> {
             add(metal, Metal.ItemType.INGOT);
