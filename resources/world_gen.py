@@ -1351,7 +1351,7 @@ def generate(rm: ResourceManager):
     })
     rm.placed_feature('geode', 'tfc:geode', decorate_chance(50), decorate_square(), decorate_range(-48, 30))
 
-    rm.biome_tag('has_predictable_winds', '#tfc:is_ocean', 'tfc:shore', 'tfc:tidal_flats')
+    rm.biome_tag('has_predictable_winds', '#tfc:is_ocean')
 
     for b in TFC_BIOMES:
         assert b in ALL_BIOMES, 'Error: Biome %s described in TFC_BIOMES not represented in world_gen.py' % b
