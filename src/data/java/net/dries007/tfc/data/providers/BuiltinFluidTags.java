@@ -105,8 +105,12 @@ public class BuiltinFluidTags extends TagsProvider<Fluid> implements Accessors
         for (DyeColor color : DyeColor.values())
         {
             dyesTag.addTag(commonTagOf(Registries.FLUID, "dyes/" + color.getSerializedName()));
-            tag(commonTagOf(Registries.FLUID, "dyes/" + color.getSerializedName())).add(fluidOf(color));
-            tag(commonTagOf(Registries.FLUID, color.getSerializedName() + "_dye")).add(fluidOf(color));
+            tag(commonTagOf(Registries.FLUID, "dyes/" + color.getSerializedName()))
+                .add(TFCFluids.COLORED_FLUIDS.get(color).getSource())
+                .add(TFCFluids.COLORED_FLUIDS.get(color).getFlowing());
+            tag(commonTagOf(Registries.FLUID, color.getSerializedName() + "_dye"))
+                .add(TFCFluids.COLORED_FLUIDS.get(color).getSource())
+                .add(TFCFluids.COLORED_FLUIDS.get(color).getFlowing());
         }
 
         //Metals
