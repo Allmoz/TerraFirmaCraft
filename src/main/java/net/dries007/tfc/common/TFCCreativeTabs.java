@@ -116,6 +116,7 @@ public final class TFCCreativeTabs
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.BUTTON));
         }
         out.accept(TFCBlocks.GOLDEN_BAMBOO_BLOCK);
+        out.accept(Blocks.BAMBOO_BLOCK);
 
         for (Rock rock : Rock.VALUES)
         {
@@ -152,6 +153,7 @@ public final class TFCCreativeTabs
 
         out.accept(TFCBlocks.AGGREGATE);
         out.accept(Blocks.CLAY);
+        out.accept(Blocks.TERRACOTTA);
         out.accept(TFCBlocks.FIRE_CLAY_BLOCK);
 
         out.accept(TFCBlocks.PLAIN_ALABASTER);
@@ -243,6 +245,183 @@ public final class TFCCreativeTabs
                 }
             });
         }
+
+        out.accept(Blocks.WHITE_WOOL);
+        out.accept(Blocks.LIGHT_GRAY_WOOL);
+        out.accept(Blocks.GRAY_WOOL);
+        out.accept(Blocks.BLACK_WOOL);
+        out.accept(Blocks.BROWN_WOOL);
+        out.accept(Blocks.RED_WOOL);
+        out.accept(Blocks.ORANGE_WOOL);
+        out.accept(Blocks.YELLOW_WOOL);
+        out.accept(Blocks.LIME_WOOL);
+        out.accept(Blocks.GREEN_WOOL);
+        out.accept(Blocks.CYAN_WOOL);
+        out.accept(Blocks.LIGHT_BLUE_WOOL);
+        out.accept(Blocks.BLUE_WOOL);
+        out.accept(Blocks.PURPLE_WOOL);
+        out.accept(Blocks.MAGENTA_WOOL);
+        out.accept(Blocks.PINK_WOOL);
+
+        out.accept(Blocks.WHITE_CARPET);
+        out.accept(Blocks.LIGHT_GRAY_CARPET);
+        out.accept(Blocks.GRAY_CARPET);
+        out.accept(Blocks.BLACK_CARPET);
+        out.accept(Blocks.BROWN_CARPET);
+        out.accept(Blocks.RED_CARPET);
+        out.accept(Blocks.ORANGE_CARPET);
+        out.accept(Blocks.YELLOW_CARPET);
+        out.accept(Blocks.LIME_CARPET);
+        out.accept(Blocks.GREEN_CARPET);
+        out.accept(Blocks.CYAN_CARPET);
+        out.accept(Blocks.LIGHT_BLUE_CARPET);
+        out.accept(Blocks.BLUE_CARPET);
+        out.accept(Blocks.PURPLE_CARPET);
+        out.accept(Blocks.MAGENTA_CARPET);
+        out.accept(Blocks.PINK_CARPET);
+
+        out.accept(Blocks.TERRACOTTA);
+
+        out.accept(Blocks.WHITE_TERRACOTTA);
+        out.accept(Blocks.LIGHT_GRAY_TERRACOTTA);
+        out.accept(Blocks.GRAY_TERRACOTTA);
+        out.accept(Blocks.BLACK_TERRACOTTA);
+        out.accept(Blocks.BROWN_TERRACOTTA);
+        out.accept(Blocks.RED_TERRACOTTA);
+        out.accept(Blocks.ORANGE_TERRACOTTA);
+        out.accept(Blocks.YELLOW_TERRACOTTA);
+        out.accept(Blocks.LIME_TERRACOTTA);
+        out.accept(Blocks.GREEN_TERRACOTTA);
+        out.accept(Blocks.CYAN_TERRACOTTA);
+        out.accept(Blocks.LIGHT_BLUE_TERRACOTTA);
+        out.accept(Blocks.BLUE_TERRACOTTA);
+        out.accept(Blocks.PURPLE_TERRACOTTA);
+        out.accept(Blocks.MAGENTA_TERRACOTTA);
+        out.accept(Blocks.PINK_TERRACOTTA);
+
+        out.accept(Blocks.WHITE_CONCRETE);
+        out.accept(Blocks.LIGHT_GRAY_CONCRETE);
+        out.accept(Blocks.GRAY_CONCRETE);
+        out.accept(Blocks.BLACK_CONCRETE);
+        out.accept(Blocks.BROWN_CONCRETE);
+        out.accept(Blocks.RED_CONCRETE);
+        out.accept(Blocks.ORANGE_CONCRETE);
+        out.accept(Blocks.YELLOW_CONCRETE);
+        out.accept(Blocks.LIME_CONCRETE);
+        out.accept(Blocks.GREEN_CONCRETE);
+        out.accept(Blocks.CYAN_CONCRETE);
+        out.accept(Blocks.LIGHT_BLUE_CONCRETE);
+        out.accept(Blocks.BLUE_CONCRETE);
+        out.accept(Blocks.PURPLE_CONCRETE);
+        out.accept(Blocks.MAGENTA_CONCRETE);
+        out.accept(Blocks.PINK_CONCRETE);
+
+        out.accept(TFCBlocks.AGGREGATE);
+
+        out.accept(Blocks.WHITE_CONCRETE_POWDER);
+        out.accept(Blocks.LIGHT_GRAY_CONCRETE_POWDER);
+        out.accept(Blocks.GRAY_CONCRETE_POWDER);
+        out.accept(Blocks.BLACK_CONCRETE_POWDER);
+        out.accept(Blocks.BROWN_CONCRETE_POWDER);
+        out.accept(Blocks.RED_CONCRETE_POWDER);
+        out.accept(Blocks.ORANGE_CONCRETE_POWDER);
+        out.accept(Blocks.YELLOW_CONCRETE_POWDER);
+        out.accept(Blocks.LIME_CONCRETE_POWDER);
+        out.accept(Blocks.GREEN_CONCRETE_POWDER);
+        out.accept(Blocks.CYAN_CONCRETE_POWDER);
+        out.accept(Blocks.LIGHT_BLUE_CONCRETE_POWDER);
+        out.accept(Blocks.BLUE_CONCRETE_POWDER);
+        out.accept(Blocks.PURPLE_CONCRETE_POWDER);
+        out.accept(Blocks.MAGENTA_CONCRETE_POWDER);
+        out.accept(Blocks.PINK_CONCRETE_POWDER);
+
+        out.accept(Blocks.WHITE_GLAZED_TERRACOTTA);
+        out.accept(Blocks.LIGHT_GRAY_GLAZED_TERRACOTTA);
+        out.accept(Blocks.GRAY_GLAZED_TERRACOTTA);
+        out.accept(Blocks.BLACK_GLAZED_TERRACOTTA);
+        out.accept(Blocks.BROWN_GLAZED_TERRACOTTA);
+        out.accept(Blocks.RED_GLAZED_TERRACOTTA);
+        out.accept(Blocks.ORANGE_GLAZED_TERRACOTTA);
+        out.accept(Blocks.YELLOW_GLAZED_TERRACOTTA);
+        out.accept(Blocks.LIME_GLAZED_TERRACOTTA);
+        out.accept(Blocks.GREEN_GLAZED_TERRACOTTA);
+        out.accept(Blocks.CYAN_GLAZED_TERRACOTTA);
+        out.accept(Blocks.LIGHT_BLUE_GLAZED_TERRACOTTA);
+        out.accept(Blocks.BLUE_GLAZED_TERRACOTTA);
+        out.accept(Blocks.PURPLE_GLAZED_TERRACOTTA);
+        out.accept(Blocks.MAGENTA_GLAZED_TERRACOTTA);
+        out.accept(Blocks.PINK_GLAZED_TERRACOTTA);
+
+        out.accept(Blocks.GLASS);
+        out.accept(Blocks.TINTED_GLASS);
+
+        out.accept(Blocks.WHITE_STAINED_GLASS);
+        out.accept(Blocks.LIGHT_GRAY_STAINED_GLASS);
+        out.accept(Blocks.GRAY_STAINED_GLASS);
+        out.accept(Blocks.BLACK_STAINED_GLASS);
+        out.accept(Blocks.BROWN_STAINED_GLASS);
+        out.accept(Blocks.RED_STAINED_GLASS);
+        out.accept(Blocks.ORANGE_STAINED_GLASS);
+        out.accept(Blocks.YELLOW_STAINED_GLASS);
+        out.accept(Blocks.LIME_STAINED_GLASS);
+        out.accept(Blocks.GREEN_STAINED_GLASS);
+        out.accept(Blocks.CYAN_STAINED_GLASS);
+        out.accept(Blocks.LIGHT_BLUE_STAINED_GLASS);
+        out.accept(Blocks.BLUE_STAINED_GLASS);
+        out.accept(Blocks.PURPLE_STAINED_GLASS);
+        out.accept(Blocks.MAGENTA_STAINED_GLASS);
+        out.accept(Blocks.PINK_STAINED_GLASS);
+
+        out.accept(Blocks.WHITE_STAINED_GLASS_PANE);
+        out.accept(Blocks.LIGHT_GRAY_STAINED_GLASS_PANE);
+        out.accept(Blocks.GRAY_STAINED_GLASS_PANE);
+        out.accept(Blocks.BLACK_STAINED_GLASS_PANE);
+        out.accept(Blocks.BROWN_STAINED_GLASS_PANE);
+        out.accept(Blocks.RED_STAINED_GLASS_PANE);
+        out.accept(Blocks.ORANGE_STAINED_GLASS_PANE);
+        out.accept(Blocks.YELLOW_STAINED_GLASS_PANE);
+        out.accept(Blocks.LIME_STAINED_GLASS_PANE);
+        out.accept(Blocks.GREEN_STAINED_GLASS_PANE);
+        out.accept(Blocks.CYAN_STAINED_GLASS_PANE);
+        out.accept(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE);
+        out.accept(Blocks.BLUE_STAINED_GLASS_PANE);
+        out.accept(Blocks.PURPLE_STAINED_GLASS_PANE);
+        out.accept(Blocks.MAGENTA_STAINED_GLASS_PANE);
+        out.accept(Blocks.PINK_STAINED_GLASS_PANE);
+
+        out.accept(Blocks.WHITE_BED);
+        out.accept(Blocks.LIGHT_GRAY_BED);
+        out.accept(Blocks.GRAY_BED);
+        out.accept(Blocks.BLACK_BED);
+        out.accept(Blocks.BROWN_BED);
+        out.accept(Blocks.RED_BED);
+        out.accept(Blocks.ORANGE_BED);
+        out.accept(Blocks.YELLOW_BED);
+        out.accept(Blocks.LIME_BED);
+        out.accept(Blocks.GREEN_BED);
+        out.accept(Blocks.CYAN_BED);
+        out.accept(Blocks.LIGHT_BLUE_BED);
+        out.accept(Blocks.BLUE_BED);
+        out.accept(Blocks.PURPLE_BED);
+        out.accept(Blocks.MAGENTA_BED);
+        out.accept(Blocks.PINK_BED);
+
+        out.accept(Blocks.WHITE_BANNER);
+        out.accept(Blocks.LIGHT_GRAY_BANNER);
+        out.accept(Blocks.GRAY_BANNER);
+        out.accept(Blocks.BLACK_BANNER);
+        out.accept(Blocks.BROWN_BANNER);
+        out.accept(Blocks.RED_BANNER);
+        out.accept(Blocks.ORANGE_BANNER);
+        out.accept(Blocks.YELLOW_BANNER);
+        out.accept(Blocks.LIME_BANNER);
+        out.accept(Blocks.GREEN_BANNER);
+        out.accept(Blocks.CYAN_BANNER);
+        out.accept(Blocks.LIGHT_BLUE_BANNER);
+        out.accept(Blocks.BLUE_BANNER);
+        out.accept(Blocks.PURPLE_BANNER);
+        out.accept(Blocks.MAGENTA_BANNER);
+        out.accept(Blocks.PINK_BANNER);
     }
 
     private static void fillNaturalBlocks(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
@@ -330,6 +509,17 @@ public final class TFCCreativeTabs
         out.accept(Blocks.PACKED_ICE);
         out.accept(Blocks.BLUE_ICE);
 
+        TFCBlocks.GROUNDCOVER.forEach((type, reg) -> {
+            if (type.getVanillaItem() == null)
+            {
+                out.accept(reg);
+            }
+            else
+            {
+                out.accept(type.getVanillaItem());
+            }
+        });
+
         out.accept(Items.WATER_BUCKET);
 
         TFCFluids.FLUIDS.getEntries().forEach(fluid -> {
@@ -355,6 +545,9 @@ public final class TFCCreativeTabs
             }
         });
 
+        out.accept(Blocks.BAMBOO);
+        out.accept(TFCBlocks.SEA_PICKLE);
+
         for (Wood wood : Wood.VALUES)
         {
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.SAPLING));
@@ -370,9 +563,6 @@ public final class TFCCreativeTabs
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.FALLEN_LEAVES));
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.TWIG));
         }
-
-        out.accept(Blocks.BAMBOO);
-        out.accept(TFCBlocks.SEA_PICKLE);
 
         for (Crop crop : Crop.values())
         {
@@ -395,17 +585,6 @@ public final class TFCCreativeTabs
         }
 
         out.accept(TFCBlocks.BANANA_SAPLING);
-
-        TFCBlocks.GROUNDCOVER.forEach((type, reg) -> {
-            if (type.getVanillaItem() == null)
-            {
-                out.accept(reg);
-            }
-            else
-            {
-                out.accept(type.getVanillaItem());
-            }
-        });
 
         for (Coral coral : Coral.values())
         {
@@ -432,6 +611,17 @@ public final class TFCCreativeTabs
             }
         }
 
+        TFCFluids.FLUIDS.getEntries().forEach(fluid -> {
+            if (fluid.getId().toString().endsWith("canola_oil"))
+            {
+                out.accept(fluid.value().getBucket());
+            }
+            else if (fluid.getId().toString().endsWith("olive_oil"))
+            {
+                out.accept(fluid.value().getBucket());
+            }
+        });
+
         for (Metal metal : Metal.values())
         {
             for (Metal.BlockType type : new Metal.BlockType[] {
@@ -454,6 +644,7 @@ public final class TFCCreativeTabs
         out.accept(TFCBlocks.CERAMIC_BOWL);
         out.accept(Items.BOWL);
         out.accept(Items.FLOWER_POT);
+        out.accept(Items.DECORATED_POT);
         out.accept(TFCBlocks.QUERN);
         out.accept(TFCItems.HANDSTONE);
 
@@ -496,6 +687,17 @@ public final class TFCCreativeTabs
         out.accept(TFCBlocks.FIREPROOF_DOOR);
         out.accept(TFCBlocks.FIREBOX);
 
+        out.accept(Blocks.LADDER);
+        out.accept(Blocks.SCAFFOLDING);
+        out.accept(Items.ITEM_FRAME);
+        out.accept(Items.GLOW_ITEM_FRAME);
+        out.accept(Items.PAINTING);
+
+        out.accept(Blocks.TINTED_GLASS);
+
+        out.accept(Blocks.NOTE_BLOCK);
+        out.accept(Blocks.JUKEBOX);
+
         out.accept(TFCBlocks.BARREL_RACK);
 
         for (Wood wood : Wood.VALUES)
@@ -534,6 +736,23 @@ public final class TFCCreativeTabs
         {
             accept(out, TFCBlocks.DYED_CANDLE, color);
         }
+
+        out.accept(Blocks.WHITE_BED);
+        out.accept(Blocks.LIGHT_GRAY_BED);
+        out.accept(Blocks.GRAY_BED);
+        out.accept(Blocks.BLACK_BED);
+        out.accept(Blocks.BROWN_BED);
+        out.accept(Blocks.RED_BED);
+        out.accept(Blocks.ORANGE_BED);
+        out.accept(Blocks.YELLOW_BED);
+        out.accept(Blocks.LIME_BED);
+        out.accept(Blocks.GREEN_BED);
+        out.accept(Blocks.CYAN_BED);
+        out.accept(Blocks.LIGHT_BLUE_BED);
+        out.accept(Blocks.BLUE_BED);
+        out.accept(Blocks.PURPLE_BED);
+        out.accept(Blocks.MAGENTA_BED);
+        out.accept(Blocks.PINK_BED);
     }
 
     private static void fillToolsUtilitiesTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
@@ -599,7 +818,9 @@ public final class TFCCreativeTabs
 
         out.accept(Items.WRITABLE_BOOK);
         out.accept(Items.SPYGLASS);
+        out.accept(Items.MAP);
         out.accept(Items.CLOCK);
+        out.accept(Items.COMPASS);
         out.accept(Items.LEAD);
         out.accept(Items.SADDLE);
 
@@ -703,6 +924,7 @@ public final class TFCCreativeTabs
     private static void fillFoodsDrinksTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
     {
         out.accept(TFCBlocks.CAKE);
+        out.accept(Items.SUGAR);
         TFCItems.FOOD.values().forEach(out::accept);
         TFCItems.SOUPS.values().forEach(out::accept);
         TFCItems.SALADS.values().forEach(out::accept);
@@ -750,11 +972,18 @@ public final class TFCCreativeTabs
         out.accept(Items.CHARCOAL);
         out.accept(Items.LEATHER);
         out.accept(Items.GUNPOWDER);
+        out.accept(Items.CLAY_BALL);
         out.accept(Blocks.CLAY);
         out.accept(TFCItems.SOOT);
         out.accept(TFCItems.SANDPAPER);
         out.accept(Items.PAPER);
         out.accept(Items.BOOK);
+        out.accept(Items.STICK);
+        out.accept(TFCItems.STICK_BUNCH);
+        out.accept(TFCItems.STICK_BUNDLE);
+        out.accept(Items.FLINT);
+        out.accept(Items.BONE);
+        out.accept(Items.BONE_MEAL);
         out.accept(TFCItems.BLANK_DISC);
         out.accept(TFCItems.BRASS_MECHANISMS);
         out.accept(TFCItems.BURLAP_CLOTH);
@@ -762,6 +991,11 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.WOOL_CLOTH);
         out.accept(TFCItems.WOOL);
         out.accept(TFCItems.WOOL_YARN);
+        out.accept(Items.STRING);
+        out.accept(Items.FEATHER);
+        out.accept(Items.SNOWBALL);
+        out.accept(Items.INK_SAC);
+        out.accept(Items.GLOW_INK_SAC);
         out.accept(TFCItems.COMPOST);
         out.accept(TFCItems.ROTTEN_COMPOST);
         out.accept(TFCItems.PURE_NITROGEN);
@@ -776,6 +1010,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.FIRE_CLAY);
         out.accept(TFCItems.KAOLIN_CLAY);
         out.accept(TFCItems.GLUE);
+        out.accept(Items.SLIME_BALL);
         out.accept(TFCItems.GOAT_HORN);
         out.accept(TFCItems.ALFALFA);
         out.accept(TFCItems.CANOLA);
@@ -788,8 +1023,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.PAPYRUS_STRIP);
         out.accept(TFCItems.SOAKED_PAPYRUS_STRIP);
         out.accept(TFCItems.UNREFINED_PAPER);
-        out.accept(TFCItems.STICK_BUNCH);
-        out.accept(TFCItems.STICK_BUNDLE);
+
         out.accept(Items.BOWL);
         out.accept(TFCBlocks.CERAMIC_BOWL);
         out.accept(TFCItems.STRAW);
@@ -982,6 +1216,34 @@ public final class TFCCreativeTabs
             }
         }
 
+        out.accept(Items.FLOWER_BANNER_PATTERN);
+        out.accept(Items.CREEPER_BANNER_PATTERN);
+        out.accept(Items.SKULL_BANNER_PATTERN);
+        out.accept(Items.MOJANG_BANNER_PATTERN);
+        out.accept(Items.GLOBE_BANNER_PATTERN);
+        out.accept(Items.PIGLIN_BANNER_PATTERN);
+        out.accept(Items.FLOW_BANNER_PATTERN);
+        out.accept(Items.GUSTER_BANNER_PATTERN);
+
+        out.accept(Items.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.VEX_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.WILD_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.COAST_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.DUNE_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.RAISER_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.HOST_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.WARD_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.RIB_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.EYE_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.FLOW_ARMOR_TRIM_SMITHING_TEMPLATE);
+        out.accept(Items.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE);
+
         TFCFluids.FLUIDS.getEntries().forEach(fluid -> {
             out.accept(fluid.value().getBucket());
         });
@@ -1038,7 +1300,10 @@ public final class TFCCreativeTabs
 
     public static void addToVanillaTabs(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
+        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS)
+        {
+            event.accept(TFCBlocks.BRASS_BELL);
+            event.accept(TFCBlocks.BRONZE_BELL);
             event.accept(Wood.OAK.getBlock(Wood.BlockType.BARREL).get());
             event.accept(Wood.OAK.getBlock(Wood.BlockType.CLUTCH).get());
             event.accept(TFCBlocks.VANE);
