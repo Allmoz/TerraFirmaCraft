@@ -148,13 +148,6 @@
     },
     {
       "type": "patchouli:entity",
-      "entity": "tfc:rabbit",
-      "scale": 0.7,
-      "name": "Coelha",
-      "text": "O coelho é conhecido por mastigar cenouras e repolho. Eles são onipresentes no mundo, trocando seu casaco com base no clima. Eles só precisam de 15 mm de $(l:the_world/climate#rainfall)chuva$() Aparecer."
-    },
-    {
-      "type": "patchouli:entity",
       "entity": "tfc:fox",
       "scale": 0.7,
       "name": "Raposa",
@@ -210,9 +203,6 @@
       "scale": 0.8,
       "name": "Peafowl",
       "text": "The peafowl spawns in forests at any $(l:the_world/climate#temperature)temperature$() above 14°C, and $(l:the_world/climate#rainfall)rainfall$() between 190 and 500mm."
-    },
-    {
-      "type": "patchouli:empty"
     },
     {
       "type": "patchouli:text",

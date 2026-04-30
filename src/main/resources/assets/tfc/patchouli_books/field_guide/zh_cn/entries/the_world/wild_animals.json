@@ -148,13 +148,6 @@
     },
     {
       "type": "patchouli:entity",
-      "entity": "tfc:rabbit",
-      "scale": 0.7,
-      "name": "兔子",
-      "text": "兔子几乎无处不在，且它们会根据所处气候的不同而长出不同的毛色。兔子会啃食胡萝卜和卷心菜。它们只需要15mm 的$(l:the_world/climate#rainfall)降雨量$()就能生成。"
-    },
-    {
-      "type": "patchouli:entity",
       "entity": "tfc:fox",
       "scale": 0.7,
       "name": "狐狸",
@@ -210,9 +203,6 @@
       "scale": 0.8,
       "name": "孔雀",
       "text": "孔雀生成在森林中，需要$(l:the_world/climate#temperature)温度$()高于 14°C，且$(l:the_world/climate#rainfall)降雨量$()在 190 到 500mm 之间。"
-    },
-    {
-      "type": "patchouli:empty"
     },
     {
       "type": "patchouli:text",

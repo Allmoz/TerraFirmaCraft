@@ -148,13 +148,6 @@
     },
     {
       "type": "patchouli:entity",
-      "entity": "tfc:rabbit",
-      "scale": 0.7,
-      "name": "兔子",
-      "text": "兔子幾乎無處不在，且它們會根據所處氣候的不同而長出不同的毛色。兔子會啃食胡蘿蔔和捲心菜。它們只需要15mm 的$(l:the_world/climate#rainfall)降雨量$()就能生成。"
-    },
-    {
-      "type": "patchouli:entity",
       "entity": "tfc:fox",
       "scale": 0.7,
       "name": "狐狸",
@@ -210,9 +203,6 @@
       "scale": 0.8,
       "name": "Peafowl",
       "text": "The peafowl spawns in forests at any $(l:the_world/climate#temperature)temperature$() above 14°C, and $(l:the_world/climate#rainfall)rainfall$() between 190 and 500mm."
-    },
-    {
-      "type": "patchouli:empty"
     },
     {
       "type": "patchouli:text",
