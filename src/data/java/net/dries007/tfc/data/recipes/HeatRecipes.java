@@ -124,6 +124,8 @@ public interface HeatRecipes extends Recipes
         burnFood("bread", Ingredient.of(TFCTags.Items.BREAD), 700);
         burnFood("meat", Ingredient.of(TFCTags.Items.COOKED_MEATS), 900);
 
+        add("heating/brass_mechanism", new HeatingRecipe(Ingredient.of(TFCItems.BRASS_MECHANISMS), ItemStackProvider.empty(), new FluidStack(fluidOf(Metal.BRASS), 50), temperatureOf(Metal.BRASS), false));
+
         for (Ore ore : Ore.values())
             if (ore.isGraded())
                 addOres(ore, ore.metal());
