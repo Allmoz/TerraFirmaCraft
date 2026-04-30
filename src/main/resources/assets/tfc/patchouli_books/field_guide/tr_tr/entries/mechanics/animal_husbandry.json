@@ -2,7 +2,7 @@
   "__comment__": "This file was automatically created by mcresources",
   "name": "Hayvancılık",
   "category": "tfc:mechanics",
-  "icon": "minecraft:egg",
+  "icon": "minecraft:textures/item/egg.png",
   "pages": [
     {
       "type": "patchouli:text",
