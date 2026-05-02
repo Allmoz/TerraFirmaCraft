@@ -19,7 +19,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import net.dries007.tfc.common.entities.aquatic.AquaticCritter;
 
-public class IsopodModel extends EntityModel<AquaticCritter>
+public class IsopodModel extends HierarchicalAnimatedModel<AquaticCritter>
 {
     public static LayerDefinition createBodyLayer()
     {
@@ -52,6 +52,7 @@ public class IsopodModel extends EntityModel<AquaticCritter>
 
     public IsopodModel(ModelPart root)
     {
+        super(root);
         this.body = root.getChild("body");
         this.leftfeet = root.getChild("leftfeet");
         this.leftfeet2 = root.getChild("leftfeet2");

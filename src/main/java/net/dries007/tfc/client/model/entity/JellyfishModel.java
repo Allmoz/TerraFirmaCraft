@@ -20,7 +20,7 @@ import net.minecraft.util.Mth;
 
 import net.dries007.tfc.common.entities.aquatic.Jellyfish;
 
-public class JellyfishModel extends EntityModel<Jellyfish>
+public class JellyfishModel extends HierarchicalAnimatedModel<Jellyfish>
 {
     public static LayerDefinition createBodyLayer()
     {
@@ -50,6 +50,7 @@ public class JellyfishModel extends EntityModel<Jellyfish>
 
     public JellyfishModel(ModelPart root)
     {
+        super(root);
         this.head = root.getChild("head");
         this.tail1 = root.getChild("tail1");
         this.tail2 = root.getChild("tail2");
