@@ -39,7 +39,7 @@ public interface HorseProperties extends MammalProperties
     float MIN_JUMP_STRENGTH = (float) generateJumpStrength(() -> 0.0);
     float MAX_JUMP_STRENGTH = (float) generateJumpStrength(() -> 1.0);
     float MIN_HEALTH = generateMaxHealth(v -> 0);
-    float MAX_HEALTH = generateMaxHealth(v -> 1);
+    float MAX_HEALTH = generateMaxHealth(v -> v - 1);
 
     static float generateMaxHealth(IntUnaryOperator supplier)
     {
@@ -88,7 +88,7 @@ public interface HorseProperties extends MammalProperties
         }
         else
         {
-            maxHealth = generateMaxHealth(i -> getEntity().getRandom().nextInt());
+            maxHealth = generateMaxHealth(getEntity().getRandom()::nextInt);
         }
         double jumpStrength;
         if (tag.contains("jumpStrength1", Tag.TAG_DOUBLE))
