@@ -29,6 +29,7 @@
 - Fix horses inheriting speed from the father only
 - Fix baby horses having the minimum amount of health 
 - Fix rotten egg icon in field guide
+- Fixed rabbits being in the field guide twice
 
 ### Credits
 Thanks allmoz for finding and fixing a lot of sneaky little bugs, and also Daniel and EERussianGuy for a bunch more, and Dodo fixed some models, and I guess I'm just here to write changelogs. -Therighthon
