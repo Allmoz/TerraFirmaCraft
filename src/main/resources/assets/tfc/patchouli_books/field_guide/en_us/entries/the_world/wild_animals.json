@@ -148,13 +148,6 @@
     },
     {
       "type": "patchouli:entity",
-      "entity": "tfc:rabbit",
-      "scale": 0.7,
-      "name": "Rabbit",
-      "text": "The rabbit is known to chew on carrots and cabbage. They are ubiquitous in the world, changing their coat based on climate. They only need 15mm of $(l:the_world/climate#rainfall)rainfall$() to spawn."
-    },
-    {
-      "type": "patchouli:entity",
       "entity": "tfc:fox",
       "scale": 0.7,
       "name": "Fox",
@@ -210,9 +203,6 @@
       "scale": 0.8,
       "name": "Peafowl",
       "text": "The peafowl spawns in forests at any $(l:the_world/climate#temperature)temperature$() above 14°C, and $(l:the_world/climate#rainfall)rainfall$() between 190 and 500mm."
-    },
-    {
-      "type": "patchouli:empty"
     },
     {
       "type": "patchouli:text",

@@ -148,13 +148,6 @@
     },
     {
       "type": "patchouli:entity",
-      "entity": "tfc:rabbit",
-      "scale": 0.7,
-      "name": "Кролик",
-      "text": "Кролики едят морковь и капусту. Встречаются в мире повсеместно, меняя свой мех в зависимости от климата. Для их появления достаточно всего 15 мм $(l:the_world/climate#rainfall)осадков$()."
-    },
-    {
-      "type": "patchouli:entity",
       "entity": "tfc:fox",
       "scale": 0.7,
       "name": "Лиса",
@@ -210,9 +203,6 @@
       "scale": 0.8,
       "name": "Павлин",
       "text": "Павлин обитает в лесах при $(l:the_world/climate#temperature)температуре$() выше 14°C и $(l:the_world/climate#rainfall)осадках$() выше 190 мм."
-    },
-    {
-      "type": "patchouli:empty"
     },
     {
       "type": "patchouli:text",
