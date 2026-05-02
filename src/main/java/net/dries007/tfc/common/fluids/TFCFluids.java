@@ -164,7 +164,8 @@ public final class TFCFluids
             .canHydrate(false)
             .canPushEntity(false)
             .canSwim(false)
-            .supportsBoating(false);
+            .supportsBoating(false)
+            .fallDistanceModifier(0);
     }
 
     private static FluidType.Properties waterLike()
@@ -179,7 +180,8 @@ public final class TFCFluids
             .canHydrate(true)
             .canPushEntity(true)
             .canSwim(true)
-            .supportsBoating(true);
+            .supportsBoating(true)
+            .fallDistanceModifier(0);
     }
 
     private static <F extends FlowingFluid> FluidRegistryObject<F> register(String name, Consumer<ForgeFlowingFluid.Properties> builder, FluidType.Properties typeProperties, FluidTypeClientProperties clientProperties, Function<ForgeFlowingFluid.Properties, F> sourceFactory, Function<ForgeFlowingFluid.Properties, F> flowingFactory)

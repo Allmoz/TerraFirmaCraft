@@ -19,7 +19,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import net.dries007.tfc.common.entities.aquatic.AquaticCritter;
 
-public class HorseshoeCrabModel extends EntityModel<AquaticCritter>
+public class HorseshoeCrabModel extends HierarchicalAnimatedModel<AquaticCritter>
 {
     public static LayerDefinition createBodyLayer()
     {
@@ -43,6 +43,7 @@ public class HorseshoeCrabModel extends EntityModel<AquaticCritter>
 
     public HorseshoeCrabModel(ModelPart root)
     {
+        super(root);
         this.bb_main = root.getChild("bb_main");
     }
 
