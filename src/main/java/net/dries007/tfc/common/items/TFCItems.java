@@ -148,7 +148,7 @@ public final class TFCItems
     // Flora
 
     public static final Map<Crop, ItemId> CROP_SEEDS = Helpers.mapOf(Crop.class, crop ->
-        register("seeds/" + crop.name(), () -> new SeedItem(crop, TFCBlocks.CROPS.get(crop).get(), new Properties()))
+        register("seeds/" + crop.name(), () -> new SeedItem(crop, TFCBlocks.CROPS.get(crop).get(), TFCBlocks.DEAD_CROPS.get(crop).get(), new Properties()))
     );
 
     public static final Map<Coral, ItemId> CORAL_FANS = Helpers.mapOf(Coral.class, color ->
