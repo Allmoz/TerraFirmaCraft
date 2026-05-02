@@ -82,7 +82,10 @@ public class CharcoalForgeBlockEntity extends TickableInventoryBlockEntity<ItemS
             Helpers.gatherAndConsumeItems(level, bounds, forge.inventory, SLOT_FUEL_MIN, SLOT_FUEL_MAX);
         }
 
-        boolean isRaining = level.isRainingAt(pos);
+        // Note that, if the block above the forge is not in the `#tfc:charcoal_forge_invisible` block tag (i.e. is not air or a crucible), the forge will extinguish.
+        // As this sets the `HEAT` BlockState property and the burnTemperature to 0, we do not need to check if the block above the forge has this tag,
+        // since all uses of the following variable depends on either of these being non-zero
+        boolean isRaining = level.isRainingAt(pos.above()) || level.isRainingAt(pos.above(2));
         if (state.getValue(CharcoalForgeBlock.HEAT) > 0)
         {
             if (isRaining && level.random.nextFloat() < 0.15F)
