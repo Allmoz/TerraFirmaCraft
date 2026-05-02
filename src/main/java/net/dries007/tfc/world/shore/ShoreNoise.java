@@ -494,7 +494,7 @@ public final class ShoreNoise
             final Noise2D lowerTerraceNoise = BiomeNoise.lowerTerraceNoise(seed);
             final Noise2D upperTerraceNoise = BiomeNoise.upperTerraceNoise(seed);
 
-            private double landWeight;
+            private double landWeight, oceanWeight, sandHeight;
 
             private int x, z;
 
@@ -504,6 +504,8 @@ public final class ShoreNoise
                 this.x = x;
                 this.z = z;
                 this.landWeight = landWeight;
+                this.oceanWeight = oceanWeight;
+                this.sandHeight = ShoreNoise.simpleBeach(seed, x, z, heightIn, landWeight, oceanWeight);
 
                 return upperTerraceNoise.noise(x, z);
             }
@@ -512,27 +514,55 @@ public final class ShoreNoise
             public double noise(int yIn, double noiseIn)
             {
                 final double lowerHeight = lowerTerraceNoise.noise(x, z);
-                if (yIn <= lowerHeight) return 0;
-
-                final double overhangHeight = SEA_LEVEL_Y + 25;
-                final double cliffBaseHeight = SEA_LEVEL_Y + 11;
-
-                final double y = yIn - cliffBaseHeight;
-                final double cliffNoiseModifier = 0.04 * Math.abs(cliffNoise.noise(x, y, z));
-                final double cliffBorderTopWeight = 0.32 + cliffNoiseModifier;
-                final double cliffBorderBaseWeight = 0.36 + cliffNoiseModifier;
-
-                final double height = overhangHeight - cliffBaseHeight;
-
-                // landWeight where cliff top edges form
-                if (landWeight >= cliffBorderTopWeight)
+                if (yIn >= lowerHeight)
                 {
-                    final double cliffBorderWeight = widthFunction(true, y, height, cliffBorderBaseWeight, cliffBorderTopWeight);
-                    return Math.clamp((cliffBorderWeight - landWeight) * 10, 0, 1) * noiseScale;
+                    final double overhangHeight = SEA_LEVEL_Y + 25;
+                    final double cliffBaseHeight = SEA_LEVEL_Y + 11;
+
+                    final double y = yIn - cliffBaseHeight;
+                    final double cliffNoiseModifier = 0.04 * Math.abs(cliffNoise.noise(x, y, z));
+                    final double cliffBorderTopWeight = 0.32 + cliffNoiseModifier;
+                    final double cliffBorderBaseWeight = 0.36 + cliffNoiseModifier;
+
+                    final double height = overhangHeight - cliffBaseHeight;
+
+                    // landWeight where cliff top edges form
+                    if (landWeight >= cliffBorderTopWeight)
+                    {
+                        final double cliffBorderWeight = widthFunction(true, y, height, cliffBorderBaseWeight, cliffBorderTopWeight);
+                        return Math.clamp((cliffBorderWeight - landWeight) * 10, 0, 1) * noiseScale;
+                    }
+                    else
+                    {
+                        return Mth.clampedMap(yIn, lowerHeight, lowerHeight + 6, 0, noiseScale);
+                    }
                 }
                 else
                 {
-                    return Mth.clampedMap(yIn, lowerHeight, lowerHeight + 6, 0, noiseScale);
+                    // Fall back to lower terrace noise if in the right area
+                    if (yIn <= sandHeight) return 0;
+
+                    final double overhangHeight = SEA_LEVEL_Y + 11;
+                    final double cliffBaseHeight = SEA_LEVEL_Y - 4;
+
+                    double y = yIn - cliffBaseHeight;
+
+                    final double cliffNoiseModifier = 0.12 * Math.abs(cliffNoise.noise(x, y, z));
+                    final double cliffBorderTopWeight = 0.26 - cliffNoiseModifier;
+                    final double cliffBorderBaseWeight = 0.22 - cliffNoiseModifier;
+
+                    final double height = overhangHeight - cliffBaseHeight;
+
+                    // landWeight where cliff top edges form
+                    if (oceanWeight >= cliffBorderBaseWeight)
+                    {
+                        final double cliffBorderWeight = widthFunction(false, y, height, cliffBorderBaseWeight, cliffBorderTopWeight);
+                        return Math.clamp((oceanWeight - cliffBorderWeight) * 20, 0, 1) * noiseScale;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
             }
         };
@@ -543,7 +573,7 @@ public final class ShoreNoise
     {
         return new ShoreNoiseSampler()
         {
-            final double noiseScale = 1;
+            final double noiseScale = 3;
 
             final Noise3D cliffNoise = BiomeNoise.cliffNoise(seed);
             final Noise2D lowerTerraceNoise = BiomeNoise.lowerTerraceNoise(seed);
@@ -572,7 +602,7 @@ public final class ShoreNoise
                 if (yIn <= sandHeight) return 0;
 
                 final double overhangHeight = SEA_LEVEL_Y + 11;
-                final double cliffBaseHeight = SEA_LEVEL_Y - 2;
+                final double cliffBaseHeight = SEA_LEVEL_Y - 4;
 
                 double y = yIn - cliffBaseHeight;
 

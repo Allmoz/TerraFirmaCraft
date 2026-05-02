@@ -1630,7 +1630,7 @@ public final class BiomeNoise
 
     public static Noise2D lowerTerraceNoise(Seed seed)
     {
-        return BiomeNoise.hills(seed.seed(), 7, 15);
+        return BiomeNoise.hills(seed.seed(), 3, 11);
     }
 
     public static Noise2D upperTerraceNoise(Seed seed)

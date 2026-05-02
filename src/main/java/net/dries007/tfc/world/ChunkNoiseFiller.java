@@ -587,6 +587,8 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
             noise = Mth.clampedMap(y, carveBelowHeight - 10, carveBelowHeight, noise, 0);
         }
 
+        final double postShoreNoise = noise;
+
         // Apply transformations from rivers
         // Each river blend type applies to the initial noise value, and then is weighted by its blend weight
         for (RiverBlendType type : RiverBlendType.ALL)
@@ -594,12 +596,12 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
             final double weight = riverBlendWeights[type.ordinal()];
             if (type == RiverBlendType.NONE)
             {
-                noise += weight * initialNoise;
+                noise += weight * postShoreNoise;
             }
             else if (weight > 0)
             {
                 final RiverNoiseSampler sampler = riverNoiseSamplers.get(type);
-                noise += weight * sampler.noise(y, initialNoise);
+                noise += weight * sampler.noise(y, postShoreNoise);
             }
         }
 
