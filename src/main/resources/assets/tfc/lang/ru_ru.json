@@ -577,6 +577,7 @@
   "config.jade.plugin_tfc.decaying": "Гниение блоков",
   "config.jade.plugin_tfc.loom": "Ткацкий станок",
   "config.jade.plugin_tfc.power_loom": "Power Loom",
+  "config.jade.plugin_tfc.trip_hammer": "Trip Hammer",
   "config.jade.plugin_tfc.ingot_pile": "Кладка слитков",
   "config.jade.plugin_tfc.axle": "Ось",
   "config.jade.plugin_tfc.encased_axle": "Закрытая ось",
