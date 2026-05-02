@@ -148,6 +148,7 @@ public class BuiltinItemHeat extends DataManagerProvider<HeatDefinition> impleme
         addAndMelt(TFCItems.JACKS, Metal.BRASS, 100);
         addAndMelt(TFCItems.GEM_SAW, Metal.BRASS, 50);
         addAndMelt(TFCItems.JAR_LID, Metal.TIN, 6);
+        addAndMelt(TFCItems.BRASS_MECHANISMS, Metal.BRASS, 50);
 
         add(TFCTags.Items.GLASS_BLOWPIPES, 0.7f);
         add(Tags.Items.RODS_WOODEN, 2.5f); // Includes twigs
