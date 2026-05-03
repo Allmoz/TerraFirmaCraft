@@ -11,8 +11,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Fluids;
 
-import net.dries007.tfc.common.blocks.TFCBlocks;
-import net.dries007.tfc.common.blocks.rock.Rock;
 import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.Seed;
@@ -143,39 +141,5 @@ public class AtollSurfaceBuilder implements SurfaceBuilder
             }
         }
         parent.buildSurface(context, startY, endY);
-    }
-
-    private void buildVolcanicSurface(SurfaceBuilderContext context, int startY, int endY, int noise)
-    {
-        final BlockState basalt = TFCBlocks.ROCK_BLOCKS.get(Rock.BASALT).get(Rock.BlockType.RAW).get().defaultBlockState();
-
-        int surfaceDepth = -1;
-        for (int y = startY; y >= endY; --y)
-        {
-            BlockState stateAt = context.getBlockState(y);
-            if (stateAt.isAir())
-            {
-                // Reached air, reset surface depth
-                surfaceDepth = -1;
-            }
-            else if (context.isDefaultBlock(stateAt))
-            {
-                if (y > context.biome().getCenteredFeatureRockHeight() + noise)
-                {
-                    if (surfaceDepth == -1)
-                    {
-                        // Reached surface. Place top state and switch to subsurface layers
-                        surfaceDepth = 40;
-                        context.setBlockState(y, basalt);
-                    }
-                    else if (surfaceDepth > 0)
-                    {
-                        // Subsurface layers
-                        surfaceDepth--;
-                        context.setBlockState(y, basalt);
-                    }
-                }
-            }
-        }
     }
 }

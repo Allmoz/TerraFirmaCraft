@@ -15,6 +15,7 @@ import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.ChunkHeightFiller;
 import net.dries007.tfc.world.Seed;
 import net.dries007.tfc.world.biome.BiomeExtension;
+import net.dries007.tfc.world.biome.BiomeNoise;
 import net.dries007.tfc.world.biome.BiomeSourceExtension;
 import net.dries007.tfc.world.biome.TFCBiomes;
 import net.dries007.tfc.world.noise.Cellular2D;
@@ -38,16 +39,28 @@ public class CenteredFeatureNoise
             public double setColumnAndSampleHeight(double heightIn, int x, int z, BiomeSourceExtension biomeSource)
             {
                 Cellular2D.Cell cell = cellNoise.cell(x, z);
-                final BiomeExtension biome = biomeSource.getBiomeExtension(QuartPos.fromBlock((int) cell.x()), QuartPos.fromBlock((int) cell.y()));
+                final int xC = (int) cell.x();
+                final int zC = (int) cell.y();
+                final BiomeExtension biome = biomeSource.getBiomeExtension(QuartPos.fromBlock(xC), QuartPos.fromBlock(zC));
                 if (biome.hasCinderCones())
                 {
                     final int rarity = biome.getCenteredFeatureRarity();
                     if (checkCellRarity(cell, rarity))
                     {
+                        final int baseHeight;
                         if (biome == TFCBiomes.ACTIVE_SHIELD_VOLCANO)
-                            return modifyHeightShieldVolcano(cell, x, z, biome, heightIn);
+                        {
+                            baseHeight = (int) BiomeNoise.activeShieldVolcano(seed.seed(), BiomeNoise.activeHotSpots(seed.seed())).noise(xC, zC) - 11;
+                        }
+                        else if (biome == TFCBiomes.RIFT_VALLEY)
+                        {
+                            baseHeight = (int) BiomeNoise.riftValley(seed.seed(), 2, 30, false).noise(xC, zC) - 11;
+                        }
                         else
-                            return modifyHeight(cell, x, z, biome, heightIn);
+                        {
+                            baseHeight = SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight();
+                        }
+                        return modifyHeight(cell, x, z, baseHeight, biome.getCenteredFeatureScaleHeight(), heightIn);
                     }
                 }
                 return ChunkHeightFiller.NOT_PRESENT_RETURN;
@@ -72,31 +85,24 @@ public class CenteredFeatureNoise
                 return 0;
             }
 
-            private double modifyHeight(Cellular2D.Cell cell, int x, int z, BiomeExtension biome, double heightIn)
+            private double modifyHeight(Cellular2D.Cell cell, int x, int z, int baseHeight, int scaleHeight, double heightIn)
             {
                 final double f1 = cell.f1();
                 final double easing = Mth.clamp(calculateEasing((float) f1) + jitterNoise.noise(x, z), 0, 1);
-                final double shape = calculateShape(1 - easing);
-                final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight();
-                final double volcanoHeight = (SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight() + volcanoAdditionalHeight);
+                final double rim = 0.025;
+                final double shape = calculateShape(1 -easing, rim);
+                final double volcanoAdditionalHeight = shape * scaleHeight;
+                final double volcanoHeight = baseHeight + volcanoAdditionalHeight;
                 final double weight = 10f * Mth.clamp((float) cell.f2() - f1, 0f, 0.1f);
-                return Mth.lerp(easing * weight, heightIn, (0.2 * volcanoHeight + 0.8 * Math.max(volcanoHeight, heightIn + 0.6f * volcanoAdditionalHeight)));
-
-            }
-
-            private double modifyHeightShieldVolcano(Cellular2D.Cell cell, int x, int z, BiomeExtension biome, double heightIn)
-            {
-                if (cell != null)
+                final double adjEasing = easing * weight;
+                if (adjEasing > 1 - rim)
                 {
-                    final double f1 = cell.f1();
-                    final double easing = Mth.clamp(calculateEasing((float) f1) + (jitterNoise.noise(x, z)), 0, 1);
-                    final double shape = calculateShape(1 - easing);
-                    final double volcanoAdditionalHeight = shape * biome.getCenteredFeatureScaleHeight();
-                    final double volcanoHeight = (SEA_LEVEL_Y + biome.getCenteredFeatureBaseHeight() + volcanoAdditionalHeight);
-                    final double weight = 10f * Mth.clamp(cell.f2() - f1, 0f, 0.1f);
-                    return Mth.lerp(easing * weight, heightIn, (0.2 * volcanoHeight + 0.8 * Math.max(volcanoHeight, heightIn + 0.6f * volcanoAdditionalHeight)));
+                    return volcanoHeight;
                 }
-                return heightIn;
+                else
+                {
+                    return Mth.map(adjEasing, 0, 1 - rim, heightIn, volcanoHeight);
+                }
             }
 
             private static float calculateEasing(float f1)
@@ -113,9 +119,9 @@ public class CenteredFeatureNoise
              * @param t The unscaled square distance from the volcano, roughly in [0, 1.2]
              * @return A noise function determining the volcano's height at any given position, in the range [0, 1]
              */
-            private static double calculateShape(double t)
+            private static double calculateShape(double t, double rim)
             {
-                if (t > 0.025)
+                if (t > rim)
                 {
                     return (5 / (9 * t + 1) - 0.5) * 0.279173646008;
                 }

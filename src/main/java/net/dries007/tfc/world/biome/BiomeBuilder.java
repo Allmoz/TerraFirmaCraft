@@ -51,7 +51,6 @@ public class BiomeBuilder
     private boolean hasStratovolcanoes;
     private boolean hasTuffRings;
     private int centeredFeatureFrequency;
-    private int centeredFeatureRockHeight;
     private int centeredFeatureBaseHeight;
     private int centeredFeatureScaleHeight;
     private boolean centeredFeatureIce;
@@ -78,7 +77,6 @@ public class BiomeBuilder
         hasAtolls = false;
         centeredFeatureIce = false;
         centeredFeatureFrequency = 0;
-        centeredFeatureRockHeight = 0;
         centeredFeatureBaseHeight = 0;
         centeredFeatureScaleHeight = 0;
         spawnable = false;
@@ -193,16 +191,10 @@ public class BiomeBuilder
         return this;
     }
 
-    public BiomeBuilder cinderCones(int frequency, int baseHeight, int scaleHeight, int cinderConeBasaltHeight)
-    {
-        return cinderCones(frequency, baseHeight, scaleHeight, cinderConeBasaltHeight, false);
-    }
-
-    public BiomeBuilder cinderCones(int frequency, int baseHeight, int scaleHeight, int cinderConeBasaltHeight, boolean additive)
+    public BiomeBuilder cinderCones(int frequency, int baseHeight, int scaleHeight)
     {
         this.hasCinderCones = true;
         this.centeredFeatureFrequency = frequency;
-        this.centeredFeatureRockHeight = SEA_LEVEL_Y + cinderConeBasaltHeight;
         this.centeredFeatureBaseHeight = baseHeight;
         this.centeredFeatureScaleHeight = scaleHeight;
 
@@ -219,21 +211,21 @@ public class BiomeBuilder
         return this;
     }
 
-    public BiomeBuilder stratovolcanoes(int frequency, int baseHeight, int scaleHeight)
+    public BiomeBuilder stratovolcanoes(int frequency, int baseHeight, int scaleHeight, boolean icy)
     {
         this.hasStratovolcanoes = true;
         this.centeredFeatureFrequency = frequency;
         this.centeredFeatureBaseHeight = baseHeight;
         this.centeredFeatureScaleHeight = scaleHeight;
+        this.centeredFeatureIce = icy;
 
         return this;
     }
 
-    public BiomeBuilder tuyas(int frequency, int baseHeight, int scaleHeight, int tuyaBasaltHeight, boolean icy)
+    public BiomeBuilder tuyas(int frequency, int baseHeight, int scaleHeight, boolean icy)
     {
         this.hasTuyas = true;
         this.centeredFeatureFrequency = frequency;
-        this.centeredFeatureRockHeight = SEA_LEVEL_Y + tuyaBasaltHeight;
         this.centeredFeatureBaseHeight = baseHeight;
         this.centeredFeatureScaleHeight = scaleHeight;
         this.centeredFeatureIce = icy;
@@ -253,6 +245,6 @@ public class BiomeBuilder
     {
         assert surfaceBuilderFactory != null : "missing surface builder";
 
-        return new BiomeExtension(key, noiseFactory, surfaceBuilderFactory, aquiferSurfaceHeight, biomeBlendType, riverBlendType, shoreBlendType, salty, hasCinderCones, hasTuffRings, hasTuyas, hasAtolls, hasStratovolcanoes, centeredFeatureFrequency, centeredFeatureRockHeight, centeredFeatureBaseHeight, centeredFeatureScaleHeight, centeredFeatureIce, spawnable, rivers, shore, shoreBaseHeight, sandyRiverShores);
+        return new BiomeExtension(key, noiseFactory, surfaceBuilderFactory, aquiferSurfaceHeight, biomeBlendType, riverBlendType, shoreBlendType, salty, hasCinderCones, hasTuffRings, hasTuyas, hasAtolls, hasStratovolcanoes, centeredFeatureFrequency, centeredFeatureBaseHeight, centeredFeatureScaleHeight, centeredFeatureIce, spawnable, rivers, shore, shoreBaseHeight, sandyRiverShores);
     }
 }
