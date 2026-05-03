@@ -101,6 +101,7 @@ public class TFCTags
         public static final TagKey<Block> EXPLOSION_PROOF = create("explosion_proof");
         public static final TagKey<Block> POWDERKEG_BREAKING_BLOCKS = create("powderkeg_breaking_blocks");
         public static final TagKey<Block> KAOLIN_CLAY_REPLACEABLE = create("kaolin_clay_replaceable");
+        public static final TagKey<Block> NO_ICICLE_GENERATION = create("no_icicle_generation");
 
         private static TagKey<Block> create(String id)
         {
