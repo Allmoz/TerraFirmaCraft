@@ -124,6 +124,6 @@ public interface AnvilRecipes extends Recipes
 
     private void anvil(Ingredient input, ItemStackProvider output, int minTier, boolean applyForgingBonus, ForgeRule... rules)
     {
-        add(new AnvilRecipe(input, minTier, List.of(rules), applyForgingBonus, output));
+        add(new AnvilRecipe(input, minTier, List.of(rules).reversed(), applyForgingBonus, output));
     }
 }
