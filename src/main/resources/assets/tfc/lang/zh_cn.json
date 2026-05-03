@@ -585,6 +585,7 @@
   "config.jade.plugin_tfc.decaying": "腐烂",
   "config.jade.plugin_tfc.loom": "织布机",
   "config.jade.plugin_tfc.power_loom": "动力织布机",
+  "config.jade.plugin_tfc.trip_hammer": "Trip Hammer",
   "config.jade.plugin_tfc.ingot_pile": "锭堆",
   "config.jade.plugin_tfc.axle": "传动杆",
   "config.jade.plugin_tfc.encased_axle": "封闭式传动杆",

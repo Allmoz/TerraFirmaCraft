@@ -148,13 +148,6 @@
     },
     {
       "type": "patchouli:entity",
-      "entity": "tfc:rabbit",
-      "scale": 0.7,
-      "name": "Tavşan",
-      "text": "Tavşanların havuç ve lahana kemirdikleri bilinir. Dünyanın her yerinde bulunurlar ve kürklerini iklime göre değiştirirler. Ortaya çıkmaları için sadece 15mm $(l:the_world/climate#rainfall)yağış$() yeterlidir."
-    },
-    {
-      "type": "patchouli:entity",
       "entity": "tfc:fox",
       "scale": 0.7,
       "name": "Tilki",
@@ -210,9 +203,6 @@
       "scale": 0.8,
       "name": "Tavus kuşu",
       "text": "Tavus kuşu, 14°C üzerindeki herhangi bir $(l:the_world/climate#temperature)sıcaklıkta$() ve 190 ile 500mm arasındaki $(l:the_world/climate#rainfall)yağışta$() ormanlarda ortaya çıkar."
-    },
-    {
-      "type": "patchouli:empty"
     },
     {
       "type": "patchouli:text",

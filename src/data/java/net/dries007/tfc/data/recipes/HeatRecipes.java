@@ -124,6 +124,7 @@ public interface HeatRecipes extends Recipes
         burnFood("bread", Ingredient.of(TFCTags.Items.BREAD), 700);
         burnFood("meat", Ingredient.of(TFCTags.Items.COOKED_MEATS), 900);
 
+
         for (Ore ore : Ore.values())
             if (ore.isGraded())
                 addOres(ore, ore.metal());

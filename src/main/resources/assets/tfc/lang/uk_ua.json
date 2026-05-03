@@ -574,6 +574,7 @@
   "config.jade.plugin_tfc.decaying": "Гнійний блок",
   "config.jade.plugin_tfc.loom": "Ткацлький верстат",
   "config.jade.plugin_tfc.power_loom": "Power Loom",
+  "config.jade.plugin_tfc.trip_hammer": "Trip Hammer",
   "config.jade.plugin_tfc.ingot_pile": "Стіс злитків",
   "config.jade.plugin_tfc.axle": "Вісь",
   "config.jade.plugin_tfc.encased_axle": "Укрита вісь",
