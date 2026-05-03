@@ -257,6 +257,7 @@ public class TFCTags
         public static final TagKey<Block> THERMOMETER_READABLE = tag("thermometer_readable");
         /**  */
         public static final TagKey<Block> CLOCK_READABLE = tag("clock_readable");
+        public static final TagKey<Block> NO_ICICLE_GENERATION = tag("no_icicle_generation");
 
         private static TagKey<Block> tag(String name)
         {
