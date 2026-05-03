@@ -209,37 +209,37 @@ def generate(rm: ResourceManager):
 
     # Carvers
     rm.configured_carver('cave', 'tfc:cave', {
-        'probability': 0.05,
+        'probability': 0.03,
         'y': height_provider(-56, 126),
         'yScale': uniform_float(0.1, 0.9),
         'lava_level': utils.vertical_anchor(8, 'above_bottom'),
         'aquifers_enabled': True,
-        'horizontal_radius_multiplier': uniform_float(1, 2.5),
-        'vertical_radius_multiplier': uniform_float(1, 2.5),
+        'horizontal_radius_multiplier': uniform_float(1.5, 2.5),
+        'vertical_radius_multiplier': uniform_float(1.5, 2.5),
         'floor_level': uniform_float(-1, 0.3),
         'replaceable': '#minecraft:overworld_carver_replaceables',
     })
 
-    rm.configured_carver('deep_caves', 'tfc:cave', {
-        'probability': 0.2,
-        'y': height_provider(-56, 48),
+    rm.configured_carver('deep_cave', 'tfc:cave', {
+        'probability': 0.12,
+        'y': height_provider(-56, 56),
         'yScale': uniform_float(0.1, 0.9),
         'lava_level': utils.vertical_anchor(8, 'above_bottom'),
         'aquifers_enabled': True,
-        'horizontal_radius_multiplier': uniform_float(1.3, 2.5),
-        'vertical_radius_multiplier': uniform_float(1.3, 2.5),
+        'horizontal_radius_multiplier': uniform_float(2, 3.5),
+        'vertical_radius_multiplier': uniform_float(2, 3.5),
         'floor_level': uniform_float(-1, 0.3),
         'replaceable': '#minecraft:overworld_carver_replaceables',
     })
 
-    rm.configured_carver('karst_caves', 'tfc:cave', {
-        'probability': 0.07,
-        'y': height_provider(-20, 70),
+    rm.configured_carver('karst_cave', 'tfc:cave', {
+        'probability': 0.03,
+        'y': height_provider(-30, 70),
         'yScale': uniform_float(0.1, 0.9),
         'lava_level': utils.vertical_anchor(8, 'above_bottom'),
         'aquifers_enabled': True,
-        'horizontal_radius_multiplier': uniform_float(1, 3.1),
-        'vertical_radius_multiplier': uniform_float(1, 3.1),
+        'horizontal_radius_multiplier': uniform_float(1.7, 3.1),
+        'vertical_radius_multiplier': uniform_float(1.7, 3.1),
         'floor_level': uniform_float(-1, 0.2),
         'replaceable': '#tfc:extra_cave_carver_replaceable',
     })
@@ -2226,7 +2226,7 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
             'water_fog_color': 0x050533
         },
         spawners=spawners,
-        air_carvers=['tfc:cave', 'tfc:canyon'],
+        air_carvers=['tfc:cave', 'tfc:deep_cave', 'tfc:karst_cave' 'tfc:canyon'],
         water_carvers=[],
         features=feature_tags,
         creature_spawn_probability=0.1,

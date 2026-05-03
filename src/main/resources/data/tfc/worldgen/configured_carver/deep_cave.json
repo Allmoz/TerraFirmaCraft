@@ -2,14 +2,14 @@
   "__comment__": "This file was automatically created by mcresources",
   "type": "tfc:cave",
   "config": {
-    "probability": 0.07,
+    "probability": 0.12,
     "y": {
       "type": "uniform",
       "min_inclusive": {
-        "absolute": -20
+        "absolute": -56
       },
       "max_inclusive": {
-        "absolute": 70
+        "absolute": 56
       }
     },
     "yScale": {
@@ -23,19 +23,19 @@
     "aquifers_enabled": true,
     "horizontal_radius_multiplier": {
       "type": "uniform",
-      "min_inclusive": 1,
-      "max_exclusive": 3.1
+      "min_inclusive": 2,
+      "max_exclusive": 3.5
     },
     "vertical_radius_multiplier": {
       "type": "uniform",
-      "min_inclusive": 1,
-      "max_exclusive": 3.1
+      "min_inclusive": 2,
+      "max_exclusive": 3.5
     },
     "floor_level": {
       "type": "uniform",
       "min_inclusive": -1,
-      "max_exclusive": 0.2
+      "max_exclusive": 0.3
     },
-    "replaceable": "#tfc:extra_cave_carver_replaceable"
+    "replaceable": "#minecraft:overworld_carver_replaceables"
   }
 }
