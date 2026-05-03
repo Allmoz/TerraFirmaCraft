@@ -350,9 +350,9 @@ ORE_VEINS: dict[str, Vein] = {
     # Native - only in IE, only surface, and common to compensate for the y-level getting cut off.
     # Malachite + Tetrahedrite - Sed + MM, can spawn in larger deposits, hence more common. Tetrahedrite also spawns at high altitude MM
     # All copper have high indicator rarity because it's necessary early on
-    'surface_native_copper': Vein.new('native_copper', 24, 20, 40, 130, 0.25, ('igneous_extrusive',), grade=POOR, deposits=True, indicator=14),
-    'surface_malachite': Vein.new('malachite', 32, 20, 40, 130, 0.25, ('marble', 'limestone', 'chalk', 'dolomite'), grade=POOR, indicator=14),
-    'surface_tetrahedrite': Vein.new('tetrahedrite', 7, 20, 90, 170, 0.25, ('metamorphic',), grade=POOR, indicator=8),
+    'surface_native_copper': Vein.new('native_copper', 8, 20, 40, 300, 0.25, ('igneous_extrusive',), grade=POOR, deposits=True, indicator=14),
+    'surface_malachite': Vein.new('malachite', 11, 20, 40, 300, 0.25, ('marble', 'limestone', 'chalk', 'dolomite'), grade=POOR, indicator=14),
+    'surface_tetrahedrite': Vein.new('tetrahedrite', 3, 20, 90, 270, 0.25, ('metamorphic',), grade=POOR, indicator=8),
 
     'normal_malachite': Vein.new('malachite', 45, 30, -30, 70, 0.5, ('marble', 'limestone', 'chalk', 'dolomite'), grade=NORMAL, indicator=25),
     'normal_tetrahedrite': Vein.new('tetrahedrite', 40, 30, -30, 70, 0.5, ('metamorphic',), grade=NORMAL, indicator=25),
@@ -365,24 +365,24 @@ ORE_VEINS: dict[str, Vein] = {
     'fake_native_gold': Vein.new('pyrite', 16, 15, -50, 70, 0.35, ('igneous_extrusive', 'igneous_intrusive'), indicator=0),
 
     # Silver - black bronze (T2 with gold), or for black steel. Rare and small in uplift mountains via high II or plentiful near bottom of world
-    'surface_native_silver': Vein.new('native_silver', 15, 10, 90, 180, 0.2, ('granite', 'diorite'), grade=POOR),
+    'surface_native_silver': Vein.new('native_silver', 7, 10, 90, 280, 0.2, ('granite', 'diorite'), grade=POOR),
     'normal_native_silver': Vein.new('native_silver', 25, 25, -80, 20, 0.6, ('granite', 'diorite', 'gneiss', 'schist'), grade=RICH, indicator=0, deep_indicator=(1, 9)),
 
     # Tin - bronze T2, rare situation (II uplift mountain) but common and rich.
-    'surface_cassiterite': Vein.new('cassiterite', 5, 15, 80, 180, 0.4, ('igneous_intrusive',), grade=NORMAL, deposits=True),
+    'surface_cassiterite': Vein.new('cassiterite', 2, 15, 80, 300, 0.4, ('igneous_intrusive',), grade=NORMAL, deposits=True),
 
     # Bismuth - bronze T2 surface via Sed, deep and rich via II
-    'surface_bismuthinite': Vein.new('bismuthinite', 32, 20, 40, 130, 0.3, ('sedimentary',), grade=POOR, indicator=14),
+    'surface_bismuthinite': Vein.new('bismuthinite', 16, 20, 40, 220, 0.3, ('sedimentary',), grade=POOR, indicator=14),
     'normal_bismuthinite': Vein.new('bismuthinite', 45, 40, -80, 20, 0.6, ('igneous_intrusive',), grade=RICH, indicator=0, deep_indicator=(1, 4)),
 
     # Zinc - bronze T2, requires different source from bismuth, surface via IE, or deep via II
-    'surface_sphalerite': Vein.new('sphalerite', 30, 20, 40, 130, 0.3, ('igneous_extrusive',), grade=POOR),
+    'surface_sphalerite': Vein.new('sphalerite', 15, 20, 40, 220, 0.3, ('igneous_extrusive',), grade=POOR),
     'normal_sphalerite': Vein.new('sphalerite', 45, 40, -80, 20, 0.6, ('igneous_intrusive',), grade=RICH, indicator=0, deep_indicator=(1, 5)),
 
     # Iron - both surface via IE and Sed. IE has one, Sed has two, so the two are higher rarity
-    'surface_hematite': Vein.new('hematite', 45, 20, 10, 90, 0.4, ('igneous_extrusive',), grade=NORMAL, indicator=24),
-    'surface_magnetite': Vein.new('magnetite', 90, 20, 10, 90, 0.4, ('sedimentary',), grade=NORMAL, indicator=24),
-    'surface_limonite': Vein.new('limonite', 90, 20, 10, 90, 0.4, ('sedimentary',), grade=NORMAL, indicator=24),
+    'surface_hematite': Vein.new('hematite', 15, 20, 10, 250, 0.4, ('igneous_extrusive',), grade=NORMAL, indicator=24),
+    'surface_magnetite': Vein.new('magnetite', 30, 20, 10, 250, 0.4, ('sedimentary',), grade=NORMAL, indicator=24),
+    'surface_limonite': Vein.new('limonite', 30, 20, 10, 250, 0.4, ('sedimentary',), grade=NORMAL, indicator=24),
 
     # Nickel - only deep spawning II. Extra veins in gabbro
     'normal_garnierite': Vein.new('garnierite', 25, 18, -80, 0, 0.3, ('igneous_intrusive',), grade=NORMAL),
@@ -397,7 +397,7 @@ ORE_VEINS: dict[str, Vein] = {
 
     # Sulfur spawns near lava level in any low-level rock, common, but small veins, or in tuff near the surface
     'sulfur': Vein.new('sulfur', 4, 18, -64, -45, 0.25, ('igneous_intrusive', 'metamorphic'), vein_type='disc', height=5, near_lava=True),
-    'tuff_sulfur': Vein.new('sulfur', 4, 18, 40, 120, 0.45, ('tuff',), vein_type='disc', height=4),
+    'tuff_sulfur': Vein.new('sulfur', 2, 18, 40, 200, 0.45, ('tuff',), vein_type='disc', height=4),
 
     # Redstone: Cryolite is deep II, cinnabar is deep MM, both are common enough within these rocks but rare to find
     'cryolite': Vein.new('cryolite', 16, 18, -70, -10, 0.7, ('granite', 'diorite')),
