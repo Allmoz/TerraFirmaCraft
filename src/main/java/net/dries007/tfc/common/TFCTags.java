@@ -386,6 +386,7 @@ public class TFCTags
         public static final TagKey<Item> MULE_FOOD = tag("mule_food");
         public static final TagKey<Item> HORSE_FOOD = tag("horse_food");
         public static final TagKey<Item> CAT_FOOD = tag("cat_food");
+        public static final TagKey<Item> OCELOT_FOOD = tag("ocelot_food");
         public static final TagKey<Item> DOG_FOOD = tag("dog_food");
         public static final TagKey<Item> PENGUIN_FOOD = tag("penguin_food");
         public static final TagKey<Item> TURTLE_FOOD = tag("turtle_food");
@@ -536,6 +537,7 @@ public class TFCTags
         public static final TagKey<Item> HIGH_QUALITY_CLOTH = tag("high_quality_cloth");
         public static final TagKey<Item> GEM_POWDERS = tag("gem_powders");
         public static final TagKey<Item> BOOKS = commonTag("books");
+        public static final TagKey<Item> SULFUR_POWDER = commonTag("powders/sulfur");
         /** Used by patchouli */
         public static final TagKey<Item> ORE_DEPOSITS = tag("ore_deposits");
         public static final TagKey<Item> TANNIN_LOGS = tag("tannin_logs");

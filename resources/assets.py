@@ -481,10 +481,14 @@ def generate(rm: ResourceManager):
 
     # Fired large undyed vessel
     block = rm.blockstate('tfc:ceramic/large_vessel', variants={
-        'sealed=true,axis=x': {'model': 'tfc:block/ceramic/large_vessel_sealed'},
-        'sealed=true,axis=z': {'model': 'tfc:block/ceramic/large_vessel_sealed', 'y': 90},
-        'sealed=false,axis=x': {'model': 'tfc:block/ceramic/large_vessel_opened'},
-        'sealed=false,axis=z': {'model': 'tfc:block/ceramic/large_vessel_opened', 'y': 90}
+        'sealed=true,facing=north': {'model': 'tfc:block/ceramic/large_vessel_sealed', 'y': 180},
+        'sealed=true,facing=east': {'model': 'tfc:block/ceramic/large_vessel_sealed', 'y': 270},
+        'sealed=true,facing=south': {'model': 'tfc:block/ceramic/large_vessel_sealed'},
+        'sealed=true,facing=west': {'model': 'tfc:block/ceramic/large_vessel_sealed', 'y': 90},
+        'sealed=false,facing=north': {'model': 'tfc:block/ceramic/large_vessel_opened', 'y': 180},
+        'sealed=false,facing=east': {'model': 'tfc:block/ceramic/large_vessel_opened', 'y': 270},
+        'sealed=false,facing=south': {'model': 'tfc:block/ceramic/large_vessel_opened'},
+        'sealed=false,facing=west': {'model': 'tfc:block/ceramic/large_vessel_opened', 'y': 90}
     })
     block.with_lang(lang('large vessel'))
     block.with_block_loot(({
@@ -511,10 +515,14 @@ def generate(rm: ResourceManager):
     for color in COLORS:
         vessel = 'tfc:ceramic/large_vessel/%s' % color
         block = rm.blockstate(vessel, variants={
-            'sealed=true,axis=x': {'model': 'tfc:block/ceramic/%s_large_vessel_sealed' % color},
-            'sealed=true,axis=z': {'model': 'tfc:block/ceramic/%s_large_vessel_sealed' % color, 'y': 90},
-            'sealed=false,axis=x': {'model': 'tfc:block/ceramic/%s_large_vessel_opened' % color},
-            'sealed=false,axis=z': {'model': 'tfc:block/ceramic/%s_large_vessel_opened' % color, 'y': 90}
+            'sealed=true,facing=north': {'model': 'tfc:block/ceramic/%s_large_vessel_sealed' % color, 'y': 180},
+            'sealed=true,facing=east': {'model': 'tfc:block/ceramic/%s_large_vessel_sealed' % color, 'y': 270},
+            'sealed=true,facing=south': {'model': 'tfc:block/ceramic/%s_large_vessel_sealed' % color},
+            'sealed=true,facing=west': {'model': 'tfc:block/ceramic/%s_large_vessel_sealed' % color, 'y': 90},
+            'sealed=false,facing=north': {'model': 'tfc:block/ceramic/%s_large_vessel_opened' % color, 'y': 180},
+            'sealed=false,facing=east': {'model': 'tfc:block/ceramic/%s_large_vessel_opened' % color, 'y': 270},
+            'sealed=false,facing=south': {'model': 'tfc:block/ceramic/%s_large_vessel_opened' % color},
+            'sealed=false,facing=west': {'model': 'tfc:block/ceramic/%s_large_vessel_opened' % color, 'y': 90}
         })
         block.with_lang(lang('%s large vessel', color))
         block.with_block_loot(({
@@ -2434,13 +2442,15 @@ def generate(rm: ResourceManager):
     rm.custom_block_model('ingot_pile', 'tfc:ingot_pile', {})
     rm.custom_block_model('double_ingot_pile', 'tfc:double_ingot_pile', {})
 
-    rm.block_loot('creative_motor')
     rm.blockstate('creative_motor', variants={
         'axis=x': {'model': 'tfc:block/creative_motor', 'y' : 270},
         'axis=z': {'model': 'tfc:block/creative_motor', 'y': 180},
         'axis=y': {'model': 'tfc:block/creative_motor', 'y': 180, 'x': 90},
     }).with_lang(lang('Creative Motor'))
     rm.item_model('creative_motor', parent='tfc:block/creative_motor', no_textures=True)
+
+    block = rm.blockstate('power_loom', variants=four_rotations('tfc:block/power_loom', (270, 180, None, 90)))
+    block.with_lang(lang('power loom')).with_item_model().with_block_loot('tfc:power_loom')
 
     for fluid in SIMPLE_FLUIDS:
         water_based_fluid(rm, fluid)

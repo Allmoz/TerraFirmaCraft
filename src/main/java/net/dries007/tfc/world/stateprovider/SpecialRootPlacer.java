@@ -38,17 +38,10 @@ public record SpecialRootPlacer(float skewChance)
     public boolean placeRoots(WorldGenLevel level, RandomSource random, BlockPos.MutableBlockPos mutablePos, RootConfig config)
     {
         final List<BlockPos> positions = Lists.newArrayList();
-        final int oceanFloorY = level.getChunk(mutablePos).getHeight(Heightmap.Types.OCEAN_FLOOR_WG, mutablePos.getX(), mutablePos.getZ());
-        if (oceanFloorY < SEA_LEVEL_Y - 4)
-        {
-            return false;
-        }
-        else
-        {
-            // We use a mutable pos so that mangrove roots can raise the height of the trunk base
-            // Do not modify the mutable pos beyond this point
-            mutablePos.setY(Math.max(oceanFloorY + random.nextInt(4), SEA_LEVEL_Y + 1));
-        }
+
+        // We use a mutable pos so that mangrove roots can raise the height of the trunk base
+        // Do not modify the mutable pos beyond this point
+        mutablePos.setY((mutablePos.getY() + random.nextInt(4)));
 
         positions.add(mutablePos.below());
 

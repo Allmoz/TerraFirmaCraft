@@ -148,13 +148,6 @@
     },
     {
       "type": "patchouli:entity",
-      "entity": "tfc:rabbit",
-      "scale": 0.7,
-      "name": "Кролик",
-      "text": "Кролик гризе моркву і капусту. Живе по всьому світі, змінюючи хутро залежно від клімату. Йому потрібно лиш 15мм $(l:the_world/climate#rainfall)опадів$()."
-    },
-    {
-      "type": "patchouli:entity",
       "entity": "tfc:fox",
       "scale": 0.7,
       "name": "Лисиця",
@@ -210,9 +203,6 @@
       "scale": 0.8,
       "name": "Peafowl",
       "text": "The peafowl spawns in forests at any $(l:the_world/climate#temperature)temperature$() above 14°C, and $(l:the_world/climate#rainfall)rainfall$() between 190 and 500mm."
-    },
-    {
-      "type": "patchouli:empty"
     },
     {
       "type": "patchouli:text",

@@ -307,7 +307,7 @@ METAL_ITEMS: dict[str, MetalItem] = {
 
 ORES: dict[str, Ore] = {
     'native_copper': Ore('copper', True, 'copper', 'copper', 'orange'),
-    'native_gold': Ore('gold', True, 'copper', 'gold'),
+    'native_gold': Ore('gold', True, 'copper', 'gold', 'yellow'),
     'hematite': Ore('cast_iron', True, 'copper', 'iron', 'red'),
     'native_silver': Ore('silver', True, 'copper', 'silver', 'light_gray'),
     'cassiterite': Ore('tin', True, 'copper', 'tin', 'gray'),
@@ -606,7 +606,7 @@ PLANTS: dict[str, Plant] = {
     'red_algae': Plant(False, -20, 30, 215, 450, 'floating'),
     'red_sealing_wax_palm': Plant(False, 19.3, 40, 280, 500, 'tall_plant'),
     'reindeer_lichen': Plant(False, -30, -8, 50, 470, 'creeping'),
-    'rose': Plant(True, -5, 20, 150, 300, 'tall_plant'),
+    'rose': Plant(False, -0.4, 17.6, 150, 300, 'tall_plant'),
     'sacred_datura': Plant(False, 6.8, 19.3, 75, 150, 'standard'),
     'sagebrush': Plant(False, -5.7, 15.7, 0, 120, 'dry'),
     'sago': Plant(False, -12.9, 19.3, 200, 500, 'water_fresh'),
@@ -901,7 +901,7 @@ FRUITS: dict[str, Fruit] = {
     'peach': Fruit(-3.4, 15.8, 180, 470, -4.6, 17, 15, 95),
     'plum': Fruit(-7, 12.2, 120, 300, -8.2, 13.4, 9, 75),
 }
-JAR_FRUITS = tuple([*BERRIES.keys(), *FRUITS.keys(), 'pumpkin_chunks', 'melon_slice', 'peanut'])
+JAR_FRUITS = tuple([*BERRIES.keys(), *FRUITS.keys(), 'melon_slice', 'peanut'])
 
 SIMPLE_FRESHWATER_FISH = ('bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass',)
 ADVANCEMENT_FISH = ('cod', 'calamari', 'shellfish', 'tropical_fish', *SIMPLE_FRESHWATER_FISH)
@@ -915,7 +915,7 @@ NUTRIENTS = ('grain', 'fruit', 'vegetables', 'protein', 'dairy')
 SPAWN_EGG_ENTITIES = ('isopod', 'lobster', 'crayfish', 'cod', 'pufferfish', 'tropical_fish', 'jellyfish', 'orca', 'dolphin', 'manatee', 'penguin', 'leopard_seal', 'frog', 'turtle', 'horseshoe_crab', 'polar_bear', 'grizzly_bear', 'black_bear', 'cougar', 'panther', 'lion', 'sabertooth', 'squid', 'octopoteuthis', 'pig', 'cow', 'goat', 'yak', 'alpaca', 'musk_ox', 'sheep', 'chicken', 'duck', 'quail', 'rabbit', 'fox', 'boar', 'donkey', 'mule', 'horse', 'deer', 'moose', 'boar', 'rat', 'cat', 'dog', 'wolf', 'panda', 'grouse', 'pheasant', 'turkey', 'ocelot', 'direwolf', 'hyena', 'tiger', 'crocodile', 'bongo', 'caribou', 'gazelle', 'wildebeest', 'bison', 'peafowl', 'jerboa', 'lemming', 'mongoose', *SIMPLE_FRESHWATER_FISH)
 BUCKETABLE_FISH = ('cod', 'pufferfish', 'tropical_fish', 'jellyfish', *SIMPLE_FRESHWATER_FISH)
 
-BLOCK_ENTITIES = ('log_pile', 'burning_log_pile', 'placed_item', 'pit_kiln', 'charcoal_forge', 'quern', 'scraping', 'crucible', 'bellows', 'composter', 'chest', 'trapped_chest', 'barrel', 'loom', 'sluice', 'tool_rack', 'sign', 'lamp', 'berry_bush', 'crop', 'firepit', 'pot', 'grill', 'pile', 'farmland', 'tick_counter', 'nest_box', 'bloomery', 'bloom', 'anvil', 'ingot_pile', 'blast_furnace', 'large_vessel', 'powderkeg', 'bowl', 'hot_poured_glass', 'glass_basin', 'axle', 'sewing_table', 'shelf', 'thatch_bed', 'trip_hammer', 'windmill', 'firebox', 'mold_table', 'channel')
+BLOCK_ENTITIES = ('log_pile', 'burning_log_pile', 'placed_item', 'pit_kiln', 'charcoal_forge', 'quern', 'scraping', 'crucible', 'bellows', 'composter', 'chest', 'trapped_chest', 'barrel', 'loom', 'sluice', 'tool_rack', 'sign', 'lamp', 'berry_bush', 'crop', 'firepit', 'pot', 'grill', 'pile', 'farmland', 'tick_counter', 'nest_box', 'bloomery', 'bloom', 'anvil', 'ingot_pile', 'blast_furnace', 'large_vessel', 'powderkeg', 'bowl', 'hot_poured_glass', 'glass_basin', 'axle', 'sewing_table', 'shelf', 'thatch_bed', 'trip_hammer', 'windmill', 'firebox', 'mold_table', 'channel', 'power_loom')
 
 ARMOR_SECTIONS = ('chestplate', 'leggings', 'boots', 'helmet')
 TFC_ARMOR_SECTIONS = ('helmet', 'chestplate', 'greaves', 'boots')
@@ -986,6 +986,7 @@ VANILLA_OVERRIDE_LANG = {
 # This is here as it's used only once in a generic lang call by generate_resources.py
 DEFAULT_LANG = {
     # Misc
+    'fml.menu.mods.info.description.tfc': 'TerraFirmaCraft',
     'death.attack.tfc.grill': '%1$s grilled themself to death',
     'death.attack.tfc.grill.player': '%1$s grilled themselves while trying to escape %2$s',
     'death.attack.tfc.pot': '%1$s boiled themselves into soup',
@@ -996,7 +997,6 @@ DEFAULT_LANG = {
     'death.attack.tfc.coral.player': '%1$s impaled themself on a coral reef while trying to escape %2$s',
     'death.attack.tfc.pluck': '%1$s was plucked to death.',
     'death.attack.tfc.pluck.player': '%1$s was plucked to death by %2$s, which is surprising, because people don\'t typically grow feathers.',
-    'effect.tfc.pinned': 'Pinned',
     'effect.tfc.ink': 'Ink',
     'effect.tfc.glow_ink': 'Glowing Ink',
     'effect.tfc.overburdened': 'Overburdened',
@@ -1505,6 +1505,8 @@ DEFAULT_LANG = {
     'config.jade.plugin_tfc.mud_bricks': 'Mud Bricks',
     'config.jade.plugin_tfc.decaying': 'Decaying Block',
     'config.jade.plugin_tfc.loom': 'Loom',
+    'config.jade.plugin_tfc.power_loom': 'Power Loom',
+    'config.jade.plugin_tfc.trip_hammer': 'Trip Hammer',
     'config.jade.plugin_tfc.ingot_pile': 'Ingot Pile',
     'config.jade.plugin_tfc.axle': 'Axle',
     'config.jade.plugin_tfc.encased_axle': 'Encased Axle',
@@ -2210,7 +2212,7 @@ DEFAULT_LANG = {
     'tfc.config.server.fireboxEnableAutomation': 'Enable Automation',
     'tfc.config.server.firePitEnableAutomation': 'Enable Automation',
     'tfc.config.server.foodDecayModifier': 'Food Decay Modifier',
-    'tfc.config.server.foodDecayStackTicks1': 'Food Decay Stack Ticks',
+    'tfc.config.server.foodDecayStackTicks': 'Food Decay Stack Ticks',
     'tfc.config.server.fruitBranchGrowthTicks': 'Fruit Branch Growth Ticks',
     'tfc.config.server.fruitPickBloomDelayTicks': 'Fruit Pick Bloom Delay Ticks',
     'tfc.config.server.saplingGrowthModifier': 'Sapling Growth Modifier',

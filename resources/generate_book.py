@@ -485,7 +485,6 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             empty(),
             page_break(),
             text('$(thing)Prey$() animals fear players and predators. They are adept at fleeing from danger, but generally cannot fight back. Some prey animals enjoy snacking on crops.', title='Prey').anchor('prey'),
-            entity('tfc:rabbit', 'The rabbit is known to chew on carrots and cabbage. They are ubiquitous in the world, changing their coat based on climate. They only need 15mm of $(l:the_world/climate#rainfall)rainfall$() to spawn.', 'Rabbit'),
             entity('tfc:fox', 'The fox likes to eat the berries off of bushes. It can be found in forests with $(l:the_world/climate#temperature)temperature$() below 25°C, and $(l:the_world/climate#rainfall)rainfall$() between 130 and 400mm.', 'Fox'),
             entity('tfc:deer', 'The deer spawns in forests at any $(l:the_world/climate#temperature)temperature$() below 25°C and above -15°C, and $(l:the_world/climate#rainfall)rainfall$() between 130 and 400mm.'),
             entity('tfc:caribou', 'The caribou spawns at any $(l:the_world/climate#temperature)temperature$() below -9°C, and $(l:the_world/climate#rainfall)rainfall$() between 110 and 500mm.', 'Caribou', 0.5),
@@ -495,7 +494,6 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             entity('tfc:pheasant', 'The pheasant spawns in forests at any $(l:the_world/climate#temperature)temperature$() below 17°C and above -5°C, and $(l:the_world/climate#rainfall)rainfall$() between 100 and 300mm.'),
             entity('tfc:turkey', 'The turkey spawns in forests at any $(l:the_world/climate#temperature)temperature$() below 17°C and above 0°C, and $(l:the_world/climate#rainfall)rainfall$() between 250 and 450mm.'),
             entity('tfc:peafowl', 'The peafowl spawns in forests at any $(l:the_world/climate#temperature)temperature$() above 14°C, and $(l:the_world/climate#rainfall)rainfall$() between 190 and 500mm.', 'Peafowl', 0.8),
-            empty(),
             page_break(),
             text('$(thing)Aquatic Animals$() are a broad category which covers a number of different behaviors. They may be $(thing)Shore Dwellers$(), $(thing)Fish$(), $(thing)Shellfish$(), or $(thing)Large Aquatic Creatures$()', title='Aquatic Animals').anchor('aquatic'),
             text('$(thing)Shore Animals$() only spawn on sea shores and spend some of their day swimming, and some walking on the beach. They are curious creatures, and will follow the player around, but cannot be tamed.'),
@@ -755,7 +753,7 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             page_break(),
             text('$(thing)Pigs$() spawn in mild forests with $(l:the_world/climate#temperature)temperature$() between -10 and 35°C, and at least 200mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#mammals)Mammals$() with no special abilities. They will eat any food, even if it is rotten. They have 1-10 children, are pregnant for just 19 days, and reach adulthood in 80 days. They can have children 6 times.', title='Pigs').anchor('pig'),
             entity('tfc:pig' + ANIMAL_NBT, 'A pig.', '', scale=0.6),
-            text('$(thing)Rabbits$() spawn in $(l:the_world/climate#temperature)temperatures$() above -16°C, and at least 15mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#mammals)Mammals$() with no special abilities. They will eat any food, even if it is rotten. They have 1-6 children, are pregnant for just 19 days, and reach adulthood in 20 days. They can have children 6 times.', title='Rabbits').anchor('rabbit'),
+            text('$(thing)Rabbits$() spawn in $(l:the_world/climate#temperature)temperatures$() above -16°C, and at least 15mm of $(l:the_world/climate#rainfall)rainfall$(), changing their coat based on climate. They are $(l:mechanics/animal_husbandry#mammals)Mammals$() with no special abilities, aside from being known for chewing on carrots and cabbage. They will eat any food, even if it is rotten. They have 1-6 children, are pregnant for just 19 days, and reach adulthood in 20 days. They can have children 6 times.', title='Rabbits').anchor('rabbit'),
             entity('tfc:rabbit' + ANIMAL_NBT, 'A rabbit.', '', scale=0.8),
             text('$(thing)Cows$() spawn in most climates, between $(l:the_world/climate#temperature)temperature$() -10 and 35°C, and at least 250mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#dairy_animals)Dairy Animals$(). They only eat $(thing)grains$(), which may be rotten. They can have 1-2 children, are pregnant for 58 days, and reach adulthood in 192 days. They can have children 13 times, if they are never milked, or be milked 128 times, if they are never bred. They produce milk every day.', title='Cows').anchor('cow'),
             entity('tfc:cow' + ANIMAL_NBT, 'A cow.', '', scale=0.75),
@@ -817,6 +815,8 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             loom_recipe('tfc:loom/silk_cloth', '$(thing)Silk Cloth$() can be made in the loom out of $(thing)String$(). It can be used as a wool cloth substitute in some cases.').link('tfc:silk_cloth'),
             loom_recipe('tfc:loom/burlap_cloth', '$(thing)Burlap Cloth$() does not have a use, but it can be made from $(l:mechanics/crops#jute)Jute Fiber$().').link('tfc:burlap_cloth').anchor('burlap_cloth'),
             crafting('minecraft:light_blue_bed', 'minecraft:painting'),
+            crafting('tfc:crafting/power_loom', text_contents='Weaving can be automated using $(l:mechanics/mechanical_power#quern)Mechanical Power$() with the use of a $(thing)Power Loom$().').anchor('power_loom').link('tfc:power_loom'),
+            text('The Power Loom, like the regular Loom, can take input from hoppers on the side and extraction from hoppers on the bottom. On the right side of the loom, it can take power input from an $(thing)Axle$(). Fill the loom as normal, and it will slowly weave together the final product for you. Power looms cannot be operated manually.')
         )),
         entry('papermaking', 'Papermaking', 'tfc:unrefined_paper', pages=(
             text('$(thing)Paper$() is either made from the processed stalk of the $(l:mechanics/crops#papyrus)Papyrus$() crop, or from $(l:mechanics/papermaking#parchment)Animal Hides$(). Paper is useful for written materials like $(thing)Books$() and $(thing)Maps$().'),
@@ -1523,6 +1523,8 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
                 'Z': 'tfc:metal/anvil/copper[facing=west]'
             }),
             text('Place a trip hammer below the axle, and $(item)$(k:key.use)$() to add a hammer to it. The hammer must be a metal hammer. Make sure the trip hammer is oriented such that the bladed axle will push the hammer handle down. The hammer will then hit an anvil placed in front of it. The trip hammer always records the $(thing)\'Light Hit\'$() action, and always moves the cursor closer towards the target. If an ingot is not hot enough or the anvil is the incorrect tier, a deep metal banging sound will alert you. '),
+            text('$(l:mechanics/weaving#power_loom)Weaving$() can be automated through the use of a $(l:mechanics/weaving#power_loom)Power Loom$(). Read that chapter for more information.'),
+            empty_last_page()
         )),
         entry('crankshaft', 'Crankshafts', 'tfc:crankshaft', pages=(
             text('A $(thing)Crankshaft$() is a way of turning $(l:mechanics/mechanical_power)Rotational Power$() into $(thing)Moving-back-and-forth Power$(). This can be useful in order to power devices such as the $(l:mechanics/bellows)Bellows$(), or $(l:mechanics/pumps)Water Pumps$().$(br2)The $(thing)Crankshaft$() consists of two parts: the base, and the shaft. The base must be connected to an $(l:mechanics/mechanical_power#axle)Axle$(), and devices can be connected to the end of the shaft.'),
