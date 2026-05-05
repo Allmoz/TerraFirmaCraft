@@ -528,7 +528,7 @@ public class VolcanoVariants
 
                 // Simple dome, we don't take sqrt of f1 because our end shape is an r2 function anyways
                 final double r2 = Mth.map(cell.f1() + erosionWarp, 0, maxR * maxR, 0, 1); // Radius squared, range [0, 1]
-                final double verticalScale = maxDiam * (0.6 + 0.4 * Helpers.hashDouble(cell.noise(), 83));
+                final double verticalScale = maxDiam * (0.8 + 0.4 * Helpers.hashDouble(cell.noise(), 83));
 
                 double shape = verticalScale * (1 - r2);
                 shape *= textureNoise.noise(x, z);
@@ -938,34 +938,6 @@ public class VolcanoVariants
 
         // Scale ridges larger on volcanoes with fewer ridges, from 0.6 to 1.4
         final double ridgeScale = Mth.clampedMap(ridges, minRidgeCount, minRidgeCount + addedRidgeCount, 1.5, 0.5);
-
-        return (fluvialShape - 1) * erosion * easing * ridgeScale;
-    }
-
-    public static double calculateForkingCircumferentialErosion(Cellular2D.Cell cell, double rInner0, double rInner1, double rOuter1, double rOuter0, double r, int minRidgeCount, int addedRidgeCount, double ridgeWarpNoise)
-    {
-        final double noise = Helpers.hashDouble(cell.noise(), 213);
-        final int ridges = (int) (noise * addedRidgeCount) + minRidgeCount;
-        final double ridgeWarping = ridgeWarpNoise / ridges;
-        double a = cell.angle() + ridgeWarping;
-        a = a >= 4 ? a - 4 : a < 0 ? a + 4 : a;
-
-        final double erosion = (2 - noise);
-        final double fluvialShape = Math.abs((a * 0.5 * ridges % 2) - 1);
-
-        // Smooth out ridges at an inner and outer radius
-        final double easing;
-        if (r <= rInner1)
-        {
-            easing = Mth.clampedMap(r, rInner0, rInner1, 0, 1);
-        }
-        else
-        {
-            easing = Mth.clampedMap(r, rOuter0, rOuter1, 0, 1);
-        }
-
-        // Scale ridges larger on volcanoes with fewer ridges, from 0.8 to 1.6
-        final double ridgeScale = Mth.clampedMap(ridges, minRidgeCount, minRidgeCount + addedRidgeCount, 1.6, 0.8);
 
         return (fluvialShape - 1) * erosion * easing * ridgeScale;
     }
