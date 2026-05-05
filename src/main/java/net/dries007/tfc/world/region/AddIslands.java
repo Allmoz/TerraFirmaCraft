@@ -37,7 +37,7 @@ public enum AddIslands implements RegionTask
                         point.x + random.nextInt(4) - random.nextInt(4),
                         point.z + random.nextInt(4) - random.nextInt(4)
                     );
-                    if (point == null || (point.land() && !point.island()) || point.distanceToEdge <= 2)
+                    if (point == null || (point.land() && !point.island()) || point.distanceToEdge <= 2 || point.oceanDepth == 1)
                     {
                         break;
                     }

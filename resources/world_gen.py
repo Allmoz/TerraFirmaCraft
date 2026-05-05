@@ -509,7 +509,7 @@ def generate(rm: ResourceManager):
             'noise_offset': 1
         }), decorate_square(), decorate_heightmap('ocean_floor_wg'), ('tfc:atoll', {'min_easing': 0.3, 'max_easing': 0.42}))
         rm.placed_feature_tag('feature/atoll_corals', 'tfc:atoll_coral_%s' % coral)
-    configured_patch_feature(rm, 'atoll_guano', patch_config('tfc:groundcover/guano[fluid=empty]', 1, 6, 3), decorate_chance(4), decorate_square(), ('tfc:atoll', {'min_easing': 0.5, 'max_easing': 0.8}))
+    configured_patch_feature(rm, 'atoll_guano', patch_config('tfc:groundcover/guano[fluid=empty]', 1, 6, 30), decorate_chance(3), decorate_square(), ('tfc:atoll', {'min_easing': 0.5, 'max_easing': 0.8}))
 
 
     # Stratovolcano Features
@@ -2040,6 +2040,7 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
         large_features.append('tfc:atoll_coral_mushroom')
         large_features.append('tfc:atoll_coral_tree')
         large_features.append('tfc:atoll_coral_claw')
+        large_features.append('tfc:atoll_guano')
         large_features += ['tfc:forest']
     else:
         land_features = not ocean_features

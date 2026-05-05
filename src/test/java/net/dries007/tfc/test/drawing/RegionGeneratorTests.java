@@ -61,7 +61,7 @@ public class RegionGeneratorTests implements TestSetup
     {
         // Coordinates are given in grid scale, so 1 px = 128 blocks, 150 ~ 20km
         // TODO: Set the seed back to random source before committing
-        drawStitchedRegions("", EnumSet.allOf(DrawnTask.class), 153542L, 0, 75, 200);
+        drawStitchedRegions("", EnumSet.allOf(DrawnTask.class), -2824010424288536798L, 0, 75, 200);
     }
 
     @SuppressWarnings("SameParameterValue")
@@ -243,11 +243,11 @@ public class RegionGeneratorTests implements TestSetup
     {
         return switch (point.oceanDepth)
         {
-            case 1 -> new Color(50, 215, 215);
-            case 2 -> new Color(40, 180, 180);
-            case 3 -> new Color(40, 140, 180);
-            case 4 -> new Color(40, 80, 160);
-            case 5 -> new Color(40, 40, 120);
+            case 1 -> new Color(150, 160, 255);
+            case 2 -> new Color(120, 120, 240);
+            case 3 -> new Color(105, 105, 210);
+            case 4 -> new Color(90, 90, 180);
+            case 5 -> new Color(60, 60, 120);
             default -> new Color(255, 100, 100); // Error detection
         };
     }
