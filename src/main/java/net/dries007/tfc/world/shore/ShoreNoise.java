@@ -39,9 +39,10 @@ public final class ShoreNoise
             @Override
             public double noise(int yIn, double noiseIn)
             {
+
                 if (yIn <= sandHeight || weight > 0.5) return 0;
-                
-                final double heightMultiplier = Math.clamp((yIn - sandHeight) / 8, 0, 1);
+
+                final double heightMultiplier = Math.clamp((yIn - sandHeight) * 0.125, 0, 1);
 
                 // Only carve with noise in near a biome edge, otherwise it's unnecessary
                 return heightMultiplier * Mth.map(weight, 0, 0.5, 0.7, 0);
@@ -151,17 +152,6 @@ public final class ShoreNoise
                 this.duneHeight = Mth.clampedMap(thisWeight, 0.5, 1, sandHeight, duneHeight);
 
                 return duneHeight;
-            }
-
-            @Override
-            public double noise(int yIn, double noiseIn)
-            {
-                if (yIn <= duneHeight)
-                {
-                    return Mth.clampedMap(yIn, sandHeight, duneHeight, -0.5, 0);
-                }
-
-                return 1.3;
             }
         };
     }

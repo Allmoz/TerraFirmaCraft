@@ -340,6 +340,10 @@ public class TFCLayers
         {
             return COASTAL_DUNES;
         }
+        if (value == VOLCANIC_ISLAND)
+        {
+            return SHORE;
+        }
         return TIDAL_FLATS;
     }
 
