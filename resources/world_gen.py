@@ -2233,7 +2233,7 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
             'water_fog_color': 0x050533
         },
         spawners=spawners,
-        air_carvers=['tfc:cave', 'tfc:deep_cave', 'tfc:karst_cave' 'tfc:canyon'],
+        air_carvers=['tfc:cave', 'tfc:deep_cave', 'tfc:karst_cave', 'tfc:canyon'],
         water_carvers=[],
         features=feature_tags,
         creature_spawn_probability=0.1,

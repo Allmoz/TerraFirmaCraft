@@ -285,13 +285,13 @@ public class RegionGeneratorTests implements TestSetup
     // Default biome color scheme, Karst Biomes invisible
     private Color biomeColor(int biome)
     {
-        if (biome == OCEAN || biome == OCEAN_ATOLLS) return new Color(0, 0, 220);
-        if (biome == OCEAN || biome == OCEAN_REEF) return new Color(70, 160, 250);
-        if (biome == OCEAN || biome == OCEAN_RIDGE) return new Color(20, 50, 170);
-        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(0, 0, 140);
-        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_TRENCH) return new Color(0, 0, 80);
+        if (biome == OCEAN_REEF) return new Color(150, 160, 255);
+        if (biome == OCEAN || biome == OCEAN_ATOLLS) return new Color(120, 120, 240);
+        if (biome == OCEAN_RIDGE) return new Color(105, 105, 210);
+        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(90, 90, 180);
+        if (biome == DEEP_OCEAN_TRENCH) return new Color(60, 60, 120);
         if (biome == LAKE) return new Color(30, 30, 255);
-        if (biome == MOUNTAIN_LAKE || biome == OCEAN || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
+        if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
         if (biome == RIVER) return new Color(0, 200, 255);
         if (biome == GUANO_ISLAND) return new Color(170, 170, 170);
         if (biome == VOLCANIC_ISLAND) return new Color(120, 50, 70);
@@ -300,12 +300,12 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == RIFT_VALLEY) return new Color(80, 0, 80);
         if (biome == RIFT_LAKE) return new Color(80, 0, 160);
 
-        if (biome == OCEAN || biome == OCEANIC_MOUNTAINS || biome == VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 0, 255);
+        if (biome == OCEANIC_MOUNTAINS || biome == VOLCANIC_OCEANIC_MOUNTAINS) return new Color(255, 0, 255);
         if (biome == CANYONS || biome == TOWER_KARST_CANYONS || biome == SHILIN_CANYONS || biome == DOLINE_CANYONS || biome == CENOTE_CANYONS) return new Color(180, 60, 255);
         if (biome == LOW_CANYONS) return new Color(200, 110, 255);
         if (biome == LOWLANDS || biome == TOWER_KARST_BAY || biome == SALT_MARSH || biome == TOWER_KARST_LAKE) return new Color(220, 150, 230);
 
-        if (biome == OCEAN || biome == OCEANIC_VOLCANIC_ARC) return new Color(100, 10, 10);
+        if (biome == OCEANIC_VOLCANIC_ARC) return new Color(100, 10, 10);
         if (biome == COLLISIONAL_MOUNTAINS) return new Color(215, 20, 20);
         if (biome == MOUNTAINS || biome == VOLCANIC_MOUNTAINS) return new Color(255, 50, 50);
         if (biome == OLD_MOUNTAINS || biome == EXTREME_DOLINE_MOUNTAINS) return new Color(240, 100, 100);
@@ -360,7 +360,11 @@ public class RegionGeneratorTests implements TestSetup
     // Only shows Karst biomes and water biomes, color coded by Karst Variety
     private Color karstBiomeColor(int biome)
     {
-        if (biome == OCEAN || biome == OCEAN_RIDGE || biome == OCEAN_ATOLLS || biome == OCEAN_REEF || biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS || biome == DEEP_OCEAN_TRENCH || biome == LAKE || biome == RIVER || biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return Color.GRAY;
+        if (biome == OCEAN_REEF || biome == OCEANIC_VOLCANIC_ARC) return new Color(150, 160, 255);
+        if (biome == OCEAN || biome == OCEAN_ATOLLS) return new Color(120, 120, 240);
+        if (biome == OCEAN_RIDGE) return new Color(105, 105, 210);
+        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(90, 90, 180);
+        if (biome == DEEP_OCEAN_TRENCH) return new Color(60, 60, 120);
 
         if (biome == TOWER_KARST_BAY) return new Color(230, 120, 220);
         if (biome == TOWER_KARST_LAKE) return new Color(230, 100, 220);
@@ -403,13 +407,13 @@ public class RegionGeneratorTests implements TestSetup
     // Shows only ice sheets, biomes effected by past ice sheets
     private Color glaciatedBiomeColor(int biome)
     {
-        if (biome == OCEAN || biome == OCEAN_ATOLLS) return new Color(0, 0, 220);
-        if (biome == OCEAN || biome == OCEAN_REEF) return new Color(70, 160, 250);
-        if (biome == OCEAN || biome == OCEAN_RIDGE) return new Color(20, 50, 170);
-        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(0, 0, 140);
-        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_TRENCH) return new Color(0, 0, 80);
+        if (biome == OCEAN_REEF || biome == OCEANIC_VOLCANIC_ARC) return new Color(150, 160, 255);
+        if (biome == OCEAN || biome == OCEAN_ATOLLS) return new Color(120, 120, 240);
+        if (biome == OCEAN_RIDGE) return new Color(105, 105, 210);
+        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(90, 90, 180);
+        if (biome == DEEP_OCEAN_TRENCH) return new Color(60, 60, 120);
         if (biome == LAKE) return new Color(30, 30, 255);
-        if (biome == MOUNTAIN_LAKE || biome == OCEAN || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
+        if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
         if (biome == RIVER) return new Color(0, 200, 255);
 
         if (biome == ICE_SHEET || biome == SUBGLACIAL_LAKE) return new Color(255, 255, 255);
@@ -440,13 +444,13 @@ public class RegionGeneratorTests implements TestSetup
     // Shows only ice sheets, biomes effected by past ice sheets
     private Color tectonicBiomeColor(int biome)
     {
-        if (biome == OCEAN || biome == OCEAN_ATOLLS) return new Color(0, 0, 220);
-        if (biome == OCEAN || biome == OCEAN_REEF) return new Color(70, 160, 250);
-        if (biome == OCEAN || biome == OCEAN_RIDGE) return new Color(20, 50, 170);
-        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(0, 0, 140);
-        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_TRENCH) return new Color(0, 0, 80);
+        if (biome == OCEAN_REEF) return new Color(150, 160, 255);
+        if (biome == OCEAN || biome == OCEAN_ATOLLS) return new Color(120, 120, 240);
+        if (biome == OCEAN_RIDGE) return new Color(105, 105, 210);
+        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(90, 90, 180);
+        if (biome == DEEP_OCEAN_TRENCH) return new Color(60, 60, 120);
         if (biome == LAKE) return new Color(30, 30, 255);
-        if (biome == MOUNTAIN_LAKE || biome == OCEAN || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
+        if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
         if (biome == RIVER) return new Color(0, 200, 255);
 
         // Convergent Biomes - Note that these show up as regular mtns if they are glaciated
@@ -457,15 +461,15 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == VOLCANIC_OCEANIC_MOUNTAINS || biome == ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS || biome == GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS || biome == GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS) return new Color(165, 40, 40);
         if (biome == VOLCANIC_ISLAND) return new Color(185, 160, 30);
         if (biome == VOLCANIC_MOUNTAIN_ISLANDS) return new Color(185, 120, 30);
-        if (biome == OCEAN || biome == OCEANIC_VOLCANIC_ARC) return new Color(135, 100, 20);
+        if (biome == OCEANIC_VOLCANIC_ARC) return new Color(135, 100, 20);
 
         // Hotspots
         if (biome == ACTIVE_SHIELD_VOLCANO || biome == DORMANT_SHIELD_VOLCANO || biome == EXTINCT_SHIELD_VOLCANO || biome == ANCIENT_SHIELD_VOLCANO || biome == SUNKEN_SHIELD_VOLCANO) return new Color(255, 155, 0);
 
         // Other Mountain Biomes
         if (biome == MOUNTAINS || biome == GLACIATED_MOUNTAINS || biome == GLACIALLY_CARVED_MOUNTAINS || biome == ICE_SHEET_MOUNTAINS) return new Color(0, 220, 40);
-        if (biome == OCEAN || biome == OCEANIC_MOUNTAINS || biome == GLACIATED_OCEANIC_MOUNTAINS || biome == GLACIALLY_CARVED_OCEANIC_MOUNTAINS || biome == ICE_SHEET_OCEANIC_MOUNTAINS) return new Color(0, 150, 10);
-        if (biome == OLD_MOUNTAINS || biome == OLD_MOUNTAIN_LAKE) return new Color(0, 70, 10);
+        if (biome == OCEANIC_MOUNTAINS || biome == GLACIATED_OCEANIC_MOUNTAINS || biome == GLACIALLY_CARVED_OCEANIC_MOUNTAINS || biome == ICE_SHEET_OCEANIC_MOUNTAINS) return new Color(0, 150, 10);
+        if (biome == OLD_MOUNTAINS) return new Color(0, 70, 10);
 
         // Divergent Biomes
         if (biome == RIFT_VALLEY || biome == RIFT_LAKE) return new Color(130, 0, 110);
@@ -477,21 +481,18 @@ public class RegionGeneratorTests implements TestSetup
     private Color heightBiomeColor(int biome)
     {
         // Oceans
-        if (biome == OCEAN || biome == OCEAN_ATOLLS) return new Color(0, 0, 220);
-        if (biome == OCEAN || biome == OCEAN_REEF) return new Color(70, 160, 250);
-        if (biome == OCEAN || biome == OCEAN_RIDGE) return new Color(20, 50, 170);
-        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(0, 0, 140);
-        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_TRENCH) return new Color(0, 0, 80);
+        if (biome == OCEAN_REEF || biome == OCEANIC_VOLCANIC_ARC) return new Color(150, 160, 255);
+        if (biome == OCEAN || biome == OCEAN_ATOLLS) return new Color(120, 120, 240);
+        if (biome == OCEAN_RIDGE) return new Color(105, 105, 210);
+        if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(90, 90, 180);
+        if (biome == DEEP_OCEAN_TRENCH) return new Color(60, 60, 120);
         if (biome == LAKE) return new Color(30, 30, 255);
         if (biome == SHORE || biome == TIDAL_FLATS) return new Color(230, 210, 130);
         if (biome == GUANO_ISLAND) return new Color(170, 170, 170);
         if (biome == VOLCANIC_ISLAND || biome == VOLCANIC_MOUNTAIN_ISLANDS) return new Color(210, 90, 60);
 
-        // Semi-oceanic
-        if (biome == OCEAN || biome == OCEANIC_VOLCANIC_ARC) return new Color(80, 0, 220);
-
         // Freshwater
-        if (biome == MOUNTAIN_LAKE || biome == OCEAN || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE || biome == RIFT_LAKE) return new Color(120, 170, 200);
+        if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE || biome == RIFT_LAKE) return new Color(120, 170, 200);
         if (biome == RIVER) return new Color(100, 140, 180);
 
         // Lowland / Mixed Water
@@ -525,7 +526,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == PLATEAU || biome == PLATEAU_WIDE || biome == EXTREME_DOLINE_PLATEAU || biome == CENOTE_PLATEAU || biome == DOLINE_PLATEAU || biome == BURREN_PLATEAU || biome == SHILIN_PLATEAU || biome == ROCKY_PLATEAU) return new Color(200, 60, 60);
 
         // Mountains
-        if (biome == OCEAN || biome == OCEANIC_MOUNTAINS || biome == VOLCANIC_OCEANIC_MOUNTAINS) return new Color(160, 30, 160);
+        if (biome == OCEANIC_MOUNTAINS || biome == VOLCANIC_OCEANIC_MOUNTAINS) return new Color(160, 30, 160);
         if (biome == OLD_MOUNTAINS || biome == EXTREME_DOLINE_MOUNTAINS) return new Color(200, 50, 200);
         if (biome == MOUNTAINS || biome == VOLCANIC_MOUNTAINS) return new Color(250, 10, 250);
         if (biome == COLLISIONAL_MOUNTAINS) return new Color(255, 100, 200);
