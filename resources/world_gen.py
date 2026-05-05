@@ -23,7 +23,7 @@ def generate(rm: ResourceManager):
     rm.placed_feature_tag('in_biome/veins', *[
         'tfc:vein/gravel',
         *['tfc:vein/%s_dike' % rock for rock, data in ROCKS.items() if data.category == 'igneous_intrusive'],
-        *['tfc:vein/%s' % name for name, vein in ORE_VEINS.items() if not vein.rivers_only],
+        *['tfc:vein/%s' % name for name, vein in ORE_VEINS.items() if not vein.rivers_only or vein.montane],
         'tfc:geode'
     ])
     rm.placed_feature_tag('in_biome/veins/collisional_mountains', *[
@@ -34,6 +34,9 @@ def generate(rm: ResourceManager):
     ])
     rm.placed_feature_tag('in_biome/veins/river', *[
         *['tfc:vein/%s' % name for name, vein in ORE_VEINS.items() if vein.rivers_only]
+    ])
+    rm.placed_feature_tag('in_biome/veins/montane', *[
+        *['tfc:vein/%s' % name for name, vein in ORE_VEINS.items() if vein.montane]
     ])
     rm.placed_feature_tag('in_biome/underground_decoration', *UNDERGROUND_FEATURES)
     rm.placed_feature_tag('in_biome/top_layer_modification', 'tfc:surface_loose_rocks', 'tfc:ice_and_snow')
@@ -506,6 +509,8 @@ def generate(rm: ResourceManager):
             'noise_offset': 1
         }), decorate_square(), decorate_heightmap('ocean_floor_wg'), ('tfc:atoll', {'min_easing': 0.3, 'max_easing': 0.42}))
         rm.placed_feature_tag('feature/atoll_corals', 'tfc:atoll_coral_%s' % coral)
+    configured_patch_feature(rm, 'atoll_guano', patch_config('tfc:groundcover/guano[fluid=empty]', 1, 6, 3), decorate_chance(4), decorate_square(), ('tfc:atoll', {'min_easing': 0.5, 'max_easing': 0.8}))
+
 
     # Stratovolcano Features
     # Fuji
@@ -2161,6 +2166,7 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
         '#tfc:in_biome/veins',  # Underground Ores
         '#tfc:in_biome/veins/kaolin' if name in KAOLIN_BIOMES else None,
         '#tfc:in_biome/veins/river' if category == 'river' else None,
+        '#tfc:in_biome/veins/montane' if 'mountain' in name or 'volcan' in name or 'tower_karst' in name else None,
         '#tfc:in_biome/veins/collisional_mountains' if 'collisional' in name else None,
         '#tfc:in_biome/underground_decoration',  # Underground Decoration
         '#tfc:in_biome/large_features/%s' % name,  # Fluid Springs (we co-opt this as they likely won't interfere and it's in the right order)

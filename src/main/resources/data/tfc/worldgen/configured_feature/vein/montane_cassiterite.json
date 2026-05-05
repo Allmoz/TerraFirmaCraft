@@ -7,7 +7,7 @@
     "min_y": 80,
     "max_y": 300,
     "size": 15,
-    "random_name": "surface_cassiterite",
+    "random_name": "montane_cassiterite",
     "blocks": [
       {
         "replace": [

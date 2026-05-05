@@ -7,7 +7,7 @@
     "min_y": 90,
     "max_y": 270,
     "size": 20,
-    "random_name": "surface_tetrahedrite",
+    "random_name": "montane_tetrahedrite",
     "blocks": [
       {
         "replace": [

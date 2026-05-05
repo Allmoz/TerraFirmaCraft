@@ -43,7 +43,7 @@ public class OceanRidgePlacement extends PlacementModifier
     @Override
     public PlacementModifierType<?> type()
     {
-        return TFCPlacements.NO_SOLID_NEIGHBORS.get();
+        return TFCPlacements.OCEAN_RIDGE.get();
     }
 
     final boolean isValid(BlockPos pos, long seed)
