@@ -413,12 +413,11 @@ public class MoldTableBlockEntity extends TickableInventoryBlockEntity<MoldTable
     public void setAndUpdateSlots(int slot)
     {
         super.setAndUpdateSlots(slot);
-        markForSync();
+        requestModelDataUpdate();
         if (level != null && level.isClientSide)
         {
             // Need to make sure that this gets called at least on the client
-            // TODO figure out why requestModelDataUpdate() does not update the already rendered model
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_IMMEDIATE);
         }
     }
 
