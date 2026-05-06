@@ -53,6 +53,8 @@ public class ChannelBlockEntity extends TFCBlockEntity
     /*** Fluid to render */
     private ResourceLocation fluid = ResourceLocation.fromNamespaceAndPath("", "");
 
+    private boolean recursion_visiting = false;
+
     public boolean hasFlow()
     {
         return flowSource.isPresent();
@@ -108,8 +110,11 @@ public class ChannelBlockEntity extends TFCBlockEntity
      */
     public void notifyBrokenLink(int linksBroken)
     {
-        if (level == null)
+        if (level == null || recursion_visiting)
             return;
+
+        recursion_visiting = true;
+
         numFlows -= linksBroken;
 
         flowSource.ifPresent(
@@ -124,6 +129,8 @@ public class ChannelBlockEntity extends TFCBlockEntity
             level.setBlock(worldPosition, getBlockState().setValue(ChannelBlock.WITH_METAL, false), 3);
             markForSync();
         }
+
+        recursion_visiting = false;
     }
 
     /***
@@ -132,50 +139,59 @@ public class ChannelBlockEntity extends TFCBlockEntity
      */
     public boolean isLinkBroken()
     {
-        if (flowSource.isEmpty())
+        if (flowSource.isEmpty() || recursion_visiting)
         {
             return true;
         }
-
-        Direction expectedDirection = flowSource.get().getLeft();
-        int expectedDistance = flowSource.get().getRight();
-        BlockPos expectedSourcePos = worldPosition.relative(expectedDirection, expectedDistance);
-
-        // If expecting a channel, find the channel block entity
-        // If it's not present (the channel was broken, for example),
-        // then return true (broken link). Otherwise, recursively
-        // call this function for the channel block entity found.
-        // Also break if distance from source is >1 and there is no
-        // air in-between
-        if (isConnectedToAnotherChannel)
+        try
         {
-            Optional<ChannelBlockEntity> blockEntity = level.getBlockEntity(
-                expectedSourcePos,
-                TFCBlockEntities.CHANNEL.get());
+            recursion_visiting = true;
 
-            if (blockEntity.isEmpty())
-            {
-                return true;
-            }
+            Direction expectedDirection = flowSource.get().getLeft();
+            int expectedDistance = flowSource.get().getRight();
+            BlockPos expectedSourcePos = worldPosition.relative(expectedDirection, expectedDistance);
 
-            for (byte i = 1; i < flowSource.get().getRight(); i++)
+            // If expecting a channel, find the channel block entity
+            // If it's not present (the channel was broken, for example),
+            // then return true (broken link). Otherwise, recursively
+            // call this function for the channel block entity found.
+            // Also break if distance from source is >1 and there is no
+            // air in-between
+            if (isConnectedToAnotherChannel)
             {
-                BlockPos rel = worldPosition.relative(flowSource.get().getLeft(), i);
-                if (!level.getBlockState(rel).isAir())
+                Optional<ChannelBlockEntity> blockEntity = level.getBlockEntity(
+                    expectedSourcePos,
+                    TFCBlockEntities.CHANNEL.get());
+
+                if (blockEntity.isEmpty())
                 {
                     return true;
                 }
+
+                for (byte i = 1; i < flowSource.get().getRight(); i++)
+                {
+                    BlockPos rel = worldPosition.relative(flowSource.get().getLeft(), i);
+                    if (!level.getBlockState(rel).isAir())
+                    {
+                        return true;
+                    }
+                }
+
+                return blockEntity.get().isLinkBroken();
+            }
+            else // If expecting a crucible, then set broken only if crucible is not there
+            {
+                Optional<CrucibleBlockEntity> blockEntity = level.getBlockEntity(
+                    expectedSourcePos,
+                    TFCBlockEntities.CRUCIBLE.get());
+
+                return blockEntity.isEmpty();
             }
 
-            return blockEntity.get().isLinkBroken();
         }
-        else // If expecting a crucible, then set broken only if crucible is not there
+        finally
         {
-            Optional<CrucibleBlockEntity> blockEntity = level.getBlockEntity(
-                expectedSourcePos,
-                TFCBlockEntities.CRUCIBLE.get());
-
-            return blockEntity.isEmpty();
+            recursion_visiting = false;
         }
     }
 
