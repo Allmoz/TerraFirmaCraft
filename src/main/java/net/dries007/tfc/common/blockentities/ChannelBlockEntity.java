@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.dries007.tfc.common.blocks.devices.ChannelBlock;
+import net.dries007.tfc.util.ChannelFlow;
 import net.dries007.tfc.util.Helpers;
 
 public class ChannelBlockEntity extends TFCBlockEntity
@@ -137,11 +138,11 @@ public class ChannelBlockEntity extends TFCBlockEntity
      * Returns true iff the link from this channel to the source crucible
      * has been broken.
      */
-    public boolean isLinkBroken()
+    public boolean isFlowing()
     {
         if (flowSource.isEmpty() || recursion_visiting)
         {
-            return true;
+            return false;
         }
         try
         {
@@ -165,7 +166,7 @@ public class ChannelBlockEntity extends TFCBlockEntity
 
                 if (blockEntity.isEmpty())
                 {
-                    return true;
+                    return false;
                 }
 
                 for (byte i = 1; i < flowSource.get().getRight(); i++)
@@ -173,11 +174,17 @@ public class ChannelBlockEntity extends TFCBlockEntity
                     BlockPos rel = worldPosition.relative(flowSource.get().getLeft(), i);
                     if (!level.getBlockState(rel).isAir())
                     {
-                        return true;
+                        return false;
                     }
                 }
 
-                return blockEntity.get().isLinkBroken();
+                if (blockEntity.get().isFlowing())
+                {
+                    if (flowSource.get().getLeft() == Direction.UP && flowSource.get().getRight() > 1)
+                        ChannelFlow.damageEntities(level, worldPosition, flowSource.get().getRight());
+                    return true;
+                }
+                return false;
             }
             else // If expecting a crucible, then set broken only if crucible is not there
             {
@@ -185,7 +192,7 @@ public class ChannelBlockEntity extends TFCBlockEntity
                     expectedSourcePos,
                     TFCBlockEntities.CRUCIBLE.get());
 
-                return blockEntity.isEmpty();
+                return blockEntity.isPresent();
             }
 
         }

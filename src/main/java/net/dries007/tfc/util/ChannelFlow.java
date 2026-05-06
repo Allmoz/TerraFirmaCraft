@@ -22,11 +22,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -353,5 +356,15 @@ public class ChannelFlow
             }
         }
         return false;
+    }
+
+    public static void damageEntities(LevelAccessor level, BlockPos pos, int n)
+    {
+        if (level.isClientSide()) return;
+        AABB moltenFall = new AABB(
+            pos.getX() + 6.0 / 16, pos.getY() + 4.0 / 16, pos.getZ() + 6.0 / 16,
+            pos.getX() + +10.0 / 16, pos.getY() + (n - 1), pos.getZ() + +10.0 / 16
+        );
+        level.getEntitiesOfClass(LivingEntity.class, moltenFall).forEach(Entity::lavaHurt);
     }
 }
