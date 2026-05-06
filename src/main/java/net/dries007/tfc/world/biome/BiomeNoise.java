@@ -282,7 +282,7 @@ public final class BiomeNoise
             final double f2 = cell.f2();
             final double f2f1 = (f1 > 0 ? (f2 - f1) : 1);
 
-            final double shapeAtCenter = shapeMap.noise(cell.x(), cell.y()); // TODO: Check this fix works as intended
+            final double shapeAtCenter = shapeMap.noise(cell.x(), cell.y());
 
             // Whether a cell is a cirque or a horn is based on the shape noise, a way of approximating the distance to the nearest valley
             if (shapeAtCenter > 0.60)
@@ -590,7 +590,7 @@ public final class BiomeNoise
         final Noise2D openingHeightNoise = new OpenSimplex2D(seed + 1432).octaves(2).spread(0.04).scaled(-10, 10);
         final Noise2D tunnelCenterNoise = new OpenSimplex2D(seed + 1112).octaves(3).abs().spread(0.05);
         final Noise2D tunnelDepthNoise = new OpenSimplex2D(seed + 41).octaves(3).spread(0.05).scaled(-10, -35);
-        final Noise2D tunnelSizeNoise = new OpenSimplex2D(seed + 331).octaves(2).spread(0.07).scaled(0.6, 1.2);
+        final Noise2D tunnelSizeNoise = new OpenSimplex2D(seed + 331).octaves(2).spread(0.07).scaled(5, 12);
         final Noise3D cliffNoise = BiomeNoise.cliffNoise(Seed.of(seed));
 
         return new BiomeNoiseSampler()

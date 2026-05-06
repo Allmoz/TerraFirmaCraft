@@ -33,6 +33,7 @@ public enum AddIslands implements RegionTask
                 {
                     point.setLand();
                     point.setIsland();
+                    point.distanceToOcean = 1;
                     point = region.at(
                         point.x + random.nextInt(4) - random.nextInt(4),
                         point.z + random.nextInt(4) - random.nextInt(4)

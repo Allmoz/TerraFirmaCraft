@@ -32,21 +32,12 @@ public enum AnnotateClimate implements RegionTask
             final float bias;
             if (point.land())
             {
-                final byte dist;
-                if (point.island())
-                {
-                    dist = 1;
-                }
-                else
-                {
-                    assert point.distanceToOcean >= 0;
-                    dist = point.distanceToOcean;
-                }
+                assert point.distanceToOcean >= 0;
 
                 // Bias temperature by distance to ocean, using a basic rule:
                 // Proximity to an ocean *increases* rainfall, and *normalizes* temperature, with the same bias in reverse.
                 final float potentialBias = Mth.clampedMap(point.distanceToEdge, 2f, 6f, 0f, 1f);
-                final float oceanProximityBias = Mth.clampedMap(dist, 2f, 6f, 0f, 1f);
+                final float oceanProximityBias = Mth.clampedMap(point.distanceToOcean, 2f, 6f, 0f, 1f);
 
                 bias = Math.min(potentialBias, oceanProximityBias);
             }

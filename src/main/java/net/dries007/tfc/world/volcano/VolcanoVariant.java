@@ -14,28 +14,45 @@ import net.dries007.tfc.world.surface.SurfaceBuilderContext;
  */
 public interface VolcanoVariant
 {
+    /**
+     * @return name of this variant, needed for feature placements
+     */
     String name();
 
+    /**
+     * @return final surface height for the column
+     */
     default double getHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
     {
         return heightIn;
     }
 
-    // TODO: Javadocs
+    /**
+     * @return max height of solid earth, not including glaciers or water added by surface builders
+     */
     default double getLandHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
     {
         return heightIn;
     }
 
+    /**
+     * @return max height of ice from glaciers
+     */
     default double getGlacierHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
     {
         return 0;
     }
 
+    /**
+     * @return max height of fluid added by surface builder, ex. Crater Lake variant
+     */
     default double getFluidHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
     {
         return 0;
     }
 
+    /**
+     * @return {@code true} if the default surface builder for the biome should be cancelled. Otherwise, it will run after this and may override it.
+     */
     boolean buildSurface(SurfaceBuilderContext context, int oceanFloorHeight, int preVolcanicHeight, CenteredFeatureNoiseSampler sampler);
 }

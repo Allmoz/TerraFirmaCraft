@@ -273,7 +273,6 @@ public class TFCLayers
             && value != VOLCANIC_MOUNTAIN_ISLANDS;
     }
 
-    // TODO: Need to add the new biomes to all these before merge
     public static int shoreFor(int value)
     {
         if (value == LOWLANDS || value == SALT_MARSH)
