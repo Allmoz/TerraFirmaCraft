@@ -135,8 +135,7 @@ public class ChannelBlockEntity extends TFCBlockEntity
     }
 
     /***
-     * Returns true iff the link from this channel to the source crucible
-     * has been broken.
+     * Returns true if linked to the source crucible
      */
     public boolean isFlowing()
     {
