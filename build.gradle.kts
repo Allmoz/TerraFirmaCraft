@@ -66,9 +66,8 @@ idea {
 repositories {
     mavenCentral()
     mavenLocal()
-    maven(url = "https://dvs1.progwml6.com/files/maven/") // JEI
-    maven(url = "https://modmaven.k-4u.nl") // Mirror for JEI
-    maven(url = "https://maven.blamejared.com") // Patchouli
+    maven(url = "https://maven.blamejared.com") // Patchouli & JEI
+    maven(url = "https://modmaven.dev") // Mirror for JEI
     maven(url = "https://www.cursemaven.com") {
         content {
             includeGroup("curse.maven")
