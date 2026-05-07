@@ -1400,6 +1400,13 @@ public final class Helpers
         return (int) hash;
     }
 
+    public static int hash(long salt, int x, int z)
+    {
+        long hash = salt ^ ((long) x * PRIME_X) ^ z;
+        hash *= 0x27d4eb2d;
+        return (int) hash;
+    }
+
     public static RandomSource fork(RandomSource random)
     {
         return new XoroshiroRandomSource(random.nextLong(), random.nextLong());

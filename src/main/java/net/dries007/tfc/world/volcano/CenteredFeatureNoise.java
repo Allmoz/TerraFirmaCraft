@@ -44,7 +44,7 @@ public class CenteredFeatureNoise
                 final BiomeExtension biome = biomeSource.getBiomeExtension(QuartPos.fromBlock(xC), QuartPos.fromBlock(zC));
                 if (biome.hasCinderCones())
                 {
-                    final int rarity = biome.getCenteredFeatureRarity();
+                    final float rarity = biome.getCenteredFeatureFrequency();
                     if (checkCellRarity(cell, rarity))
                     {
                         final int baseHeight;
@@ -75,10 +75,10 @@ public class CenteredFeatureNoise
             /**
              * Calculate the closeness value to a volcano, in the range [0, 1]. 1 = Center of a volcano, 0 = Nowhere near.
              */
-            public float calculateEasing(int x, int z, int rarity)
+            public float calculateEasing(int x, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, frequency))
                 {
                     return calculateClampedEasing((float) cell.f1());
                 }
@@ -152,10 +152,10 @@ public class CenteredFeatureNoise
              */
             @Override
             @Nullable
-            public BlockPos calculateCenter(int x, int y, int z, int rarity)
+            public BlockPos calculateCenter(int x, int y, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity) & maxSafeDiameter(cell, x, z) > 0.46)
+                if (checkCellRarity(cell, frequency) & maxSafeDiameter(cell, x, z) > 0.46)
                 {
                     return new BlockPos((int) cell.x(), y, (int) cell.y());
                 }
@@ -192,7 +192,7 @@ public class CenteredFeatureNoise
                 final BiomeExtension biome = biomeSource.getBiomeExtension(QuartPos.fromBlock((int) cell.x()), QuartPos.fromBlock((int) cell.y()));
                 if (biome.hasTuffRings())
                 {
-                    final int rarity = biome.getCenteredFeatureRarity();
+                    final float rarity = biome.getCenteredFeatureFrequency();
                     if (checkCellRarity(cell, rarity))
                     {
                         return modifyHeight(cell, x, z, biome, heightIn);
@@ -228,10 +228,10 @@ public class CenteredFeatureNoise
             /**
              * Calculate the closeness value to a tuff ring center, in the range [0, 1]. 1 = Center, 0 = Nowhere near.
              */
-            public float calculateEasing(int x, int z, int rarity)
+            public float calculateEasing(int x, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, frequency))
                 {
                     return calculateClampedEasing((float) cell.f1());
                 }
@@ -272,10 +272,10 @@ public class CenteredFeatureNoise
              */
             @Override
             @Nullable
-            public BlockPos calculateCenter(int x, int y, int z, int rarity)
+            public BlockPos calculateCenter(int x, int y, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, frequency))
                 {
                     return new BlockPos((int) cell.x(), y, (int) cell.y());
                 }
@@ -342,7 +342,7 @@ public class CenteredFeatureNoise
                 final BiomeExtension biome = biomeSource.getBiomeExtension(QuartPos.fromBlock((int) cell.x()), QuartPos.fromBlock((int) cell.y()));
                 if (biome.hasAtolls())
                 {
-                    final int rarity = biome.getCenteredFeatureRarity();
+                    final float rarity = biome.getCenteredFeatureFrequency();
                     if (checkCellRarity(cell, rarity))
                     {
                         return modifyHeight(cell, x, z, biome, heightIn);
@@ -420,10 +420,10 @@ public class CenteredFeatureNoise
             }
 
             @Override
-            public float calculateEasing(int x, int z, int rarity)
+            public float calculateEasing(int x, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, frequency))
                 {
                     return calculateEasing(cell, x, z);
                 }
@@ -446,10 +446,10 @@ public class CenteredFeatureNoise
 
             @Override
             @Nullable
-            public BlockPos calculateCenter(int x, int y, int z, int rarity)
+            public BlockPos calculateCenter(int x, int y, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, frequency))
                 {
                     return new BlockPos((int) cell.x(), y, (int) cell.y());
                 }
@@ -488,7 +488,7 @@ public class CenteredFeatureNoise
             {
                 Cellular2D.Cell cell = cellNoise.cell(x, z);
                 final BiomeExtension biome = biomeSource.getBiomeExtension(QuartPos.fromBlock((int) cell.x()), QuartPos.fromBlock((int) cell.y()));
-                final int rarity = biome.getCenteredFeatureRarity();
+                final float rarity = biome.getCenteredFeatureFrequency();
                 if (biome.hasTuyas())
                 {
                     if (checkCellRarity(cell, rarity))
@@ -544,10 +544,10 @@ public class CenteredFeatureNoise
             /**
              * Calculate the closeness value to a tuya, in the range [0, 1]. 1 = Center of a tuya, 0 = Nowhere near.
              */
-            public float calculateEasing(int x, int z, int rarity)
+            public float calculateEasing(int x, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, frequency))
                 {
                     return calculateClampedEasing((float) cell.f1());
                 }
@@ -574,10 +574,10 @@ public class CenteredFeatureNoise
              * Calculate the center of the nearest tuya, if one exists, to the given x, z, at the given y.
              */
             @Nullable
-            public BlockPos calculateCenter(int x, int y, int z, int rarity)
+            public BlockPos calculateCenter(int x, int y, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, frequency))
                 {
                     return new BlockPos((int) cell.x(), y, (int) cell.y());
                 }
@@ -611,7 +611,7 @@ public class CenteredFeatureNoise
                 final BiomeExtension biome = biomeSource.getBiomeExtension(QuartPos.fromBlock((int) cell.x()), QuartPos.fromBlock((int) cell.y()));
                 if (biome.hasStratovolcanoes())
                 {
-                    final int rarity = biome.getCenteredFeatureRarity();
+                    final float rarity = biome.getCenteredFeatureFrequency();
                     if (checkCellRarity(cell, rarity))
                     {
                         return modifyHeight(cell, x, z, biome, heightIn);
@@ -629,10 +629,10 @@ public class CenteredFeatureNoise
             /**
              * Calculate the closeness value to a volcano, in the range [0, 1]. 1 = Center of a volcano, 0 = Nowhere near.
              */
-            public float calculateEasing(int x, int z, int rarity)
+            public float calculateEasing(int x, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, frequency))
                 {
                     return calculateClampedEasing((float) cell.f1());
                 }
@@ -679,10 +679,10 @@ public class CenteredFeatureNoise
              */
             @Override
             @Nullable
-            public BlockPos calculateCenter(int x, int y, int z, int rarity)
+            public BlockPos calculateCenter(int x, int y, int z, float frequency)
             {
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
-                if (checkCellRarity(cell, rarity))
+                if (checkCellRarity(cell, frequency))
                 {
                     return new BlockPos((int) cell.x(), y, (int) cell.y());
                 }

@@ -8,6 +8,7 @@ package net.dries007.tfc.world.region;
 
 import net.minecraft.world.level.ChunkPos;
 
+import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.layer.framework.Area;
 
 import static net.dries007.tfc.world.layer.TFCLayers.*;
@@ -252,15 +253,15 @@ public enum ChooseBiomes implements RegionTask
             }
             else if (point.barrierIsland())
             {
-                // Don't use areas, just random point-to-point
-                final int barrierIslandSeed = (int) ChunkPos.asLong(point.x, point.z);
                 if (point.volcanic())
                 {
+                    // Don't use areas, just random point-to-point
+                    final int barrierIslandSeed = Helpers.hash(153515L, point.x, point.z);
                     point.biome = randomSeededFrom(rngSeed, barrierIslandSeed, VOLCANIC_ARC_BIOMES);
                 }
                 else
                 {
-                    point.biome = randomSeededFrom(rngSeed, barrierIslandSeed, BARRIER_ISLAND_BIOMES);
+                    point.biome = randomSeededFrom(rngSeed, areaSeed, BARRIER_ISLAND_BIOMES);
                 }
             }
             else if (point.oceanDepth == 1)
@@ -269,7 +270,7 @@ public enum ChooseBiomes implements RegionTask
             }
             else if (point.oceanDepth == 2)
             {
-                point.biome = point.temperature > 12 && point.distanceToLand > 3 ? OCEAN_ATOLLS : OCEAN;
+                point.biome = point.temperature > 12 && point.distanceToLand > 4 ? OCEAN_ATOLLS : OCEAN;
             }
             else if (point.oceanDepth == 3)
             {

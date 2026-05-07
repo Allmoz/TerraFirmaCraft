@@ -50,7 +50,7 @@ public class BiomeBuilder
     private boolean hasAtolls;
     private boolean hasStratovolcanoes;
     private boolean hasTuffRings;
-    private int centeredFeatureFrequency;
+    private float centeredFeatureFrequency;
     private int centeredFeatureBaseHeight;
     private int centeredFeatureScaleHeight;
     private boolean centeredFeatureIce;
@@ -191,7 +191,7 @@ public class BiomeBuilder
         return this;
     }
 
-    public BiomeBuilder cinderCones(int frequency, int baseHeight, int scaleHeight)
+    public BiomeBuilder cinderCones(float frequency, int baseHeight, int scaleHeight)
     {
         this.hasCinderCones = true;
         this.centeredFeatureFrequency = frequency;
@@ -201,7 +201,7 @@ public class BiomeBuilder
         return this;
     }
 
-    public BiomeBuilder tuffRings(int frequency, int baseHeight, int scaleHeight)
+    public BiomeBuilder tuffRings(float frequency, int baseHeight, int scaleHeight)
     {
         this.hasTuffRings = true;
         this.centeredFeatureFrequency = frequency;
@@ -211,7 +211,7 @@ public class BiomeBuilder
         return this;
     }
 
-    public BiomeBuilder stratovolcanoes(int frequency, int baseHeight, int scaleHeight, boolean icy)
+    public BiomeBuilder stratovolcanoes(float frequency, int baseHeight, int scaleHeight, boolean icy)
     {
         this.hasStratovolcanoes = true;
         this.centeredFeatureFrequency = frequency;
@@ -222,7 +222,7 @@ public class BiomeBuilder
         return this;
     }
 
-    public BiomeBuilder tuyas(int frequency, int baseHeight, int scaleHeight, boolean icy)
+    public BiomeBuilder tuyas(float frequency, int baseHeight, int scaleHeight, boolean icy)
     {
         this.hasTuyas = true;
         this.centeredFeatureFrequency = frequency;
@@ -233,7 +233,7 @@ public class BiomeBuilder
         return this;
     }
 
-    public BiomeBuilder atolls(int frequency)
+    public BiomeBuilder atolls(float frequency)
     {
         this.hasAtolls = true;
         this.centeredFeatureFrequency = frequency;

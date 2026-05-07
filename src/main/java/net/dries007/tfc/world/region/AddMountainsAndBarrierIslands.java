@@ -65,7 +65,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                 }
                 // Attempt to construct a volcanic arc on the continental shelf in subduction zones
                 // Works similarly to mountain ranges, but based on distance to edge of continental shelf
-                else if (islesPlaced < 6 && !origin.land() && origin.oceanDepth == 2 && origin.divergence < 0 && origin.distanceToDeepOcean <= 3)
+                else if (islesPlaced < 6 && !origin.land() && origin.oceanDepth == 2 && origin.divergence < 0 && origin.distanceToDeepOcean <= 3 && origin.distanceToLand > 2)
                 {
                     final IntSet range = placeVolcanicArc(region, random, origin.index);
                     if (range.size() > 45)
@@ -74,7 +74,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                         range.forEach(index -> {
                             final Region.Point point = region.atIndex(index);
 
-                            if (point.distanceToDeepOcean == originContour)
+                            if (point.distanceToDeepOcean >= originContour && point.distanceToDeepOcean <= originContour + 1)
                             {
                                 point.setBarrierIsland();
                             }
@@ -177,7 +177,7 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
 
         // So that near-ocean barriers don't start at 0 distance, now they can follow the [0, 1] contour
         final int originDistanceToDeepOcean = Math.max(1, region.atIndex(originIndex).distanceToDeepOcean);
-        final int maxSize = 70 + random.nextInt(40);
+        final int maxSize = 90 + random.nextInt(50);
 
         while (!queue.isEmpty())
         {
@@ -188,19 +188,19 @@ public enum AddMountainsAndBarrierIslands implements RegionTask
                 break;
             }
 
-            for (int dx = -1; dx <= 1; dx++)
+            for (int dx = -2; dx <= 2; dx++)
             {
-                for (int dz = -1; dz <= 1; dz++)
+                for (int dz = -2; dz <= 2; dz++)
                 {
                     final @Nullable Region.Point point = region.atOffset(last, dx, dz);
 
-                    // Only explore the contour within [-1, 1] of the origin
+                    // Only explore the contour within [-1, 2] of the origin
                     // Only explore within the subduction zone
                     if (point != null &&
                         point.oceanDepth == 2 &&
                         point.divergence < 0 &&
                         point.distanceToDeepOcean >= originDistanceToDeepOcean - 1 &&
-                        point.distanceToDeepOcean <= originDistanceToDeepOcean + 1 &&
+                        point.distanceToDeepOcean <= originDistanceToDeepOcean + 2 &&
                         !explored.get(point.index))
                     {
                         if (lastPoint.distanceToDeepOcean != point.distanceToDeepOcean)
