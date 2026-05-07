@@ -213,42 +213,49 @@ public enum ChooseBiomes implements RegionTask
             }
             else if (point.land())
             {
-                final float rain = point.rainfall;
-                final float maxIceSheetTemp = -17f + 0.006f * rain;
-                final float temp = point.temperature;
-                if (temp < maxIceSheetTemp)
+                if (point.river())
                 {
-                    int biome = randomSeededFrom(rngSeed, areaSeed, ICE_SHEET_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
-
-                    if (point.distanceToOcean < 3 && isFlatIceSheet(biome))
-                    {
-                        biome = ICE_SHEET_OCEANIC;
-                    }
-                    point.biome = biome;
-                }
-                else if (temp < maxIceSheetTemp + 1)
-                {
-                    point.biome = ICE_SHEET_EDGE;
-                }
-                else if (temp < maxIceSheetTemp + 2.5)
-                {
-                    point.biome = randomSeededFrom(rngSeed, areaSeed, KNOB_AND_KETTLE_BIOMES);
-                }
-                else if (temp < maxIceSheetTemp + 6)
-                {
-                    point.biome = randomSeededFrom(rngSeed, areaSeed, PALEO_ICE_SHEET_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
-                }
-                else if (rain < 60)
-                {
-                    point.biome = randomSeededFrom(rngSeed, areaSeed, DESERT_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
-                }
-                else if (rain < 155)
-                {
-                    point.biome = randomSeededFrom(rngSeed, areaSeed, SEMI_ARID_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
+                    point.biome = PLAINS;
                 }
                 else
                 {
-                    point.biome = randomSeededFrom(rngSeed, areaSeed, ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
+                    final float rain = point.rainfall;
+                    final float maxIceSheetTemp = -17f + 0.006f * rain;
+                    final float temp = point.temperature;
+                    if (temp < maxIceSheetTemp)
+                    {
+                        int biome = randomSeededFrom(rngSeed, areaSeed, ICE_SHEET_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
+
+                        if (point.distanceToOcean < 3 && isFlatIceSheet(biome))
+                        {
+                            biome = ICE_SHEET_OCEANIC;
+                        }
+                        point.biome = biome;
+                    }
+                    else if (temp < maxIceSheetTemp + 1)
+                    {
+                        point.biome = ICE_SHEET_EDGE;
+                    }
+                    else if (temp < maxIceSheetTemp + 2.5)
+                    {
+                        point.biome = randomSeededFrom(rngSeed, areaSeed, KNOB_AND_KETTLE_BIOMES);
+                    }
+                    else if (temp < maxIceSheetTemp + 6)
+                    {
+                        point.biome = randomSeededFrom(rngSeed, areaSeed, PALEO_ICE_SHEET_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
+                    }
+                    else if (rain < 60)
+                    {
+                        point.biome = randomSeededFrom(rngSeed, areaSeed, DESERT_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
+                    }
+                    else if (rain < 155)
+                    {
+                        point.biome = randomSeededFrom(rngSeed, areaSeed, SEMI_ARID_ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
+                    }
+                    else
+                    {
+                        point.biome = randomSeededFrom(rngSeed, areaSeed, ALTITUDE_BIOMES[point.discreteBiomeAltitude()]);
+                    }
                 }
             }
             else if (point.barrierIsland())

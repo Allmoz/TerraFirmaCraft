@@ -39,7 +39,7 @@ public enum AddRiversAndLakes implements RegionTask
         context.region.setRivers(rivers);
         if (!rivers.isEmpty())
         {
-            annotateRiver(region, random, rivers);
+            annotateRiverGridScale(region, random, rivers);
         }
     }
 
@@ -55,7 +55,6 @@ public enum AddRiversAndLakes implements RegionTask
                 {
                     final XoroshiroRandomSource rng = new XoroshiroRandomSource(context.random.nextLong());
                     riverGenerator.add(new River.Builder(rng, point.x + 0.5f, point.z + 0.5f, bestAngle, RIVER_LENGTH, RIVER_DEPTH, RIVER_FEATHER));
-                    point.setRiver();
                 }
             }
         }
@@ -101,7 +100,7 @@ public enum AddRiversAndLakes implements RegionTask
         return bestAngle;
     }
 
-    private void annotateRiver(Region region, RandomSource random, List<RiverEdge> rivers)
+    private void annotateRiverGridScale(Region region, RandomSource random, List<RiverEdge> rivers)
     {
         // Build a map of each source vertex to the downstream edge.
         // Use this to populate the source -> drain linked list, so we can traverse down each branch
@@ -142,6 +141,39 @@ public enum AddRiversAndLakes implements RegionTask
                 placeLakeNear(region, edge, 1, -1);
                 placeLakeNear(region, edge, -1, -1);
             }
+            else if (edge.width > RiverEdge.MIN_VALLEY_WIDTH)
+            {
+                annotateRiverGridScale(region, edge);
+            }
+        }
+    }
+
+    private void annotateRiverGridScale(Region region, RiverEdge edge)
+    {
+        final int ux = (int) (edge.source().x());
+        final int uy = (int) (edge.source().y());
+        final int vx = (int) (edge.drain().x());
+        final int vy = (int) (edge.drain().y());
+        int dx = vx - ux;
+        int dy = vy - uy;
+        final int mag2 = dx * dx + dy * dy;
+        final double unitX = (double) dx / mag2;
+        final double unitY = (double) dy / mag2;
+
+        double i = 0, i2 = 0;
+        while (i2 <= mag2)
+        {
+            setRiver(region.at((int) (0.5 + ux + unitX * i), (int) (0.5 + uy + unitY * i)));
+            i = i + 0.7;
+            i2 = i * i;
+        }
+    }
+
+    private void setRiver(@Nullable Region.Point point)
+    {
+        if (point != null && point.land())
+        {
+            point.setRiver();
         }
     }
 
@@ -153,6 +185,7 @@ public enum AddRiversAndLakes implements RegionTask
         final Region.Point point = region.at(gridX, gridZ);
         if (point != null && point.land() && point.distanceToOcean >= 2 && point.distanceToEdge >= 2 && TFCLayers.hasLake(point.biome))
         {
+            point.setLake();
             point.biome = TFCLayers.lakeFor(point.biome);
             point.rainfall += 0.09f * (500f - point.rainfall); // Small, localized rainfall increase around lakes of ~45mm max
         }

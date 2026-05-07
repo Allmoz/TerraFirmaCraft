@@ -202,8 +202,8 @@ public class RegionGeneratorTests implements TestSetup
             case ANNOTATE_TECTONIC_BIOMES -> tectonicBiomeColor(point.biome);
             case ADD_RIVERS_AND_LAKES ->
             {
-                if (point.river()) yield new Color(120, 120, 240);
-                if (point.shore()) yield new Color(120, 120, 240);
+                if (point.river()) yield new Color(100, 210, 250);
+                if (point.shore()) yield new Color(240, 224, 120);
                 if (point.lake()) yield new Color(150, 160, 255);
                 yield continentColor(point);
             }
