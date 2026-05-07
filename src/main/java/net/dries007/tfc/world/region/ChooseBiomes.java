@@ -78,9 +78,10 @@ public enum ChooseBiomes implements RegionTask
                     point.biome = RIFT_VALLEY;
                 }
             }
-            else if (point.river() && point.distanceToEdge > 4)
+            // Don't want rivers cutting wide valleys through collisional mountains, rift valleys, or ice sheets
+            else if (point.river() && point.distanceToEdge > 4 && point.temperature > -16f + 0.006f * point.rainfall)
             {
-                point.biome = PLAINS;
+                point.biome = RIVER_VALLEY;
             }
             else if (point.mountain())
             {

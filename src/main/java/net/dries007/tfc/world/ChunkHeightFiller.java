@@ -199,10 +199,9 @@ public class ChunkHeightFiller
 
         computeInitialRiverWeights(biomeWeights);
 
-        final double initialCaveWeight = adjustWeightsForRiverCaves();
         final RiverInfo info = sampleRiverInfo(useCache);
 
-        height = adjustHeightForRiverContributions(height, info, initialCaveWeight);
+        height = adjustHeightForRiverContributions(height, info);
 
         final double preVolcanicHeight = height;
 
@@ -287,39 +286,7 @@ public class ChunkHeightFiller
         }
     }
 
-    /**
-     * Adjusts {@link #riverBlendWeights} to bias towards river caves, creating sharper cutoffs and preventing caves
-     * from pinching off rivers.
-     *
-     * @return The initial weight of the river cave type.
-     */
-    private double adjustWeightsForRiverCaves()
-    {
-        // Adjust bias for river cave to create sharp cutoffs at borders, helps prevent caves from breaking up rivers
-        final double initialCaveWeight = riverBlendWeights[RIVER_TYPE_CAVE];
-        if (initialCaveWeight > 0)
-        {
-            final double totalWeight = 1.0 - riverBlendWeights[RIVER_TYPE_NONE];
-            // Delegate weight entirely to the cave carver after a point, and let it handle interpolation into the mouth of the cave
-            // This needs to be very carefully managed not to pinch off the edge, and interpolating a canyon and cave together leads to subpar results.
-            // So, we supply the river carve weight (initial value) to the cave carver, and run it at 1.0 weight instead, which will create a smooth transition.
-            final double adjustedCaveWeight = initialCaveWeight < 0.25 ?
-                Mth.map(initialCaveWeight, 0.0, 0.25, 0, 0.1 * totalWeight) :
-                totalWeight;
-
-            for (RiverBlendType type : RiverBlendType.ALL)
-            {
-                final double weight = riverBlendWeights[type.ordinal()];
-                riverBlendWeights[type.ordinal()] = weight * (1.0 - adjustedCaveWeight) / (1.0 - initialCaveWeight);
-            }
-
-            riverBlendWeights[RIVER_TYPE_CAVE] = adjustedCaveWeight;
-        }
-
-        return initialCaveWeight;
-    }
-
-    private double adjustHeightForRiverContributions(final double height, @Nullable RiverInfo info, double initialCaveWeight)
+    private double adjustHeightForRiverContributions(final double height, @Nullable RiverInfo info)
     {
         // Only perform river modifications if there's a river anywhere in sight
         if (info != null)
@@ -337,7 +304,7 @@ public class ChunkHeightFiller
                 }
                 else if (weight > 0)
                 {
-                    final double riverHeight = sampler.setColumnAndSampleHeight(info, blockX, blockZ, height, initialCaveWeight, weight);
+                    final double riverHeight = sampler.setColumnAndSampleHeight(info, blockX, blockZ, height, weight);
                     riverBlendHeight += weight * riverHeight;
                 }
             }

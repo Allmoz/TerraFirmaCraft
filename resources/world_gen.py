@@ -78,6 +78,7 @@ def generate(rm: ResourceManager):
     biome(rm, 'canyons', 'plains', boulders=True, lake_features=False, cinder_cone_features=True, hot_spring_features=True)
     biome(rm, 'low_canyons', 'swamp', boulders=True, lake_features=False, hot_spring_features='empty')
     biome(rm, 'plains', 'plains')
+    biome(rm, 'river_valley', 'plains')
     biome(rm, 'plateau', 'extreme_hills', boulders=True, hot_spring_features='empty')
     biome(rm, 'plateau_wide', 'extreme_hills', boulders=True, hot_spring_features='empty')
     biome(rm, 'hills', 'plains')

@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 import net.dries007.tfc.world.layer.framework.AdjacentTransformLayer;
 import net.dries007.tfc.world.layer.framework.AreaContext;
 
-public enum ShoreLayer implements AdjacentTransformLayer
+public enum ShoreAndRiverLayer implements AdjacentTransformLayer
 {
     INSTANCE;
 
@@ -25,6 +25,18 @@ public enum ShoreLayer implements AdjacentTransformLayer
             if (matcher.test(TFCLayers::isOcean))
             {
                 return TFCLayers.shoreFor(center);
+            }
+        }
+        else if (center == TFCLayers.RIVER_VALLEY)
+        {
+            // Make river valleys narrower when they cut mountains
+            if (matcher.test(TFCLayers::isMountains))
+            {
+                return TFCLayers.PLATEAU_WIDE;
+            }
+            else if (matcher.test(TFCLayers::isOcean))
+            {
+                return TFCLayers.SALT_MARSH;
             }
         }
         return center;

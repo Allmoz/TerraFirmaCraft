@@ -292,7 +292,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == DEEP_OCEAN_TRENCH) return new Color(60, 60, 120);
         if (biome == LAKE) return new Color(30, 30, 255);
         if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
-        if (biome == RIVER) return new Color(0, 200, 255);
+        if (biome == RIVER || biome == RIVER_VALLEY) return new Color(0, 200, 255);
         if (biome == GUANO_ISLAND) return new Color(170, 170, 170);
         if (biome == VOLCANIC_ISLAND) return new Color(120, 50, 70);
         if (biome == VOLCANIC_MOUNTAIN_ISLANDS) return new Color(150, 60, 90);
@@ -365,6 +365,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == OCEAN_RIDGE) return new Color(105, 105, 210);
         if (biome == DEEP_OCEAN || biome == DEEP_OCEAN_ATOLLS) return new Color(90, 90, 180);
         if (biome == DEEP_OCEAN_TRENCH) return new Color(60, 60, 120);
+        if (biome == RIVER || biome == RIVER_VALLEY) return new Color(0, 200, 255);
 
         if (biome == TOWER_KARST_BAY) return new Color(230, 120, 220);
         if (biome == TOWER_KARST_LAKE) return new Color(230, 100, 220);
@@ -414,7 +415,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == DEEP_OCEAN_TRENCH) return new Color(60, 60, 120);
         if (biome == LAKE) return new Color(30, 30, 255);
         if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
-        if (biome == RIVER) return new Color(0, 200, 255);
+        if (biome == RIVER || biome == RIVER_VALLEY) return new Color(0, 200, 255);
 
         if (biome == ICE_SHEET || biome == SUBGLACIAL_LAKE) return new Color(255, 255, 255);
         if (biome == ICE_SHEET_OCEANIC) return new Color(215, 215, 215);
@@ -451,7 +452,7 @@ public class RegionGeneratorTests implements TestSetup
         if (biome == DEEP_OCEAN_TRENCH) return new Color(60, 60, 120);
         if (biome == LAKE) return new Color(30, 30, 255);
         if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE) return new Color(20, 180, 255);
-        if (biome == RIVER) return new Color(0, 200, 255);
+        if (biome == RIVER || biome == RIVER_VALLEY) return new Color(0, 200, 255);
 
         // Convergent Biomes - Note that these show up as regular mtns if they are glaciated
         if (biome == COLLISIONAL_MOUNTAINS) return new Color(205, 160, 200);
@@ -493,7 +494,7 @@ public class RegionGeneratorTests implements TestSetup
 
         // Freshwater
         if (biome == MOUNTAIN_LAKE || biome == OCEANIC_MOUNTAIN_LAKE || biome == OLD_MOUNTAIN_LAKE || biome == VOLCANIC_MOUNTAIN_LAKE || biome == PLATEAU_LAKE || biome == RIFT_LAKE) return new Color(120, 170, 200);
-        if (biome == RIVER) return new Color(100, 140, 180);
+        if (biome == RIVER || biome == RIVER_VALLEY) return new Color(0, 200, 255);
 
         // Lowland / Mixed Water
         if (biome == LOWLANDS || biome == TOWER_KARST_LAKE) return new Color(80, 170, 200);

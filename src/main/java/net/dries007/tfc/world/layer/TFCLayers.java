@@ -45,6 +45,7 @@ public class TFCLayers
     public static final int LOWLANDS = idFor(TFCBiomes.LOWLANDS);
     public static final int SALT_MARSH = idFor(TFCBiomes.SALT_MARSH);
     public static final int LOW_CANYONS = idFor(TFCBiomes.LOW_CANYONS);
+    public static final int RIVER_VALLEY = idFor(TFCBiomes.RIVER_VALLEY);
     public static final int ROLLING_HILLS = idFor(TFCBiomes.ROLLING_HILLS);
     public static final int HIGHLANDS = idFor(TFCBiomes.HIGHLANDS);
     public static final int BADLANDS = idFor(TFCBiomes.BADLANDS);
@@ -233,7 +234,7 @@ public class TFCLayers
 
 
         // 4x4 Chunk Scale
-        mainLayer = ShoreLayer.INSTANCE.apply(seed.next(), mainLayer);
+        mainLayer = ShoreAndRiverLayer.INSTANCE.apply(seed.next(), mainLayer);
         mainLayer = MoreShoresLayer.INSTANCE.apply(seed.next(), mainLayer);
         mainLayer = IceSheetEdgeLayer.INSTANCE.apply(seed.next(), mainLayer);
         mainLayer = ZoomLayer.NORMAL.apply(seed.next(), mainLayer);

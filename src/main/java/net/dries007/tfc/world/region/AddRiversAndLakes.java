@@ -156,16 +156,20 @@ public enum AddRiversAndLakes implements RegionTask
         final int vy = (int) (edge.drain().y());
         int dx = vx - ux;
         int dy = vy - uy;
-        final int mag2 = dx * dx + dy * dy;
-        final double unitX = (double) dx / mag2;
-        final double unitY = (double) dy / mag2;
+        final double mag = Math.sqrt(dx * dx + dy * dy);
+        final double unitX = (double) dx / mag;
+        final double unitY = (double) dy / mag;
 
-        double i = 0, i2 = 0;
-        while (i2 <= mag2)
+        double i = 0;
+        while (i <= mag)
         {
-            setRiver(region.at((int) (0.5 + ux + unitX * i), (int) (0.5 + uy + unitY * i)));
-            i = i + 0.7;
-            i2 = i * i;
+            int x = (int) (ux + unitX * i);
+            int y = (int) (uy + unitY * i);
+            setRiver(region.at(x, y));
+            setRiver(region.at(x + 1, y));
+            setRiver(region.at(x, y + 1));
+            setRiver(region.at(x + 1, y + 1));
+            i = i + 1;
         }
     }
 

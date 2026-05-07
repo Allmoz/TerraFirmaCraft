@@ -13,6 +13,7 @@ import net.dries007.tfc.world.noise.Noise2D;
 import net.dries007.tfc.world.noise.Noise3D;
 import net.dries007.tfc.world.noise.OpenSimplex2D;
 import net.dries007.tfc.world.noise.OpenSimplex3D;
+import net.dries007.tfc.world.region.RiverEdge;
 
 import static net.dries007.tfc.world.TFCChunkGenerator.*;
 
@@ -29,7 +30,7 @@ public final class RiverNoise
             double height;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 final double distFac = info.normDistSq() * 0.8f + distNoise.noise(x, z);
                 final double riverHeight = 57 + (distFac < 1.0 ? distFac * 6 : 6);
@@ -65,7 +66,7 @@ public final class RiverNoise
             double height;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 final double distFac = info.normDistSq() * 0.8f + distNoise.noise(x, z);
                 final double riverHeight = 57 + (distFac < 1.0 ? distFac * 9 : 9) + surfaceNoise.noise(x, z);
@@ -100,34 +101,36 @@ public final class RiverNoise
             double height;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 final double distFac = info.normDistSq() * 0.8f + distNoise.noise(x, z);
                 final double riverHeight;
-                if (distFac < 1.0)
+                if (distFac < 1)
                 {
-                    riverHeight = 58.5 + distFac * 3;
+                    final double depth = Mth.clampedMap(info.widthSq(), RiverEdge.MIN_WIDTH * RiverEdge.MIN_WIDTH, RiverEdge.MAX_WIDTH * RiverEdge.MAX_WIDTH, 3, 6);
+                    riverHeight = SEA_LEVEL_Y - 2 - depth + distFac * depth;
                 }
                 else if (distFac < 2.0)
                 {
-                    riverHeight = 62.5;
+                    riverHeight = SEA_LEVEL_Y - 2;
                 }
                 else
                 {
                     final double heightInWeight = Mth.clamp(2 * distFac - 4, 0, 1);
                     final double riverWeight = 1 - heightInWeight;
-                    riverHeight = 61.5 * riverWeight + heightIn * heightInWeight;
+                    riverHeight = (SEA_LEVEL_Y - 1.5) * riverWeight + heightIn * heightInWeight;
                 }
 
                 return height = Math.min(riverHeight, heightIn);
             }
-            
+
             @Override
             public double noise(int y, double noiseIn)
             {
                 // Note that the height here is not the final terrain height, but rather the terrain height at the time river noise is being calculated
                 // This if statement will carve a cave roof that is symmetrical to the river floor, and always tall enough to boat through
-                if (height < SEA_LEVEL_Y && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
+                // For this blend type, we limit to where the river is reasonably deep to avoid wide, flat caves
+                if (height < SEA_LEVEL_Y - 2.5 && y > height && y < SEA_LEVEL_Y + 2 + (SEA_LEVEL_Y - height))
                 {
                     return 1;
                 }
@@ -148,7 +151,7 @@ public final class RiverNoise
             double height;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 final double distFac = info.normDistSq() * 0.8f + distNoise.noise(x, z);
                 final double riverHeight = 58 + distFac * 7 + baseNoise.noise(x, z);
@@ -182,7 +185,7 @@ public final class RiverNoise
             double height;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 final double distFac = info.normDistSq() * 0.8f + distNoise.noise(x, z);
                 final double riverHeight = 55 + distFac * 7 + baseNoise.noise(x, z);
@@ -216,7 +219,7 @@ public final class RiverNoise
             double height;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 final double distFac = info.normDistSq() * 1.3 + distNoise.noise(x, z);
                 final double adjDistFac = distFac > 0.6 ? distFac * 0.4 + 0.8 : distFac;
@@ -254,7 +257,7 @@ public final class RiverNoise
             private int x, z;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 final double distFac = info.normDistSq() * 1.3 + distNoise.noise(x, z);
                 final double adjDistFac = distFac > 0.32 ? distFac * 0.2 + 1.6 : distFac;
@@ -320,7 +323,7 @@ public final class RiverNoise
             double height;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 final double distFac = Math.sqrt(info.normDistSq()) + distNoise.noise(x, z);
                 final double talusRiverHeight = 55 + distFac * 12 + baseNoise.noise(x, z) + (distFac > 1.5 ? cliffHeightNoise.noise(x, z) : 0);
@@ -358,7 +361,7 @@ public final class RiverNoise
             double height;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 final double distFac = Math.sqrt(info.normDistSq()) * 0.85 + distNoise.noise(x, z);
                 final double slopedRiverHeight = 54 + distFac * 12 + baseNoise.noise(x, z);
@@ -401,10 +404,10 @@ public final class RiverNoise
             double distSquared, weight, height, carvingHeight, carvingCenter, canyonHeight;
 
             @Override
-            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double caveWeight, double thisWeight)
+            public double setColumnAndSampleHeight(RiverInfo info, int x, int z, double heightIn, double thisWeight)
             {
                 distSquared = Mth.clamp(info.normDistSq() * 1.3 - 0.1, 0d, 1d); // 0 = near center
-                weight = caveWeight;
+                weight = thisWeight;
                 height = heightIn;
                 carvingHeight = carvingHeightNoise.noise(x, z);
                 carvingCenter = carvingCenterNoise.noise(x, z);
@@ -413,7 +416,7 @@ public final class RiverNoise
 
                 final double maxHeight = carvingCenter + carvingHeight; // The maximum height of the river tunnel. Any surface height above a cave must only occur above this value.
 
-                if (caveWeight > 0.75) // Full cave carver
+                if (thisWeight > 0.75) // Full cave carver
                 {
                     // Return the normal terrain height as river is fully subterranean
                     return heightIn;
@@ -421,11 +424,11 @@ public final class RiverNoise
                 else
                 {
                     final double canyonMaxHeight = Math.min(canyonHeight, heightIn);
-                    if (caveWeight > 0.5) // Blended cave + exterior carver
+                    if (thisWeight > 0.5) // Blended cave + exterior carver
                     {
-                        final double interiorHeight = Mth.map(caveWeight, 0.5, 0.75, Math.min(maxHeight, heightIn), heightIn);
+                        final double interiorHeight = Mth.map(thisWeight, 0.5, 0.75, Math.min(maxHeight, heightIn), heightIn);
 
-                        final double exteriorHeight = Mth.map(caveWeight, 0.5, 0.75, Math.min(canyonMaxHeight, heightIn), heightIn);
+                        final double exteriorHeight = Mth.map(thisWeight, 0.5, 0.75, Math.min(canyonMaxHeight, heightIn), heightIn);
 
                         return height = Mth.lerp(distSquared, interiorHeight, exteriorHeight);
                     }

@@ -1985,6 +1985,22 @@
           }
         ]
       }
+    },
+    "river_valley": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "tfc:river_valley"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "display": {
@@ -2375,6 +2391,9 @@
     ],
     [
       "deep_ocean_atolls"
+    ],
+    [
+      "river_valley"
     ]
   ]
 }

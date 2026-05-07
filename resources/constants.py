@@ -948,7 +948,7 @@ TFC_BIOMES = ['badlands', 'canyons', 'low_canyons', 'plains', 'plateau', 'platea
               'drumlins', 'tuyas', 'knob_and_kettle', 'patterned_ground', 'inverted_patterned_ground', 'stone_circles', 'oceanic_volcanic_arc', 'ocean_ridge',
               'rift_valley', 'rift_lake', 'collisional_mountains', 'volcanic_island', 'volcanic_mountain_islands', 'ice_sheet_volcanic_mountains',
               'glaciated_volcanic_mountains', 'glacially_carved_volcanic_mountains', 'ice_sheet_volcanic_oceanic_mountains', 'glaciated_volcanic_oceanic_mountains',
-              'glacially_carved_volcanic_oceanic_mountains', 'ocean_atolls', 'deep_ocean_atolls']
+              'glacially_carved_volcanic_oceanic_mountains', 'ocean_atolls', 'deep_ocean_atolls', 'river_valley']
 KAOLIN_BIOMES = ['rolling_hills', 'highlands', 'plateau', 'plateau_wide', 'old_mountains', 'tower_karst_hills', 'tower_karst_highlands', 'extreme_doline_plateau', 'extreme_doline_mountains', 'doline_rolling_hills', 'doline_highlands', 'doline_plateau', 'cenote_rolling_hills', 'cenote_highlands', 'cenote_plateau', 'shilin_hills', 'shilin_highlands', 'shilin_plateau', 'buttes', 'mesas', 'stair_step_canyons', 'dormant_shield_volcano', 'extinct_shield_volcano', 'ancient_shield_volcano', 'badlands', 'canyons', 'volcanic_mountain_islands', 'rift_valley', 'rift_lake']
 VANILLA_TRIMS = ('coast', 'sentry', 'dune', 'wild', 'ward', 'eye', 'vex', 'tide', 'snout', 'rib', 'spire', 'wayfinder', 'shaper', 'silence', 'raiser', 'host', 'flow', 'bolt')
 
