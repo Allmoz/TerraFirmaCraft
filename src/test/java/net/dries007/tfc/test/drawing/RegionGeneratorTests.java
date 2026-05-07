@@ -195,11 +195,6 @@ public class RegionGeneratorTests implements TestSetup
                     yield new Color(200, 200, 10);
                 }
             }
-            case CHOOSE_BIOMES -> biomeColor(point.biome);
-            case ANNOTATE_BIOMES_BY_HEIGHT -> heightBiomeColor(point.biome);
-            case ANNOTATE_KARST_BIOMES -> karstBiomeColor(point.biome);
-            case ANNOTATE_GLACIAL_BIOMES -> glaciatedBiomeColor(point.biome);
-            case ANNOTATE_TECTONIC_BIOMES -> tectonicBiomeColor(point.biome);
             case ADD_RIVERS_AND_LAKES ->
             {
                 if (point.river()) yield new Color(100, 210, 250);
@@ -207,6 +202,11 @@ public class RegionGeneratorTests implements TestSetup
                 if (point.lake()) yield new Color(150, 160, 255);
                 yield continentColor(point);
             }
+            case CHOOSE_BIOMES -> biomeColor(point.biome);
+            case ANNOTATE_BIOMES_BY_HEIGHT -> heightBiomeColor(point.biome);
+            case ANNOTATE_KARST_BIOMES -> karstBiomeColor(point.biome);
+            case ANNOTATE_GLACIAL_BIOMES -> glaciatedBiomeColor(point.biome);
+            case ANNOTATE_TECTONIC_BIOMES -> tectonicBiomeColor(point.biome);
             case KAOLINITE_CAN_SPAWN -> point.temperature > 18f && point.rainfall > 300 && point.land()
                 ? point.biome == HIGHLANDS || point.biome == PLATEAU || point.biome == OLD_MOUNTAINS || point.biome == ROLLING_HILLS || point.biome == TOWER_KARST_HILLS
                 || point.biome == TOWER_KARST_HIGHLANDS || point.biome == EXTREME_DOLINE_PLATEAU || point.biome == EXTREME_DOLINE_MOUNTAINS || point.biome == DOLINE_ROLLING_HILLS

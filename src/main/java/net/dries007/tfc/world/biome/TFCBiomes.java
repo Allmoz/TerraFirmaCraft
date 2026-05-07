@@ -66,7 +66,7 @@ public final class TFCBiomes
     public static final BiomeExtension COLLISIONAL_MOUNTAINS = register("collisional_mountains", builder().heightmap(seed -> BiomeNoise.ridgeMountains(seed, 18, 120, 0.5f, 170, 35)).surface(NormalSurfaceBuilder.ROCKY).spawnable().type(RiverBlendType.CAVE)); // Very large mountains
 
     // Low biomes
-    public static final BiomeExtension PLAINS = register("plains", builder().heightmap(seed -> BiomeNoise.hills(seed, 0, 6)).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.FLOODPLAIN)); // Very flat, slightly above sea level.
+    public static final BiomeExtension PLAINS = register("plains", builder().heightmap(seed -> BiomeNoise.hills(seed, -2, 4)).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.FLOODPLAIN)); // Very flat, slightly above sea level.
     public static final BiomeExtension HILLS = register("hills", builder().heightmap(seed -> BiomeNoise.hills(seed, -5, 16)).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.FLOODPLAIN)); // Small hills, slightly above sea level.
     public static final BiomeExtension LOWLANDS = register("lowlands", builder().heightmap(BiomeNoise::lowlands).surface(LowlandsSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.BANKED).noSandyRiverShores()); // Flat, swamp-like, lots of shallow pools below sea level.
     public static final BiomeExtension SALT_MARSH = register("salt_marsh", builder().heightmap(BiomeNoise::lowlands).surface(LowlandsSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).spawnable().salty().type(RiverBlendType.BANKED).noSandyRiverShores()); // Flat, swamp-like, lots of shallow pools below sea level.
