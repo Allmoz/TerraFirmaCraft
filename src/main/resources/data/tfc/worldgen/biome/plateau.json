@@ -13,7 +13,6 @@
     "air": [
       "tfc:cave",
       "tfc:deep_cave",
-      "tfc:karst_cave",
       "tfc:canyon"
     ],
     "liquid": []
