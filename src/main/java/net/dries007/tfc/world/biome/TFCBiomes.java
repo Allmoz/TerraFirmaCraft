@@ -32,6 +32,7 @@ import net.dries007.tfc.world.surface.builder.GrassyDunesSurfaceBuilder;
 import net.dries007.tfc.world.surface.builder.IceSheetShieldVolcanoSurfaceBuilder;
 import net.dries007.tfc.world.surface.builder.IceSheetSurfaceBuilder;
 import net.dries007.tfc.world.surface.builder.LowlandsSurfaceBuilder;
+import net.dries007.tfc.world.surface.builder.NormalAlternateSurfaceBuilder;
 import net.dries007.tfc.world.surface.builder.NormalSurfaceBuilder;
 import net.dries007.tfc.world.surface.builder.PatternedGroundSurfaceBuilder;
 import net.dries007.tfc.world.surface.builder.RiverSurfaceBuilder;
@@ -71,7 +72,7 @@ public final class TFCBiomes
     public static final BiomeExtension LOWLANDS = register("lowlands", builder().heightmap(BiomeNoise::lowlands).surface(LowlandsSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.BANKED).noSandyRiverShores()); // Flat, swamp-like, lots of shallow pools below sea level.
     public static final BiomeExtension SALT_MARSH = register("salt_marsh", builder().heightmap(BiomeNoise::lowlands).surface(LowlandsSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).spawnable().salty().type(RiverBlendType.BANKED).noSandyRiverShores()); // Flat, swamp-like, lots of shallow pools below sea level.
     public static final BiomeExtension LOW_CANYONS = register("low_canyons", builder().heightmap(seed -> BiomeNoise.canyons(seed, -8, 21)).surface(NormalSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.WIDE).noSandyRiverShores()); // Sharp, small hills, with lots of water / snaking winding rivers.
-    public static final BiomeExtension RIVER_VALLEY = register("river_valley", builder().heightmap(seed -> BiomeNoise.hills(seed, -2, 4)).surface(NormalSurfaceBuilder.INSTANCE).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.FLOODPLAIN)); // Very flat, slightly above sea level, only placed near large rivers.
+    public static final BiomeExtension RIVER_VALLEY = register("river_valley", builder().heightmap(seed -> BiomeNoise.hills(seed, -2, 4)).surface(NormalAlternateSurfaceBuilder.SANDY).aquiferHeightOffset(-16).spawnable().type(RiverBlendType.FLOODPLAIN)); // Very flat, slightly above sea level, only placed near large rivers.
 
     // Mid biomes
     public static final BiomeExtension ROLLING_HILLS = register("rolling_hills", builder().heightmap(seed -> BiomeNoise.hills(seed, -5, 28)).surface(NormalSurfaceBuilder.INSTANCE).spawnable().type(RiverBlendType.CANYON)); // Higher hills, above sea level. Some larger / steeper hills.
