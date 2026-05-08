@@ -178,6 +178,7 @@ public enum AddRiversAndLakes implements RegionTask
         if (point != null && point.land())
         {
             point.setRiver();
+            point.rainfall += 0.09f * (500f - point.rainfall); // Small, localized rainfall increase around river valleys of ~45mm max
         }
     }
 
