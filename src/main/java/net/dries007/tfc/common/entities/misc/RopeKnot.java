@@ -17,6 +17,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.TFCTags;
+import net.dries007.tfc.common.blocks.RopeAnchorBlock;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.util.Helpers;
@@ -84,7 +85,7 @@ public class RopeKnot extends LeashFenceKnotEntity implements Leashable
     @Override
     public boolean survives()
     {
-        return Helpers.isBlock(level().getBlockState(pos), TFCTags.Blocks.ROPE_ANCHORS);
+        return level().getBlockState(pos).getBlock() instanceof RopeAnchorBlock;
     }
 
     @Override

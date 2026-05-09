@@ -133,7 +133,7 @@ public enum Rock implements RegistryRock
         COBBLE((rock, self) -> new MossGrowingBlock(properties(rock).strength(rock.category().hardness(5.5f), 10).requiresCorrectToolForDrops(), rock.getBlock(Objects.requireNonNull(self.mossy()))), true),
         BRICKS((rock, self) -> new MossGrowingBlock(properties(rock).strength(rock.category().hardness(6.5f), 10).requiresCorrectToolForDrops(), rock.getBlock(Objects.requireNonNull(self.mossy()))), true),
         GRAVEL((rock, self) -> new Block(Block.Properties.of().mapColor(rock.color()).sound(SoundType.GRAVEL).instrument(NoteBlockInstrument.SNARE).strength(rock.category().hardness(2.0f))), false),
-        SPIKE((rock, self) -> new RockSpikeBlock(properties(rock).strength(rock.category().hardness(4f), 10).requiresCorrectToolForDrops().lightLevel(TFCBlocks.lavaLoggedBlockEmission())), false),
+        SPIKE((rock, self) -> new RockSpikeBlock(properties(rock).strength(rock.category().hardness(4f), 10).requiresCorrectToolForDrops().lightLevel(TFCBlocks.lavaLoggedBlockEmission()), rock.getBlock(self.anchor())), false),
         CRACKED_BRICKS((rock, self) -> new Block(properties(rock).strength(rock.category().hardness(6.5f), 10).requiresCorrectToolForDrops()), true),
         MOSSY_BRICKS((rock, self) -> new MossSpreadingBlock(properties(rock).strength(rock.category().hardness(6.5f), 10).requiresCorrectToolForDrops()), true),
         MOSSY_COBBLE((rock, self) -> new MossSpreadingBlock(properties(rock).strength(rock.category().hardness(6.5f), 10).requiresCorrectToolForDrops()), true),
@@ -143,7 +143,7 @@ public enum Rock implements RegistryRock
         PRESSURE_PLATE((rock, self) -> new PressurePlateBlock(BlockSetType.STONE, properties(rock).requiresCorrectToolForDrops().noCollission().strength(0.5f)), false),
         BUTTON((rock, self) -> new ButtonBlock(BlockSetType.STONE, 20, properties(rock).noCollission().strength(0.5f)), false),
         AQUEDUCT((rock, self) -> new AqueductBlock(properties(rock).strength(rock.category().hardness(6.5f), 10).requiresCorrectToolForDrops().lightLevel(TFCBlocks.lavaLoggedBlockEmission())), false),
-        ROPE_ANCHOR((rock, self) -> new RopeAnchorBlock(ExtendedProperties.of(properties(rock).strength(rock.category().hardness(4f), 10).requiresCorrectToolForDrops())), false);
+        ROPE_ANCHOR((rock, self) -> new RopeAnchorBlock(ExtendedProperties.of(properties(rock).strength(rock.category().hardness(4f), 10).requiresCorrectToolForDrops()), rock.getBlock(self.spike())), false);
 
         public static final BlockType[] VALUES = BlockType.values();
 
@@ -245,6 +245,16 @@ public enum Rock implements RegistryRock
                     case BRICKS, MOSSY_BRICKS -> MOSSY_BRICKS;
                     default -> null;
                 };
+        }
+
+        private BlockType anchor()
+        {
+            return ROPE_ANCHOR;
+        }
+
+        private BlockType spike()
+        {
+            return SPIKE;
         }
     }
 }

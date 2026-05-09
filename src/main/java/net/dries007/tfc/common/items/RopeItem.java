@@ -13,19 +13,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
-import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.AbstractRopeBlock;
 import net.dries007.tfc.common.blocks.GroundedRopeBlock;
 import net.dries007.tfc.common.blocks.RopeAnchorBlock;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.common.blocks.TFCBlocks;
+import net.dries007.tfc.common.blocks.rock.RockSpikeBlock;
 import net.dries007.tfc.common.entities.misc.RopeKnot;
 import net.dries007.tfc.util.Helpers;
 
@@ -42,7 +42,7 @@ public class RopeItem extends Item
         final Level level = context.getLevel();
         final BlockPos blockpos = context.getClickedPos();
         final BlockState state = level.getBlockState(blockpos);
-        if (Helpers.isBlock(state, TFCTags.Blocks.ROPE_ANCHORS) && state.hasProperty(TFCBlockStateProperties.HAS_ROPE))
+        if (state.hasProperty(TFCBlockStateProperties.HAS_ROPE))
         {
             if (!state.getValue(TFCBlockStateProperties.HAS_ROPE))
             {
@@ -68,7 +68,7 @@ public class RopeItem extends Item
         }
         else
         {
-            placeRopes2(level, player, stack, knot.blockPosition());
+            placeRopes(level, player, stack, knot.blockPosition());
             knot.discard();
             return InteractionResultHolder.consume(stack);
         }
@@ -100,7 +100,12 @@ public class RopeItem extends Item
         return knots.isEmpty() ? null : knots.getFirst();
     }
 
-    public static void placeRopes2(Level level, Player player, ItemStack stack, BlockPos origin)
+    public static boolean canPlaceRopeOn(Level level, BlockPos pos, BlockState state)
+    {
+        return state.getBlock() instanceof RockSpikeBlock && state.getValue(RockSpikeBlock.PART) == RockSpikeBlock.Part.TIP && level.getBlockState(pos.below()).isFaceSturdy(level, pos, Direction.UP, SupportType.CENTER);
+    }
+
+    public static void placeRopes(Level level, Player player, ItemStack stack, BlockPos origin)
     {
         final BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos().set(origin);
         final int count = stack.getCount();
@@ -112,17 +117,10 @@ public class RopeItem extends Item
 
         BlockState state = level.getBlockState(cursor);
         RopeState previous = RopeState.HORIZONTAL;
-        if (Helpers.isBlock(state, TFCTags.Blocks.ROPE_ANCHORS) && state.hasProperty(RopeAnchorBlock.HAS_ROPE))
+        if (canPlaceRopeOn(level, cursor, state) && state.getBlock() instanceof RockSpikeBlock spike)
         {
-            if (!state.getValue(RopeAnchorBlock.HAS_ROPE))
-            {
-                stack.shrink(1);
-                level.setBlockAndUpdate(cursor, state.setValue(facing, dir).setValue(RopeAnchorBlock.HAS_ROPE, true));
-            }
-            else
-            {
-                return;
-            }
+            stack.shrink(1);
+            level.setBlockAndUpdate(cursor, spike.getAnchor().defaultBlockState().setValue(facing, dir));
         }
         cursor.move(dir);
         for (int i = 0; i < count - 1; i++)

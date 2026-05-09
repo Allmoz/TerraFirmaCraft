@@ -626,7 +626,6 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
                 TFCBlocks.LOG_PILE,
                 TFCBlocks.PIT_KILN
             );
-        tag(ROPE_ANCHORS).add(TFCBlocks.ROCK_BLOCKS, Rock.BlockType.ROPE_ANCHOR);
 
         tag(MINEABLE_WITH_PROPICK); // Empty
         tag(MINEABLE_WITH_CHISEL); // Empty
