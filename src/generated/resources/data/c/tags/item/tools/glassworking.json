@@ -2,7 +2,6 @@
   "values": [
     "tfc:paddle",
     "tfc:jacks",
-    "tfc:gem_saw",
-    "tfc:wool_cloth"
+    "tfc:gem_saw"
   ]
 }

@@ -54,7 +54,7 @@ public class ChannelBlockEntity extends TFCBlockEntity
     /*** Fluid to render */
     private ResourceLocation fluid = ResourceLocation.fromNamespaceAndPath("", "");
 
-    private boolean recursion_visiting = false;
+    private boolean recursionVisiting = false;
 
     public boolean hasFlow()
     {
@@ -111,10 +111,10 @@ public class ChannelBlockEntity extends TFCBlockEntity
      */
     public void notifyBrokenLink(int linksBroken)
     {
-        if (level == null || recursion_visiting)
+        if (level == null || recursionVisiting)
             return;
 
-        recursion_visiting = true;
+        recursionVisiting = true;
 
         numFlows -= linksBroken;
 
@@ -131,7 +131,7 @@ public class ChannelBlockEntity extends TFCBlockEntity
             markForSync();
         }
 
-        recursion_visiting = false;
+        recursionVisiting = false;
     }
 
     /***
@@ -139,13 +139,13 @@ public class ChannelBlockEntity extends TFCBlockEntity
      */
     public boolean isFlowing()
     {
-        if (flowSource.isEmpty() || recursion_visiting)
+        if (flowSource.isEmpty() || recursionVisiting)
         {
             return false;
         }
         try
         {
-            recursion_visiting = true;
+            recursionVisiting = true;
 
             Direction expectedDirection = flowSource.get().getLeft();
             int expectedDistance = flowSource.get().getRight();
@@ -197,7 +197,7 @@ public class ChannelBlockEntity extends TFCBlockEntity
         }
         finally
         {
-            recursion_visiting = false;
+            recursionVisiting = false;
         }
     }
 
