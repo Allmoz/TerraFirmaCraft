@@ -68,6 +68,7 @@ public interface CraftingRecipes extends Recipes
             "bricks",
             "bucket",
             "campfire",
+            "copper_door",
             "chest",
             "minecart",
             "chest_minecart",
