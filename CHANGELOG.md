@@ -1,7 +1,7 @@
 ### Changes
 
 - Added a fallback for the rock surface height cache. This should prevent some crashes with Distant Horizons.
-- Fixed anvil updates noy syncing to other players.
+- Fixed anvil updates not syncing to other players.
 - Fixed colored steel buckets not displaying fluid color.
 - Fixed crucibles blocking rain from being viewed by forges.
 - Fixed not being able to replace flowing fluid with a source of the same fluid type using a TFC bucket.
@@ -14,3 +14,4 @@
 - Fixed an issue where rats might try to despawn on the client only.
 - Fixed a problem where cats appeared sleeping even when they were not.
 - Changed some entity models to be slightly more compatible with Create.
+- Added a tag that can be used by packmakers to prevent icicle generation on certain blocks.
