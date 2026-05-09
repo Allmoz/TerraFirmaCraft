@@ -80,6 +80,16 @@ public final class ClientHelpers
         }
         return null;
     }
+    @Nullable
+    public static Direction getTargetedFace()
+    {
+        final Minecraft mc = Minecraft.getInstance();
+        if (mc.level != null && mc.hitResult instanceof BlockHitResult block)
+        {
+            return block.getDirection();
+        }
+        return null;
+    }
 
     public static boolean hasShiftDown()
     {
