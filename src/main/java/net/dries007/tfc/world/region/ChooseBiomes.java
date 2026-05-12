@@ -47,7 +47,7 @@ public enum ChooseBiomes implements RegionTask
     private static final int[] KNOB_AND_KETTLE_BIOMES = {KNOB_AND_KETTLE, PATTERNED_GROUND, INVERTED_PATTERNED_GROUND};
     private static final int[] ISLAND_BIOMES = {ROLLING_HILLS, VOLCANIC_OCEANIC_MOUNTAINS, VOLCANIC_MOUNTAIN_ISLANDS, GUANO_ISLAND};
     private static final int[] RIFT_VALLEY_BIOMES = {RIFT_VALLEY, RIFT_VALLEY, RIFT_VALLEY, RIFT_LAKE, RIFT_LAKE};
-    private static final int[] VOLCANIC_ARC_BIOMES = {VOLCANIC_OCEANIC_MOUNTAINS, VOLCANIC_OCEANIC_MOUNTAINS, VOLCANIC_ISLAND};
+    private static final int[] VOLCANIC_ARC_BIOMES = {VOLCANIC_OCEANIC_MOUNTAINS, VOLCANIC_OCEANIC_MOUNTAINS, VOLCANIC_OCEANIC_MOUNTAINS, VOLCANIC_ISLAND, OCEANIC_VOLCANIC_ARC};
     private static final int[] BARRIER_ISLAND_BIOMES = {PLAINS, PLAINS, PLAINS, SALT_MARSH, TIDAL_FLATS};
 
 
@@ -260,9 +260,7 @@ public enum ChooseBiomes implements RegionTask
             {
                 if (point.volcanic())
                 {
-                    // Don't use areas, just random point-to-point
-                    final int barrierIslandSeed = Helpers.hash(153515L, point.x, point.z);
-                    point.biome = randomSeededFrom(rngSeed, barrierIslandSeed, VOLCANIC_ARC_BIOMES);
+                    point.biome = randomSeededFrom(rngSeed, areaSeed, VOLCANIC_ARC_BIOMES);
                 }
                 else
                 {
