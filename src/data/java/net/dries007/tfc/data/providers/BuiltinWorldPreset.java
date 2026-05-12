@@ -219,6 +219,8 @@ public final class BuiltinWorldPreset
                 layerOf(UPLIFT, Map.of(
                     SLATE, MM_HIGH_GRADE,
                     PHYLLITE, MM_HIGH_GRADE,
+                    SCHIST, MM_HIGH_GRADE,
+                    GNEISS, MM_HIGH_GRADE,
                     MARBLE, BOTTOM,
                     QUARTZITE, BOTTOM,
                     DIORITE, MM_LOW_GRADE,
@@ -228,7 +230,7 @@ public final class BuiltinWorldPreset
             ),
             // List of layers that can be the top layer for each variety of rock region
             List.of(IGNEOUS_EXTRUSIVE),
-            List.of(SEDIMENTARY, SEDIMENTARY, IGNEOUS_EXTRUSIVE),
+            List.of(SEDIMENTARY, SEDIMENTARY, SEDIMENTARY, IGNEOUS_EXTRUSIVE),
             List.of(IGNEOUS_EXTRUSIVE, IGNEOUS_EXTRUSIVE_X2, IGNEOUS_INTRUSIVE),
             List.of(UPLIFT, UPLIFT, UPLIFT, SEDIMENTARY)
         )).getOrThrow();

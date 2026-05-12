@@ -25,6 +25,7 @@
             "land": [
               "sedimentary",
               "sedimentary",
+              "sedimentary",
               "igneous_extrusive"
             ],
             "layers": [
@@ -115,10 +116,12 @@
                 "layers": {
                   "diorite": "low_grade",
                   "gabbro": "low_grade",
+                  "gneiss": "high_grade",
                   "granite": "low_grade",
                   "marble": "bottom",
                   "phyllite": "high_grade",
                   "quartzite": "bottom",
+                  "schist": "high_grade",
                   "slate": "high_grade"
                 }
               }
