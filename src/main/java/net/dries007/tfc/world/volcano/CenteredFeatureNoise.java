@@ -90,7 +90,7 @@ public class CenteredFeatureNoise
                 final double f1 = cell.f1();
                 final double easing = Mth.clamp(calculateEasing((float) f1) + jitterNoise.noise(x, z), 0, 1);
                 final double rim = 0.025;
-                final double shape = calculateShape(1 -easing, rim);
+                final double shape = calculateShape(1 - easing, rim);
                 final double volcanoAdditionalHeight = shape * scaleHeight;
                 final double volcanoHeight = baseHeight + volcanoAdditionalHeight;
                 final double weight = 10f * Mth.clamp((float) cell.f2() - f1, 0f, 0.1f);
@@ -312,14 +312,15 @@ public class CenteredFeatureNoise
         {
             final double aGap = 4 * Helpers.hashDouble(cell.noise(), 113);
             final double a1 = cell.angle();
-            final double angleToGap = Math.abs(a1 - aGap);
+            double angleToGap = Math.abs(a1 - aGap);
+            angleToGap = Math.min(angleToGap, 4 - angleToGap);
             // If angle to gap is larger than the gap size, we are far from the gap and can skip calculations
             if (angleToGap < gapSize)
             {
                 final double angleToGapEdge = Math.abs(Math.min(angleToGap + gapSize, angleToGap - gapSize));
 
                 // Gap scale should be lowest at the center of the gap
-                gapVerticalEasing = Mth.clampedMap(angleToGapEdge, 0, Math.max(0.3, 0.6 * gapSize), 1, 0);
+                gapVerticalEasing = Mth.clampedMap(angleToGapEdge, 0, Math.max(0.25, 0.5 * gapSize), 1, 0);
             }
         }
         return gapVerticalEasing;
