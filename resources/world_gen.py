@@ -1269,25 +1269,65 @@ def generate(rm: ResourceManager):
         rm.placed_feature_tag('feature/fruit_trees', 'tfc:plant/%s' % fruit, 'tfc:plant/%s' % fruit)
 
     configured_placed_feature(rm, 'rare_bamboo', 'tfc:bamboo', {'probability': 0.2, 'state': 'minecraft:bamboo'}, decorate_chance(30), decorate_climate(21, 40, 300, 500, needs_forest=True, fuzzy=True), ('minecraft:noise_based_count', {
-        'noise_to_count_ratio': 160,
+        'noise_to_count_ratio': 80,
         'noise_factor': 80.0,
         'noise_offset': 0.3
-    }), decorate_square(), decorate_heightmap('world_surface_wg'))
+    }), {
+        "type": "minecraft:random_offset",
+        "xz_spread": {
+            "type": "minecraft:clamped_normal",
+            "min_inclusive": -8,
+            "max_inclusive": 15,
+            "mean": 3,
+            "deviation": 4
+        },
+        "y_spread": 0
+    }, decorate_heightmap('world_surface_wg'))
     configured_placed_feature(rm, 'bamboo', 'tfc:bamboo', {'probability': 0.25, 'state': 'minecraft:bamboo'}, decorate_count(6), decorate_climate(21, 40, 320, 500, fuzzy=True, forest_types=['dead_bamboo', 'edge_bamboo', 'secondary_bamboo']), ('minecraft:noise_based_count', {
-        'noise_to_count_ratio': 160,
+        'noise_to_count_ratio': 110,
         'noise_factor': 80.0,
         'noise_offset': 0.3
-    }), decorate_square(), decorate_heightmap('world_surface_wg'))
+    }), {
+        "type": "minecraft:random_offset",
+        "xz_spread": {
+            "type": "minecraft:clamped_normal",
+            "min_inclusive": -8,
+            "max_inclusive": 15,
+            "mean": 3,
+            "deviation": 4
+        },
+        "y_spread": 0
+    }, decorate_heightmap('world_surface_wg'))
     configured_placed_feature(rm, 'rare_bamboo_golden', 'tfc:bamboo', {'probability': 0.2, 'state': 'tfc:plant/golden_bamboo'}, decorate_chance(30), decorate_climate(11, 21.5, 300, 500, needs_forest=True, fuzzy=True), ('minecraft:noise_based_count', {
-        'noise_to_count_ratio': 160,
+        'noise_to_count_ratio': 80,
         'noise_factor': 80.0,
         'noise_offset': 0.3
-    }), decorate_square(), decorate_heightmap('world_surface_wg'))
+    }), {
+        "type": "minecraft:random_offset",
+        "xz_spread": {
+            "type": "minecraft:clamped_normal",
+            "min_inclusive": -8,
+            "max_inclusive": 15,
+            "mean": 3,
+            "deviation": 4
+        },
+        "y_spread": 0
+    }, decorate_heightmap('world_surface_wg'))
     configured_placed_feature(rm, 'bamboo_golden', 'tfc:bamboo', {'probability': 0.25, 'state': 'tfc:plant/golden_bamboo'}, decorate_count(6), decorate_climate(14, 21.5, 320, 500, fuzzy=True, forest_types=['dead_bamboo', 'edge_bamboo', 'secondary_bamboo']), ('minecraft:noise_based_count', {
-        'noise_to_count_ratio': 160,
+        'noise_to_count_ratio': 110,
         'noise_factor': 80.0,
         'noise_offset': 0.3
-    }), decorate_square(), decorate_heightmap('world_surface_wg'))
+    }), {
+        "type": "minecraft:random_offset",
+        "xz_spread": {
+            "type": "minecraft:clamped_normal",
+            "min_inclusive": -8,
+            "max_inclusive": 15,
+            "mean": 3,
+            "deviation": 4
+        },
+        "y_spread": 0
+    }, decorate_heightmap('world_surface_wg'))
 
 
     for coral in ('tree', 'mushroom', 'claw'):
