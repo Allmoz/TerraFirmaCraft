@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.world.Codecs;
 
-public record SoilForestAreaConfig(Map<Block, BlockState> states, int minForest, int maxForest, int height, float spread, float noiseScale, boolean inverted) implements FeatureConfiguration
+public record SoilForestAreaConfig(Map<Block, BlockState> states, int minForest, int maxForest, int priority, int height, float spread, float noiseScale, boolean inverted) implements FeatureConfiguration
 {
     public static final Codec<SoilForestAreaConfig> CODEC = RecordCodecBuilder.<SoilForestAreaConfig>create(instance -> instance.group(
         Codecs.mapListCodec(Codecs.recordPairCodec(
@@ -28,8 +28,9 @@ public record SoilForestAreaConfig(Map<Block, BlockState> states, int minForest,
         )).fieldOf("states").forGetter(c -> c.states),
         Codecs.POSITIVE_INT.fieldOf("min_forest").forGetter(c -> c.minForest),
         Codecs.POSITIVE_INT.fieldOf("max_forest").forGetter(c -> c.maxForest),
+        Codecs.POSITIVE_INT.optionalFieldOf("priority", 0).forGetter(c -> c.priority),
         Codec.intRange(0, 256).fieldOf("height").forGetter(c -> c.height),
-        Codec.FLOAT.optionalFieldOf("spread", 0.1f).forGetter(c -> c.spread),
+        Codec.FLOAT.optionalFieldOf("spread", 0.05f).forGetter(c -> c.spread),
         Codec.FLOAT.optionalFieldOf("noise_scale", 1f).forGetter(c -> c.noiseScale),
         Codec.BOOL.optionalFieldOf("inverted", false).forGetter(c -> c.inverted)
     ).apply(instance, SoilForestAreaConfig::new)).comapFlatMap(c -> {
