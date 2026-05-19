@@ -129,7 +129,7 @@ public class ForestFeature extends Feature<ForestConfig>
                     feature = entry.getFeature();
                 }
             }
-            if (typeConfig.getDensity() >= 3)
+            if (typeConfig.getDensity() >= 2)
                 placeSoilDisc(level, generator, random, mutablePos, entry);
             return feature.place(level, generator, random, mutablePos);
         }
