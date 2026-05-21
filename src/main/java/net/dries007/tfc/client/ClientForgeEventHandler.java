@@ -330,7 +330,7 @@ public class ClientForgeEventHandler
 
                 final String itemTags = listOfTags(stack.getItem().builtInRegistryHolder());
                 final String blockTags = stack.getItem() instanceof BlockItem blockItem
-                    ? listOfTags(blockItem.builtInRegistryHolder())
+                    ? listOfTags(blockItem.getBlock().builtInRegistryHolder())
                     : "";
 
                 if (!itemTags.isEmpty()) tooltip.add(Component.literal(DARK_GRAY + "[Debug] Item Tags: " + itemTags));
