@@ -226,13 +226,14 @@ public class CalendarClockBlock extends DeviceBlock
     }
 
     @Override
-    protected BlockState rotate(BlockState state, Rotation rot)
+    public BlockState rotate(BlockState state, Rotation rot)
     {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
-    protected BlockState mirror(BlockState state, Mirror mirror)
+    @SuppressWarnings("deprecation")
+    public BlockState mirror(BlockState state, Mirror mirror)
     {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }

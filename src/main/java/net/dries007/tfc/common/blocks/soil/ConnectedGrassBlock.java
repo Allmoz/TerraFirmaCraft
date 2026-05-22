@@ -226,14 +226,12 @@ public class ConnectedGrassBlock extends Block implements IGrassBlock
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState rotate(BlockState state, Rotation rot)
     {
         return DirectionPropertyBlock.rotate(state, rot);
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, Mirror mirror)
     {
         return DirectionPropertyBlock.mirror(state, mirror);

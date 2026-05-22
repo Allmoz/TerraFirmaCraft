@@ -65,14 +65,12 @@ public class LogBlock extends ExtendedRotatedPillarBlock
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState rotate(BlockState state, Rotation rotation)
     {
         return rotatePillar(state, rotation).setValue(BRANCH_DIRECTION, state.getValue(BRANCH_DIRECTION).rotate(rotation));
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, Mirror mirror)
     {
         return state.setValue(BRANCH_DIRECTION, state.getValue(BRANCH_DIRECTION).mirror(mirror));
