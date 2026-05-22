@@ -227,9 +227,11 @@ public class BarrelBlock extends SealableDeviceBlock
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation direction)
+    @SuppressWarnings("deprecation")
+    public BlockState rotate(BlockState state, Rotation rot)
     {
-        return state.setValue(FACING, direction.rotate(state.getValue(FACING)));
+        final Direction direction = rot.rotate(state.getValue(FACING));
+        return state.setValue(FACING, direction == Direction.DOWN ? Direction.UP: direction);
     }
 
     @Override
