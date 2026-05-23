@@ -19,6 +19,8 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -119,5 +121,17 @@ public class ShelfBlock extends PlacedItemBlock
         return canSurvive(state, context.getLevel(), context.getClickedPos())
             ? PlacedItemBlock.updateStateValues(context.getLevel(), context.getClickedPos().below(), state)
             : null;
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, Rotation rot)
+    {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    protected BlockState mirror(BlockState state, Mirror mirror)
+    {
+        return rotate(state, mirror.getRotation(state.getValue(FACING)));
     }
 }
