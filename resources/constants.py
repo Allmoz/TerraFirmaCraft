@@ -903,7 +903,7 @@ FRUITS: dict[str, Fruit] = {
 }
 JAR_FRUITS = tuple([*BERRIES.keys(), *FRUITS.keys(), 'melon_slice', 'peanut'])
 
-SIMPLE_FRESHWATER_FISH = ('bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass',)
+SIMPLE_FRESHWATER_FISH = ('bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass', 'arctic_char', 'burbot', 'muksun', 'northern_pike', 'spotted_gudgeon', 'tilapia', 'peacock_bass', 'pacu', 'red_piranha')
 ADVANCEMENT_FISH = ('cod', 'calamari', 'shellfish', 'tropical_fish', *SIMPLE_FRESHWATER_FISH)
 
 GRAINS = ('barley', 'maize', 'oat', 'rice', 'rye', 'wheat')
