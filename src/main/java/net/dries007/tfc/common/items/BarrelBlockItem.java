@@ -6,6 +6,7 @@
 
 package net.dries007.tfc.common.items;
 
+import net.dries007.tfc.util.calendar.Calendars;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -146,6 +147,7 @@ public class BarrelBlockItem extends TooltipBlockItem implements Rackable
         private final ItemStack stack;
         private final BarrelBlockEntity.BarrelInventory inventory;
         private boolean hasActiveRecipe;
+        private long sealedTick;
 
         BarrelItemStackInventory(ItemStack stack)
         {
@@ -153,7 +155,7 @@ public class BarrelBlockItem extends TooltipBlockItem implements Rackable
             this.stack = stack;
             this.inventory = new BarrelBlockEntity.BarrelInventory(this);
             this.hasActiveRecipe = false;
-
+            this.sealedTick = 0;
             load();
         }
 
@@ -166,6 +168,7 @@ public class BarrelBlockItem extends TooltipBlockItem implements Rackable
         @Override
         public void fluidTankChanged()
         {
+            sealedTick = Calendars.get().getTicks();
             save();
         }
 
@@ -202,6 +205,8 @@ public class BarrelBlockItem extends TooltipBlockItem implements Rackable
 
                 hasActiveRecipe = blockEntityTag.contains("recipe", Tag.TAG_STRING);
                 inventory.deserializeNBT(blockEntityTag.getCompound("inventory"));
+                sealedTick = blockEntityTag.getLong("sealedTick");
+
             }
         }
 
@@ -214,6 +219,7 @@ public class BarrelBlockItem extends TooltipBlockItem implements Rackable
             else
             {
                 stack.getOrCreateTagElement(Helpers.BLOCK_ENTITY_TAG).put("inventory", inventory.serializeNBT());
+                stack.getOrCreateTagElement(Helpers.BLOCK_ENTITY_TAG).putLong("sealedTick", sealedTick);
             }
         }
     }
