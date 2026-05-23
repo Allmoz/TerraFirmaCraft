@@ -18,6 +18,7 @@ import java.util.function.DoubleFunction;
 import java.util.stream.Collectors;
 
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.levelgen.RandomSupport;
 import org.junit.jupiter.api.Test;
 
 import net.dries007.tfc.data.providers.BuiltinWorldPreset;
@@ -60,8 +61,7 @@ public class RegionGeneratorTests implements TestSetup
     public void testRegionGenerator()
     {
         // Coordinates are given in grid scale, so 1 px = 128 blocks, 150 ~ 20km
-        // TODO: Set the seed back to random source before committing
-        drawStitchedRegions("", EnumSet.allOf(DrawnTask.class), -2824010424288536798L, 0, 75, 200);
+        drawStitchedRegions("", EnumSet.allOf(DrawnTask.class), RandomSupport.generateUniqueSeed(), 0, 75, 200);
     }
 
     @SuppressWarnings("SameParameterValue")

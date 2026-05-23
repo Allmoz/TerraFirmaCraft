@@ -157,10 +157,6 @@ dependencies {
     // ModernFix - useful at runtime for significant memory savings in TFC in dev (see i.e. wall block shape caches)
     runtimeOnly(group = "curse.maven", name = "modernfix-790626", version = "6766126")
 
-    // TODO: Remove this before merge, doesn't need to be in typical startup
-    // Distant Horizons - for looking at large-scale terrain
-    runtimeOnly(group = "curse.maven", name = "distant-horizons-508933", version = "7977110")
-
     // Data
     "dataImplementation"(sourceSets["main"].output)
 

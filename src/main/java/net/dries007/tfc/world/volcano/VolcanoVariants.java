@@ -72,12 +72,6 @@ public class VolcanoVariants
             }
 
             @Override
-            public double getGlacierHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
-            {
-                return VolcanoVariant.super.getGlacierHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
-            }
-
-            @Override
             public double getFluidHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
                 return VolcanoVariant.super.getFluidHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
@@ -249,12 +243,6 @@ public class VolcanoVariants
             }
 
             @Override
-            public double getGlacierHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
-            {
-                return VolcanoVariant.super.getGlacierHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
-            }
-
-            @Override
             public double getFluidHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
                 // Simple cone
@@ -406,12 +394,6 @@ public class VolcanoVariants
             }
 
             @Override
-            public double getGlacierHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
-            {
-                return VolcanoVariant.super.getGlacierHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
-            }
-
-            @Override
             public double getFluidHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
             {
                 return VolcanoVariant.super.getFluidHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
@@ -534,12 +516,6 @@ public class VolcanoVariants
                 shape *= textureNoise.noise(x, z);
 
                 return Math.max(scaleShape(shape, biomeBaseHeight, biomeScaleHeight), heightIn);
-            }
-
-            @Override
-            public double getGlacierHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
-            {
-                return VolcanoVariant.super.getGlacierHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
             }
 
             @Override
@@ -713,12 +689,6 @@ public class VolcanoVariants
                 final double ridgeScale = Mth.clampedMap(ridges, 3, 10, 1.5, 0.5);
 
                 return (fluvialShape - 1) * erosion * easing * ridgeScale;
-            }
-
-            @Override
-            public double getGlacierHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
-            {
-                return VolcanoVariant.super.getGlacierHeight(heightIn, x, z, maxDiam, biomeScaleHeight, biomeBaseHeight, cell);
             }
 
             @Override

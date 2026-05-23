@@ -36,14 +36,6 @@ public interface VolcanoVariant
     }
 
     /**
-     * @return max height of ice from glaciers
-     */
-    default double getGlacierHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
-    {
-        return 0;
-    }
-
-    /**
      * @return max height of fluid added by surface builder, ex. Crater Lake variant
      */
     default double getFluidHeight(double heightIn, int x, int z, double maxDiam, double biomeScaleHeight, double biomeBaseHeight, Cellular2D.Cell cell)
