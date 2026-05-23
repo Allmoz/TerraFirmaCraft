@@ -71,6 +71,7 @@ import org.jetbrains.annotations.Nullable;
 import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.client.particle.TFCParticles;
 import net.dries007.tfc.client.screen.button.PlayerInventoryTabButton;
+import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blockentities.SluiceBlockEntity;
 import net.dries007.tfc.common.blocks.devices.SluiceBlock;
 import net.dries007.tfc.common.component.EggComponent;
@@ -217,6 +218,11 @@ public class ClientForgeEventHandler
             if (event.getName() == VanillaGuiLayers.CROSSHAIR && holdingHoe && (!TFCConfig.CLIENT.showHoeOverlaysOnlyWhenShifting.get() || player.isShiftKeyDown()))
             {
                 HoeOverlays.render(minecraft, graphics);
+            }
+            final boolean holdingGlassBlowpipe = Helpers.isItem(player.getMainHandItem().getItem(), TFCTags.Items.GLASS_BLOWPIPES) || Helpers.isItem(player.getOffhandItem().getItem(), TFCTags.Items.GLASS_BLOWPIPES);
+            if (event.getName() == VanillaGuiLayers.CROSSHAIR && holdingGlassBlowpipe)
+            {
+                GlassblowingOverlays.render(minecraft, graphics);
             }
         }
     }

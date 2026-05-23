@@ -370,9 +370,9 @@ def generate(rm: ResourceManager):
     })
     rm.placed_feature('peat_disc', 'tfc:peat_disc', decorate_chance(40), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(min_water=350, min_temp=12))
 
-    rm.configured_feature('alfisol_disc', 'tfc:soil_disc', {
-        'min_radius': 7,
-        'max_radius': 14,
+    rm.configured_feature('alfisol_disc', 'tfc:soil_forest_area', {
+        'min_forest': 2,
+        'max_forest': 3,
         'height': 7,
         'states': [{'replace': 'tfc:%s/%s' % (block, soil), 'with': 'tfc:%s/alfisol' % block} for soil in ALFISOL_REPLACEABLE for block in FOREST_SOIL_DISC_REPLACED] +
                   [{'replace': 'tfc:grass/%s' % soil, 'with': 'tfc:duff/alfisol'} for soil in ALFISOL_REPLACEABLE] +
@@ -380,9 +380,9 @@ def generate(rm: ResourceManager):
     })
     rm.placed_feature('alfisol_disc', 'tfc:alfisol_disc', decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(max_temp=20))
 
-    rm.configured_feature('podzol_disc', 'tfc:soil_disc', {
-        'min_radius': 7,
-        'max_radius': 14,
+    rm.configured_feature('podzol_disc', 'tfc:soil_forest_area', {
+        'min_forest': 2,
+        'max_forest': 3,
         'height': 7,
         'states': [{'replace': 'tfc:%s/%s' % (block, soil), 'with': 'tfc:%s/podzol' % block} for soil in PODZOL_REPLACEABLE for block in FOREST_SOIL_DISC_REPLACED] +
                   [{'replace': 'tfc:grass/%s' % soil, 'with': 'tfc:duff/podzol'} for soil in PODZOL_REPLACEABLE] +
@@ -391,22 +391,23 @@ def generate(rm: ResourceManager):
     rm.placed_feature('podzol_disc', 'tfc:podzol_disc', decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(max_temp=20))
 
 
-    rm.configured_feature('duff_disc', 'tfc:soil_disc', {
-        'min_radius': 7,
-        'max_radius': 14,
+    rm.configured_feature('duff_disc', 'tfc:soil_forest_area', {
+        'min_forest': 2,
+        'max_forest': 4,
         'height': 7,
         'states': [{'replace': 'tfc:grass/%s' % soil, 'with': 'tfc:duff/%s' % soil} for soil in PODZOL_REPLACEABLE] +
                   [{'replace': 'tfc:clay_grass/%s' % soil, 'with': 'tfc:clay_duff/%s' % soil} for soil in PODZOL_REPLACEABLE]
     })
     rm.placed_feature('duff_disc', 'tfc:duff_disc', decorate_square(), decorate_heightmap('world_surface_wg'))
 
-    rm.configured_feature('mollisol_disc', 'tfc:soil_disc', {
-        'min_radius': 7,
-        'max_radius': 14,
+    rm.configured_feature('mollisol_disc', 'tfc:soil_forest_area', {
+        'min_forest': 1,
+        'max_forest': 2,
         'height': 7,
+        'inverted': True,
         'states': [{'replace': 'tfc:%s/%s' % (block, soil), 'with': 'tfc:%s/mollisol' % block} for soil in ALFISOL_REPLACEABLE for block in NATURAL_SOIL_BLOCKS]
     })
-    rm.placed_feature('mollisol_disc', 'tfc:mollisol_disc', decorate_square(), decorate_count(2), decorate_heightmap('world_surface_wg'), decorate_climate(min_temp=-9, max_temp=3, min_water=250, forest_types=['grassland'], ignore_rivers=True))
+    rm.placed_feature('mollisol_disc', 'tfc:mollisol_disc', decorate_square(), decorate_count(2), decorate_heightmap('world_surface_wg'), decorate_climate(min_temp=-9, max_temp=3, min_water=250, max_forest=3, ignore_rivers=True))
 
 
     for ore in ORE_DEPOSITS:
