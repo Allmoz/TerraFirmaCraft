@@ -2,8 +2,8 @@
   "decay_modifier": 2.25,
   "hunger": 4,
   "ingredient": {
-    "item": "tfc:food/cooked_largemouth_bass"
+    "item": "tfc:food/cooked_burbot"
   },
-  "protein": 2.2,
+  "protein": 1.5,
   "saturation": 1.0
 }
