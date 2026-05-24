@@ -182,8 +182,8 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         //TODO: Also check if actively snowing?? Maybe if a single snow block melts/places that could update the chunk?
         final WorldTracker tracker = WorldTracker.get(level);
         final ClimateModel model = tracker.getClimateModel();
-        final float realTemperature = model.getTemperature(level, pos);
-        final float rainfall = model.getRainfall(level, pos);
+        final float realTemperature = model.getInstantTemperature(level, pos);
+        final float rainfall = model.getInstantRainfall(level, pos);
         final long currentCalendarTick = Calendars.SERVER.getCalendarTicks();
         // Use positionDeltaHash to fade in and out over about 40 seconds
         if (realTemperature < -2f && WeatherHelpers.isPrecipitating(model.getRain(currentCalendarTick - 6 * positionDeltaHash - 400), rainfall))
