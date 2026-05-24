@@ -1,4 +1,5 @@
 {
+  "ignore_rivers": true,
   "max_groundwater": 400.0,
   "max_temperature": -5.0,
   "min_groundwater": 150.0,

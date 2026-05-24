@@ -24,7 +24,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import net.dries007.tfc.common.entities.aquatic.FreshwaterFish;
 
-public class SpottedGudgeonModel extends HierarchicalModel<FreshwaterFish>
+public class SpottedGudgeonModel extends HierarchicalAnimatedModel<FreshwaterFish>
 {
     private final ModelPart root;
     private final ModelPart body;
@@ -34,6 +34,7 @@ public class SpottedGudgeonModel extends HierarchicalModel<FreshwaterFish>
 
     public SpottedGudgeonModel(ModelPart root)
     {
+        super(root);
         this.root = root;
         this.body = root.getChild("body");
         this.leftFin = this.body.getChild("leftFin");
@@ -63,6 +64,7 @@ public class SpottedGudgeonModel extends HierarchicalModel<FreshwaterFish>
     @Override
     public void setupAnim(FreshwaterFish entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
     {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         this.animateWalk(SWIM, limbSwing, limbSwingAmount, 1f, 2.5f);
     }
 

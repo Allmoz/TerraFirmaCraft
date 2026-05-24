@@ -23,7 +23,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import net.dries007.tfc.common.entities.aquatic.FreshwaterFish;
 
-public class ArcticCharModel extends HierarchicalModel<FreshwaterFish>
+public class ArcticCharModel extends HierarchicalAnimatedModel<FreshwaterFish>
 {
     private final ModelPart root;
     private final ModelPart body;
@@ -34,6 +34,7 @@ public class ArcticCharModel extends HierarchicalModel<FreshwaterFish>
 
     public ArcticCharModel(ModelPart root)
     {
+        super(root);
         this.root = root;
         this.body = root.getChild("body");
         this.head = this.body.getChild("head");
@@ -65,6 +66,7 @@ public class ArcticCharModel extends HierarchicalModel<FreshwaterFish>
     @Override
     public void setupAnim(FreshwaterFish entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
     {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         this.animateWalk(SWIM, limbSwing, limbSwingAmount, 1f, 2.5f);
     }
 
