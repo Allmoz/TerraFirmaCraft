@@ -281,7 +281,19 @@
         "maxCount": 4
       },
       {
+        "type": "tfc:lake_trout",
+        "weight": 10,
+        "minCount": 2,
+        "maxCount": 4
+      },
+      {
         "type": "tfc:largemouth_bass",
+        "weight": 10,
+        "minCount": 2,
+        "maxCount": 4
+      },
+      {
+        "type": "tfc:rainbow_trout",
         "weight": 10,
         "minCount": 2,
         "maxCount": 4

@@ -290,7 +290,7 @@
       "entity": "tfc:lake_trout",
       "scale": 0.7,
       "name": "Lake Trout",
-      "text": "Lake Trout spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -5°C and at most 15°C and with rainfall of at least 250 mm."
+      "text": "Lake Trout spawn in any lake with a $(l:the_world/climate#temperature)temperature$() of at least -5°C and at most 15°C and with rainfall of at least 250 mm."
     },
     {
       "type": "patchouli:entity",

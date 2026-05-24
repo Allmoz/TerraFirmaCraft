@@ -737,6 +737,15 @@ public final class ClientEventHandler
         event.registerLayerDefinition(RenderHelpers.layerId("largemouth_bass"), CodModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("rainbow_trout"), CodModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("lake_trout"), CodModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("arctic_char"), ArcticCharModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("burbot"), BurbotModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("muksun"), MuksunModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("northern_pike"), NorthernPikeModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("pacu"), PacuModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("peacock_bass"), PeacockBassModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("red_piranha"), RedPiranhaModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("spotted_gudgeon"), SpottedGudgeonModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("tilapia"), TilapiaModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("jellyfish"), JellyfishModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("lobster"), LobsterModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("crayfish"), LobsterModel::createBodyLayer);
