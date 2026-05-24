@@ -18,7 +18,6 @@ import net.dries007.tfc.client.ClimateRenderCache;
 import net.dries007.tfc.client.TFCColors;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.wood.TFCLeavesBlock;
-import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.util.Helpers;
 
 public class LeafParticle extends TextureSheetParticle
@@ -47,8 +46,8 @@ public class LeafParticle extends TextureSheetParticle
 
         final Vec2 wind = ClimateRenderCache.INSTANCE.getWind();
         final float windStrength = wind.length();
-        windMoveX = wind.x * windStrength * 0.2f;
-        windMoveZ = wind.y * windStrength * 0.2f;
+        windMoveX = wind.x * windStrength * 0.4f;
+        windMoveZ = wind.y * windStrength * 0.4f;
     }
 
     @Override

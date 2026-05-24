@@ -8,6 +8,7 @@ package net.dries007.tfc.common.blockentities.rotation;
 
 import com.mojang.math.Constants;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -32,18 +33,28 @@ public class TripHammerBlockEntity extends TickableInventoryBlockEntity<ItemStac
 {
     public static void serverTick(Level level, BlockPos pos, BlockState state, TripHammerBlockEntity hammer)
     {
-        if (hammer.cooldownTicks-- > 0)
-        {
-            return;
-        }
-        final ItemStack item = hammer.inventory.getStackInSlot(0);
-        if (item.isEmpty())
-            return;
+        int cooldown = hammer.cooldownTicks--;
         final Rotation rotation = hammer.getRotation();
         if (rotation != null)
         {
             final float angle = hammer.getRealRotationDegrees(rotation, 1f);
-            if (angle > 180f && angle < 183f)
+            final ItemStack item = hammer.inventory.getStackInSlot(0);
+            if (cooldown > 0 || item.isEmpty())
+            {
+                // If we don't track the angle when on cooldown/no item there may be large jumps between the last angle and current angle
+                hammer.lastAngle = angle;
+                return;
+            }
+            
+            // Must account for:
+            // 1. the angle wrapping around from 360 to 0
+            // 2. the rotation speed being too fast and/or offset enough to sneak past the expected angle
+            // 3. negative rotational speeds
+            // 4. no last angle (Float.NEGATIVE_INFINITY), e.g. rotation was just applied
+            final float lastAngle = hammer.lastAngle;
+            final float minAngle = Math.min(angle, lastAngle);
+            final float maxAngle = Math.max(angle, lastAngle);
+            if (angle > 90 && angle < 270 && minAngle > 0 && minAngle < 180 && maxAngle > 180)
             {
                 if (rotation.positiveDirection() != state.getValue(TripHammerBlock.FACING).getClockWise())
                 {
@@ -59,15 +70,29 @@ public class TripHammerBlockEntity extends TickableInventoryBlockEntity<ItemStac
                     if (anvil.workRemotely(ForgeStep.HIT_LIGHT, 12, true))
                     {
                         Helpers.damageItem(item, level);
+                        hammer.markForSync();
                         anvil.markForSync();
                     }
+                    if (item.isEmpty())
+                    {
+                        level.playSound(null, pos, SoundEvents.ITEM_BREAK, SoundSource.BLOCKS);
+                    }
                     hammer.cooldownTicks = Mth.ceil(0.8f * Mth.TWO_PI / rotation.positiveSpeed());
+                    // Update client if the hammer broke
+                    hammer.checkForLastTickSync();
                 }
             }
+            hammer.lastAngle = angle;
+        }
+        else
+        {
+            // No last angle
+            hammer.lastAngle = Float.NEGATIVE_INFINITY;
         }
     }
 
     private int cooldownTicks = 10;
+    private float lastAngle = Float.NEGATIVE_INFINITY;
 
     public TripHammerBlockEntity(BlockPos pos, BlockState state)
     {

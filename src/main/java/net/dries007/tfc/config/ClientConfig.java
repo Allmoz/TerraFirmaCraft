@@ -46,6 +46,7 @@ public class ClientConfig extends BaseConfig
     public final Supplier<Boolean> displayItemContentsAsImages;
     public final Supplier<Boolean> displayItemHeatBars;
     public final Supplier<Boolean> enableWindParticles;
+    public final Supplier<RotationDisplayStyle> rotationDisplayStyle;
 
     // Compatibility
     public final Supplier<List<String>> additionalSpecialModels;
@@ -90,7 +91,7 @@ public class ClientConfig extends BaseConfig
         ).define("foodExpiryTooltipStyle", FoodExpiryTooltipStyle.BOTH);
         foodExpiryOverlayColor = builder
             .comment("The overlay color to indicate rotten foods, in ARGB. Default = 0xFF88CC33")
-            .define("foodExpiryOverlayColor", 0xFF88CC33);
+            .define("foodExpiryOverlayColor1", 0xFF88CC33);
 
         final var temperatureDisplayStyle = new String[] {
             "  COLOR = Approximate, color based tooltips (like Very Hot**, Brilliant White)",
@@ -117,6 +118,14 @@ public class ClientConfig extends BaseConfig
             "  LEFT_HOTBAR = Move elements closer to the hotbar; when fishing or riding a jumping entity, those elements will appear as a vertical bar between the hotbar and offhand slot"
         ).define("disabledExperienceBarStyle", DisabledExperienceBarStyle.HOVER);
 
+        rotationDisplayStyle = builder.comment(
+            "Changes the units that rotational speed is displayed in.",
+            "  ROTATIONS_PER_SECOND - Shows rotational speed as a measure of full rotations per second",
+            "  DEGREES_PER_SECOND - Shows rotational speed as a measure of degrees per second",
+            "  REVOLUTIONS_PER_SECOND - Shows rotational speed as a measure of revolutions per second",
+            "  REVOLUTIONS_PER_MINUTE - Shows rotational speed as a measure of revolutions per minute"
+        ).define("rotationDisplayStyle", RotationDisplayStyle.REVOLUTIONS_PER_MINUTE);
+
         sendProspectResultsToActionbar = builder.comment("If prospect information should appear in the space above the hotbar (the actionbar). False will put them in the chat window.").define("sendProspectResultsToActionbar", true);
 
         showHoeOverlaysOnlyWhenShifting = builder.comment("If hoe overlays (for hydration, nutrition, or temperature, shown when hovering over a plant or farmland while holding a hoe), should only be shown when the shift key is held down.").define("showHoeOverlaysOnlyWhenShifting", false);
@@ -124,7 +133,7 @@ public class ClientConfig extends BaseConfig
 
         displayFamiliarityAsPercent = builder.comment("If familiarity is displayed as a percent rather than a heart").define("displayFamiliarityAsPercent", false);
 
-        showGuideBookLinksAlways = builder.comment("If, when hovering over an item in the inventory, or looking at a block in the world that has a linked page in the guide book, should it display a tooltip along with allowing you to hold Ctrl/Cmd to quickly navigate to that page in the book.").define("showGuideBookLinksAlways", true);
+        showGuideBookLinksAlways = builder.comment("If, when hovering over an item in the inventory, or looking at a block in the world that has a linked page in the guide book, it should display a tooltip along with allowing you to hold Ctrl/Cmd to quickly navigate to that page in the book.").define("showGuideBookLinksAlways", true);
         showGuideBookTabInInventory = builder.comment("If a button linking to the TFC Field Guide should be added to the inventory, climate, nutrition, and calendar screens?").define("showGuideBookTabInInventory", true);
 
         displayItemContentsAsImages = builder.comment("For items like bundles, their contents inside will be rendered using Bundle Technology to show their items.").define("displayItemContentsAsImages", true);

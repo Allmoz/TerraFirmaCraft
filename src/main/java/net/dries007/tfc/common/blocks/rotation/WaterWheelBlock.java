@@ -9,6 +9,7 @@ package net.dries007.tfc.common.blocks.rotation;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -27,7 +28,6 @@ import net.dries007.tfc.common.blockentities.rotation.RotatingBlockEntity;
 import net.dries007.tfc.common.blocks.EntityBlockExtension;
 import net.dries007.tfc.common.blocks.ExtendedBlock;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
-import net.dries007.tfc.util.Helpers;
 
 public class WaterWheelBlock extends ExtendedBlock implements EntityBlockExtension, ConnectedAxleBlock
 {
@@ -35,14 +35,21 @@ public class WaterWheelBlock extends ExtendedBlock implements EntityBlockExtensi
     public static final VoxelShape SHAPE = box(0, 0.125, 0, 16, 15.875, 16);
 
     private final Supplier<? extends AxleBlock> axle;
+    private final ResourceLocation textureLocation;
 
-    public WaterWheelBlock(ExtendedProperties properties, Supplier<? extends AxleBlock> axle)
+    public WaterWheelBlock(ExtendedProperties properties, Supplier<? extends AxleBlock> axle, ResourceLocation textureLocation)
     {
         super(properties);
 
         this.axle = axle;
+        this.textureLocation = textureLocation;
 
         registerDefaultState(getStateDefinition().any().setValue(AXIS, Direction.Axis.X));
+    }
+
+    public ResourceLocation getTextureLocation()
+    {
+        return textureLocation;
     }
 
     @Override

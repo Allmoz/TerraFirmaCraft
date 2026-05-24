@@ -6,12 +6,12 @@
 
 package net.dries007.tfc.common.items;
 
+import java.util.Objects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
@@ -78,7 +78,7 @@ public class BarrelBlockItem extends TooltipBlockItem implements Rackable
                 .setValue(BarrelBlock.SEALED, true);
             barrelState = BlockItemPlacement.updateBlockStateFromTag(pos, level, item, barrelState);
             level.setBlockAndUpdate(pos, barrelState);
-            BlockItem.updateCustomBlockEntityTag(level, player, pos, item);
+            Objects.requireNonNull(level.getBlockEntity(pos)).applyComponentsFromItemStack(item);
             if (!player.isCreative())
             {
                 item.shrink(1);

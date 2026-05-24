@@ -12,7 +12,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -54,7 +53,9 @@ public class ComposterBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     public void randomTick()
     {
         assert level != null;
-        if (green >= MAX_AMOUNT && brown >= MAX_AMOUNT & !isRotten())
+
+        // If the compost is ready but the item has been already been extracted, empty the composter
+        if (!checkAndSetEmpty() && green >= MAX_AMOUNT && brown >= MAX_AMOUNT & !isRotten())
         {
             if (getTicksSinceUpdate() > getReadyTicks())
             {
@@ -69,12 +70,30 @@ public class ComposterBlockEntity extends InventoryBlockEntity<ItemStackHandler>
         }
     }
 
+    private boolean checkAndSetEmpty()
+    {
+        if (isReady() && inventory.getStackInSlot(0).isEmpty())
+        {
+            reset();
+            markForSync();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void setAndUpdateSlots(int slot)
+    {
+        super.setAndUpdateSlots(slot);
+        checkAndSetEmpty();
+    }
+
     public long getReadyTicks()
     {
         assert level != null;
         final BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
         cursor.set(getBlockPos());
-        final float rainfall = Climate.getRainfall(level, cursor);
+        final float rainfall = Climate.getAverageRainfall(level, cursor);
         long readyTicks = TFCConfig.SERVER.composterTicks.get();
         if (rainfall < 150f) // inverted trapezoid wave
         {
@@ -83,11 +102,6 @@ public class ComposterBlockEntity extends InventoryBlockEntity<ItemStackHandler>
         else if (rainfall > 350f)
         {
             readyTicks *= (long) ((rainfall - 350f) / 50f + 1f);
-        }
-        cursor.move(0, 1, 0);
-        if (Helpers.isBlock(level.getBlockState(cursor), BlockTags.SNOW))
-        {
-            readyTicks *= 0.9f;
         }
         for (Direction direction : Direction.Plane.HORIZONTAL)
         {

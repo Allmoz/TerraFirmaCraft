@@ -56,16 +56,21 @@ public abstract class InventoryBlockEntity<C extends IItemHandlerModifiable & IN
 
     protected InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, InventoryFactory<C> inventoryFactory)
     {
+        this(type, pos, state, inventoryFactory, TerraFirmaCraft.MOD_ID);
+    }
+
+    protected InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, InventoryFactory<C> inventoryFactory, String modId)
+    {
         super(type, pos, state);
 
         this.inventory = inventoryFactory.create(this);
         this.sidedInventory = new SidedHandler<>(InventoryBlockEntity.this.inventory);
-        this.defaultName = Component.translatable(TerraFirmaCraft.MOD_ID + ".block_entity." + Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(type)).getPath());
+        this.defaultName = Component.translatable(modId + ".block_entity." + Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(type)).getPath());
     }
 
     /**
      * Returns an internal view of the inventory of this block. This is used for internal operations within TFC that are coded specifically to
-     * this block, for example, the implementation of a bock entity renderer. <strong>DO NOT</strong> use for interactions that are meant to be
+     * this block, for example, the implementation of a block entity renderer. <strong>DO NOT</strong> use for interactions that are meant to be
      * interoperable with other mods, or other devices within TFC, for instance inserting on right-click.
      */
     public C getInventory()
@@ -178,6 +183,7 @@ public abstract class InventoryBlockEntity<C extends IItemHandlerModifiable & IN
     public void setAndUpdateSlots(int slot)
     {
         setChanged();
+        markForSync();
     }
 
     public boolean canInteractWith(Player player)

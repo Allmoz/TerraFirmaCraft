@@ -50,9 +50,12 @@ public class TFCLoomBlock extends BottomSupportedDeviceBlock implements IFluidLo
     private static final VoxelShape SHAPE_SOUTH = box(1, 0, 2, 15, 16, 8);
     private static final VoxelShape SHAPE_NORTH = box(1, 0, 8, 15, 16, 14);
 
-    public TFCLoomBlock(ExtendedProperties properties)
+    private final ResourceLocation textureLocation;
+
+    public TFCLoomBlock(ExtendedProperties properties, ResourceLocation textureLocation)
     {
         super(properties, InventoryRemoveBehavior.DROP);
+        this.textureLocation = textureLocation;
         registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(getFluidProperty(), getFluidProperty().keyFor(Fluids.EMPTY)));
     }
 
@@ -118,22 +121,25 @@ public class TFCLoomBlock extends BottomSupportedDeviceBlock implements IFluidLo
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public BlockState rotate(BlockState state, Rotation rot)
+    protected BlockState rotate(BlockState state, Rotation rot)
     {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public BlockState mirror(BlockState state, Mirror mirror)
+    protected BlockState mirror(BlockState state, Mirror mirror)
     {
-        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+        return rotate(state, mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override
     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType)
     {
         return false;
+    }
+
+    public ResourceLocation getTextureLocation()
+    {
+        return textureLocation;
     }
 }

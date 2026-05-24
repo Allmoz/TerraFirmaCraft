@@ -11,13 +11,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -29,12 +29,10 @@ import net.dries007.tfc.common.recipes.LoomRecipe;
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.util.Helpers;
 
-import static net.dries007.tfc.TerraFirmaCraft.*;
-
 public class LoomBlockEntity extends TickableInventoryBlockEntity<ItemStackHandler>
 {
-    private static final int SLOT_RECIPE = 0;
-    private static final int SLOT_OUTPUT = 1;
+    protected static final int SLOT_RECIPE = 0;
+    protected static final int SLOT_OUTPUT = 1;
 
     public static void tick(Level level, BlockPos pos, BlockState state, LoomBlockEntity loom)
     {
@@ -59,8 +57,18 @@ public class LoomBlockEntity extends TickableInventoryBlockEntity<ItemStackHandl
             {
                 if (level.getGameTime() - loom.lastPushed >= 20)
                 {
+                    // Current order of operations when needsProgressUpdate == true:
+                    // 1. client loads current progress from server
+                    // 2. server runs this and increments progress by 1
+                    // 3. client loads current progress again, this time incremented
+                    // 4. client runs this
+                    // Without checking if this is the client, it increments the already changed value on the server and gets desynced
+                    // Causes this https://github.com/TerraFirmaCraft/TerraFirmaCraft/issues/3276 (actually a bug)
                     loom.needsProgressUpdate = false;
-                    loom.progress++;
+                    if (!level.isClientSide)
+                    {
+                        loom.progress++;
+                    }
 
                     if (loom.progress == recipe.getStepCount())
                     {
@@ -73,17 +81,22 @@ public class LoomBlockEntity extends TickableInventoryBlockEntity<ItemStackHandl
         }
     }
 
-    @Nullable private LoomRecipe recipe = null;
+    @Nullable protected LoomRecipe recipe = null;
     @Nullable private ResourceLocation lastTexture;
 
-    private int progress = 0;
-    private long lastPushed = 0L;
-    private boolean needsProgressUpdate = false;
-    private boolean needsRecipeUpdate = false;
+    protected int progress = 0; // an integer that counts up to the number of steps
+    protected long lastPushed = 0L;
+    protected boolean needsProgressUpdate = false;
+    protected boolean needsRecipeUpdate = false;
 
     public LoomBlockEntity(BlockPos pos, BlockState state)
     {
-        super(TFCBlockEntities.LOOM.get(), pos, state, defaultInventory(2));
+        this(TFCBlockEntities.LOOM.get(), pos, state);
+    }
+
+    public LoomBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state)
+    {
+        super(type, pos, state, defaultInventory(2));
 
         if (TFCConfig.SERVER.loomEnableAutomation.get())
         {
@@ -92,6 +105,7 @@ public class LoomBlockEntity extends TickableInventoryBlockEntity<ItemStackHandl
         }
     }
 
+    //TODO sometimes if timed well the players hand will not swing but increment progress still
     public ItemInteractionResult onRightClick(Player player)
     {
         assert level != null;
@@ -138,7 +152,7 @@ public class LoomBlockEntity extends TickableInventoryBlockEntity<ItemStackHandl
         }
 
         // Push the loom
-        if (recipe != null && heldItem.isEmpty() && recipe.getInputCount() == inventory.getStackInSlot(SLOT_RECIPE).getCount() && progress < recipe.getStepCount() && !needsProgressUpdate)
+        if (canPushManually() && recipe != null && heldItem.isEmpty() && recipe.getInputCount() == inventory.getStackInSlot(SLOT_RECIPE).getCount() && progress < recipe.getStepCount() && !needsProgressUpdate)
         {
             final long time = level.getGameTime() - lastPushed;
             // This acts strangely when set to just 'time < 20', for some reason
@@ -181,7 +195,13 @@ public class LoomBlockEntity extends TickableInventoryBlockEntity<ItemStackHandl
     {
         assert level != null;
         if (recipe == null) return 0;
-        final int time = (int) (level.getGameTime() - lastPushed);
+        long gameTime = level.getGameTime();
+        // Weird edge case; if time changed somehow or NBT is modified
+        if (lastPushed > gameTime)
+        {
+            return 0;
+        }
+        final int time = (int) (gameTime - lastPushed);
         if (time < 20)
         {
             return Math.sin((Math.PI / 20) * time) * 0.23125;
@@ -272,5 +292,10 @@ public class LoomBlockEntity extends TickableInventoryBlockEntity<ItemStackHandl
             lastTexture = null;
             markForSync();
         }
+    }
+
+    protected boolean canPushManually()
+    {
+        return true;
     }
 }

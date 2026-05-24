@@ -24,9 +24,11 @@ import net.dries007.tfc.common.blocks.rock.RockCategory;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.common.recipes.KnappingRecipe;
 import net.dries007.tfc.data.providers.BuiltinKnappingTypes;
+import net.dries007.tfc.util.DataGenerationHelpers.Builder;
 import net.dries007.tfc.util.Metal;
 import net.dries007.tfc.util.data.KnappingPattern;
 import net.dries007.tfc.util.data.KnappingType;
+import static net.dries007.tfc.util.DataGenerationHelpers.Builder;
 
 public interface KnappingRecipes extends Recipes
 {
@@ -48,8 +50,8 @@ public interface KnappingRecipes extends Recipes
         clayKnapping(TFCItems.UNFIRED_LARGE_VESSEL, "X   X", "X   X", "X   X", "X   X", "XXXXX");
         clayKnapping(TFCItems.UNFIRED_JUG, " X   ", "XXXX ", "XXX X", "XXXX ", "XXX  ");
         clayKnapping(TFCItems.UNFIRED_POT, "X   X", "X   X", "X   X", "XXXXX", " XXX ");
-        clayKnapping(TFCItems.UNFIRED_BOWL, 2, "X   X", " XXX ");
-        clayKnapping("2", TFCItems.UNFIRED_BOWL, 4, false, "X   X", " XXX ", "     ", "X   X", " XXX ");
+        clayKnapping("1", TFCItems.UNFIRED_BOWL, 2, false, "X   X", " XXX ");
+        clayKnapping(TFCItems.UNFIRED_BOWL, 4, "X   X", " XXX ", "     ", "X   X", " XXX ");
         clayKnapping(TFCItems.UNFIRED_BRICK, 3, "XXXXX", "     ", "XXXXX", "     ", "XXXXX");
         clayKnapping(TFCItems.UNFIRED_FLOWER_POT, 2, " X X ", " XXX ", "     ", " X X ", " XXX ");
         clayKnapping(TFCItems.UNFIRED_SPINDLE_HEAD, 1, "  X  ", "XXXXX", "  X  ");
@@ -75,11 +77,11 @@ public interface KnappingRecipes extends Recipes
         fireClayKnapping(TFCItems.UNFIRED_CRUCIBLE, 1, "X   X", "X   X", "X   X", "X   X", "XXXXX");
         fireClayKnapping(TFCItems.UNFIRED_FIRE_BRICK, 3, "XXXXX", "     ", "XXXXX", "     ", "XXXXX");
         fireClayKnapping(TFCItems.UNFIRED_FIRE_INGOT_MOLD, 2, "XXXX", "X  X", "X  X", "X  X", "XXXX");
-        fireClayKnapping(TFCItems.UNFIRED_CHANNEL, 2, "X   X", " XXX ");
-        fireClayKnapping("4", TFCItems.UNFIRED_CHANNEL, 4, "X   X", " XXX ", "     ", "X   X", " XXX ");
+        fireClayKnapping("2", TFCItems.UNFIRED_CHANNEL, 2, "X   X", " XXX ");
+        fireClayKnapping(TFCItems.UNFIRED_CHANNEL, 4, "X   X", " XXX ", "     ", "X   X", " XXX ");
         fireClayKnapping(TFCItems.UNFIRED_MOLD_TABLE, 1, "XXXXX", "X   X", "X   X", "X   X", "XXXXX");
 
-        leatherKnapping(Items.LEATHER_HELMET, "XXXXX", "X   X", "X   X", "     ", "     ");
+        leatherKnapping(Items.LEATHER_HELMET, "XXXXX", "X   X", "X   X");
         leatherKnapping(Items.LEATHER_CHESTPLATE, "X   X", "XXXXX", "XXXXX", "XXXXX", "XXXXX");
         leatherKnapping(Items.LEATHER_LEGGINGS, "XXXXX", "XXXXX", "XX XX", "XX XX", "XX XX");
         leatherKnapping(Items.LEATHER_BOOTS, "XX   ", "XX   ", "XX   ", "XXXX ", "XXXXX");
@@ -136,7 +138,7 @@ public interface KnappingRecipes extends Recipes
             new ItemStack(output, count)
         ));
         // Un-crafting, only for non-suffixed recipes
-        if (suffix.isEmpty()) new CraftingRecipes.Builder((name, r) -> add(nameOf(output) + "_to_clay", r))
+        if (suffix.isEmpty()) new Builder((name, r) -> add(nameOf(output) + "_to_clay", r))
             .input(output)
             .shapeless(Items.CLAY_BALL, 5 / count);
     }
@@ -155,31 +157,31 @@ public interface KnappingRecipes extends Recipes
             new ItemStack(output, count)
         ));
         // Un-crafting, only for non-suffixed recipes
-        if (suffix.isEmpty()) new CraftingRecipes.Builder((name, r) -> add(nameOf(output) + "_to_fire_clay", r))
+        if (suffix.isEmpty()) new Builder((name, r) -> add(nameOf(output) + "_to_fire_clay", r))
             .input(output)
             .shapeless(TFCItems.FIRE_CLAY, 5 / count);
     }
 
     private void leatherKnapping(ItemLike output, String... pattern)
     {
-        knapping(BuiltinKnappingTypes.LEATHER, pattern, output, 1);
+        knapping(BuiltinKnappingTypes.LEATHER, pattern, output, false, 1);
     }
 
     private void goatKnapping(ResourceKey<Instrument> instrument, String... pattern)
     {
         final ItemStack output = Items.GOAT_HORN.getDefaultInstance();
         output.set(DataComponents.INSTRUMENT, BuiltInRegistries.INSTRUMENT.getHolderOrThrow(instrument));
-        knapping(BuiltinKnappingTypes.GOAT_HORN, pattern, output, instrument.location().getPath() + "_goat_horn");
+        knapping(BuiltinKnappingTypes.GOAT_HORN, pattern, output, true, instrument.location().getPath() + "_goat_horn");
     }
 
-    private void knapping(ResourceLocation knappingType, String[] pattern, ItemLike output, int count)
+    private void knapping(ResourceLocation knappingType, String[] pattern, ItemLike output, boolean defaultOn, int count)
     {
-        knapping(knappingType, pattern, new ItemStack(output, count), null);
+        knapping(knappingType, pattern, new ItemStack(output, count), defaultOn, null);
     }
 
-    private void knapping(ResourceLocation knappingType, String[] pattern, ItemStack output, @Nullable String name)
+    private void knapping(ResourceLocation knappingType, String[] pattern, ItemStack output, boolean defaultOn, @Nullable String name)
     {
-        final KnappingRecipe recipe = new KnappingRecipe(KnappingType.MANAGER.getCheckedReference(knappingType), KnappingPattern.from(true, pattern), Optional.empty(), output);
+        final KnappingRecipe recipe = new KnappingRecipe(KnappingType.MANAGER.getCheckedReference(knappingType), KnappingPattern.from(defaultOn, pattern), Optional.empty(), output);
         if (name == null)
         {
             add(recipe);

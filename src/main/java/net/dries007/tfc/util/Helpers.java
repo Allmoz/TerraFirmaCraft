@@ -69,6 +69,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -85,6 +86,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.levelgen.XoroshiroRandomSource;
 import net.minecraft.world.level.material.Fluid;
@@ -123,7 +125,6 @@ import net.dries007.tfc.common.effect.TFCEffects;
 import net.dries007.tfc.common.entities.ai.prey.PestAi;
 import net.dries007.tfc.common.entities.prey.Pest;
 import net.dries007.tfc.mixin.accessor.RecipeManagerAccessor;
-import net.dries007.tfc.util.climate.OverworldClimateModel;
 import net.dries007.tfc.util.collections.IndirectHashCollection;
 import net.dries007.tfc.util.data.FluidHeat;
 import net.dries007.tfc.util.data.Support;
@@ -590,7 +591,7 @@ public final class Helpers
         }
         else if (level.random.nextFloat() <= 0.7) // Otherwise, 30% chance to just skip checking for climate-specific pests and spawning a rat
         {
-            final float rainfall = data.getRainfall(pos);
+            final float rainfall = data.getAverageRainfall(pos);
             if (rainfall < 160)
             {
                 return Helpers.randomEntity(TFCTags.Entities.DESERT_PESTS, level.random);
@@ -813,7 +814,7 @@ public final class Helpers
     /**
      * Removes / Consumes item entities from 2 lists up to a maximum number of items (taking into account the count of each item)
      * Passes each item stack, with stack size = 1, to the provided consumer
-     * 
+     *
      * This alternates consuming items from the 2 lists, starting with set1
      * If one of the sets runs out, it starts only taking items from the other set
      */
@@ -952,6 +953,29 @@ public final class Helpers
             if (!stack.isEmpty())
                 return false;
         return true;
+    }
+
+    /**
+     * @return {@code true} if any slot in the provided BE's inventory is empty.
+     */
+    public static boolean hasOpenSlot(InventoryBlockEntity<?> entity)
+    {
+        return hasOpenSlot(entity.getInventory());
+    }
+
+    /**
+     * @return {@code true} if any slot in the provided inventory is empty.
+     */
+    public static boolean hasOpenSlot(IItemHandler inventory)
+    {
+        for (int slot = 0; slot < inventory.getSlots(); slot++)
+        {
+            if (inventory.getStackInSlot(slot).isEmpty())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -1471,6 +1495,17 @@ public final class Helpers
     }
 
     /**
+     * Returns an approximate angle in the range [0, 4] where 4 is the equivalent of 360 degrees from a vector in the form x, y
+     */
+    public static double diamondAngle(double x, double y)
+    {
+        if (y >= 0)
+            return (x >= 0 ? y / (x + y) : 1 - x / (-x + y));
+        else
+            return (x < 0 ? 2 - y / (-x - y) : 3 + x / (x - y));
+    }
+
+    /**
      * Checks the existence of a <a href="https://en.wikipedia.org/wiki/Perfect_matching">perfect matching</a> of a <a href="https://en.wikipedia.org/wiki/Bipartite_graph">bipartite graph</a>.
      * The graph is interpreted as the matches between the set of inputs, and the set of tests.
      * This algorithm computes the <a href="https://en.wikipedia.org/wiki/Edmonds_matrix">Edmonds Matrix</a> of the graph, which has the property that the determinant is identically zero iff the graph does not admit a perfect matching.
@@ -1578,6 +1613,33 @@ public final class Helpers
         {
             tooltips.add(Component.translatable("container.shulkerBox.more", totalItems - maximumItems).withStyle(ChatFormatting.ITALIC));
         }
+    }
+
+    @Nullable
+    public static BlockState getSupportedDirectionalStateForPlacement(Block block, BlockPlaceContext context, boolean horizontal)
+    {
+        BlockState blockstate = block.defaultBlockState();
+        final LevelReader levelreader = context.getLevel();
+        final BlockPos blockpos = context.getClickedPos();
+
+        final Direction[] looking = context.getNearestLookingDirections();
+
+        for (Direction direction : looking)
+        {
+            // if it can not be placed on the vertical axis, and we're checking a vertical axis
+            if (horizontal && direction.getAxis().isVertical())
+            {
+                continue;
+            }
+            Direction direction1 = direction.getOpposite();
+            blockstate = blockstate.setValue(horizontal ? BlockStateProperties.HORIZONTAL_FACING : BlockStateProperties.FACING, direction1);
+            if (blockstate.canSurvive(levelreader, blockpos))
+            {
+                return blockstate;
+            }
+        }
+
+        return null;
     }
 
     public static boolean isItem(ItemStack stack, ItemLike item)

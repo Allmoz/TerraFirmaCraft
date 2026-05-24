@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
-import net.dries007.tfc.client.overworld.SolarCalculator;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.climate.Climate;
@@ -240,8 +239,8 @@ public final class TFCColors
         if (level != null)
         {
             final ClimateModel model = Climate.get(level);
-            final float temperature = model.getTemperature(level, pos);
-            final float groundwater = model.getGroundwater(level, pos);
+            final float temperature = model.getInstantTemperature(level, pos);
+            final float groundwater = model.getInstantGroundwater(level, pos);
             return getClimateColor(colorCache, temperature, groundwater);
         }
         return 0;
@@ -263,7 +262,7 @@ public final class TFCColors
         final Level level = ClientHelpers.getLevel();
         if (level != null)
         {
-            final float groundwater = Climate.getGroundwater(level, pos);
+            final float groundwater = Climate.getAverageGroundwater(level, pos);
             return getClimateColor(colorCache, averageTemperature, groundwater);
         }
         return 0;

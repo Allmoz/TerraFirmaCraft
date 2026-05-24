@@ -30,7 +30,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_pot",
-      "text": "陶锅必须先用粘土$(l:getting_started/pottery)塑形$()。"
+      "text": "陶锅必须先用黏土$(l:getting_started/pottery)塑形$()。"
     },
     {
       "type": "tfc:heat_recipe",
@@ -55,7 +55,7 @@
       "item": "tfc:food/fruit_soup",
       "title": "炖汤配方",
       "link_recipes": false,
-      "text": "汤可以包含 3-5 个 $(thing)水果$()、$(thing)蔬菜$()或$(thing)肉类$()。汤炖好了之后锅里的水会变成红色。拿着$(thing)碗$()$(item)对着汤按下$(k:key.use)$()就能盛一碗出来。汤会将所有食材的营养元素组合成一顿餐点。"
+      "text": "汤由 3-5 份$(thing)水果$()、$(thing)蔬菜$()或$(thing)肉类$()在一锅$(thing)水$()中制成。配方完成后，锅中的水会变红。用$(l:mechanics/bowls)碗$()右键点击锅即可取出。汤将多种营养素组合成一定数量的餐点，具体数量取决于加入的食物量。它们更节省食材，但营养密度不如其他餐点。"
     },
     {
       "type": "patchouli:spotlight",

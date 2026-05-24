@@ -22,6 +22,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -39,7 +40,6 @@ import vazkii.patchouli.common.util.ItemStackUtil;
 
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.network.OpenFieldGuidePacket;
-import net.dries007.tfc.network.PacketHandler;
 
 /**
  * This is modified from {@link TooltipHandler}, in order to render additional tooltips, as we don't have an explicit book item. We render a tooltip,
@@ -53,7 +53,9 @@ public final class PatchouliClientEventHandler
 
     public static void init()
     {
-        NeoForge.EVENT_BUS.addListener(PatchouliClientEventHandler::renderBookTooltipWithoutBook);
+        final IEventBus bus = NeoForge.EVENT_BUS;
+
+        bus.addListener(PatchouliClientEventHandler::renderBookTooltipWithoutBook);
     }
 
     public static void renderBookTooltipWithoutBook(RenderTooltipEvent.Pre event)

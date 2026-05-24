@@ -30,7 +30,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
@@ -188,7 +187,7 @@ public final class BuiltinRecipes extends VanillaRecipeProvider implements
             SizedFluidIngredient.of(fluidOf(Metal.CAST_IRON), 100),
             SizedIngredient.of(Items.CHARCOAL, 2),
             ItemStackProvider.of(TFCItems.RAW_IRON_BLOOM),
-            hours(15)
+            hours(12)
         ));
 
         // Blast Furnace Recipes
@@ -260,11 +259,13 @@ public final class BuiltinRecipes extends VanillaRecipeProvider implements
 
             add(new LandslideRecipe(BlockIngredient.of(
                 blocks.get(SoilBlockType.CLAY).get(),
-                blocks.get(SoilBlockType.CLAY_GRASS).get()
+                blocks.get(SoilBlockType.CLAY_GRASS).get(),
+                blocks.get(SoilBlockType.CLAY_DUFF).get()
             ), blocks.get(SoilBlockType.CLAY).get().defaultBlockState()));
             add(new LandslideRecipe(BlockIngredient.of(
                 blocks.get(SoilBlockType.DIRT).get(),
                 blocks.get(SoilBlockType.GRASS).get(),
+                blocks.get(SoilBlockType.DUFF).get(),
                 blocks.get(SoilBlockType.GRASS_PATH).get(),
                 blocks.get(SoilBlockType.FARMLAND).get(),
                 blocks.get(SoilBlockType.ROOTED_DIRT).get()
@@ -273,6 +274,7 @@ public final class BuiltinRecipes extends VanillaRecipeProvider implements
         List.of(Blocks.DIRT, Blocks.GRAVEL, Blocks.SAND, Blocks.COBBLESTONE).forEach(b ->{
             add(new LandslideRecipe(BlockIngredient.of(b), b.defaultBlockState()));
         });
+        add(new LandslideRecipe(BlockIngredient.of(TFCBlocks.KAOLIN_CLAY_GRASS.get()), TFCBlocks.RED_KAOLIN_CLAY.get().defaultBlockState()));
 
     }
 

@@ -15,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.gui.GuiGraphics;
 import net.dries007.tfc.common.blocks.soil.HoeOverlayBlock;
 import net.dries007.tfc.config.TFCConfig;
@@ -52,6 +51,6 @@ public class HoeOverlays
     private static void drawCenteredText(Minecraft minecraft, GuiGraphics graphics, Component text, int x, int y)
     {
         final int textWidth = minecraft.font.width(text) / 2;
-        graphics.drawString(minecraft.font, text, x - textWidth, y, 0xCCCCCC, false);
+        graphics.drawString(minecraft.font, text, x - textWidth, y, 0xCCCCCC, true);
     }
 }

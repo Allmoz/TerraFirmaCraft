@@ -27,13 +27,13 @@
     },
     {
       "type": "tfc:sealed_barrel_recipe",
-      "recipe": "tfc:barrel/red_leather",
+      "recipe": "tfc:barrel/red_dyeable",
       "text": "Dye fluids can even dye leather as if it were crafted!"
     },
     {
       "type": "tfc:sealed_barrel_recipe",
       "anchor": "lye",
-      "recipe": "tfc:barrel/bleaching_bed",
+      "recipe": "tfc:barrel/bleach_bed",
       "text": "Five $(item)Wood Ash$() and 1000mB of $(item)Water$() boiled in a $(l:mechanics/pot)Pot$() produces lye. 25mB of Lye removes the color from a colored item."
     },
     {

@@ -11,7 +11,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PlaceOnWaterBlockItem;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathType;
@@ -30,7 +28,6 @@ import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.common.blocks.TFCBlocks;
-import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.util.registry.RegistryPlant;
 
 /*
@@ -228,12 +225,13 @@ public enum Plant implements RegistryPlant
     GOLDEN_BAMBOO_SAPLING(BlockType.BAMBOO_SAPLING, 1.0F),
     ;
 
-    private static final EnumSet<Plant> SPECIAL_POTTED_PLANTS = EnumSet.of(BARREL_CACTUS, FOXGLOVE, MORNING_GLORY, MOSS, OSTRICH_FERN, REINDEER_LICHEN, ROSE, SAPPHIRE_TOWER, TOQUILLA_PALM, TREE_FERN, PHILODENDRON, SHAWIASH, BEAR_GRASS, KINNIKINNICK, AZALEA, ELEGANT_SUNBURST_LICHEN, CYCAD);
+    private static final EnumSet<Plant> SPECIAL_POTTED_PLANTS = EnumSet.of(BARREL_CACTUS, FOXGLOVE, MORNING_GLORY, MOSS, OSTRICH_FERN, REINDEER_LICHEN, ROSE, SAPPHIRE_TOWER, TOQUILLA_PALM, TREE_FERN, PHILODENDRON, SHAWIASH, BEAR_GRASS, KINNIKINNICK, AZALEA, ELEGANT_SUNBURST_LICHEN, CYCAD, HIBISCUS, MOUNTAIN_HULLWORT, LILAC, PALASH, PENWORTEL, PRICKLY_PEAR, PRICKLY_PEAR_PURPLE, QANTU, SUNFLOWER, SILKEN_PINCUSHION_CACTUS);
     private static final EnumSet<Plant> BLOCK_TINTED_PLANTS = EnumSet.of(PAMPAS_GRASS, BLUEGRASS, BROMEGRASS, FOUNTAIN_GRASS, ORCHARD_GRASS, RYEGRASS, SCUTCH_GRASS, TIMOTHY_GRASS, RADDIA_GRASS, ARROWHEAD, BUR_REED, CATTAIL, DUCKWEED, FIELD_HORSETAIL, GUTWEED, KANGAROO_PAW, KING_FERN, LADY_FERN, LICORICE_FERN, LOTUS, MORNING_GLORY, PHILODENDRON, MOSS, OSTRICH_FERN, PHRAGMITE, PICKERELWEED, PISTIA, SAGO, SEA_LAVENDER, SWITCHGRASS, SWORD_FERN, TALL_FESCUE_GRASS, TOQUILLA_PALM, WHITE_WATER_LILY, YELLOW_WATER_LILY, PURPLE_WATER_LILY, WATER_TARO, HANGING_VINES_PLANT, HANGING_VINES, SPANISH_MOSS_PLANT, SPANISH_MOSS, TREE_FERN_PLANT, TREE_FERN, IVY, JUNGLE_VINES, MAIDEN_PINK, CYCAD, RED_OAT_GRASS, ARUNDO_PLANT, ARUNDO, TANK_BROMELIAD, BUTTERCUP);
     private static final EnumSet<Plant> ITEM_TINTED_PLANTS = EnumSet.of(BLUEGRASS, BROMEGRASS, FOUNTAIN_GRASS, ORCHARD_GRASS, RYEGRASS, SCUTCH_GRASS, TIMOTHY_GRASS, RADDIA_GRASS, KING_FERN, MOSS, SAGO, SWITCHGRASS, TALL_FESCUE_GRASS, IVY, JUNGLE_VINES, HANGING_VINES, GUTWEED, RED_OAT_GRASS);
     private static final EnumSet<Plant> FLOWERPOT_TINTED_PLANTS = EnumSet.of(PHILODENDRON, MOSS, TREE_FERN);
     private static final EnumSet<Plant> FOLIAGE_COLOR_PLANTS = EnumSet.of(SWORD_FERN, OSTRICH_FERN, KING_FERN, TOQUILLA_PALM, LADY_FERN, LICORICE_FERN, BIRD_NEST_FERN);
     private static final EnumSet<Plant> WATER_COLOR_PLANTS = EnumSet.of(TANK_BROMELIAD);
+    private static final EnumSet<Plant> BROWN_COMPOST_PLANTS = EnumSet.of(HANGING_VINES, SPANISH_MOSS, LIANA, TREE_FERN, ARUNDO, DRY_PHRAGMITE, JUNGLE_VINES, CYCAD, FLAME_VINE);
 
     private final @Nullable IntegerProperty ageProperty;
     private final float speedFactor;
@@ -356,6 +354,16 @@ public enum Plant implements RegistryPlant
     public boolean needsItem()
     {
         return !BlockType.NO_ITEM_TYPES.contains(type);
+    }
+
+    public boolean givesBrownCompost()
+    {
+        return BROWN_COMPOST_PLANTS.contains(this) && needsItem();
+    }
+
+    public boolean givesGreenCompost()
+    {
+        return !BROWN_COMPOST_PLANTS.contains(this) && needsItem();
     }
 
     public boolean canBeSnowPiled()

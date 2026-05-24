@@ -42,6 +42,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
@@ -235,16 +236,16 @@ public class BarrelBlock extends SealableDeviceBlock
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation direction)
+    protected BlockState rotate(BlockState state, Rotation rot)
     {
-        return state.setValue(FACING, direction.rotate(state.getValue(FACING)));
+        final Direction direction = rot.rotate(state.getValue(FACING));
+        return state.setValue(FACING, direction == Direction.DOWN ? Direction.UP: direction);
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     protected BlockState mirror(BlockState state, Mirror mirror)
     {
-        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+        return rotate(state, mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override
@@ -273,6 +274,26 @@ public class BarrelBlock extends SealableDeviceBlock
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         super.createBlockStateDefinition(builder.add(FACING, RACK));
+    }
+
+    @Override
+    protected boolean hasAnalogOutputSignal(BlockState state)
+    {
+        return TFCConfig.SERVER.barrelEnableAutomation.get();
+    }
+
+    @Override
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos)
+    {
+        if (level.getBlockEntity(pos) instanceof BarrelBlockEntity barrel)
+        {
+            final FluidStack tank = barrel.getInventory().getFluidInTank(0);
+            if (!tank.isEmpty())
+            {
+                return Mth.clamp(tank.getAmount() * 15 / TFCConfig.SERVER.barrelCapacity.get(), 1, 15);
+            }
+        }
+        return 0;
     }
 
     @Override

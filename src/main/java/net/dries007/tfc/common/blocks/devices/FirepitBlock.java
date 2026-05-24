@@ -168,11 +168,11 @@ public class FirepitBlock extends BottomSupportedDeviceBlock implements IGhostBl
     {
         if (Helpers.isItem(item, TFCItems.POT.get()))
         {
-            return TFCBlocks.POT.get().defaultBlockState().setValue(LIT, lookState.getValue(LIT));
+            return TFCBlocks.POT.get().defaultBlockState().setValue(LIT, lookState.getValue(LIT)).setValue(AXIS, level.getBlockState(pos).getValue(AXIS));
         }
         else if (Helpers.isItem(item, TFCItems.WROUGHT_IRON_GRILL.get()))
         {
-            return TFCBlocks.GRILL.get().defaultBlockState().setValue(LIT, lookState.getValue(LIT));
+            return TFCBlocks.GRILL.get().defaultBlockState().setValue(LIT, lookState.getValue(LIT)).setValue(AXIS, level.getBlockState(pos).getValue(AXIS));
         }
         return null;
     }
@@ -245,8 +245,7 @@ public class FirepitBlock extends BottomSupportedDeviceBlock implements IGhostBl
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public BlockState rotate(BlockState state, Rotation rot)
+    protected BlockState rotate(BlockState state, Rotation rot)
     {
         return rot == Rotation.COUNTERCLOCKWISE_90 || rot == Rotation.CLOCKWISE_90 ? state.cycle(AXIS) : state;
     }

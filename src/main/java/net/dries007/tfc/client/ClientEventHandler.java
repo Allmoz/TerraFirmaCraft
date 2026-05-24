@@ -36,7 +36,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BellRenderer;
 import net.minecraft.client.renderer.blockentity.LecternRenderer;
-import net.minecraft.client.renderer.entity.CodRenderer;
 import net.minecraft.client.renderer.entity.DolphinRenderer;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 import net.minecraft.client.renderer.entity.FoxRenderer;
@@ -45,10 +44,7 @@ import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.OcelotRenderer;
 import net.minecraft.client.renderer.entity.PandaRenderer;
-import net.minecraft.client.renderer.entity.PufferfishRenderer;
 import net.minecraft.client.renderer.entity.RabbitRenderer;
-import net.minecraft.client.renderer.entity.SalmonRenderer;
-import net.minecraft.client.renderer.entity.TropicalFishRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.component.DataComponentType;
@@ -90,6 +86,8 @@ import net.dries007.tfc.client.model.ContainedFluidModel;
 import net.dries007.tfc.client.model.DoubleIngotPileBlockModel;
 import net.dries007.tfc.client.model.IngotPileBlockModel;
 import net.dries007.tfc.client.model.LeavesBlockModel;
+import net.dries007.tfc.client.model.MoldTableBlockModel;
+import net.dries007.tfc.client.model.MoldsModelLoader;
 import net.dries007.tfc.client.model.PlantBlockModel;
 import net.dries007.tfc.client.model.ScrapingBlockModel;
 import net.dries007.tfc.client.model.TrimmedItemModel;
@@ -808,7 +806,6 @@ public final class ClientEventHandler
         event.register(Helpers.identifier("double_ingot_pile"), DoubleIngotPileBlockModel.INSTANCE);
         event.register(Helpers.identifier("scraping"), ScrapingBlockModel.INSTANCE);
         event.register(Helpers.identifier("plant"), PlantBlockModel.Loader.INSTANCE);
-        event.register(Helpers.identifier("leaves"), LeavesBlockModel.Loader.INSTANCE);
         event.register(Helpers.identifier("mold"), new MoldsModelLoader());
     }
 
