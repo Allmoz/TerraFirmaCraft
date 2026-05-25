@@ -178,29 +178,6 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         final int positionDeltaHash = (Helpers.hash(836494187578334123L, pos) & 127);
         timeOfYear = (timeOfYear + ((positionDeltaHash - 63) / 4096f)) % 1;
 
-
-        //TODO: Also check if actively snowing?? Maybe if a single snow block melts/places that could update the chunk?
-        final WorldTracker tracker = WorldTracker.get(level);
-        final ClimateModel model = tracker.getClimateModel();
-        final float realTemperature = model.getInstantTemperature(level, pos);
-        final float rainfall = model.getInstantRainfall(level, pos);
-        final long currentCalendarTick = Calendars.SERVER.getCalendarTicks();
-        // Use positionDeltaHash to fade in and out over about 40 seconds
-        if (realTemperature < -2f && WeatherHelpers.isPrecipitating(model.getRain(currentCalendarTick - 6 * positionDeltaHash - 400), rainfall))
-        {
-            final float springStart = 1f - autumnEnd;
-            if (timeOfYear > autumnEnd || timeOfYear < springStart)
-            {
-                assert snowyBareBakedModel != null;
-                return snowyBareBakedModel;
-            }
-            else
-            {
-                assert snowyLeavesBakedModel != null;
-                return snowyLeavesBakedModel;
-            }
-        }
-
         if (timeOfYear > autumnEnd)
         {
             assert bareBakedModel != null;

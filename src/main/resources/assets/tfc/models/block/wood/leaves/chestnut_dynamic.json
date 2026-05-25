@@ -10,12 +10,6 @@
   "bare": {
     "parent": "tfc:block/wood/leaves/bare/chestnut"
   },
-  "snowy_bare": {
-    "parent": "tfc:block/wood/leaves/snowy_bare/chestnut"
-  },
-  "snowy_leaves": {
-    "parent": "tfc:block/wood/leaves/snowy_leaves/chestnut"
-  },
   "blooming": {
     "parent": "tfc:block/wood/leaves/blooming/chestnut"
   }

@@ -10,12 +10,6 @@
   "bare": {
     "parent": "tfc:block/wood/leaves/bare/birch"
   },
-  "snowy_bare": {
-    "parent": "tfc:block/wood/leaves/snowy_bare/birch"
-  },
-  "snowy_leaves": {
-    "parent": "tfc:block/wood/leaves/snowy_leaves/birch"
-  },
   "blooming": {
     "parent": "tfc:block/wood/leaves/blooming/birch"
   }

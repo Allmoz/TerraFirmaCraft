@@ -10,12 +10,6 @@
   "bare": {
     "parent": "tfc:block/wood/leaves/bare/white_cedar"
   },
-  "snowy_bare": {
-    "parent": "tfc:block/wood/leaves/snowy_bare/white_cedar"
-  },
-  "snowy_leaves": {
-    "parent": "tfc:block/wood/leaves/snowy_leaves/white_cedar"
-  },
   "blooming": {
     "parent": "tfc:block/wood/leaves/blooming/white_cedar"
   }

@@ -10,12 +10,6 @@
   "bare": {
     "parent": "tfc:block/wood/leaves/bare/kapok"
   },
-  "snowy_bare": {
-    "parent": "tfc:block/wood/leaves/snowy_bare/kapok"
-  },
-  "snowy_leaves": {
-    "parent": "tfc:block/wood/leaves/snowy_leaves/kapok"
-  },
   "blooming": {
     "parent": "tfc:block/wood/leaves/blooming/kapok"
   }

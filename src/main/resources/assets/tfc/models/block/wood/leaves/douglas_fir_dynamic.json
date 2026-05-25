@@ -10,12 +10,6 @@
   "bare": {
     "parent": "tfc:block/wood/leaves/bare/douglas_fir"
   },
-  "snowy_bare": {
-    "parent": "tfc:block/wood/leaves/snowy_bare/douglas_fir"
-  },
-  "snowy_leaves": {
-    "parent": "tfc:block/wood/leaves/snowy_leaves/douglas_fir"
-  },
   "blooming": {
     "parent": "tfc:block/wood/leaves/blooming/douglas_fir"
   }

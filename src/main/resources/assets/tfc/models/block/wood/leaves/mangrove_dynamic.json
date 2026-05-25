@@ -10,12 +10,6 @@
   "bare": {
     "parent": "tfc:block/wood/leaves/bare/mangrove"
   },
-  "snowy_bare": {
-    "parent": "tfc:block/wood/leaves/snowy_bare/mangrove"
-  },
-  "snowy_leaves": {
-    "parent": "tfc:block/wood/leaves/snowy_leaves/mangrove"
-  },
   "blooming": {
     "parent": "tfc:block/wood/leaves/blooming/mangrove"
   }

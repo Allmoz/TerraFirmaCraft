@@ -10,12 +10,6 @@
   "bare": {
     "parent": "tfc:block/wood/leaves/bare/aspen"
   },
-  "snowy_bare": {
-    "parent": "tfc:block/wood/leaves/snowy_bare/aspen"
-  },
-  "snowy_leaves": {
-    "parent": "tfc:block/wood/leaves/snowy_leaves/aspen"
-  },
   "blooming": {
     "parent": "tfc:block/wood/leaves/blooming/aspen"
   }
