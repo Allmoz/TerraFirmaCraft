@@ -56,15 +56,11 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
     private final BlockModel denseLeaves;
     private final BlockModel sparseLeaves;
     private final BlockModel bare;
-    private final BlockModel snowyBare;
-    private final BlockModel snowyLeaves;
     private final BlockModel blooming;
 
     @Nullable private BakedModel denseLeavesBakedModel;
     @Nullable private BakedModel sparseLeavesBakedModel;
     @Nullable private BakedModel bareBakedModel;
-    @Nullable private BakedModel snowyBareBakedModel;
-    @Nullable private BakedModel snowyLeavesBakedModel;
     @Nullable private BakedModel bloomingBakedModel;
 
     public LeavesBlockModel(BlockModel denseLeaves, BlockModel sparseLeaves, BlockModel bare, BlockModel snowyBare, BlockModel snowyLeaves, BlockModel blooming)
@@ -72,8 +68,6 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         this.denseLeaves = denseLeaves;
         this.sparseLeaves = sparseLeaves;
         this.bare = bare;
-        this.snowyBare = snowyBare;
-        this.snowyLeaves = snowyLeaves;
         this.blooming = blooming;
     }
 
@@ -239,8 +233,6 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         denseLeavesBakedModel = denseLeaves.bake(baker, atlas, modelState);
         sparseLeavesBakedModel = sparseLeaves.bake(baker, atlas, modelState);
         bareBakedModel = bare.bake(baker, atlas, modelState);
-        snowyBareBakedModel = snowyBare.bake(baker, atlas, modelState);
-        snowyLeavesBakedModel = snowyLeaves.bake(baker, atlas, modelState);
         bloomingBakedModel = blooming.bake(baker, atlas, modelState);
         return this;
     }
@@ -263,8 +255,6 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         denseLeaves.resolveParents(modelGetter);
         sparseLeaves.resolveParents(modelGetter);
         bare.resolveParents(modelGetter);
-        snowyBare.resolveParents(modelGetter);
-        snowyLeaves.resolveParents(modelGetter);
         blooming.resolveParents(modelGetter);
     }
 
