@@ -49,6 +49,8 @@ import net.dries007.tfc.util.tracker.WeatherHelpers;
 import net.dries007.tfc.util.tracker.WorldTracker;
 import net.dries007.tfc.world.chunkdata.ChunkData;
 
+import static net.dries007.tfc.world.TFCChunkGenerator.*;
+
 public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<LeavesBlockModel>
 {
     private final BlockModel denseLeaves;
@@ -130,8 +132,11 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             assert denseLeavesBakedModel != null;
             return denseLeavesBakedModel;
         }
-        final float temp = Climate.getAverageTemperature(level, pos);
-        final float rainVar = Climate.getRainfallVariance(level, pos);
+
+        final int positionClimateHash = (Helpers.hash(912381187503828153L, pos) & 127);
+        final BlockPos seaLevelPos = new BlockPos(pos.getX(), SEA_LEVEL_Y, pos.getZ());
+        final float temp = Climate.getAverageTemperature(level, seaLevelPos) + (float) (positionClimateHash - 63) / 64f;
+        final float rainVar = Climate.getRainfallVariance(level, pos) + (float) (positionClimateHash - 63) / 4096f;;
         final float rainVarAbs = Math.abs(rainVar);
 
         // Skip calcs if above a climate threshold
