@@ -104,7 +104,6 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
                 // Skip all the other calculations if the tree is an evergreen
                 if (((TFCLeavesBlock) block).isConifer())
                 {
-                    // TODO: Allow for snow
                     assert denseLeavesBakedModel != null;
                     return denseLeavesBakedModel;
                 }
@@ -116,10 +115,7 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             }
         }
 
-        // Calculates the seasons based on average temperature
-        // Should match the method used in TFCColors
-        // TODO: depending on climate, should use either temp or rainVar
-        // TODO: hashing could happen here if we want to make a hashed border between decid/everg/monso
+
         final Level level = ClientHelpers.getLevel();
         if (level == null)
         {
@@ -127,10 +123,15 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             return denseLeavesBakedModel;
         }
 
+        // Calculates the seasons based on average temperature
+        // Should match the method used in TFCColors
+
+        // TODO: Verify this provides substantial benefits
+        // Hash climate values based on block positions. This helps with transitional areas
         final int positionClimateHash = (Helpers.hash(912381187503828153L, pos) & 127);
         final BlockPos seaLevelPos = new BlockPos(pos.getX(), SEA_LEVEL_Y, pos.getZ());
-        final float temp = Climate.getAverageTemperature(level, seaLevelPos) + (float) (positionClimateHash - 63) / 64f;
-        final float rainVar = Climate.getRainfallVariance(level, pos) + (float) (positionClimateHash - 63) / 4096f;;
+        final float temp = Climate.getAverageTemperature(level, seaLevelPos) + (float) (positionClimateHash - 63) / 4_000f;
+        final float rainVar = Climate.getRainfallVariance(level, pos) + (float) (positionClimateHash - 63) / 60_000f;;
         final float rainVarAbs = Math.abs(rainVar);
 
         // Skip calcs if above a climate threshold
@@ -144,32 +145,48 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
 
         // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
         final float x;
+        final boolean inNorthernHemisphere = ClientHelpers.inNorthernHemisphere();
         float seasonOffset = 0;
-        if (rainVar > 0.4)
+        if (temp <= 15f)
         {
-            x = 1.2f * Math.min(
-                Math.max(temp, -20f),
-                Mth.clampedMap(rainVar, 0.4f, 1.0f, 15f, -10f)
-            ) + 5.3f;
+            // Numbers chosen to create a 2.5-month summer at -20c avg, and a 12-month "summer" at 15c avg
+            x = 1.25f * Math.max(temp, -20f) + 5.3f;
+            if (!inNorthernHemisphere)
+            {
+                seasonOffset = 0.5f;
+            }
         }
-        else if (temp <= 15f)
+        // Small gap in temperature is so that there are small evergreen bands between dry-season controlled areas and winter-controlled areas
+        else if (rainVarAbs > 0.4 && temp > 15.5f)
         {
-            x = 1.2f * Math.max(temp, -20f) + 5.3f;
+            final float avgRain = Climate.getAverageRainfall(level, seaLevelPos);
+            final float minRain = avgRain * (1 - rainVarAbs);
+
+            if (minRain > 200)
+            {
+                assert denseLeavesBakedModel != null;
+                return denseLeavesBakedModel;
+            }
+
+            // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 200
+            // Uses multiple variables to ensure smooth transitions, and that biomes that have green grass year-round do not lose leaves
+            x = .2604f * (0.4f - rainVarAbs) * (200f - minRain) + 18.75f + 5.3f;
+            if (rainVar < -0.4)
+            {
+                seasonOffset = 0.5f;
+            }
         }
-        // By elimination, this only controls for temp > 15, rain < -0.4
+        // If not in any of the above areas, must be in an evergreen border-belt
         else
         {
-            x = 1.2f * Math.min(
-                Mth.clampedMap(temp, 15, 20, 15, -10),
-                Mth.clampedMap(rainVar, -0.4f, -1.0f, 15f, -10f)
-            ) + 5.3f;
-            seasonOffset = 0.5f;
+            assert denseLeavesBakedModel != null;
+            return denseLeavesBakedModel;
         }
         final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
         final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
 
         // Offset the seasons by six months if dry-season controls and the dry season occurs in winter months
-        timeOfYear = timeOfYear + seasonOffset;
+        timeOfYear = (timeOfYear + seasonOffset) % 1;
 
         final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
 
@@ -183,7 +200,7 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             return bareBakedModel;
         }
 
-        final float autumnStart = (cubedTerm + squaredTerm + 8.5f) / 12f;
+        final float autumnStart = (cubedTerm + squaredTerm + 8.2f) / 12f;
         final float autumnMid = 0.5f * (autumnEnd + autumnStart);
         if (timeOfYear > autumnMid)
         {

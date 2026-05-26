@@ -23,6 +23,8 @@ import net.dries007.tfc.util.climate.ClimateModel;
 import net.dries007.tfc.world.TFCChunkGenerator;
 import net.dries007.tfc.world.biome.TFCBiomes;
 
+import static net.dries007.tfc.world.TFCChunkGenerator.*;
+
 public final class TFCColors
 {
     public static final ResourceLocation SKY_COLORS_LOCATION = Helpers.identifier("textures/colormap/sky.png");
@@ -139,10 +141,11 @@ public final class TFCColors
     {
         // TODO: Link to other usage
         final Level level = ClientHelpers.getLevel();
-        float temp = Climate.getAverageTemperature(level, pos);
-        final float rainVar = Climate.getRainfallVariance(level, pos);
-        final float offset = ClientHelpers.inNorthernHemisphere() ? 0f : 0.5f; // Offset for Southern Hemisphere
-        float timeOfYear = (Calendars.CLIENT.getCalendarFractionOfYear() + offset) % 1f;
+        final int positionClimateHash = (Helpers.hash(912381187503828153L, pos) & 127);
+        final BlockPos seaLevelPos = new BlockPos(pos.getX(), SEA_LEVEL_Y, pos.getZ());
+        final float temp = Climate.getAverageTemperature(level, seaLevelPos) + (float) (positionClimateHash - 63) / 4000f;
+        final float rainVar = Climate.getRainfallVariance(level, pos) + (float) (positionClimateHash - 63) / 100_000f;;
+        final float rainVarAbs = Math.abs(rainVar);
 
         // Shortcut if evergreen climate
         if (temp > 15f && Math.abs(rainVar) < 0.4)
@@ -150,28 +153,44 @@ public final class TFCColors
             return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
         }
 
+        float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
+
         // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
         final float x;
+        final boolean inNorthernHemisphere = ClientHelpers.inNorthernHemisphere();
         float seasonOffset = 0;
-        if (rainVar > 0.4)
+        if (temp <= 15f)
         {
-            x = 1.2f * Math.min(
-                Math.max(temp, -20f),
-                Mth.clampedMap(rainVar, 0.4f, 1.0f, 15f, -10f)
-            ) + 5.3f;
+            // Numbers chosen to create a 2.5-month summer at -20c avg, and a 12-month "summer" at 15c avg
+            x = 1.25f * Math.max(temp, -20f) + 5.3f;
+            if (!inNorthernHemisphere)
+            {
+                seasonOffset = 0.5f;
+            }
         }
-        else if (temp <= 15f)
+        // Small gap in temperature is so that there are small evergreen bands between dry-season controlled areas and winter-controlled areas
+        else if (rainVarAbs > 0.4 && temp > 15.5f)
         {
-            x = 1.2f * Math.max(temp, -20f) + 5.3f;
+            final float avgRain = Climate.getAverageRainfall(level, seaLevelPos);
+            final float minRain = avgRain * (1 - rainVarAbs);
+
+            if (minRain > 200)
+            {
+                return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
+            }
+
+            // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 200
+            // Uses multiple variables to ensure smooth transitions, and that biomes that have green grass year-round do not lose leaves
+            x = .2604f * (0.4f - rainVarAbs) * (200f - minRain) + 18.75f + 5.3f;
+            if (rainVar < -0.4)
+            {
+                seasonOffset = 0.5f;
+            }
         }
-        // By elimination, this only controls for temp > 15, rain < -0.4
+        // If not in any of the above areas, must be in an evergreen border-belt
         else
         {
-            x = 1.2f * Math.min(
-                Mth.clampedMap(temp, 15, 20, 15, -10),
-                Mth.clampedMap(rainVar, -0.4f, -1.0f, 15f, -10f)
-            ) + 5.3f;
-            seasonOffset = 0.5f;
+            return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
         }
         final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
         final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
@@ -180,7 +199,6 @@ public final class TFCColors
         timeOfYear = (timeOfYear + seasonOffset) % 1;
 
         final float autumnStart = (cubedTerm + squaredTerm + 8.5f) / 12f;
-        // TODO: Note below for dryness equation
         final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
 
         // TODO: Winter map is basically obsolete at this point, finish cutting out of other locations OR use for fast graphics
