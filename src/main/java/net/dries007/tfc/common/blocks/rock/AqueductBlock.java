@@ -327,14 +327,12 @@ public class AqueductBlock extends HorizontalDirectionalBlock implements IFluidL
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState rotate(BlockState state, Rotation rot)
     {
         return DirectionPropertyBlock.rotate(super.rotate(state, rot), rot);
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, Mirror mirror)
     {
         // super method uses rotate which breaks the orientation of asymmetrical blocks

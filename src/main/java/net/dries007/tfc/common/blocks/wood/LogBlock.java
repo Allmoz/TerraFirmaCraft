@@ -76,7 +76,6 @@ public class LogBlock extends ExtendedRotatedPillarBlock
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState rotate(BlockState state, Rotation rotation)
     {
         return rotatePillar(state, rotation).setValue(BRANCH_DIRECTION, state.getValue(BRANCH_DIRECTION).rotate(rotation));
