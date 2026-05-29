@@ -8,6 +8,7 @@ package net.dries007.tfc.compat.jade;
 
 import java.util.List;
 import java.util.Locale;
+import net.dries007.tfc.common.TFCTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -67,6 +68,7 @@ public class JadeIntegration implements IWailaPlugin
         {
             HarvestToolProvider.registerHandler(new SimpleToolHandler(info.name, info.tag, metalTypes.stream().map(metal -> TFCItems.METAL_ITEMS.get(metal).get(info.itemType).get()).toArray(Item[]::new)));
         }
+        HarvestToolProvider.registerHandler(new SimpleToolHandler("glass_saw", TFCTags.Blocks.MINEABLE_WITH_GLASS_SAW, TFCItems.GEM_SAW.get().asItem()));
     }
 
     @Override
