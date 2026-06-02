@@ -728,7 +728,7 @@ public final class ForgeEventHandler
                 event.setCanceled(true);
             }
         }
-        else if (block instanceof TFCCandleBlock || block instanceof TFCCandleCakeBlock)
+        else if ((block instanceof TFCCandleBlock || block instanceof TFCCandleCakeBlock) && state.getFluidState().isEmpty())
         {
             level.setBlock(pos, state.setValue(TFCCandleBlock.LIT, true), Block.UPDATE_ALL_IMMEDIATE);
             TickCounterBlockEntity.reset(level, pos);
