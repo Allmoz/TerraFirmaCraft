@@ -211,7 +211,8 @@ public final class TFCColors
         {
             return getAutumnColor(FOLIAGE_FALL_COLORS_CACHE, timeOfYear, autumnStart, autumnEnd, pos, autumnIndex);
         }
-        return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
+        final float springStart = 1f - autumnEnd;
+        return getSpringSummerColor(FOLIAGE_COLORS_CACHE, timeOfYear, springStart, autumnStart, pos);
     }
 
     public static int getFoliageColor(@Nullable BlockPos pos, int tintIndex)
@@ -287,6 +288,26 @@ public final class TFCColors
         {
             final float groundwater = Climate.getAverageGroundwater(level, pos);
             return getClimateColor(colorCache, averageTemperature, groundwater);
+        }
+        return 0;
+    }
+
+    /**
+     * Queries a color map based on current groundwater and the time of year. Time is horizontal, left is spring. Groundwater is vertical, up is high.
+     */
+    private static int getSpringSummerColor(int[] colorCache, float timeOfYear, float springStartTime, float autumnStartTime, BlockPos pos)
+    {
+        final Level level = ClientHelpers.getLevel();
+        if (level != null)
+        {
+            final ClimateModel model = Climate.get(level);
+            final float groundwater = model.getInstantGroundwater(level, pos);
+
+
+            final int summerProgressIndex = Mth.clamp((int) (255f * (timeOfYear - springStartTime) / (autumnStartTime - springStartTime)), 0, 255);
+            final int rainfallIndex = 255 - Mth.clamp((int) (groundwater * 255f / 500f), 0, 255);
+
+            return colorCache[summerProgressIndex | (rainfallIndex << 8)];
         }
         return 0;
     }
