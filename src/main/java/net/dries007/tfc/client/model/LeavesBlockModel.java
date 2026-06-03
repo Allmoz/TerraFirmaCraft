@@ -126,12 +126,16 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         // Calculates the seasons based on average temperature
         // Should match the method used in TFCColors
 
-        // TODO: Verify this provides substantial benefits
         // Hash climate values based on block positions. This helps with transitional areas
-        final int positionClimateHash = (Helpers.hash(912381187503828153L, pos) & 127);
         final BlockPos seaLevelPos = new BlockPos(pos.getX(), SEA_LEVEL_Y, pos.getZ());
-        final float temp = Climate.getAverageTemperature(level, seaLevelPos) + (float) (positionClimateHash - 63) / 4_000f;
-        final float rainVar = Climate.getRainfallVariance(level, pos) + (float) (positionClimateHash - 63) / 60_000f;;
+        float temp = Climate.getAverageTemperature(level, seaLevelPos);
+        float rainVar = Climate.getRainfallVariance(level, pos);
+        if ((temp > 14.7 && temp < 15.8) || (rainVar > 0.38 && rainVar < 0.42))
+        {
+            final int positionClimateHash = (Helpers.hash(912381187503828153L, pos) & 127);
+            temp += (float) (positionClimateHash - 63) / 4_000f;
+            rainVar += (float) (positionClimateHash - 63) / 60_000f;
+        }
         final float rainVarAbs = Math.abs(rainVar);
 
         // Skip calcs if above a climate threshold
