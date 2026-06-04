@@ -71,6 +71,7 @@ import net.dries007.tfc.common.blocks.EntityBlockExtension;
 import net.dries007.tfc.common.blocks.IForgeBlockExtension;
 import net.dries007.tfc.common.blocks.IcePileBlock;
 import net.dries007.tfc.common.blocks.MoltenBlock;
+import net.dries007.tfc.common.blocks.MoltenFluidBlock;
 import net.dries007.tfc.common.blocks.PouredGlassBlock;
 import net.dries007.tfc.common.blocks.SnowPileBlock;
 import net.dries007.tfc.common.blocks.TFCBlocks;
@@ -351,7 +352,7 @@ public final class SelfTests
         final Set<Block> expectedNoLootTableBlocks = Stream.of(TFCBlocks.PLACED_ITEM, TFCBlocks.PIT_KILN, TFCBlocks.LOG_PILE, TFCBlocks.BURNING_LOG_PILE, TFCBlocks.BLOOM, TFCBlocks.MOLTEN, TFCBlocks.SCRAPING, TFCBlocks.THATCH_BED, TFCBlocks.INGOT_PILE, TFCBlocks.DOUBLE_INGOT_PILE, TFCBlocks.SHEET_PILE, TFCBlocks.PLANTS.get(Plant.GIANT_KELP_PLANT), TFCBlocks.PUMPKIN, TFCBlocks.MELON, TFCBlocks.CAKE, TFCBlocks.CALCITE, TFCBlocks.ICICLE, TFCBlocks.RIVER_WATER, TFCBlocks.SPRING_WATER, TFCBlocks.LIGHT, TFCBlocks.SALTWATER_BUBBLE_COLUMN, TFCBlocks.FRESHWATER_BUBBLE_COLUMN, TFCBlocks.HOT_POURED_GLASS, TFCBlocks.GLASS_BASIN, TFCBlocks.JARS)
             .map(Supplier::get)
             .collect(Collectors.toSet());
-        final Set<Class<?>> expectedNoLootTableClasses = ImmutableSet.of(BodyPlantBlock.class, GrowingFruitTreeBranchBlock.class, LiquidBlock.class, BranchingCactusBlock.class, GrowingBranchingCactusBlock.class, PouredGlassBlock.class);
+        final Set<Class<?>> expectedNoLootTableClasses = ImmutableSet.of(BodyPlantBlock.class, GrowingFruitTreeBranchBlock.class, LiquidBlock.class, MoltenFluidBlock.class, BranchingCactusBlock.class, GrowingBranchingCactusBlock.class, PouredGlassBlock.class);
         return validateBlockLootTables(stream(BuiltInRegistries.BLOCK, MOD_ID)
             .filter(b -> !expectedNoLootTableBlocks.contains(b)).filter(b -> !expectedNoLootTableClasses.contains(b.getClass())), LOGGER);
     }
