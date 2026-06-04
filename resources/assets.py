@@ -1906,11 +1906,41 @@ def generate(rm: ResourceManager):
         # Bare - No tint, cross model
         rm.block_model('wood/leaves/bare/%s' % wood, {'cross': 'tfc:block/wood/leaves/bare/%s' % wood}, parent='block/cross')
 
-        # Blooming - No tint
-        rm.block_model('wood/leaves/blooming/%s' % wood, textures={
-            'leaves': 'tfc:block/wood/leaves/blooming/%s' % wood,
-            'cross': 'tfc:block/wood/leaves/bare/%s' % wood
-        }, parent='tfc:block/blooming_leaves')
+
+
+        # Blooming -
+        if WOODS[wood].flower_model == 'bare':
+            # No tint, no leaves, branches below
+            rm.block_model('wood/leaves/blooming/%s' % wood, textures={
+                'leaves': 'tfc:block/wood/leaves/blooming/%s' % wood,
+                'cross': 'tfc:block/wood/leaves/bare/%s' % wood
+            }, parent='tfc:block/blooming_branches')
+        elif WOODS[wood].flower_model == 'sparse':
+            # Tinted sparse leaves, flowers over
+            if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
+                rm.block_model('wood/leaves/blooming/%s' % wood, textures={
+                    'side': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood,
+                    'end': 'tfc:block/wood/leaves/sparse_leaves/%s_top' % wood,
+                    'overlay': 'tfc:block/wood/leaves/blooming/%s' % wood
+                }, parent='tfc:block/blooming_leaves_column')
+            else:
+                rm.block_model('wood/leaves/blooming/%s' % wood, textures={
+                    'leaves': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood,
+                    'overlay': 'tfc:block/wood/leaves/blooming/%s' % wood
+                }, parent='tfc:block/blooming_leaves')
+        elif WOODS[wood].flower_model == 'leaves':
+            # Tinted leaves, flowers over
+            if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
+                rm.block_model('wood/leaves/blooming/%s' % wood, textures={
+                    'side': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
+                    'end': 'tfc:block/wood/leaves/dense_leaves/%s_top' % wood,
+                    'overlay': 'tfc:block/wood/leaves/blooming/%s' % wood
+                }, parent='tfc:block/blooming_leaves_column')
+            else:
+                rm.block_model('wood/leaves/blooming/%s' % wood, textures={
+                    'leaves': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
+                    'overlay': 'tfc:block/wood/leaves/blooming/%s' % wood
+                }, parent='tfc:block/blooming_leaves')
         
         block.with_item_model()
 

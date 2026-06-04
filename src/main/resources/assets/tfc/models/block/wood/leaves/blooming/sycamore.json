@@ -2,7 +2,7 @@
   "__comment__": "This file was automatically created by mcresources",
   "parent": "tfc:block/blooming_leaves",
   "textures": {
-    "leaves": "tfc:block/wood/leaves/blooming/sycamore",
-    "cross": "tfc:block/wood/leaves/bare/sycamore"
+    "leaves": "tfc:block/wood/leaves/sparse_leaves/sycamore",
+    "overlay": "tfc:block/wood/leaves/blooming/sycamore"
   }
 }

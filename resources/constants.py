@@ -111,6 +111,8 @@ class Plant(NamedTuple):
 class Wood(NamedTuple):
     temp: float
     duration: int
+    evergreen: bool
+    flower_model: str
 
 
 class Berry(NamedTuple):
@@ -469,26 +471,26 @@ NON_WHITE_COLORS = COLORS[1:]
 SIMPLE_FLUIDS = ('brine', 'curdled_milk', 'limewater', 'lye', 'milk_vinegar', 'olive_oil', 'olive_oil_water', 'canola_oil', 'canola_oil_water', 'tallow', 'tannin', 'vinegar', 'beer', 'cider', 'rum', 'sake', 'vodka', 'whiskey', 'corn_whiskey', 'rye_whiskey')
 
 WOODS: dict[str, Wood] = {
-    'acacia': Wood(650, 1000),
-    'ash': Wood(696, 1250),
-    'aspen': Wood(611, 1000),
-    'birch': Wood(652, 1750),
-    'blackwood': Wood(720, 1750),
-    'chestnut': Wood(651, 1500),
-    'douglas_fir': Wood(707, 1500),
-    'hickory': Wood(762, 2000),
-    'kapok': Wood(645, 1000),
-    'mangrove': Wood(655, 1000),
-    'maple': Wood(745, 2000),
-    'oak': Wood(728, 2250),
-    'palm': Wood(730, 1250),
-    'pine': Wood(627, 1250),
-    'rosewood': Wood(640, 1500),
-    'sequoia': Wood(612, 1750),
-    'spruce': Wood(608, 1500),
-    'sycamore': Wood(653, 1750),
-    'white_cedar': Wood(625, 1500),
-    'willow': Wood(603, 1000)
+    'acacia': Wood(650, 1000, False, 'leaves'),
+    'ash': Wood(696, 1250, False, 'bare'),
+    'aspen': Wood(611, 1000, False, 'bare'),
+    'birch': Wood(652, 1750, False, 'bare'),
+    'blackwood': Wood(720, 1750, False, 'leaves'),
+    'chestnut': Wood(651, 1500, False, 'leaves'),
+    'douglas_fir': Wood(707, 1500, True, 'leaves'),
+    'hickory': Wood(762, 2000, False, 'sparse'),
+    'kapok': Wood(645, 1000, False, 'leaves'),
+    'mangrove': Wood(655, 1000, False, 'leaves'),
+    'maple': Wood(745, 2000, False, 'bare'),
+    'oak': Wood(728, 2250, False, 'sparse'),
+    'palm': Wood(730, 1250, False, 'leaves'),
+    'pine': Wood(627, 1250, True, 'leaves'),
+    'rosewood': Wood(640, 1500, False, 'bare'),
+    'sequoia': Wood(612, 1750, True, 'leaves'),
+    'spruce': Wood(608, 1500, True, 'leaves'),
+    'sycamore': Wood(653, 1750, False, 'sparse'),
+    'white_cedar': Wood(625, 1500, True, 'leaves'),
+    'willow': Wood(603, 1000, False, 'bare')
 }
 
 # DO NOT EDIT DIRECTLY - Imported directly from spreadsheet

@@ -2,7 +2,7 @@
   "__comment__": "This file was automatically created by mcresources",
   "parent": "tfc:block/blooming_leaves",
   "textures": {
-    "leaves": "tfc:block/wood/leaves/blooming/sequoia",
-    "cross": "tfc:block/wood/leaves/bare/sequoia"
+    "leaves": "tfc:block/wood/leaves/dense_leaves/sequoia",
+    "overlay": "tfc:block/wood/leaves/blooming/sequoia"
   }
 }
