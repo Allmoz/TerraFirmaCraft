@@ -1904,9 +1904,10 @@ def generate(rm: ResourceManager):
             }, parent='tfc:block/sparse_leaves')
 
         # Bare - No tint, cross model
-        rm.block_model('wood/leaves/bare/%s' % wood, {'cross': 'tfc:block/wood/leaves/bare/%s' % wood}, parent='block/cross')
-
-
+        if wood == 'palm':
+            rm.block_model('wood/leaves/bare/%s' % wood, {'all': 'tfc:block/wood/leaves/bare/%s' % wood}, parent='block/cube_all')
+        else:
+            rm.block_model('wood/leaves/bare/%s' % wood, {'cross': 'tfc:block/wood/leaves/bare/%s' % wood}, parent='block/cross')
 
         # Blooming -
         if WOODS[wood].flower_model == 'bare':
