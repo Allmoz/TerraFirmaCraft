@@ -84,8 +84,9 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
     {
         // TODO: Should maybe add a check here to use the old system if you have fast graphics. Would need to keep winter foliage map around for this to work, though
 
+        final float flowerOffset;
+        final boolean isConifer;
         // Checks whether the tree species has a flowering stage
-        final boolean flowers;
         if (pos == null)
         {
             pos = BlockPos.ZERO;
@@ -101,20 +102,15 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             final Block block = state.getBlock();
             if (block instanceof TFCLeavesBlock)
             {
-                // Skip all the other calculations if the tree is an evergreen
-                if (((TFCLeavesBlock) block).isConifer())
-                {
-                    assert denseLeavesBakedModel != null;
-                    return denseLeavesBakedModel;
-                }
-                flowers = ((TFCLeavesBlock) block).hasFlowers();
+                isConifer = ((TFCLeavesBlock) block).isConifer();
+                flowerOffset = ((TFCLeavesBlock) block).getFlowerOffset();
             }
             else
             {
-                flowers = false;
+                assert denseLeavesBakedModel != null;
+                return denseLeavesBakedModel;
             }
         }
-
 
         final Level level = ClientHelpers.getLevel();
         if (level == null)
@@ -138,13 +134,8 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         }
         final float rainVarAbs = Math.abs(rainVar);
 
-        // Skip calcs if above a climate threshold
-        if (temp > 15f && rainVarAbs < 0.4)
-        {
-            assert denseLeavesBakedModel != null;
-            return denseLeavesBakedModel;
-        }
-
+        // Since even trees that do not change foliage color may have a flowering phase,
+        // we do need to check time of year earlier than we do for foliage colors
         float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
 
         // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
@@ -166,25 +157,30 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             final float avgRain = Climate.getAverageRainfall(level, seaLevelPos);
             final float minRain = avgRain * (1 - rainVarAbs);
 
-            if (minRain > 200)
+            if (minRain > 200f && rainVar >= -0.4)
             {
-                assert denseLeavesBakedModel != null;
-                return denseLeavesBakedModel;
+                if (!inNorthernHemisphere)
+                {
+                    seasonOffset = 0.5f;
+                }
+                x = 1.25f * 15f + 5.3f;
             }
-
-            // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 200
-            // Uses multiple variables to ensure smooth transitions, and that biomes that have green grass year-round do not lose leaves
-            x = .2604f * (0.4f - rainVarAbs) * (200f - minRain) + 18.75f + 5.3f;
-            if (rainVar < -0.4)
+            else
             {
                 seasonOffset = 0.5f;
+                // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 200
+                // Uses multiple variables to ensure smooth transitions, and that biomes that have green grass year-round do not lose leaves
+                x = .2604f * (0.4f - rainVarAbs) * (200f - minRain) + 18.75f + 5.3f;
             }
         }
         // If not in any of the above areas, must be in an evergreen border-belt
         else
         {
-            assert denseLeavesBakedModel != null;
-            return denseLeavesBakedModel;
+            if (!inNorthernHemisphere)
+            {
+                seasonOffset = 0.5f;
+            }
+            x = 1.25f * 15f + 5.3f;
         }
         final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
         final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
@@ -192,11 +188,31 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         // Offset the seasons by six months if dry-season controls and the dry season occurs in winter months
         timeOfYear = (timeOfYear + seasonOffset) % 1;
 
-        final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
-
         // Positional hashing to fuzz the time of year per-block
         final int positionDeltaHash = (Helpers.hash(836494187578334123L, pos) & 127);
         timeOfYear = (timeOfYear + ((positionDeltaHash - 63) / 4096f)) % 1;
+
+        final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
+        final float springStart = 1f - autumnEnd;
+        final float warmSeasonLength = autumnEnd - springStart;
+        final float bloomStart = springStart + flowerOffset * warmSeasonLength;
+
+        if (timeOfYear > bloomStart)
+        {
+            final float bloomEnd = bloomStart + Math.min(0.167f * warmSeasonLength, 0.125f);
+            if (timeOfYear < bloomEnd)
+            {
+                assert bloomingBakedModel != null;
+                return bloomingBakedModel;
+            }
+        }
+
+        // Now that we've checked it isn't blooming, skip calcs if above a climate threshold
+        if (temp > 15f && rainVarAbs < 0.4 || isConifer)
+        {
+            assert denseLeavesBakedModel != null;
+            return denseLeavesBakedModel;
+        }
 
         if (timeOfYear > autumnEnd)
         {
@@ -227,19 +243,10 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         }
 
         // This is built such that humid tropical regions never bloom
-        final float springStart = 1f - autumnEnd;
         if (timeOfYear > springStart)
         {
-            if (flowers)
-            {
-                assert bloomingBakedModel != null;
-                return bloomingBakedModel;
-            }
-            else
-            {
-                assert sparseLeavesBakedModel != null;
-                return sparseLeavesBakedModel;
-            }
+            assert sparseLeavesBakedModel != null;
+            return sparseLeavesBakedModel;
         }
         else
         {

@@ -45,5 +45,5 @@ public interface RegistryWood extends StringRepresentable
 
     boolean isConifer();
 
-    boolean hasFlowers();
+    float getFlowerOffset();
 }

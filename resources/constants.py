@@ -471,15 +471,15 @@ NON_WHITE_COLORS = COLORS[1:]
 SIMPLE_FLUIDS = ('brine', 'curdled_milk', 'limewater', 'lye', 'milk_vinegar', 'olive_oil', 'olive_oil_water', 'canola_oil', 'canola_oil_water', 'tallow', 'tannin', 'vinegar', 'beer', 'cider', 'rum', 'sake', 'vodka', 'whiskey', 'corn_whiskey', 'rye_whiskey')
 
 WOODS: dict[str, Wood] = {
-    'acacia': Wood(650, 1000, False, 'leaves'),
-    'ash': Wood(696, 1250, False, 'bare'),
+    'acacia': Wood(650, 1000, False, 'bare'),
+    'ash': Wood(696, 1250, False, 'sparse'),
     'aspen': Wood(611, 1000, False, 'bare'),
     'birch': Wood(652, 1750, False, 'bare'),
     'blackwood': Wood(720, 1750, False, 'leaves'),
     'chestnut': Wood(651, 1500, False, 'leaves'),
     'douglas_fir': Wood(707, 1500, True, 'leaves'),
     'hickory': Wood(762, 2000, False, 'sparse'),
-    'kapok': Wood(645, 1000, False, 'leaves'),
+    'kapok': Wood(645, 1000, False, 'bare'),
     'mangrove': Wood(655, 1000, False, 'leaves'),
     'maple': Wood(745, 2000, False, 'bare'),
     'oak': Wood(728, 2250, False, 'sparse'),

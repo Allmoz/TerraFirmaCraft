@@ -333,9 +333,9 @@ public class TFCLeavesBlock extends Block implements ILeavesBlock, IForgeBlockEx
         return wood.autumnIndex();
     }
 
-    public boolean hasFlowers()
+    public float getFlowerOffset()
     {
-        return wood.hasFlowers();
+        return wood.getFlowerOffset();
     }
 
     public boolean isConifer()

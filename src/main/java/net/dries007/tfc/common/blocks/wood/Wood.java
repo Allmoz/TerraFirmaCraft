@@ -68,32 +68,32 @@ import net.dries007.tfc.util.registry.RegistryWood;
  */
 public enum Wood implements RegistryWood
 {
-    ACACIA(false, true, MapColor.TERRACOTTA_ORANGE, MapColor.TERRACOTTA_LIGHT_GRAY, 11, 210),
-    ASH(false, true, MapColor.TERRACOTTA_PINK, MapColor.TERRACOTTA_ORANGE, 7, 10),
-    ASPEN(false, true, MapColor.TERRACOTTA_GREEN, MapColor.TERRACOTTA_WHITE, 8, 250),
-    BIRCH(false, true, MapColor.COLOR_BROWN, MapColor.TERRACOTTA_WHITE, 7, 145),
-    BLACKWOOD(false, true, MapColor.COLOR_BLACK, MapColor.COLOR_BROWN, 8, 80),
-    CHESTNUT(false, true, MapColor.TERRACOTTA_RED, MapColor.COLOR_LIGHT_GREEN, 7, 40),
-    DOUGLAS_FIR(true, false, MapColor.TERRACOTTA_YELLOW, MapColor.TERRACOTTA_BROWN, 7, 0),
-    HICKORY(false, true, MapColor.TERRACOTTA_BROWN, MapColor.COLOR_GRAY, 10, 230),
-    KAPOK(false, true, MapColor.COLOR_PURPLE, MapColor.COLOR_BROWN, 7, 30),
-    MANGROVE(false, true, MapColor.COLOR_RED, MapColor.COLOR_BROWN, 8, 100),
-    MAPLE(false, true, MapColor.COLOR_ORANGE, MapColor.TERRACOTTA_GRAY, 7, 0),
-    OAK(false, true, MapColor.WOOD, MapColor.COLOR_BROWN, 10, 120),
-    PALM(false, false, MapColor.COLOR_ORANGE, MapColor.COLOR_BROWN, 7, 255),
-    PINE(true, false, MapColor.TERRACOTTA_GRAY, MapColor.COLOR_GRAY, 7, 0),
-    ROSEWOOD(false, true, MapColor.COLOR_RED, MapColor.TERRACOTTA_LIGHT_GRAY, 8, 170),
-    SEQUOIA(true, false, MapColor.TERRACOTTA_RED, MapColor.TERRACOTTA_RED, 18, 0),
-    SPRUCE(true, false, MapColor.TERRACOTTA_PINK, MapColor.TERRACOTTA_BLACK, 7, 0),
-    SYCAMORE(false, true, MapColor.COLOR_YELLOW, MapColor.TERRACOTTA_LIGHT_GREEN, 8, 200),
-    WHITE_CEDAR(true, false, MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_LIGHT_GRAY, 7, 0),
-    WILLOW(false, true, MapColor.COLOR_GREEN, MapColor.TERRACOTTA_BROWN, 11, 225);
+    ACACIA(false, 0f, MapColor.TERRACOTTA_ORANGE, MapColor.TERRACOTTA_LIGHT_GRAY, 11, 210),
+    ASH(false, 0.08f, MapColor.TERRACOTTA_PINK, MapColor.TERRACOTTA_ORANGE, 7, 10),
+    ASPEN(false, 0, MapColor.TERRACOTTA_GREEN, MapColor.TERRACOTTA_WHITE, 8, 250),
+    BIRCH(false, 0, MapColor.COLOR_BROWN, MapColor.TERRACOTTA_WHITE, 7, 145),
+    BLACKWOOD(false, 0.2f, MapColor.COLOR_BLACK, MapColor.COLOR_BROWN, 8, 80),
+    CHESTNUT(false, 0.25f, MapColor.TERRACOTTA_RED, MapColor.COLOR_LIGHT_GREEN, 7, 40),
+    DOUGLAS_FIR(true, 0.32f, MapColor.TERRACOTTA_YELLOW, MapColor.TERRACOTTA_BROWN, 7, 0),
+    HICKORY(false, 0.08f, MapColor.TERRACOTTA_BROWN, MapColor.COLOR_GRAY, 10, 230),
+    KAPOK(false, 0f, MapColor.COLOR_PURPLE, MapColor.COLOR_BROWN, 7, 30),
+    MANGROVE(false, 0.18f, MapColor.COLOR_RED, MapColor.COLOR_BROWN, 8, 100),
+    MAPLE(false, 0f, MapColor.COLOR_ORANGE, MapColor.TERRACOTTA_GRAY, 7, 0),
+    OAK(false, 0.04f, MapColor.WOOD, MapColor.COLOR_BROWN, 10, 120),
+    PALM(false, 0f, MapColor.COLOR_ORANGE, MapColor.COLOR_BROWN, 7, 255),
+    PINE(true, 0.33f, MapColor.TERRACOTTA_GRAY, MapColor.COLOR_GRAY, 7, 0),
+    ROSEWOOD(false, 0f, MapColor.COLOR_RED, MapColor.TERRACOTTA_LIGHT_GRAY, 8, 170),
+    SEQUOIA(true, 0.33f, MapColor.TERRACOTTA_RED, MapColor.TERRACOTTA_RED, 18, 0),
+    SPRUCE(true, 0.33f, MapColor.TERRACOTTA_PINK, MapColor.TERRACOTTA_BLACK, 7, 0),
+    SYCAMORE(false, 0.16f, MapColor.COLOR_YELLOW, MapColor.TERRACOTTA_LIGHT_GREEN, 8, 200),
+    WHITE_CEDAR(true, 0.33f, MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_LIGHT_GRAY, 7, 0),
+    WILLOW(false, 0f, MapColor.COLOR_GREEN, MapColor.TERRACOTTA_BROWN, 11, 225);
 
     public static final Wood[] VALUES = values();
 
     private final String serializedName;
     private final boolean conifer;
-    private final boolean flowers;
+    private final float flowerOffset;
     private final MapColor woodColor;
     private final MapColor barkColor;
     private final TreeGrower tree;
@@ -102,11 +102,11 @@ public enum Wood implements RegistryWood
     private final WoodType woodType;
     private final int autumnIndex;
 
-    Wood(boolean conifer, boolean flowers, MapColor woodColor, MapColor barkColor, int daysToGrow, int autumnIndex)
+    Wood(boolean conifer, float flowerOffset, MapColor woodColor, MapColor barkColor, int daysToGrow, int autumnIndex)
     {
         this.serializedName = name().toLowerCase(Locale.ROOT);
         this.conifer = conifer;
-        this.flowers = flowers;
+        this.flowerOffset = flowerOffset;
         this.woodColor = woodColor;
         this.barkColor = barkColor;
         this.tree = new TreeGrower(
@@ -134,9 +134,9 @@ public enum Wood implements RegistryWood
     }
 
     @Override
-    public boolean hasFlowers()
+    public float getFlowerOffset()
     {
-        return flowers;
+        return flowerOffset;
     }
 
     @Override
