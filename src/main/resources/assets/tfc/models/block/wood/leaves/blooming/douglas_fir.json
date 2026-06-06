@@ -1,8 +1,8 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "parent": "tfc:block/blooming_leaves",
+  "parent": "tfc:block/sparse_leaves",
   "textures": {
     "leaves": "tfc:block/wood/leaves/dense_leaves/douglas_fir",
-    "overlay": "tfc:block/wood/leaves/blooming/douglas_fir"
+    "cross": "tfc:block/wood/leaves/blooming/douglas_fir"
   }
 }

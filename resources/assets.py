@@ -1942,6 +1942,19 @@ def generate(rm: ResourceManager):
                     'leaves': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
                     'overlay': 'tfc:block/wood/leaves/blooming/%s' % wood
                 }, parent='tfc:block/blooming_leaves')
+        elif WOODS[wood].flower_model == 'cones':
+            # Tinted leaves, flowers as cross under
+            if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
+                rm.block_model('wood/leaves/blooming/%s' % wood, {
+                    'side': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
+                    'end': 'tfc:block/wood/leaves/dense_leaves/%s_top' % wood,
+                    'cross': 'tfc:block/wood/leaves/blooming/%s' % wood
+                }, parent='tfc:block/sparse_leaves_column')
+            else:
+                rm.block_model('wood/leaves/blooming/%s' % wood, textures={
+                    'leaves': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
+                    'cross': 'tfc:block/wood/leaves/blooming/%s' % wood
+                }, parent='tfc:block/sparse_leaves')
         
         block.with_item_model()
 
