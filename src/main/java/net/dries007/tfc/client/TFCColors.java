@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
+import net.dries007.tfc.client.overworld.SolarCalculator;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.climate.Climate;
@@ -155,14 +156,14 @@ public final class TFCColors
         // Shortcut if evergreen climate
         if (temp > 15f && Math.abs(rainVar) < 0.4)
         {
-            return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
+            return getEvergreenFoliageColor(FOLIAGE_COLORS_CACHE, pos);
         }
 
         float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
 
         // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
         final float x;
-        final boolean inNorthernHemisphere = ClientHelpers.inNorthernHemisphere();
+        final boolean inNorthernHemisphere = SolarCalculator.getInNorthernHemisphere(pos.getZ(), ClimateRenderCache.INSTANCE.getHemisphereScale());
         float seasonOffset = 0;
         if (temp <= 15f)
         {
@@ -173,46 +174,60 @@ public final class TFCColors
                 seasonOffset = 0.5f;
             }
         }
-        // Small gap in temperature is so that there are small evergreen bands between dry-season controlled areas and winter-controlled areas
-        else if (rainVarAbs > 0.4 && temp > 15.5f)
+        else
         {
+            // For dry-season controlled climates, the minimum rain must be below 200
             final float avgRain = Climate.getAverageRainfall(level, seaLevelPos);
             final float minRain = avgRain * (1 - rainVarAbs);
 
-            if (minRain > 200)
+            // Small gap in temperature is so that there are small evergreen bands between dry-season controlled areas and winter-controlled areas
+            if (rainVarAbs > 0.4 && temp > 15.5f && minRain <= 200)
             {
-                return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
+                if (rainVar < 0)
+                {
+                    seasonOffset = 0.5f;
+                }
+                // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 200
+                // Uses multiple variables to ensure smooth transitions, and that biomes that have green grass year-round do not lose leaves
+                x = -.2604f * (0.4f - rainVarAbs) * (200f - minRain) + 18.75f + 5.3f;
             }
-
-            // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 200
-            // Uses multiple variables to ensure smooth transitions, and that biomes that have green grass year-round do not lose leaves
-            x = .2604f * (0.4f - rainVarAbs) * (200f - minRain) + 18.75f + 5.3f;
-            if (rainVar < -0.4)
+            // If not in any of the above areas, must be in an evergreen border-belt
+            else
             {
-                seasonOffset = 0.5f;
+                return getEvergreenFoliageColor(FOLIAGE_COLORS_CACHE, pos);
             }
         }
-        // If not in any of the above areas, must be in an evergreen border-belt
-        else
-        {
-            return getClimateColor(FOLIAGE_COLORS_CACHE, pos);
-        }
-        final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
-        final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
 
-        // Offset the seasons by six months if dry-season controls and the dry season occurs in winter months
-        timeOfYear = (timeOfYear + seasonOffset) % 1;
+        final float cubedTerm = x * x * x / 4913; // 1 / 17^3
+        final float squaredTerm = x * x / 289; // 1 / 17^2
 
-        final float autumnStart = (cubedTerm + squaredTerm + 8.5f) / 12f;
+        // Offset the seasons by six months if in southern hemisphere, or if dry season is in the summer
+        // Positional hashing to fuzz the time of year per-block
+        final int positionDeltaHash = (Helpers.hash(836494187578334123L, pos) & 127);
+        timeOfYear = (1 + timeOfYear + seasonOffset + ((positionDeltaHash - 63) / 4096f)) % 1;
+
+        final float autumnStart = (cubedTerm - squaredTerm + 8.5f) / 12f;
         final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
 
-        // TODO: Winter map is basically obsolete at this point, finish cutting out of other locations OR use for fast graphics
-        if (timeOfYear > autumnStart)
+        if (timeOfYear > autumnEnd)
+        {
+            // Winter brown
+            return 0x7c592b;
+        }
+        else if (timeOfYear > autumnStart)
         {
             return getAutumnColor(FOLIAGE_FALL_COLORS_CACHE, timeOfYear, autumnStart, autumnEnd, pos, autumnIndex);
         }
         final float springStart = 1f - autumnEnd;
-        return getSpringSummerColor(FOLIAGE_COLORS_CACHE, timeOfYear, springStart, autumnStart, pos);
+        if (timeOfYear > springStart)
+        {
+            return getSpringSummerColor(FOLIAGE_COLORS_CACHE, timeOfYear, springStart, autumnStart, pos);
+        }
+        else
+        {
+            // Winter brown
+            return 0x7c592b;
+        }
     }
 
     public static int getFoliageColor(@Nullable BlockPos pos, int tintIndex)
@@ -308,6 +323,23 @@ public final class TFCColors
             final int rainfallIndex = 255 - Mth.clamp((int) (groundwater * 255f / 500f), 0, 255);
 
             return colorCache[summerProgressIndex | (rainfallIndex << 8)];
+        }
+        return 0;
+    }
+
+    /**
+     * Queries a color map based on current groundwater and the time of year. Time is horizontal, left is spring. Groundwater is vertical, up is high.
+     */
+    private static int getEvergreenFoliageColor(int[] colorCache, BlockPos pos)
+    {
+        final Level level = ClientHelpers.getLevel();
+        if (level != null)
+        {
+            final ClimateModel model = Climate.get(level);
+            final float groundwater = model.getInstantGroundwater(level, pos);
+            final int rainfallIndex = 255 - Mth.clamp((int) (groundwater * 255f / 500f), 0, 255);
+
+            return colorCache[127 | (rainfallIndex << 8)];
         }
         return 0;
     }

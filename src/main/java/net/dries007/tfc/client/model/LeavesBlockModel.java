@@ -39,7 +39,9 @@ import net.neoforged.neoforge.client.model.geometry.IUnbakedGeometry;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.client.ClientHelpers;
+import net.dries007.tfc.client.ClimateRenderCache;
 import net.dries007.tfc.client.RenderHelpers;
+import net.dries007.tfc.client.overworld.SolarCalculator;
 import net.dries007.tfc.common.blocks.wood.TFCLeavesBlock;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.calendar.Calendars;
@@ -140,57 +142,57 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
 
         // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
         final float x;
-        final boolean inNorthernHemisphere = ClientHelpers.inNorthernHemisphere();
+        final boolean inEvergreenClimate;
+        final boolean inNorthernHemisphere = SolarCalculator.getInNorthernHemisphere(pos.getZ(), ClimateRenderCache.INSTANCE.getHemisphereScale());
         float seasonOffset = 0;
         if (temp <= 15f)
         {
             // Numbers chosen to create a 2.5-month summer at -20c avg, and a 12-month "summer" at 15c avg
             x = 1.25f * Math.max(temp, -20f) + 5.3f;
+            inEvergreenClimate = false;
             if (!inNorthernHemisphere)
             {
                 seasonOffset = 0.5f;
             }
         }
-        // Small gap in temperature is so that there are small evergreen bands between dry-season controlled areas and winter-controlled areas
-        else if (rainVarAbs > 0.4 && temp > 15.5f)
+        else
         {
+            // For dry-season controlled climates, the minimum rain must be below 200
             final float avgRain = Climate.getAverageRainfall(level, seaLevelPos);
             final float minRain = avgRain * (1 - rainVarAbs);
 
-            if (minRain > 200f && rainVar >= -0.4)
+            // Small gap in temperature is so that there are small evergreen bands between dry-season controlled areas and winter-controlled areas
+            if (rainVarAbs > 0.4 && temp > 15.5f && minRain <= 200)
+            {
+                if (rainVar < 0)
+                {
+                    seasonOffset = 0.5f;
+                }
+                // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 200
+                // Uses multiple variables to ensure smooth transitions, and that biomes that have green grass year-round do not lose leaves
+                x = -.2604f * (0.4f - rainVarAbs) * (200f - minRain) + 18.75f + 5.3f;
+                inEvergreenClimate = false;
+            }
+            // If not in any of the above areas, must be in an evergreen area
+            else
             {
                 if (!inNorthernHemisphere)
                 {
                     seasonOffset = 0.5f;
                 }
-                x = 1.25f * 15f + 5.3f;
+                x = 24.05f;
+                inEvergreenClimate = true;
             }
-            else
-            {
-                seasonOffset = 0.5f;
-                // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 200
-                // Uses multiple variables to ensure smooth transitions, and that biomes that have green grass year-round do not lose leaves
-                x = .2604f * (0.4f - rainVarAbs) * (200f - minRain) + 18.75f + 5.3f;
-            }
-        }
-        // If not in any of the above areas, must be in an evergreen border-belt
-        else
-        {
-            if (!inNorthernHemisphere)
-            {
-                seasonOffset = 0.5f;
-            }
-            x = 1.25f * 15f + 5.3f;
-        }
-        final float cubedTerm = 0.000203f * x * x * x; // 1 / 17^3
-        final float squaredTerm = 0.00346f * x * x; // 1 / 17^2
 
-        // Offset the seasons by six months if dry-season controls and the dry season occurs in winter months
-        timeOfYear = (timeOfYear + seasonOffset) % 1;
+        }
 
+        final float cubedTerm = x * x * x / 4913; // 1 / 17^3
+        final float squaredTerm = x * x / 289; // 1 / 17^2
+
+        // Offset the seasons by six months if in southern hemisphere, or if dry season is in the summer
         // Positional hashing to fuzz the time of year per-block
         final int positionDeltaHash = (Helpers.hash(836494187578334123L, pos) & 127);
-        timeOfYear = (timeOfYear + ((positionDeltaHash - 63) / 4096f)) % 1;
+        timeOfYear = (1 + timeOfYear + seasonOffset + ((positionDeltaHash - 63) / 4096f)) % 1;
 
         final float autumnEnd = (cubedTerm - squaredTerm + 10.5f) / 12f;
         final float springStart = 1f - autumnEnd;
@@ -207,8 +209,8 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             }
         }
 
-        // Now that we've checked it isn't blooming, skip calcs if above a climate threshold
-        if (temp > 15f && rainVarAbs < 0.4 || isConifer)
+        // Now that we've checked it isn't blooming, skip calcs if in an evergreen climate
+        if (inEvergreenClimate || isConifer)
         {
             assert denseLeavesBakedModel != null;
             return denseLeavesBakedModel;
@@ -219,40 +221,26 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
             assert bareBakedModel != null;
             return bareBakedModel;
         }
-
-        final float autumnStart = (cubedTerm + squaredTerm + 8.2f) / 12f;
+        final float autumnStart = (cubedTerm - squaredTerm + 8.5f) / 12f;
         final float autumnMid = 0.5f * (autumnEnd + autumnStart);
         if (timeOfYear > autumnMid)
         {
             assert sparseLeavesBakedModel != null;
             return sparseLeavesBakedModel;
         }
-
-        final float springEnd = 1f - autumnStart;
-        if (timeOfYear > springEnd)
+        final float springMid = 1f - autumnMid;
+        if (timeOfYear > springMid)
         {
             assert denseLeavesBakedModel != null;
             return denseLeavesBakedModel;
         }
-
-        final float springMid = 1f - autumnMid;
-        if (timeOfYear > springMid)
-        {
-            assert sparseLeavesBakedModel != null;
-            return sparseLeavesBakedModel;
-        }
-
-        // This is built such that humid tropical regions never bloom
         if (timeOfYear > springStart)
         {
             assert sparseLeavesBakedModel != null;
             return sparseLeavesBakedModel;
         }
-        else
-        {
-            assert bareBakedModel != null;
-            return bareBakedModel;
-        }
+        assert bareBakedModel != null;
+        return bareBakedModel;
     }
 
     @Override
