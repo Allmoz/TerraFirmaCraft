@@ -11,9 +11,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import net.dries007.tfc.TerraFirmaCraft;
+import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.entities.aquatic.Fish;
 
@@ -30,6 +32,18 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
     protected void addTags(HolderLookup.Provider provider)
     {
         // ===== Vanilla Tags ===== //
+
+        // ===== Common Tags ===== //
+        final var boatsTag = tag(Tags.EntityTypes.BOATS);
+        for (Wood wood : Wood.values())
+        {
+            boatsTag.add(TFCEntities.BOATS.get(wood).key());
+            boatsTag.add(TFCEntities.CHEST_BOATS.get(wood).key());
+        }
+
+        tag(Tags.EntityTypes.MINECARTS)
+            .add(TFCEntities.CHEST_MINECART.key())
+            .add(TFCEntities.HOLDING_MINECART.key());
 
         // ===== TFC Tags ===== //
 
