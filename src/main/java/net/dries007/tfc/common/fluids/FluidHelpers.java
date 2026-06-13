@@ -79,7 +79,7 @@ public final class FluidHelpers
      */
     public static boolean isEyeInWaterLikeFluid(Entity entity)
     {
-        return entity.isEyeInFluidType(TFCFluids.SALT_WATER.type().get()) || entity.isEyeInFluidType(TFCFluids.SALT_WATER.type().get());
+        return entity.isEyeInFluidType(TFCFluids.SALT_WATER.type().get()) || entity.isEyeInFluidType(TFCFluids.SPRING_WATER.type().get());
     }
 
 
