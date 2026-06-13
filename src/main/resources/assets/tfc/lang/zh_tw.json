@@ -395,7 +395,7 @@
   "tfc.tooltip.fertilizer.potassium": "§d(K) 含鉀：§r%s%%",
   "tfc.tooltip.plantable.hold_shift": "按住（Shift）查看種植信息",
   "tfc.tooltip.plantable.climate": "氣候：",
-  "tfc.tooltip.plantable.climate.temperature": "§1溫度：§r %s §7-§r %s °C",
+  "tfc.tooltip.plantable.climate.temperature_range": "§1Temperature:§r %s §7-§r %s",
   "tfc.tooltip.plantable.climate.hydration": "§1溼度：§r %s%% §7-§r %s%%",
   "tfc.tooltip.plantable.nutrients": "養分：",
   "tfc.tooltip.plantable.lifecycle": "生命週期：",

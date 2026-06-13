@@ -1316,7 +1316,7 @@ DEFAULT_LANG = {
     'tfc.tooltip.fertilizer.potassium': '§d(K) Potassium: §r%s%%',
     'tfc.tooltip.plantable.hold_shift': 'Hold (Shift) for Plant Info',
     'tfc.tooltip.plantable.climate': 'Climate:',
-    'tfc.tooltip.plantable.climate.temperature': '§1Temperature:§r %s §7-§r %s \u00b0C',
+    'tfc.tooltip.plantable.climate.temperature_range': '§1Temperature:§r %s §7-§r %s',
     'tfc.tooltip.plantable.climate.hydration': '§1Hydration:§r %s%% §7-§r %s%%',
     'tfc.tooltip.plantable.nutrients': 'Nutrients:',
     'tfc.tooltip.plantable.lifecycle': 'Lifecycle:',
