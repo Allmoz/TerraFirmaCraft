@@ -80,7 +80,16 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.FRESHWATER_FISH.get(Fish.BLUEGILL).get(),
                 TFCEntities.FRESHWATER_FISH.get(Fish.LARGEMOUTH_BASS).get(),
                 TFCEntities.FRESHWATER_FISH.get(Fish.SMALLMOUTH_BASS).get(),
-                TFCEntities.FRESHWATER_FISH.get(Fish.CRAPPIE).get()
+                TFCEntities.FRESHWATER_FISH.get(Fish.CRAPPIE).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.ARCTIC_CHAR).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.BURBOT).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.PEACOCK_BASS).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.PACU).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.RED_PIRANHA).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.NORTHERN_PIKE).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.MUKSUN).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.TILAPIA).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.SPOTTED_GUDGEON).get()
             );
 
         // noinspection unchecked
