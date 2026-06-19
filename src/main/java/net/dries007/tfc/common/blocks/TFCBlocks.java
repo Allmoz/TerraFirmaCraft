@@ -515,7 +515,7 @@ public final class TFCBlocks
     // Fluids
 
     public static final Map<Metal, Id<LiquidBlock>> METAL_FLUIDS = Helpers.mapOf(Metal.class, metal ->
-        registerNoItem("fluid/metal/" + metal.name(), () -> new LiquidBlock(TFCFluids.METALS.get(metal).getSource(), Properties.ofFullCopy(Blocks.LAVA).noLootTable()))
+        registerNoItem("fluid/metal/" + metal.name(), () -> new MoltenFluidBlock(TFCFluids.METALS.get(metal).source(), Properties.ofFullCopy(Blocks.LAVA).noLootTable()))
     );
 
     public static final Map<SimpleFluid, Id<LiquidBlock>> SIMPLE_FLUIDS = Helpers.mapOf(SimpleFluid.class, fluid ->

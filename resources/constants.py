@@ -903,7 +903,7 @@ FRUITS: dict[str, Fruit] = {
 }
 JAR_FRUITS = tuple([*BERRIES.keys(), *FRUITS.keys(), 'melon_slice', 'peanut'])
 
-SIMPLE_FRESHWATER_FISH = ('bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass',)
+SIMPLE_FRESHWATER_FISH = ('bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass', 'arctic_char', 'burbot', 'muksun', 'northern_pike', 'spotted_gudgeon', 'tilapia', 'peacock_bass', 'pacu', 'red_piranha')
 ADVANCEMENT_FISH = ('cod', 'calamari', 'shellfish', 'tropical_fish', *SIMPLE_FRESHWATER_FISH)
 
 GRAINS = ('barley', 'maize', 'oat', 'rice', 'rye', 'wheat')
@@ -1316,7 +1316,7 @@ DEFAULT_LANG = {
     'tfc.tooltip.fertilizer.potassium': '§d(K) Potassium: §r%s%%',
     'tfc.tooltip.plantable.hold_shift': 'Hold (Shift) for Plant Info',
     'tfc.tooltip.plantable.climate': 'Climate:',
-    'tfc.tooltip.plantable.climate.temperature': '§1Temperature:§r %s §7-§r %s \u00b0C',
+    'tfc.tooltip.plantable.climate.temperature_range': '§1Temperature:§r %s §7-§r %s',
     'tfc.tooltip.plantable.climate.hydration': '§1Hydration:§r %s%% §7-§r %s%%',
     'tfc.tooltip.plantable.nutrients': 'Nutrients:',
     'tfc.tooltip.plantable.lifecycle': 'Lifecycle:',
