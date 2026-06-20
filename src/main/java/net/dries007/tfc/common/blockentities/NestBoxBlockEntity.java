@@ -125,15 +125,16 @@ public class NestBoxBlockEntity extends TickableInventoryBlockEntity<ItemStackHa
     @Override
     public void setAndUpdateSlots(int slot)
     {
-        assert level != null;
+        if (level != null) 
+        {
+            super.setAndUpdateSlots(slot);
+            markForSync();
 
-        super.setAndUpdateSlots(slot);
-        markForSync();
-
-        // update blockstate for birds to not pathfinds towards full nestboxes
-        BlockPos pos = this.getBlockPos();
-        BlockState newBlockState = level.getBlockState(pos).setValue(NestBoxBlock.FULL, isFull());
-        this.level.setBlockAndUpdate(pos, newBlockState);
+            // update blockstate for birds to not pathfinds towards full nestboxes
+            BlockPos pos = this.getBlockPos();
+            BlockState newBlockState = level.getBlockState(pos).setValue(NestBoxBlock.FULL, isFull());
+            this.level.setBlockAndUpdate(pos, newBlockState);
+        }
     }
 
     @Nullable
