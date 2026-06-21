@@ -83,7 +83,8 @@ public class FirestarterItem extends Item
     @Override
     public UseAnim getUseAnimation(ItemStack stack)
     {
-        if(VivecraftIntegration.isVREnabled()){
+        if (VivecraftIntegration.isVREnabled())
+        {
             return UseAnim.NONE;
         }
         return UseAnim.BOW;
