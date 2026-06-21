@@ -24,7 +24,6 @@ import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
@@ -41,15 +40,12 @@ import org.jetbrains.annotations.Nullable;
 import net.dries007.tfc.client.ClientHelpers;
 import net.dries007.tfc.client.ClimateRenderCache;
 import net.dries007.tfc.client.RenderHelpers;
+import net.dries007.tfc.client.TFCColors;
 import net.dries007.tfc.client.overworld.SolarCalculator;
 import net.dries007.tfc.common.blocks.wood.TFCLeavesBlock;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.climate.Climate;
-import net.dries007.tfc.util.climate.ClimateModel;
-import net.dries007.tfc.util.tracker.WeatherHelpers;
-import net.dries007.tfc.util.tracker.WorldTracker;
-import net.dries007.tfc.world.chunkdata.ChunkData;
 
 import static net.dries007.tfc.world.TFCChunkGenerator.*;
 
@@ -80,11 +76,21 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
     }
 
     /**
-     * TODO: Link to getSeasonalFoliageColor and write comment and stuff
+     * Uses similar logic to {@link TFCColors#getSeasonalFoliageColor} to display different models for leaf blocks at different times of year
+     * As an overview, these models are:
+     * Bare - Displayed in winter months in sufficiently cold climates, or during sufficiently extreme dry seasons of sufficiently warm climates
+     * Dense Leaves - Displayed year-round in sufficiently warm and wet climates, for evergreen trees, or during the summers/wet seasons of locations that change seasonally
+     * Sparse Leaves - Displayed when transitioning from Bare to Dense Leaves models, or vice versa (Spring and Autumn)
+     * Blooming - Displayed for roughly a month that begins at the end of winter, or some time offset by the end of winter, see {@link TFCLeavesBlock#getFlowerOffset()}
      */
     private BakedModel getModelFromBlockState(@Nullable BlockState state, @Nullable BlockPos pos)
     {
-        // TODO: Should maybe add a check here to use the old system if you have fast graphics. Would need to keep winter foliage map around for this to work, though
+        // Fast graphics should disable this behavior entirely
+        if (!ClientHelpers.useFancyGraphics())
+        {
+            assert denseLeavesBakedModel != null;
+            return denseLeavesBakedModel;
+        }
 
         final float flowerOffset;
         final boolean isConifer;

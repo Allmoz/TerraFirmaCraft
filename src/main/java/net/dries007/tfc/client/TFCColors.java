@@ -14,9 +14,11 @@ import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.level.CommonLevelAccessor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.client.overworld.SolarCalculator;
+import net.dries007.tfc.common.blocks.wood.TFCLeavesBlock;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.climate.Climate;
@@ -136,11 +138,14 @@ public final class TFCColors
     }
 
     /**
-     * Gets a color based on average temperature and time of year. Autumn occurs at different times of the year at height-adjusted average temperatures from the poles to 12c
+     * Uses similar logic to {@link net.dries007.tfc.client.model.LeavesBlockModel#getModelFromBlockState} to display different colors for leaf blocks at different times of year
+     * As an overview, the colormaps used are:
+     * Winter - Uniform brown - Displayed in winter months in sufficiently cold climates, or during sufficiently extreme dry seasons of sufficiently warm climates
+     * Summer - Variable green based on rainfall and time of year - Light green in spring/early wet season, darker green in summer and for evergreen trees/climates
+     * Autumn - Variable bright colors based on the species of tree and the time of year, progressing from green at the start of autumn, to brown at the end
      */
     private static int getSeasonalFoliageColor(BlockPos pos, int autumnIndex)
     {
-        // TODO: Link to other usage in leavesblockmodel
         final Level level = ClientHelpers.getLevel();
         final BlockPos seaLevelPos = new BlockPos(pos.getX(), SEA_LEVEL_Y, pos.getZ());
         float temp = Climate.getAverageTemperature(level, seaLevelPos);
