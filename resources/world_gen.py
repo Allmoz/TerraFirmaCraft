@@ -1978,12 +1978,13 @@ UNDERGROUND_WATER_CREATURES: Dict[str, Dict[str, Any]] = {
 }
 
 LAKE_AMBIENT: Dict[str, Dict[str, Any]] = {
-    **dict(('%s' % fish, spawner('tfc:%s' % fish, min_count=2, max_count=4, weight=10)) for fish in SIMPLE_FRESHWATER_FISH if 'trout' not in fish),
+    **dict(('%s' % fish, spawner('tfc:%s' % fish, min_count=2, max_count=4, weight=10)) for fish in SIMPLE_FRESHWATER_FISH),
     'crayfish': spawner('tfc:crayfish', min_count=1, max_count=4, weight=5)
 }
 
 RIVER_AMBIENT: Dict[str, Dict[str, Any]] = {
-    **dict(('%s' % fish, spawner('tfc:%s' % fish, min_count=2, max_count=4, weight=10)) for fish in SIMPLE_FRESHWATER_FISH if 'trout' in fish),
+    **dict(('%s' % fish, spawner('tfc:%s' % fish, min_count=2, max_count=4, weight=10)) for fish in SIMPLE_FRESHWATER_FISH if 'lake' not in fish),
+    'crayfish': spawner('tfc:crayfish', min_count=1, max_count=4, weight=5)
 }
 
 LAKE_CREATURES: Dict[str, Dict[str, Any]] = {

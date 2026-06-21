@@ -507,8 +507,22 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             entity('tfc:pufferfish', 'Pufferfish live in any ocean with at least a $(l:the_world/climate#temperature)temperature$() of 10°C.', 'Pufferfish'),
             entity('tfc:jellyfish', 'Jellyfish live in warmer oceans, with a $(l:the_world/climate#temperature)temperature$() of at least 18°C.', 'Jellyfish'),
             entity('tfc:tropical_fish', 'Tropical fish prefer warmer oceans, with a $(l:the_world/climate#temperature)temperature$() of at least 18°C.', 'Tropical Fish'),
-            entity('tfc:salmon', 'Salmon spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -5°C.', 'Salmon'),
-            entity('tfc:bluegill', 'Bluegill spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -10°C and at most 26°C.', 'Bluegill'),
+            entity('tfc:salmon', 'Salmon spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -8°C and at most 12°C and with rainfall of at least 250 mm.', 'Salmon'),
+            entity('tfc:rainbow_trout', 'Rainbow Trout spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -12°C and at most 10°C and with rainfall of at least 150 mm.', 'Rainbow Trout'),
+            entity('tfc:lake_trout', 'Lake Trout spawn in any lake with a $(l:the_world/climate#temperature)temperature$() of at least -5°C and at most 15°C and with rainfall of at least 250 mm.', 'Lake Trout'),
+            entity('tfc:largemouth_bass', 'Largemouth Bass spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -14°C and at most 16°C and with rainfall of at least 200 mm.', 'Largemouth Bass'),
+            entity('tfc:smallmouth_bass', 'Smallmouth Bass spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -14°C and at most 16°C and with rainfall of less than 300 mm.', 'Smallmouth Bass'),
+            entity('tfc:crappie', 'Crappie spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -10°C and at most 20°C.', 'Crappie'),
+            entity('tfc:bluegill', 'Bluegill spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -10°C and at most 15°C.', 'Bluegill'),
+            entity('tfc:northern_pike', 'Northern Pike spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -10°C and at most 26°C with rainfall between 150 mm and 400 mm.', 'Northern Pike'),
+            entity('tfc:peacock_bass', 'Peacock Bass spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 12°C and at most 25°C with rainfall between 200 mm and 400 mm.', 'Peacock Bass'),
+            entity('tfc:arctic_char', 'Arctic Char spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -20°C and at most -8°C with rainfall between 150mm and 400 mm.', 'Arctic Char'),
+            entity('tfc:muksun', 'Muksun spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -20°C and at most -10°C with rainfall of at least 250 mm.', 'Muksun'),
+            entity('tfc:burbot', 'Burbot spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -16°C and at most -9°C with rainfall less than 350 mm.', 'Burbot'),
+            entity('tfc:tilapia', 'Tilapia spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 10°C and at most 32°C with rainfall less than 300 mm.', 'Tilapia'),
+            entity('tfc:spotted_gudgeon', 'Spotted Gudgeon spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 6°C and at most 24°C with rainfall less than 250 mm.', 'Spotted Gudgeon'),
+            entity('tfc:pacu', 'Pacu spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 20°C and at most 35°C with rainfall above 200 mm.', 'Pacu'),
+            entity('tfc:red_piranha', 'Red Piranha spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 22°C and at most 35°C with rainfall above 300 mm.', 'Red Piranha'),
             text('$(thing)Shellfish$() are small animals that live on the floor of bodies of water. They cannot be fished, but drop shells that can be eaten or made into $(l:mechanics/flux)flux$(). Shellfish can be $(l:mechanics/fishing)bait$() for fish.', title='Shellfish').anchor('shellfish'),
             entity('tfc:isopod', 'Isopods spawn in deeper sections of oceans of $(l:the_world/climate#temperature)temperature$() at most 14°C.', 'Isopod'),
             entity('tfc:lobster', 'Lobster spawn in any ocean that is at most of a $(l:the_world/climate#temperature)temperature$() of 21°C.', 'Lobster'),
@@ -1545,6 +1559,12 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             text('Fireboxes heat starting with the block above them. Firebox heat can pass through non-occluding blocks, as well as Grates. Therefore, it is recommended to place a grate on top of your firebox to allow heat to pass up into your structure, and provide maintenance access from below.'),
             text('The exterior of a Kiln must be made of some combination of Clay Bricks, Fire Bricks, Tinted Glass, or Fireproof Doors. Stone bricks don\'t work. If the structure is broken during heating, then the heating will be lost and must start over once the seal is re-made. The timer will also restart if the temperature increases or decreases from the initial setpoint.'),
             crafting('tfc:crafting/fireproof_door', text_contents='The Fireproof Door may be made from Cast Iron Sheets.')
+        )),
+        entry('ropes', 'Ropes', 'tfc:rope', pages=(
+            text('$(thing)Rope$() can be strung up to climb down cliffs and shafts. To hang a rope, $(item)$(k:key.use)$() it on the tip of a $(thing)Rock Spike$(), or on a $(thing)Steel Rope Anchor$(). This ties off the rope and turns the block into an anchor.').link('tfc:rope').link('tfc:steel_rope_anchor'),
+            text('$(item)$(k:key.use)$() the rope again to throw it out in the direction you are facing, laying down rope that you can climb. To recall the rope, $(item)$(k:key.use)$() the anchor with an empty hand. The rope will be destroyed, the spike will turn back into an anchor, and the items returned to you.'),
+            crafting('tfc:crafting/steel_rope_anchor', text_contents='$(thing)Rock Spikes$() cannot be picked up, so the $(thing)Steel Rope Anchor$() can be crafted and placed wherever you need an anchor instead.'),
+            empty_last_page(),
         ))
     ))
 
