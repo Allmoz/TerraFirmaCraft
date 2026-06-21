@@ -29,7 +29,8 @@ public class AbstractRopeBlock extends HorizontalDirectionalBlock implements IFl
         final List<BlockPos> positions = new ArrayList<>(32);
         if (!isRope(state))
             return;
-        positions.add(pos);
+        // Note: the anchor block itself is intentionally not added here. It is only the seed for the walk - the caller
+        // is responsible for converting it back into a spike - so only the rope blocks hanging from it are recalled.
         while (true)
         {
             if (state.getBlock() instanceof HangingRopeBlock)

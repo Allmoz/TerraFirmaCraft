@@ -1,6 +1,5 @@
 package net.dries007.tfc.common.blocks;
 
-import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
@@ -10,7 +9,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,20 +19,17 @@ import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.blocks.rock.RockSpikeBlock;
 
-public class RopeAnchorBlock extends AbstractRopeBlock
+/**
+ * Common behaviour for any block that ropes can be anchored to. Subclasses decide what the block becomes once its rope
+ * has been recalled - see {@link #getStateAfterRemoval(BlockState)}. Every place that recognises an anchor (rope
+ * attachment in {@link GroundedRopeBlock}, the knot in {@code RopeKnot}, and {@code RopeItem}) checks against this type,
+ * so any subclass works as a valid anchor automatically.
+ */
+public abstract class RopeAnchorBlock extends AbstractRopeBlock
 {
-    private final Supplier<? extends Block> spike;
-
-    public RopeAnchorBlock(ExtendedProperties properties, Supplier<? extends Block> spike)
+    public RopeAnchorBlock(ExtendedProperties properties)
     {
         super(properties);
-        this.spike = spike;
-        registerDefaultState(this.defaultBlockState());
-    }
-
-    public Supplier<? extends Block> getSpike()
-    {
-        return spike;
     }
 
     @Override
@@ -63,9 +58,15 @@ public class RopeAnchorBlock extends AbstractRopeBlock
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
     {
         recallRope(level, pos, state, player, state.getValue(FACING));
-        level.setBlockAndUpdate(pos, spike.get().defaultBlockState().setValue(RockSpikeBlock.PART, RockSpikeBlock.Part.TIP));
+        level.setBlockAndUpdate(pos, getStateAfterRemoval(state));
         return InteractionResult.SUCCESS;
     }
+
+    /**
+     * @return the block state this anchor becomes once its rope has been recalled. A rock anchor turns back into its
+     * spike; a freestanding (crafted) anchor stays in place with no rope attached.
+     */
+    protected abstract BlockState getStateAfterRemoval(BlockState state);
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)
@@ -83,5 +84,4 @@ public class RopeAnchorBlock extends AbstractRopeBlock
     {
         return RockSpikeBlock.TIP_SHAPE;
     }
-
 }

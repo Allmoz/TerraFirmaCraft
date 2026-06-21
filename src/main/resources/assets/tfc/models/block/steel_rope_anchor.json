@@ -1,7 +1,7 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "parent": "tfc:block/horizontal_rope_anchored",
+  "parent": "tfc:block/rope_anchor",
   "textures": {
-    "texture": "tfc:block/rock/raw/shale"
+    "texture": "tfc:block/metal/smooth/steel"
   }
 }

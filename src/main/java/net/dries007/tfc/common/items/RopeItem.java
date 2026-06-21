@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.blocks.AbstractRopeBlock;
 import net.dries007.tfc.common.blocks.GroundedRopeBlock;
+import net.dries007.tfc.common.blocks.MetalRopeAnchorBlock;
 import net.dries007.tfc.common.blocks.RopeAnchorBlock;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.common.blocks.TFCBlocks;
@@ -42,17 +43,26 @@ public class RopeItem extends Item
         final Level level = context.getLevel();
         final BlockPos blockpos = context.getClickedPos();
         final BlockState state = level.getBlockState(blockpos);
-        if (state.hasProperty(TFCBlockStateProperties.HAS_ROPE))
+        final Player player = context.getPlayer();
+        if (state.getBlock() instanceof RockSpikeBlock spike && canPlaceRopeOn(level, blockpos, state))
         {
-            if (!state.getValue(TFCBlockStateProperties.HAS_ROPE))
+            if (!level.isClientSide && player != null)
             {
-                final Player player = context.getPlayer();
-                if (!level.isClientSide && player != null)
-                {
-                    bindToAnchor(player, level, blockpos);
-                }
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                // Convert the spike tip into an anchor, then hand the player a knot to throw. The anchor's facing is
+                // re-aligned to the throw direction in placeRopes(), so the value here only matters until then.
+                level.setBlockAndUpdate(blockpos, spike.getAnchor().defaultBlockState().setValue(AbstractRopeBlock.FACING, player.getDirection()));
+                bindToAnchor(player, level, blockpos);
             }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        else if (state.getBlock() instanceof MetalRopeAnchorBlock && !state.getValue(TFCBlockStateProperties.HAS_ROPE))
+        {
+            // A free-standing anchor is already placed; just hand the player a knot to throw from it.
+            if (!level.isClientSide && player != null)
+            {
+                bindToAnchor(player, level, blockpos);
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return InteractionResult.PASS;
     }
@@ -66,12 +76,12 @@ public class RopeItem extends Item
         {
             return InteractionResultHolder.pass(stack);
         }
-        else
+        if (!level.isClientSide)
         {
             placeRopes(level, player, stack, knot.blockPosition());
             knot.discard();
-            return InteractionResultHolder.consume(stack);
         }
+        return InteractionResultHolder.consume(stack);
     }
 
     public static void bindToAnchor(Player player, Level level, BlockPos pos)
@@ -117,13 +127,19 @@ public class RopeItem extends Item
 
         BlockState state = level.getBlockState(cursor);
         RopeState previous = RopeState.HORIZONTAL;
-        if (canPlaceRopeOn(level, cursor, state) && state.getBlock() instanceof RockSpikeBlock spike)
+        if (state.getBlock() instanceof RopeAnchorBlock)
         {
-            stack.shrink(1);
-            level.setBlockAndUpdate(cursor, spike.getAnchor().defaultBlockState().setValue(facing, dir));
+            // The anchor was already placed (spike conversion, or a free-standing anchor); re-align it to the throw
+            // direction and, for anchors that track it, mark that a rope is now attached.
+            BlockState anchorState = state.setValue(facing, dir);
+            if (anchorState.hasProperty(TFCBlockStateProperties.HAS_ROPE))
+            {
+                anchorState = anchorState.setValue(TFCBlockStateProperties.HAS_ROPE, true);
+            }
+            level.setBlockAndUpdate(cursor, anchorState);
         }
         cursor.move(dir);
-        for (int i = 0; i < count - 1; i++)
+        for (int i = 0; i < count; i++)
         {
             state = level.getBlockState(cursor);
             if (canRopeReplace(state)) // if we have an open block where we are intending to place

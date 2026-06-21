@@ -1112,6 +1112,10 @@ public interface CraftingRecipes extends Recipes
             .input('X', TFCItems.JUTE_FIBER)
             .pattern("X X", " X ", "X X")
             .shaped(TFCItems.JUTE_NET);
+        recipe()
+            .input('X', TFCItems.JUTE_FIBER)
+            .pattern("X ", " X")
+            .shaped(TFCItems.ROPE, 2);
         replace("lead")
             .input('X', TFCItems.JUTE_FIBER)
             .pattern(" XX", " XX", "X  ")
@@ -1216,6 +1220,11 @@ public interface CraftingRecipes extends Recipes
             .input('M', TFCItems.BRASS_MECHANISMS)
             .pattern("PGM", " P ")
             .shaped(TFCBlocks.STEEL_PUMP);
+        recipe()
+            .input('S', commonTagOf(Metal.STEEL, Metal.ItemType.ROD))
+            .input('G', TFCItems.GLUE)
+            .pattern("S ", "SG")
+            .shaped(TFCBlocks.STEEL_ROPE_ANCHOR);
         recipe()
             .input('X', Tags.Items.RODS_WOODEN)
             .pattern("XXX", "XXX", "XXX")

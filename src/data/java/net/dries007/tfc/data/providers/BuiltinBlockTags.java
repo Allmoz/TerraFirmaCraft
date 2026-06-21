@@ -287,7 +287,8 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
                 TFCBlocks.POWER_LOOM,
                 TFCBlocks.BRONZE_BELL,
                 TFCBlocks.BRASS_BELL,
-                TFCBlocks.LARGE_VESSEL
+                TFCBlocks.LARGE_VESSEL,
+                TFCBlocks.STEEL_ROPE_ANCHOR
             )
             .add(TFCBlocks.MOLD_TABLE)
             .add(TFCBlocks.CHANNEL)

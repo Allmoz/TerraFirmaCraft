@@ -508,6 +508,7 @@ public final class ClientEventHandler
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.STEEL_PUMP.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.ROPE.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.HANGING_ROPE.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.STEEL_ROPE_ANCHOR.get(), cutout);
 
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.COMPOSTER.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.BLOOMERY.get(), cutout);

@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.Lore;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
-import net.dries007.tfc.common.blocks.RopeAnchorBlock;
+import net.dries007.tfc.common.blocks.RockRopeAnchorBlock;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.util.registry.RegistryRock;
 
@@ -143,7 +143,7 @@ public enum Rock implements RegistryRock
         PRESSURE_PLATE((rock, self) -> new PressurePlateBlock(BlockSetType.STONE, properties(rock).requiresCorrectToolForDrops().noCollission().strength(0.5f)), false),
         BUTTON((rock, self) -> new ButtonBlock(BlockSetType.STONE, 20, properties(rock).noCollission().strength(0.5f)), false),
         AQUEDUCT((rock, self) -> new AqueductBlock(properties(rock).strength(rock.category().hardness(6.5f), 10).requiresCorrectToolForDrops().lightLevel(TFCBlocks.lavaLoggedBlockEmission())), false),
-        ROPE_ANCHOR((rock, self) -> new RopeAnchorBlock(ExtendedProperties.of(properties(rock).strength(rock.category().hardness(4f), 10).requiresCorrectToolForDrops()), rock.getBlock(self.spike())), false);
+        ROPE_ANCHOR((rock, self) -> new RockRopeAnchorBlock(ExtendedProperties.of(properties(rock).strength(rock.category().hardness(4f), 10).requiresCorrectToolForDrops()), rock.getBlock(self.spike())), false);
 
         public static final BlockType[] VALUES = BlockType.values();
 
@@ -234,6 +234,11 @@ public enum Rock implements RegistryRock
         public String getSerializedName()
         {
             return serializedName;
+        }
+
+        public boolean needsItem()
+        {
+            return this != ROPE_ANCHOR;
         }
 
         @Nullable

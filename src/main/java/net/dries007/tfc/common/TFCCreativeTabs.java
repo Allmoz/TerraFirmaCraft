@@ -319,7 +319,6 @@ public final class TFCCreativeTabs
                 Rock.BlockType.PRESSURE_PLATE,
                 Rock.BlockType.BUTTON,
                 Rock.BlockType.SPIKE,
-                Rock.BlockType.ROPE_ANCHOR,
                 Rock.BlockType.COBBLE,
                 Rock.BlockType.MOSSY_COBBLE,
                 Rock.BlockType.BRICKS,
@@ -412,6 +411,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.CANOLA_PASTE);
         out.accept(TFCItems.JUTE_NET);
         out.accept(TFCItems.ROPE);
+        out.accept(TFCBlocks.STEEL_ROPE_ANCHOR);
         out.accept(TFCItems.HANDSTONE);
         out.accept(TFCItems.MORTAR);
         out.accept(TFCItems.PAPYRUS);

@@ -201,11 +201,9 @@ def generate(rm: ResourceManager):
             block.with_lang(lang('%s %s', *rock_lang(block_type, rock)))
 
         rm.blockstate(('rock', 'rope_anchor', rock), variants={
-            **four_rotations('tfc:block/rock/rope_anchor/%s' % rock, (None, None, None, None), prefix='has_rope=false,'),
-            **four_rotations('tfc:block/rock/rope_anchor/%s_rope' % rock, (90, None, 180, 270), prefix='has_rope=true,'),
-        }).with_lang(lang('%s rope anchor', rock)).with_item_model().with_block_loot('tfc:rock/rope_anchor/%s' % rock)
-        rm.block_model(('rock', 'rope_anchor', rock), parent='tfc:block/rope_anchor', textures={'texture': 'tfc:block/rock/raw/%s' % rock})
-        rm.block_model(('rock', 'rope_anchor', rock + '_rope'), parent='tfc:block/horizontal_rope_anchored', textures={'texture': 'tfc:block/rock/raw/%s' % rock})
+            **four_rotations('tfc:block/rock/rope_anchor/%s' % rock, (90, None, 180, 270)),
+        }).with_lang(lang('%s rope anchor', rock)).with_block_loot('tfc:rock/loose/%s' % rock)
+        rm.block_model(('rock', 'rope_anchor', rock), parent='tfc:block/horizontal_rope_anchored', textures={'texture': 'tfc:block/rock/raw/%s' % rock})
 
         # Decorations
         for block_type in ROCK_DECORATIONS:
@@ -468,6 +466,13 @@ def generate(rm: ResourceManager):
     }).with_lang(lang('rope')).with_block_loot('tfc:rope')
 
     rm.blockstate('hanging_rope', variants=four_rotations('tfc:block/vertical_rope_side', (90, None, 180, 270))).with_lang(lang('rope')).with_block_loot('tfc:rope')
+
+    rm.blockstate('steel_rope_anchor', variants={
+        **four_rotations('tfc:block/steel_rope_anchor', (None, None, None, None), prefix='has_rope=false,'),
+        **four_rotations('tfc:block/steel_rope_anchor_rope', (90, None, 180, 270), prefix='has_rope=true,'),
+    }).with_lang(lang('steel rope anchor')).with_item_model().with_block_loot('tfc:steel_rope_anchor')
+    rm.block_model('steel_rope_anchor', parent='tfc:block/rope_anchor', textures={'texture': 'tfc:block/metal/smooth/steel'})
+    rm.block_model('steel_rope_anchor_rope', parent='tfc:block/horizontal_rope_anchored', textures={'texture': 'tfc:block/metal/smooth/steel'})
 
     for color in COLORS:
         wattle = 'tfc:wattle/%s' % color

@@ -1553,6 +1553,12 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             text('Fireboxes heat starting with the block above them. Firebox heat can pass through non-occluding blocks, as well as Grates. Therefore, it is recommended to place a grate on top of your firebox to allow heat to pass up into your structure, and provide maintenance access from below.'),
             text('The exterior of a Kiln must be made of some combination of Clay Bricks, Fire Bricks, Tinted Glass, or Fireproof Doors. Stone bricks don\'t work. If the structure is broken during heating, then the heating will be lost and must start over once the seal is re-made. The timer will also restart if the temperature increases or decreases from the initial setpoint.'),
             crafting('tfc:crafting/fireproof_door', text_contents='The Fireproof Door may be made from Cast Iron Sheets.')
+        )),
+        entry('ropes', 'Ropes', 'tfc:rope', pages=(
+            text('$(thing)Rope$() can be strung up to climb down cliffs and shafts. To hang a rope, $(item)$(k:key.use)$() it on the tip of a $(thing)Rock Spike$(), or on a $(thing)Steel Rope Anchor$(). This ties off the rope and turns the block into an anchor.').link('tfc:rope').link('tfc:steel_rope_anchor'),
+            text('$(item)$(k:key.use)$() the rope again to throw it out in the direction you are facing, laying down rope that you can climb. To recall the rope, $(item)$(k:key.use)$() the anchor with an empty hand. The rope will be destroyed, the spike will turn back into an anchor, and the items returned to you.'),
+            crafting('tfc:crafting/steel_rope_anchor', text_contents='$(thing)Rock Spikes$() cannot be picked up, so the $(thing)Steel Rope Anchor$() can be crafted and placed wherever you need an anchor instead.'),
+            empty_last_page(),
         ))
     ))
 
