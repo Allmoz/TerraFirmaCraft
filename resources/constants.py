@@ -606,7 +606,7 @@ PLANTS: dict[str, Plant] = {
     'red_algae': Plant(False, -20, 30, 215, 450, 'floating'),
     'red_sealing_wax_palm': Plant(False, 19.3, 40, 280, 500, 'tall_plant'),
     'reindeer_lichen': Plant(False, -30, -8, 50, 470, 'creeping'),
-    'rose': Plant(True, -5, 20, 150, 300, 'tall_plant'),
+    'rose': Plant(False, -0.4, 17.6, 150, 300, 'tall_plant'),
     'sacred_datura': Plant(False, 6.8, 19.3, 75, 150, 'standard'),
     'sagebrush': Plant(False, -5.7, 15.7, 0, 120, 'dry'),
     'sago': Plant(False, -12.9, 19.3, 200, 500, 'water_fresh'),
@@ -903,7 +903,7 @@ FRUITS: dict[str, Fruit] = {
 }
 JAR_FRUITS = tuple([*BERRIES.keys(), *FRUITS.keys(), 'melon_slice', 'peanut'])
 
-SIMPLE_FRESHWATER_FISH = ('bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass',)
+SIMPLE_FRESHWATER_FISH = ('bluegill', 'crappie', 'lake_trout', 'largemouth_bass', 'rainbow_trout', 'salmon', 'smallmouth_bass', 'arctic_char', 'burbot', 'muksun', 'northern_pike', 'spotted_gudgeon', 'tilapia', 'peacock_bass', 'pacu', 'red_piranha')
 ADVANCEMENT_FISH = ('cod', 'calamari', 'shellfish', 'tropical_fish', *SIMPLE_FRESHWATER_FISH)
 
 GRAINS = ('barley', 'maize', 'oat', 'rice', 'rye', 'wheat')
@@ -988,6 +988,7 @@ DEFAULT_LANG = {
     'tfc.key.place_block': 'Place Block',
     'tfc.key.cycle_chisel_mode': 'Cycle Chisel Mode',
     'tfc.key.stack_food': 'Stack Food',
+    'glass.tfc.complete': 'Complete',
     'glass_operation.tfc.blow': 'Blow',
     'glass_operation.tfc.roll': 'Roll',
     'glass_operation.tfc.stretch': 'Stretch',
@@ -1315,7 +1316,7 @@ DEFAULT_LANG = {
     'tfc.tooltip.fertilizer.potassium': '§d(K) Potassium: §r%s%%',
     'tfc.tooltip.plantable.hold_shift': 'Hold (Shift) for Plant Info',
     'tfc.tooltip.plantable.climate': 'Climate:',
-    'tfc.tooltip.plantable.climate.temperature': '§1Temperature:§r %s §7-§r %s \u00b0C',
+    'tfc.tooltip.plantable.climate.temperature_range': '§1Temperature:§r %s §7-§r %s',
     'tfc.tooltip.plantable.climate.hydration': '§1Hydration:§r %s%% §7-§r %s%%',
     'tfc.tooltip.plantable.nutrients': 'Nutrients:',
     'tfc.tooltip.plantable.lifecycle': 'Lifecycle:',
@@ -1490,6 +1491,7 @@ DEFAULT_LANG = {
     'config.jade.plugin_tfc.decaying': 'Decaying Block',
     'config.jade.plugin_tfc.loom': 'Loom',
     'config.jade.plugin_tfc.power_loom': 'Power Loom',
+    'config.jade.plugin_tfc.trip_hammer': 'Trip Hammer',
     'config.jade.plugin_tfc.ingot_pile': 'Ingot Pile',
     'config.jade.plugin_tfc.axle': 'Axle',
     'config.jade.plugin_tfc.encased_axle': 'Encased Axle',
@@ -2196,7 +2198,7 @@ DEFAULT_LANG = {
     'tfc.config.server.fireboxEnableAutomation': 'Enable Automation',
     'tfc.config.server.firePitEnableAutomation': 'Enable Automation',
     'tfc.config.server.foodDecayModifier': 'Food Decay Modifier',
-    'tfc.config.server.foodDecayStackTicks1': 'Food Decay Stack Ticks',
+    'tfc.config.server.foodDecayStackTicks': 'Food Decay Stack Ticks',
     'tfc.config.server.fruitBranchGrowthTicks': 'Fruit Branch Growth Ticks',
     'tfc.config.server.fruitPickBloomDelayTicks': 'Fruit Pick Bloom Delay Ticks',
     'tfc.config.server.saplingGrowthModifier': 'Sapling Growth Modifier',

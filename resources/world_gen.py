@@ -908,6 +908,7 @@ def generate(rm: ResourceManager):
     configured_plant_patch_feature(rm, ('plant', 'ramirezella'), plant_config('tfc:plant/ramirezella[age=1,stage=1,facing=north]', 6, 5, epiphyte_plant=True), decorate_chance(5), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(17.6, 40, 210, 430, -0.45, 0.45, False, 2, 4, -64, 320))
     configured_plant_patch_feature(rm, ('plant', 'ramunda'), plant_config('tfc:plant/ramunda[age=1,stage=1]', 1, 15, 10, above_tide_plant=True), decorate_chance(5), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(-18.4, -0.4, 0, 190, -0.25, 0.5, False, 0, 1, 90, 320))
     configured_plant_patch_feature(rm, ('plant', 'red_sealing_wax_palm'), plant_config('tfc:plant/red_sealing_wax_palm[age=1,stage=1,part=lower]', 1, 15, 10, tall_plant=True, no_solid_neighbors=True, limit_density=True), decorate_chance(10), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(19.4, 40, 280, 500, 0.6, 1, True, 2, 3, -64, 320))
+    configured_plant_patch_feature(rm, ('plant', 'rose'), plant_config('tfc:plant/rose[age=1,stage=1,part=lower]', 1, 15, 10, tall_plant=True, no_solid_neighbors=True, above_tide_plant=True, limit_density=True), decorate_chance(10), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(-0.4, 17.6, 150, 300, -1, 1, False, 1, 3, -64, 320))
     configured_plant_patch_feature(rm, ('plant', 'sacred_datura'), plant_config('tfc:plant/sacred_datura[age=1,stage=1]', 1, 10, 10), decorate_chance(5), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(6.8, 19.4, 75, 200, -1, 0.5, False, 0, 1, -64, 320))
     configured_plant_patch_feature(rm, ('plant', 'sagebrush'), plant_config('tfc:plant/sagebrush[age=1,stage=1]', 1, 15, 10, above_tide_plant=True), decorate_chance(5), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(-5.8, 15.8, 0, 130, -1, 1, False, 0, 1, -64, 320))
     configured_plant_patch_feature(rm, ('plant', 'sago'), plant_config('tfc:plant/sago[age=1,stage=1,fluid=empty]', 1, 10, 10, water_plant=True), decorate_chance(4), decorate_square(), decorate_heightmap('ocean_floor_wg'), decorate_climate(-13, 19.4, 200, 500, -1, 1, False, 0, 4, -64, 320))
@@ -1013,7 +1014,6 @@ def generate(rm: ResourceManager):
     configured_plant_patch_feature(rm, ('plant', 'goldenrod'), plant_config('tfc:plant/goldenrod[age=1,stage=1]', 1, 6, 16, requires_clay=True), decorate_climate(-15.7, -4.8, 75, 500))
     configured_plant_patch_feature(rm, ('plant', 'pampas_grass'), plant_config('tfc:plant/pampas_grass[age=1,stage=1,part=lower]', 1, 6, 16, requires_clay=True, tall_plant=True), decorate_climate(8, 38, 0, 300))
     configured_plant_patch_feature(rm, ('plant', 'perovskia'), plant_config('tfc:plant/perovskia[age=1,stage=1]', 1, 6, 16, requires_clay=True), decorate_climate(-8.4, 11.6, 0, 280))
-    configured_plant_patch_feature(rm, ('plant', 'rose'), plant_config('tfc:plant/rose[age=1,stage=1,part=lower]', 1, 6, 10, True, tall_plant=True), decorate_square(), decorate_heightmap('world_surface_wg'), decorate_climate(-7.4, 17.6, 150, 300))
     configured_noise_plant_feature(rm, ('plant', 'water_canna'), plant_config('tfc:plant/water_canna[age=1,stage=1]', 1, 6, 16, requires_clay=True), decorate_climate(11.6, 38, 150, 500))
 
     # Crops
@@ -1733,12 +1733,13 @@ UNDERGROUND_WATER_CREATURES: Dict[str, Dict[str, Any]] = {
 }
 
 LAKE_AMBIENT: Dict[str, Dict[str, Any]] = {
-    **dict(('%s' % fish, spawner('tfc:%s' % fish, min_count=2, max_count=4, weight=10)) for fish in SIMPLE_FRESHWATER_FISH if 'trout' not in fish),
+    **dict(('%s' % fish, spawner('tfc:%s' % fish, min_count=2, max_count=4, weight=10)) for fish in SIMPLE_FRESHWATER_FISH),
     'crayfish': spawner('tfc:crayfish', min_count=1, max_count=4, weight=5)
 }
 
 RIVER_AMBIENT: Dict[str, Dict[str, Any]] = {
-    **dict(('%s' % fish, spawner('tfc:%s' % fish, min_count=2, max_count=4, weight=10)) for fish in SIMPLE_FRESHWATER_FISH if 'trout' in fish),
+    **dict(('%s' % fish, spawner('tfc:%s' % fish, min_count=2, max_count=4, weight=10)) for fish in SIMPLE_FRESHWATER_FISH if 'lake' not in fish),
+    'crayfish': spawner('tfc:crayfish', min_count=1, max_count=4, weight=5)
 }
 
 LAKE_CREATURES: Dict[str, Dict[str, Any]] = {
