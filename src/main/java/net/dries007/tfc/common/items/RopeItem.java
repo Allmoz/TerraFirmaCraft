@@ -44,6 +44,11 @@ public class RopeItem extends Item
         final BlockPos blockpos = context.getClickedPos();
         final BlockState state = level.getBlockState(blockpos);
         final Player player = context.getPlayer();
+        // If the player is already holding a knot to throw, let use() finish or cancel it rather than starting another.
+        if (player != null && getKnotAt(level, player.blockPosition(), player) != null)
+        {
+            return InteractionResult.PASS;
+        }
         if (state.getBlock() instanceof RockSpikeBlock spike && canPlaceRopeOn(level, blockpos, state))
         {
             if (!level.isClientSide && player != null)
@@ -57,7 +62,7 @@ public class RopeItem extends Item
         }
         else if (state.getBlock() instanceof MetalRopeAnchorBlock && !state.getValue(TFCBlockStateProperties.HAS_ROPE))
         {
-            // A free-standing anchor is already placed; just hand the player a knot to throw from it.
+            // A freestanding anchor is already placed; just hand the player a knot to throw from it.
             if (!level.isClientSide && player != null)
             {
                 bindToAnchor(player, level, blockpos);
@@ -78,7 +83,20 @@ public class RopeItem extends Item
         }
         if (!level.isClientSide)
         {
-            placeRopes(level, player, stack, knot.blockPosition());
+            final BlockPos anchorPos = knot.blockPosition();
+            if (player.isShiftKeyDown())
+            {
+                // Cancel the throw: drop the knot and revert the anchor without laying any rope.
+                final BlockState anchorState = level.getBlockState(anchorPos);
+                if (anchorState.getBlock() instanceof RopeAnchorBlock anchor)
+                {
+                    anchor.removeRope(level, anchorPos, anchorState, player);
+                }
+            }
+            else
+            {
+                placeRopes(level, player, stack, anchorPos);
+            }
             knot.discard();
         }
         return InteractionResultHolder.consume(stack);

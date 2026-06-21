@@ -57,9 +57,18 @@ public abstract class RopeAnchorBlock extends AbstractRopeBlock
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
     {
+        removeRope(level, pos, state, player);
+        return InteractionResult.SUCCESS;
+    }
+
+    /**
+     * Recalls any rope hanging from this anchor (returning it to the player) and reverts the anchor to its un-roped
+     * form. Also used to cancel an in-progress throw, where there is no rope yet, so the recall is a no-op.
+     */
+    public void removeRope(Level level, BlockPos pos, BlockState state, Player player)
+    {
         recallRope(level, pos, state, player, state.getValue(FACING));
         level.setBlockAndUpdate(pos, getStateAfterRemoval(state));
-        return InteractionResult.SUCCESS;
     }
 
     /**
