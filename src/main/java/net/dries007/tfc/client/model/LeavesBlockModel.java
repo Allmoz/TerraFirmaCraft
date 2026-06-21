@@ -163,20 +163,20 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         }
         else
         {
-            // For dry-season controlled climates, the minimum rain must be below 200
+            // For dry-season controlled climates, the minimum rain must be below 120
             final float avgRain = Climate.getAverageRainfall(level, seaLevelPos);
             final float minRain = avgRain * (1 - rainVarAbs);
 
             // Small gap in temperature is so that there are small evergreen bands between dry-season controlled areas and winter-controlled areas
-            if (rainVarAbs > 0.4 && temp > 15.5f && minRain <= 200)
+            if (rainVarAbs > 0.4 && temp > 15.5f && minRain <= 120)
             {
                 if (rainVar < 0)
                 {
                     seasonOffset = 0.5f;
                 }
-                // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 200
+                // Numbers chosen to create a 4-month wet season at max rain var & min rain = 0, and a 12-month "wet season" at minimum rain var & min rain = 120
                 // Uses multiple variables to ensure smooth transitions, and that biomes that have green grass year-round do not lose leaves
-                x = -.2604f * (0.4f - rainVarAbs) * (200f - minRain) + 18.75f + 5.3f;
+                x = -.2604f * (0.4f - rainVarAbs) * (120f - minRain) + 18.75f + 5.3f;
                 inEvergreenClimate = false;
             }
             // If not in any of the above areas, must be in an evergreen area
