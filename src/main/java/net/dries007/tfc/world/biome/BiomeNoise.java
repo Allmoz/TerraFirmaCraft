@@ -1007,6 +1007,12 @@ public final class BiomeNoise
                     height += mappedCliffHeight * cliffNoise.noise(x, z);
                 }
             }
+
+            if (height > 260)
+            {
+                return Mth.clampedMap(height, 260, 340, 260, 300);
+            }
+
             return height;
         };
     }
