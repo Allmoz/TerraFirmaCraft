@@ -337,6 +337,8 @@ public class ForestFeature extends Feature<ForestConfig>
 
     private boolean placeSoilDisc(WorldGenLevel level, ChunkGenerator generator, RandomSource random, ForestConfig config, ChunkData chunkData, BlockPos.MutableBlockPos mutablePos, ForestType type)
     {
+        mutablePos.setY(level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, mutablePos.getX(), mutablePos.getZ()));
+
         // We need to get the full list, not just one tree from it
         final List<ForestConfig.Entry> entries = getTrees(chunkData, config, mutablePos, level);
 
