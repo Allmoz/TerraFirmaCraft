@@ -729,6 +729,16 @@ public class TFCTags
     public static class Biomes
     {
         public static final TagKey<Biome> HAS_PREDICTABLE_WINDS = create("has_predictable_winds");
+        public static final TagKey<Biome> BURRENS = create("burrens");
+        public static final TagKey<Biome> CENOTES = create("cenotes");
+        public static final TagKey<Biome> DOLINES = create("dolines");
+        public static final TagKey<Biome> IS_LAKE = create("is_lake");
+        public static final TagKey<Biome> IS_OCEAN = create("is_ocean");
+        public static final TagKey<Biome> IS_RIVER = create("is_river");
+        public static final TagKey<Biome> IS_VOLCANIC = create("is_volcanic");
+        public static final TagKey<Biome> KARSTS = create("karsts");
+        public static final TagKey<Biome> SHILINS = create("shilins");
+        public static final TagKey<Biome> TOWER_KARSTS = create("tower_karsts");
 
         private static TagKey<Biome> create(String id)
         {
