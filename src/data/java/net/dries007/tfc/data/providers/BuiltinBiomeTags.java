@@ -33,7 +33,7 @@ public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
     {
         //=====TFC Tags=====//
 
-        /*tag(TFCTags.Biomes.HAS_PREDICTABLE_WINDS)
+        tag(TFCTags.Biomes.HAS_PREDICTABLE_WINDS)
             .addTag(TFCTags.Biomes.IS_OCEAN)
             .add(TFCBiomes.SHORE.key())
             .add(TFCBiomes.TIDAL_FLATS.key());
@@ -102,7 +102,7 @@ public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
             TFCBiomes.TOWER_KARST_HILLS.key(), TFCBiomes.TOWER_KARST_HIGHLANDS.key(),
             TFCBiomes.EXTREME_DOLINE_PLATEAU.key(), TFCBiomes.EXTREME_DOLINE_MOUNTAINS.key(),
             TFCBiomes.TOWER_KARST_LAKE.key(), TFCBiomes.TOWER_KARST_BAY.key()
-        );*/
+        );
 
         //=====Common Tags=====//
 
