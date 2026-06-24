@@ -732,13 +732,29 @@ public class TFCTags
         public static final TagKey<Biome> BURRENS = create("burrens");
         public static final TagKey<Biome> CENOTES = create("cenotes");
         public static final TagKey<Biome> DOLINES = create("dolines");
+        public static final TagKey<Biome> HAS_ATOLLS = create("has_atolls");
+        public static final TagKey<Biome> HAS_CINDER_CONES = create("has_cinder_cones");
+        public static final TagKey<Biome> HAS_STRATOVOLCANOES = create("has_stratovolcanoes");
+        public static final TagKey<Biome> HAS_TUFF_CONES = create("has_tuff_cones");
+        public static final TagKey<Biome> HAS_TUYAS = create("has_tuyas");
+        public static final TagKey<Biome> IS_BURREN = create("is_burren");
+        public static final TagKey<Biome> IS_DOLINES = create("is_doline");
+        public static final TagKey<Biome> IS_EXTREME_DOLINES = create("is_extreme_dolines");
+        public static final TagKey<Biome> IS_GLACIATED = create("is_glaciated");
+        public static final TagKey<Biome> IS_ICE_SHEET = create("is_ice_sheet");
+        public static final TagKey<Biome> IS_KARST = create("is_karst");
         public static final TagKey<Biome> IS_LAKE = create("is_lake");
         public static final TagKey<Biome> IS_OCEAN = create("is_ocean");
+        public static final TagKey<Biome> IS_RIFT = create("is_rift");
         public static final TagKey<Biome> IS_RIVER = create("is_river");
-        public static final TagKey<Biome> IS_VOLCANIC = create("is_volcanic");
+        public static final TagKey<Biome> IS_SHIELD_VOLCANO = create("is_shield_volcano");
+        public static final TagKey<Biome> IS_SHILIN = create("is_shilin");
+        public static final TagKey<Biome> IS_TOWER_KARST = create("is_tower_karst");
         public static final TagKey<Biome> KARSTS = create("karsts");
         public static final TagKey<Biome> SHILINS = create("shilins");
         public static final TagKey<Biome> TOWER_KARSTS = create("tower_karsts");
+
+
 
         private static TagKey<Biome> create(String id)
         {
