@@ -33,7 +33,7 @@ public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
     {
         //=====TFC Tags=====//
 
-        /*tag(TFCTags.Biomes.BURRENS).add(
+        tag(TFCTags.Biomes.BURRENS).add(
             TFCBiomes.BURREN_PLATEAU.key(), TFCBiomes.BURREN_BADLANDS.key(), TFCBiomes.BURREN_BADLANDS_TALL.key(),
             TFCBiomes.BURREN_PLAINS.key(), TFCBiomes.BURREN_ROCHE_MOUTONEE.key()
         );
@@ -198,7 +198,7 @@ public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
             TFCBiomes.TOWER_KARST_HILLS.key(), TFCBiomes.TOWER_KARST_HIGHLANDS.key(),
             TFCBiomes.EXTREME_DOLINE_PLATEAU.key(), TFCBiomes.EXTREME_DOLINE_MOUNTAINS.key(),
             TFCBiomes.TOWER_KARST_LAKE.key(), TFCBiomes.TOWER_KARST_BAY.key()
-        );*/
+        );
 
         //=====Common Tags=====//
 
