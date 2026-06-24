@@ -15,8 +15,8 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.common.TFCTags;
-import net.dries007.tfc.world.biome.TFCBiomes;
 import net.dries007.tfc.data.Accessors;
+import net.dries007.tfc.world.biome.TFCBiomes;
 
 public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
 {
@@ -31,185 +31,14 @@ public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
     @Override
     protected void addTags(HolderLookup.Provider provider)
     {
-        //=====TFC Tags=====//
 
-        tag(TFCTags.Biomes.BURRENS).add(
-            TFCBiomes.BURREN_PLATEAU.key(), TFCBiomes.BURREN_BADLANDS.key(), TFCBiomes.BURREN_BADLANDS_TALL.key(),
-            TFCBiomes.BURREN_PLAINS.key(), TFCBiomes.BURREN_ROCHE_MOUTONEE.key()
-        );
+        //======Common Tags======//
 
-        tag(TFCTags.Biomes.CENOTES).add(
-            TFCBiomes.CENOTE_PLAINS.key(), TFCBiomes.CENOTE_HILLS.key(),
-            TFCBiomes.CENOTE_ROLLING_HILLS.key(), TFCBiomes.CENOTE_CANYONS.key(),
-            TFCBiomes.CENOTE_HIGHLANDS.key(), TFCBiomes.CENOTE_PLATEAU.key()
-        );
+        tag(commonTagOf(Registries.BIOME, "is_lake")).addTag(TFCTags.Biomes.IS_LAKE);
 
-        tag(TFCTags.Biomes.DOLINES).add(
-            TFCBiomes.DOLINE_PLAINS.key(), TFCBiomes.DOLINE_HILLS.key(),
-            TFCBiomes.DOLINE_ROLLING_HILLS.key(), TFCBiomes.DOLINE_HIGHLANDS.key(),
-            TFCBiomes.DOLINE_PLATEAU.key(), TFCBiomes.DOLINE_CANYONS.key()
-        );
+        tag(Tags.Biomes.IS_OCEAN).addTag(TFCTags.Biomes.IS_OCEAN);
 
-        tag(TFCTags.Biomes.HAS_ATOLLS).add(
-            TFCBiomes.OCEAN_ATOLLS.key(), TFCBiomes.DEEP_OCEAN_ATOLLS.key()
-        );
-
-        tag(TFCTags.Biomes.HAS_CINDER_CONES).add(
-            TFCBiomes.CANYONS.key(), TFCBiomes.RIFT_VALLEY.key(),
-            TFCBiomes.VOLCANIC_MOUNTAIN_ISLANDS.key(), TFCBiomes.DOLINE_CANYONS.key(),
-            TFCBiomes.ACTIVE_SHIELD_VOLCANO.key()
-        );
-
-        tag(TFCTags.Biomes.HAS_PREDICTABLE_WINDS)
-            .addTag(TFCTags.Biomes.IS_OCEAN);
-
-        tag(TFCTags.Biomes.HAS_STRATOVOLCANOES).add(
-            TFCBiomes.VOLCANIC_MOUNTAINS.key(), TFCBiomes.VOLCANIC_OCEANIC_MOUNTAINS.key(),
-            TFCBiomes.OCEANIC_VOLCANIC_ARC.key(), TFCBiomes.VOLCANIC_ISLAND.key(),
-            TFCBiomes.VOLCANIC_MOUNTAIN_LAKE.key(), TFCBiomes.VOLCANIC_OCEANIC_MOUNTAIN_LAKE.key(),
-            TFCBiomes.ICE_SHEET_VOLCANIC_MOUNTAINS.key(), TFCBiomes.ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS.key(),
-            TFCBiomes.GLACIATED_VOLCANIC_MOUNTAINS.key(), TFCBiomes.GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS.key(),
-            TFCBiomes.GLACIALLY_CARVED_VOLCANIC_MOUNTAINS.key(), TFCBiomes.GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS.key()
-        );
-
-        tag(TFCTags.Biomes.HAS_TUFF_CONES).add(
-           TFCBiomes.DORMANT_SHIELD_VOLCANO.key(), TFCBiomes.EXTINCT_SHIELD_VOLCANO.key(),
-           TFCBiomes.ANCIENT_SHIELD_VOLCANO.key(), TFCBiomes.SUNKEN_SHIELD_VOLCANO.key(),
-           TFCBiomes.SHIELD_VOLCANO_SHORE.key(), TFCBiomes.OLD_SHIELD_VOLCANO_SHORE.key(),
-           TFCBiomes.GLACIATED_SHIELD_VOLCANO.key(), TFCBiomes.ICE_SHEET_SHIELD_VOLCANO.key()
-        );
-
-        tag(TFCTags.Biomes.HAS_TUYAS).add(
-            TFCBiomes.TUYAS.key(), TFCBiomes.ICE_SHEET_TUYAS.key(), TFCBiomes.ICE_SHEET_TUYAS_EDGE.key()
-        );
-
-        tag(TFCTags.Biomes.IS_BURREN).add(
-            TFCBiomes.BURREN_PLATEAU.key(), TFCBiomes.BURREN_BADLANDS.key(), TFCBiomes.BURREN_BADLANDS_TALL.key(),
-            TFCBiomes.BURREN_PLAINS.key(), TFCBiomes.BURREN_ROCHE_MOUTONEE.key()
-        );
-
-        tag(TFCTags.Biomes.IS_DOLINES).add(
-            TFCBiomes.DOLINE_PLAINS.key(), TFCBiomes.DOLINE_HILLS.key(),
-            TFCBiomes.DOLINE_ROLLING_HILLS.key(), TFCBiomes.DOLINE_HIGHLANDS.key(),
-            TFCBiomes.DOLINE_PLATEAU.key(), TFCBiomes.DOLINE_CANYONS.key()
-        );
-
-        tag(TFCTags.Biomes.IS_EXTREME_DOLINES).add(
-            TFCBiomes.EXTREME_DOLINE_PLATEAU.key(), TFCBiomes.EXTREME_DOLINE_MOUNTAINS.key()
-        );
-
-        tag(TFCTags.Biomes.IS_GLACIATED).add(
-            TFCBiomes.GLACIATED_MOUNTAINS.key(), TFCBiomes.GLACIATED_OCEANIC_MOUNTAINS.key(),
-            TFCBiomes.GLACIATED_SHIELD_VOLCANO.key(), TFCBiomes.GLACIATED_VOLCANIC_MOUNTAINS.key(),
-            TFCBiomes.GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS.key()
-        );
-
-        tag(TFCTags.Biomes.IS_ICE_SHEET).add(
-            TFCBiomes.ICE_SHEET.key(), TFCBiomes.ICE_SHEET_EDGE.key(),
-            TFCBiomes.ICE_SHEET_MOUNTAINS.key(), TFCBiomes.ICE_SHEET_MOUNTAINS_EDGE.key(),
-            TFCBiomes.ICE_SHEET_OCEANIC.key(), TFCBiomes.ICE_SHEET_OCEANIC_MOUNTAINS.key(),
-            TFCBiomes.ICE_SHEET_OCEANIC_MOUNTAINS_EDGE.key(), TFCBiomes.ICE_SHEET_SHORE.key(),
-            TFCBiomes.ICE_SHEET_TUYAS.key(), TFCBiomes.ICE_SHEET_TUYAS_EDGE.key(),
-            TFCBiomes.ICE_SHEET_SHIELD_VOLCANO.key(), TFCBiomes.ICE_SHEET_VOLCANIC_MOUNTAINS.key(),
-            TFCBiomes.ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS.key(), TFCBiomes.SUBGLACIAL_LAKE.key()
-        );
-
-        tag(TFCTags.Biomes.IS_KARST).add(
-            TFCBiomes.BURREN_PLATEAU.key(), TFCBiomes.BURREN_BADLANDS.key(),
-            TFCBiomes.BURREN_PLAINS.key(), TFCBiomes.BURREN_ROCHE_MOUTONEE.key(),
-            TFCBiomes.DOLINE_PLAINS.key(), TFCBiomes.DOLINE_HILLS.key(),
-            TFCBiomes.DOLINE_ROLLING_HILLS.key(), TFCBiomes.DOLINE_HIGHLANDS.key(),
-            TFCBiomes.DOLINE_PLATEAU.key(), TFCBiomes.DOLINE_CANYONS.key(),
-            TFCBiomes.SHILIN_PLAINS.key(), TFCBiomes.SHILIN_CANYONS.key(),
-            TFCBiomes.SHILIN_HILLS.key(), TFCBiomes.SHILIN_HIGHLANDS.key(),
-            TFCBiomes.SHILIN_PLATEAU.key(), TFCBiomes.TOWER_KARST_PLAINS.key(),
-            TFCBiomes.TOWER_KARST_CANYONS.key(), TFCBiomes.TOWER_KARST_HILLS.key(),
-            TFCBiomes.TOWER_KARST_HIGHLANDS.key(), TFCBiomes.EXTREME_DOLINE_PLATEAU.key(),
-            TFCBiomes.EXTREME_DOLINE_MOUNTAINS.key(), TFCBiomes.TOWER_KARST_LAKE.key(),
-            TFCBiomes.TOWER_KARST_BAY.key(),  TFCBiomes.BURREN_BADLANDS_TALL.key()
-        );
-
-        tag(TFCTags.Biomes.IS_LAKE).add(
-            TFCBiomes.LAKE.key(), TFCBiomes.MOUNTAIN_LAKE.key(),
-            TFCBiomes.OLD_MOUNTAIN_LAKE.key(), TFCBiomes.OCEANIC_MOUNTAIN_LAKE.key(),
-            TFCBiomes.VOLCANIC_MOUNTAIN_LAKE.key(), TFCBiomes.VOLCANIC_OCEANIC_MOUNTAIN_LAKE.key(),
-            TFCBiomes.PLATEAU_LAKE.key(), TFCBiomes.SUBGLACIAL_LAKE.key(),
-            TFCBiomes.MELTWATER_LAKE.key(), TFCBiomes.TOWER_KARST_LAKE.key(),
-            TFCBiomes.RIFT_LAKE.key()
-        );
-
-        tag(TFCTags.Biomes.IS_OCEAN).add(
-            TFCBiomes.OCEAN.key(), TFCBiomes.OCEAN_REEF.key(),
-            TFCBiomes.DEEP_OCEAN.key(), TFCBiomes.DEEP_OCEAN_TRENCH.key(),
-            TFCBiomes.OCEAN_RIDGE.key(), TFCBiomes.OCEAN_ATOLLS.key(),
-            TFCBiomes.DEEP_OCEAN_ATOLLS.key(), TFCBiomes.OCEANIC_VOLCANIC_ARC.key(),
-            TFCBiomes.SHORE.key(), TFCBiomes.TIDAL_FLATS.key(),
-            TFCBiomes.SEA_STACKS.key(), TFCBiomes.TERRACE_UPPER.key(),
-            TFCBiomes.TERRACE_LOWER.key(), TFCBiomes.SETBACK_CLIFFS.key(),
-            TFCBiomes.COASTAL_DUNES.key(), TFCBiomes.ROCKY_SHORES.key(),
-            TFCBiomes.EMBAYMENTS.key(), TFCBiomes.SHIELD_VOLCANO_SHORE.key(),
-            TFCBiomes.OLD_SHIELD_VOLCANO_SHORE.key(), TFCBiomes.ICE_SHEET_OCEANIC.key(),
-            TFCBiomes.ICE_SHEET_SHORE.key()
-        );
-
-        tag(TFCTags.Biomes.IS_RIFT).add(
-            TFCBiomes.RIFT_VALLEY.key(), TFCBiomes.RIFT_LAKE.key()
-        );
-
-        tag(TFCTags.Biomes.IS_RIVER).add(
-            TFCBiomes.RIVER.key(), TFCBiomes.RIVER_VALLEY.key()
-        );
-
-        tag(TFCTags.Biomes.IS_SHIELD_VOLCANO).add(
-            TFCBiomes.ACTIVE_SHIELD_VOLCANO.key(), TFCBiomes.ANCIENT_SHIELD_VOLCANO.key(),
-            TFCBiomes.DORMANT_SHIELD_VOLCANO.key(), TFCBiomes.EXTINCT_SHIELD_VOLCANO.key(),
-            TFCBiomes.SUNKEN_SHIELD_VOLCANO.key(), TFCBiomes.SHIELD_VOLCANO_SHORE.key(),
-            TFCBiomes.OLD_SHIELD_VOLCANO_SHORE.key(), TFCBiomes.GLACIATED_SHIELD_VOLCANO.key(),
-            TFCBiomes.ICE_SHEET_SHIELD_VOLCANO.key()
-        );
-
-        tag(TFCTags.Biomes.IS_SHILIN).add(
-            TFCBiomes.SHILIN_PLAINS.key(), TFCBiomes.SHILIN_CANYONS.key(),
-            TFCBiomes.SHILIN_HILLS.key(), TFCBiomes.SHILIN_HIGHLANDS.key(),
-            TFCBiomes.SHILIN_PLATEAU.key()
-        );
-
-        tag(TFCTags.Biomes.IS_TOWER_KARST).add(
-            TFCBiomes.TOWER_KARST_PLAINS.key(), TFCBiomes.TOWER_KARST_CANYONS.key(),
-            TFCBiomes.TOWER_KARST_HILLS.key(), TFCBiomes.TOWER_KARST_HIGHLANDS.key(),
-            TFCBiomes.TOWER_KARST_LAKE.key(), TFCBiomes.TOWER_KARST_BAY.key()
-        );
-
-        tag(TFCTags.Biomes.KARSTS)
-            .addTag(TFCTags.Biomes.BURRENS)
-            .addTag(TFCTags.Biomes.CENOTES)
-            .addTag(TFCTags.Biomes.DOLINES)
-            .addTag(TFCTags.Biomes.SHILINS)
-            .addTag(TFCTags.Biomes.TOWER_KARSTS);
-
-        tag(TFCTags.Biomes.SHILINS).add(
-            TFCBiomes.SHILIN_PLAINS.key(), TFCBiomes.SHILIN_CANYONS.key(),
-            TFCBiomes.SHILIN_HILLS.key(), TFCBiomes.SHILIN_HIGHLANDS.key(),
-            TFCBiomes.SHILIN_PLATEAU.key()
-        );
-
-        tag(TFCTags.Biomes.TOWER_KARSTS).add(
-            TFCBiomes.TOWER_KARST_PLAINS.key(), TFCBiomes.TOWER_KARST_CANYONS.key(),
-            TFCBiomes.TOWER_KARST_HILLS.key(), TFCBiomes.TOWER_KARST_HIGHLANDS.key(),
-            TFCBiomes.EXTREME_DOLINE_PLATEAU.key(), TFCBiomes.EXTREME_DOLINE_MOUNTAINS.key(),
-            TFCBiomes.TOWER_KARST_LAKE.key(), TFCBiomes.TOWER_KARST_BAY.key()
-        );
-
-        //=====Common Tags=====//
-
-        tag(commonTagOf(Registries.BIOME, "is_lake"))
-            .addTag(TFCTags.Biomes.IS_LAKE);
-
-        tag(Tags.Biomes.IS_OCEAN)
-            .addTag(TFCTags.Biomes.IS_OCEAN);
-
-        tag(Tags.Biomes.IS_RIVER)
-            .addTag(TFCTags.Biomes.IS_RIVER);
+        tag(Tags.Biomes.IS_RIVER).addTag(TFCTags.Biomes.IS_RIVER);
 
         tag(Tags.Biomes.IS_MOUNTAIN).add(
             TFCBiomes.EXTREME_DOLINE_MOUNTAINS.key(), TFCBiomes.GLACIALLY_CARVED_MOUNTAINS.key(),
@@ -288,7 +117,7 @@ public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
             TFCBiomes.DUNE_SEA.key(), TFCBiomes.SALT_FLATS.key(),
             TFCBiomes.ROCKY_PLATEAU.key()
         );
-        
+
         tag(Tags.Biomes.IS_HILL).add(
             TFCBiomes.HILLS.key(), TFCBiomes.ROLLING_HILLS.key(),
             TFCBiomes.HIGHLANDS.key(), TFCBiomes.CENOTE_HILLS.key(),
@@ -349,9 +178,9 @@ public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
         );
 
         tag(Tags.Biomes.IS_SHALLOW_OCEAN).add(
-                TFCBiomes.OCEAN_REEF.key(), TFCBiomes.OCEAN_ATOLLS.key(),
-                TFCBiomes.OCEAN_RIDGE.key()
-            );
+            TFCBiomes.OCEAN_REEF.key(), TFCBiomes.OCEAN_ATOLLS.key(),
+            TFCBiomes.OCEAN_RIDGE.key()
+        );
 
         tag(Tags.Biomes.IS_SNOWY).add(
             TFCBiomes.ICE_SHEET.key(), TFCBiomes.ICE_SHEET_EDGE.key(),
@@ -388,8 +217,8 @@ public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
         //tag(Tags.Biomes.IS_TEMPERATE_OVERWORLD) What should be here??
 
         tag(Tags.Biomes.IS_WET_OVERWORLD).add(
-            TFCBiomes.SALT_MARSH.key(), TFCBiomes.LOWLANDS.key(),
-            TFCBiomes.TIDAL_FLATS.key())
+                TFCBiomes.SALT_MARSH.key(), TFCBiomes.LOWLANDS.key(),
+                TFCBiomes.TIDAL_FLATS.key())
             .addTag(TFCTags.Biomes.KARSTS);
 
         tag(Tags.Biomes.IS_WINDSWEPT).add(
@@ -422,6 +251,175 @@ public class BuiltinBiomeTags extends BiomeTagsProvider implements Accessors
             TFCBiomes.TUYAS.key(), TFCBiomes.KNOB_AND_KETTLE.key(),
             TFCBiomes.PATTERNED_GROUND.key(), TFCBiomes.INVERTED_PATTERNED_GROUND.key(),
             TFCBiomes.STONE_CIRCLES.key()
+        );
+
+        //=====TFC Tags=====//
+
+        tag(TFCTags.Biomes.BURRENS).add(
+            TFCBiomes.BURREN_PLATEAU.key(), TFCBiomes.BURREN_BADLANDS.key(), TFCBiomes.BURREN_BADLANDS_TALL.key(),
+            TFCBiomes.BURREN_PLAINS.key(), TFCBiomes.BURREN_ROCHE_MOUTONEE.key()
+        );
+
+        tag(TFCTags.Biomes.CENOTES).add(
+            TFCBiomes.CENOTE_PLAINS.key(), TFCBiomes.CENOTE_HILLS.key(),
+            TFCBiomes.CENOTE_ROLLING_HILLS.key(), TFCBiomes.CENOTE_CANYONS.key(),
+            TFCBiomes.CENOTE_HIGHLANDS.key(), TFCBiomes.CENOTE_PLATEAU.key()
+        );
+
+        tag(TFCTags.Biomes.DOLINES).add(
+            TFCBiomes.DOLINE_PLAINS.key(), TFCBiomes.DOLINE_HILLS.key(),
+            TFCBiomes.DOLINE_ROLLING_HILLS.key(), TFCBiomes.DOLINE_HIGHLANDS.key(),
+            TFCBiomes.DOLINE_PLATEAU.key(), TFCBiomes.DOLINE_CANYONS.key()
+        );
+
+        tag(TFCTags.Biomes.HAS_ATOLLS).add(
+            TFCBiomes.OCEAN_ATOLLS.key(), TFCBiomes.DEEP_OCEAN_ATOLLS.key()
+        );
+
+        tag(TFCTags.Biomes.HAS_CINDER_CONES).add(
+            TFCBiomes.CANYONS.key(), TFCBiomes.RIFT_VALLEY.key(),
+            TFCBiomes.VOLCANIC_MOUNTAIN_ISLANDS.key(), TFCBiomes.DOLINE_CANYONS.key(),
+            TFCBiomes.ACTIVE_SHIELD_VOLCANO.key()
+        );
+
+        tag(TFCTags.Biomes.HAS_PREDICTABLE_WINDS)
+            .addTag(TFCTags.Biomes.IS_OCEAN);
+
+        tag(TFCTags.Biomes.HAS_STRATOVOLCANOES).add(
+            TFCBiomes.VOLCANIC_MOUNTAINS.key(), TFCBiomes.VOLCANIC_OCEANIC_MOUNTAINS.key(),
+            TFCBiomes.OCEANIC_VOLCANIC_ARC.key(), TFCBiomes.VOLCANIC_ISLAND.key(),
+            TFCBiomes.VOLCANIC_MOUNTAIN_LAKE.key(), TFCBiomes.VOLCANIC_OCEANIC_MOUNTAIN_LAKE.key(),
+            TFCBiomes.ICE_SHEET_VOLCANIC_MOUNTAINS.key(), TFCBiomes.ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS.key(),
+            TFCBiomes.GLACIATED_VOLCANIC_MOUNTAINS.key(), TFCBiomes.GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS.key(),
+            TFCBiomes.GLACIALLY_CARVED_VOLCANIC_MOUNTAINS.key(), TFCBiomes.GLACIALLY_CARVED_VOLCANIC_OCEANIC_MOUNTAINS.key()
+        );
+
+        tag(TFCTags.Biomes.HAS_TUFF_CONES).add(
+            TFCBiomes.DORMANT_SHIELD_VOLCANO.key(), TFCBiomes.EXTINCT_SHIELD_VOLCANO.key(),
+            TFCBiomes.ANCIENT_SHIELD_VOLCANO.key(), TFCBiomes.SUNKEN_SHIELD_VOLCANO.key(),
+            TFCBiomes.SHIELD_VOLCANO_SHORE.key(), TFCBiomes.OLD_SHIELD_VOLCANO_SHORE.key(),
+            TFCBiomes.GLACIATED_SHIELD_VOLCANO.key(), TFCBiomes.ICE_SHEET_SHIELD_VOLCANO.key()
+        );
+
+        tag(TFCTags.Biomes.HAS_TUYAS).add(
+            TFCBiomes.TUYAS.key(), TFCBiomes.ICE_SHEET_TUYAS.key(), TFCBiomes.ICE_SHEET_TUYAS_EDGE.key()
+        );
+
+        tag(TFCTags.Biomes.IS_BURREN).add(
+            TFCBiomes.BURREN_PLATEAU.key(), TFCBiomes.BURREN_BADLANDS.key(), TFCBiomes.BURREN_BADLANDS_TALL.key(),
+            TFCBiomes.BURREN_PLAINS.key(), TFCBiomes.BURREN_ROCHE_MOUTONEE.key()
+        );
+
+        tag(TFCTags.Biomes.IS_DOLINES).add(
+            TFCBiomes.DOLINE_PLAINS.key(), TFCBiomes.DOLINE_HILLS.key(),
+            TFCBiomes.DOLINE_ROLLING_HILLS.key(), TFCBiomes.DOLINE_HIGHLANDS.key(),
+            TFCBiomes.DOLINE_PLATEAU.key(), TFCBiomes.DOLINE_CANYONS.key()
+        );
+
+        tag(TFCTags.Biomes.IS_EXTREME_DOLINES).add(
+            TFCBiomes.EXTREME_DOLINE_PLATEAU.key(), TFCBiomes.EXTREME_DOLINE_MOUNTAINS.key()
+        );
+
+        tag(TFCTags.Biomes.IS_GLACIATED).add(
+            TFCBiomes.GLACIATED_MOUNTAINS.key(), TFCBiomes.GLACIATED_OCEANIC_MOUNTAINS.key(),
+            TFCBiomes.GLACIATED_SHIELD_VOLCANO.key(), TFCBiomes.GLACIATED_VOLCANIC_MOUNTAINS.key(),
+            TFCBiomes.GLACIATED_VOLCANIC_OCEANIC_MOUNTAINS.key()
+        );
+
+        tag(TFCTags.Biomes.IS_ICE_SHEET).add(
+            TFCBiomes.ICE_SHEET.key(), TFCBiomes.ICE_SHEET_EDGE.key(),
+            TFCBiomes.ICE_SHEET_MOUNTAINS.key(), TFCBiomes.ICE_SHEET_MOUNTAINS_EDGE.key(),
+            TFCBiomes.ICE_SHEET_OCEANIC.key(), TFCBiomes.ICE_SHEET_OCEANIC_MOUNTAINS.key(),
+            TFCBiomes.ICE_SHEET_OCEANIC_MOUNTAINS_EDGE.key(), TFCBiomes.ICE_SHEET_SHORE.key(),
+            TFCBiomes.ICE_SHEET_TUYAS.key(), TFCBiomes.ICE_SHEET_TUYAS_EDGE.key(),
+            TFCBiomes.ICE_SHEET_SHIELD_VOLCANO.key(), TFCBiomes.ICE_SHEET_VOLCANIC_MOUNTAINS.key(),
+            TFCBiomes.ICE_SHEET_VOLCANIC_OCEANIC_MOUNTAINS.key(), TFCBiomes.SUBGLACIAL_LAKE.key()
+        );
+
+        tag(TFCTags.Biomes.IS_KARST).add(
+            TFCBiomes.BURREN_PLATEAU.key(), TFCBiomes.BURREN_BADLANDS.key(),
+            TFCBiomes.BURREN_PLAINS.key(), TFCBiomes.BURREN_ROCHE_MOUTONEE.key(),
+            TFCBiomes.DOLINE_PLAINS.key(), TFCBiomes.DOLINE_HILLS.key(),
+            TFCBiomes.DOLINE_ROLLING_HILLS.key(), TFCBiomes.DOLINE_HIGHLANDS.key(),
+            TFCBiomes.DOLINE_PLATEAU.key(), TFCBiomes.DOLINE_CANYONS.key(),
+            TFCBiomes.SHILIN_PLAINS.key(), TFCBiomes.SHILIN_CANYONS.key(),
+            TFCBiomes.SHILIN_HILLS.key(), TFCBiomes.SHILIN_HIGHLANDS.key(),
+            TFCBiomes.SHILIN_PLATEAU.key(), TFCBiomes.TOWER_KARST_PLAINS.key(),
+            TFCBiomes.TOWER_KARST_CANYONS.key(), TFCBiomes.TOWER_KARST_HILLS.key(),
+            TFCBiomes.TOWER_KARST_HIGHLANDS.key(), TFCBiomes.EXTREME_DOLINE_PLATEAU.key(),
+            TFCBiomes.EXTREME_DOLINE_MOUNTAINS.key(), TFCBiomes.TOWER_KARST_LAKE.key(),
+            TFCBiomes.TOWER_KARST_BAY.key(), TFCBiomes.BURREN_BADLANDS_TALL.key()
+        );
+
+        tag(TFCTags.Biomes.IS_LAKE).add(
+            TFCBiomes.LAKE.key(), TFCBiomes.MOUNTAIN_LAKE.key(),
+            TFCBiomes.OLD_MOUNTAIN_LAKE.key(), TFCBiomes.OCEANIC_MOUNTAIN_LAKE.key(),
+            TFCBiomes.VOLCANIC_MOUNTAIN_LAKE.key(), TFCBiomes.VOLCANIC_OCEANIC_MOUNTAIN_LAKE.key(),
+            TFCBiomes.PLATEAU_LAKE.key(), TFCBiomes.SUBGLACIAL_LAKE.key(),
+            TFCBiomes.MELTWATER_LAKE.key(), TFCBiomes.TOWER_KARST_LAKE.key(),
+            TFCBiomes.RIFT_LAKE.key()
+        );
+
+        tag(TFCTags.Biomes.IS_OCEAN).add(
+            TFCBiomes.OCEAN.key(), TFCBiomes.OCEAN_REEF.key(),
+            TFCBiomes.DEEP_OCEAN.key(), TFCBiomes.DEEP_OCEAN_TRENCH.key(),
+            TFCBiomes.OCEAN_RIDGE.key(), TFCBiomes.OCEAN_ATOLLS.key(),
+            TFCBiomes.DEEP_OCEAN_ATOLLS.key(), TFCBiomes.OCEANIC_VOLCANIC_ARC.key(),
+            TFCBiomes.SHORE.key(), TFCBiomes.TIDAL_FLATS.key(),
+            TFCBiomes.SEA_STACKS.key(), TFCBiomes.TERRACE_UPPER.key(),
+            TFCBiomes.TERRACE_LOWER.key(), TFCBiomes.SETBACK_CLIFFS.key(),
+            TFCBiomes.COASTAL_DUNES.key(), TFCBiomes.ROCKY_SHORES.key(),
+            TFCBiomes.EMBAYMENTS.key(), TFCBiomes.SHIELD_VOLCANO_SHORE.key(),
+            TFCBiomes.OLD_SHIELD_VOLCANO_SHORE.key(), TFCBiomes.ICE_SHEET_OCEANIC.key(),
+            TFCBiomes.ICE_SHEET_SHORE.key()
+        );
+
+        tag(TFCTags.Biomes.IS_RIFT).add(
+            TFCBiomes.RIFT_VALLEY.key(), TFCBiomes.RIFT_LAKE.key()
+        );
+
+        tag(TFCTags.Biomes.IS_RIVER).add(
+            TFCBiomes.RIVER.key(), TFCBiomes.RIVER_VALLEY.key()
+        );
+
+        tag(TFCTags.Biomes.IS_SHIELD_VOLCANO).add(
+            TFCBiomes.ACTIVE_SHIELD_VOLCANO.key(), TFCBiomes.ANCIENT_SHIELD_VOLCANO.key(),
+            TFCBiomes.DORMANT_SHIELD_VOLCANO.key(), TFCBiomes.EXTINCT_SHIELD_VOLCANO.key(),
+            TFCBiomes.SUNKEN_SHIELD_VOLCANO.key(), TFCBiomes.SHIELD_VOLCANO_SHORE.key(),
+            TFCBiomes.OLD_SHIELD_VOLCANO_SHORE.key(), TFCBiomes.GLACIATED_SHIELD_VOLCANO.key(),
+            TFCBiomes.ICE_SHEET_SHIELD_VOLCANO.key()
+        );
+
+        tag(TFCTags.Biomes.IS_SHILIN).add(
+            TFCBiomes.SHILIN_PLAINS.key(), TFCBiomes.SHILIN_CANYONS.key(),
+            TFCBiomes.SHILIN_HILLS.key(), TFCBiomes.SHILIN_HIGHLANDS.key(),
+            TFCBiomes.SHILIN_PLATEAU.key()
+        );
+
+        tag(TFCTags.Biomes.IS_TOWER_KARST).add(
+            TFCBiomes.TOWER_KARST_PLAINS.key(), TFCBiomes.TOWER_KARST_CANYONS.key(),
+            TFCBiomes.TOWER_KARST_HILLS.key(), TFCBiomes.TOWER_KARST_HIGHLANDS.key(),
+            TFCBiomes.TOWER_KARST_LAKE.key(), TFCBiomes.TOWER_KARST_BAY.key()
+        );
+
+        tag(TFCTags.Biomes.KARSTS)
+            .addTag(TFCTags.Biomes.BURRENS)
+            .addTag(TFCTags.Biomes.CENOTES)
+            .addTag(TFCTags.Biomes.DOLINES)
+            .addTag(TFCTags.Biomes.SHILINS)
+            .addTag(TFCTags.Biomes.TOWER_KARSTS);
+
+        tag(TFCTags.Biomes.SHILINS).add(
+            TFCBiomes.SHILIN_PLAINS.key(), TFCBiomes.SHILIN_CANYONS.key(),
+            TFCBiomes.SHILIN_HILLS.key(), TFCBiomes.SHILIN_HIGHLANDS.key(),
+            TFCBiomes.SHILIN_PLATEAU.key()
+        );
+
+        tag(TFCTags.Biomes.TOWER_KARSTS).add(
+            TFCBiomes.TOWER_KARST_PLAINS.key(), TFCBiomes.TOWER_KARST_CANYONS.key(),
+            TFCBiomes.TOWER_KARST_HILLS.key(), TFCBiomes.TOWER_KARST_HIGHLANDS.key(),
+            TFCBiomes.EXTREME_DOLINE_PLATEAU.key(), TFCBiomes.EXTREME_DOLINE_MOUNTAINS.key(),
+            TFCBiomes.TOWER_KARST_LAKE.key(), TFCBiomes.TOWER_KARST_BAY.key()
         );
     }
 }
