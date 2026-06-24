@@ -1,0 +1,16 @@
+{
+  "values": [
+    "tfc:plains",
+    "tfc:lowlands",
+    "tfc:burren_plains",
+    "tfc:doline_plains",
+    "tfc:cenote_plains",
+    "tfc:tower_karst_plains",
+    "tfc:salt_flats",
+    "tfc:mud_flats",
+    "tfc:tidal_flats",
+    "tfc:patterned_ground",
+    "tfc:inverted_patterned_ground",
+    "tfc:shilin_plains"
+  ]
+}

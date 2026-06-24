@@ -1,0 +1,8 @@
+{
+  "values": [
+    "tfc:ice_sheet_oceanic",
+    "tfc:ice_sheet_shore",
+    "tfc:meltwater_lake",
+    "tfc:subglacial_lake"
+  ]
+}

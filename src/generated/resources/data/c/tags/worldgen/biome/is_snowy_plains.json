@@ -1,0 +1,9 @@
+{
+  "values": [
+    "tfc:ice_sheet",
+    "tfc:ice_sheet_edge",
+    "tfc:patterned_ground",
+    "tfc:inverted_patterned_ground",
+    "tfc:stone_circles"
+  ]
+}

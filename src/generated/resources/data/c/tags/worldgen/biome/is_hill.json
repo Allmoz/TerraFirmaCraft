@@ -1,0 +1,20 @@
+{
+  "values": [
+    "tfc:hills",
+    "tfc:rolling_hills",
+    "tfc:highlands",
+    "tfc:cenote_hills",
+    "tfc:cenote_rolling_hills",
+    "tfc:cenote_highlands",
+    "tfc:doline_hills",
+    "tfc:doline_rolling_hills",
+    "tfc:doline_highlands",
+    "tfc:shilin_hills",
+    "tfc:shilin_highlands",
+    "tfc:shilin_canyons",
+    "tfc:tower_karst_hills",
+    "tfc:tower_karst_highlands",
+    "tfc:drumlins",
+    "tfc:knob_and_kettle"
+  ]
+}
