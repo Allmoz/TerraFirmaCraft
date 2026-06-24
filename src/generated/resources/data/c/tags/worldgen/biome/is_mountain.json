@@ -11,6 +11,14 @@
     "tfc:ice_sheet_oceanic_mountains_edge",
     "tfc:mountains",
     "tfc:oceanic_mountains",
-    "tfc:old_mountains"
+    "tfc:old_mountains",
+    "tfc:collisional_mountains",
+    "tfc:glaciated_volcanic_oceanic_mountains",
+    "tfc:glacially_carved_mountains",
+    "tfc:glacially_carved_oceanic_mountains",
+    "tfc:glaciated_volcanic_mountains",
+    "tfc:ice_sheet_volcanic_oceanic_mountains",
+    "tfc:ice_sheet_volcanic_mountains",
+    "tfc:volcanic_mountain_islands"
   ]
 }

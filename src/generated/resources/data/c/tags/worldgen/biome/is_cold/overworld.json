@@ -23,6 +23,10 @@
     "tfc:knob_and_kettle",
     "tfc:patterned_ground",
     "tfc:inverted_patterned_ground",
-    "tfc:stone_circles"
+    "tfc:stone_circles",
+    "tfc:glaciated_volcanic_mountains",
+    "tfc:glaciated_volcanic_oceanic_mountains",
+    "tfc:ice_sheet_volcanic_mountains",
+    "tfc:ice_sheet_volcanic_oceanic_mountains"
   ]
 }

@@ -1,5 +1,7 @@
 {
   "values": [
-    "tfc:ocean_reef"
+    "tfc:ocean_reef",
+    "tfc:ocean_atolls",
+    "tfc:ocean_ridge"
   ]
 }
