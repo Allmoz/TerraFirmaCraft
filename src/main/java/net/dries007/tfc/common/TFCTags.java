@@ -61,6 +61,7 @@ public class TFCTags
         public static final TagKey<Block> FALLEN_LEAVES = tag("fallen_leaves");
         /** Leaf blocks that spawn leaf particles in the fall */
         public static final TagKey<Block> SEASONAL_LEAVES = tag("seasonal_leaves");
+        public static final TagKey<Block> RENDERS_AS_LEAVES = tag("renders_as_leaves");
 
         // Tags.Blocks.STONES includes raw + hardened
         public static final TagKey<Block> STONES_RAW = commonTag("stones/raw");

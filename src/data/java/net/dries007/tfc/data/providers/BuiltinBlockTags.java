@@ -443,6 +443,17 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
         tag(BREAKS_WHEN_ISOLATED).addTag(STONES_RAW);
         tag(FALLEN_LEAVES).add(TFCBlocks.WOODS, Wood.BlockType.FALLEN_LEAVES);
         tag(SEASONAL_LEAVES).addOnly(pivot(TFCBlocks.WOODS, Wood.BlockType.LEAVES), e -> !e.isConifer());
+        tag(RENDERS_AS_LEAVES)
+            .add(TFCBlocks.WOODS, Wood.BlockType.LEAVES)
+            .addTags(FALLEN_LEAVES)
+            .add(TFCBlocks.FRUIT_TREE_LEAVES)
+            .add(
+                TFCBlocks.ASPEN_KRUMMHOLZ,
+                TFCBlocks.PINE_KRUMMHOLZ,
+                TFCBlocks.DOUGLAS_FIR_KRUMMHOLZ,
+                TFCBlocks.SPRUCE_KRUMMHOLZ,
+                TFCBlocks.WHITE_CEDAR_KRUMMHOLZ
+            );;
 
         tag(STONES_RAW).add(TFCBlocks.ROCK_BLOCKS, Rock.BlockType.RAW);
         tag(STONES_HARDENED).add(TFCBlocks.ROCK_BLOCKS, Rock.BlockType.HARDENED);
