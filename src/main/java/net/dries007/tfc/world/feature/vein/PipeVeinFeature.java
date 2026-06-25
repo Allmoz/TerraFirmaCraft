@@ -37,11 +37,23 @@ public class PipeVeinFeature extends VeinFeature<PipeVeinConfig, PipeVeinFeature
         z += vein.skew * vein.skewZ * yScaled;
 
         final double yFactor = (double) vein.sign * yScaled + 0.5D;
-        final double trueRadius = config.radius() * (1 - yFactor) + (config.radius() - vein.slant) * yFactor + edgeNoise;
-        if (Math.abs(y) < config.height() && (x * x) + (z * z) < trueRadius * trueRadius)
+
+        final int absY = Math.abs(y);
+        if (absY < config.height())
         {
-            return config.config().density();
+            double trueRadius = config.radius() * (1 - yFactor) + (config.radius() - vein.slant) * yFactor + edgeNoise;
+            final int taperStart = (config.height() - 3 * config.radius());
+            if (absY > taperStart)
+            {
+                trueRadius = Mth.map(absY, taperStart, config.height(), trueRadius, -config.radius());
+            }
+
+            if ((x * x) + (z * z) < trueRadius * trueRadius)
+            {
+                return config.config().density();
+            }
         }
+
         return 0;
     }
 
