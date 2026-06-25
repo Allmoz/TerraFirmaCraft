@@ -1,16 +1,6 @@
 ### Changes
-- Several fixes and updates to channels:
-  - Fix interactions where multiple channels attempt to fill one point. (#3498)
-  - Fix a stack overflow if two source channels point at each other.
-  - Remove theoretical dupe glitch.
-  - Fix mold tables not rendering with Sodium installed.
-  - Casting channels now deal damage to players when containing molten metal.
-- Glassblowing changes:
-  - Added an overlay to allow players to see what they are doing.
-  - The overlay shows the current heat as well as the action's progress, and shows when an action is completed.
-  - Added glass blowpipes with batches to the creative menu, preventing the default broken-seeming blowpipe items appearing.
-  - Reduced cooldown/use duration times for glassblowing processes.
-- Update bucketed bluegill texture.
-- Added missing copper door recipe.
-- Added melting recipes for several metal-containing items.
-- Added a tag to allow packmakers to prevent icicle generation.
+- Made pipe veins, including dikes, not so perfectly circular. Also made them taper off at very high elevations
+
+### Fixes
+- Made borders between podzol and alfisol somewhat less square
+- Made lakes generate again
