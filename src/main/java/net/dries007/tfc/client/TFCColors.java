@@ -150,7 +150,7 @@ public final class TFCColors
         final BlockPos seaLevelPos = new BlockPos(pos.getX(), SEA_LEVEL_Y, pos.getZ());
         float temp = Climate.getAverageTemperature(level, seaLevelPos);
         float rainVar = Climate.getRainfallVariance(level, pos);
-        if ((temp > 14.7 && temp < 15.8) || (rainVar > 0.38 && rainVar < 0.42))
+        if ((temp > 11.7 && temp < 12.8) || (rainVar > 0.38 && rainVar < 0.42))
         {
             final int positionClimateHash = (Helpers.hash(912381187503828153L, pos) & 127);
             temp += (float) (positionClimateHash - 63) / 4_000f;
@@ -159,7 +159,7 @@ public final class TFCColors
         final float rainVarAbs = Math.abs(rainVar);
 
         // Shortcut if evergreen climate
-        if (temp > 15f && Math.abs(rainVar) < 0.4)
+        if (temp > 12f && Math.abs(rainVar) < 0.4)
         {
             return getEvergreenFoliageColor(FOLIAGE_COLORS_CACHE, pos);
         }
@@ -170,10 +170,10 @@ public final class TFCColors
         final float x;
         final boolean inNorthernHemisphere = SolarCalculator.getInNorthernHemisphere(pos.getZ(), ClimateRenderCache.INSTANCE.getHemisphereScale());
         float seasonOffset = 0;
-        if (temp <= 15f)
+        if (temp <= 12f)
         {
             // Numbers chosen to create a 2.5-month summer at -20c avg, and a 12-month "summer" at 15c avg
-            x = 1.25f * Math.max(temp, -20f) + 5.3f;
+            x = 1.25f * Math.max(temp, -20f) + 7.6f;
             if (!inNorthernHemisphere)
             {
                 seasonOffset = 0.5f;
@@ -186,7 +186,7 @@ public final class TFCColors
             final float minRain = avgRain * (1 - rainVarAbs);
 
             // Small gap in temperature is so that there are small evergreen bands between dry-season controlled areas and winter-controlled areas
-            if (rainVarAbs > 0.4 && temp > 15.5f && minRain <= 120)
+            if (rainVarAbs > 0.4 && temp > 12.5f && minRain <= 120)
             {
                 if (rainVar < 0)
                 {
@@ -203,8 +203,8 @@ public final class TFCColors
             }
         }
 
-        final float cubedTerm = x * x * x / 4913; // 1 / 17^3
-        final float squaredTerm = x * x / 289; // 1 / 17^2
+        final float cubedTerm = x * x * x / 4096; // 1 / 16^3
+        final float squaredTerm = x * x / 256; // 1 / 16^2
 
         // Offset the seasons by six months if in southern hemisphere, or if dry season is in the summer
         // Positional hashing to fuzz the time of year per-block
