@@ -146,7 +146,7 @@ public class LeavesBlockModel implements IDynamicBakedModel, IUnbakedGeometry<Le
         // we do need to check time of year earlier than we do for foliage colors
         float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
 
-        // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
+        // See Desmos: https://www.desmos.com/calculator/jw5zkjxtnz
         final float x;
         final boolean inEvergreenClimate;
         final boolean inNorthernHemisphere = SolarCalculator.getInNorthernHemisphere(pos.getZ(), ClimateRenderCache.INSTANCE.getHemisphereScale());

@@ -3,7 +3,7 @@
   "parent": "tfc:block/plant/krummholz_1",
   "textures": {
     "0": "tfc:block/wood/log/spruce",
-    "1": "tfc:block/wood/leaves/snowy_leaves/spruce",
+    "1": "tfc:block/wood/leaves/spruce_frozen",
     "particle": "tfc:block/wood/log/spruce"
   }
 }

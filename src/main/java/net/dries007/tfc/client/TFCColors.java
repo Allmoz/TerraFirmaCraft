@@ -166,7 +166,7 @@ public final class TFCColors
 
         float timeOfYear = Calendars.CLIENT.getCalendarFractionOfYear();
 
-        // See Desmos: https://www.desmos.com/calculator/ckdweimnf0
+        // See Desmos: https://www.desmos.com/calculator/jw5zkjxtnz
         final float x;
         final boolean inNorthernHemisphere = SolarCalculator.getInNorthernHemisphere(pos.getZ(), ClimateRenderCache.INSTANCE.getHemisphereScale());
         float seasonOffset = 0;
