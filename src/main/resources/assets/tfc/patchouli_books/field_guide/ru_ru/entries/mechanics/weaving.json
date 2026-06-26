@@ -60,6 +60,16 @@
       "type": "patchouli:crafting",
       "recipe": "minecraft:light_blue_bed",
       "recipe2": "minecraft:painting"
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "power_loom",
+      "recipe": "tfc:crafting/power_loom",
+      "text": "Ткачество можно автоматизировать используя $(l:mechanics/mechanical_power#quern)механическую энергию$() с помощью $(thing)механического ткацкого станка$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "В механический ткацкий станок, как и в обычный, можно положить предметы, используя воронку сбоку, и забрать продукт воронкой под станком. С правой стороны к станку  можно присоединить $(thing)ось$() для снабжения его механической энергией. Заполните станок нитями, и он медленно соткет конечный продукт. На механическом ткацком станке нельзя работать вручную."
     }
   ],
   "read_by_default": true,
@@ -70,6 +80,7 @@
     "tfc:wool_cloth": 4,
     "minecraft:white_wool": 6,
     "tfc:silk_cloth": 7,
-    "tfc:burlap_cloth": 8
+    "tfc:burlap_cloth": 8,
+    "tfc:power_loom": 10
   }
 }

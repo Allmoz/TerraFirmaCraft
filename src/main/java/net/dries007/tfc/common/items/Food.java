@@ -34,7 +34,6 @@ public enum Food implements StringRepresentable
     PLUM(true),
     RED_APPLE(true),
     // Misc Fruit
-    PUMPKIN_CHUNKS(true),
     MELON_SLICE(true),
     // Grains
     BARLEY,
@@ -97,9 +96,12 @@ public enum Food implements StringRepresentable
     TOMATO,
     YELLOW_BELL_PEPPER,
     CASSAVA,
+    COOKED_CASSAVA,
     LENTIL,
+    COOKED_LENTIL,
     PEANUT(true),
     RADISH,
+    PUMPKIN_CHUNKS,
     // Non-Vegetables
     CHEESE,
     COOKED_EGG,
@@ -122,6 +124,7 @@ public enum Food implements StringRepresentable
     TURKEY,
     PEAFOWL,
     VENISON,
+    BISON,
     WOLF,
     RABBIT,
     FOX,
@@ -143,6 +146,15 @@ public enum Food implements StringRepresentable
     RAINBOW_TROUT,
     SALMON,
     SMALLMOUTH_BASS,
+    RED_PIRANHA,
+    PACU,
+    PEACOCK_BASS,
+    SPOTTED_GUDGEON,
+    TILAPIA,
+    MUKSUN,
+    ARCTIC_CHAR,
+    BURBOT,
+    NORTHERN_PIKE,
     // Cooked Meats
     COOKED_BEEF,
     COOKED_PORK,
@@ -156,6 +168,7 @@ public enum Food implements StringRepresentable
     COOKED_PEAFOWL,
     COOKED_GROUSE,
     COOKED_VENISON,
+    COOKED_BISON,
     COOKED_WOLF,
     COOKED_RABBIT,
     COOKED_FOX,
@@ -177,6 +190,15 @@ public enum Food implements StringRepresentable
     COOKED_RAINBOW_TROUT,
     COOKED_SALMON,
     COOKED_SMALLMOUTH_BASS,
+    COOKED_ARCTIC_CHAR,
+    COOKED_BURBOT,
+    COOKED_MUKSUN,
+    COOKED_NORTHERN_PIKE,
+    COOKED_PACU,
+    COOKED_PEACOCK_BASS,
+    COOKED_RED_PIRANHA,
+    COOKED_SPOTTED_GUDGEON,
+    COOKED_TILAPIA,
     ;
     
     private final boolean hasJam;

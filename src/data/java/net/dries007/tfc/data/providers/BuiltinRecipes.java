@@ -30,7 +30,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
@@ -188,7 +187,7 @@ public final class BuiltinRecipes extends VanillaRecipeProvider implements
             SizedFluidIngredient.of(fluidOf(Metal.CAST_IRON), 100),
             SizedIngredient.of(Items.CHARCOAL, 2),
             ItemStackProvider.of(TFCItems.RAW_IRON_BLOOM),
-            hours(15)
+            hours(12)
         ));
 
         // Blast Furnace Recipes

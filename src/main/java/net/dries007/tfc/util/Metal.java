@@ -54,6 +54,7 @@ import net.dries007.tfc.common.blocks.WeatheringSlabBlock;
 import net.dries007.tfc.common.blocks.WeatheringStairBlock;
 import net.dries007.tfc.common.blocks.devices.AnvilBlock;
 import net.dries007.tfc.common.blocks.devices.LampBlock;
+import net.dries007.tfc.common.items.BarteringItem;
 import net.dries007.tfc.common.items.ChiselItem;
 import net.dries007.tfc.common.items.HammerItem;
 import net.dries007.tfc.common.items.JavelinItem;
@@ -96,13 +97,13 @@ public enum Metal implements StringRepresentable, RegistryMetal
     BLACK_STEEL(0xFF111111, MapColor.COLOR_BLACK, Rarity.RARE, -1, TFCTiers.BLACK_STEEL, TFCArmorMaterials.BLACK_STEEL),
     BLUE_STEEL(0xFF2D5596, MapColor.COLOR_BLUE, Rarity.EPIC, -1, TFCTiers.BLUE_STEEL, TFCArmorMaterials.BLUE_STEEL),
     RED_STEEL(0xFF700503, MapColor.COLOR_RED, Rarity.EPIC, -1, TFCTiers.RED_STEEL, TFCArmorMaterials.RED_STEEL),
-    WEAK_STEEL(0xFF111111, MapColor.COLOR_GRAY, Rarity.COMMON, -1, PartType.INGOT),
-    WEAK_BLUE_STEEL(0xFF2D5596, MapColor.COLOR_BLUE, Rarity.COMMON, -1, PartType.INGOT),
-    WEAK_RED_STEEL(0xFF700503, MapColor.COLOR_RED, Rarity.COMMON, -1, PartType.INGOT),
+    WEAK_STEEL(0xFF111111, MapColor.COLOR_GRAY, Rarity.UNCOMMON, -1, PartType.INGOT),
+    WEAK_BLUE_STEEL(0xFF2D5596, MapColor.COLOR_BLUE, Rarity.RARE, -1, PartType.INGOT),
+    WEAK_RED_STEEL(0xFF700503, MapColor.COLOR_RED, Rarity.RARE, -1, PartType.INGOT),
     HIGH_CARBON_STEEL(0xFF5F5F5F, MapColor.COLOR_GRAY, Rarity.COMMON, -1, PartType.INGOT),
-    HIGH_CARBON_BLACK_STEEL(0xFF111111, MapColor.COLOR_BLACK, Rarity.COMMON, -1, PartType.INGOT),
-    HIGH_CARBON_BLUE_STEEL(0xFF2D5596, MapColor.COLOR_BLUE, Rarity.COMMON, -1, PartType.INGOT),
-    HIGH_CARBON_RED_STEEL(0xFF700503, MapColor.COLOR_RED, Rarity.COMMON, -1, PartType.INGOT),
+    HIGH_CARBON_BLACK_STEEL(0xFF111111, MapColor.COLOR_BLACK, Rarity.UNCOMMON, -1, PartType.INGOT),
+    HIGH_CARBON_BLUE_STEEL(0xFF2D5596, MapColor.COLOR_BLUE, Rarity.RARE, -1, PartType.INGOT),
+    HIGH_CARBON_RED_STEEL(0xFF700503, MapColor.COLOR_RED, Rarity.RARE, -1, PartType.INGOT),
     UNKNOWN(0xFF2F2B27, MapColor.COLOR_BLACK, Rarity.COMMON, -1, PartType.INGOT);
 
     private final String serializedName;
@@ -204,6 +205,12 @@ public enum Metal implements StringRepresentable, RegistryMetal
     public Block getBlock(BlockType type)
     {
         return TFCBlocks.METALS.get(this).get(type).get();
+    }
+
+    @Override
+    public boolean isPiglinCurrency()
+    {
+        return this == GOLD;
     }
 
     public int tier()
@@ -323,7 +330,7 @@ public enum Metal implements StringRepresentable, RegistryMetal
     public enum ItemType
     {
         // Generic
-        INGOT(PartType.INGOT, true),
+        INGOT(PartType.INGOT, true, metal -> new BarteringItem(base(metal), metal.isPiglinCurrency())),
         DOUBLE_INGOT(PartType.DEFAULT, false),
         SHEET(PartType.DEFAULT, false),
         DOUBLE_SHEET(PartType.DEFAULT, false),

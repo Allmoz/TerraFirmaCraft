@@ -1,9 +1,38 @@
 ### Changes
-- Recolor some light colored text in the field guide to be more readable.
-- Improved the API surface of Pots.
-
-### Bug Fixes
-- Fix an unwanted border between water types with Sodium installed.
-- Fix a missing butterfly particle.
-- Fix quern rotating player the wrong direction.
-- Fix the vanilla 'day counter' debug info not working and being incompatible with other mods.
+- Added several new freshwater fishes and reworked the spawn ranges of existing fish to be more realistic:
+  - Arctic Char 
+  - Burbot
+  - Muksun
+  - Northern Pike
+  - Pacu
+  - Peacock Bass
+  - Red Piranha
+  - Spotted Gudgeon
+  - Tilapia
+- Allow crafting Reinforced Fire Bricks with Steel Sheets (#3578)
+- Linked chiseled and cracked bricks to their field guide entry (#3570)
+- Fix the leather helmet recipe only being recognized in one position (#3570)
+- Fix draw order issue in the pet command UI (#3561)
+- Fix filling barrel items from the world not setting a sealed date (#3559)
+- Fix vanilla tridents rendering wrong when placed in world.
+- Prevent pumps from waterlogging aqueducts (#3503)
+- Made fixes and tweaks to the trip hammer logic.
+- Fix creative motors not breaking when invalid.
+- Fixed the block tags debug tooltip.
+- Fix tool racks being unable to be placed on sources of redstone power.
+- Improved the placement mechanics of shelves.
+- Added missing rotation and mirror functions.
+- Changes to the textures of fish buckets.
+- Improved display of glass saw breakables in Jade.
+- Added recipes for new music discs.
+- Fix flattened glass destroying itself.
+- Fixed time skips freezing water that is underneath other fluids.
+- Added more pick block results.
+- Fixed molten metal not damaging players.
+- Fixed the attachment mechanic for Minecarts.
+- Fix spring water not recognized as water in some cases.
+- Fixed issues with horse breeding.
+- Fixed ash not accumulating.
+- Added some common entity and item tags.
+- Temperatures in item tooltips now respond to the clientside display setting (#3615)
+- Fix falling block racetracks in charcoal piles (#3623)

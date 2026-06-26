@@ -23,6 +23,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.TFCTags;
@@ -319,6 +320,12 @@ public class PotBlockEntity extends AbstractFirepitBlockEntity<PotBlockEntity.Po
         public ItemStack extractItem(int slot, int amount, boolean simulate)
         {
             return pot.hasRecipeStarted() && slot >= inputStart() ? ItemStack.EMPTY : inventory.extractItem(slot, amount, simulate);
+        }
+
+        @Override
+        public @NotNull FluidStack drain(int maxDrain, FluidAction action)
+        {
+            return pot.hasRecipeStarted() ? FluidStack.EMPTY : getFluidHandler().drain(maxDrain, action);
         }
 
         @Override

@@ -8,7 +8,6 @@ package net.dries007.tfc;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -27,7 +26,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -96,11 +94,11 @@ import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.item.ItemExpireEvent;
 import net.neoforged.neoforge.event.entity.living.AnimalTameEvent;
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
+import net.neoforged.neoforge.event.entity.living.LivingBreatheEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
-import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.BonemealEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -117,7 +115,6 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
-import vazkii.patchouli.api.BookDrawScreenEvent;
 
 import net.dries007.tfc.client.TFCSounds;
 import net.dries007.tfc.common.TFCTags;
@@ -136,6 +133,7 @@ import net.dries007.tfc.common.blockentities.TickCounterBlockEntity;
 import net.dries007.tfc.common.blocks.CharcoalPileBlock;
 import net.dries007.tfc.common.blocks.FireboxBlock;
 import net.dries007.tfc.common.blocks.TFCBlocks;
+import net.dries007.tfc.common.blocks.TFCBubbleColumnBlock;
 import net.dries007.tfc.common.blocks.TFCCandleBlock;
 import net.dries007.tfc.common.blocks.TFCCandleCakeBlock;
 import net.dries007.tfc.common.blocks.devices.AnvilBlock;
@@ -176,7 +174,6 @@ import net.dries007.tfc.common.recipes.CollapseRecipe;
 import net.dries007.tfc.common.recipes.LandslideRecipe;
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.network.DataManagerSyncPacket;
-import net.dries007.tfc.network.EffectExpirePacket;
 import net.dries007.tfc.network.PlayerDrinkPacket;
 import net.dries007.tfc.network.UpdateClimateModelPacket;
 import net.dries007.tfc.util.AxeLoggingHelper;
@@ -222,12 +219,11 @@ public final class ForgeEventHandler
         bus.addListener(ForgeEventHandler::onCreateNetherPortal);
         bus.addListener(ForgeEventHandler::onFluidPlaceBlock);
         bus.addListener(ForgeEventHandler::onFluidCreateSource);
+        bus.addListener(ForgeEventHandler::onLivingBreathe);
         bus.addListener(ForgeEventHandler::onFireStart);
         bus.addListener(ForgeEventHandler::onFireStop);
         bus.addListener(ForgeEventHandler::onProjectileImpact);
         bus.addListener(ForgeEventHandler::onPlayerTick);
-        bus.addListener(ForgeEventHandler::onEffectRemove);
-        bus.addListener(ForgeEventHandler::onEffectExpire);
         bus.addListener(ForgeEventHandler::onLivingJump);
         bus.addListener(ForgeEventHandler::onLivingHurt);
         bus.addListener(ForgeEventHandler::onShieldBlock);
@@ -498,6 +494,15 @@ public final class ForgeEventHandler
             {
                 event.setCanConvert(false); // This block might be being fed by a sluice - so don't allow it to create more source blocks.
             }
+        }
+    }
+
+    public static void onLivingBreathe(LivingBreatheEvent event)
+    {
+        final LivingEntity entity = event.getEntity();
+        if (TFCConfig.SERVER.bubbleColumnProvidesAir.get() && entity.level().getBlockState(BlockPos.containing(entity.getEyePosition())).getBlock() instanceof TFCBubbleColumnBlock)
+        {
+            event.setCanBreathe(true);
         }
     }
 
@@ -778,36 +783,10 @@ public final class ForgeEventHandler
         }
     }
 
-    public static void onEffectRemove(MobEffectEvent.Remove event)
-    {
-        final MobEffectInstance inst = event.getEffectInstance();
-        if (event.getEntity() instanceof ServerPlayer player && inst != null)
-        {
-            PacketDistributor.sendToPlayer(player, new EffectExpirePacket(inst.getEffect()));
-            if (inst.getEffect() == TFCEffects.PINNED.get())
-            {
-                player.setForcedPose(null);
-            }
-        }
-    }
-
-    public static void onEffectExpire(MobEffectEvent.Expired event)
-    {
-        final MobEffectInstance instance = event.getEffectInstance();
-        if (instance != null && event.getEntity() instanceof ServerPlayer player)
-        {
-            PacketDistributor.sendToPlayer(player, new EffectExpirePacket(instance.getEffect()));
-            if (instance.getEffect() == TFCEffects.PINNED.get())
-            {
-                player.setForcedPose(null);
-            }
-        }
-    }
-
     public static void onLivingJump(LivingEvent.LivingJumpEvent event)
     {
         LivingEntity entity = event.getEntity();
-        if (entity.hasEffect(TFCEffects.PINNED.holder()) || entity.hasEffect(TFCEffects.OVERBURDENED.holder()))
+        if (entity.hasEffect(TFCEffects.OVERBURDENED.holder()))
         {
             entity.setDeltaMovement(0, 0, 0);
             entity.hasImpulse = false;
@@ -1084,7 +1063,7 @@ public final class ForgeEventHandler
                             level.destroyBlock(belowPos, false);
                         }
                     }
-                    else if (belowState.getBlock() == Blocks.ICE || belowState.getBlock() == Blocks.FROSTED_ICE)
+                    else if (belowState.getBlock() == Blocks.ICE || belowState.getBlock() == Blocks.FROSTED_ICE || Helpers.isBlock(belowState, TFCBlocks.SEA_ICE.get()))
                     {
                         coolAmount = 100f;
                         if (level.random.nextFloat() < 0.01F)

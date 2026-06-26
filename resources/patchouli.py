@@ -65,6 +65,10 @@ class Page(NamedTuple):
                         self.data[key] = i18n.translate(value.value).format(*value.params)
                     except IndexError as e:
                         raise ValueError('Error performing replacement for lang %s\n  \'%s\' -> \'%s\'' % (i18n.lang, value.value, i18n.translate(value.value))) from e
+                elif isinstance(value, list):
+                    for i, subValue in enumerate(value):
+                        if "text" in subValue and subValue["text"] is not None:
+                            self.data[key][i]["text"] = i18n.translate(subValue["text"])
                 else:
                     self.data[key] = i18n.translate(value)
 
@@ -288,6 +292,8 @@ def entry(entry_id: str, name: str, icon: str, advancement: str | None = None, p
     """
     if icon.startswith('tfc:food/'):  # Food items decay - this is a stupid hack to just replace them with their .png image, so they don't! Wizard!
         icon = icon.replace('tfc:', 'tfc:textures/item/') + '.png'
+    if icon.startswith('minecraft:egg'):  # Vanilla egg too -  the hack continues
+        icon = icon.replace('minecraft:', 'minecraft:textures/item/') + '.png'
     # This is a heuristic, it is not accurate (as crafting recipes also generate ctrl-links). But it is useful as a start
     # requires `import warnings`
     # if all(not p.link_ids for p in pages):
@@ -487,7 +493,7 @@ def table(strings: List[str | Dict], text_content: TranslatableStr, title: Trans
         'left_buffer': left_buffer,
         'top_buffer': top_buffer,
         'draw_background': draw_background
-    }, custom=True, translation_keys=('text', 'title'))
+    }, custom=True, translation_keys=('text', 'title', 'strings', 'legend'))
 
 
 def page(page_type: str, page_data: JsonObject, custom: bool = False, translation_keys: Tuple[str, ...] = ()) -> Page:

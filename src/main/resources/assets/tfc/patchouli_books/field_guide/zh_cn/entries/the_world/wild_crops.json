@@ -29,7 +29,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Every $(l:mechanics/crops)crop$() that can be cultivated can also be found in the wild. Wild crops will look similar to their cultivated counterparts, but are more hidden within the grass. Wild crops are only mature from June to October. Otherwise, they appear dead until the next Summer."
+      "text": "每一种可以种植的$(l:mechanics/crops)农作物$()也都可以在野外找到。野生作物看起来与栽培的同类相似，但更隐蔽地隐藏在草丛中。野生作物只在六月到十月期间成熟。否则，它们会看起来像枯死一样，直到下一个夏天。"
     },
     {
       "type": "tfc:multimultiblock",
@@ -319,12 +319,12 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Wild crops will spawn in climates near where the crop itself can be cultivated, so if looking for a specific crop, look in the climate where the crop can be cultivated. However, unlike $(l:mechanics/crops)Crops$() that the player has planted, wild crops do not require $(l:mechanics/hydration)Hydration$(). Instead, they are found in areas depending on the average $()Temperature$() and $()Rainfall$().",
-      "title": "Finding Wild Crops"
+      "text": "野生作物会生成在接近该作物可种植的气候区域，因此如果要寻找特定作物，就到该作物可种植的气候中去寻找。然而，与玩家种植的$(l:mechanics/crops)农作物$()不同，野生作物不需要$(l:mechanics/hydration)湿度$()。相反，它们出现的位置取决于年平均$(l:the_world/climate#temperature)温度$()和$(l:the_world/climate#rainfall)降雨量$()。",
+      "title": "寻找野生作物"
     },
     {
       "type": "patchouli:text",
-      "text": "The next pages show a table of the environments where wild crops can be found."
+      "text": "接下来的几页展示了一个表格，列出了可以找到野生作物的环境。"
     },
     {
       "type": "tfc:table",
@@ -342,7 +342,7 @@
           "bold": true
         },
         {
-          "text": "Cassava"
+          "text": "木薯"
         },
         {
           "text": "10.4 - 40"
@@ -378,7 +378,7 @@
           "text": "130 - 360"
         },
         {
-          "text": "Soybean"
+          "text": "大豆"
         },
         {
           "text": "-9.4 - 15.8"
@@ -387,7 +387,7 @@
           "text": "160 - 410"
         },
         {
-          "text": "Barley"
+          "text": "大麦"
         },
         {
           "text": "-9.4 - 17.6"
@@ -396,7 +396,7 @@
           "text": " 70 - 310"
         },
         {
-          "text": "Oat"
+          "text": "燕麦"
         },
         {
           "text": "-9.4 - 15.8"
@@ -405,7 +405,7 @@
           "text": "140 - 400"
         },
         {
-          "text": "Rye"
+          "text": "黑麦"
         },
         {
           "text": "-9.4 - 8.6"
@@ -414,7 +414,7 @@
           "text": "100 - 350"
         },
         {
-          "text": "Maize"
+          "text": "玉米"
         },
         {
           "text": "-9.4 - 23.0"
@@ -423,7 +423,7 @@
           "text": "300 - 500"
         },
         {
-          "text": "Wheat"
+          "text": "小麦"
         },
         {
           "text": "-9.4 - 15.8"
@@ -432,7 +432,7 @@
           "text": "100 - 400"
         },
         {
-          "text": "Rice"
+          "text": "水稻"
         },
         {
           "text": "8.6 - 40"
@@ -441,7 +441,7 @@
           "text": "200 - 500"
         },
         {
-          "text": "Beet"
+          "text": "甜菜"
         },
         {
           "text": "-13 - 23.0"
@@ -451,7 +451,7 @@
         }
       ],
       "text": "",
-      "title": "Wild Crop Requirements",
+      "title": "野生作物所需条件",
       "legend": [],
       "columns": 2,
       "first_column_width": 80,
@@ -481,7 +481,7 @@
           "bold": true
         },
         {
-          "text": "Cabbage"
+          "text": "卷心菜"
         },
         {
           "text": "-13 - 23.0"
@@ -490,7 +490,7 @@
           "text": " 60 - 280"
         },
         {
-          "text": "Carrot"
+          "text": "胡萝卜"
         },
         {
           "text": "-13 - 23.0"
@@ -499,7 +499,7 @@
           "text": "100 - 400"
         },
         {
-          "text": "Garlic"
+          "text": "大蒜"
         },
         {
           "text": "-5.8 - 15.8"
@@ -526,7 +526,7 @@
           "text": "200 - 420"
         },
         {
-          "text": "Squash"
+          "text": "西葫芦"
         },
         {
           "text": "-9.4 - 19.4"
@@ -544,7 +544,7 @@
           "text": "120 - 390"
         },
         {
-          "text": "Red Bell Pepper"
+          "text": "红甜椒"
         },
         {
           "text": "12.2 - 40"
@@ -553,7 +553,7 @@
           "text": "190 - 450"
         },
         {
-          "text": "Yellow Bell Pepper"
+          "text": "黄甜椒"
         },
         {
           "text": "12.2 - 40"
@@ -569,10 +569,28 @@
         },
         {
           "text": "120 - 390"
+        },
+        {
+          "text": "Melon"
+        },
+        {
+          "text": "  5 - 40"
+        },
+        {
+          "text": "200 - 500"
+        },
+        {
+          "text": "油菜"
+        },
+        {
+          "text": "-13 - 3.2"
+        },
+        {
+          "text": "120 - 320"
         }
       ],
       "text": "",
-      "title": "Wild Crop Requirements",
+      "title": "野生作物所需条件",
       "legend": [],
       "columns": 2,
       "first_column_width": 80,
@@ -602,25 +620,7 @@
           "bold": true
         },
         {
-          "text": "Melon"
-        },
-        {
-          "text": "  5 - 40"
-        },
-        {
-          "text": "200 - 500"
-        },
-        {
-          "text": "Canola"
-        },
-        {
-          "text": "-13 - 3.2"
-        },
-        {
-          "text": "120 - 320"
-        },
-        {
-          "text": "Radish"
+          "text": "萝卜"
         },
         {
           "text": "-11.2 - 6.8"
@@ -629,7 +629,7 @@
           "text": "190 - 410"
         },
         {
-          "text": "Alfalfa"
+          "text": "苜蓿"
         },
         {
           "text": "-14.8 - 5"
@@ -638,7 +638,7 @@
           "text": "240 - 480"
         },
         {
-          "text": "Jute"
+          "text": "黄麻"
         },
         {
           "text": "1.4 - 19.4"
@@ -647,7 +647,7 @@
           "text": "100 - 410"
         },
         {
-          "text": "Papyrus"
+          "text": "纸莎草"
         },
         {
           "text": "12.2 - 40"
@@ -656,7 +656,7 @@
           "text": "310 - 500"
         },
         {
-          "text": "Sugarcane"
+          "text": "甘蔗"
         },
         {
           "text": "17.6 - 40"
@@ -666,7 +666,7 @@
         }
       ],
       "text": "",
-      "title": "Wild Crop Requirements",
+      "title": "野生作物所需条件",
       "legend": [],
       "columns": 2,
       "first_column_width": 80,

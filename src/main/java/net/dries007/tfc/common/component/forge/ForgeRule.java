@@ -8,7 +8,6 @@ package net.dries007.tfc.common.component.forge;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
@@ -208,12 +207,12 @@ public enum ForgeRule implements StringRepresentable
 
     public int iconX()
     {
-        return type == HIT_LIGHT ? 218 : type.iconX();
+        return type.iconX();
     }
 
     public int iconY()
     {
-        return type == HIT_LIGHT ? 18 : type.iconY();
+        return type.iconY();
     }
 
     public int overlayY()

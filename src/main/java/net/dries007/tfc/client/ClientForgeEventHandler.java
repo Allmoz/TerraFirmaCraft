@@ -71,6 +71,7 @@ import org.jetbrains.annotations.Nullable;
 import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.client.particle.TFCParticles;
 import net.dries007.tfc.client.screen.button.PlayerInventoryTabButton;
+import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blockentities.SluiceBlockEntity;
 import net.dries007.tfc.common.blocks.devices.SluiceBlock;
 import net.dries007.tfc.common.component.EggComponent;
@@ -160,17 +161,17 @@ public class ClientForgeEventHandler
                 tooltip.add("Temperature: Sea Level Avg: %.3f Avg: %.3f Now: %.3f".formatted(
                     ClimateRenderCache.INSTANCE.getAverageSeaLevelTemperature(),
                     ClimateRenderCache.INSTANCE.getAverageTemperature(),
-                    ClimateRenderCache.INSTANCE.getTemperature()
+                    ClimateRenderCache.INSTANCE.getInstantTemperature()
                 ));
                 tooltip.add("Rain: Avg: %.3f Var: %.3f Now: %.3f".formatted(
                     ClimateRenderCache.INSTANCE.getAverageRainfall(),
                     ClimateRenderCache.INSTANCE.getRainVariance(),
-                    ClimateRenderCache.INSTANCE.getRainfall()
+                    ClimateRenderCache.INSTANCE.getInstantRainfall()
                 ));
                 tooltip.add("Water: Avg: %.3f Base: %.3f Now: %.3f".formatted(
                     ClimateRenderCache.INSTANCE.getAverageGroundwater(),
                     ClimateRenderCache.INSTANCE.getBaseGroundwater(),
-                    ClimateRenderCache.INSTANCE.getGroundwater()
+                    ClimateRenderCache.INSTANCE.getInstantGroundwater()
                 ));
                 final Vec2 wind = ClimateRenderCache.INSTANCE.getWind();
                 tooltip.add(Component.translatable("tfc.tooltip.wind_speed",
@@ -217,6 +218,11 @@ public class ClientForgeEventHandler
             if (event.getName() == VanillaGuiLayers.CROSSHAIR && holdingHoe && (!TFCConfig.CLIENT.showHoeOverlaysOnlyWhenShifting.get() || player.isShiftKeyDown()))
             {
                 HoeOverlays.render(minecraft, graphics);
+            }
+            final boolean holdingGlassBlowpipe = Helpers.isItem(player.getMainHandItem().getItem(), TFCTags.Items.GLASS_BLOWPIPES) || Helpers.isItem(player.getOffhandItem().getItem(), TFCTags.Items.GLASS_BLOWPIPES);
+            if (event.getName() == VanillaGuiLayers.CROSSHAIR && holdingGlassBlowpipe)
+            {
+                GlassblowingOverlays.render(minecraft, graphics);
             }
         }
     }
@@ -324,7 +330,7 @@ public class ClientForgeEventHandler
 
                 final String itemTags = listOfTags(stack.getItem().builtInRegistryHolder());
                 final String blockTags = stack.getItem() instanceof BlockItem blockItem
-                    ? listOfTags(blockItem.builtInRegistryHolder())
+                    ? listOfTags(blockItem.getBlock().builtInRegistryHolder())
                     : "";
 
                 if (!itemTags.isEmpty()) tooltip.add(Component.literal(DARK_GRAY + "[Debug] Item Tags: " + itemTags));
@@ -433,9 +439,9 @@ public class ClientForgeEventHandler
             final double zBias = wind.y > 0 ? 6 : -6;
 
             // don't spawn wind particles in rain
-            if (!(ClimateRenderCache.INSTANCE.getTemperature() > 0f && level.getRainLevel(0) > 0))
+            if (!(ClimateRenderCache.INSTANCE.getInstantTemperature() > 0f && level.getRainLevel(0) > 0))
             {
-                final ParticleOptions particle = ClimateRenderCache.INSTANCE.getTemperature() < 0f && level.getRainLevel(0) > 0 ? TFCParticles.SNOWFLAKE.get() : TFCParticles.WIND.get();
+                final ParticleOptions particle = ClimateRenderCache.INSTANCE.getInstantTemperature() < 0f && level.getRainLevel(0) > 0 ? TFCParticles.SNOWFLAKE.get() : TFCParticles.WIND.get();
                 for (int i = 0; i < count; i++)
                 {
                     final double x = pos.getX() + Mth.nextDouble(level.random, -12 - xBias, 12 - xBias);

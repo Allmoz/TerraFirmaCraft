@@ -591,7 +591,7 @@ public final class Helpers
         }
         else if (level.random.nextFloat() <= 0.7) // Otherwise, 30% chance to just skip checking for climate-specific pests and spawning a rat
         {
-            final float rainfall = data.getRainfall(pos);
+            final float rainfall = data.getAverageRainfall(pos);
             if (rainfall < 160)
             {
                 return Helpers.randomEntity(TFCTags.Entities.DESERT_PESTS, level.random);
@@ -1492,6 +1492,17 @@ public final class Helpers
     public static int ceilDiv(int num, int div)
     {
         return (num + div - 1) / div;
+    }
+
+    /**
+     * Returns an approximate angle in the range [0, 4] where 4 is the equivalent of 360 degrees from a vector in the form x, y
+     */
+    public static double diamondAngle(double x, double y)
+    {
+        if (y >= 0)
+            return (x >= 0 ? y / (x + y) : 1 - x / (-x + y));
+        else
+            return (x < 0 ? 2 - y / (-x - y) : 3 + x / (x - y));
     }
 
     /**
