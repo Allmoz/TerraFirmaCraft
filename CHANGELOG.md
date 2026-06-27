@@ -1,15 +1,16 @@
+### Warning
+This update is expected to break any addons which add trees, including ArborFirmaCraft. If all goes well, I will have time tomorrow to release an AFC version that at a minimum won't crash, and at a maximum will take full advantage of the new rendering behavior for leaf blocks.
+
+-Therighthon
+
 ### Changes
-- Made fish play swimming sounds instead of splashing sounds ambiently
-- Render gunpowder level inside of powder kegs
-- Added crafting recipe for propogating small flowers and plants
-- Changed stove recipe to use sheets instead of double sheets
+- Reworked how leaf blocks render when fancy graphics are enabled
+  - Rotate between 4 different seasonal models: bare branches, blooming, dense leaves, and sparse leaves
+  - Conifers, and deciduous trees grown in the wet tropics only rotate between dense leaves and blooming
+  - Deciduous leaf colors now vary by time of year, with brighter greens in spring
+  - Color changing/autumn colors are no longer tied to elevation in any way
+  - Borders between areas with different seasons are less harsh (for example, an area that is just barely cold enough to lose leaves in winter)
+- Improved the texture for flower cuttings
 
 ### Fixes
-- Fix river valleys not generating
-- Removed rivers from sunken shield volcanoes, which was making weird freshwater
-- Significantly reduced the frequency of fresh water generating on coasts exposed to oceans
-- Fixed clock not being able to enter month mode and redstone output not updating properly when switching modes
-- Add sound for throwing rope
-- Changed bowl item sizes
-- Fixed barrels not ejecting fluid containers 
-- Fixed barrel recipes with >1 count of input items not being respected by JEI
+- Fixed leaf blocks etc. requiring a restart to update between fast/fancy graphics
