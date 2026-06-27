@@ -392,6 +392,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.SPINDLE);
         out.accept(TFCItems.COMPOST);
         out.accept(TFCItems.ROTTEN_COMPOST);
+        out.accept(TFCItems.FLOWER_CUTTING);
         out.accept(TFCItems.PURE_NITROGEN);
         out.accept(TFCItems.PURE_POTASSIUM);
         out.accept(TFCItems.PURE_PHOSPHORUS);
