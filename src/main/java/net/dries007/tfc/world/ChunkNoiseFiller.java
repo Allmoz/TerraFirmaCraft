@@ -233,7 +233,7 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
 
                 double aquiferSurfaceHeight = biome.getAquiferSurfaceHeight(sampler, actualX, actualZ);
 
-                if (aquiferSurfaceHeight > seaLevel - 24 && sampleRiverDistSq(actualX, actualZ) < 15 * 15)
+                if (biome.hasRivers() && aquiferSurfaceHeight > seaLevel - 24 && sampleRiverDistSq(actualX, actualZ) < 15 * 15)
                 {
                     // When near a river, force aquifers below the river in a wide radius (15 blocks)
                     aquiferSurfaceHeight = seaLevel - 24;
