@@ -18,10 +18,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.plant.KrummholzBlock;
 import net.dries007.tfc.common.blocks.wood.ILeavesBlock;
-import net.dries007.tfc.util.Helpers;
 
 @Mixin(ItemBlockRenderTypes.class)
 public abstract class ItemBlockRenderTypesMixin
