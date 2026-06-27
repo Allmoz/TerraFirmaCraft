@@ -10,6 +10,7 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -148,6 +149,7 @@ public class RopeItem extends Item
         final BlockState hangingRope = TFCBlocks.HANGING_ROPE.get().defaultBlockState().setValue(facing, dir.getOpposite());
         final BlockState horizontalRope = TFCBlocks.ROPE.get().defaultBlockState().setValue(facing, dir.getOpposite()).setValue(GroundedRopeBlock.ASCENDING, false);
         final BlockState slopeRope = horizontalRope.setValue(GroundedRopeBlock.ASCENDING, true);
+        Helpers.playSound(level, origin, SoundEvents.FISHING_BOBBER_THROW);
 
         BlockState state = level.getBlockState(cursor);
         RopeState previous = RopeState.HORIZONTAL;
