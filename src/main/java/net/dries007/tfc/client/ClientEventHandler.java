@@ -291,7 +291,6 @@ public final class ClientEventHandler
     public static final ResourceLocation WATER_STILL = Helpers.identifierMC("block/water_still");
     public static final ResourceLocation WATER_FLOW = Helpers.identifierMC("block/water_flow");
     public static final ResourceLocation WATER_OVERLAY = Helpers.identifierMC("block/water_overlay");
-
     /**
      * @see net.minecraft.client.renderer.ScreenEffectRenderer#UNDERWATER_LOCATION
      */

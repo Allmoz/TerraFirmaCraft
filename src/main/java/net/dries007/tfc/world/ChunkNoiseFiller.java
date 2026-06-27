@@ -685,7 +685,7 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
                 oceanWeight += weight;
             }
         }
-        final boolean forceCoastalSaltWater = biomeAt != TFCBiomes.RIVER && height <= seaLevel && oceanWeight >= 0.04;
+        final boolean forceCoastalSaltWater = biomeAt != TFCBiomes.RIVER && height <= seaLevel && oceanWeight >= 0.05;
         baseBlockSource.useAccurateBiome(localX, localZ, biomeAt, biomeWeightAt, couldBeSalty, forceCoastalSaltWater);
     }
 
