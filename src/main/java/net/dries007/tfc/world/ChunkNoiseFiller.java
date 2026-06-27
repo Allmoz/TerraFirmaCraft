@@ -26,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.fluids.RiverWaterFluid;
 import net.dries007.tfc.common.fluids.TFCFluids;
+import net.dries007.tfc.world.biome.BiomeBlendType;
 import net.dries007.tfc.world.biome.BiomeExtension;
 import net.dries007.tfc.world.biome.BiomeSourceExtension;
 import net.dries007.tfc.world.biome.TFCBiomes;
@@ -672,7 +673,20 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
         this.preVolcanicHeight[localIndex] = (int) preVolcanicHeight;
         this.surfaceIntegrityDepth[localIndex] = surfaceIntegrityDepth;
 
-        baseBlockSource.useAccurateBiome(localX, localZ, biomeAt, biomeWeightAt, couldBeSalty);
+        double oceanWeight = 0;
+
+        for (Object2DoubleMap.Entry<BiomeExtension> entry : biomeWeights.object2DoubleEntrySet())
+        {
+            final BiomeExtension weightedBiome = entry.getKey();
+            final double weight = entry.getDoubleValue();
+
+            if (weightedBiome.biomeBlendType() == BiomeBlendType.OCEAN)
+            {
+                oceanWeight += weight;
+            }
+        }
+        final boolean forceCoastalSaltWater = biomeAt != TFCBiomes.RIVER && height <= seaLevel && oceanWeight >= 0.05;
+        baseBlockSource.useAccurateBiome(localX, localZ, biomeAt, biomeWeightAt, couldBeSalty, forceCoastalSaltWater);
     }
 
     private void sampleRiverData()
