@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.dries007.tfc.common.blocks.plant.KrummholzBlock;
+import net.dries007.tfc.common.blocks.wood.FallenLeavesBlock;
 import net.dries007.tfc.common.blocks.wood.ILeavesBlock;
 
 @Mixin(ItemBlockRenderTypes.class)
@@ -32,7 +33,7 @@ public abstract class ItemBlockRenderTypesMixin
     private static void getTFCLeavesRenderType(@NotNull BlockState state, CallbackInfoReturnable<ChunkRenderTypeSet> cir)
     {
         final Block block = state.getBlock();
-        if (block instanceof ILeavesBlock || block instanceof KrummholzBlock)
+        if (block instanceof ILeavesBlock || block instanceof KrummholzBlock || block instanceof FallenLeavesBlock)
         {
             cir.setReturnValue(renderCutout ? CUTOUT_MIPPED : SOLID);
         }
