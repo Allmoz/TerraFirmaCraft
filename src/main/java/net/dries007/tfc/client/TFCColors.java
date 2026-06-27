@@ -35,7 +35,6 @@ public final class TFCColors
     public static final ResourceLocation FOLIAGE_COLORS_LOCATION = Helpers.identifier("textures/colormap/foliage.png");
     public static final ResourceLocation FOLIAGE_SUMMER_COLORS_LOCATION = Helpers.identifier("textures/colormap/foliage.png");
     public static final ResourceLocation FOLIAGE_FALL_COLORS_LOCATION = Helpers.identifier("textures/colormap/foliage_fall.png");
-    public static final ResourceLocation FOLIAGE_WINTER_COLORS_LOCATION = Helpers.identifier("textures/colormap/foliage_winter.png");
     public static final ResourceLocation GRASS_COLORS_LOCATION = Helpers.identifier("textures/colormap/grass.png");
     public static final ResourceLocation TALL_GRASS_COLORS_LOCATION = Helpers.identifier("textures/colormap/tall_grass.png");
 
@@ -51,7 +50,6 @@ public final class TFCColors
     private static int[] WATER_FOG_COLORS_CACHE = new int[COLORMAP_SIZE];
     private static int[] FOLIAGE_COLORS_CACHE = new int[COLORMAP_SIZE];
     private static int[] FOLIAGE_FALL_COLORS_CACHE = new int[COLORMAP_SIZE];
-    private static int[] FOLIAGE_WINTER_COLORS_CACHE = new int[COLORMAP_SIZE];
     private static int[] FOLIAGE_SUMMER_COLORS_CACHE = new int[COLORMAP_SIZE];
     private static int[] GRASS_COLORS_CACHE = new int[COLORMAP_SIZE];
     private static int[] TALL_GRASS_COLORS_CACHE = new int[COLORMAP_SIZE];
@@ -91,11 +89,6 @@ public final class TFCColors
     public static void setFoliageFallColors(int[] foliageFallColorsCache)
     {
         FOLIAGE_FALL_COLORS_CACHE = foliageFallColorsCache;
-    }
-
-    public static void setFoliageWinterColors(int[] foliageWinterColorsCache)
-    {
-        FOLIAGE_WINTER_COLORS_CACHE = foliageWinterColorsCache;
     }
 
     public static void setFoliageSummerColors(int[] foliageSummerColorsCache)
@@ -222,7 +215,7 @@ public final class TFCColors
         if (timeOfYear > autumnEnd)
         {
             // Winter brown
-            return 0x7c592b;
+            return getWinterFoliageColor();
         }
         else if (timeOfYear > autumnStart)
         {
@@ -236,8 +229,13 @@ public final class TFCColors
         else
         {
             // Winter brown
-            return 0x7c592b;
+            return getWinterFoliageColor();
         }
+    }
+
+    public static int getWinterFoliageColor()
+    {
+        return 0x7c592b;
     }
 
     public static int getFoliageColor(@Nullable BlockPos pos, int tintIndex)
