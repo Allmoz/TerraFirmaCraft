@@ -292,8 +292,6 @@ public final class ClientEventHandler
     public static final ResourceLocation WATER_FLOW = Helpers.identifierMC("block/water_flow");
     public static final ResourceLocation WATER_OVERLAY = Helpers.identifierMC("block/water_overlay");
 
-    public static final ResourceLocation LAVA_STILL = Helpers.identifierMC("block/lava_still");
-    public static final ResourceLocation LAVA_FLOW = Helpers.identifierMC("block/lava_flow");
     /**
      * @see net.minecraft.client.renderer.ScreenEffectRenderer#UNDERWATER_LOCATION
      */
@@ -1073,15 +1071,8 @@ public final class ClientEventHandler
         ));
 
         event.registerFluidType(
-            new FluidRendererExtension(
-                TFCFluids.ALPHA_MASK | 0xFFFFFF,
-                LAVA_STILL,
-                LAVA_FLOW,
-                null,
-                null
-            ),
-            TFCFluids.SALT_WATER.getType()
-        );
+            new FluidRendererExtension(TFCFluids.ALPHA_MASK | 0x3F76E4, (level, pos) -> level.getBlockTint(pos, TFCColors.SALT_WATER) | TFCFluids.ALPHA_MASK, WATER_STILL, WATER_FLOW, WATER_OVERLAY, UNDERWATER_LOCATION),
+            TFCFluids.SALT_WATER.getType());
         event.registerFluidType(
             new FluidRendererExtension(TFCFluids.ALPHA_MASK | 0x4ECBD7, WATER_STILL, WATER_FLOW, WATER_OVERLAY, UNDERWATER_LOCATION),
             TFCFluids.SPRING_WATER.getType());

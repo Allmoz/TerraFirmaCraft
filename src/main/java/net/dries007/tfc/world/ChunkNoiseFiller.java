@@ -674,8 +674,6 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
         this.surfaceIntegrityDepth[localIndex] = surfaceIntegrityDepth;
 
         double oceanWeight = 0;
-        double saltyWeight = 0;
-        double saltyShoreWeight = 0;
 
         for (Object2DoubleMap.Entry<BiomeExtension> entry : biomeWeights.object2DoubleEntrySet())
         {
@@ -686,21 +684,8 @@ public class ChunkNoiseFiller extends ChunkHeightFiller
             {
                 oceanWeight += weight;
             }
-
-            if (weightedBiome.isSalty())
-            {
-                saltyWeight += weight;
-            }
-
-            if (weightedBiome.isShore() && weightedBiome.isSalty())
-            {
-                saltyShoreWeight += weight;
-            }
         }
-        final boolean forceCoastalSaltWater =
-            biomeAt != TFCBiomes.RIVER
-                && height <= seaLevel
-                && oceanWeight >= 0.04;
+        final boolean forceCoastalSaltWater = biomeAt != TFCBiomes.RIVER && height <= seaLevel && oceanWeight >= 0.04;
         baseBlockSource.useAccurateBiome(localX, localZ, biomeAt, biomeWeightAt, couldBeSalty, forceCoastalSaltWater);
     }
 
