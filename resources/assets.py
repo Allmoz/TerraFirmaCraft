@@ -1883,7 +1883,12 @@ def generate(rm: ResourceManager):
         # Leaves
 
         # Used for block model
-        block = rm.blockstate(('wood', 'leaves', wood), model='tfc:block/wood/leaves/%s_dynamic' % wood).with_lang(lang('%s leaves', wood))
+
+        if wood != 'chestnut':
+            block = rm.blockstate(('wood', 'leaves', wood), model='tfc:block/wood/leaves/%s_dynamic' % wood).with_lang(lang('%s leaves', wood))
+        else:
+            block = rm.blockstate(('wood', 'leaves', wood), model='tfc:block/wood/leaves/%s_dynamic_0' % wood).with_lang(lang('%s leaves', wood))
+
         if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
             block.with_block_model({
                 'side': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
@@ -1892,13 +1897,22 @@ def generate(rm: ResourceManager):
         else:
             block.with_block_model('tfc:block/wood/leaves/dense_leaves/%s' % wood, parent='block/leaves')
 
-        # Dynamic blockstates
-        rm.custom_block_model('wood/leaves/%s_dynamic' % wood, 'tfc:leaves', {
-            'dense_leaves': {'parent': 'tfc:block/wood/leaves/dense_leaves/%s' % wood},
-            'sparse_leaves': {'parent': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood},
-            'bare': {'parent': 'tfc:block/wood/leaves/bare/%s' % wood},
-            'blooming': {'parent': 'tfc:block/wood/leaves/blooming/%s' % wood}
-        })
+        # Dynamic models
+        if wood != 'chestnut':
+            rm.custom_block_model('wood/leaves/%s_dynamic' % wood, 'tfc:leaves', {
+                'dense_leaves': {'parent': 'tfc:block/wood/leaves/dense_leaves/%s' % wood},
+                'sparse_leaves': {'parent': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood},
+                'bare': {'parent': 'tfc:block/wood/leaves/bare/%s' % wood},
+                'blooming': {'parent': 'tfc:block/wood/leaves/blooming/%s' % wood}
+            })
+        else:
+            for i in range(4):
+                rm.custom_block_model('wood/leaves/%s_dynamic_%s' % (wood, i), 'tfc:leaves', {
+                    'dense_leaves': {'parent': 'tfc:block/wood/leaves/dense_leaves/%s' % wood},
+                    'sparse_leaves': {'parent': 'tfc:block/wood/leaves/sparse_leaves/%s' % wood},
+                    'bare': {'parent': 'tfc:block/wood/leaves/bare/%s' % wood},
+                    'blooming': {'parent': 'tfc:block/wood/leaves/blooming/%s_%s' % (wood, i)}
+                })
 
         # Dense leaves
         if wood == 'palm' or wood == 'willow' or wood == 'mangrove':
@@ -1974,6 +1988,12 @@ def generate(rm: ResourceManager):
                     'leaves': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
                     'cross': 'tfc:block/wood/leaves/blooming/%s' % wood
                 }, parent='tfc:block/sparse_leaves')
+        elif wood == 'chestnut':
+            for i in range(4):
+                rm.block_model('wood/leaves/blooming/%s_%s' % (wood, i), textures={
+                    'leaves': 'tfc:block/wood/leaves/dense_leaves/%s' % wood,
+                    'overlay': 'tfc:block/wood/leaves/blooming/%s_%s' % (wood, i)
+                }, parent='tfc:block/side_blooming_leaves')
         
         block.with_item_model()
 
