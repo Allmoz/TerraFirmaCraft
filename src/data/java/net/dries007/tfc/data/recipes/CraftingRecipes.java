@@ -455,6 +455,11 @@ public interface CraftingRecipes extends Recipes
                 .pattern("LLL", "L L", "LLL")
                 .shaped(blocks.get(Wood.BlockType.CHEST));
             recipe()
+                .input('L', lumber)
+                .input('S', blocks.get(Wood.BlockType.STRIPPED_LOG))
+                .pattern("SLS", "L L", "SLS")
+                .shaped(blocks.get(Wood.BlockType.CRATE));
+            recipe()
                 .input(blocks.get(Wood.BlockType.CHEST))
                 .input(Items.MINECART)
                 .shapeless(TFCItems.CHEST_MINECARTS.get(wood));

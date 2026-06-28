@@ -31,11 +31,6 @@
       "anchor": "overburdening",
       "text": "Предмети, що викликають перевантаження - це $(thing)ковадло$(), $(thing)запечатані діжки$(), $(thing)тиглі$() (з вмістом)$(br2)Примітка: $(l:mechanics/animal_husbandry#horses)коні$() теж можуть бути перевантаженими.",
       "title": "Перевантаження"
-    },
-    {
-      "type": "patchouli:crafting",
-      "recipe": "tfc:crafting/basket",
-      "text": "$(thing)Baskets$() can hold 64 items inside them. Insert and extract by placing the item on the basket with $(item)$(k:key.use)$(). Larger items take up more space."
     }
   ],
   "read_by_default": true,

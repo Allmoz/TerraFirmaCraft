@@ -31,11 +31,6 @@
       "anchor": "overburdening",
       "text": "会导致负担过重的物品有$(thing)砧$()、$(thing)密封的大桶$()、装有物品的$(thing)坩埚等。$()$(br2)提示: $(l:mechanics/animal_husbandry#horses)马$()也会负担过重。",
       "title": "负担过重"
-    },
-    {
-      "type": "patchouli:crafting",
-      "recipe": "tfc:crafting/basket",
-      "text": "$(thing)Baskets$() can hold 64 items inside them. Insert and extract by placing the item on the basket with $(item)$(k:key.use)$(). Larger items take up more space."
     }
   ],
   "read_by_default": true,

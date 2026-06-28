@@ -31,11 +31,6 @@
       "anchor": "overburdening",
       "text": "Items that count towards overburdening include $(thing)Anvils$(), $(thing)Sealed Barrels$(), $(thing)Crucibles$() (with contents)$(br2)Note: $(l:mechanics/animal_husbandry#horses)Horses$() can also be overburdened.",
       "title": "Overburdening"
-    },
-    {
-      "type": "patchouli:crafting",
-      "recipe": "tfc:crafting/basket",
-      "text": "$(thing)Baskets$() can hold 64 items inside them. Insert and extract by placing the item on the basket with $(item)$(k:key.use)$(). Larger items take up more space."
     }
   ],
   "read_by_default": true,

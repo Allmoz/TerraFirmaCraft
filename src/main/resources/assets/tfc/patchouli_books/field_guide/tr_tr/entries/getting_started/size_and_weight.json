@@ -31,11 +31,6 @@
       "anchor": "overburdening",
       "text": "Aşırı yüklenmeye dahil olan eşyalar arasında $(thing)Örsler$(), $(thing)Mühürlü Fıçılar$() ve $(thing)Potalar$() (içindekilerle birlikte) bulunur.$(br2)Not: $(l:mechanics/animal_husbandry#horses)Atlar$() da aşırı yüklenebilir.",
       "title": "Aşırı Yüklenme"
-    },
-    {
-      "type": "patchouli:crafting",
-      "recipe": "tfc:crafting/basket",
-      "text": "$(thing)Baskets$() can hold 64 items inside them. Insert and extract by placing the item on the basket with $(item)$(k:key.use)$(). Larger items take up more space."
     }
   ],
   "read_by_default": true,
