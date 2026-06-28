@@ -31,6 +31,11 @@
       "anchor": "overburdening",
       "text": "重量超過としてカウントされるアイテムには、$(thing)金床$()、$(thing)密封された樽$()、$(thing)るつぼ(内容物付き)$() $(br2)注: $(l:mechanics/animal_husbandry#horses)馬$() にも重量超過が起こる可能性があります。",
       "title": "重量超過"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "tfc:crafting/basket",
+      "text": "$(thing)Baskets$() can hold 64 items inside them. Insert and extract by placing the item on the basket with $(item)$(k:key.use)$(). Larger items take up more space."
     }
   ],
   "read_by_default": true,

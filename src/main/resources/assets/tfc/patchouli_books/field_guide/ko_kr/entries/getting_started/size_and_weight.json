@@ -31,6 +31,11 @@
       "anchor": "overburdening",
       "text": "과중량을 유발하는 아이템에는 $(thing)모루$(), $(thing)밀봉된 통$(), (내용물이 있는)$(thing)도가니$() 등이 있습니다$(br2)참고: $(l:mechanics/animal_husbandry#horses)말$() 역시도 과중량에 걸릴 수 있습니다.",
       "title": "§l과중량"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "tfc:crafting/basket",
+      "text": "$(thing)Baskets$() can hold 64 items inside them. Insert and extract by placing the item on the basket with $(item)$(k:key.use)$(). Larger items take up more space."
     }
   ],
   "read_by_default": true,
