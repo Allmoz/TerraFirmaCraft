@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Your own inventory only holds so much, so the world provides many ways to keep items safe and organized. $(thing)Chests$() and $(thing)Crates$() store the most, while $(thing)Tool Racks$(), $(thing)Shelves$(), and $(thing)Baskets$() each serve a purpose.$(br2)Keep in mind that an item's $(l:getting_started/size_and_weight)Size ⇲$() limits which containers it will fit inside."
+      "text": "Your own inventory only holds so much, so there are many ways to keep items safe and organized, such as $(thing)Chests$() and $(thing)Crates$(), $(thing)Tool Racks$(), $(thing)Shelves$(), and $(thing)Baskets$().$(br2)Keep in mind that an item's $(l:getting_started/size_and_weight)Size ⇲$() limits which containers it will fit inside."
     },
     {
       "type": "patchouli:crafting",
