@@ -8,12 +8,14 @@ package net.dries007.tfc.common.blockentities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 import net.dries007.tfc.common.capabilities.PartialItemHandler;
+import net.dries007.tfc.common.component.TFCComponents;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.config.TFCConfig;
 
@@ -40,6 +42,8 @@ public class CrateBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     public boolean isItemValid(int slot, ItemStack stack)
     {
         if (!TFCChestBlockEntity.isValid(stack))
+            return false;
+        if (stack.has(TFCComponents.CONTENTS) || stack.has(TFCComponents.VESSEL) || stack.has(DataComponents.BUNDLE_CONTENTS) || stack.has(DataComponents.CONTAINER))
             return false;
         for (int i = 0; i < SLOTS; i++)
         {
