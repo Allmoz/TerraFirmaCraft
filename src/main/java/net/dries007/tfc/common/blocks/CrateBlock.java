@@ -9,6 +9,7 @@ package net.dries007.tfc.common.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +39,14 @@ public class CrateBlock extends DeviceBlock
             final ItemStackHandler inv = crate.getInventory();
             if (stack.isEmpty())
             {
+                // Hand is empty on a double click because we assume insertion was successful
+                // if it wasn't, well, why are we attempting a double click lol
+                if (crate.checkDoubleClick(level.getGameTime()))
+                {
+                    Helpers.mergeInsertAll(inv, player.getInventory());
+                    Helpers.playSound(level, pos, SoundEvents.WOOD_PLACE);
+                    return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                }
                 if (player.isShiftKeyDown())
                 {
                     for (int i = 0; i < CrateBlockEntity.SLOTS; i++)
@@ -52,14 +61,10 @@ public class CrateBlock extends DeviceBlock
                     {
                         final ItemStack slot = inv.getStackInSlot(i);
                         if (slot.isEmpty())
-                        {
                             continue;
-                        }
                         final int max = slot.getMaxStackSize();
                         if (extracted.getCount() >= max)
-                        {
                             break;
-                        }
                         final ItemStack removed = inv.extractItem(i, max - extracted.getCount(), false);
                         if (extracted.isEmpty())
                         {
@@ -87,7 +92,9 @@ public class CrateBlock extends DeviceBlock
                     remainder = Helpers.mergeInsertStack(inv, i, remainder);
                 }
                 player.setItemInHand(hand, remainder);
-                Helpers.playSound(level, pos, SoundEvents.WOOD_HIT);
+                crate.recordInsertClick(level.getGameTime());
+
+                Helpers.playSound(level, pos, SoundEvents.WOOD_PLACE);
                 return ItemInteractionResult.sidedSuccess(level.isClientSide);
             }
         }

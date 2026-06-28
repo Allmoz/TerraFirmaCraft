@@ -23,6 +23,11 @@ public class CrateBlockEntity extends InventoryBlockEntity<ItemStackHandler>
 {
     public static final int SLOTS = 36;
 
+    private static final int DOUBLE_CLICK_TICKS = 10;
+    private static final long NO_CLICK = Long.MIN_VALUE / 2;
+
+    private long lastClickTick = NO_CLICK;
+
     public CrateBlockEntity(BlockPos pos, BlockState state)
     {
         this(TFCBlockEntities.CRATE.get(), pos, state);
@@ -36,6 +41,21 @@ public class CrateBlockEntity extends InventoryBlockEntity<ItemStackHandler>
             sidedInventory.on(new PartialItemHandler(inventory).insertAll(), d -> d != Direction.DOWN);
             sidedInventory.on(new PartialItemHandler(inventory).extractAll(), Direction.DOWN);
         }
+    }
+
+    public void recordInsertClick(long gameTime)
+    {
+        lastClickTick = gameTime;
+    }
+
+    public boolean checkDoubleClick(long gameTime)
+    {
+        final boolean doubleClick = gameTime - lastClickTick <= DOUBLE_CLICK_TICKS;
+        if (doubleClick)
+        {
+            lastClickTick = NO_CLICK;
+        }
+        return doubleClick;
     }
 
     @Override
