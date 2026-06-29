@@ -1,6 +1,10 @@
 {
   "values": [
     "tfc:sea_stacks",
-    "tfc:setback_cliffs"
+    "tfc:setback_cliffs",
+    "tfc:dune_sea",
+    "tfc:grassy_dunes",
+    "tfc:coastal_dunes",
+    "tfc:whorled_canyons"
   ]
 }

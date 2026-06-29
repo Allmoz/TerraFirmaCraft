@@ -2,6 +2,7 @@
   "values": [
     "#tfc:is_ocean",
     "#tfc:is_river",
-    "#tfc:is_lake"
+    "#tfc:is_lake",
+    "#c:is_beach"
   ]
 }

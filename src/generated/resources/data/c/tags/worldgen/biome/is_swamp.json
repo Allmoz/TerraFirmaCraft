@@ -2,6 +2,8 @@
   "values": [
     "tfc:salt_marsh",
     "tfc:lowlands",
-    "tfc:tidal_flats"
+    "tfc:tidal_flats",
+    "tfc:patterned_ground",
+    "tfc:inverted_patterned_ground"
   ]
 }
