@@ -12,7 +12,7 @@
       "apply": [
         {
           "model": "tfc:block/wood/leaves/chestnut_dynamic_0",
-          "weight": 10
+          "weight": 8
         },
         {
           "model": "tfc:block/wood/leaves/chestnut_dynamic_1",
@@ -25,6 +25,10 @@
         {
           "model": "tfc:block/wood/leaves/chestnut_dynamic_3",
           "weight": 5
+        },
+        {
+          "model": "tfc:block/wood/leaves/chestnut_dynamic_4",
+          "weight": 12
         }
       ]
     }
