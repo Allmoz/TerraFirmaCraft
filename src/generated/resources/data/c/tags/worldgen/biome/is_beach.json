@@ -1,16 +1,16 @@
 {
   "values": [
-    "tfc:shore",
     "tfc:coastal_dunes",
-    "tfc:tidal_flats",
+    "tfc:embayments",
+    "tfc:ice_sheet_shore",
+    "tfc:old_shield_volcano_shore",
     "tfc:rocky_shores",
     "tfc:sea_stacks",
     "tfc:setback_cliffs",
-    "tfc:terrace_upper",
-    "tfc:terrace_lower",
-    "tfc:embayments",
     "tfc:shield_volcano_shore",
-    "tfc:old_shield_volcano_shore",
-    "tfc:ice_sheet_shore"
+    "tfc:shore",
+    "tfc:terrace_lower",
+    "tfc:terrace_upper",
+    "tfc:tidal_flats"
   ]
 }

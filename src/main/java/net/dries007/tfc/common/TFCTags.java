@@ -738,6 +738,7 @@ public class TFCTags
         public static final TagKey<Biome> HAS_TUFF_CONES = create("has_tuff_cones");
         public static final TagKey<Biome> HAS_TUYAS = create("has_tuyas");
         public static final TagKey<Biome> IS_BURREN = create("is_burren");
+        public static final TagKey<Biome> IS_CENOTE = create("is_cenote");
         public static final TagKey<Biome> IS_DOLINES = create("is_dolines");
         public static final TagKey<Biome> IS_EXTREME_DOLINES = create("is_extreme_dolines");
         public static final TagKey<Biome> IS_GLACIATED = create("is_glaciated");

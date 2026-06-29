@@ -1,13 +1,13 @@
 {
   "values": [
-    "tfc:grassy_dunes",
     "tfc:buttes",
-    "tfc:hoodoos",
-    "tfc:whorled_canyons",
-    "tfc:mesas",
-    "tfc:stair_step_canyons",
     "tfc:dune_sea",
+    "tfc:grassy_dunes",
+    "tfc:hoodoos",
+    "tfc:mesas",
+    "tfc:rocky_plateau",
     "tfc:salt_flats",
-    "tfc:rocky_plateau"
+    "tfc:stair_step_canyons",
+    "tfc:whorled_canyons"
   ]
 }

@@ -1,25 +1,22 @@
 {
   "values": [
-    "tfc:coastal_dunes",
-    "tfc:dune_sea",
-    "tfc:grassy_dunes",
-    "tfc:shore",
-    "tfc:salt_flats",
-    "tfc:tidal_flats",
     "tfc:badlands",
     "tfc:burren_badlands",
     "tfc:burren_badlands_tall",
     "tfc:buttes",
-    "tfc:shore",
     "tfc:coastal_dunes",
-    "tfc:tidal_flats",
+    "tfc:dune_sea",
+    "tfc:embayments",
+    "tfc:grassy_dunes",
     "tfc:ice_sheet_shore",
+    "tfc:old_shield_volcano_shore",
+    "tfc:salt_flats",
     "tfc:sea_stacks",
     "tfc:setback_cliffs",
-    "tfc:terrace_upper",
-    "tfc:terrace_lower",
-    "tfc:embayments",
     "tfc:shield_volcano_shore",
-    "tfc:old_shield_volcano_shore"
+    "tfc:shore",
+    "tfc:terrace_lower",
+    "tfc:terrace_upper",
+    "tfc:tidal_flats"
   ]
 }

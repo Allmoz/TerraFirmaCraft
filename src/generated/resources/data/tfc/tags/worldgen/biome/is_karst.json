@@ -1,28 +1,9 @@
 {
   "values": [
-    "tfc:burren_plateau",
-    "tfc:burren_badlands",
-    "tfc:burren_plains",
-    "tfc:burren_roche_moutonee",
-    "tfc:doline_plains",
-    "tfc:doline_hills",
-    "tfc:doline_rolling_hills",
-    "tfc:doline_highlands",
-    "tfc:doline_plateau",
-    "tfc:doline_canyons",
-    "tfc:shilin_plains",
-    "tfc:shilin_canyons",
-    "tfc:shilin_hills",
-    "tfc:shilin_highlands",
-    "tfc:shilin_plateau",
-    "tfc:tower_karst_plains",
-    "tfc:tower_karst_canyons",
-    "tfc:tower_karst_hills",
-    "tfc:tower_karst_highlands",
-    "tfc:extreme_doline_plateau",
-    "tfc:extreme_doline_mountains",
-    "tfc:tower_karst_lake",
-    "tfc:tower_karst_bay",
-    "tfc:burren_badlands_tall"
+    "#tfc:is_burren",
+    "#tfc:is_cenote",
+    "#tfc:is_dolines",
+    "#tfc:is_shilin",
+    "#tfc:is_tower_karst"
   ]
 }
