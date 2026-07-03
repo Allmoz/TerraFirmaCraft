@@ -299,7 +299,7 @@ public abstract class KelpTreeFlowerBlock extends Block implements IFluidLoggabl
             {
                 if (!placeGrownFlower(level, blockpos, 5, Direction.UP))
                 {
-                    return any; // Cannot grow into this block (e.g. fresh water), stop this branch.
+                    return any;
                 }
             }
             else
