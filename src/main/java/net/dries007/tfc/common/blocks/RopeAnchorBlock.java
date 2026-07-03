@@ -8,6 +8,8 @@ package net.dries007.tfc.common.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -74,6 +76,18 @@ public abstract class RopeAnchorBlock extends AbstractRopeBlock implements IFlui
     public FluidProperty getFluidProperty()
     {
         return FLUID;
+    }
+
+    @Override
+    protected boolean isRandomlyTicking(BlockState state)
+    {
+        return state.getFluidState().isRandomlyTicking();
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    {
+        state.getFluidState().randomTick(level, pos, random);
     }
 
     @Override
