@@ -47,7 +47,11 @@ import java.util.List;
 public class TFCCamel extends Camel implements HorseProperties {
     public static AttributeSupplier.Builder createAttributes()
     {
-        return AbstractHorse.createBaseHorseAttributes().add(Attributes.MAX_HEALTH, 32.0F).add(Attributes.MOVEMENT_SPEED, 0.09F).add(Attributes.JUMP_STRENGTH, 0.42F).add(Attributes.STEP_HEIGHT, 1.5F);
+        return createBaseHorseAttributes()
+            .add(Attributes.MAX_HEALTH, 32.0)
+            .add(Attributes.MOVEMENT_SPEED, 0.09F)
+            .add(Attributes.JUMP_STRENGTH, 0.42F)
+            .add(Attributes.STEP_HEIGHT, 1.5);
     }
 
     private static final CommonAnimalData ANIMAL_DATA = CommonAnimalData.create(TFCCamel.class);

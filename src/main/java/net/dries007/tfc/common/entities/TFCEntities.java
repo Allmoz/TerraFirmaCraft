@@ -293,7 +293,7 @@ public class TFCEntities
         event.put(MULE.get(), AbstractChestedHorse.createBaseChestedHorseAttributes().build());
         event.put(DONKEY.get(), AbstractChestedHorse.createBaseChestedHorseAttributes().build());
         event.put(HORSE.get(), AbstractHorse.createBaseHorseAttributes().build());
-        event.put(CAMEL.get(), TFCCamel.createBaseHorseAttributes().build());
+        event.put(CAMEL.get(), TFCCamel.createAttributes().build());
         event.put(CAT.get(), TFCCat.createAttributes().build());
         event.put(DOG.get(), Dog.createAttributes().build());
         event.put(PANDA.get(), TFCPanda.createAttributes().add(Attributes.STEP_HEIGHT, 1.0F).build());
