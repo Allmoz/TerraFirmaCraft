@@ -2,6 +2,7 @@
   "values": [
     "tfc:horse",
     "tfc:donkey",
-    "tfc:mule"
+    "tfc:mule",
+    "tfc:camel"
   ]
 }
