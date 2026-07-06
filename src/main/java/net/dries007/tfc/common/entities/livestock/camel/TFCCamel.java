@@ -64,27 +64,32 @@ public class TFCCamel extends Camel implements HorseProperties {
     }
 
     @Override
-    protected Brain.Provider<Camel> brainProvider() {
+    protected Brain.Provider<Camel> brainProvider()
+    {
         return Brain.provider(TFCCamelAi.MEMORY_TYPES, TFCCamelAi.SENSOR_TYPES);
     }
 
     @Override
-    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+    protected Brain<?> makeBrain(Dynamic<?> dynamic)
+    {
         return TFCCamelAi.makeBrain(brainProvider().makeBrain(dynamic));
     }
 
     @Override
-    public void createGenes(CompoundTag tag, TFCAnimalProperties maleProperties) {
+    public void createGenes(CompoundTag tag, TFCAnimalProperties maleProperties)
+    {
         HorseProperties.super.createGenes(tag, maleProperties);
     }
 
     @Override
-    public void applyGenes(CompoundTag tag, MammalProperties babyProperties) {
+    public void applyGenes(CompoundTag tag, MammalProperties babyProperties)
+    {
         HorseProperties.super.applyGenes(tag, babyProperties);
     }
 
     @Override
-    public TagKey<Item> getFoodTag() {
+    public TagKey<Item> getFoodTag()
+    {
         return TFCTags.Items.HORSE_FOOD;
     }
 
@@ -93,12 +98,14 @@ public class TFCCamel extends Camel implements HorseProperties {
     }
 
     @Override
-    public EntityType<?> getEntityTypeForBaby() {
+    public EntityType<?> getEntityTypeForBaby()
+    {
         return TFCEntities.CAMEL.get();
     }
 
     @Override
-    public boolean canMate(Animal otherAnimal) {
+    public boolean canMate(Animal otherAnimal)
+    {
         if (otherAnimal.getClass() != this.getClass()) return false;
         TFCCamel other = (TFCCamel) otherAnimal;
         return this.getGender() != other.getGender()
@@ -158,7 +165,8 @@ public class TFCCamel extends Camel implements HorseProperties {
                 {
                     tameWithName(player);
                 }
-                if (this.getPassengers().size() < 2) {
+                if (this.getPassengers().size() < 2)
+                {
                     this.doPlayerRide(player);
                 }
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
@@ -168,22 +176,26 @@ public class TFCCamel extends Camel implements HorseProperties {
     }
 
     @Override
-    public boolean isTamed() {
+    public boolean isTamed()
+    {
         return getFamiliarity() > TAMED_FAMILIARITY;
     }
 
     @Override
-    protected @Nullable SoundEvent getEatingSound() {
+    protected @Nullable SoundEvent getEatingSound()
+    {
         return super.getEatingSound();
     }
 
     @Override
-    protected float getBlockSpeedFactor() {
+    protected float getBlockSpeedFactor()
+    {
         return Helpers.isBlock(level().getBlockState(blockPosition()), TFCTags.Blocks.ANIMAL_IGNORED_PLANTS) ? 1.0F : super.getBlockSpeedFactor();
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData)
+    {
         spawnData = super.finalizeSpawn(level, difficulty, spawnType, spawnData);
         if (spawnType != MobSpawnType.BREEDING)
         {
@@ -194,83 +206,98 @@ public class TFCCamel extends Camel implements HorseProperties {
     }
 
     @Override
-    public MammalConfig getMammalConfig() {
+    public MammalConfig getMammalConfig()
+    {
         return mammalConfig;
     }
 
     @Override
-    public long getPregnantTime() {
+    public long getPregnantTime()
+    {
         return entityData.get(PREGNANT_TIME);
     }
 
     @Override
-    public void setPregnantTime(long day) {
+    public void setPregnantTime(long day)
+    {
         entityData.set(PREGNANT_TIME, day);
     }
 
     @Override
-    public void setGenes(@Nullable CompoundTag tag) {
+    public void setGenes(@Nullable CompoundTag tag)
+    {
         genes = tag;
     }
 
     @Override
-    public @Nullable CompoundTag getGenes() {
+    public @Nullable CompoundTag getGenes()
+    {
         return genes;
     }
 
     @Override
-    public AnimalConfig animalConfig() {
+    public AnimalConfig animalConfig()
+    {
         return config;
     }
 
     @Override
-    public CommonAnimalData animalData() {
+    public CommonAnimalData animalData()
+    {
         return ANIMAL_DATA;
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData(SynchedEntityData.Builder builder)
+    {
         super.defineSynchedData(builder);
         animalData().define(builder);
         builder.define(PREGNANT_TIME, -1L);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag nbt) {
+    public void addAdditionalSaveData(CompoundTag nbt)
+    {
         super.addAdditionalSaveData(nbt);
         saveCommonAnimalData(nbt);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
+    public void readAdditionalSaveData(CompoundTag nbt)
+    {
         super.readAdditionalSaveData(nbt);
         readCommonAnimalData(nbt);
     }
 
     @Override
-    public boolean isBaby() {
+    public boolean isBaby()
+    {
         return getAgeType() == Age.CHILD;
     }
 
     @Override
-    public void setAge(int age) {
+    public void setAge(int age)
+    {
         super.setAge(0);
     }
 
     @Override
-    public int getAge() {
+    public int getAge()
+    {
         return isBaby() ? -24000 : 0;
     }
 
     @Nullable
     @Override
-    public TFCCamel getBreedOffspring(ServerLevel level, AgeableMob other) {
+    public TFCCamel getBreedOffspring(ServerLevel level, AgeableMob other)
+    {
         final AgeableMob mob = HorseProperties.super.getBreedOffspring(level, other);
         return mob instanceof TFCCamel camel ? camel : null;
     }
 
     @Override
-    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> data) {
+    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> data)
+    {
         super.onSyncedDataUpdated(data);
         if (ANIMAL_DATA.birthTick().equals(data)) {
             refreshDimensions();
@@ -278,7 +305,8 @@ public class TFCCamel extends Camel implements HorseProperties {
     }
 
     @Override
-    public void tick() {
+    public void tick()
+    {
         super.tick();
         if (level().getGameTime() % 20 == 0) {
             tickAnimalData();
@@ -286,47 +314,56 @@ public class TFCCamel extends Camel implements HorseProperties {
     }
 
     @Override
-    public boolean isFood(ItemStack stack) {
+    public boolean isFood(ItemStack stack)
+    {
         return HorseProperties.super.isFood(stack);
     }
 
     @Override
-    protected SoundEvent getAmbientSound() {
+    protected SoundEvent getAmbientSound()
+    {
         return super.getAmbientSound();
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource src) {
+    protected SoundEvent getHurtSound(DamageSource src)
+    {
         return super.getHurtSound(src);
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    protected SoundEvent getDeathSound()
+    {
         return super.getDeathSound();
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, BlockState block) {
+    protected void playStepSound(BlockPos pos, BlockState block)
+    {
         super.playStepSound(pos, block);
     }
 
     @Override
-    public float getWalkTargetValue(BlockPos pos, LevelReader level) {
+    public float getWalkTargetValue(BlockPos pos, LevelReader level)
+    {
         return level.getBlockState(pos.below()).is(TFCTags.Blocks.BUSH_PLANTABLE_ON) ? 10.0F : level.getPathfindingCostFromLightLevels(pos);
     }
 
     @Override
-    protected PathNavigation createNavigation(Level level) {
+    protected PathNavigation createNavigation(Level level)
+    {
         return new TFCGroundPathNavigation(this, level);
     }
 
     @Override
-    public boolean isInWall() {
+    public boolean isInWall()
+    {
         return !level().isClientSide && super.isInWall();
     }
 
     @Override
-    protected void pushEntities() {
+    protected void pushEntities()
+    {
         if (!level().isClientSide) super.pushEntities();
     }
 }

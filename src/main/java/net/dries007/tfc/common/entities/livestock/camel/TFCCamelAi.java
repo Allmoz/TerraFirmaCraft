@@ -44,12 +44,14 @@ public class TFCCamelAi {
         MemoryModuleType.NEAREST_VISIBLE_ADULT
     );
 
-    public static Brain.Provider<TFCCamel> brainProvider() {
+    public static Brain.Provider<TFCCamel> brainProvider()
+    {
         return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
     }
 
     @SuppressWarnings("unchecked")
-    public static Brain<?> makeBrain(Brain<? extends Camel> brain) {
+    public static Brain<?> makeBrain(Brain<? extends Camel> brain)
+    {
         initCoreActivity((Brain<TFCCamel>) brain);
         initIdleActivity((Brain<TFCCamel>) brain);
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
@@ -58,7 +60,8 @@ public class TFCCamelAi {
         return brain;
     }
 
-    private static void initCoreActivity(Brain<TFCCamel> brain) {
+    private static void initCoreActivity(Brain<TFCCamel> brain)
+    {
         brain.addActivity(
             Activity.CORE,
             0,
@@ -72,7 +75,8 @@ public class TFCCamelAi {
         );
     }
 
-    public static void initIdleActivity(Brain<TFCCamel> brain) {
+    public static void initIdleActivity(Brain<TFCCamel> brain)
+    {
         brain.addActivity(
             Activity.IDLE,
             ImmutableList.of(
@@ -106,7 +110,8 @@ public class TFCCamelAi {
         );
     }
 
-    public static void updateActivity(Camel camel) {
+    public static void updateActivity(Camel camel)
+    {
         camel.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.IDLE));
     }
 }

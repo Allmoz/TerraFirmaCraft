@@ -279,13 +279,13 @@
     {
       "type": "patchouli:text",
       "anchor": "camel",
-      "text": "$(thing)馬$()是一種會在$(l:the_world/climate#temperature)温度$()在至少 -15°C、$(l:the_world/climate#rainfall)降雨量$()在 130 到 400 毫米的平原中生成的$(l:mechanics/animal_husbandry#horses)騎乘動物$()。它們會吃$(thing)穀物$()和$(thing)水果$()。它們一胎只能產 1 個幼崽，懷孕 19 天，80 天成年。衰老前它們可以產仔 6 次。",
+      "text": "$(thing)Camels$() spawn in drier climates, with $(l:the_world/climate#temperature)temperature$() of at least -5°C, and at most 100mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#mammals)Mammals$() that can be ridden. They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 19 days, and reach adulthood in 80 days. They can have children 6 times.",
       "title": "Camels"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
-      "scale": 0.6,
+      "scale": 0.75,
       "name": " ",
       "text": "A camel."
     },

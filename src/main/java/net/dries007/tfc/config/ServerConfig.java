@@ -273,6 +273,7 @@ public class ServerConfig extends BaseConfig
     public final MammalConfig donkeyConfig;
     public final MammalConfig muleConfig;
     public final MammalConfig horseConfig;
+    public final MammalConfig camelConfig;
     public final MammalConfig catConfig;
     public final MammalConfig dogConfig;
     public final MammalConfig rabbitConfig;
@@ -715,6 +716,9 @@ public class ServerConfig extends BaseConfig
 
         builder.swap("horse");
         horseConfig = MammalConfig.build(builder, "horse", 0.35, 80, 60, false, 19, 1);
+
+        builder.swap("camel");
+        camelConfig = MammalConfig.build(builder, "camel", 0.35, 80, 60, false, 19, 1);
 
         builder.swap("cat");
         catConfig = MammalConfig.build(builder, "cat", 0.35, 50, 60, false, 19, 6);

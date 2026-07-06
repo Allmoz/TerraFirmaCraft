@@ -209,7 +209,7 @@ public class BuiltinEntityLoot extends EntityLootSubProvider
         add(TFCEntities.HORSE.get(), livestock(Food.HORSE_MEAT, 4, 15, 21, Size.MEDIUM, 6));
 
         // Camelidae
-        add(TFCEntities.CAMEL.get(), livestock(Food.CAMELIDAE, 4, 15, 21, Size.MEDIUM, 6));
+        add(TFCEntities.CAMEL.get(), livestock(Food.CAMELIDAE, 6, 15, 21, Size.LARGE, 10));
 
         // Frog
         add(TFCEntities.FROG.get(), lootTable()

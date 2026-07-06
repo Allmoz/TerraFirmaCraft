@@ -427,7 +427,7 @@ public class TFCEntities
     }
     public static TFCCamel makeCamel(EntityType<? extends Camel> animal, Level level)
     {
-        return new TFCCamel(animal, level, TFCConfig.SERVER.horseConfig);
+        return new TFCCamel(animal, level, TFCConfig.SERVER.camelConfig);
     }
     public static RammingPrey makeBoar(EntityType<? extends RammingPrey> animal, Level level)
     {
