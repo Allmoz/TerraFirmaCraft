@@ -278,6 +278,19 @@
     },
     {
       "type": "patchouli:text",
+      "anchor": "camel",
+      "text": "$(thing)马$()是一种会在$(l:the_world/climate#temperature)温度$()在至少 -15°C、$(l:the_world/climate#rainfall)降雨量$()在 130 到 400 毫米的平原中生成的$(l:mechanics/animal_husbandry#horses)骑乘动物$()。它们会吃$(thing)谷物$()和$(thing)水果$()。它们一胎只能产 1 个幼崽，怀孕 19 天，80 天成年。衰老前它们可以产仔 6 次。",
+      "title": "Camels"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "A camel."
+    },
+    {
+      "type": "patchouli:text",
       "anchor": "frog",
       "text": "$(thing)青蛙$()生成在$(l:the_world/climate#temperature)温度$()高于 -13°C 的地区，且$(l:the_world/climate#rainfall)降雨量$()至少 150mm。它们可以培养亲密度，繁殖时会在淡水中产卵，卵孵化成蝌蚪。它们会吃鱼和蜘蛛眼。",
       "title": "青蛙"

@@ -278,6 +278,19 @@
     },
     {
       "type": "patchouli:text",
+      "anchor": "camel",
+      "text": "$(thing)Atlar$(), en az -15°C $(l:the_world/climate#temperature)sıcaklığa$() ve 130 ile 400mm arası $(l:the_world/climate#rainfall)yağışa$() sahip ovalarda ortaya çıkarlar. Bir tür $(l:mechanics/animal_husbandry#horses)Atgildir$(). $(thing)Tahılları$() ve $(thing)meyveleri$() yerler. 1 yavru yaparlar, 19 gün gebe kalırlar ve 80 günde yetişkinliğe ulaşırlar. 6 kez yavru yapabilirler.",
+      "title": "Camels"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "A camel."
+    },
+    {
+      "type": "patchouli:text",
       "anchor": "frog",
       "text": "$(thing)Kurbağalar$(), -13°C üzerindeki $(l:the_world/climate#temperature)sıcaklıklarda$() ve en az 150mm $(l:the_world/climate#rainfall)yağış$() alan yerlerde ortaya çıkarlar. Evcilleştirilebilirler ve çiftleştirildiklerinde tatlı suya yumurta bırakırlar, bu yumurtalar iribaşlara dönüşür. Balık ve örümcek gözü yerler.",
       "title": "Kurbağalar"

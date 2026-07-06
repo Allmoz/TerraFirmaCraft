@@ -6,6 +6,7 @@
 
 package net.dries007.tfc.util.tooltip;
 
+import net.dries007.tfc.common.entities.livestock.camel.TFCCamel;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -50,6 +51,7 @@ public final class EntityTooltips
         registry.register("animal", ANIMAL, TFCAnimal.class);
         registry.register("horse", ANIMAL, TFCHorse.class);
         registry.register("chested_horse", ANIMAL, TFCChestedHorse.class);
+        registry.register("camel", ANIMAL, TFCCamel.class);
         registry.register("rabbit", ANIMAL, TFCRabbit.class);
         registry.register("wild_animal", ANIMAL, WildAnimal.class);
         registry.register("frog", FROG, TFCFrog.class);

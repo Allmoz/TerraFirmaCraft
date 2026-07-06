@@ -278,6 +278,19 @@
     },
     {
       "type": "patchouli:text",
+      "anchor": "camel",
+      "text": "$(thing)Лошади$() обитают на равнинах при $(l:the_world/climate#temperature)температуре$() выше -15°C и $(l:the_world/climate#rainfall)осадках$() от 130 до 400 мм. Лошади — $(l:mechanics/animal_husbandry#horses)однокопытные$(). Они питаются $(thing)крупами$() и $(thing)фруктами$(). Лошадь может родить 1 жеребёнка за беременность, которая длится 19 дней, и жеребята достигают зрелости за 80 дней. Лошади могут иметь потомство 6 раз.",
+      "title": "Camels"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "A camel."
+    },
+    {
+      "type": "patchouli:text",
       "anchor": "frog",
       "text": "$(thing)Лягушки$() обитают при $(l:the_world/climate#temperature)температуре$() выше -13°C и $(l:the_world/climate#rainfall)осадках$() более 150 мм. Их можно приручить, и при разведении они откладывают в пресную воду яйца, из которых появляются головастики. Они питаются рыбой и паучьими глазами.",
       "title": "Лягушки"

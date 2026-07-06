@@ -278,6 +278,19 @@
     },
     {
       "type": "patchouli:text",
+      "anchor": "camel",
+      "text": "$(thing)Коні$() з'являються на рівнинах з  $(l:the_world/climate#temperature)температурою$() вище -15°C, та від 130 до 400мм $(l:the_world/climate#rainfall)опадів$(). Вони є їздовими $(l:mechanics/animal_husbandry#horses)конями$(). Кормити їх треба $(thing)зерном$() та $(thing)фруктами$(). Кобила народжує одне лоша за 19 днів від запліднення. Мале лоша росте 80 днів до зрілості. За зріле життя кобила може запліднити 6 разів.",
+      "title": "Camels"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "A camel."
+    },
+    {
+      "type": "patchouli:text",
       "anchor": "frog",
       "text": "$(thing)Frogs$() spawn in $(l:the_world/climate#temperature)temperatures$() above -13°C, and at least 150mm of $(l:the_world/climate#rainfall)rainfall$(). They can be familiarized, and when bred they will lay eggs in fresh water, which hatch into tadpoles. They will eat fish and spider eyes. ",
       "title": "Frogs"

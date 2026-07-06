@@ -1,0 +1,340 @@
+package net.dries007.tfc.common.entities.livestock.camel;
+
+import com.mojang.serialization.Dynamic;
+import net.dries007.tfc.common.TFCTags;
+import net.dries007.tfc.common.entities.EntityHelpers;
+import net.dries007.tfc.common.entities.TFCEntities;
+import net.dries007.tfc.common.entities.ai.TFCAvoidEntityGoal;
+import net.dries007.tfc.common.entities.ai.TFCGroundPathNavigation;
+import net.dries007.tfc.common.entities.livestock.Age;
+import net.dries007.tfc.common.entities.livestock.CommonAnimalData;
+import net.dries007.tfc.common.entities.livestock.MammalProperties;
+import net.dries007.tfc.common.entities.livestock.TFCAnimalProperties;
+import net.dries007.tfc.common.entities.livestock.horse.HorseProperties;
+import net.dries007.tfc.config.animals.AnimalConfig;
+import net.dries007.tfc.config.animals.MammalConfig;
+import net.dries007.tfc.util.Helpers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.camel.Camel;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+
+public class TFCCamel extends Camel implements HorseProperties {
+    public static AttributeSupplier.Builder createAttributes()
+    {
+        return AbstractHorse.createBaseHorseAttributes().add(Attributes.MAX_HEALTH, 32.0F).add(Attributes.MOVEMENT_SPEED, 0.09F).add(Attributes.JUMP_STRENGTH, 0.42F).add(Attributes.STEP_HEIGHT, 1.5F);
+    }
+
+    private static final CommonAnimalData ANIMAL_DATA = CommonAnimalData.create(TFCCamel.class);
+    private static final EntityDataAccessor<Long> PREGNANT_TIME = SynchedEntityData.defineId(TFCCamel.class, EntityDataSerializers.LONG);
+
+    @Nullable private CompoundTag genes;
+    private final AnimalConfig config;
+    private final MammalConfig mammalConfig;
+
+    public TFCCamel(EntityType<? extends Camel> type, Level level, MammalConfig config) {
+        super(type, level);
+        this.config = config.inner();
+        this.mammalConfig = config;
+    }
+
+    @Override
+    protected Brain.Provider<Camel> brainProvider() {
+        return Brain.provider(TFCCamelAi.MEMORY_TYPES, TFCCamelAi.SENSOR_TYPES);
+    }
+
+    @Override
+    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+        return TFCCamelAi.makeBrain(brainProvider().makeBrain(dynamic));
+    }
+
+    @Override
+    public void createGenes(CompoundTag tag, TFCAnimalProperties maleProperties) {
+        HorseProperties.super.createGenes(tag, maleProperties);
+    }
+
+    @Override
+    public void applyGenes(CompoundTag tag, MammalProperties babyProperties) {
+        HorseProperties.super.applyGenes(tag, babyProperties);
+    }
+
+    @Override
+    public TagKey<Item> getFoodTag() {
+        return TFCTags.Items.HORSE_FOOD;
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        EntityHelpers.removeGoalOfPriority(goalSelector, 3);
+        goalSelector.addGoal(3, new TemptGoal(this, 1.25f, Ingredient.of(getFoodTag()), false));
+        goalSelector.addGoal(5, new TFCAvoidEntityGoal<>(this, PathfinderMob.class, 8f, 1.6f, 1.4f, TFCTags.Entities.HUNTS_LAND_PREY));
+    }
+
+    @Override
+    public EntityType<?> getEntityTypeForBaby() {
+        return TFCEntities.CAMEL.get();
+    }
+
+    @Override
+    public boolean canMate(Animal otherAnimal) {
+        if (otherAnimal.getClass() != this.getClass()) return false;
+        TFCCamel other = (TFCCamel) otherAnimal;
+        return this.getGender() != other.getGender()
+            && this.isReadyToMate() && other.isReadyToMate();
+    }
+
+    @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand)
+    {
+        InteractionResult result = HorseProperties.super.mobInteract(player, hand);
+        if (result == InteractionResult.PASS)
+        {
+            ItemStack stack = player.getItemInHand(hand);
+            if (!this.isBaby())
+            {
+                if (this.isTamed() && player.isSecondaryUseActive())
+                {
+                    this.openCustomInventoryScreen(player);
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
+
+                if (this.isVehicle())
+                {
+                    return InteractionResult.PASS;
+                }
+            }
+
+            if (!stack.isEmpty())
+            {
+                InteractionResult res = stack.interactLivingEntity(player, this, hand);
+                if (res.consumesAction())
+                {
+                    return res;
+                }
+
+                if (!this.isTamed())
+                {
+                    this.makeMad();
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
+
+                final boolean canBeSaddled = !this.isBaby() && !this.isSaddled() && stack.is(Items.SADDLE);
+                if (this.isBodyArmorItem(stack) || canBeSaddled)
+                {
+                    this.openCustomInventoryScreen(player);
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
+            }
+
+            if (this.isBaby())
+            {
+                return InteractionResult.PASS;
+            }
+            else
+            {
+                if (isTamed() && getOwnerUUID() == null)
+                {
+                    tameWithName(player);
+                }
+                if (this.getPassengers().size() < 2) {
+                    this.doPlayerRide(player);
+                }
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public boolean isTamed() {
+        return getFamiliarity() > TAMED_FAMILIARITY;
+    }
+
+    @Override
+    protected @Nullable SoundEvent getEatingSound() {
+        return super.getEatingSound();
+    }
+
+    @Override
+    protected float getBlockSpeedFactor() {
+        return Helpers.isBlock(level().getBlockState(blockPosition()), TFCTags.Blocks.ANIMAL_IGNORED_PLANTS) ? 1.0F : super.getBlockSpeedFactor();
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
+        spawnData = super.finalizeSpawn(level, difficulty, spawnType, spawnData);
+        if (spawnType != MobSpawnType.BREEDING)
+        {
+            initCommonAnimalData(level, difficulty, spawnType);
+        }
+        setPregnantTime(-1L);
+        return spawnData;
+    }
+
+    @Override
+    public MammalConfig getMammalConfig() {
+        return mammalConfig;
+    }
+
+    @Override
+    public long getPregnantTime() {
+        return entityData.get(PREGNANT_TIME);
+    }
+
+    @Override
+    public void setPregnantTime(long day) {
+        entityData.set(PREGNANT_TIME, day);
+    }
+
+    @Override
+    public void setGenes(@Nullable CompoundTag tag) {
+        genes = tag;
+    }
+
+    @Override
+    public @Nullable CompoundTag getGenes() {
+        return genes;
+    }
+
+    @Override
+    public AnimalConfig animalConfig() {
+        return config;
+    }
+
+    @Override
+    public CommonAnimalData animalData() {
+        return ANIMAL_DATA;
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        animalData().define(builder);
+        builder.define(PREGNANT_TIME, -1L);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag nbt) {
+        super.addAdditionalSaveData(nbt);
+        saveCommonAnimalData(nbt);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag nbt) {
+        super.readAdditionalSaveData(nbt);
+        readCommonAnimalData(nbt);
+    }
+
+    @Override
+    public boolean isBaby() {
+        return getAgeType() == Age.CHILD;
+    }
+
+    @Override
+    public void setAge(int age) {
+        super.setAge(0);
+    }
+
+    @Override
+    public int getAge() {
+        return isBaby() ? -24000 : 0;
+    }
+
+    @Nullable
+    @Override
+    public TFCCamel getBreedOffspring(ServerLevel level, AgeableMob other) {
+        final AgeableMob mob = HorseProperties.super.getBreedOffspring(level, other);
+        return mob instanceof TFCCamel camel ? camel : null;
+    }
+
+    @Override
+    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> data) {
+        super.onSyncedDataUpdated(data);
+        if (ANIMAL_DATA.birthTick().equals(data)) {
+            refreshDimensions();
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (level().getGameTime() % 20 == 0) {
+            tickAnimalData();
+        }
+    }
+
+    @Override
+    public boolean isFood(ItemStack stack) {
+        return HorseProperties.super.isFood(stack);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return super.getAmbientSound();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource src) {
+        return super.getHurtSound(src);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return super.getDeathSound();
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState block) {
+        super.playStepSound(pos, block);
+    }
+
+    @Override
+    public float getWalkTargetValue(BlockPos pos, LevelReader level) {
+        return level.getBlockState(pos.below()).is(TFCTags.Blocks.BUSH_PLANTABLE_ON) ? 10.0F : level.getPathfindingCostFromLightLevels(pos);
+    }
+
+    @Override
+    protected PathNavigation createNavigation(Level level) {
+        return new TFCGroundPathNavigation(this, level);
+    }
+
+    @Override
+    public boolean isInWall() {
+        return !level().isClientSide && super.isInWall();
+    }
+
+    @Override
+    protected void pushEntities() {
+        if (!level().isClientSide) super.pushEntities();
+    }
+}

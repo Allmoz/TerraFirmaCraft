@@ -8,6 +8,8 @@ package net.dries007.tfc.common.entities;
 
 import java.util.Locale;
 import java.util.Map;
+
+import net.dries007.tfc.common.entities.livestock.camel.TFCCamel;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.animal.camel.Camel;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.item.Item;
@@ -208,6 +211,8 @@ public class TFCEntities
     public static final Id<TFCMule> MULE = register("mule", EntityType.Builder.of(TFCMule::new, MobCategory.CREATURE).sized(1.3964844F, 1.6F).eyeHeight(1.52F).passengerAttachments(1.2125F).clientTrackingRange(8));
     public static final Id<TFCHorse> HORSE = register("horse", EntityType.Builder.<TFCHorse>of(TFCHorse::new, MobCategory.CREATURE).sized(1.3964844F, 1.6F).eyeHeight(1.52F).passengerAttachments(1.44375F).clientTrackingRange(10));
 
+    public static final Id<TFCCamel> CAMEL = register("camel", EntityType.Builder.of(TFCEntities::makeCamel, MobCategory.CREATURE).sized(1.7f, 2.375f).eyeHeight(2.275f).clientTrackingRange(10));
+
     public static final Id<TFCCat> CAT = register("cat", EntityType.Builder.of(TFCCat::new, MobCategory.CREATURE).sized(0.6F, 0.7F).eyeHeight(0.35F).clientTrackingRange(8));
     public static final Id<Dog> DOG = register("dog", EntityType.Builder.of(Dog::new, MobCategory.CREATURE).sized(0.6F, 0.85F).eyeHeight(0.68F).clientTrackingRange(10));
 
@@ -288,6 +293,7 @@ public class TFCEntities
         event.put(MULE.get(), AbstractChestedHorse.createBaseChestedHorseAttributes().build());
         event.put(DONKEY.get(), AbstractChestedHorse.createBaseChestedHorseAttributes().build());
         event.put(HORSE.get(), AbstractHorse.createBaseHorseAttributes().build());
+        event.put(CAMEL.get(), TFCCamel.createBaseHorseAttributes().build());
         event.put(CAT.get(), TFCCat.createAttributes().build());
         event.put(DOG.get(), Dog.createAttributes().build());
         event.put(PANDA.get(), TFCPanda.createAttributes().add(Attributes.STEP_HEIGHT, 1.0F).build());
@@ -418,6 +424,10 @@ public class TFCEntities
     public static TFCRabbit makeRabbit(EntityType<? extends Rabbit> animal, Level level)
     {
         return new TFCRabbit(animal, level, TFCConfig.SERVER.rabbitConfig);
+    }
+    public static TFCCamel makeCamel(EntityType<? extends Camel> animal, Level level)
+    {
+        return new TFCCamel(animal, level, TFCConfig.SERVER.horseConfig);
     }
     public static RammingPrey makeBoar(EntityType<? extends RammingPrey> animal, Level level)
     {

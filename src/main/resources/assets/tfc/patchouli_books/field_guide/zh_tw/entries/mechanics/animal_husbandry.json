@@ -278,6 +278,19 @@
     },
     {
       "type": "patchouli:text",
+      "anchor": "camel",
+      "text": "$(thing)馬$()是一種會在$(l:the_world/climate#temperature)溫度$()在至少 -15°C、$(l:the_world/climate#rainfall)降雨量$()在 130 到 400 毫米的平原中生成的$(l:mechanics/animal_husbandry#horses)騎乘動物$()。它們會吃$(thing)穀物$()和$(thing)水果$()。它們一胎只能產 1 個幼崽，懷孕 19 天，80 天成年。衰老前它們可以產仔 6 次。",
+      "title": "Camels"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "A camel."
+    },
+    {
+      "type": "patchouli:text",
       "anchor": "frog",
       "text": "$(thing)Frogs$() spawn in $(l:the_world/climate#temperature)temperatures$() above -13°C, and at least 150mm of $(l:the_world/climate#rainfall)rainfall$(). They can be familiarized, and when bred they will lay eggs in fresh water, which hatch into tadpoles. They will eat fish and spider eyes. ",
       "title": "Frogs"

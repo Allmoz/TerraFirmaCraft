@@ -278,6 +278,19 @@
     },
     {
       "type": "patchouli:text",
+      "anchor": "camel",
+      "text": "$(thing)말$()은 $(l:the_world/climate#temperature)기온$()이 -15°C 이상이고, 강수량이 130mm 이상 40mm 이하인 평원에서 생성됩니다. 말은 $(l:mechanics/animal_husbandry#horses)말속$() 동물입니다. 말은 $(thing)곡물$()과 $(thing)과일$()을 먹습니다. 1마리의 새끼만을 19일의 임신 후에 낳으며, 80일 뒤에 성체가 됩니다. 최대 6번 새끼를 가질 수 있습니다.",
+      "title": "Camels"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "A camel."
+    },
+    {
+      "type": "patchouli:text",
       "anchor": "frog",
       "text": "$(thing)Frogs$() spawn in $(l:the_world/climate#temperature)temperatures$() above -13°C, and at least 150mm of $(l:the_world/climate#rainfall)rainfall$(). They can be familiarized, and when bred they will lay eggs in fresh water, which hatch into tadpoles. They will eat fish and spider eyes. ",
       "title": "Frogs"

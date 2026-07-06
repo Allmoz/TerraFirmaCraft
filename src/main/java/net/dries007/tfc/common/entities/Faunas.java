@@ -8,6 +8,8 @@ package net.dries007.tfc.common.entities;
 
 import java.util.Map;
 import java.util.function.Supplier;
+
+import net.dries007.tfc.common.entities.livestock.camel.TFCCamel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
@@ -120,6 +122,7 @@ public class Faunas
     public static final Id<TFCDonkey> DONKEY = registerAnimal(TFCEntities.DONKEY);
     public static final Id<TFCMule> MULE = registerAnimal(TFCEntities.MULE);
     public static final Id<TFCHorse> HORSE = registerAnimal(TFCEntities.HORSE);
+    public static final Id<TFCCamel> CAMEL = registerAnimal(TFCEntities.CAMEL);
 
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event)
     {
@@ -179,6 +182,7 @@ public class Faunas
         registerSpawnPlacement(event, DONKEY);
         registerSpawnPlacement(event, MULE);
         registerSpawnPlacement(event, HORSE);
+        registerSpawnPlacement(event, CAMEL);
         registerSpawnPlacement(event, WOLF);
         registerSpawnPlacement(event, HYENA);
         registerSpawnPlacement(event, DIREWOLF);

@@ -10,7 +10,6 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -210,7 +209,8 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
         tag(RIDEABLE_ANIMALS)
             .add(TFCEntities.HORSE.get())
             .add(TFCEntities.DONKEY.get())
-            .add(TFCEntities.MULE.get());
+            .add(TFCEntities.MULE.get())
+            .add(TFCEntities.CAMEL.get());
 
         tag(FARM_ANIMALS)
             .addTag(DAIRY_ANIMALS)
@@ -293,6 +293,7 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.HORSE.get(),
                 TFCEntities.MULE.get(),
                 TFCEntities.DONKEY.get(),
+                TFCEntities.CAMEL.get(),
                 TFCEntities.GOAT.get()
             );
 
