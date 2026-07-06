@@ -1548,7 +1548,7 @@ DEFAULT_LANG = {
     'config.jade.plugin_tfc.frog': 'Frog',
     'config.jade.plugin_tfc.horse': 'Horse',
     'config.jade.plugin_tfc.chested_horse': 'Chested Horse',
-    'config.jade.plugin_tfc.camel': 'camel',
+    'config.jade.plugin_tfc.camel': 'Camel',
     'config.jade.plugin_tfc.wild_animal': 'Wild Animal',
     'config.jade.plugin_tfc.squid': 'Squid',
     'config.jade.plugin_tfc.fish': 'Fish',
