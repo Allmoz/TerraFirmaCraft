@@ -13,7 +13,6 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import net.dries007.tfc.client.render.entity.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
@@ -215,6 +214,7 @@ import net.dries007.tfc.client.render.blockentity.VaneBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.WaterWheelBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.WindmillBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.PowderkegBlockEntityRenderer;
+import net.dries007.tfc.client.render.entity.*;
 import net.dries007.tfc.client.screen.AnvilPlanScreen;
 import net.dries007.tfc.client.screen.AnvilScreen;
 import net.dries007.tfc.client.screen.BarrelScreen;

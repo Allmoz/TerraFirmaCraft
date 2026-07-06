@@ -1,6 +1,7 @@
 package net.dries007.tfc.common.entities.livestock.camel;
 
 import com.mojang.serialization.Dynamic;
+
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.entities.ai.TFCGroundPathNavigation;
@@ -12,6 +13,7 @@ import net.dries007.tfc.common.entities.livestock.horse.HorseProperties;
 import net.dries007.tfc.config.animals.AnimalConfig;
 import net.dries007.tfc.config.animals.MammalConfig;
 import net.dries007.tfc.util.Helpers;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -31,7 +33,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.camel.Camel;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -44,7 +45,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TFCCamel extends Camel implements HorseProperties {
+public class TFCCamel extends Camel implements HorseProperties
+{
     public static AttributeSupplier.Builder createAttributes()
     {
         return createBaseHorseAttributes()
@@ -61,7 +63,8 @@ public class TFCCamel extends Camel implements HorseProperties {
     private final AnimalConfig config;
     private final MammalConfig mammalConfig;
 
-    public TFCCamel(EntityType<? extends Camel> type, Level level, MammalConfig config) {
+    public TFCCamel(EntityType<? extends Camel> type, Level level, MammalConfig config)
+    {
         super(type, level);
         this.config = config.inner();
         this.mammalConfig = config;
@@ -94,11 +97,12 @@ public class TFCCamel extends Camel implements HorseProperties {
     @Override
     public TagKey<Item> getFoodTag()
     {
-        return TFCTags.Items.HORSE_FOOD;
+        return TFCTags.Items.CAMEL_FOOD;
     }
 
     @Override
-    protected void registerGoals() {
+    protected void registerGoals()
+    {
     }
 
     @Override
@@ -303,7 +307,8 @@ public class TFCCamel extends Camel implements HorseProperties {
     public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> data)
     {
         super.onSyncedDataUpdated(data);
-        if (ANIMAL_DATA.birthTick().equals(data)) {
+        if (ANIMAL_DATA.birthTick().equals(data))
+        {
             refreshDimensions();
         }
     }
@@ -312,7 +317,8 @@ public class TFCCamel extends Camel implements HorseProperties {
     public void tick()
     {
         super.tick();
-        if (level().getGameTime() % 20 == 0) {
+        if (level().getGameTime() % 20 == 0)
+        {
             tickAnimalData();
         }
     }

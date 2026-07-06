@@ -386,6 +386,7 @@ public class TFCTags
         public static final TagKey<Item> DONKEY_FOOD = tag("donkey_food");
         public static final TagKey<Item> MULE_FOOD = tag("mule_food");
         public static final TagKey<Item> HORSE_FOOD = tag("horse_food");
+        public static final TagKey<Item> CAMEL_FOOD = tag("camel_food");
         public static final TagKey<Item> CAT_FOOD = tag("cat_food");
         public static final TagKey<Item> OCELOT_FOOD = tag("ocelot_food");
         public static final TagKey<Item> DOG_FOOD = tag("dog_food");

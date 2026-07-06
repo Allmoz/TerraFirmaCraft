@@ -155,6 +155,7 @@ public class BuiltinEntityLoot extends EntityLootSubProvider
         add(TFCEntities.PIG.get(), livestock(Food.PORK, 4, 9, 15, Size.MEDIUM, 3));
         add(TFCEntities.COW.get(), livestock(Food.BEEF, 6, 17, 23, Size.LARGE, 4));
         add(TFCEntities.YAK.get(), livestock(Food.CHEVON, 8, 13, 19, Size.LARGE, 4));
+        add(TFCEntities.CAMEL.get(), livestock(Food.CAMELIDAE, 8, 13, 19, Size.LARGE, 4));
 
         // Goat - special case with horn
         add(TFCEntities.GOAT.get(), lootTable()
@@ -207,9 +208,6 @@ public class BuiltinEntityLoot extends EntityLootSubProvider
         add(TFCEntities.DONKEY.get(), livestock(Food.HORSE_MEAT, 4, 15, 21, Size.MEDIUM, 6));
         add(TFCEntities.MULE.get(), livestock(Food.HORSE_MEAT, 4, 15, 21, Size.MEDIUM, 6));
         add(TFCEntities.HORSE.get(), livestock(Food.HORSE_MEAT, 4, 15, 21, Size.MEDIUM, 6));
-
-        // Camelidae
-        add(TFCEntities.CAMEL.get(), livestock(Food.CAMELIDAE, 6, 15, 21, Size.LARGE, 10));
 
         // Frog
         add(TFCEntities.FROG.get(), lootTable()

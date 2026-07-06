@@ -4,8 +4,10 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.CamelRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
-public class TFCCamelRenderer extends CamelRenderer {
-    public TFCCamelRenderer(EntityRendererProvider.Context context) {
+public class TFCCamelRenderer extends CamelRenderer
+{
+    public TFCCamelRenderer(EntityRendererProvider.Context context)
+    {
         super(context, ModelLayers.CAMEL);
     }
 }
