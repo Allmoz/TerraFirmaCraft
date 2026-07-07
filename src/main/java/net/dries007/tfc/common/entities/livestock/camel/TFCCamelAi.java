@@ -15,7 +15,6 @@ import net.dries007.tfc.common.entities.ai.TFCBrain;
 import net.dries007.tfc.common.entities.ai.livestock.BreedBehavior;
 import net.dries007.tfc.common.entities.ai.prey.AvoidPredatorAndRammersBehavior;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.Brain;
@@ -90,8 +89,8 @@ public class TFCCamelAi
         brain.addActivity(Activity.IDLE, 0, ImmutableList.of(
             SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60)),
             AvoidPredatorAndRammersBehavior.create(true),
-            new CamelBreedBehavior<TFCCamel>(3.0F),
-            new CamelAi.CamelPanic(2.0F),
+            new BreedBehavior<>(2.0F),
+            new CamelAi.CamelPanic(4.0F),
             new FollowTemptation(e -> e.isBaby() ? 2.5F : 3.5F),
             BabyFollowAdult.create(UniformInt.of(5, 16), 2.5F),
             new RandomLookAround(UniformInt.of(150, 250), 30.0F, 0.0F, 0.0F),
@@ -109,22 +108,6 @@ public class TFCCamelAi
                 Pair.of(new DoNothing(30, 60), 1)
             )
         );
-    }
-
-    public static class CamelBreedBehavior<T extends Camel> extends BreedBehavior<TFCCamel>
-    {
-        public CamelBreedBehavior(float speed)
-        {
-            super(speed);
-        }
-
-        protected void start(ServerLevel level, TFCCamel camel, long time)
-        {
-            if (camel.isCamelSitting()) {
-                camel.standUp();
-            }
-            super.start(level, camel, time);
-        }
     }
 
     public static void updateActivity(Camel camel)
