@@ -338,6 +338,14 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
     }
 
     @Override
+    protected void customServerAiStep()
+    {
+        // Don't want to call super.customServerAiStep() here because of CamelAi.updateActivity(this)
+        ((Brain<TFCCamel>) getBrain()).tick((ServerLevel) level(), this);
+        TFCCamelAi.updateActivity(this);
+    }
+
+    @Override
     public void tick()
     {
         super.tick();

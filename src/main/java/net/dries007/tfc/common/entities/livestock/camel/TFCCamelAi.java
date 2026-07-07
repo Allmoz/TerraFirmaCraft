@@ -11,9 +11,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 
+import net.dries007.tfc.common.entities.ai.SetLookTarget;
 import net.dries007.tfc.common.entities.ai.TFCBrain;
 import net.dries007.tfc.common.entities.ai.livestock.BreedBehavior;
 import net.dries007.tfc.common.entities.ai.prey.AvoidPredatorAndRammersBehavior;
+import net.dries007.tfc.common.entities.ai.prey.PreyAi;
 
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
@@ -65,6 +67,7 @@ public class TFCCamelAi
     {
         initCoreActivity((Brain<TFCCamel>) brain);
         initIdleActivity((Brain<TFCCamel>) brain);
+        initRetreatActivity((Brain<TFCCamel>) brain);
 
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
@@ -110,8 +113,27 @@ public class TFCCamelAi
         );
     }
 
-    public static void updateActivity(Camel camel)
+    public static void initRetreatActivity(Brain<TFCCamel> brain)
     {
-        camel.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.IDLE));
+        brain.addActivityAndRemoveMemoryWhenStopped(Activity.AVOID, 10, ImmutableList.of(
+            SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 2.6F, 15, false),
+            new RunOne<>(
+                ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT),
+                ImmutableList.of( // Same as createIdleMovementBehaviors List, but without RandomSitting
+                    Pair.of(RandomStroll.stroll(2.0F), 1),
+                    Pair.of(SetWalkTargetFromLookTarget.create(2.0F, 3), 1),
+                    Pair.of(new DoNothing(30, 60), 1)
+                )
+            ),
+            SetLookTarget.create(8.0F, UniformInt.of(30, 60)),
+            EraseMemoryIf.create(PreyAi::wantsToStopFleeing, MemoryModuleType.AVOID_TARGET)
+            ),
+            MemoryModuleType.AVOID_TARGET
+        );
+    }
+
+    public static void updateActivity(TFCCamel camel)
+    {
+        camel.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.AVOID, Activity.IDLE));
     }
 }
