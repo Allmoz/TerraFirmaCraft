@@ -10,6 +10,7 @@ import com.mojang.serialization.Dynamic;
 
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.entities.TFCEntities;
+import net.dries007.tfc.common.entities.Temptable;
 import net.dries007.tfc.common.entities.ai.TFCGroundPathNavigation;
 import net.dries007.tfc.common.entities.livestock.Age;
 import net.dries007.tfc.common.entities.livestock.CommonAnimalData;
@@ -49,9 +50,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public class TFCCamel extends Camel implements HorseProperties
+public class TFCCamel extends Camel implements HorseProperties, Temptable
 {
     public static AttributeSupplier.Builder createAttributes()
     {
@@ -310,7 +309,7 @@ public class TFCCamel extends Camel implements HorseProperties
     }
 
     @Override
-    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> data)
+    public void onSyncedDataUpdated(EntityDataAccessor<?> data)
     {
         super.onSyncedDataUpdated(data);
         if (ANIMAL_DATA.birthTick().equals(data))
