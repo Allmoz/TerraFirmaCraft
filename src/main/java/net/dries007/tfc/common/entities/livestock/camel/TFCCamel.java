@@ -117,6 +117,9 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
     }
 
     @Override
+    public void setInLove(@Nullable Player player) {} // nobody could love a camel
+
+    @Override
     public boolean canMate(Animal otherAnimal)
     {
         if (otherAnimal.getClass() != this.getClass()) return false;
