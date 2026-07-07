@@ -354,7 +354,7 @@ public class TFCLayers
             && value != ICE_SHEET_MOUNTAINS_EDGE && value != ICE_SHEET_OCEANIC_MOUNTAINS && value != ICE_SHEET_OCEANIC_MOUNTAINS_EDGE
             && value != ICE_SHEET_SHIELD_VOLCANO && value != ICE_SHEET_SHORE && value != GLACIATED_SHIELD_VOLCANO
             && value != GLACIATED_MOUNTAINS && value != GLACIATED_OCEANIC_MOUNTAINS && value != GLACIALLY_CARVED_MOUNTAINS
-            && value != GLACIALLY_CARVED_OCEANIC_MOUNTAINS && value != SALT_FLATS);
+            && value != GLACIALLY_CARVED_OCEANIC_MOUNTAINS && value != SALT_FLATS && value != MUD_FLATS);
     }
 
     public static int lakeFor(int value)
