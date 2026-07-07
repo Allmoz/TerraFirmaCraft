@@ -40,6 +40,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.camel.Camel;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -125,7 +126,22 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
         if (otherAnimal.getClass() != this.getClass()) return false;
         TFCCamel other = (TFCCamel) otherAnimal;
         return this.getGender() != other.getGender()
-            && this.isReadyToMate() && other.isReadyToMate();
+            && this.isReadyToMate() && other.isReadyToMate()
+            && checkExtraBreedConditions(other);
+    }
+
+    @Override
+    public boolean checkExtraBreedConditions(TFCAnimalProperties otherAnimal)
+    {
+        if (otherAnimal instanceof TFCCamel otherCamel)
+        {
+            return vanillaParentingCheck(this) && vanillaParentingCheck(otherCamel);
+        }
+        return false;
+    }
+
+    public boolean vanillaParentingCheck(AbstractHorse camel) {
+        return !camel.isVehicle() && !camel.isPassenger();
     }
 
     @Override
