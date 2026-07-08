@@ -236,7 +236,8 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
             .add(TFCEntities.GROUSE.get())
             .add(TFCEntities.PHEASANT.get())
             .add(TFCEntities.TURKEY.get())
-            .add(TFCEntities.PEAFOWL.get());
+            .add(TFCEntities.PEAFOWL.get())
+            .add(TFCEntities.ARMADILLO.get());
 
         tag(ANIMALS)
             .addTag(LAND_PREDATORS)
