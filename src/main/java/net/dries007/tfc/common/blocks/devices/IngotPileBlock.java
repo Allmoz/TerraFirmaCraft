@@ -14,7 +14,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackLinkedSet;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -97,14 +96,24 @@ public class IngotPileBlock extends ExtendedBlock implements EntityBlockExtensio
             {
                 long currentTick = Calendars.get().getTicks();
 
-                // TODO: There is some awkwardness in that the first click of the double click removes 1 ingot, and then the next click removes a full stack
-                //  Probably the best fix would be to save the last item removed to the block entity as well, and then only remove up to n-1 ingots matching the first on the 2nd click
                 final ItemStack ingot = pile.removeIngot();
-                final int maxStackSize = ingot.getMaxStackSize();
 
-                // 6 ticks feels about right for this (300 ms)
-                if (!pile.isLastInteractionPlacement() && currentTick - pile.getInteractionTick() < 6 && maxStackSize > 1)
+
+                int maxStackSize = ingot.getMaxStackSize();
+
+                if (!pile.isLastClickPlacement() && pile.checkDoubleClick(currentTick) && maxStackSize > 1)
                 {
+                    // This handles the case when the first click removes one item, and places that item in the players hand, and prevents them from picking up more than a stack on a double click
+                    final ItemStack handItem = player.getItemInHand(hand);
+                    if (handItem.is(ingot.getItem()))
+                    {
+                        final int countInHand = handItem.getCount();
+                        if (countInHand < maxStackSize)
+                        {
+                            maxStackSize = maxStackSize - countInHand;
+                        }
+                    }
+
                     ItemStack nextIngot = pile.getNextIngot();
                     // Keep removing ingots until we hit a different ingot or a full stack
                     while (ItemStack.isSameItemSameComponents(ingot, nextIngot) && stackSize < maxStackSize)
@@ -119,8 +128,8 @@ public class IngotPileBlock extends ExtendedBlock implements EntityBlockExtensio
                 {
                     ItemHandlerHelper.giveItemToPlayer(player, ingot.copyWithCount(stackSize));
                 }
-                pile.setInteractionTick(currentTick);
-                pile.setLastInteractionPlacement(false);
+                pile.setLastClickTick(currentTick);
+                pile.setLastClickPlacement(false);
             }
 
             if (topIngots == stackSize)

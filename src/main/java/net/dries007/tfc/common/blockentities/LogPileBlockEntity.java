@@ -9,8 +9,6 @@ package net.dries007.tfc.common.blockentities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,15 +24,18 @@ public class LogPileBlockEntity extends InventoryBlockEntity<ItemStackHandler>
 {
     public static final int SLOTS = 16;
 
+    private static final int DOUBLE_CLICK_TICKS = 10;
+    private static final long NO_CLICK = Long.MIN_VALUE / 2;
+
     private boolean needsLogDispersion = true;
-    private long interactionTick;
-    private boolean isLastInteractionPlacement;
+    private long lastClickTick;
+    private boolean isLastClickPlacement;
 
     public LogPileBlockEntity(BlockPos pos, BlockState state)
     {
         super(TFCBlockEntities.LOG_PILE.get(), pos, state, defaultInventory(SLOTS));
-        interactionTick = Calendars.get().getTicks();
-        isLastInteractionPlacement = true;
+        lastClickTick = Calendars.get().getTicks();
+        isLastClickPlacement = true;
     }
 
     @Override
@@ -128,25 +129,35 @@ public class LogPileBlockEntity extends InventoryBlockEntity<ItemStackHandler>
         }
     }
 
-    public void setInteractionTick(long tick)
+    public boolean checkDoubleClick(long gameTime)
     {
-        this.interactionTick = tick;
+        final boolean doubleClick = gameTime - lastClickTick <= DOUBLE_CLICK_TICKS;
+        if (doubleClick)
+        {
+            lastClickTick = NO_CLICK;
+        }
+        return doubleClick;
+    }
+
+    public void setLastClickTick(long tick)
+    {
+        this.lastClickTick = tick;
         setChanged();
     }
 
-    public long getInteractionTick()
+    public long getLastClickTick()
     {
-        return this.interactionTick;
+        return this.lastClickTick;
     }
 
-    public boolean isLastInteractionPlacement()
+    public boolean isLastClickPlacement()
     {
-        return isLastInteractionPlacement;
+        return isLastClickPlacement;
     }
 
-    public void setLastInteractionPlacement(boolean lastInteractionPlacement)
+    public void setLastClickPlacement(boolean lastInteractionPlacement)
     {
-        isLastInteractionPlacement = lastInteractionPlacement;
+        isLastClickPlacement = lastInteractionPlacement;
         setChanged();
     }
 
@@ -163,16 +174,16 @@ public class LogPileBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider)
     {
-        tag.putBoolean("placement", isLastInteractionPlacement);
-        tag.putLong("tick", interactionTick);
+        tag.putBoolean("placement", isLastClickPlacement);
+        tag.putLong("tick", lastClickTick);
         super.saveAdditional(tag, provider);
     }
 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider)
     {
-        isLastInteractionPlacement = tag.getBoolean("placement");
-        interactionTick = tag.getLong("tick");
+        isLastClickPlacement = tag.getBoolean("placement");
+        lastClickTick = tag.getLong("tick");
         super.loadAdditional(tag, provider);
     }
 

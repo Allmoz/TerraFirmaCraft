@@ -27,16 +27,19 @@ import net.dries007.tfc.util.calendar.Calendars;
 public class IngotPileBlockEntity extends TFCBlockEntity
 {
     private final List<Entry> entries;
-    private long interactionTick;
-    private boolean isLastInteractionPlacement;
+    private long lastClickTick;
+    private boolean isLastClickPlacement;
+
+    private static final int DOUBLE_CLICK_TICKS = 10;
+    private static final long NO_CLICK = Long.MIN_VALUE / 2;
 
     public IngotPileBlockEntity(BlockPos pos, BlockState state)
     {
         super(TFCBlockEntities.INGOT_PILE.get(), pos, state);
 
         entries = new ArrayList<>();
-        interactionTick = Calendars.get().getTicks();
-        isLastInteractionPlacement = true;
+        lastClickTick = Calendars.get().getTicks();
+        isLastClickPlacement = true;
     }
 
     public void addIngot(ItemStack stack)
@@ -76,25 +79,35 @@ public class IngotPileBlockEntity extends TFCBlockEntity
         return ItemStack.EMPTY;
     }
 
-    public void setInteractionTick(long tick)
+    public void setLastClickTick(long tick)
     {
-        this.interactionTick = tick;
+        this.lastClickTick = tick;
         setChanged();
     }
 
-    public long getInteractionTick()
+    public long getLastClickTick()
     {
-        return this.interactionTick;
+        return this.lastClickTick;
     }
 
-    public boolean isLastInteractionPlacement()
+    public boolean checkDoubleClick(long gameTime)
     {
-        return isLastInteractionPlacement;
+        final boolean doubleClick = gameTime - lastClickTick <= DOUBLE_CLICK_TICKS;
+        if (doubleClick)
+        {
+            lastClickTick = NO_CLICK;
+        }
+        return doubleClick;
     }
 
-    public void setLastInteractionPlacement(boolean lastInteractionPlacement)
+    public boolean isLastClickPlacement()
     {
-        isLastInteractionPlacement = lastInteractionPlacement;
+        return isLastClickPlacement;
+    }
+
+    public void setLastClickPlacement(boolean lastClickPlacement)
+    {
+        isLastClickPlacement = lastClickPlacement;
         setChanged();
     }
 
@@ -137,8 +150,8 @@ public class IngotPileBlockEntity extends TFCBlockEntity
             stacks.add(entry.stack.save(provider));
         }
         tag.put("stacks", stacks);
-        tag.putBoolean("placement", isLastInteractionPlacement);
-        tag.putLong("tick", interactionTick);
+        tag.putBoolean("placement", isLastClickPlacement);
+        tag.putLong("tick", lastClickTick);
         super.saveAdditional(tag, provider);
     }
 
@@ -151,8 +164,8 @@ public class IngotPileBlockEntity extends TFCBlockEntity
         {
             entries.add(new Entry(ItemStack.parseOptional(provider, list.getCompound(i))));
         }
-        isLastInteractionPlacement = tag.getBoolean("placement");
-        interactionTick = tag.getLong("tick");
+        isLastClickPlacement = tag.getBoolean("placement");
+        lastClickTick = tag.getLong("tick");
         super.loadAdditional(tag, provider);
     }
 

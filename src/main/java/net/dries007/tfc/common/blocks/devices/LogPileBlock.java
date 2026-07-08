@@ -35,7 +35,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
-import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blockentities.LogPileBlockEntity;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.dries007.tfc.common.blocks.EntityBlockExtension;
@@ -142,11 +141,10 @@ public class LogPileBlock extends DeviceBlock implements IForgeBlockExtension, E
         if (!player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof LogPileBlockEntity logPile)
         {
             long currentTick = Calendars.get().getTicks();
-            boolean isDoubleClick = (!logPile.isLastInteractionPlacement() && currentTick - logPile.getInteractionTick() < 6);
 
-            extractFromTop(level, pos, player, isDoubleClick);
-            logPile.setInteractionTick(currentTick);
-            logPile.setLastInteractionPlacement(false);
+            extractFromTop(level, pos, player, !logPile.isLastClickPlacement() && logPile.checkDoubleClick(currentTick));
+            logPile.setLastClickTick(currentTick);
+            logPile.setLastClickPlacement(false);
 
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }

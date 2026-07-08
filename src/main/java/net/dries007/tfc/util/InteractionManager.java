@@ -254,10 +254,10 @@ public final class InteractionManager
                             if (!level.isClientSide())
                             {
                                 long currentTick = Calendars.get().getTicks();
-                                boolean isDoubleClick = (logPileBlockEntity.isLastInteractionPlacement() && currentTick - logPileBlockEntity.getInteractionTick() < 6);
+                                boolean isDoubleClick = (logPileBlockEntity.isLastClickPlacement() && currentTick - logPileBlockEntity.getLastClickTick() < 6);
                                 LogPileBlock.insertAndPushUp(stack, stateClicked, level, posClicked, logPileBlockEntity, isDoubleClick);
-                                logPileBlockEntity.setInteractionTick(currentTick);
-                                logPileBlockEntity.setLastInteractionPlacement(true);
+                                logPileBlockEntity.setLastClickTick(currentTick);
+                                logPileBlockEntity.setLastClickPlacement(true);
                                 return InteractionResult.sidedSuccess(level.isClientSide);
                             }
                             return InteractionResult.sidedSuccess(level.isClientSide);
