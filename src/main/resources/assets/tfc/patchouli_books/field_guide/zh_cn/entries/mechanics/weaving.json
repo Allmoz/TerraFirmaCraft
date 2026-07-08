@@ -11,7 +11,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_spindle_head",
-      "text": "$(thing)纺锤头$()可以通过粘土塑形来制作。先将粘土如图捏成$(thing)未烧制的纺锤头$()$，然后在将其$(l:mechanics/heating)加热$()即可。将纺锤头与$(thing)木棍$()合成便能做出纺锤了"
+      "text": "$(thing)纺锤头$()可以通过黏土塑形来制作。先将黏土如图捏成$(thing)未烧制的纺锤头$()$，然后在将其$(l:mechanics/heating)加热$()即可。将纺锤头与$(thing)木棍$()合成便能做出纺锤了"
     },
     {
       "type": "patchouli:crafting",
@@ -43,7 +43,7 @@
     {
       "type": "tfc:loom_recipe",
       "recipe": "tfc:loom/white_wool",
-      "text": "$(thing)Wool Cloth$() can be re-woven into $(thing)Wool Blocks$(). Wool blocks can be $(l:mechanics/dye)dyed$()."
+      "text": "$(thing)羊毛布$()可以重新织成$(thing)羊毛块$()。羊毛块可以用$(l:mechanics/dye)染料$()染色。"
     },
     {
       "type": "tfc:loom_recipe",
@@ -60,6 +60,16 @@
       "type": "patchouli:crafting",
       "recipe": "minecraft:light_blue_bed",
       "recipe2": "minecraft:painting"
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "power_loom",
+      "recipe": "tfc:crafting/power_loom",
+      "text": "通过使用$(l:mechanics/weaving#power_loom)动力织布机$()，可以让织布过程实现自动化。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "动力织布机与普通织机类似，可以从侧面的漏斗接收原料，并从底部的漏斗提取成品。在织机的右侧，它可以接收来自$(thing)传动杆$()的动力。像普通织机一样放入原料后，它会慢慢为你织出最终产品。动力织布机无法手动操作。"
     }
   ],
   "read_by_default": true,
@@ -70,6 +80,7 @@
     "tfc:wool_cloth": 4,
     "minecraft:white_wool": 6,
     "tfc:silk_cloth": 7,
-    "tfc:burlap_cloth": 8
+    "tfc:burlap_cloth": 8,
+    "tfc:power_loom": 10
   }
 }

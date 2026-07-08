@@ -36,19 +36,16 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BellRenderer;
 import net.minecraft.client.renderer.blockentity.LecternRenderer;
-import net.minecraft.client.renderer.entity.CodRenderer;
 import net.minecraft.client.renderer.entity.DolphinRenderer;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 import net.minecraft.client.renderer.entity.FoxRenderer;
 import net.minecraft.client.renderer.entity.FrogRenderer;
+import net.minecraft.client.renderer.entity.LeashKnotRenderer;
 import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.OcelotRenderer;
 import net.minecraft.client.renderer.entity.PandaRenderer;
-import net.minecraft.client.renderer.entity.PufferfishRenderer;
 import net.minecraft.client.renderer.entity.RabbitRenderer;
-import net.minecraft.client.renderer.entity.SalmonRenderer;
-import net.minecraft.client.renderer.entity.TropicalFishRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.component.DataComponentType;
@@ -89,6 +86,7 @@ import net.dries007.tfc.client.extensions.ItemRendererExtension;
 import net.dries007.tfc.client.model.ContainedFluidModel;
 import net.dries007.tfc.client.model.DoubleIngotPileBlockModel;
 import net.dries007.tfc.client.model.IngotPileBlockModel;
+import net.dries007.tfc.client.model.LeavesBlockModel;
 import net.dries007.tfc.client.model.MoldTableBlockModel;
 import net.dries007.tfc.client.model.MoldsModelLoader;
 import net.dries007.tfc.client.model.PlantBlockModel;
@@ -96,11 +94,13 @@ import net.dries007.tfc.client.model.ScrapingBlockModel;
 import net.dries007.tfc.client.model.TrimmedItemModel;
 import net.dries007.tfc.client.model.entity.AlpacaModel;
 import net.dries007.tfc.client.model.entity.AnemometerModel;
+import net.dries007.tfc.client.model.entity.ArcticCharModel;
 import net.dries007.tfc.client.model.entity.BisonModel;
 import net.dries007.tfc.client.model.entity.BlackBearModel;
 import net.dries007.tfc.client.model.entity.BluegillModel;
 import net.dries007.tfc.client.model.entity.BoarModel;
 import net.dries007.tfc.client.model.entity.BongoModel;
+import net.dries007.tfc.client.model.entity.BurbotModel;
 import net.dries007.tfc.client.model.entity.CalendarClockModel;
 import net.dries007.tfc.client.model.entity.CaribouModel;
 import net.dries007.tfc.client.model.entity.CougarModel;
@@ -126,15 +126,21 @@ import net.dries007.tfc.client.model.entity.LobsterModel;
 import net.dries007.tfc.client.model.entity.ManateeModel;
 import net.dries007.tfc.client.model.entity.MongooseModel;
 import net.dries007.tfc.client.model.entity.MooseModel;
+import net.dries007.tfc.client.model.entity.MuksunModel;
 import net.dries007.tfc.client.model.entity.MuskOxModel;
+import net.dries007.tfc.client.model.entity.NorthernPikeModel;
 import net.dries007.tfc.client.model.entity.OrcaModel;
+import net.dries007.tfc.client.model.entity.PacuModel;
+import net.dries007.tfc.client.model.entity.PeacockBassModel;
 import net.dries007.tfc.client.model.entity.PeafowlModel;
 import net.dries007.tfc.client.model.entity.PenguinModel;
 import net.dries007.tfc.client.model.entity.PheasantModel;
 import net.dries007.tfc.client.model.entity.PolarBearModel;
 import net.dries007.tfc.client.model.entity.QuailModel;
 import net.dries007.tfc.client.model.entity.RatModel;
+import net.dries007.tfc.client.model.entity.RedPiranhaModel;
 import net.dries007.tfc.client.model.entity.SabertoothModel;
+import net.dries007.tfc.client.model.entity.SpottedGudgeonModel;
 import net.dries007.tfc.client.model.entity.TFCChickenModel;
 import net.dries007.tfc.client.model.entity.TFCCowModel;
 import net.dries007.tfc.client.model.entity.TFCGoatModel;
@@ -143,6 +149,7 @@ import net.dries007.tfc.client.model.entity.TFCSheepModel;
 import net.dries007.tfc.client.model.entity.TFCTurtleModel;
 import net.dries007.tfc.client.model.entity.TFCWolfModel;
 import net.dries007.tfc.client.model.entity.TigerModel;
+import net.dries007.tfc.client.model.entity.TilapiaModel;
 import net.dries007.tfc.client.model.entity.TurkeyModel;
 import net.dries007.tfc.client.model.entity.VaneModel;
 import net.dries007.tfc.client.model.entity.WaterWheelModel;
@@ -193,6 +200,7 @@ import net.dries007.tfc.client.render.blockentity.PanItemRenderer;
 import net.dries007.tfc.client.render.blockentity.PitKilnBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.PlacedItemBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.PotBlockEntityRenderer;
+import net.dries007.tfc.client.render.blockentity.PowerLoomBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.QuernBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.SluiceBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.TFCBellBlockEntityRenderer;
@@ -204,6 +212,7 @@ import net.dries007.tfc.client.render.blockentity.TripHammerBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.VaneBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.WaterWheelBlockEntityRenderer;
 import net.dries007.tfc.client.render.blockentity.WindmillBlockEntityRenderer;
+import net.dries007.tfc.client.render.blockentity.PowderkegBlockEntityRenderer;
 import net.dries007.tfc.client.render.entity.AnimalRenderer;
 import net.dries007.tfc.client.render.entity.DogRenderer;
 import net.dries007.tfc.client.render.entity.GlowArrowRenderer;
@@ -220,9 +229,13 @@ import net.dries007.tfc.client.render.entity.TFCBoatRenderer;
 import net.dries007.tfc.client.render.entity.TFCCatRenderer;
 import net.dries007.tfc.client.render.entity.TFCChestBoatRenderer;
 import net.dries007.tfc.client.render.entity.TFCChestedHorseRenderer;
+import net.dries007.tfc.client.render.entity.TFCCodRenderer;
 import net.dries007.tfc.client.render.entity.TFCFishingHookRenderer;
 import net.dries007.tfc.client.render.entity.TFCHorseRenderer;
+import net.dries007.tfc.client.render.entity.TFCPufferfishRenderer;
+import net.dries007.tfc.client.render.entity.TFCSalmonRenderer;
 import net.dries007.tfc.client.render.entity.TFCSquidRenderer;
+import net.dries007.tfc.client.render.entity.TFCTropicalFishRenderer;
 import net.dries007.tfc.client.render.entity.ThrownJavelinRenderer;
 import net.dries007.tfc.client.screen.AnvilPlanScreen;
 import net.dries007.tfc.client.screen.AnvilScreen;
@@ -364,7 +377,7 @@ public final class ClientEventHandler
             registerSealedProperty(TFCBlocks.POWDERKEG, TFCComponents.CONTENTS);
             registerSealedProperty(TFCBlocks.LARGE_VESSEL, TFCComponents.CONTENTS);
             TFCBlocks.GLAZED_LARGE_VESSELS.values().forEach(item -> registerSealedProperty(item, TFCComponents.CONTENTS));
-            TFCBlocks.WOODS.values().forEach(map -> registerSealedProperty(map.get(BARREL), TFCComponents.BARREL));
+            TFCBlocks.WOODS.values().forEach(map -> registerSealedProperty(map.get(BARREL), TFCComponents.BARREL, barrel -> !barrel.isEmpty()));
 
             /*ItemProperties.register(TFCBlocks.LIGHT.get().asItem(), Helpers.identifierMC("level"), (stack, level, entity, unused) -> {
                 CompoundTag stackTag = stack.getTag();
@@ -397,6 +410,7 @@ public final class ClientEventHandler
         // Rock blocks
         TFCBlocks.ROCK_BLOCKS.values().forEach(map -> {
             ItemBlockRenderTypes.setRenderLayer(map.get(Rock.BlockType.SPIKE).get(), cutout);
+            ItemBlockRenderTypes.setRenderLayer(map.get(Rock.BlockType.ROPE_ANCHOR).get(), cutout);
             ItemBlockRenderTypes.setRenderLayer(map.get(Rock.BlockType.AQUEDUCT).get(), cutout);
         });
         TFCBlocks.ORES.values().forEach(map -> map.values().forEach(reg -> ItemBlockRenderTypes.setRenderLayer(reg.get(), cutout)));
@@ -406,17 +420,10 @@ public final class ClientEventHandler
         // Wood blocks
         TFCBlocks.WOODS.values().forEach(map -> {
             Stream.of(SAPLING, DOOR, TRAPDOOR, FENCE, FENCE_GATE, BUTTON, PRESSURE_PLATE, SLAB, STAIRS, TWIG, BARREL, SCRIBING_TABLE, SEWING_TABLE, SHELF, POTTED_SAPLING, ENCASED_AXLE, CLUTCH, GEAR_BOX).forEach(type -> ItemBlockRenderTypes.setRenderLayer(map.get(type).get(), cutout));
-            // todo see ItemBlockRenderTypes we need to switch the leaves properties correctly
-            Stream.of(LEAVES, FALLEN_LEAVES).forEach(type -> ItemBlockRenderTypes.setRenderLayer(map.get(type).get(), cutoutMipped));
+
         });
 
-        // todo see ItemBlockRenderTypes we need to switch the leaves properties correctly
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.TREE_ROOTS.get(), cutoutMipped);
-        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.PINE_KRUMMHOLZ.get(), cutoutMipped);
-        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.DOUGLAS_FIR_KRUMMHOLZ.get(), cutoutMipped);
-        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.SPRUCE_KRUMMHOLZ.get(), cutoutMipped);
-        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.WHITE_CEDAR_KRUMMHOLZ.get(), cutoutMipped);
-        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.ASPEN_KRUMMHOLZ.get(), cutoutMipped);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.POTTED_PINE_KRUMMHOLZ.get(), cutoutMipped);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.POTTED_DOUGLAS_FIR_KRUMMHOLZ.get(), cutoutMipped);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.POTTED_SPRUCE_KRUMMHOLZ.get(), cutoutMipped);
@@ -467,7 +474,6 @@ public final class ClientEventHandler
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.CRANBERRY_BUSH.get(), cutoutMipped);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.DEAD_BERRY_BUSH.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.DEAD_CANE.get(), cutout);
-        TFCBlocks.FRUIT_TREE_LEAVES.values().forEach(leaves -> ItemBlockRenderTypes.setRenderLayer(leaves.get(), cutoutMipped));
         TFCBlocks.FRUIT_TREE_SAPLINGS.values().forEach(leaves -> ItemBlockRenderTypes.setRenderLayer(leaves.get(), cutout));
         TFCBlocks.FRUIT_TREE_POTTED_SAPLINGS.values().forEach(leaves -> ItemBlockRenderTypes.setRenderLayer(leaves.get(), cutout));
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.BANANA_PLANT.get(), cutout);
@@ -494,6 +500,9 @@ public final class ClientEventHandler
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.SCRAPING.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.STEEL_PIPE.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.STEEL_PUMP.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.ROPE.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.HANGING_ROPE.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(TFCBlocks.STEEL_ROPE_ANCHOR.get(), cutout);
 
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.COMPOSTER.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(TFCBlocks.BLOOMERY.get(), cutout);
@@ -522,9 +531,14 @@ public final class ClientEventHandler
 
     private static final ResourceLocation SEALED = Helpers.identifier("sealed");
 
-    private static void registerSealedProperty(ItemLike item, Supplier<? extends DataComponentType<?>> type)
+    private static <T> void registerSealedProperty(ItemLike item, Supplier<? extends DataComponentType<T>> type)
     {
-        ItemProperties.register(item.asItem(), SEALED, (stack, level, entity, unused) -> stack.has(type) ? 1.0f : 0f);
+        registerSealedProperty(item, type, t -> true);
+    }
+
+    private static <T> void registerSealedProperty(ItemLike item, Supplier<? extends DataComponentType<T>> type, Predicate<T> predicate)
+    {
+        ItemProperties.register(item.asItem(), SEALED, (stack, level, entity, unused) -> stack.has(type) && predicate.test(stack.get(type)) ? 1.0f : 0f);
     }
 
     public static void registerMenuScreens(RegisterMenuScreensEvent event)
@@ -576,6 +590,7 @@ public final class ClientEventHandler
         event.registerEntityRenderer(TFCEntities.THROWN_JAVELIN.get(), ThrownJavelinRenderer::new);
         event.registerEntityRenderer(TFCEntities.GLOW_ARROW.get(), GlowArrowRenderer::new);
         event.registerEntityRenderer(TFCEntities.SEAT.get(), NoopRenderer::new);
+        event.registerEntityRenderer(TFCEntities.ROPE_KNOT.get(), LeashKnotRenderer::new);
         event.registerEntityRenderer(TFCEntities.CHEST_MINECART.get(), ctx -> new MinecartRenderer<>(ctx, RenderHelpers.layerId("chest_minecart")));
         event.registerEntityRenderer(TFCEntities.HOLDING_MINECART.get(), ctx -> new MinecartRenderer<>(ctx, RenderHelpers.layerId("holding_minecart")));
         for (Wood wood : Wood.VALUES)
@@ -583,16 +598,25 @@ public final class ClientEventHandler
             event.registerEntityRenderer(TFCEntities.BOATS.get(wood).get(), ctx -> new TFCBoatRenderer(ctx, wood.getSerializedName()));
             event.registerEntityRenderer(TFCEntities.CHEST_BOATS.get(wood).get(), ctx -> new TFCChestBoatRenderer(ctx, wood.getSerializedName()));
         }
-        event.registerEntityRenderer(TFCEntities.COD.get(), CodRenderer::new);
-        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.SALMON).get(), SalmonRenderer::new);
+        event.registerEntityRenderer(TFCEntities.COD.get(), TFCCodRenderer::new);
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.SALMON).get(), TFCSalmonRenderer::new);
         event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.LARGEMOUTH_BASS).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, CodModel::new, "largemouth_bass").flops().build());
         event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.SMALLMOUTH_BASS).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, CodModel::new, "smallmouth_bass").flops().build());
         event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.LAKE_TROUT).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, CodModel::new, "lake_trout").flops().build());
         event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.RAINBOW_TROUT).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, CodModel::new, "rainbow_trout").flops().build());
         event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.CRAPPIE).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, CodModel::new, "crappie").flops().build());
         event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.BLUEGILL).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, BluegillModel::new, "bluegill").flops().build());
-        event.registerEntityRenderer(TFCEntities.TROPICAL_FISH.get(), TropicalFishRenderer::new);
-        event.registerEntityRenderer(TFCEntities.PUFFERFISH.get(), PufferfishRenderer::new);
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.NORTHERN_PIKE).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, NorthernPikeModel::new, "northern_pike").flops().build());
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.BURBOT).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, BurbotModel::new, "burbot").flops().build());
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.ARCTIC_CHAR).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, ArcticCharModel::new, "arctic_char").flops().build());
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.MUKSUN).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, MuksunModel::new, "muksun").flops().build());
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.TILAPIA).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, TilapiaModel::new, "tilapia").flops().build());
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.SPOTTED_GUDGEON).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, SpottedGudgeonModel::new, "spotted_gudgeon").flops().build());
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.PEACOCK_BASS).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, PeacockBassModel::new, "peacock_bass").flops().build());
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.PACU).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, PacuModel::new, "pacu").flops().build());
+        event.registerEntityRenderer(TFCEntities.FRESHWATER_FISH.get(Fish.RED_PIRANHA).get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, RedPiranhaModel::new, "red_piranha").flops().build());
+        event.registerEntityRenderer(TFCEntities.TROPICAL_FISH.get(), TFCTropicalFishRenderer::new);
+        event.registerEntityRenderer(TFCEntities.PUFFERFISH.get(), TFCPufferfishRenderer::new);
         event.registerEntityRenderer(TFCEntities.JELLYFISH.get(), JellyfishRenderer::new);
         event.registerEntityRenderer(TFCEntities.LOBSTER.get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, LobsterModel::new, "lobster").build());
         event.registerEntityRenderer(TFCEntities.CRAYFISH.get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, LobsterModel::new, "crayfish").build());
@@ -666,6 +690,7 @@ public final class ClientEventHandler
         event.registerBlockEntityRenderer(TFCBlockEntities.CHEST.get(), TFCChestBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(TFCBlockEntities.TRAPPED_CHEST.get(), TFCChestBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(TFCBlockEntities.LOOM.get(), ctx -> new LoomBlockEntityRenderer());
+        event.registerBlockEntityRenderer(TFCBlockEntities.POWER_LOOM.get(), ctx -> new PowerLoomBlockEntityRenderer());
         event.registerBlockEntityRenderer(TFCBlockEntities.SLUICE.get(), ctx -> new SluiceBlockEntityRenderer());
         event.registerBlockEntityRenderer(TFCBlockEntities.BELLOWS.get(), ctx -> new BellowsBlockEntityRenderer());
         event.registerBlockEntityRenderer(TFCBlockEntities.TOOL_RACK.get(), ctx -> new ToolRackBlockEntityRenderer());
@@ -693,6 +718,7 @@ public final class ClientEventHandler
         event.registerBlockEntityRenderer(TFCBlockEntities.CHANNEL.get(), ctx -> new ChannelBlockEntityRenderer());
         event.registerBlockEntityRenderer(TFCBlockEntities.MOLD_TABLE.get(), ctx -> new MoldBlockEntityRenderer());
         event.registerBlockEntityRenderer(TFCBlockEntities.CALENDAR_CLOCK.get(), CalendarClockBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(TFCBlockEntities.POWDERKEG.get(), ctx -> new PowderkegBlockEntityRenderer());
     }
 
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
@@ -712,6 +738,15 @@ public final class ClientEventHandler
         event.registerLayerDefinition(RenderHelpers.layerId("largemouth_bass"), CodModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("rainbow_trout"), CodModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("lake_trout"), CodModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("arctic_char"), ArcticCharModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("burbot"), BurbotModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("muksun"), MuksunModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("northern_pike"), NorthernPikeModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("pacu"), PacuModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("peacock_bass"), PeacockBassModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("red_piranha"), RedPiranhaModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("spotted_gudgeon"), SpottedGudgeonModel::createBodyLayer);
+        event.registerLayerDefinition(RenderHelpers.layerId("tilapia"), TilapiaModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("jellyfish"), JellyfishModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("lobster"), LobsterModel::createBodyLayer);
         event.registerLayerDefinition(RenderHelpers.layerId("crayfish"), LobsterModel::createBodyLayer);
@@ -826,6 +861,7 @@ public final class ClientEventHandler
         event.register(Helpers.identifier("double_ingot_pile"), DoubleIngotPileBlockModel.INSTANCE);
         event.register(Helpers.identifier("scraping"), ScrapingBlockModel.INSTANCE);
         event.register(Helpers.identifier("plant"), PlantBlockModel.Loader.INSTANCE);
+        event.register(Helpers.identifier("leaves"), LeavesBlockModel.Loader.INSTANCE);
         event.register(Helpers.identifier("mold"), new MoldsModelLoader());
         event.register(Helpers.identifier("mold_table"), MoldTableBlockModel.Loader.INSTANCE);
     }
@@ -955,8 +991,8 @@ public final class ClientEventHandler
         event.registerReloadListener(new ColorMapReloadListener(TFCColors::setGrassColors, TFCColors.GRASS_COLORS_LOCATION));
         event.registerReloadListener(new ColorMapReloadListener(TFCColors::setTallGrassColors, TFCColors.TALL_GRASS_COLORS_LOCATION));
         event.registerReloadListener(new ColorMapReloadListener(TFCColors::setFoliageColors, TFCColors.FOLIAGE_COLORS_LOCATION));
+        event.registerReloadListener(new ColorMapReloadListener(TFCColors::setFoliageSummerColors, TFCColors.FOLIAGE_SUMMER_COLORS_LOCATION));
         event.registerReloadListener(new ColorMapReloadListener(TFCColors::setFoliageFallColors, TFCColors.FOLIAGE_FALL_COLORS_LOCATION));
-        event.registerReloadListener(new ColorMapReloadListener(TFCColors::setFoliageWinterColors, TFCColors.FOLIAGE_WINTER_COLORS_LOCATION));
 
         event.registerReloadListener(new StarsReloadListener());
     }

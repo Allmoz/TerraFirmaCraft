@@ -73,7 +73,7 @@ In addition, here's some useful things for dev work, and also making standardize
 from argparse import ArgumentParser
 from typing import Optional
 
-from constants import CROPS, METALS, FRUITS, BERRIES, GRAINS
+from constants import CROPS, METALS, FRUITS, BERRIES, GRAINS, ROCKS
 from patchouli import *
 
 GRADES = ['poor', 'normal', 'rich']  # Sorted so they appear in a nice order for animation
@@ -204,7 +204,7 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             multimultiblock('Variants of kaolin clay.', *[two_tall_block_spotlight('', '', 'tfc:%s' % b, 'tfc:plant/blood_lily') for b in ('kaolin_clay_grass', 'red_kaolin_clay', 'white_kaolin_clay', 'pink_kaolin_clay')]),
             item_spotlight('tfc:ore/graphite', 'Graphite', text_contents='Graphite is a $(thing)Mineral$() which is used in the construction of $(l:mechanics/fire_clay)Fire Clay$(). It can be found in $(thing)Gneiss$(), $(thing)Marble$(), $(thing)Quartzite$(), and $(thing)Schist$() rocks, in elevations below y=60.').link('tfc:ore/%s' % 'graphite').anchor('graphite'),
             block_spotlight('', 'Graphite in Gneiss.', 'tfc:ore/%s/%s' % ('graphite', 'gneiss')),
-            item_spotlight('tfc:ore/cinnabar', 'Cinnabar', text_contents='Cinnabar is a $(thing)Mineral$() which can be ground in the $(l:mechanics/quern)Quern$() to obtain $(thing)Redstone Dust$(). It can be found in veins deep underground, in $(thing)Quartzite$(), $(thing)Granite$(), $(thing)Phyllite$(), and $(thing)Schist$().').link('tfc:ore/%s' % 'cinnabar').anchor('cinnabar'),
+            item_spotlight('tfc:ore/cinnabar', 'Cinnabar', text_contents='Cinnabar is a $(thing)Mineral$() which can be ground in the $(l:mechanics/quern)Quern$() to obtain $(thing)Redstone Dust$(). It can be found in veins deep underground or high in mountains, in $(thing)Quartzite$(), $(thing)Granite$(), $(thing)Phyllite$(), and $(thing)Schist$().').link('tfc:ore/%s' % 'cinnabar').anchor('cinnabar'),
             block_spotlight('', 'Cinnabar in Quartzite.', 'tfc:ore/%s/%s' % ('cinnabar', 'quartzite')),
             item_spotlight('tfc:ore/cryolite', 'Cryolite', text_contents='Cryolite is a $(thing)Mineral$() which can be ground in the $(l:mechanics/quern)Quern$() to obtain $(thing)Redstone Dust$(). It can be found in veins deep underground, in $(thing)Granite$(), and $(thing)Diorite$().').link('tfc:ore/%s' % 'cryolite').anchor('cryolite'),
             block_spotlight('', 'Cryolite in Granite.', 'tfc:ore/%s/%s' % ('cryolite', 'granite')),
@@ -220,18 +220,24 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             block_spotlight('', 'Gypsum in Chalk.', 'tfc:ore/%s/%s' % ('gypsum', 'chalk')),
             item_spotlight('tfc:ore/halite', 'Halite', text_contents='Halite is a $(thing)Mineral$() which can be ground in the $(l:mechanics/quern)Quern$() to make $(thing)Salt$(), which is an important $(l:mechanics/decay#salting)Preservative$(). It can be found in very large flat deposits near the surface in $(l:the_world/geology#sedimentary)Sedimentary$() rocks.').link('tfc:ore/%s' % 'halite').anchor('halite'),
             block_spotlight('', 'Halite.', 'tfc:halite'),
-            item_spotlight('tfc:ore/emerald', 'Emerald', text_contents='Emerald is a decorative $(l:mechanics/gems)Gemstone$(). It looks quite pretty, maybe if you could find someone else in this incredibly lonely world you could trade it with them...$(br2)It appears in thin vertical ore formations which can be up to a hundred blocks tall. It can be found in $(l:the_world/geology#igneous_intrusive)Igneous Intrusive$() rocks.').link('tfc:ore/%s' % 'emerald').anchor('emerald'),
+            item_spotlight('tfc:ore/emerald', 'Emerald', text_contents='Emerald is a $(l:mechanics/gems)Gemstone$(). It looks quite pretty, maybe if you could find someone else in this incredibly lonely world you could trade it with them...$(br2)It appears in thin vertical ore formations which can be up to a hundred blocks tall. It can be found in $(l:the_world/geology#igneous_intrusive)Igneous Intrusive$() rocks, or associated with hotsprings.').link('tfc:ore/%s' % 'emerald').anchor('emerald'),
             block_spotlight('', 'Emerald in Diorite.', 'tfc:ore/%s/%s' % ('emerald', 'diorite')),
-            item_spotlight('tfc:ore/diamond', 'Kimberlite', text_contents='Kimberlite is a decorative and priceless $(l:mechanics/gems)Gemstone$(). It appears in thin vertical ore formations called $(l:https://en.wikipedia.org/wiki/Volcanic_pipe)Kimberlite Pipes$() which can be up to a hundred blocks tall. It can only be found in $(thing)Gabbro$().').link('tfc:ore/%s' % 'diamond').anchor('diamond'),
+            item_spotlight('tfc:ore/diamond', 'Kimberlite', text_contents='Kimberlite is a decorative and priceless $(l:mechanics/gems)Gemstone$(). It appears in thin vertical ore formations called $(l:https://en.wikipedia.org/wiki/Volcanic_pipe)Kimberlite Pipes$() which can be up to a hundred blocks tall. These can only be found in $(thing)Gabbro$(). Kimberlite also occurs rarely in volcanic fissures.').link('tfc:ore/%s' % 'diamond').anchor('diamond'),
             block_spotlight('', 'Kimberlite in Gabbro.', 'tfc:ore/%s/%s' % ('diamond', 'gabbro')),
-            item_spotlight('tfc:ore/lapis_lazuli', 'Lapis Lazuli', text_contents='Lapis Lazuli is a decorative $(thing)Mineral$() which can be used to make $(l:mechanics/dye)Blue Dye$(). It can be found in large, but sparse veins in $(thing)Limestone$() and $(thing)Marble$(), between y=-20 and y=80.').link('tfc:ore/%s' % 'lapis_lazuli').anchor('lapis_lazuli'),
+            item_spotlight('tfc:ore/lapis_lazuli', 'Lapis Lazuli', text_contents='Lapis Lazuli is a decorative $(l:mechanics/gems)Gemstone$() which can be used to make $(l:mechanics/dye)Blue Dye$(). It can be found in large, but sparse veins in $(thing)Limestone$() and $(thing)Marble$(), between y=-20 and y=80.').link('tfc:ore/%s' % 'lapis_lazuli').anchor('lapis_lazuli'),
             block_spotlight('', 'Lapis Lazuli in Marble.', 'tfc:ore/%s/%s' % ('lapis_lazuli', 'marble')),
-            item_spotlight('tfc:ore/amethyst', 'Amethyst', text_contents='Amethyst is a decorative $(thing)Mineral$() which can be used to make $(l:mechanics/glassworking)Glass$(). It can be found in $(thing)Sedimentary$() and $(thing)Metamorphic$() rock beneath rivers above y=40.').link('tfc:ore/%s' % 'amethyst').anchor('amethyst'),
+            item_spotlight('tfc:ore/amethyst', 'Amethyst', text_contents='Amethyst is a decorative $(l:mechanics/gems)Gemstone$() which can be used to make $(l:mechanics/glassworking)Glass$(). It can be found in $(thing)Sedimentary$() and $(thing)Metamorphic$() rock beneath rivers above y=40, or in geodes below y=30.').link('tfc:ore/%s' % 'amethyst').anchor('amethyst'),
             block_spotlight('', 'Amethyst in Marble.', 'tfc:ore/%s/%s' % ('amethyst', 'marble')),
-            item_spotlight('tfc:ore/opal', 'Opal', text_contents='Opal is a decorative $(thing)Mineral$(). It can be found in $(thing)Sedimentary) and $(thing)Igneous Extrusive$() rock beneath rivers above y=40.').link('tfc:ore/%s' % 'opal').anchor('opal'),
+            item_spotlight('tfc:ore/opal', 'Opal', text_contents='Opal is a decorative $(l:mechanics/gems)Gemstone$(). It can be found in $(thing)Sedimentary) and $(thing)Igneous Extrusive$() rock beneath rivers above y=40.').link('tfc:ore/%s' % 'opal').anchor('opal'),
             block_spotlight('', 'Opal in Basalt.', 'tfc:ore/%s/%s' % ('opal', 'basalt')),
-            item_spotlight('tfc:ore/ruby', 'Ruby', text_contents='Ruby is a decorative $(thing)Mineral$(). It can be found in $(thing)Schist$() and $(thing)Gneiss$() rock below y=-10.').link('tfc:ore/%s' % 'ruby').anchor('ruby'),
-            block_spotlight('', 'Ruby in Schist.', 'tfc:ore/%s/%s' % ('ruby', 'schist')),
+            item_spotlight('tfc:ore/pyrite', 'Pyrite', text_contents='Pyrite, or fool\'s gold, is a decorative $(l:mechanics/gems)Gemstone$(). It can be found in $(thing)Igneous Intrusive) and $(thing)Igneous Extrusive$() beloy y=70.').link('tfc:ore/%s' % 'pyrite').anchor('pyrite'),
+            block_spotlight('', 'Pyrite in Granite.', 'tfc:ore/%s/%s' % ('pyrite', 'granite')),
+            item_spotlight('tfc:ore/ruby', 'Ruby', text_contents='Ruby is a decorative $(l:mechanics/gems)Gemstone$(). It can be found rarely in $(thing)Marble$() rock below y=-10, or more commonly in veins of $(thing)Marble$() rock Collisional Mountains').link('tfc:ore/%s' % 'ruby').anchor('ruby'),
+            block_spotlight('', 'Ruby in Marble.', 'tfc:ore/%s/%s' % ('ruby', 'marble')),
+            item_spotlight('tfc:ore/sapphire', 'Sapphire', text_contents='Sapphire is a decorative $(l:mechanics/gems)Gemstone$(). It can be found $(thing)Hot Springs$() fissures.').link('tfc:ore/%s' % 'sapphire').anchor('sapphire'),
+            block_spotlight('', 'Sapphire in Gabbro.', 'tfc:ore/%s/%s' % ('sapphire', 'gabbro')),
+            item_spotlight('tfc:ore/topaz', 'Topaz', text_contents='Topaz is a decorative $(l:mechanics/gems)Gemstone$(). It can be found in the fissures of Volcanoes.').link('tfc:ore/%s' % 'topaz').anchor('topaz'),
+            block_spotlight('', 'Topaz in Schist.', 'tfc:ore/%s/%s' % ('topaz', 'schist')),
         )),
         entry('climate', 'Calendar and Climate', 'tfc:textures/gui/book/icons/thermometer.png', pages=(
             # Overview of both temperature and rainfall and where they spawn on X/Z
@@ -245,7 +251,7 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             page_break(),
             text('Another tab on the main inventory screen is the $(thing)Climate$() screen. This one shows information about the current location$(br2)From top to bottom, the screen displays the $(l:https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification)Local Climate$(), the $(thing)Average Annual Temperature$(), the current temperature, the $(thing)Average Annual Rainfall$(), the current rainfall, the peak rainfall, and the season when the peak occurs.', title='Climate').anchor('climate'),
             image('tfc:textures/gui/book/gui/climate.png', text_contents='The Climate Screen', border=False),
-            text('Temperature in TerraFirmaCraft is influenced by a number of factors:$(br)$(li)Firstly, the region, especially the latitude (Z coordinate) will play the largest role.$(li)Secondly, the current season will influence the temperature - it will be hottest during Summer, and coldest during Winter.$(li)Finally, the temperature can be different day to day as well as varying from hour to hour.', title='Temperature').anchor('temperature'),
+            text('Temperature in TerraFirmaCraft is influenced by a number of factors:$(br)$(li)Firstly, the region, especially the latitude (Z coordinate) will play the largest role.$(li)Secondly, the elevation will influence the temperature - it will be coldest at the tops of mountains.$(li)Next, the current season will influence the temperature - it will be hottest during Summer, and coldest during Winter.$(li)Finally, the temperature can be different day to day as well as varying from hour to hour.', title='Temperature').anchor('temperature'),
             text('The last line shows the current temperature, including all these aforementioned factors.$(br2)Temperature can influence many things: if crops and plants will grow, if snow and ice will form or melt, and more.'),
             page_break(),
             text('Rainfall is influenced by a number of factors:$(br2)The region, especially the longitude (X coordinate) will play the largest role, with wetter climates generally to the east of spawn. Distance from the coast also plays a role, with drier climates farther inland.', title='Rainfall').anchor('rainfall'),
@@ -257,6 +263,7 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             # Overview of various plants
             # Mention some usages (dyes)
             text('There are many, many, $(italic)many$() different types of plants in TerraFirmaCraft.$(br2)Different plants appear in different $(l:the_world/climate)Climates$(), and their appearance may change over the current season - going through cycles of flowering and laying dormant, or changing color as the local temperature changes. Colorful flowers can typically be crushed in a $(l:mechanics/quern)Quern$() for $(l:mechanics/dye)Dye$().'),
+            text('Flowers can be $(thing)propagated$() by $(item)$(k:key.use)$() them with shears. This drops a $(thing)Flower Cutting$(). Crafting a Flower Cutting with Compost will give you two of the original flower back, thus duplicating it.'),
             block_spotlight('Standard', 'Standard plants are like small flowers. They grow on grass, dirt, and farmland.', 'tfc:plant/anthurium'),
             block_spotlight('Dry', 'Dry plants are like standard plants, but they can grow on sand. These generally only spawn in areas with low rainfall.', 'tfc:plant/sagebrush'),
             two_tall_block_spotlight('Cacti', 'Cacti can grow two blocks high, and they will damage you!', 'tfc:plant/barrel_cactus[part=lower]', 'tfc:plant/barrel_cactus[part=upper]').anchor('cacti'),
@@ -273,7 +280,8 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             two_tall_block_spotlight('Tall Water Plant', 'Tall water plants can grow with just the bottom block in water. $(thing)Water Taro$() and $()Cattail$() can be broken with a $(thing)Knife$() for $(thing)Roots$().', 'tfc:plant/cattail[part=lower,fluid=water]', 'tfc:plant/cattail[part=upper]'),
             two_tall_block_spotlight('Floating', 'Floating plants sit on top of the water. Boats will break them on contact.', 'minecraft:water', 'tfc:plant/duckweed'),
             two_tall_block_spotlight('Kelp', 'Kelp are twisting vines that grow underwater.', 'tfc:plant/winged_kelp_plant[fluid=salt_water]', 'tfc:plant/winged_kelp[fluid=salt_water]'),
-            two_tall_block_spotlight('Tree Kelp', 'Tree kelp grow into intricate trees underwater. The flowers can be harvested with a $(thing)Knife$().', 'tfc:plant/giant_kelp_plant[down=true,up=true,fluid=salt_water]', 'tfc:plant/giant_kelp_flower[facing=up,fluid=salt_water]'),  # note: anyone want to make a nice multiblock for this?
+            two_tall_block_spotlight('Tree Kelp', 'Tree kelp grow into intricate trees underwater. The flowers can be harvested with a $(thing)Knife$().', 'tfc:plant/giant_kelp_plant[down=true,up=true,fluid=salt_water]', 'tfc:plant/giant_kelp_flower[facing=up,fluid=salt_water]'),  # note: anyone want to make a nice multiblock for this?,
+            empty_last_page(),
         )),
         entry('wild_crops', 'Wild Crops', 'tfc:textures/gui/book/icons/wild_crops.png', pages=(
             # Wild crops - how to find them, why you'd want to, what they drop
@@ -479,7 +487,6 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             empty(),
             page_break(),
             text('$(thing)Prey$() animals fear players and predators. They are adept at fleeing from danger, but generally cannot fight back. Some prey animals enjoy snacking on crops.', title='Prey').anchor('prey'),
-            entity('tfc:rabbit', 'The rabbit is known to chew on carrots and cabbage. They are ubiquitous in the world, changing their coat based on climate. They only need 15mm of $(l:the_world/climate#rainfall)rainfall$() to spawn.', 'Rabbit'),
             entity('tfc:fox', 'The fox likes to eat the berries off of bushes. It can be found in forests with $(l:the_world/climate#temperature)temperature$() below 25°C, and $(l:the_world/climate#rainfall)rainfall$() between 130 and 400mm.', 'Fox'),
             entity('tfc:deer', 'The deer spawns in forests at any $(l:the_world/climate#temperature)temperature$() below 25°C and above -15°C, and $(l:the_world/climate#rainfall)rainfall$() between 130 and 400mm.'),
             entity('tfc:caribou', 'The caribou spawns at any $(l:the_world/climate#temperature)temperature$() below -9°C, and $(l:the_world/climate#rainfall)rainfall$() between 110 and 500mm.', 'Caribou', 0.5),
@@ -489,7 +496,6 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             entity('tfc:pheasant', 'The pheasant spawns in forests at any $(l:the_world/climate#temperature)temperature$() below 17°C and above -5°C, and $(l:the_world/climate#rainfall)rainfall$() between 100 and 300mm.'),
             entity('tfc:turkey', 'The turkey spawns in forests at any $(l:the_world/climate#temperature)temperature$() below 17°C and above 0°C, and $(l:the_world/climate#rainfall)rainfall$() between 250 and 450mm.'),
             entity('tfc:peafowl', 'The peafowl spawns in forests at any $(l:the_world/climate#temperature)temperature$() above 14°C, and $(l:the_world/climate#rainfall)rainfall$() between 190 and 500mm.', 'Peafowl', 0.8),
-            empty(),
             page_break(),
             text('$(thing)Aquatic Animals$() are a broad category which covers a number of different behaviors. They may be $(thing)Shore Dwellers$(), $(thing)Fish$(), $(thing)Shellfish$(), or $(thing)Large Aquatic Creatures$()', title='Aquatic Animals').anchor('aquatic'),
             text('$(thing)Shore Animals$() only spawn on sea shores and spend some of their day swimming, and some walking on the beach. They are curious creatures, and will follow the player around, but cannot be tamed.'),
@@ -503,8 +509,22 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             entity('tfc:pufferfish', 'Pufferfish live in any ocean with at least a $(l:the_world/climate#temperature)temperature$() of 10°C.', 'Pufferfish'),
             entity('tfc:jellyfish', 'Jellyfish live in warmer oceans, with a $(l:the_world/climate#temperature)temperature$() of at least 18°C.', 'Jellyfish'),
             entity('tfc:tropical_fish', 'Tropical fish prefer warmer oceans, with a $(l:the_world/climate#temperature)temperature$() of at least 18°C.', 'Tropical Fish'),
-            entity('tfc:salmon', 'Salmon spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -5°C.', 'Salmon'),
-            entity('tfc:bluegill', 'Bluegill spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -10°C and at most 26°C.', 'Bluegill'),
+            entity('tfc:salmon', 'Salmon spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -8°C and at most 12°C and with rainfall of at least 250 mm.', 'Salmon'),
+            entity('tfc:rainbow_trout', 'Rainbow Trout spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -12°C and at most 10°C and with rainfall of at least 150 mm.', 'Rainbow Trout'),
+            entity('tfc:lake_trout', 'Lake Trout spawn in any lake with a $(l:the_world/climate#temperature)temperature$() of at least -5°C and at most 15°C and with rainfall of at least 250 mm.', 'Lake Trout'),
+            entity('tfc:largemouth_bass', 'Largemouth Bass spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -14°C and at most 16°C and with rainfall of at least 200 mm.', 'Largemouth Bass'),
+            entity('tfc:smallmouth_bass', 'Smallmouth Bass spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -14°C and at most 16°C and with rainfall of less than 300 mm.', 'Smallmouth Bass'),
+            entity('tfc:crappie', 'Crappie spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -10°C and at most 20°C.', 'Crappie'),
+            entity('tfc:bluegill', 'Bluegill spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -10°C and at most 15°C.', 'Bluegill'),
+            entity('tfc:northern_pike', 'Northern Pike spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -10°C and at most 26°C with rainfall between 150 mm and 400 mm.', 'Northern Pike'),
+            entity('tfc:peacock_bass', 'Peacock Bass spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 12°C and at most 25°C with rainfall between 200 mm and 400 mm.', 'Peacock Bass'),
+            entity('tfc:arctic_char', 'Arctic Char spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -20°C and at most -8°C with rainfall between 150mm and 400 mm.', 'Arctic Char'),
+            entity('tfc:muksun', 'Muksun spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -20°C and at most -10°C with rainfall of at least 250 mm.', 'Muksun'),
+            entity('tfc:burbot', 'Burbot spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least -16°C and at most -9°C with rainfall less than 350 mm.', 'Burbot'),
+            entity('tfc:tilapia', 'Tilapia spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 10°C and at most 32°C with rainfall less than 300 mm.', 'Tilapia'),
+            entity('tfc:spotted_gudgeon', 'Spotted Gudgeon spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 6°C and at most 24°C with rainfall less than 250 mm.', 'Spotted Gudgeon'),
+            entity('tfc:pacu', 'Pacu spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 20°C and at most 35°C with rainfall above 200 mm.', 'Pacu'),
+            entity('tfc:red_piranha', 'Red Piranha spawn in any river or lake with a $(l:the_world/climate#temperature)temperature$() of at least 22°C and at most 35°C with rainfall above 300 mm.', 'Red Piranha'),
             text('$(thing)Shellfish$() are small animals that live on the floor of bodies of water. They cannot be fished, but drop shells that can be eaten or made into $(l:mechanics/flux)flux$(). Shellfish can be $(l:mechanics/fishing)bait$() for fish.', title='Shellfish').anchor('shellfish'),
             entity('tfc:isopod', 'Isopods spawn in deeper sections of oceans of $(l:the_world/climate#temperature)temperature$() at most 14°C.', 'Isopod'),
             entity('tfc:lobster', 'Lobster spawn in any ocean that is at most of a $(l:the_world/climate#temperature)temperature$() of 21°C.', 'Lobster'),
@@ -749,7 +769,7 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             page_break(),
             text('$(thing)Pigs$() spawn in mild forests with $(l:the_world/climate#temperature)temperature$() between -10 and 35°C, and at least 200mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#mammals)Mammals$() with no special abilities. They will eat any food, even if it is rotten. They have 1-10 children, are pregnant for just 19 days, and reach adulthood in 80 days. They can have children 6 times.', title='Pigs').anchor('pig'),
             entity('tfc:pig' + ANIMAL_NBT, 'A pig.', '', scale=0.6),
-            text('$(thing)Rabbits$() spawn in $(l:the_world/climate#temperature)temperatures$() above -16°C, and at least 15mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#mammals)Mammals$() with no special abilities. They will eat any food, even if it is rotten. They have 1-6 children, are pregnant for just 19 days, and reach adulthood in 20 days. They can have children 6 times.', title='Rabbits').anchor('rabbit'),
+            text('$(thing)Rabbits$() spawn in $(l:the_world/climate#temperature)temperatures$() above -16°C, and at least 15mm of $(l:the_world/climate#rainfall)rainfall$(), changing their coat based on climate. They are $(l:mechanics/animal_husbandry#mammals)Mammals$() with no special abilities, aside from being known for chewing on carrots and cabbage. They will eat any food, even if it is rotten. They have 1-6 children, are pregnant for just 19 days, and reach adulthood in 20 days. They can have children 6 times.', title='Rabbits').anchor('rabbit'),
             entity('tfc:rabbit' + ANIMAL_NBT, 'A rabbit.', '', scale=0.8),
             text('$(thing)Cows$() spawn in most climates, between $(l:the_world/climate#temperature)temperature$() -10 and 35°C, and at least 250mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#dairy_animals)Dairy Animals$(). They only eat $(thing)grains$(), which may be rotten. They can have 1-2 children, are pregnant for 58 days, and reach adulthood in 192 days. They can have children 13 times, if they are never milked, or be milked 128 times, if they are never bred. They produce milk every day.', title='Cows').anchor('cow'),
             entity('tfc:cow' + ANIMAL_NBT, 'A cow.', '', scale=0.75),
@@ -811,6 +831,8 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             loom_recipe('tfc:loom/silk_cloth', '$(thing)Silk Cloth$() can be made in the loom out of $(thing)String$(). It can be used as a wool cloth substitute in some cases.').link('tfc:silk_cloth'),
             loom_recipe('tfc:loom/burlap_cloth', '$(thing)Burlap Cloth$() does not have a use, but it can be made from $(l:mechanics/crops#jute)Jute Fiber$().').link('tfc:burlap_cloth').anchor('burlap_cloth'),
             crafting('minecraft:light_blue_bed', 'minecraft:painting'),
+            crafting('tfc:crafting/power_loom', text_contents='Weaving can be automated using $(l:mechanics/mechanical_power#quern)Mechanical Power$() with the use of a $(thing)Power Loom$().').anchor('power_loom').link('tfc:power_loom'),
+            text('The Power Loom, like the regular Loom, can take input from hoppers on the side and extraction from hoppers on the bottom. On the right side of the loom, it can take power input from an $(thing)Axle$(). Fill the loom as normal, and it will slowly weave together the final product for you. Power looms cannot be operated manually.')
         )),
         entry('papermaking', 'Papermaking', 'tfc:unrefined_paper', pages=(
             text('$(thing)Paper$() is either made from the processed stalk of the $(l:mechanics/crops#papyrus)Papyrus$() crop, or from $(l:mechanics/papermaking#parchment)Animal Hides$(). Paper is useful for written materials like $(thing)Books$() and $(thing)Maps$().'),
@@ -900,8 +922,6 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             crafting('tfc:crafting/jar/plum_unsealed', text_contents='Unsealing a jar is done by crafting. The lid is not able to be retrieved. An unsealed jar only lasts for a few days!'),
             crafting('tfc:crafting/food/rye_bread_jam_sandwich_sjs_jar', text_contents='Jam is used for making sandwiches. Jam sandwiches can contain Dairy, Cooked Meats, and Jam. An $(thing)Empty Jar$() is left over.'),
             text('Jars can be placed on solid surfaces with $(item)$(k:key.use)$(). A block can contain four jars of any kind.'),
-            crafting('tfc:crafting/wood/shelf/oak', text_contents='$(thing)Shelves$() can be attached to solid walls. Items, including jars, can be placed on top of them by using the item - including jars - on the shelf, or underneath.'),
-            empty_last_page()
         )),
         entry('bread', 'Bread', 'tfc:food/barley_bread', pages=(
             text('Bread is the processed form of the various grain crops, such as $(l:mechanics/crops#barley)Barley$(). Breaking a grain crop drops a raw, unprocessed grain item, which is not useful on its own. It must be processed into $(thing)Bread$(), which can then be eaten or used in $(l:mechanics/sandwiches)Sandwiches$().').link('#c:foods/bread', '#c:foods/dough', '#c:foods/grain', '#c:foods/flour'),
@@ -958,7 +978,7 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             page_break(),
             text('$(thing)Stone Bricks$() can be made using a $(l:mechanics/chisel)Chisel$() with some individual loose rocks. It then requires $(thing)Mortar$() in order to form a strong building block.$(br2)Mortar can be made by adding $(thing)Sand$() to a barrel of $(l:mechanics/barrels#limewater)Limewater$().', title='Bricks and Mortar').anchor('bricks_and_mortar'),
             crafting('tfc:crafting/brick/gneiss', 'tfc:crafting/rock/bricks/gneiss'),
-            text('Other decorative stone blocks can also be made, such as both $(thing)Cracked Bricks$(), and $(thing)Chiseled Stone$(). $(thing)Mossy$() stone blocks can also be created by placing cobblestone or bricks underwater, near existing mossy bricks or cobblestone. The moss will start to spread to these nearby blocks.'),
+            text('Other decorative stone blocks can also be made, such as both $(thing)Cracked Bricks$(), and $(thing)Chiseled Bricks$(). $(thing)Mossy$() stone blocks can also be created by placing cobblestone or bricks underwater, near existing mossy bricks or cobblestone. The moss will start to spread to these nearby blocks.').link(*['tfc:rock/chiseled/%s' % r for r in ROCKS], *['tfc:rock/cracked_bricks/%s' % r for r in ROCKS]),
             crafting('tfc:crafting/rock/chiseled/gneiss', 'tfc:crafting/rock/cracked_bricks/gneiss'),
         )),
         entry('salad', 'Salads', 'tfc:food/protein_salad', pages=(
@@ -1026,6 +1046,18 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
         entry('heating', 'Heating', 'tfc:textures/gui/book/icons/heating.png', pages=(
             text('Heating items is a way of converting one item to another, or an item to a fluid. Items can be heated in many ways - in a $(l:getting_started/firepit)Firepit$(), a $(l:getting_started/pit_kiln)Pit Kiln$(), or a $(l:mechanics/charcoal_forge)Charcoal Forge$(), to name a few. However they all function in the same way. When you place items inside these devices, the items will gradually start to heat up. This is visible on the item\'s tooltip.'),
             text('The temperature of an item is represented by a color, which will change through the following values:$(br2)$(7)$(bold)Warming$(): 1 - 80 °C$(br)$(7)$(bold)Hot$(): 80 - 210 °C$(br)$(7)$(bold)Very Hot$(): 210 - 480 °C$(br)$(4)$(bold)Faint Red$(): 480 - 580 °C$(br)$(bold)$(4)Dark Red$(): 580 - 730 °C$(br)$(c)$(bold)Bright Red$(): 730 - 930 °C$(br)$(6)$(bold)Orange$(): 930 - 1100 °C$(br)$(#FFDD00)$(bold)$(t:Yellow)Yellow$(): 1100 - 1300 °C$(br)$(#FFDD00)$(t:Yellow White)$(bold)Yellow White$(): 1300 - 1400 °C$(br)$(d)$(bold)$(t:White)White$(): 1400 - 1500 °C$(br)$(d)$(bold)$(t:Brilliant White)Brilliant White$(): >1500 °C'),
+        )),
+        entry('storage', 'Storage', 'tfc:wood/chest/oak', pages=(
+            text('Your own inventory only holds so much, so there are many ways to keep items safe and organized, such as $(thing)Chests$() and $(thing)Crates$(), $(thing)Tool Racks$(), $(thing)Shelves$(), and $(thing)Baskets$().$(br2)Keep in mind that an item\'s $(l:getting_started/size_and_weight)Size ⇲$() limits which containers it will fit inside.'),
+            crafting('tfc:crafting/wood/chest/oak', text_contents='A $(thing)Chest$() is the most basic storage block, crafted from a single type of $(thing)Lumber$().'),
+            text('A $(thing)Chest$() has 18 slots. $(br2)Chests hold items up to $(thing)Large$() in size. $(thing)Very Large$() items, such as $(thing)Logs$(), are too big to fit and must be stored another way.', title='Chests'),
+            crafting('tfc:crafting/wood/trapped_chest/oak', text_contents='A $(thing)Trapped Chest$() stores items just like a normal chest, but emits a $(thing)Redstone$() signal while it is open.'),
+            crafting('tfc:crafting/wood/crate/oak', text_contents='A $(thing)Crate$() stores a single type of item, but up to 36 stacks of it, in sizes up to $(thing)Large$().'),
+            text('To insert items, use $(item)$(k:key.use)$() on the crate while holding them. With an empty hand, $(item)$(k:key.use)$() takes out a single stack, and if $(item)$(k:key.sneak)$() is held, it empties the whole crate at once.', title='Crates'),
+            crafting('tfc:crafting/wood/tool_rack/oak', text_contents='A $(thing)Tool Rack$() is mounted on the side of a solid block. Place or take a tool with $(item)$(k:key.use)$(). Only items that can be used as tools may be placed on it.'),
+            crafting('tfc:crafting/wood/shelf/oak', text_contents='$(thing)Shelves$() can be attached to solid walls. Items, including jars, can be placed on top of them by using the item on the shelf or underneath.'),
+            text('For storing $(thing)food$() and slowing $(l:mechanics/decay)decay$(), nothing use a $(thing)Vessel$(). See their chapters for details:$(br)$(li)$(l:mechanics/decay#small_vessels)Small Vessels$()$(li)$(l:mechanics/decay#large_vessels)Large Vessels$()', title='Vessels'),
+            crafting('tfc:crafting/basket', text_contents='$(thing)Baskets$() can hold 64 items inside them. Insert and extract by placing the item on the basket with $(item)$(k:key.use)$(). Larger items take up more space.'),
         )),
         entry('charcoal_forge', 'Charcoal Forge', 'tfc:textures/block/molten_lit.png', pages=(
             text('The $(thing)Charcoal Forge$() is a device used to $(l:mechanics/heating)heat$() and melt items. Forges are necessary to make a $(l:mechanics/crucible)crucible$() work. They are typically used to heat items to prepare them for smithing on an $(l:mechanics/anvils)anvil$(). $(br)It is constructed with 5 $(thing)stone$() blocks surrounding a $(l:mechanics/charcoal_pit#charcoal_pile)charcoal pile$() of 7 or 8 layers which is then lit.'),
@@ -1517,6 +1549,8 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
                 'Z': 'tfc:metal/anvil/copper[facing=west]'
             }),
             text('Place a trip hammer below the axle, and $(item)$(k:key.use)$() to add a hammer to it. The hammer must be a metal hammer. Make sure the trip hammer is oriented such that the bladed axle will push the hammer handle down. The hammer will then hit an anvil placed in front of it. The trip hammer always records the $(thing)\'Light Hit\'$() action, and always moves the cursor closer towards the target. If an ingot is not hot enough or the anvil is the incorrect tier, a deep metal banging sound will alert you. '),
+            text('$(l:mechanics/weaving#power_loom)Weaving$() can be automated through the use of a $(l:mechanics/weaving#power_loom)Power Loom$(). Read that chapter for more information.'),
+            empty_last_page()
         )),
         entry('crankshaft', 'Crankshafts', 'tfc:crankshaft', pages=(
             text('A $(thing)Crankshaft$() is a way of turning $(l:mechanics/mechanical_power)Rotational Power$() into $(thing)Moving-back-and-forth Power$(). This can be useful in order to power devices such as the $(l:mechanics/bellows)Bellows$(), or $(l:mechanics/pumps)Water Pumps$().$(br2)The $(thing)Crankshaft$() consists of two parts: the base, and the shaft. The base must be connected to an $(l:mechanics/mechanical_power#axle)Axle$(), and devices can be connected to the end of the shaft.'),
@@ -1537,6 +1571,12 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             text('Fireboxes heat starting with the block above them. Firebox heat can pass through non-occluding blocks, as well as Grates. Therefore, it is recommended to place a grate on top of your firebox to allow heat to pass up into your structure, and provide maintenance access from below.'),
             text('The exterior of a Kiln must be made of some combination of Clay Bricks, Fire Bricks, Tinted Glass, or Fireproof Doors. Stone bricks don\'t work. If the structure is broken during heating, then the heating will be lost and must start over once the seal is re-made. The timer will also restart if the temperature increases or decreases from the initial setpoint.'),
             crafting('tfc:crafting/fireproof_door', text_contents='The Fireproof Door may be made from Cast Iron Sheets.')
+        )),
+        entry('ropes', 'Ropes', 'tfc:rope', pages=(
+            text('$(thing)Rope$() can be strung up to climb down cliffs and shafts. To hang a rope, $(item)$(k:key.use)$() it on the tip of a $(thing)Rock Spike$(), or on a $(thing)Steel Rope Anchor$(). This ties off the rope and turns the block into an anchor.').link('tfc:rope').link('tfc:steel_rope_anchor'),
+            text('$(item)$(k:key.use)$() the rope again to throw it out in the direction you are facing, laying down rope that you can climb. To recall the rope, $(item)$(k:key.use)$() the anchor with an empty hand. The rope will be destroyed, the spike will turn back into an anchor, and the items returned to you.'),
+            crafting('tfc:crafting/steel_rope_anchor', text_contents='$(thing)Rock Spikes$() cannot be picked up, so the $(thing)Steel Rope Anchor$() can be crafted and placed wherever you need an anchor instead.'),
+            empty_last_page(),
         ))
     ))
 

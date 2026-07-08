@@ -48,6 +48,7 @@ public final class BlockCapabilities
         registerInventory(event, TFCBlockEntities.BOWL);
         registerInventory(event, TFCBlockEntities.CHARCOAL_FORGE);
         registerInventory(event, TFCBlockEntities.COMPOSTER);
+        registerInventory(event, TFCBlockEntities.CRATE);
         registerInventory(event, TFCBlockEntities.CRUCIBLE);
         registerInventory(event, TFCBlockEntities.FIREBOX);
         event.registerBlockEntity(FLUID, TFCBlockEntities.CRUCIBLE.get(), CrucibleBlockEntity::getSidedFluidInventory);
@@ -57,6 +58,7 @@ public final class BlockCapabilities
         event.registerBlockEntity(FLUID, TFCBlockEntities.LAMP.get(), LampBlockEntity::getSidedFluidInventory);
         registerInventory(event, TFCBlockEntities.LARGE_VESSEL);
         registerInventory(event, TFCBlockEntities.LOOM);
+        registerInventory(event, TFCBlockEntities.POWER_LOOM);
         registerInventory(event, TFCBlockEntities.NEST_BOX);
         registerInventory(event, TFCBlockEntities.POT);
         event.registerBlockEntity(FLUID, TFCBlockEntities.POT.get(), PotBlockEntity::getSidedFluidInventory);

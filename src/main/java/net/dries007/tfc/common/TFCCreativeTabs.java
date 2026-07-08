@@ -38,6 +38,7 @@ import net.dries007.tfc.common.blocks.soil.SandBlockType;
 import net.dries007.tfc.common.blocks.soil.SoilBlockType;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.glass.GlassWorking;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.common.items.Food;
@@ -375,6 +376,7 @@ public final class TFCCreativeTabs
             //out.accept(PatchouliIntegration.getFieldGuide(true));
         }
 
+        out.accept(TFCItems.BASKET);
         out.accept(TFCItems.FIRESTARTER);
         out.accept(TFCItems.FLINT_AND_PYRITE);
         out.accept(Items.FLINT_AND_STEEL);
@@ -391,6 +393,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.SPINDLE);
         out.accept(TFCItems.COMPOST);
         out.accept(TFCItems.ROTTEN_COMPOST);
+        out.accept(TFCItems.FLOWER_CUTTING);
         out.accept(TFCItems.PURE_NITROGEN);
         out.accept(TFCItems.PURE_POTASSIUM);
         out.accept(TFCItems.PURE_PHOSPHORUS);
@@ -409,6 +412,8 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.OLIVE_PASTE);
         out.accept(TFCItems.CANOLA_PASTE);
         out.accept(TFCItems.JUTE_NET);
+        out.accept(TFCItems.ROPE);
+        out.accept(TFCBlocks.STEEL_ROPE_ANCHOR);
         out.accept(TFCItems.HANDSTONE);
         out.accept(TFCItems.MORTAR);
         out.accept(TFCItems.PAPYRUS);
@@ -492,9 +497,15 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.JUG);
         out.accept(TFCItems.UNFIRED_BLOWPIPE);
         out.accept(TFCItems.CERAMIC_BLOWPIPE);
-        out.accept(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS);
+        out.accept(GlassWorking.createWithBatch(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.SILICA_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.HEMATITIC_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.OLIVINE_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.VOLCANIC_GLASS_BATCH.asItem().getDefaultInstance()));
         out.accept(TFCItems.BLOWPIPE);
-        out.accept(TFCItems.BLOWPIPE_WITH_GLASS);
+        out.accept(GlassWorking.createWithBatch(TFCItems.BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.SILICA_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.HEMATITIC_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.OLIVINE_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.VOLCANIC_GLASS_BATCH.asItem().getDefaultInstance()));
         out.accept(TFCItems.GEM_SAW);
         out.accept(TFCItems.JACKS);
         out.accept(TFCItems.PADDLE);
@@ -553,6 +564,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.HANDSTONE);
         out.accept(TFCBlocks.CRANKSHAFT);
         out.accept(TFCBlocks.TRIP_HAMMER);
+        out.accept(TFCBlocks.POWER_LOOM);
         out.accept(TFCBlocks.CRUCIBLE);
         out.accept(TFCBlocks.COMPOSTER);
         out.accept(TFCBlocks.BLOOMERY);

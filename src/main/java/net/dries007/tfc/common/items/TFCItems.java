@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
@@ -23,6 +24,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -118,7 +120,7 @@ public final class TFCItems
 
     public static final Map<Wood, Map<Metal, ItemId>> HANGING_SIGNS = Helpers.mapOf(Wood.class, wood ->
         Helpers.mapOf(Metal.class, Metal::allParts, metal ->
-            register("wood/hanging_sign/" + metal.name() + "/" + wood.name(), () -> new HangingSignItem(TFCBlocks.CEILING_HANGING_SIGNS.get(wood).get(metal).get(), TFCBlocks.WALL_HANGING_SIGNS.get(wood).get(metal).get(), new Properties()))
+            register("wood/hanging_sign/" + metal.name() + "/" + wood.name(), () -> new HangingSignItem(TFCBlocks.CEILING_HANGING_SIGNS.get(wood).get(metal).get(), TFCBlocks.WALL_HANGING_SIGNS.get(wood).get(metal).get(), new Properties().rarity(metal.rarity())))
         )
     );
 
@@ -148,8 +150,10 @@ public final class TFCItems
     // Flora
 
     public static final Map<Crop, ItemId> CROP_SEEDS = Helpers.mapOf(Crop.class, crop ->
-        register("seeds/" + crop.name(), () -> new SeedItem(crop, TFCBlocks.CROPS.get(crop).get(), new Properties()))
+        register("seeds/" + crop.name(), () -> new SeedItem(crop, TFCBlocks.CROPS.get(crop).get(), TFCBlocks.DEAD_CROPS.get(crop).get(), new Properties()))
     );
+
+    public static final ItemId FLOWER_CUTTING = register("flower_cutting", () -> new FlowerCuttingItem(new Properties()));
 
     public static final Map<Coral, ItemId> CORAL_FANS = Helpers.mapOf(Coral.class, color ->
         register("coral/" + color.toString() + "_coral_fan", () -> new StandingAndWallBlockItem(TFCBlocks.CORAL.get(color).get(Coral.BlockType.CORAL_FAN).get(), TFCBlocks.CORAL.get(color).get(Coral.BlockType.CORAL_WALL_FAN).get(), new Properties(), Direction.DOWN))
@@ -205,6 +209,7 @@ public final class TFCItems
 
     public static final ItemId EMPTY_JAR_WITH_LID = register("empty_jar_with_lid");
     public static final ItemId JAR_LID = register("jar_lid");
+    public static final ItemId BASKET = register("basket", () -> new TFCBundleItem(new Properties().component(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY)));
     public static final ItemId BONE_NEEDLE = register("bone_needle", () -> new Item(new Properties().durability(64)));
     public static final ItemId BLANK_DISC = register("blank_disc");
     public static final ItemId BLUBBER = register("blubber");
@@ -236,6 +241,7 @@ public final class TFCItems
     public static final ItemId PURE_NITROGEN = register("pure_nitrogen");
     public static final ItemId PURE_PHOSPHORUS = register("pure_phosphorus");
     public static final ItemId PURE_POTASSIUM = register("pure_potassium");
+    public static final ItemId ROPE = register("rope", () -> new RopeItem(new Properties()));
     public static final ItemId ROTTEN_COMPOST = register("rotten_compost", () -> new RottenCompostItem(new Properties()));
     public static final ItemId SILK_CLOTH = register("silk_cloth");
     public static final ItemId SANDPAPER = register("sandpaper", () -> new Item(new Properties().durability(40)));

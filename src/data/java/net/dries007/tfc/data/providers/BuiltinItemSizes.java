@@ -89,6 +89,7 @@ public class BuiltinItemSizes extends DataManagerProvider<ItemSizeDefinition> im
         add("soups", TFCTags.Items.SOUPS, Size.VERY_SMALL, Weight.MEDIUM);
         add("salads", TFCTags.Items.SALADS, Size.VERY_SMALL, Weight.MEDIUM);
         add("bloomery", TFCBlocks.BLOOMERY, Size.LARGE, Weight.VERY_HEAVY);
+        add("power_loom", TFCBlocks.POWER_LOOM, Size.LARGE, Weight.VERY_HEAVY);
         add("calendar_clock", TFCBlocks.CALENDAR_CLOCK, Size.NORMAL, Weight.MEDIUM);
         add("mold_tables", ingredientOf(
             Ingredient.of(TFCItems.UNFIRED_MOLD_TABLE), 
@@ -134,6 +135,8 @@ public class BuiltinItemSizes extends DataManagerProvider<ItemSizeDefinition> im
         add("windmill_blades", TFCTags.Items.WINDMILL_BLADES, Size.VERY_LARGE, Weight.VERY_HEAVY);
         add("water_wheels", TFCTags.Items.WATER_WHEELS, Size.VERY_LARGE, Weight.VERY_HEAVY);
         add("firepit_attachments", Ingredient.of(TFCItems.POT, TFCItems.UNFIRED_POT, TFCItems.WROUGHT_IRON_GRILL), Size.VERY_LARGE, Weight.HEAVY);
+        add("bowls", Ingredient.of(Items.BOWL, TFCBlocks.CERAMIC_BOWL), Size.SMALL, Weight.LIGHT);
+        add("basket", Ingredient.of(TFCItems.BASKET), Size.NORMAL, Weight.VERY_HEAVY);
     }
 
     private void add(String name, TagKey<Item> item, Size size, Weight weight)

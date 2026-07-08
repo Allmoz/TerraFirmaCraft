@@ -40,13 +40,13 @@ public enum ChooseRocks implements RegionTask
         int type = center.land() ? LAND : OCEAN, minDist = Integer.MAX_VALUE;
         for (int dx = -2; dx <= 2; dx++)
         {
-            for (int dz = 0; dz <= 2; dz++)
+            for (int dz = -2; dz <= 2; dz++)
             {
                 final @Nullable Region.Point point = region.atOffset(index, dx, dz);
                 final int dist = Math.abs(dx) + Math.abs(dz);
                 if (point != null && dist < minDist)
                 {
-                    if (point.island() && dist < 4 || point.hotSpotAge > 0)
+                    if (point.island() && dist < 4 || point.hotSpotAge > 0 || point.volcanic())
                     {
                         type = VOLCANIC;
                         minDist = dist;

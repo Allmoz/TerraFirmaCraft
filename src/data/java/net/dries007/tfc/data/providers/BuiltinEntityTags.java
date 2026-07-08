@@ -10,10 +10,13 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import net.dries007.tfc.TerraFirmaCraft;
+import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.entities.aquatic.Fish;
 
@@ -30,6 +33,44 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
     protected void addTags(HolderLookup.Provider provider)
     {
         // ===== Vanilla Tags ===== //
+        tag(EntityTypeTags.IMPACT_PROJECTILES)
+            .add(TFCEntities.THROWN_JAVELIN.get());
+        tag(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
+            .add(TFCEntities.POLAR_BEAR.get())
+            .add(TFCEntities.PENGUIN.get());
+        tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+            .addTag(WATER_AMBIENT)
+            .add(
+                TFCEntities.MANATEE.get(),
+                TFCEntities.SQUID.get(),
+                TFCEntities.OCTOPOTEUTHIS.get(),
+                TFCEntities.TURTLE.get()
+            );
+        tag(EntityTypeTags.AQUATIC)
+            .addTags(WATER_AMBIENT, WATER_CREATURES)
+            .add(TFCEntities.TURTLE.get());
+        tag(EntityTypeTags.FALL_DAMAGE_IMMUNE)
+            .addTag(OVIPAROUS_ANIMALS)
+            .add(
+                TFCEntities.GROUSE.get(),
+                TFCEntities.PHEASANT.get(),
+                TFCEntities.TURKEY.get(),
+                TFCEntities.PEAFOWL.get(),
+                TFCEntities.CAT.get(),
+                TFCEntities.OCELOT.get()
+            );
+
+        // ===== Common Tags ===== //
+        final var boatsTag = tag(Tags.EntityTypes.BOATS);
+        for (Wood wood : Wood.values())
+        {
+            boatsTag.add(TFCEntities.BOATS.get(wood).key());
+            boatsTag.add(TFCEntities.CHEST_BOATS.get(wood).key());
+        }
+
+        tag(Tags.EntityTypes.MINECARTS)
+            .add(TFCEntities.CHEST_MINECART.key())
+            .add(TFCEntities.HOLDING_MINECART.key());
 
         // ===== TFC Tags ===== //
 
@@ -66,7 +107,16 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.FRESHWATER_FISH.get(Fish.BLUEGILL).get(),
                 TFCEntities.FRESHWATER_FISH.get(Fish.LARGEMOUTH_BASS).get(),
                 TFCEntities.FRESHWATER_FISH.get(Fish.SMALLMOUTH_BASS).get(),
-                TFCEntities.FRESHWATER_FISH.get(Fish.CRAPPIE).get()
+                TFCEntities.FRESHWATER_FISH.get(Fish.CRAPPIE).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.ARCTIC_CHAR).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.BURBOT).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.PEACOCK_BASS).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.PACU).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.RED_PIRANHA).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.NORTHERN_PIKE).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.MUKSUN).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.TILAPIA).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.SPOTTED_GUDGEON).get()
             );
 
         // noinspection unchecked

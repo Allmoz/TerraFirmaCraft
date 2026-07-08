@@ -73,6 +73,7 @@ import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.dries007.tfc.common.blockentities.ThermometerBlockEntity;
 import net.dries007.tfc.common.blockentities.VaneBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.CreativeRotationBlockEntity;
+import net.dries007.tfc.common.blockentities.rotation.PowerLoomBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.PumpBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.TripHammerBlockEntity;
 import net.dries007.tfc.common.blocks.crop.Crop;
@@ -100,6 +101,7 @@ import net.dries007.tfc.common.blocks.devices.PitKilnBlock;
 import net.dries007.tfc.common.blocks.devices.PlacedItemBlock;
 import net.dries007.tfc.common.blocks.devices.PotBlock;
 import net.dries007.tfc.common.blocks.devices.PowderkegBlock;
+import net.dries007.tfc.common.blocks.devices.PowerLoomBlock;
 import net.dries007.tfc.common.blocks.devices.QuernBlock;
 import net.dries007.tfc.common.blocks.devices.ScrapingBlock;
 import net.dries007.tfc.common.blocks.devices.StoveBlock;
@@ -251,7 +253,9 @@ public final class TFCBlocks
 
     public static final Map<Rock, Map<Rock.BlockType, Id<Block>>> ROCK_BLOCKS = Helpers.mapOf(Rock.class, rock ->
         Helpers.mapOf(Rock.BlockType.class, type ->
-            register(("rock/" + type.name() + "/" + rock.name()), () -> type.create(rock), rock.createItemProperties())
+            type.needsItem() ?
+                register(("rock/" + type.name() + "/" + rock.name()), () -> type.create(rock), rock.createItemProperties()) :
+                registerNoItem(("rock/" + type.name() + "/" + rock.name()), () -> type.create(rock))
         )
     );
 
@@ -277,7 +281,7 @@ public final class TFCBlocks
 
     public static final Map<Metal, Map<Metal.BlockType, Id<Block>>> METALS = Helpers.mapOf(Metal.class, metal ->
         Helpers.mapOf(Metal.BlockType.class, type -> type.has(metal), type ->
-            register(type.createName(metal), type.create(metal), type.createBlockItem(new Item.Properties()))
+            register(type.createName(metal), type.create(metal), type.createBlockItem(new Item.Properties().rarity(metal.rarity())))
         )
     );
 
@@ -482,10 +486,15 @@ public final class TFCBlocks
     public static final Id<Block> CANDLE_CAKE = registerNoItem("candle_cake", () -> new TFCCandleCakeBlock(ExtendedProperties.of(Blocks.CANDLE_CAKE).strength(0.5f).sound(SoundType.WOOL).randomTicks().lightLevel(litBlockEmission(3)).blockEntity(TFCBlockEntities.TICK_COUNTER).cloneItem(Blocks.CAKE)));
     public static final Id<Block> CANDLE = register("candle", () -> new TFCCandleBlock(ExtendedProperties.of(Blocks.CANDLE).mapColor(MapColor.SAND).randomTicks().noOcclusion().strength(0.1F).sound(SoundType.CANDLE).lightLevel(TFCCandleBlock.LIGHTING_SCALE).blockEntity(TFCBlockEntities.TICK_COUNTER)), b -> new CandleBlockItem(new Item.Properties(), b, TFCBlocks.CANDLE_CAKE));
 
+    public static final Id<Block> ROPE = registerNoItem("rope", () -> new GroundedRopeBlock(ExtendedProperties.of().mapColor(DyeColor.BROWN).noOcclusion().strength(1f).sound(SoundType.WOOL)));
+    public static final Id<Block> HANGING_ROPE = registerNoItem("hanging_rope", () -> new HangingRopeBlock(ExtendedProperties.of().mapColor(DyeColor.BROWN).noOcclusion().strength(1f).sound(SoundType.WOOL)));
+    public static final Id<Block> STEEL_ROPE_ANCHOR = register("steel_rope_anchor", () -> new MetalRopeAnchorBlock(ExtendedProperties.of().mapColor(MapColor.METAL).noOcclusion().randomTicks().strength(4f, 10f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+
     public static final Id<Block> CRANKSHAFT = register("crankshaft", () -> new CrankshaftBlock(ExtendedProperties.of().sound(SoundType.METAL).strength(3f).noOcclusion().pushReaction(PushReaction.DESTROY).blockEntity(TFCBlockEntities.CRANKSHAFT)));
     public static final Id<Block> TRIP_HAMMER = register("trip_hammer", () -> new TripHammerBlock(ExtendedProperties.of().sound(SoundType.METAL).strength(3f).noOcclusion().pushReaction(PushReaction.DESTROY).blockEntity(TFCBlockEntities.TRIP_HAMMER).serverTicks(TripHammerBlockEntity::serverTick)));
     public static final Id<Block> STEEL_PIPE = register("steel_pipe", () -> new FluidPipeBlock(ExtendedProperties.of().strength(5f).sound(SoundType.METAL)));
     public static final Id<Block> STEEL_PUMP = register("steel_pump", () -> new FluidPumpBlock(ExtendedProperties.of().strength(5f).sound(SoundType.METAL).blockEntity(TFCBlockEntities.PUMP).serverTicks(PumpBlockEntity::serverTick).forceSolidOn()));
+    public static final Id<Block> POWER_LOOM = register("power_loom", () -> new PowerLoomBlock(ExtendedProperties.of().strength(5f).noOcclusion().sound(SoundType.METAL).blockEntity(TFCBlockEntities.POWER_LOOM).ticks(PowerLoomBlockEntity::powerLoomTick)));
 
     public static final Id<Block> CHANNEL = register("channel", () -> new ChannelBlock(ExtendedProperties.of(MapColor.METAL).strength(3).sound(SoundType.METAL).blockEntity(TFCBlockEntities.CHANNEL).lightLevel(s -> s.getValue(ChannelBlock.WITH_METAL) ? 10 : 0)));
     public static final Id<Block> MOLD_TABLE = register("mold_table", () -> new MoldTableBlock(ExtendedProperties.of(MapColor.METAL).strength(3).sound(SoundType.METAL).blockEntity(TFCBlockEntities.MOLD_TABLE).serverTicks(MoldTableBlockEntity::serverTick)));
@@ -507,12 +516,12 @@ public final class TFCBlocks
         register("ceramic/large_vessel/" + color.getName(), () -> new LargeVesselBlock(ExtendedProperties.of(MapColor.CLAY).strength(2.5F).noOcclusion().blockEntity(TFCBlockEntities.LARGE_VESSEL)), block -> new TooltipBlockItem(block, new Item.Properties()))
     );
 
-    public static final Id<Block> CREATIVE_MOTOR = register("creative_motor", () -> new CreativeRotationBlock(ExtendedProperties.of(Blocks.IRON_BLOCK).blockEntity(TFCBlockEntities.CREATIVE_MOTOR).ticks(CreativeRotationBlockEntity::serverTick, CreativeRotationBlockEntity::clientTick)));
+    public static final Id<Block> CREATIVE_MOTOR = register("creative_motor", () -> new CreativeRotationBlock(ExtendedProperties.of(Blocks.IRON_BLOCK).noLootTable().blockEntity(TFCBlockEntities.CREATIVE_MOTOR).ticks(CreativeRotationBlockEntity::serverTick, CreativeRotationBlockEntity::clientTick)));
 
     // Fluids
 
     public static final Map<Metal, Id<LiquidBlock>> METAL_FLUIDS = Helpers.mapOf(Metal.class, metal ->
-        registerNoItem("fluid/metal/" + metal.name(), () -> new LiquidBlock(TFCFluids.METALS.get(metal).getSource(), Properties.ofFullCopy(Blocks.LAVA).noLootTable()))
+        registerNoItem("fluid/metal/" + metal.name(), () -> new MoltenFluidBlock(TFCFluids.METALS.get(metal).source(), Properties.ofFullCopy(Blocks.LAVA).noLootTable()))
     );
 
     public static final Map<SimpleFluid, Id<LiquidBlock>> SIMPLE_FLUIDS = Helpers.mapOf(SimpleFluid.class, fluid ->
