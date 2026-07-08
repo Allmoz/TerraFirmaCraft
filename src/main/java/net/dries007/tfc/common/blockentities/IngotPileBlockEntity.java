@@ -22,24 +22,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.util.MetalItem;
-import net.dries007.tfc.util.calendar.Calendars;
 
+
+// TODO: Log and ingot piles should share a unified "pile" block entity, since at this point the only differences are the model, and the stacking behavior
+//  and ingots piles could benefit from using the log stacking behavior. However, this change would break existing ingot piles, unless we take additional
+//  steps to avoid that, so let's remember this for porting time
 public class IngotPileBlockEntity extends TFCBlockEntity
 {
     private final List<Entry> entries;
-    private long lastClickTick;
-    private boolean isLastClickPlacement;
-
-    private static final int DOUBLE_CLICK_TICKS = 10;
-    private static final long NO_CLICK = Long.MIN_VALUE / 2;
 
     public IngotPileBlockEntity(BlockPos pos, BlockState state)
     {
         super(TFCBlockEntities.INGOT_PILE.get(), pos, state);
 
         entries = new ArrayList<>();
-        lastClickTick = Calendars.get().getTicks();
-        isLastClickPlacement = true;
     }
 
     public void addIngot(ItemStack stack)
@@ -67,48 +63,6 @@ public class IngotPileBlockEntity extends TFCBlockEntity
             return entry.stack;
         }
         return ItemStack.EMPTY;
-    }
-
-    public ItemStack getNextIngot()
-    {
-        if (!entries.isEmpty())
-        {
-            final Entry entry = entries.getLast();
-            return entry.stack;
-        }
-        return ItemStack.EMPTY;
-    }
-
-    public void setLastClickTick(long tick)
-    {
-        this.lastClickTick = tick;
-        setChanged();
-    }
-
-    public long getLastClickTick()
-    {
-        return this.lastClickTick;
-    }
-
-    public boolean checkDoubleClick(long gameTime)
-    {
-        final boolean doubleClick = gameTime - lastClickTick <= DOUBLE_CLICK_TICKS;
-        if (doubleClick)
-        {
-            lastClickTick = NO_CLICK;
-        }
-        return doubleClick;
-    }
-
-    public boolean isLastClickPlacement()
-    {
-        return isLastClickPlacement;
-    }
-
-    public void setLastClickPlacement(boolean lastClickPlacement)
-    {
-        isLastClickPlacement = lastClickPlacement;
-        setChanged();
     }
 
     /**
@@ -150,8 +104,6 @@ public class IngotPileBlockEntity extends TFCBlockEntity
             stacks.add(entry.stack.save(provider));
         }
         tag.put("stacks", stacks);
-        tag.putBoolean("placement", isLastClickPlacement);
-        tag.putLong("tick", lastClickTick);
         super.saveAdditional(tag, provider);
     }
 
@@ -164,8 +116,6 @@ public class IngotPileBlockEntity extends TFCBlockEntity
         {
             entries.add(new Entry(ItemStack.parseOptional(provider, list.getCompound(i))));
         }
-        isLastClickPlacement = tag.getBoolean("placement");
-        lastClickTick = tag.getLong("tick");
         super.loadAdditional(tag, provider);
     }
 

@@ -35,7 +35,6 @@ import net.dries007.tfc.common.blocks.ExtendedBlock;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.util.Helpers;
-import net.dries007.tfc.util.calendar.Calendars;
 
 public class IngotPileBlock extends ExtendedBlock implements EntityBlockExtension
 {
@@ -90,55 +89,23 @@ public class IngotPileBlock extends ExtendedBlock implements EntityBlockExtensio
             final BlockState topState = level.getBlockState(topPos);
             final int topIngots = topState.getValue(getCountProperty());
 
-            int stackSize = 1;
-
             if (level.getBlockEntity(topPos) instanceof IngotPileBlockEntity pile)
             {
-                long currentTick = Calendars.get().getTicks();
-
                 final ItemStack ingot = pile.removeIngot();
-
-
-                int maxStackSize = ingot.getMaxStackSize();
-
-                if (!pile.isLastClickPlacement() && pile.checkDoubleClick(currentTick) && maxStackSize > 1)
-                {
-                    // This handles the case when the first click removes one item, and places that item in the players hand, and prevents them from picking up more than a stack on a double click
-                    final ItemStack handItem = player.getItemInHand(hand);
-                    if (handItem.is(ingot.getItem()))
-                    {
-                        final int countInHand = handItem.getCount();
-                        if (countInHand < maxStackSize)
-                        {
-                            maxStackSize = maxStackSize - countInHand;
-                        }
-                    }
-
-                    ItemStack nextIngot = pile.getNextIngot();
-                    // Keep removing ingots until we hit a different ingot or a full stack
-                    while (ItemStack.isSameItemSameComponents(ingot, nextIngot) && stackSize < maxStackSize)
-                    {
-                        pile.removeIngot();
-                        stackSize++;
-                        nextIngot = pile.getNextIngot();
-                    }
-                }
 
                 if (!player.isCreative())
                 {
-                    ItemHandlerHelper.giveItemToPlayer(player, ingot.copyWithCount(stackSize));
+                    ItemHandlerHelper.giveItemToPlayer(player, ingot);
                 }
-                pile.setLastClickTick(currentTick);
-                pile.setLastClickPlacement(false);
             }
 
-            if (topIngots == stackSize)
+            if (topIngots == 1)
             {
                 level.removeBlock(topPos, false);
             }
             else
             {
-                level.setBlock(topPos, topState.setValue(getCountProperty(), topIngots - stackSize), Block.UPDATE_CLIENTS);
+                level.setBlock(topPos, topState.setValue(getCountProperty(), topIngots - 1), Block.UPDATE_CLIENTS);
             }
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
