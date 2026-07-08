@@ -34,9 +34,8 @@ import net.dries007.tfc.common.entities.ai.TFCBrain;
 
 public class TFCArmadilloAi
 {
-    // TODO: Rework ARMADILLO_SCARE_DETECTED to function with TFC predators
-    protected static final ImmutableList<SensorType<? extends Sensor<? super Armadillo>>> SENSOR_TYPES = ImmutableList.of(
-        SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, TFCBrain.TEMPTATION_SENSOR.get(), SensorType.NEAREST_ADULT, SensorType.ARMADILLO_SCARE_DETECTED
+    protected static final ImmutableList<SensorType<? extends Sensor<? super TFCArmadillo>>> SENSOR_TYPES = ImmutableList.of(
+        SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, TFCBrain.TEMPTATION_SENSOR.get(), SensorType.NEAREST_ADULT, TFCBrain.TFC_ARMADILLO_SCARE_DETECTED.get()
     );
 
     protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(

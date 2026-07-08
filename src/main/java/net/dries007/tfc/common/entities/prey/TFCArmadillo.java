@@ -24,6 +24,11 @@ public class TFCArmadillo extends Armadillo
     @Override
     protected Brain.Provider<Armadillo> brainProvider()
     {
+        return (Brain.Provider<Armadillo>) tfcBrain();
+    }
+
+    protected Brain.Provider<? extends Armadillo> tfcBrain()
+    {
         return Brain.provider(TFCArmadilloAi.MEMORY_TYPES, TFCArmadilloAi.SENSOR_TYPES);
     }
 
@@ -49,6 +54,4 @@ public class TFCArmadillo extends Armadillo
         }
         return super.isScaredBy(entity);
     }
-
-    // TODO: Override actuallyHurt method to account for TFC predators
 }
