@@ -1555,6 +1555,7 @@ DEFAULT_LANG = {
     'config.jade.plugin_tfc.pack_predator': 'Pack Predator',
     'config.jade.plugin_tfc.ocelot': 'Ocelot',
     'config.jade.plugin_tfc.rabbit': 'Rabbit',
+    'config.jade.plugin_tfc.armadillo': 'Armadillo',
     'config.jade.plugin_tfc.fishing_hook': 'Fishing Hook',
 
 

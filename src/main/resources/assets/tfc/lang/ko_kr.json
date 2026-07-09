@@ -643,6 +643,7 @@
   "config.jade.plugin_tfc.pack_predator": "사냥꾼 무리",
   "config.jade.plugin_tfc.ocelot": "오실롯",
   "config.jade.plugin_tfc.rabbit": "토끼",
+  "config.jade.plugin_tfc.armadillo": "Armadillo",
   "config.jade.plugin_tfc.fishing_hook": "낚싯 바늘",
   "tfc.commands.disabled_by_tfc": "This command has been disabled by TerraFirmaCraft, use \"%s\" instead",
   "tfc.commands.time.set_day_length": "Day length has been set to %s minutes/day",

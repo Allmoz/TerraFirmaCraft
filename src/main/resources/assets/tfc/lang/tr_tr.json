@@ -642,6 +642,7 @@
   "config.jade.plugin_tfc.pack_predator": "Sürüyle Avlanan Yırtıcı",
   "config.jade.plugin_tfc.ocelot": "Oselo",
   "config.jade.plugin_tfc.rabbit": "Tavşan",
+  "config.jade.plugin_tfc.armadillo": "Armadillo",
   "config.jade.plugin_tfc.fishing_hook": "Olta İğnesi",
   "tfc.commands.disabled_by_tfc": "Bu komut TerraFirmaCraft tarafından devre dışı bırakıldı, yerine \"%s\" kullanın",
   "tfc.commands.time.set_day_length": "Gün uzunluğu, %s dakika olarak ayarlandı",

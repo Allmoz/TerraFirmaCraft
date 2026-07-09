@@ -644,6 +644,7 @@
   "config.jade.plugin_tfc.pack_predator": "Зграя хижака",
   "config.jade.plugin_tfc.ocelot": "Оцелот",
   "config.jade.plugin_tfc.rabbit": "Кролик",
+  "config.jade.plugin_tfc.armadillo": "Armadillo",
   "config.jade.plugin_tfc.fishing_hook": "Поплавок",
   "tfc.commands.disabled_by_tfc": "Ця команда була вимкнена TerraFirmaCraft, замість неї використовуйте «%s»",
   "tfc.commands.time.set_day_length": "Тривалість дня встановлено на %s хвилин/день",

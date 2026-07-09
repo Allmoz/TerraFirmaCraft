@@ -12,6 +12,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
@@ -31,6 +32,7 @@ import net.dries007.tfc.common.entities.livestock.horse.TFCChestedHorse;
 import net.dries007.tfc.common.entities.livestock.horse.TFCHorse;
 import net.dries007.tfc.common.entities.misc.TFCFishingHook;
 import net.dries007.tfc.common.entities.predator.Predator;
+import net.dries007.tfc.common.entities.prey.TFCArmadillo;
 import net.dries007.tfc.common.entities.prey.TFCFrog;
 import net.dries007.tfc.common.entities.prey.TFCRabbit;
 import net.dries007.tfc.common.entities.prey.WildAnimal;
@@ -59,6 +61,7 @@ public final class EntityTooltips
         registry.register("pack_predator", PACK_PREDATOR, PackPredator.class);
         registry.register("ocelot", OCELOT, TFCOcelot.class);
         registry.register("rabbit", RABBIT, Rabbit.class);
+        registry.register("armadillo", ARMADILLO, Armadillo.class);
         registry.register("fishing_hook", HOOK, TFCFishingHook.class);
     }
 
@@ -222,6 +225,24 @@ public final class EntityTooltips
         {
             tooltip.accept(Helpers.translateEnum(rabbit.getVariant(), "rabbit_variant"));
         }
+    };
+
+    public static final EntityTooltip ARMADILLO = (level, entity, tooltip) -> {
+      if (entity instanceof TFCArmadillo armadillo)
+      {
+          if (armadillo.displayMaleCharacteristics())
+          {
+              tooltip.accept(Helpers.translateEnum(Gender.MALE));
+          }
+          else if (armadillo.displayFemaleCharacteristics())
+          {
+              tooltip.accept(Helpers.translateEnum(Gender.FEMALE));
+          }
+          if (armadillo.isBaby())
+          {
+              tooltip.accept(Component.translatable("tfc.jade.juvenile"));
+          }
+      }
     };
 
     public static final EntityTooltip HOOK = (level, entity, tooltip) -> {

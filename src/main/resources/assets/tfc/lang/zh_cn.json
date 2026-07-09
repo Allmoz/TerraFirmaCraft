@@ -655,6 +655,7 @@
   "config.jade.plugin_tfc.pack_predator": "集群行动类捕食者",
   "config.jade.plugin_tfc.ocelot": "豹猫",
   "config.jade.plugin_tfc.rabbit": "兔",
+  "config.jade.plugin_tfc.armadillo": "Armadillo",
   "config.jade.plugin_tfc.fishing_hook": "鱼钩",
   "tfc.commands.disabled_by_tfc": "此命令已被群峦传说禁用，请使用\"%s\"代替",
   "tfc.commands.time.set_day_length": "每日时长已设置为 %s 分钟/天",
