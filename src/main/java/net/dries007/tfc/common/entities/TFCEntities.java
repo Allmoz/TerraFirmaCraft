@@ -21,6 +21,7 @@ import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.item.Item;
@@ -182,7 +183,7 @@ public class TFCEntities
     public static final Id<OviparousAnimal> QUAIL = register("quail", EntityType.Builder.of(TFCEntities::makeQuail, MobCategory.CREATURE).sized(0.4F, 0.7F).eyeHeight(0.644F).clientTrackingRange(10));
 
     public static final Id<TFCRabbit> RABBIT = register("rabbit", EntityType.Builder.of(TFCEntities::makeRabbit, MobCategory.CREATURE).sized(0.4F, 0.5F).clientTrackingRange(8));
-    public static final Id<TFCArmadillo> ARMADILLO = register("armadillo", EntityType.Builder.of(TFCArmadillo::new, MobCategory.CREATURE).sized(0.7F, 0.65F).eyeHeight(0.26F).clientTrackingRange(10));
+    public static final Id<TFCArmadillo> ARMADILLO = register("armadillo", EntityType.Builder.of(TFCEntities::makeArmadillo, MobCategory.CREATURE).sized(0.7F, 0.65F).eyeHeight(0.26F).clientTrackingRange(10));
 
     public static final Id<TFCFox> FOX = register("fox", EntityType.Builder.of(TFCFox::new, MobCategory.CREATURE).sized(0.6F, 0.7F).eyeHeight(0.4F).clientTrackingRange(8));
     public static final Id<TFCPanda> PANDA = register("panda", EntityType.Builder.of(TFCPanda::new, MobCategory.CREATURE).sized(1.3F, 1.25F).clientTrackingRange(10));
@@ -421,6 +422,10 @@ public class TFCEntities
     public static TFCRabbit makeRabbit(EntityType<? extends Rabbit> animal, Level level)
     {
         return new TFCRabbit(animal, level, TFCConfig.SERVER.rabbitConfig);
+    }
+    public static TFCArmadillo makeArmadillo(EntityType<? extends Armadillo> animal, Level level)
+    {
+        return new TFCArmadillo(animal, level);
     }
     public static RammingPrey makeBoar(EntityType<? extends RammingPrey> animal, Level level)
     {

@@ -14,6 +14,7 @@ import net.minecraft.world.entity.ai.behavior.CountDownCooldownTicks;
 import net.minecraft.world.entity.ai.behavior.DoNothing;
 import net.minecraft.world.entity.ai.behavior.FollowTemptation;
 import net.minecraft.world.entity.ai.behavior.LookAtTargetSink;
+import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
 import net.minecraft.world.entity.ai.behavior.OneShot;
 import net.minecraft.world.entity.ai.behavior.RandomLookAround;
 import net.minecraft.world.entity.ai.behavior.RandomStroll;
@@ -76,7 +77,7 @@ public class TFCArmadilloAi
             )
     );
 
-    public static Brain.Provider<TFCArmadillo> brainProvider()
+    public static Brain.Provider<? extends Armadillo> brainProvider()
     {
         return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
     }
@@ -96,70 +97,60 @@ public class TFCArmadilloAi
 
     public static void initCoreActivity(Brain<TFCArmadillo> brain)
     {
-        brain.addActivity(
-            Activity.CORE,
-            0,
-            ImmutableList.of(
-                new Swim(0.8F),
-                new ArmadilloAi.ArmadilloPanic(2.0F),
-                new LookAtTargetSink(45, 90) {
-                    @Override
-                    protected boolean checkExtraStartConditions(ServerLevel level, Mob owner)
+        brain.addActivity(Activity.CORE, 0, ImmutableList.of(
+            new Swim(0.8F),
+            new ArmadilloAi.ArmadilloPanic(2.0F),
+            new LookAtTargetSink(45, 90),
+            new MoveToTargetSink() {
+                @Override
+                protected boolean checkExtraStartConditions(ServerLevel level, Mob owner)
+                {
+                    if (owner instanceof TFCArmadillo armadillo && armadillo.isScared())
                     {
-                        if (owner instanceof TFCArmadillo armadillo && armadillo.isScared())
-                        {
-                            return false;
-                        }
-
-                        return super.checkExtraStartConditions(level, owner);
+                        return false;
                     }
-                },
-                new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
-                new CountDownCooldownTicks(MemoryModuleType.GAZE_COOLDOWN_TICKS),
-                ARMADILLO_ROLLING_OUT
-            )
-        );
+
+                    return super.checkExtraStartConditions(level, owner);
+                }
+            },
+            new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
+            new CountDownCooldownTicks(MemoryModuleType.GAZE_COOLDOWN_TICKS),
+            ARMADILLO_ROLLING_OUT
+        ));
     }
 
     public static void initIdleActivity(Brain<TFCArmadillo> brain)
     {
-        brain.addActivity(
-            Activity.IDLE,
-            ImmutableList.of(
-                Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
-                Pair.of(
-                    1,
-                    new RunOne<>(
-                        ImmutableList.of(
-                            Pair.of(new FollowTemptation(p_316818_ -> 1.25F, p_319682_ -> p_319682_.isBaby() ? 1.0 : 2.0), 1),
-                            Pair.of(BabyFollowAdult.create(UniformInt.of(5, 16), 1.25F), 1)
-                        )
-                    )
-                ),
-                Pair.of(2, new RandomLookAround(UniformInt.of(150, 250), 30.0F, 0.0F, 0.0F)),
-                Pair.of(
-                    4,
-                    new RunOne<>(
-                        ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT),
-                        ImmutableList.of(
-                            Pair.of(RandomStroll.stroll(1.0F), 1),
-                            Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 1),
-                            Pair.of(new DoNothing(30, 60), 1)
-                        )
-                    )
-                )
+        brain.addActivity(Activity.IDLE, 0, ImmutableList.of(
+            SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60)),
+            new FollowTemptation(e -> e.isBaby() ? 1.5F: 1.25F),
+            BabyFollowAdult.create(UniformInt.of(5, 16), 1.25F),
+            new RandomLookAround(UniformInt.of(150, 250), 30.0F, 0.0F, 0.0F),
+            createIdleMovementBehaviors()
+        ));
+    }
+
+    // Continue using Activity.PANIC, or try refactor with Activity.AVOID?
+    public static void initScaredActivity(Brain<? extends TFCArmadillo> brain)
+    {
+        brain.addActivityWithConditions(Activity.PANIC, ImmutableList.of(
+                Pair.of(0, new ArmadilloAi.ArmadilloBallUp())
+            ),
+            Set.of(
+                Pair.of(MemoryModuleType.DANGER_DETECTED_RECENTLY, MemoryStatus.VALUE_PRESENT),
+                Pair.of(MemoryModuleType.IS_PANICKING, MemoryStatus.VALUE_ABSENT)
             )
         );
     }
 
-    public static void initScaredActivity(Brain<TFCArmadillo> brain)
+    public static RunOne<TFCArmadillo> createIdleMovementBehaviors()
     {
-        brain.addActivityWithConditions(
-            Activity.PANIC,
-            ImmutableList.of(Pair.of(0, new ArmadilloAi.ArmadilloBallUp())),
-            Set.of(
-                Pair.of(MemoryModuleType.DANGER_DETECTED_RECENTLY, MemoryStatus.VALUE_PRESENT),
-                Pair.of(MemoryModuleType.IS_PANICKING, MemoryStatus.VALUE_ABSENT)
+        return new RunOne<>(
+            ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT),
+            ImmutableList.of(
+                Pair.of(RandomStroll.stroll(1.0F), 1),
+                Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 1),
+                Pair.of(new DoNothing(30, 60), 1)
             )
         );
     }
@@ -168,5 +159,4 @@ public class TFCArmadilloAi
     {
         armadillo.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.PANIC, Activity.IDLE));
     }
-
 }
