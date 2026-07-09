@@ -16,7 +16,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "tfc:food/turtle"
+          "name": "tfc:food/armadillo"
         }
       ],
       "rolls": 1.0

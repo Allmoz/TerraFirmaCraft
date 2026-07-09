@@ -108,6 +108,7 @@ public interface HeatRecipes extends Recipes
         addFood(Food.SMALLMOUTH_BASS, Food.COOKED_SMALLMOUTH_BASS);
         addFood(Food.FROG_LEGS, Food.COOKED_FROG_LEGS);
         addFood(Food.FOX, Food.COOKED_FOX);
+        addFood(Food.ARMADILLO, Food.COOKED_ARMADILLO);
 
         addFood(Food.POTATO, Food.BAKED_POTATO);
         addFood(Food.CASSAVA, Food.COOKED_CASSAVA);
