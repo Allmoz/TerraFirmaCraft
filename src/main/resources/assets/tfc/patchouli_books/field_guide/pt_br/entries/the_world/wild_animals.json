@@ -205,6 +205,16 @@
       "text": "The peafowl spawns in forests at any $(l:the_world/climate#temperature)temperature$() above 14°C, and $(l:the_world/climate#rainfall)rainfall$() between 190 and 500mm."
     },
     {
+      "type": "patchouli:entity",
+      "entity": "tfc:armadillo",
+      "scale": 0.7,
+      "name": "Armadillo",
+      "text": "The armadillo spawns at any $(l:the_world/climate#temperature)temperature$() warmer than 15°C, and $(l:the_world/climate#rainfall)rainfall$() between 80 and 380mm."
+    },
+    {
+      "type": "patchouli:empty"
+    },
+    {
       "type": "patchouli:text",
       "anchor": "aquatic",
       "text": "$(thing)Animais aquaticos$() são uma categoria ampla que abrange vários comportamentos diferentes. Eles podem ser $(thing)Moradores da costa$(), $(thing)Peixe$(), $(thing)Marisco$(), ou $(thing)Grandes criaturas aquáticas$()",
