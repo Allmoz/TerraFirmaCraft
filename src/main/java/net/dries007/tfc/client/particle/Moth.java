@@ -11,10 +11,11 @@ import org.jetbrains.annotations.Nullable;
 
 public enum Moth
 {
-    MOTH_SATURNIA(4f, 20f, 150f, 400f),
+    MOTH_SATURNIA(4f, 16f, 150f, 400f),
     MOTH_ARGEMA(15f, 30f, 300f, 500f),
     MOTH_ATTACUS(14f, 30f, 330f, 500f),
     MOTH_LUNA(4f, 30f, 100f, 500f),
+    MOTH_DIAPHORA(6f, 16f, 150f, 400f),
     MOTH_TROSIA(14f, 30f, 330f, 500f);
 
     public static final Moth[] VALUES = Moth.values();
@@ -35,10 +36,10 @@ public enum Moth
     @Nullable
     public static Moth getRandomMoth(float temp, float rain, RandomSource random)
     {
-        final Moth fly = VALUES[random.nextInt(VALUES.length)];
-        if (fly.minTemp < temp && temp < fly.maxTemp && fly.minRain < rain && rain < fly.maxRain)
+        final Moth moth = VALUES[random.nextInt(VALUES.length)];
+        if (moth.minTemp < temp && temp < moth.maxTemp && moth.minRain < rain && rain < moth.maxRain)
         {
-            return fly;
+            return moth;
         }
         return null;
     }

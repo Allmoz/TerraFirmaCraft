@@ -14,7 +14,6 @@ public enum Butterfly
     GOLDEN_BIRDWING(23f, 30f, 300f, 500f),
     PAPILIO_RUMANZOVIA(20f, 30f,400f, 500f),
     PAPILIO_PALINURUS(21f, 30f, 300f, 500f),
-    MOTH_DIAPHORA(10f, 20f, 150f, 400f),
     PEACOCK(10f, 30f, 120f, 410f),
     SERICINUS(15f, 18f, 150f, 400f),
     PAPILIO_BLUMEI(18f, 24f, 300f, 500f),
