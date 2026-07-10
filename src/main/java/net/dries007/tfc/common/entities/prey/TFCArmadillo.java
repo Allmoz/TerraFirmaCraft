@@ -1,3 +1,9 @@
+/*
+ * Licensed under the EUPL, Version 1.2.
+ * You may obtain a copy of the Licence at:
+ * https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ */
+
 package net.dries007.tfc.common.entities.prey;
 
 import com.mojang.serialization.Dynamic;
@@ -26,6 +32,7 @@ import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.entities.ai.TFCGroundPathNavigation;
 
+// TODO: Implement Temptable?
 public class TFCArmadillo extends Armadillo
 {
     public static final EntityDataAccessor<Boolean> DATA_IS_MALE = SynchedEntityData.defineId(TFCArmadillo.class, EntityDataSerializers.BOOLEAN);
@@ -75,6 +82,7 @@ public class TFCArmadillo extends Armadillo
         }
     }
 
+    // These are only used for the tooltips
     public boolean displayMaleCharacteristics()
     {
         return isMale() && !isBaby();

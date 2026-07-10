@@ -324,7 +324,7 @@
   "Peafowl": "Peafowl",
   "The peafowl spawns in forests at any $(l:the_world/climate#temperature)temperature$() above 14°C, and $(l:the_world/climate#rainfall)rainfall$() between 190 and 500mm.": "The peafowl spawns in forests at any $(l:the_world/climate#temperature)temperature$() above 14°C, and $(l:the_world/climate#rainfall)rainfall$() between 190 and 500mm.",
   "Armadillo": "Armadillo",
-  "The armadillo spawns at any $(l:the_world/climate#temperature)temperature$() warmer than 15°C, and $(l:the_world/climate#rainfall)rainfall$() between 80 and 380mm.": "The armadillo spawns at any $(l:the_world/climate#temperature)temperature$() warmer than 15°C, and $(l:the_world/climate#rainfall)rainfall$() between 80 and 380mm.",
+  "The armadillo spawns at any $(l:the_world/climate#temperature)temperature$() warmer than 12°C, and $(l:the_world/climate#rainfall)rainfall$() of at least 250mm.": "The armadillo spawns at any $(l:the_world/climate#temperature)temperature$() warmer than 12°C, and $(l:the_world/climate#rainfall)rainfall$() of at least 250mm.",
   "$(thing)Aquatic Animals$() are a broad category which covers a number of different behaviors. They may be $(thing)Shore Dwellers$(), $(thing)Fish$(), $(thing)Shellfish$(), or $(thing)Large Aquatic Creatures$()": "$(thing)水生生物$()是一大類包含了多種習性迥異的生物的類別。可以大致分為幾小類：$(thing)灘塗動物$()、$(thing)魚類$()、$(thing)貝殼類$()、或$(thing)大型海洋生物$()。",
   "Aquatic Animals": "海洋生物",
   "$(thing)Shore Animals$() only spawn on sea shores and spend some of their day swimming, and some walking on the beach. They are curious creatures, and will follow the player around, but cannot be tamed.": "$(thing)灘塗動物$()只會生成在海岸邊。它們一天中大部分時間都在水裏游泳，部分時間在沙灘上閒逛。它們天性好奇，會跟隨玩家，但無法被馴服。",
