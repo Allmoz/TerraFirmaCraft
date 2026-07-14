@@ -1243,7 +1243,7 @@ public class VolcanoVariants
                 + fiveLobeStrength * Math.cos(5 * (angle - phase5))
                 + footprintNoise.noise(x, z);
 
-        radiusScale = Mth.clamp(radiusScale, 0.85, 1.17);
+        radiusScale = Mth.clamp(radiusScale, 0.84, 1.18);
 
         final double distortedR = r / radiusScale;
 
