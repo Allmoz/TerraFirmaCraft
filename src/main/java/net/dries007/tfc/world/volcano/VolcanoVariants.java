@@ -35,7 +35,7 @@ public class VolcanoVariants
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
         final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.05, 0.05);
-        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 6143L).octaves(2).spread(0.0028).scaled(-0.07, 0.07);
+        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 6143L).octaves(2).spread(0.0028).scaled(-0.06, 0.06);
         final double maxRadiusScale = 0.45;
 
         return new VolcanoVariant()
@@ -143,7 +143,7 @@ public class VolcanoVariants
         final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(2).scaled(-0.08f, 0.08f).spread(0.03f);
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 24482L).octaves(3).spread(0.06).scaled(0.85, 1.08);
         final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.09, 0.09);
-        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 26143L).octaves(2).spread(0.0028).scaled(-0.06, 0.06);
+        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 26143L).octaves(2).spread(0.0028).scaled(-0.05, 0.05);
         final double maxRadiusScale = 0.45;
 
         return new VolcanoVariant()
@@ -336,7 +336,7 @@ public class VolcanoVariants
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.5f, 0.5f).spread(0.03f);
         final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.05, 0.05);
-        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 16143L).octaves(2).spread(0.0035).scaled(-0.07, 0.07);
+        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 16143L).octaves(2).spread(0.0035).scaled(-0.06, 0.06);
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 248582L).octaves(3).spread(0.06).scaled(0.94, 1.06);
         final double maxRadiusScale = 0.45;
 
@@ -1169,88 +1169,39 @@ public class VolcanoVariants
         }
     }
 
-    private static double distortOceanicFootprint(
-        double r,
-        double terrainHeight,
-        int x,
-        int z,
-        Cellular2D.Cell cell,
-        Noise2D footprintNoise,
-        double warpStart,
-        double warpFull
-    )
+    private static double distortOceanicFootprint(double r, double terrainHeight, int x, int z, Cellular2D.Cell cell, Noise2D footprintNoise, double warpStart, double warpFull)
     {
-        final double underwaterStrength = Mth.clampedMap(
-            SEA_LEVEL_Y - terrainHeight,
-            0,
-            18,
-            0,
-            1
-        );
+        final double underwaterStrength = Mth.clampedMap(SEA_LEVEL_Y - terrainHeight, 0, 18, 0, 1);
 
         if (underwaterStrength <= 0)
         {
             return r;
         }
 
-        double lowerSlopeStrength = Mth.clampedMap(
-            r,
-            warpStart,
-            warpFull,
-            0,
-            1
-        );
+        double lowerSlopeStrength = Mth.clampedMap(r, warpStart, warpFull, 0, 1);
 
-        lowerSlopeStrength =
-            lowerSlopeStrength
-                * lowerSlopeStrength
-                * (3 - 2 * lowerSlopeStrength);
+        lowerSlopeStrength = lowerSlopeStrength * lowerSlopeStrength * (3 - 2 * lowerSlopeStrength);
 
         if (lowerSlopeStrength <= 0)
         {
             return r;
         }
 
-        final double angle = Math.atan2(
-            z - cell.y(),
-            x - cell.x()
-        );
-
+        final double angle = Math.atan2(z - cell.y(), x - cell.x());
         final double cellNoise = cell.noise();
+        final double phase2 = 2 * Math.PI * Helpers.hashDouble(cellNoise, 6101);
+        final double phase3 = 2 * Math.PI * Helpers.hashDouble(cellNoise, 6102);
+        final double phase5 = 2 * Math.PI * Helpers.hashDouble(cellNoise, 6103);
+        final double elongation = 0.02 + 0.015 * Helpers.hashDouble(cellNoise, 6104);
+        final double threeLobeStrength = 0.035 + 0.02 * Helpers.hashDouble(cellNoise, 6105);
+        final double fiveLobeStrength = 0.01 + 0.01 * Helpers.hashDouble(cellNoise, 6106);
 
-        final double phase2 =
-            2 * Math.PI * Helpers.hashDouble(cellNoise, 6101);
+        double radiusScale = 1 + elongation * Math.cos(2 * (angle - phase2)) + threeLobeStrength * Math.cos(3 * (angle - phase3)) + fiveLobeStrength * Math.cos(5 * (angle - phase5)) + footprintNoise.noise(x, z);
 
-        final double phase3 =
-            2 * Math.PI * Helpers.hashDouble(cellNoise, 6102);
-
-        final double phase5 =
-            2 * Math.PI * Helpers.hashDouble(cellNoise, 6103);
-
-        final double elongation =
-            0.02 + 0.015 * Helpers.hashDouble(cellNoise, 6104);
-
-        final double threeLobeStrength =
-            0.035 + 0.02 * Helpers.hashDouble(cellNoise, 6105);
-
-        final double fiveLobeStrength =
-            0.01 + 0.01 * Helpers.hashDouble(cellNoise, 6106);
-
-        double radiusScale =
-            1
-                + elongation * Math.cos(2 * (angle - phase2))
-                + threeLobeStrength * Math.cos(3 * (angle - phase3))
-                + fiveLobeStrength * Math.cos(5 * (angle - phase5))
-                + footprintNoise.noise(x, z);
-
-        radiusScale = Mth.clamp(radiusScale, 0.84, 1.18);
+        radiusScale = Mth.clamp(radiusScale, 0.86, 1.18);
 
         final double distortedR = r / radiusScale;
 
-        return Mth.lerp(
-            underwaterStrength * lowerSlopeStrength,
-            r,
-            distortedR
-        );
+        return Mth.lerp(underwaterStrength * lowerSlopeStrength, r, distortedR);
     }
 }
