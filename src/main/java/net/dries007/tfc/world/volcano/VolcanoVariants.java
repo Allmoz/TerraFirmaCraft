@@ -35,7 +35,7 @@ public class VolcanoVariants
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
         final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.05, 0.05);
-        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 6143L).octaves(2).spread(0.0028).scaled(-0.05, 0.05);
+        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 6143L).octaves(2).spread(0.0028).scaled(-0.07, 0.07);
         final double maxRadiusScale = 0.45;
 
         return new VolcanoVariant()
@@ -143,7 +143,7 @@ public class VolcanoVariants
         final Noise2D rimWarpNoise = new OpenSimplex2D(seed.seed() + 1431L).octaves(2).scaled(-0.08f, 0.08f).spread(0.03f);
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 24482L).octaves(3).spread(0.06).scaled(0.85, 1.08);
         final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.09, 0.09);
-        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 26143L).octaves(2).spread(0.0028).scaled(-0.04, 0.04);
+        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 26143L).octaves(2).spread(0.0028).scaled(-0.06, 0.06);
         final double maxRadiusScale = 0.45;
 
         return new VolcanoVariant()
@@ -336,7 +336,7 @@ public class VolcanoVariants
     {
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.5f, 0.5f).spread(0.03f);
         final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.05, 0.05);
-        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 16143L).octaves(2).spread(0.0035).scaled(-0.08, 0.08);
+        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 16143L).octaves(2).spread(0.0035).scaled(-0.07, 0.07);
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 248582L).octaves(3).spread(0.06).scaled(0.94, 1.06);
         final double maxRadiusScale = 0.45;
 
@@ -560,7 +560,7 @@ public class VolcanoVariants
         final Noise2D ridgeWarpNoise = new OpenSimplex2D(seed.seed() + 23L).octaves(2).scaled(-0.4f, 0.4f).spread(0.09f);
         final Noise2D textureNoise = new OpenSimplex2D(seed.seed() + 24482L).octaves(3).spread(0.06).scaled(0.85, 1.08);
         final Noise2D skirtTextureNoise = new OpenSimplex2D(seed.seed() + 2982L).octaves(3).spread(0.09).scaled(-0.05, 0.05);
-        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 36143L).octaves(2).spread(0.003).scaled(-0.04, 0.04);
+        final Noise2D footprintNoise = new OpenSimplex2D(seed.seed() + 36143L).octaves(2).spread(0.003).scaled(-0.06, 0.06);
         final double maxRadiusScale = 0.45;
 
         return new VolcanoVariant()
@@ -719,8 +719,9 @@ public class VolcanoVariants
                 final Cellular2D.Cell cell = cellNoise.cell(x, z);
                 final double noise = cell.noise();
                 final double maxDiam = Math.min(1, Math.sqrt(CenteredFeatureNoise.maxSafeDiameterSquared(cell, cellNoise)));
-                final double r = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
-                if (r > 1.2)
+                final double baseR = Mth.map(Mth.sqrt((float) cell.f1()), 0, maxDiam * maxRadiusScale, 0, 1); // Radius, range [0, 1]
+                final double surfaceR = distortOceanicFootprint(baseR, preVolcanicHeight, x, z, cell, footprintNoise, 0.60, 0.92);
+                if (surfaceR > 1.2)
                 {
                     // Surface building failed because far from volcano, fall back to default
                     return false;
@@ -732,12 +733,12 @@ public class VolcanoVariants
                 // Main crater
                 final double crater0Size = 0.06 + 0.06 * Helpers.hashDouble(noise, 67);
                 boolean insideCrater = false;
-                if (r < 2 * crater0Size)
+                if (baseR < 2 * crater0Size)
                 {
-                    insideCrater = r < crater0Size;
+                    insideCrater = baseR < crater0Size;
 
                     // Shenanigans to make sure that the surface gets built inside the crater even if the base terrain would be taller than the crater
-                    preVolcanicHeight = Math.min(preVolcanicHeight, (int) Mth.clampedMap(r, 2 * crater0Size, 1.6 * crater0Size, oceanFloorHeight - 1, oceanFloorHeight - 15));
+                    preVolcanicHeight = Math.min(preVolcanicHeight, (int) Mth.clampedMap(baseR, 2 * crater0Size, 1.6 * crater0Size, oceanFloorHeight - 1, oceanFloorHeight - 15));
                 }
 
                 // Second crater
