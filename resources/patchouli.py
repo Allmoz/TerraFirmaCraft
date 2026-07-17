@@ -67,8 +67,10 @@ class Page(NamedTuple):
                         raise ValueError('Error performing replacement for lang %s\n  \'%s\' -> \'%s\'' % (i18n.lang, value.value, i18n.translate(value.value))) from e
                 elif isinstance(value, list):
                     for i, subValue in enumerate(value):
-                        if "text" in subValue and subValue["text"] is not None:
-                            self.data[key][i]["text"] = i18n.translate(subValue["text"])
+                        text = subValue.get('text')
+                        # Only translate cells that contain translatable characters
+                        if text is not None and any(c.isalpha() for c in text):
+                            self.data[key][i]['text'] = i18n.translate(text)
                 else:
                     self.data[key] = i18n.translate(value)
 
