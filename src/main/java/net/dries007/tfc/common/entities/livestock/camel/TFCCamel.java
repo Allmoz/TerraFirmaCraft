@@ -9,8 +9,6 @@ package net.dries007.tfc.common.entities.livestock.camel;
 import com.mojang.serialization.Dynamic;
 
 import net.dries007.tfc.common.TFCTags;
-import net.dries007.tfc.common.entities.TFCEntities;
-import net.dries007.tfc.common.entities.Temptable;
 import net.dries007.tfc.common.entities.ai.TFCGroundPathNavigation;
 import net.dries007.tfc.common.entities.livestock.Age;
 import net.dries007.tfc.common.entities.livestock.CommonAnimalData;
@@ -19,7 +17,6 @@ import net.dries007.tfc.common.entities.livestock.TFCAnimalProperties;
 import net.dries007.tfc.common.entities.livestock.horse.HorseProperties;
 import net.dries007.tfc.config.animals.AnimalConfig;
 import net.dries007.tfc.config.animals.MammalConfig;
-import net.dries007.tfc.util.Helpers;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -27,8 +24,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -44,19 +39,15 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.camel.Camel;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.Nullable;
 
-public class TFCCamel extends Camel implements HorseProperties, Temptable
+public class TFCCamel extends AbstractCamel implements HorseProperties
 {
     public static AttributeSupplier.Builder createAttributes()
     {
@@ -82,15 +73,9 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
     }
 
     @Override
-    protected Brain.Provider<Camel> brainProvider()
-    {
-        return Brain.provider(TFCCamelAi.MEMORY_TYPES, TFCCamelAi.SENSOR_TYPES);
-    }
-
-    @Override
     protected Brain<?> makeBrain(Dynamic<?> dynamic)
     {
-        return TFCCamelAi.makeBrain(brainProvider().makeBrain(dynamic));
+        return TFCCamelAi.makeBrain(TFCCamelAi.brainProvider().makeBrain(dynamic));
     }
 
     @Override
@@ -103,23 +88,6 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
     public void applyGenes(CompoundTag tag, MammalProperties babyProperties)
     {
         HorseProperties.super.applyGenes(tag, babyProperties);
-    }
-
-    @Override
-    public TagKey<Item> getFoodTag()
-    {
-        return TFCTags.Items.CAMEL_FOOD;
-    }
-
-    @Override
-    protected void registerGoals()
-    {
-    }
-
-    @Override
-    public EntityType<?> getEntityTypeForBaby()
-    {
-        return TFCEntities.CAMEL.get();
     }
 
     @Override
@@ -145,14 +113,10 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
         return false;
     }
 
-    public boolean vanillaParentingCheck(AbstractHorse camel) {
-        return !camel.isVehicle() && !camel.isPassenger();
-    }
-
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
-        InteractionResult result = HorseProperties.super.mobInteract(player, hand);
+        InteractionResult result = super.mobInteract(player, hand);
         if (result == InteractionResult.PASS)
         {
             ItemStack stack = player.getItemInHand(hand);
@@ -202,7 +166,7 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
                 {
                     tameWithName(player);
                 }
-                if (this.getPassengers().size() < 2)
+                if (canAddPassenger(player))
                 {
                     this.doPlayerRide(player);
                 }
@@ -216,22 +180,6 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
     public boolean isTamed()
     {
         return getFamiliarity() > TAMED_FAMILIARITY;
-    }
-
-    @Override
-    protected @Nullable SoundEvent getEatingSound()
-    {
-        return super.getEatingSound();
-    }
-
-    @Override
-    protected float getBlockSpeedFactor()
-    {
-        if ((Helpers.isBlock(level().getBlockState(blockPosition().below()), Tags.Blocks.SANDS)))
-        {
-            return 1.25F;
-        }
-        else return Helpers.isBlock(level().getBlockState(blockPosition()), TFCTags.Blocks.ANIMAL_IGNORED_PLANTS) ? 1.0F : super.getBlockSpeedFactor();
     }
 
     @Override
@@ -265,27 +213,27 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
     }
 
     @Override
-    public void setGenes(@Nullable CompoundTag tag)
-    {
-        genes = tag;
-    }
-
-    @Override
     public @Nullable CompoundTag getGenes()
     {
         return genes;
     }
 
     @Override
-    public AnimalConfig animalConfig()
+    public void setGenes(@Nullable CompoundTag tag)
     {
-        return config;
+        genes = tag;
     }
 
     @Override
     public CommonAnimalData animalData()
     {
         return ANIMAL_DATA;
+    }
+
+    @Override
+    public AnimalConfig animalConfig()
+    {
+        return config;
     }
 
     @Override
@@ -365,45 +313,15 @@ public class TFCCamel extends Camel implements HorseProperties, Temptable
     }
 
     @Override
-    public boolean isFood(ItemStack stack)
+    public boolean isInvulnerableTo(DamageSource src)
     {
-        return HorseProperties.super.isFood(stack);
-    }
-
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return super.getAmbientSound();
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource src)
-    {
-        return super.getHurtSound(src);
-    }
-
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return super.getDeathSound();
-    }
-
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState block)
-    {
-        super.playStepSound(pos, block);
+        return src.is(DamageTypes.CACTUS) || super.isInvulnerableTo(src);
     }
 
     @Override
     public float getWalkTargetValue(BlockPos pos, LevelReader level)
     {
         return level.getBlockState(pos.below()).is(TFCTags.Blocks.BUSH_PLANTABLE_ON) ? 10.0F : level.getPathfindingCostFromLightLevels(pos);
-    }
-
-    @Override
-    public boolean isInvulnerableTo(DamageSource src)
-    {
-        return src.is(DamageTypes.CACTUS) ? true : super.isInvulnerableTo(src);
     }
 
     @Override

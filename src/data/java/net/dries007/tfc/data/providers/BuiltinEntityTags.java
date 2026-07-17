@@ -204,7 +204,8 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
         tag(SHEARABLE_ANIMALS)
             .add(TFCEntities.SHEEP.get())
             .add(TFCEntities.ALPACA.get())
-            .add(TFCEntities.MUSK_OX.get());
+            .add(TFCEntities.MUSK_OX.get())
+            .add(TFCEntities.BACTRIAN_CAMEL.get());
 
         tag(RIDEABLE_ANIMALS)
             .add(TFCEntities.HORSE.get())
@@ -294,6 +295,7 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.MULE.get(),
                 TFCEntities.DONKEY.get(),
                 TFCEntities.CAMEL.get(),
+                TFCEntities.BACTRIAN_CAMEL.get(),
                 TFCEntities.GOAT.get()
             );
 
@@ -331,6 +333,9 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
         tag(NOT_RAMMED_BY_RAMMERS)
             .addTags(BUBBLE_COLUMN_IMMUNE, PESTS, BIRD_PREY)
             .add(TFCEntities.FROG.get());
+
+        tag(IGNORES_SNOW)
+            .add(TFCEntities.BACTRIAN_CAMEL.get());
 
     }
 }
