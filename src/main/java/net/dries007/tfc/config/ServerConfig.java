@@ -749,7 +749,7 @@ public class ServerConfig extends BaseConfig
         muskOxConfig = ProducingMammalConfig.build(builder, "muskOx", 0.35, 168, 160, false, 64, 1, 96 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15);
 
         builder.swap("bactrianCamel");
-        bactrianCamelConfig = ProducingMammalConfig.build(builder, "bactrianCamel", 0.35, 80, 60, false, 19, 1, 168 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15);
+        bactrianCamelConfig = ProducingMammalConfig.build(builder, "bactrianCamel", 0.35, 80, 80, false, 24, 1, 168 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15);
 
         builder.swap("chicken");
         chickenConfig = OviparousAnimalConfig.build(builder, "chicken", 0.35, 24, 100, true, 30 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15, 8);

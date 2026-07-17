@@ -103,7 +103,7 @@ public class BactrianCamel extends AbstractCamel implements HorseProperties, ISh
     @Override
     public boolean isReadyForAnimalProduct()
     {
-        return getFamiliarity() > produceFamiliarity.get() && hasProduct();
+        return (getFamiliarity() > produceFamiliarity.get() && hasProduct()) && getAgeType() == Age.ADULT;
     }
 
     @Override
@@ -151,8 +151,7 @@ public class BactrianCamel extends AbstractCamel implements HorseProperties, ISh
     @Override
     public boolean hasProduct()
     {
-        // TODO: Babies have product due to the ordering of this return statement (same in WoolyAnimal.java)
-        return getProducedTick() <= 0 || getProductsCooldown() <= 0 && getAgeType() == Age.ADULT;
+        return getProducedTick() <= 0 || getProductsCooldown() <= 0;
     }
 
     public ItemStack getWoolItem()
@@ -404,11 +403,11 @@ public class BactrianCamel extends AbstractCamel implements HorseProperties, ISh
         }
     }
 
-    // A sprinting Bactrian Camel is a bit faster than a sprinting player (0.13 vs 0.14)
+    // A sprinting Bactrian Camel is a bit faster than a sprinting player (0.13 vs 0.15)
     @Override
     protected float getRiddenSpeed(Player player)
     {
-        float sprintSpeedBonus = 0.05F;
+        float sprintSpeedBonus = 0.06F;
         float f = player.isSprinting() && this.getJumpCooldown() == 0 ? sprintSpeedBonus : 0.0F;
         return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) + f;
     }

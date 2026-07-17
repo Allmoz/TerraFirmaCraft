@@ -737,7 +737,8 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
                 COARSE_DIRT,
                 Tags.Blocks.GRAVELS,
                 Tags.Blocks.SANDS
-            );
+            )
+            .add(TFCBlocks.SANDSTONE, SandstoneBlockType.RAW);
         tag(MONSTER_SPAWNS_ON)
             .addTags(
                 BlockTags.DIRT,
