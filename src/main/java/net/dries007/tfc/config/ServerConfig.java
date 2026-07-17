@@ -743,7 +743,7 @@ public class ServerConfig extends BaseConfig
         alpacaConfig = ProducingMammalConfig.build(builder, "alpaca", 0.35, 98, 128, false, 36, 2, 120 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15);
 
         builder.swap("sheep");
-        sheepConfig = ProducingMammalConfig.build(builder, "sheep", 0.35, 56, 60, false, 32, 2, 168 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15);
+        sheepConfig = ProducingMammalConfig.build(builder, "sheep", 0.35, 56, 60, false, 32, 2, 96 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15);
 
         builder.swap("muskOx");
         muskOxConfig = ProducingMammalConfig.build(builder, "muskOx", 0.35, 168, 160, false, 64, 1, 96 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15);
