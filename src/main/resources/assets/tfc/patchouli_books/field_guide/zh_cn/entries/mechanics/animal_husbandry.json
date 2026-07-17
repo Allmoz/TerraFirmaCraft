@@ -201,7 +201,7 @@
     {
       "type": "patchouli:text",
       "anchor": "bactrian_camel",
-      "text": "$(thing)Bactrian Camels$() spawn in cold climates, with $(l:the_world/climate#temperature)temperature$() of at most -5°C, and at most 100mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#wooly_animals)Wooly Animals$() that can be ridden. They are slower than horses, but run faster on sand and are not slowed by snow. They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 24 days, and reach adulthood in 80 days. They can have children 8 times, if they are never sheared, or be sheared 80 times, if they are never bred. They grow wool every 7 days.",
+      "text": "$(thing)Bactrian Camels$() spawn in cold deserts, with $(l:the_world/climate#temperature)temperature$() of at most -5°C, and at most 100mm of $(l:the_world/climate#rainfall)rainfall$(). They are $(l:mechanics/animal_husbandry#wooly_animals)Wooly Animals$() and can be ridden. They are slower than horses, but faster on sand and snow. They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 24 days, and become adults in 80 days. They can have children 8 times if they are never sheared, or be sheared 80 times if they are never bred. They grow wool every 7 days.",
       "title": "Bactrian Camel"
     },
     {
