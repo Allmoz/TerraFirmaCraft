@@ -81,13 +81,13 @@ public class TFCCamel extends AbstractCamel implements HorseProperties
     @Override
     public void createGenes(CompoundTag tag, TFCAnimalProperties maleProperties)
     {
-        HorseProperties.super.createGenes(tag, maleProperties);
+        super.createGenes(tag, maleProperties);
     }
 
     @Override
     public void applyGenes(CompoundTag tag, MammalProperties babyProperties)
     {
-        HorseProperties.super.applyGenes(tag, babyProperties);
+        super.applyGenes(tag, babyProperties);
     }
 
     @Override
@@ -280,7 +280,7 @@ public class TFCCamel extends AbstractCamel implements HorseProperties
     @Override
     public TFCCamel getBreedOffspring(ServerLevel level, AgeableMob other)
     {
-        final AgeableMob mob = HorseProperties.super.getBreedOffspring(level, other);
+        final AgeableMob mob = super.getBreedOffspring(level, other);
         return mob instanceof TFCCamel camel ? camel : null;
     }
 

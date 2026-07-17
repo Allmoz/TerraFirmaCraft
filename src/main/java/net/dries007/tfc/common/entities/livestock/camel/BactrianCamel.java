@@ -49,6 +49,7 @@ import net.dries007.tfc.common.entities.livestock.Age;
 import net.dries007.tfc.common.entities.livestock.CommonAnimalData;
 import net.dries007.tfc.common.entities.livestock.MammalProperties;
 import net.dries007.tfc.common.entities.livestock.TFCAnimalProperties;
+import net.dries007.tfc.common.entities.livestock.horse.HorseProperties;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.config.animals.AnimalConfig;
 import net.dries007.tfc.config.animals.MammalConfig;
@@ -57,7 +58,7 @@ import net.dries007.tfc.mixin.accessor.CamelAccessor;
 import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.events.AnimalProductEvent;
 
-public class BactrianCamel extends AbstractCamel implements MammalProperties, IShearable
+public class BactrianCamel extends AbstractCamel implements HorseProperties, IShearable
 {
     private static final CommonAnimalData ANIMAL_DATA = CommonAnimalData.create(BactrianCamel.class);
     private static final EntityDataAccessor<Long> PREGNANT_TIME = SynchedEntityData.defineId(BactrianCamel.class, EntityDataSerializers.LONG);
@@ -85,6 +86,18 @@ public class BactrianCamel extends AbstractCamel implements MammalProperties, IS
     protected Brain<?> makeBrain(Dynamic<?> dynamic)
     {
         return TFCCamelAi.makeBrain(TFCCamelAi.brainProvider().makeBrain(dynamic));
+    }
+
+    @Override
+    public void createGenes(CompoundTag tag, TFCAnimalProperties maleProperties)
+    {
+        super.createGenes(tag, maleProperties);
+    }
+
+    @Override
+    public void applyGenes(CompoundTag tag, MammalProperties babyProperties)
+    {
+        super.applyGenes(tag, babyProperties);
     }
 
     @Override

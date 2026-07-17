@@ -166,13 +166,6 @@ public final class EntityTooltips
                 tooltip.accept(component);
             }
         }
-        if (entity instanceof BactrianCamel camel)
-        {
-            if (camel.isTamed())
-            {
-                tooltip.accept(Component.translatable("tfc.jade.may_ride_horse"));
-            }
-        }
     };
 
     public static final EntityTooltip PACK_PREDATOR = (level, entity, tooltip) -> {
