@@ -267,7 +267,7 @@
         "maxCount": 3
       },
       {
-        "type": "tfc:camel",
+        "type": "tfc:dromedary_camel",
         "weight": 1,
         "minCount": 1,
         "maxCount": 3

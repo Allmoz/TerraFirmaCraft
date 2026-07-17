@@ -332,7 +332,7 @@ public final class TFCItems
     public static final ItemId DONKEY_EGG = registerSpawnEgg(TFCEntities.DONKEY);
     public static final ItemId MULE_EGG = registerSpawnEgg(TFCEntities.MULE);
     public static final ItemId HORSE_EGG = registerSpawnEgg(TFCEntities.HORSE);
-    public static final ItemId CAMEL_EGG = registerSpawnEgg(TFCEntities.CAMEL);
+    public static final ItemId DROMEDARY_CAMEL_EGG = registerSpawnEgg(TFCEntities.DROMEDARY_CAMEL);
     public static final ItemId BACTRIAN_CAMEL_EGG = registerSpawnEgg(TFCEntities.BACTRIAN_CAMEL);
     public static final ItemId CAT_EGG = registerSpawnEgg(TFCEntities.CAT);
     public static final ItemId DOG_EGG = registerSpawnEgg(TFCEntities.DOG);

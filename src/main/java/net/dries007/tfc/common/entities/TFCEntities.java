@@ -57,7 +57,7 @@ import net.dries007.tfc.common.entities.livestock.Mammal;
 import net.dries007.tfc.common.entities.livestock.OviparousAnimal;
 import net.dries007.tfc.common.entities.livestock.WoolyAnimal;
 import net.dries007.tfc.common.entities.livestock.camel.BactrianCamel;
-import net.dries007.tfc.common.entities.livestock.camel.TFCCamel;
+import net.dries007.tfc.common.entities.livestock.camel.DromedaryCamel;
 import net.dries007.tfc.common.entities.livestock.horse.TFCDonkey;
 import net.dries007.tfc.common.entities.livestock.horse.TFCHorse;
 import net.dries007.tfc.common.entities.livestock.horse.TFCMule;
@@ -212,7 +212,7 @@ public class TFCEntities
     public static final Id<TFCMule> MULE = register("mule", EntityType.Builder.of(TFCMule::new, MobCategory.CREATURE).sized(1.3964844F, 1.6F).eyeHeight(1.52F).passengerAttachments(1.2125F).clientTrackingRange(8));
     public static final Id<TFCHorse> HORSE = register("horse", EntityType.Builder.<TFCHorse>of(TFCHorse::new, MobCategory.CREATURE).sized(1.3964844F, 1.6F).eyeHeight(1.52F).passengerAttachments(1.44375F).clientTrackingRange(10));
 
-    public static final Id<TFCCamel> CAMEL = register("camel", EntityType.Builder.of(TFCEntities::makeCamel, MobCategory.CREATURE).sized(1.7f, 2.375f).eyeHeight(2.275f).clientTrackingRange(10));
+    public static final Id<DromedaryCamel> DROMEDARY_CAMEL = register("dromedary_camel", EntityType.Builder.of(TFCEntities::makeDromedaryCamel, MobCategory.CREATURE).sized(1.7f, 2.375f).eyeHeight(2.275f).clientTrackingRange(10));
     public static final Id<BactrianCamel> BACTRIAN_CAMEL = register("bactrian_camel", EntityType.Builder.of(TFCEntities::makeBactrianCamel, MobCategory.CREATURE).sized(1.7f, 2.375f).eyeHeight(2.275f).clientTrackingRange(10));
 
     public static final Id<TFCCat> CAT = register("cat", EntityType.Builder.of(TFCCat::new, MobCategory.CREATURE).sized(0.6F, 0.7F).eyeHeight(0.35F).clientTrackingRange(8));
@@ -295,8 +295,8 @@ public class TFCEntities
         event.put(MULE.get(), AbstractChestedHorse.createBaseChestedHorseAttributes().build());
         event.put(DONKEY.get(), AbstractChestedHorse.createBaseChestedHorseAttributes().build());
         event.put(HORSE.get(), AbstractHorse.createBaseHorseAttributes().build());
-        event.put(CAMEL.get(), TFCCamel.createAttributes().build());
-        event.put(BACTRIAN_CAMEL.get(), TFCCamel.createAttributes().build());
+        event.put(DROMEDARY_CAMEL.get(), DromedaryCamel.createAttributes().build());
+        event.put(BACTRIAN_CAMEL.get(), DromedaryCamel.createAttributes().build());
         event.put(CAT.get(), TFCCat.createAttributes().build());
         event.put(DOG.get(), Dog.createAttributes().build());
         event.put(PANDA.get(), TFCPanda.createAttributes().add(Attributes.STEP_HEIGHT, 1.0F).build());
@@ -433,9 +433,9 @@ public class TFCEntities
     {
         return new TFCRabbit(animal, level, TFCConfig.SERVER.rabbitConfig);
     }
-    public static TFCCamel makeCamel(EntityType<? extends Camel> animal, Level level)
+    public static DromedaryCamel makeDromedaryCamel(EntityType<? extends Camel> animal, Level level)
     {
-        return new TFCCamel(animal, level, TFCConfig.SERVER.camelConfig);
+        return new DromedaryCamel(animal, level, TFCConfig.SERVER.dromedaryCamelConfig);
     }
     public static RammingPrey makeBoar(EntityType<? extends RammingPrey> animal, Level level)
     {

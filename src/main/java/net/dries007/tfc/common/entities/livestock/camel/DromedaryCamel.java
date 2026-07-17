@@ -47,7 +47,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
-public class TFCCamel extends AbstractCamel implements HorseProperties
+public class DromedaryCamel extends AbstractCamel implements HorseProperties
 {
     public static AttributeSupplier.Builder createAttributes()
     {
@@ -58,14 +58,14 @@ public class TFCCamel extends AbstractCamel implements HorseProperties
             .add(Attributes.STEP_HEIGHT, 1.5);
     }
 
-    private static final CommonAnimalData ANIMAL_DATA = CommonAnimalData.create(TFCCamel.class);
-    private static final EntityDataAccessor<Long> PREGNANT_TIME = SynchedEntityData.defineId(TFCCamel.class, EntityDataSerializers.LONG);
+    private static final CommonAnimalData ANIMAL_DATA = CommonAnimalData.create(DromedaryCamel.class);
+    private static final EntityDataAccessor<Long> PREGNANT_TIME = SynchedEntityData.defineId(DromedaryCamel.class, EntityDataSerializers.LONG);
 
     @Nullable private CompoundTag genes;
     private final AnimalConfig config;
     private final MammalConfig mammalConfig;
 
-    public TFCCamel(EntityType<? extends Camel> type, Level level, MammalConfig config)
+    public DromedaryCamel(EntityType<? extends Camel> type, Level level, MammalConfig config)
     {
         super(type, level);
         this.config = config.inner();
@@ -97,7 +97,7 @@ public class TFCCamel extends AbstractCamel implements HorseProperties
     public boolean canMate(Animal otherAnimal)
     {
         if (otherAnimal.getClass() != this.getClass()) return false;
-        TFCCamel other = (TFCCamel) otherAnimal;
+        DromedaryCamel other = (DromedaryCamel) otherAnimal;
         return this.getGender() != other.getGender()
             && this.isReadyToMate() && other.isReadyToMate()
             && checkExtraBreedConditions(other);
@@ -106,7 +106,7 @@ public class TFCCamel extends AbstractCamel implements HorseProperties
     @Override
     public boolean checkExtraBreedConditions(TFCAnimalProperties otherAnimal)
     {
-        if (otherAnimal instanceof TFCCamel otherCamel)
+        if (otherAnimal instanceof DromedaryCamel otherCamel)
         {
             return vanillaParentingCheck(this) && vanillaParentingCheck(otherCamel);
         }
@@ -278,10 +278,10 @@ public class TFCCamel extends AbstractCamel implements HorseProperties
 
     @Nullable
     @Override
-    public TFCCamel getBreedOffspring(ServerLevel level, AgeableMob other)
+    public DromedaryCamel getBreedOffspring(ServerLevel level, AgeableMob other)
     {
         final AgeableMob mob = super.getBreedOffspring(level, other);
-        return mob instanceof TFCCamel camel ? camel : null;
+        return mob instanceof DromedaryCamel camel ? camel : null;
     }
 
     @Override
@@ -298,7 +298,7 @@ public class TFCCamel extends AbstractCamel implements HorseProperties
     protected void customServerAiStep()
     {
         // Don't want to call super.customServerAiStep() here because of CamelAi.updateActivity(this)
-        ((Brain<TFCCamel>) getBrain()).tick((ServerLevel) level(), this);
+        ((Brain<DromedaryCamel>) getBrain()).tick((ServerLevel) level(), this);
         TFCCamelAi.updateActivity(this);
     }
 

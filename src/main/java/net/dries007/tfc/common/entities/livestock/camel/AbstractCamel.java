@@ -79,7 +79,7 @@ public abstract class AbstractCamel extends Camel implements MammalProperties, T
     }
 
     // Dromedary camels sprinting on dry blocks are a bit slower than an average horse (0.198 vs 0.225)
-    // Bactrian camels sprinting on dry blocks are a bit slower than a dromedary (0.168 vs 0.225)
+    // Bactrian camels sprinting on dry blocks are a bit slower than a dromedary (0.168 vs 0.198)
     @Override
     protected float getBlockSpeedFactor()
     {

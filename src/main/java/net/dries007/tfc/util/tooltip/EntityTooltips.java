@@ -27,7 +27,6 @@ import net.dries007.tfc.common.entities.livestock.MammalProperties;
 import net.dries007.tfc.common.entities.livestock.TFCAnimal;
 import net.dries007.tfc.common.entities.livestock.TFCAnimalProperties;
 import net.dries007.tfc.common.entities.livestock.camel.AbstractCamel;
-import net.dries007.tfc.common.entities.livestock.camel.BactrianCamel;
 import net.dries007.tfc.common.entities.livestock.horse.HorseProperties;
 import net.dries007.tfc.common.entities.livestock.horse.TFCChestedHorse;
 import net.dries007.tfc.common.entities.livestock.horse.TFCHorse;

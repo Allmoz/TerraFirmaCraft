@@ -211,7 +211,7 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
             .add(TFCEntities.HORSE.get())
             .add(TFCEntities.DONKEY.get())
             .add(TFCEntities.MULE.get())
-            .add(TFCEntities.CAMEL.get());
+            .add(TFCEntities.DROMEDARY_CAMEL.get());
 
         tag(FARM_ANIMALS)
             .addTag(DAIRY_ANIMALS)
@@ -294,7 +294,7 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.HORSE.get(),
                 TFCEntities.MULE.get(),
                 TFCEntities.DONKEY.get(),
-                TFCEntities.CAMEL.get(),
+                TFCEntities.DROMEDARY_CAMEL.get(),
                 TFCEntities.BACTRIAN_CAMEL.get(),
                 TFCEntities.GOAT.get()
             );

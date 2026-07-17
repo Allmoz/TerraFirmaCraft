@@ -128,7 +128,7 @@ public class TFCCamelAi
     public static void initRetreatActivity(Brain<? extends AbstractCamel> brain)
     {
         brain.addActivityAndRemoveMemoryWhenStopped(Activity.AVOID, 10, ImmutableList.of(
-            SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 2.6F, 15, false),
+            SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 3.2F, 15, false),
             new RunOne<>(
                 ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT),
                 ImmutableList.of( // Same as createIdleMovementBehaviors List, but without RandomSitting
