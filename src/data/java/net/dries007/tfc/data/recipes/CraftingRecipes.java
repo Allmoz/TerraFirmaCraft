@@ -421,6 +421,24 @@ public interface CraftingRecipes extends Recipes
         addTools(RockCategory.ItemType.KNIFE_HEAD, RockCategory.ItemType.KNIFE);
         addTools(RockCategory.ItemType.SHOVEL_HEAD, RockCategory.ItemType.SHOVEL);
 
+        final Ingredient handle = CompoundIngredient.of(Ingredient.of(Tags.Items.RODS_WOODEN), Ingredient.of(Items.BONE));
+        recipe()
+            .input('S', handle)
+            .input('X', TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.OBSIDIAN_SHARD))
+            .pattern("X", "S")
+            .shaped(TFCItems.OBSIDIAN_KNIFE);
+        recipe()
+            .input('S', handle)
+            .input('X', TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.OBSIDIAN_SHARD))
+            .pattern("X", "S")
+            .shaped(TFCItems.OBSIDIAN_JAVELIN);
+        recipe()
+            .input('X', TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.OBSIDIAN_SHARD))
+            .input('S', Tags.Items.RODS_WOODEN)
+            .input('F', Tags.Items.FEATHERS)
+            .pattern("X", "S", "F")
+            .shaped(Items.ARROW, 4);
+
         for (Wood wood : Wood.values())
         {
             final var blocks = TFCBlocks.WOODS.get(wood);

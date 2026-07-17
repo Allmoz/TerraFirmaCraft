@@ -211,6 +211,8 @@ public final class TFCItems
     public static final ItemId JAR_LID = register("jar_lid");
     public static final ItemId BASKET = register("basket", () -> new TFCBundleItem(new Properties().component(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY)));
     public static final ItemId BONE_NEEDLE = register("bone_needle", () -> new Item(new Properties().durability(64)));
+    public static final ItemId OBSIDIAN_KNIFE = register("obsidian_knife", () -> new ToolItem(TFCTiers.OBSIDIAN, TFCTags.Blocks.MINEABLE_WITH_KNIFE, new Properties().attributes(ToolItem.productAttributes(TFCTiers.IGNEOUS_EXTRUSIVE, 0.6f, -2.0f))));
+    public static final ItemId OBSIDIAN_JAVELIN = register("obsidian_javelin", () -> new JavelinItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.IGNEOUS_EXTRUSIVE, 0.7f, -2.2f))));
     public static final ItemId BLANK_DISC = register("blank_disc");
     public static final ItemId BLUBBER = register("blubber");
     public static final ItemId BRASS_MECHANISMS = register("brass_mechanisms");

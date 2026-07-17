@@ -1041,6 +1041,7 @@ public final class ClientEventHandler
         // Items
         TFCItems.ROCK_TOOLS.values().forEach(map -> registerCustomItemRenderer(event, map.get(RockCategory.ItemType.JAVELIN), JavelinItemRenderer::new));
         TFCItems.METAL_ITEMS.values().forEach(map -> registerCustomItemRenderer(event, map.get(Metal.ItemType.JAVELIN), JavelinItemRenderer::new));
+        registerCustomItemRenderer(event, TFCItems.OBSIDIAN_JAVELIN, JavelinItemRenderer::new);
         TFCBlocks.WOODS.values().forEach(map -> registerCustomItemRenderer(event, map.get(CHEST), ChestItemRenderer::new));
         TFCBlocks.WOODS.values().forEach(map -> registerCustomItemRenderer(event, map.get(TRAPPED_CHEST), ChestItemRenderer::new));
 

@@ -1001,6 +1001,9 @@ def generate(rm: ResourceManager):
                     item = rm.item_model(('stone', rock_item, rock), 'tfc:item/stone/%s' % rock_item, parent='item/handheld')
                 item.with_lang(lang('stone %s', rock_item))
 
+    make_javelin(rm, 'obsidian_javelin', 'tfc:item/obsidian_javelin').with_lang(lang('obsidian javelin'))
+    rm.item_model('obsidian_knife', 'tfc:item/obsidian_knife', parent='tfc:item/handheld_flipped').with_lang(lang('obsidian knife'))
+
     # Rock Items
     for rock, rock_data in ROCKS.items():
         rm.item_model(('brick', rock), 'tfc:item/brick/%s' % rock).with_lang(lang('%s brick', rock))

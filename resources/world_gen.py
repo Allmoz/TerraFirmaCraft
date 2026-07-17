@@ -65,12 +65,12 @@ def generate(rm: ResourceManager):
     rm.placed_feature_tag('feature/surface_grasses', *['tfc:plant/%s_patch' % p for p, data in PLANTS.items() if data.type == 'short_grass'])
     rm.placed_feature_tag('feature/boulders', 'tfc:raw_boulder', 'tfc:cobble_boulder', 'tfc:mossy_boulder', 'tfc:raw_boulder_small_patch', 'tfc:cobble_boulder_small_patch', 'tfc:mossy_boulder_small_patch')
     rm.placed_feature_tag('feature/soil_discs', 'tfc:clay_disc_with_indicator', 'tfc:water_clay_disc_with_indicator', 'tfc:peat_disc', 'tfc:powder_snow', 'tfc:rooted_dirt', 'tfc:mollisol_disc') # Does not include alfisol/podzol discs as those are placed per tree by the forest feature
-    rm.placed_feature_tag('feature/stratovolcanoes', 'tfc:stratovolcano_pumice', 'tfc:fuji_caldera', 'tfc:fuji_spring', 'tfc:kelimutu_lava', 'tfc:kelimutu_spring_water', 'tfc:kelimutu_water', 'tfc:tahoma_caldera', 'tfc:tahoma_spring', 'tfc:wizard_island_lava', 'tfc:wizard_island_spring', 'tfc:random_fuji_fissure', 'tfc:random_fuji_spring_water_fissure', 'tfc:random_tahoma_fissure', 'tfc:random_tahoma_spring_water_fissure', 'tfc:random_kelimutu_fissure', 'tfc:random_kelimutu_spring_water_fissure', 'tfc:random_crater_lake_fissure', 'tfc:random_crater_lake_spring_water_fissure', 'tfc:fuji_rivulet', 'tfc:tahoma_rivulet', 'tfc:crater_lake_rivulet', 'tfc:crater_lake_sulfur')
-    rm.placed_feature_tag('feature/cinder_cones', 'tfc:volcano_rivulet', 'tfc:volcano_caldera', 'tfc:random_volcano_fissure', 'tfc:cinder_cone_pumice')
+    rm.placed_feature_tag('feature/stratovolcanoes', 'tfc:stratovolcano_pumice_patch', 'tfc:stratovolcano_obsidian_shard_patch', 'tfc:fuji_caldera', 'tfc:fuji_spring', 'tfc:kelimutu_lava', 'tfc:kelimutu_spring_water', 'tfc:kelimutu_water', 'tfc:tahoma_caldera', 'tfc:tahoma_spring', 'tfc:wizard_island_lava', 'tfc:wizard_island_spring', 'tfc:random_fuji_fissure', 'tfc:random_fuji_spring_water_fissure', 'tfc:random_tahoma_fissure', 'tfc:random_tahoma_spring_water_fissure', 'tfc:random_kelimutu_fissure', 'tfc:random_kelimutu_spring_water_fissure', 'tfc:random_crater_lake_fissure', 'tfc:random_crater_lake_spring_water_fissure', 'tfc:fuji_rivulet', 'tfc:tahoma_rivulet', 'tfc:crater_lake_rivulet', 'tfc:crater_lake_sulfur')
+    rm.placed_feature_tag('feature/cinder_cones', 'tfc:volcano_rivulet', 'tfc:volcano_caldera', 'tfc:random_volcano_fissure', 'tfc:cinder_cone_pumice_patch', 'tfc:cinder_cone_obsidian_shard_patch')
     rm.placed_feature_tag('feature/volcanic', 'tfc:lava_surface_spring')
-    rm.placed_feature_tag('feature/tuyas', 'tfc:tuya_rivulet', 'tfc:tuya_caldera', 'tfc:random_tuya_fissure', 'tfc:tuya_pumice')
+    rm.placed_feature_tag('feature/tuyas', 'tfc:tuya_rivulet', 'tfc:tuya_caldera', 'tfc:random_tuya_fissure', 'tfc:tuya_pumice_patch', 'tfc:tuya_obsidian_shard_patch')
     rm.placed_feature_tag('feature/surface_flood_fill_lakes', 'tfc:flood_fill_lake')
-    rm.placed_feature_tag('feature/shield_volcanoes', 'tfc:pumice_shield_volcano_patch')
+    rm.placed_feature_tag('feature/shield_volcanoes', 'tfc:pumice_shield_volcano_patch', 'tfc:obsidian_shard_shield_volcano_patch')
     rm.placed_feature_tag('feature/guano_islands', 'tfc:extra_island_guano_patch')
 
     # Biomes
@@ -1361,10 +1361,11 @@ def generate(rm: ResourceManager):
     configured_patch_feature(rm, 'salt_lick', patch_config('tfc:groundcover/salt_lick[fluid=empty]', 1, 5, 100), decorate_chance(110), decorate_square(), decorate_climate(5, 33, 100, 500, needs_forest=True))
     configured_patch_feature(rm, 'rotten_flesh', patch_config('tfc:groundcover/rotten_flesh[fluid=empty]', 1, 10, 10), decorate_chance(100), decorate_square(), decorate_climate(-30, 30, 0, 400))
     configured_patch_feature(rm, 'bone', patch_config('tfc:groundcover/bone[fluid=empty]', 1, 10, 10), decorate_chance(100), decorate_square(), decorate_climate(-30, 30, 0, 400))
-    configured_patch_feature(rm, 'cinder_cone_pumice', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:volcano', {'min_easing': 0.8}))
-    configured_patch_feature(rm, 'tuya_pumice', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:tuya', {'min_easing': 0.8}))
-    configured_patch_feature(rm, 'stratovolcano_pumice', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:stratovolcano', {'min_easing': 0.8}))
-    configured_patch_feature(rm, 'pumice_shield_volcano', patch_config('tfc:groundcover/pumice[fluid=empty]', 1, 10, 10), decorate_chance(3), decorate_square())
+    for gc in ('pumice', 'obsidian_shard'):
+        configured_patch_feature(rm, 'cinder_cone_%s' % gc, patch_config('tfc:groundcover/%s[fluid=empty]' % gc, 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:volcano', {'min_easing': 0.8}))
+        configured_patch_feature(rm, 'tuya_%s' % gc, patch_config('tfc:groundcover/%s[fluid=empty]' % gc, 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:tuya', {'min_easing': 0.8}))
+        configured_patch_feature(rm, 'stratovolcano_%s' % gc, patch_config('tfc:groundcover/%s[fluid=empty]' % gc, 1, 10, 10), decorate_chance(3), decorate_square(), ('tfc:stratovolcano', {'min_easing': 0.8}))
+        configured_patch_feature(rm, '%s_shield_volcano' % gc, patch_config('tfc:groundcover/%s[fluid=empty]' % gc, 1, 10, 10), decorate_chance(3), decorate_square())
 
     # Loose Rocks - Both Surface + Underground
     configured_placed_feature(rm, 'loose_rock', 'tfc:loose_rock', {}, decorate_heightmap('ocean_floor_wg'))
