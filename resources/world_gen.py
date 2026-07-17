@@ -951,12 +951,6 @@ def generate(rm: ResourceManager):
         },
         'blocks': [],
     }, decorate_climate(min_water=300, min_temp=18))
-    rm.biome_tag('tower_karsts', 'tfc:tower_karst_plains', 'tfc:tower_karst_canyons', 'tfc:tower_karst_hills', 'tower_karst_highlands', 'tfc:extreme_doline_plateau', 'tfc:extreme_doline_mountains', 'tfc:tower_karst_lake', 'tfc:tower_karst_bay')
-    rm.biome_tag('dolines', 'tfc:doline_plains', 'tfc:doline_canyons', 'tfc:doline_hills', 'tfc:doline_highlands', 'tfc:doline_plateau')
-    rm.biome_tag('cenotes', 'tfc:cenote_plains', 'tfc:cenote_canyons', 'tfc:cenote_hills', 'tfc:cenote_highlands', 'tfc:cenote_plateau')
-    rm.biome_tag('shilins', 'tfc:shilin_plains', 'tfc:shilin_canyons', 'tfc:shilin_hills', 'tfc:shilin_highlands', 'tfc:shilin_plateau')
-    rm.biome_tag('burrens', 'tfc:burren_plains', 'tfc:burren_badlands', 'tfc:burren_badlands_tall', 'tfc:burren_plateau')
-    rm.biome_tag('karsts', '#tfc:tower_karsts', '#tfc:dolines', '#tfc:cenotes', '#tfc:shilins', '#tfc:burrens')
 
     configured_placed_feature(rm, ('vein', 'gravel'), 'tfc:disc_vein', {
         'rarity': 30,
@@ -1386,8 +1380,6 @@ def generate(rm: ResourceManager):
         'use_alternate_layer0_chance': 0.3, 'invalid_blocks_threshold': 1, 'crack': {}, 'layers': {}
     })
     rm.placed_feature('geode', 'tfc:geode', decorate_chance(50), decorate_square(), decorate_range(-48, 30))
-
-    rm.biome_tag('has_predictable_winds', '#tfc:is_ocean')
 
     for b in TFC_BIOMES:
         assert b in ALL_BIOMES, 'Error: Biome %s described in TFC_BIOMES not represented in world_gen.py' % b
@@ -2212,45 +2204,6 @@ def biome(rm: ResourceManager, name: str, category: str, boulders: bool = False,
     rm.placed_feature_tag(('in_biome/soil_discs', name), *soil_discs)
     rm.placed_feature_tag(('in_biome/large_features', name), *large_features)
     rm.placed_feature_tag(('in_biome/surface_decoration', name), *surface_decorations)
-
-    if cinder_cone_features:
-        rm.biome_tag('has_cinder_cones', name)
-    if tuya_features:
-        rm.biome_tag('has_tuyas', name)
-    if 'atoll' in name:
-        rm.biome_tag('has_atolls', name)
-    if 'shield_volcano' in name and 'active' not in name and 'ice' not in name and 'active' not in name:
-        rm.biome_tag('has_tuff_cones', name)
-    if 'volcanic' in name and 'volcanic_mountain_islands' not in name:
-        rm.biome_tag('has_stratovolcanoes', name)
-    if 'ice_sheet' in name or 'subglacial_lake' in name:
-        rm.biome_tag('is_ice_sheet', name)
-    if 'glaciated' in name:
-        rm.biome_tag('is_glaciated', name)
-    if 'doline' in name and 'extreme' not in name:
-        rm.biome_tag('is_dolines', name)
-    if 'doline' in name and 'extreme' in name:
-        rm.biome_tag('is_extreme_dolines', name)
-    if 'tower_karst' in name:
-        rm.biome_tag('is_tower_karst', name)
-    if 'shilin' in name:
-        rm.biome_tag('is_shilin', name)
-    if 'burren' in name:
-        rm.biome_tag('is_burren', name)
-    if 'doline' in name or 'karst' in name or 'shilin' in name or 'burren' in name:
-        rm.biome_tag('is_karst', name)
-    if 'shield_volcano' in name:
-        rm.biome_tag('is_shield_volcano')
-    if 'lake' in name:
-        rm.biome_tag('is_lake', name)
-    if 'river' in name:
-        rm.biome_tag('is_river', name)
-    if 'ocean' in name and 'mountain' not in name:
-        rm.biome_tag('is_ocean', name)
-    if 'shore' in name or 'stacks' in name or 'tidal' in name or 'embayments' in name or 'coastal' in name or 'terrace' in name or 'setback_cliffs' in name:
-        rm.biome_tag('is_ocean', name)
-    if 'rift' in name:
-        rm.biome_tag('is_rift', name)
 
     rm.lang('biome.tfc.%s' % name, lang(name))
     assert name in TFC_BIOMES, 'Error: Biome not in TFC_BIOMES list: %s' % name
