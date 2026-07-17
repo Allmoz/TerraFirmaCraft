@@ -675,7 +675,6 @@ public class TFCTags
 
     public static class Entities
     {
-        public static final TagKey<EntityType<?>> HUNTS_LAND_PREY = tag("hunts_land_prey");
         public static final TagKey<EntityType<?>> HUNTED_BY_LAND_PREDATORS = tag("hunted_by_land_predators");
         public static final TagKey<EntityType<?>> OCEAN_PREDATORS = tag("ocean_predators");
         public static final TagKey<EntityType<?>> HUNTED_BY_OCEAN_PREDATORS = tag("hunted_by_ocean_predators");

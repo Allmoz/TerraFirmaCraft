@@ -318,12 +318,12 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
                 2, 80, 70, 10, 2, 12, False
             ),
             table(
-                make_wild_crop_table(12, 21),
+                make_wild_crop_table(12, 23),
                 '', 'Wild Crop Requirements', {}, [],
                 2, 80, 70, 10, 2, 12, False
             ),
             table(
-                make_wild_crop_table(22, len(CROPS.keys())),
+                make_wild_crop_table(24, len(CROPS.keys())),
                 '', 'Wild Crop Requirements', {}, [],
                 2, 80, 70, 10, 2, 12, False
             ),

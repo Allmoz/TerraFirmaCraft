@@ -350,6 +350,11 @@ def generate(rm: ResourceManager):
             for i in range(1, 5):
                 variants += four_ways('tfc:block/groundcover/stick%s' % i)
             block.with_blockstate(variants={"": variants}, use_default_model=False)
+        elif misc == 'driftwood':
+            variants = []
+            for i in range(0, 5):
+                variants += four_ways('tfc:block/groundcover/driftwood_%s' % i)
+            block.with_blockstate(variants={"": variants}, use_default_model=False)
         else:
             block.with_blockstate(variants={"": four_ways('tfc:block/groundcover/%s' % misc)}, use_default_model=False)
         block.with_lang(lang(misc))
@@ -995,6 +1000,9 @@ def generate(rm: ResourceManager):
                 else:
                     item = rm.item_model(('stone', rock_item, rock), 'tfc:item/stone/%s' % rock_item, parent='item/handheld')
                 item.with_lang(lang('stone %s', rock_item))
+
+    make_javelin(rm, 'obsidian_javelin', 'tfc:item/obsidian_javelin').with_lang(lang('obsidian javelin'))
+    rm.item_model('obsidian_knife', 'tfc:item/obsidian_knife', parent='tfc:item/handheld_flipped').with_lang(lang('obsidian knife'))
 
     # Rock Items
     for rock, rock_data in ROCKS.items():
