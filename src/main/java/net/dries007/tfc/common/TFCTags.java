@@ -295,6 +295,8 @@ public class TFCTags
          * Pets like to troll their owners and sit on inconvenient blocks.
          */
         public static final TagKey<Block> PET_SITS_ON = tag("pet_sits_on");
+        /** Camels gain a speed boost on dry blocks. */
+        public static final TagKey<Block> CAMEL_FASTER_ON = tag("camel_faster_on");
         /**
          * In TFC, by default, monsters only spawn on natural blocks. This is to prevent the unfortunate case where a house is built with
          * torches, which may go out, creating accidental mob farms. In general, we don't want hostile mobs spawning elsewhere than underground
@@ -516,6 +518,7 @@ public class TFCTags
         public static final TagKey<Item> DONKEY_FOOD = tag("donkey_food");
         public static final TagKey<Item> MULE_FOOD = tag("mule_food");
         public static final TagKey<Item> HORSE_FOOD = tag("horse_food");
+        public static final TagKey<Item> CAMEL_FOOD = tag("camel_food");
         public static final TagKey<Item> CAT_FOOD = tag("cat_food");
         public static final TagKey<Item> OCELOT_FOOD = tag("ocelot_food");
         public static final TagKey<Item> DOG_FOOD = tag("dog_food");
@@ -874,6 +877,7 @@ public class TFCTags
         public static final TagKey<EntityType<?>> PETS = tag("pets");
         public static final TagKey<EntityType<?>> FARM_ANIMALS = tag("farm_animals");
         public static final TagKey<EntityType<?>> ANIMALS = tag("animals");
+        public static final TagKey<EntityType<?>> IGNORES_SNOW = tag("ignores_snow");
 
         // ===== Data Generated ====== //
 

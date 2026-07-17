@@ -273,6 +273,7 @@ public class ServerConfig extends BaseConfig
     public final MammalConfig donkeyConfig;
     public final MammalConfig muleConfig;
     public final MammalConfig horseConfig;
+    public final MammalConfig dromedaryCamelConfig;
     public final MammalConfig catConfig;
     public final MammalConfig dogConfig;
     public final MammalConfig rabbitConfig;
@@ -283,6 +284,7 @@ public class ServerConfig extends BaseConfig
     public final ProducingMammalConfig goatConfig;
     public final ProducingMammalConfig sheepConfig;
     public final ProducingMammalConfig muskOxConfig;
+    public final ProducingMammalConfig bactrianCamelConfig;
     public final OviparousAnimalConfig duckConfig;
     public final OviparousAnimalConfig quailConfig;
     public final Supplier<Double> familiarityDecayLimit;
@@ -716,6 +718,9 @@ public class ServerConfig extends BaseConfig
         builder.swap("horse");
         horseConfig = MammalConfig.build(builder, "horse", 0.35, 80, 60, false, 19, 1);
 
+        builder.swap("dromedaryCamel");
+        dromedaryCamelConfig = MammalConfig.build(builder, "dromedaryCamel", 0.35, 80, 60, false, 19, 1);
+
         builder.swap("cat");
         catConfig = MammalConfig.build(builder, "cat", 0.35, 50, 60, false, 19, 6);
 
@@ -742,6 +747,9 @@ public class ServerConfig extends BaseConfig
 
         builder.swap("muskOx");
         muskOxConfig = ProducingMammalConfig.build(builder, "muskOx", 0.35, 168, 160, false, 64, 1, 96 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15);
+
+        builder.swap("bactrianCamel");
+        bactrianCamelConfig = ProducingMammalConfig.build(builder, "bactrianCamel", 0.35, 80, 80, false, 24, 1, 168 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15);
 
         builder.swap("chicken");
         chickenConfig = OviparousAnimalConfig.build(builder, "chicken", 0.35, 24, 100, true, 30 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR, 0.15, 8);
