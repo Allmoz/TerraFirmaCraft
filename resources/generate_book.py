@@ -263,7 +263,7 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             # Overview of various plants
             # Mention some usages (dyes)
             text('There are many, many, $(italic)many$() different types of plants in TerraFirmaCraft.$(br2)Different plants appear in different $(l:the_world/climate)Climates$(), and their appearance may change over the current season - going through cycles of flowering and laying dormant, or changing color as the local temperature changes. Colorful flowers can typically be crushed in a $(l:mechanics/quern)Quern$() for $(l:mechanics/dye)Dye$().'),
-            text('Flowers can be $(thing)propagated$() by $(item)$(k:key.use)$() them with shears. This drops a $(thing)Flower Cutting$(). Crafting a Flower Cutting with Compost will give you two of the original flower back, thus duplicating it.'),
+            text('Flowers can be $(thing)propagated$() by $(item)$(k:key.use)$() them with shears. This drops a $(thing)Flower Cutting$(). Crafting a Flower Cutting with Compost will give you two of the original flower back, thus duplicating it.').link('tfc:flower_cutting'),
             block_spotlight('Standard', 'Standard plants are like small flowers. They grow on grass, dirt, and farmland.', 'tfc:plant/anthurium'),
             block_spotlight('Dry', 'Dry plants are like standard plants, but they can grow on sand. These generally only spawn in areas with low rainfall.', 'tfc:plant/sagebrush'),
             two_tall_block_spotlight('Cacti', 'Cacti can grow two blocks high, and they will damage you!', 'tfc:plant/barrel_cactus[part=lower]', 'tfc:plant/barrel_cactus[part=upper]').anchor('cacti'),
