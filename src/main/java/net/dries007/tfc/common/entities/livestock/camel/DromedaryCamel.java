@@ -53,7 +53,7 @@ public class DromedaryCamel extends AbstractCamel implements HorseProperties
     {
         return createBaseHorseAttributes()
             .add(Attributes.MAX_HEALTH, 32.0)
-            .add(Attributes.MOVEMENT_SPEED, 0.09F)
+            .add(Attributes.MOVEMENT_SPEED, 0.1F)
             .add(Attributes.JUMP_STRENGTH, 0.42F)
             .add(Attributes.STEP_HEIGHT, 1.5);
     }

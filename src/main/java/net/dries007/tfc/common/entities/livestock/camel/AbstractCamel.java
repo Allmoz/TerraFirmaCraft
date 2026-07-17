@@ -73,13 +73,13 @@ public abstract class AbstractCamel extends Camel implements MammalProperties, T
     @Override
     protected float getRiddenSpeed(Player player)
     {
-        float sprintSpeedBonus = 0.075F; // Vanilla: 0.1F
+        float sprintSpeedBonus = 0.12F; // Vanilla: 0.1F
         float f = player.isSprinting() && this.getJumpCooldown() == 0 ? sprintSpeedBonus : 0.0F;
         return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) + f;
     }
 
-    // Dromedary camels sprinting on dry blocks are a bit slower than an average horse (0.198 vs 0.225)
-    // Bactrian camels sprinting on dry blocks are a bit slower than a dromedary (0.18 vs 0.198)
+    // Dromedary camels sprinting on dry blocks are a bit faster than an average horse (0.264 vs 0.225)
+    // Bactrian camels sprinting on dry blocks are the same as the average horse (0.225 vs 0.225)
     @Override
     protected float getBlockSpeedFactor()
     {

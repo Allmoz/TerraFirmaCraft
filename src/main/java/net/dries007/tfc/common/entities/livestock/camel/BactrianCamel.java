@@ -407,7 +407,7 @@ public class BactrianCamel extends AbstractCamel implements HorseProperties, ISh
     @Override
     protected float getRiddenSpeed(Player player)
     {
-        float sprintSpeedBonus = 0.06F;
+        float sprintSpeedBonus = 0.0875F;
         float f = player.isSprinting() && this.getJumpCooldown() == 0 ? sprintSpeedBonus : 0.0F;
         return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) + f;
     }
