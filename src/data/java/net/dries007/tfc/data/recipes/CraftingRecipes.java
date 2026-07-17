@@ -24,6 +24,8 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.crafting.CompoundIngredient;
+
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.plant.Plant;
 import net.dries007.tfc.common.blocks.rock.Ore;
@@ -1506,7 +1508,7 @@ public interface CraftingRecipes extends Recipes
     {
         for (RockCategory type : RockCategory.values())
             recipe()
-                .input('S', Tags.Items.RODS_WOODEN)
+                .input('S', CompoundIngredient.of(Ingredient.of(Tags.Items.RODS_WOODEN), Ingredient.of(Items.BONE)))
                 .input('X', TFCItems.ROCK_TOOLS.get(type).get(input))
                 .pattern("X", "S")
                 .shaped(TFCItems.ROCK_TOOLS.get(type).get(output));
