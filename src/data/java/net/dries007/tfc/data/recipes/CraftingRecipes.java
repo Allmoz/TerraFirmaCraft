@@ -69,6 +69,7 @@ public interface CraftingRecipes extends Recipes
             "bricks",
             "bucket",
             "campfire",
+            "chiseled_bookshelf",
             "copper_door",
             "chest",
             "minecart",
@@ -94,6 +95,7 @@ public interface CraftingRecipes extends Recipes
             "jack_o_lantern",
             "lantern",
             "leather_boots",
+            "leather_helmet",
             "leather_chestplate",
             "leather_horse_armor",
             "leather_leggings",
@@ -120,6 +122,7 @@ public interface CraftingRecipes extends Recipes
             "soul_torch",
             "spire_armor_trim_smithing_template",
             "stone_axe",
+            "stone_pickaxe",
             "stone_hoe",
             "stone_shovel",
             "stone_sword",
@@ -170,8 +173,6 @@ public interface CraftingRecipes extends Recipes
         add("food_combining", FoodCombiningCraftingRecipe.INSTANCE);
 
         // ===== Crafting Recipes =====
-
-        // todo: pass over new recipes from 1.21, are there any we need to nuke / replace easily?
 
         recipe("small")
             .input(TFCBlocks.HARDENED_CLAY)
