@@ -230,21 +230,26 @@ public final class EntityTooltips
     };
 
     public static final EntityTooltip ARMADILLO = (level, entity, tooltip) -> {
-      if (entity instanceof TFCArmadillo armadillo)
-      {
-          if (armadillo.displayMaleCharacteristics())
+          if (entity instanceof TFCArmadillo armadillo)
           {
-              tooltip.accept(Helpers.translateEnum(Gender.MALE));
+              if (armadillo.displayMaleCharacteristics())
+              {
+                  tooltip.accept(Helpers.translateEnum(Gender.MALE));
+              }
+              else if (armadillo.displayFemaleCharacteristics())
+              {
+                  tooltip.accept(Helpers.translateEnum(Gender.FEMALE));
+              }
+              if (armadillo.isBaby())
+              {
+                  tooltip.accept(Component.translatable("tfc.jade.juvenile"));
+              }
+
+              /* TODO: REPLACE WITH CUSTOM TOOLTIP COMPONENT
+              *  Possible to hide jade tooltip for vanilla?
+              */
+              tooltip.accept(Component.translatable("tfc.jade.gestation_time_left", Calendars.get(level).getTimeDelta(armadillo.getProductsCooldown())));
           }
-          else if (armadillo.displayFemaleCharacteristics())
-          {
-              tooltip.accept(Helpers.translateEnum(Gender.FEMALE));
-          }
-          if (armadillo.isBaby())
-          {
-              tooltip.accept(Component.translatable("tfc.jade.juvenile"));
-          }
-      }
     };
 
     public static final EntityTooltip HOOK = (level, entity, tooltip) -> {

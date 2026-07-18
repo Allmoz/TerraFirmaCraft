@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
@@ -23,9 +24,11 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.armadillo.Armadillo;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.TFCTags;
@@ -33,16 +36,21 @@ import net.dries007.tfc.common.entities.Scareable;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.entities.Temptable;
 import net.dries007.tfc.common.entities.ai.TFCGroundPathNavigation;
+import net.dries007.tfc.util.calendar.Calendars;
+import net.dries007.tfc.util.calendar.ICalendar;
 
-// TODO: Hijack scute stuff to tie into TFC calendar
 public class TFCArmadillo extends Armadillo implements Temptable, Scareable
 {
     public static final EntityDataAccessor<Boolean> DATA_IS_MALE = SynchedEntityData.defineId(TFCArmadillo.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> DATA_IS_BABY = SynchedEntityData.defineId(TFCArmadillo.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Long> DATA_PRODUCED = SynchedEntityData.defineId(TFCArmadillo.class, EntityDataSerializers.LONG);
+
+    protected int produceTicks;
 
     public TFCArmadillo(EntityType<? extends Animal> entityType, Level level)
     {
         super(entityType, level);
+        this.produceTicks = 24 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR;
     }
 
     @Override
@@ -89,9 +97,16 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
     @Override
     protected void customServerAiStep()
     {
-        // Don't think super should be called here due to custom brain
         ((Brain<TFCArmadillo>) getBrain()).tick((ServerLevel) level(), this);
         TFCArmadilloAi.updateActivity(this);
+        // Don't think super should be called here due to custom brain and vanilla scute stuff
+        if (this.isAlive() && !this.isBaby() && getProductsCooldown() == 0)
+        {
+            this.playSound(SoundEvents.ARMADILLO_SCUTE_DROP, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+            this.spawnAtLocation(Items.ARMADILLO_SCUTE);
+            this.gameEvent(GameEvent.ENTITY_PLACE);
+            setProductsCooldown();
+        }
     }
 
     @Override
@@ -121,6 +136,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
         super.defineSynchedData(builder);
         builder.define(DATA_IS_MALE, true);
         builder.define(DATA_IS_BABY, false);
+        builder.define(DATA_PRODUCED, 0L);
     }
 
     @Override
@@ -181,6 +197,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
         super.addAdditionalSaveData(tag);
         tag.putBoolean("male", isMale());
         tag.putBoolean("baby", isBaby());
+        tag.putLong("produced", getProducedTick());
     }
 
     @Override
@@ -189,6 +206,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
         super.readAdditionalSaveData(tag);
         setIsMale(tag.getBoolean("male"));
         setBaby(tag.getBoolean("baby"));
+        setProducedTick(tag.getLong("produced"));
     }
 
     @Override
@@ -201,5 +219,31 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
     public float getWalkTargetValue(BlockPos pos, LevelReader level)
     {
         return level.getBlockState(pos.below()).is(TFCTags.Blocks.BUSH_PLANTABLE_ON) ? 10.0F : level.getPathfindingCostFromLightLevels(pos) - 0.5F;
+    }
+
+    public void setProductsCooldown()
+    {
+        setProducedTick(Calendars.get(level()).getTicks());
+    }
+
+    public long getProductsCooldown()
+    {
+        return Math.max(0, this.produceTicks + getProducedTick() - Calendars.get(level()).getTicks());
+    }
+
+    public long getProducedTick()
+    {
+        return entityData.get(DATA_PRODUCED);
+    }
+
+    public void setProducedTick(long producedTick)
+    {
+        entityData.set(DATA_PRODUCED, producedTick);
+    }
+
+    // TODO: Add some randomness to produceTicks?
+    public void setProduceTicks(int produceTicks)
+    {
+        this.produceTicks = produceTicks;
     }
 }
