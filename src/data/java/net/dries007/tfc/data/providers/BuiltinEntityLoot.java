@@ -137,7 +137,7 @@ public class BuiltinEntityLoot extends EntityLootSubProvider
         // Armadillo - scute + armadillo meat
         add(TFCEntities.ARMADILLO.get(), lootTable()
             .withPool(lootPool().add(lootTableItem(Items.ARMADILLO_SCUTE)))
-            .withPool(lootPool().add(lootTableItem(TFCItems.FOOD.get(Food.ARMADILLO)))));
+            .withPool(lootPool().add(lootTableItem(TFCItems.FOOD.get(Food.ARMADILLO))).when(NotPredatedCondition.notPredated())));
 
         // Predators - hide + bones
         add(TFCEntities.POLAR_BEAR.get(), predator(Size.LARGE, 6));

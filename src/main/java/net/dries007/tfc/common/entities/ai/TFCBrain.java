@@ -61,7 +61,7 @@ public class TFCBrain
     public static final DeferredHolder<SensorType<?>, SensorType<NearestNestBoxSensor>> NEST_BOX_SENSOR = registerSensorType("nearest_nest_box", NearestNestBoxSensor::new);
     public static final DeferredHolder<SensorType<?>, SensorType<PackLeaderSensor>> PACK_LEADER_SENSOR = registerSensorType("pack_leader", PackLeaderSensor::new);
 
-    public static final DeferredHolder<SensorType<?>, SensorType<ScareSensor>> SCARE_DETECTED = registerSensorType("scare", () -> new ScareSensor(6, 80));
+    public static final DeferredHolder<SensorType<?>, SensorType<ScareSensor>> SCARE_SENSOR = registerSensorType("scare", () -> new ScareSensor(6, 2, 80));
 
     public static final DeferredHolder<PoiType, PoiType> NEST_BOX_POI = registerPoi("nest_box", () -> new PoiType(getBlockStates(TFCBlocks.NEST_BOX.get()), 1, 1));
 

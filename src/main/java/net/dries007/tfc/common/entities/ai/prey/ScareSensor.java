@@ -1,3 +1,9 @@
+/*
+ * Licensed under the EUPL, Version 1.2.
+ * You may obtain a copy of the Licence at:
+ * https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ */
+
 package net.dries007.tfc.common.entities.ai.prey;
 
 import java.util.List;
@@ -12,20 +18,31 @@ import net.dries007.tfc.common.entities.Scareable;
 
 public class ScareSensor extends Sensor<LivingEntity>
 {
-    private final int scareDistance;
+    private final int horzDetectDistance;
+    private final int vertDetectDistance;
     private final int memoryTimeToLive;
 
-    public ScareSensor(int scareDistance, int memoryTimeToLive)
+    public ScareSensor(int horzDetectDistance, int vertDetectDistance, int memoryTimeToLive)
     {
         super(5);
-        this.scareDistance = scareDistance;
+        this.horzDetectDistance = horzDetectDistance;
+        this.vertDetectDistance = vertDetectDistance;
+        this.memoryTimeToLive = memoryTimeToLive;
+    }
+
+    public ScareSensor(int detectDistance, int memoryTimeToLive)
+    {
+        super(5);
+        this.horzDetectDistance = detectDistance;
+        this.vertDetectDistance = detectDistance;
         this.memoryTimeToLive = memoryTimeToLive;
     }
 
     public ScareSensor()
     {
         super(5);
-        this.scareDistance = 8;
+        this.horzDetectDistance = 7;
+        this.vertDetectDistance = 2;
         this.memoryTimeToLive = 80;
     }
 
@@ -53,7 +70,7 @@ public class ScareSensor extends Sensor<LivingEntity>
         Optional<List<LivingEntity>> memory = sensingEntity.getBrain().getMemory(MemoryModuleType.NEAREST_LIVING_ENTITIES);
         if (memory.isPresent())
         {
-            boolean scaryMobNearby = memory.get().stream().anyMatch(entity -> isScaryMob(sensingEntity, entity) && entity.closerThan(sensingEntity, scareDistance));
+            boolean scaryMobNearby = memory.get().stream().anyMatch(entity -> isScaryMob(sensingEntity, entity) && entity.closerThan(sensingEntity, horzDetectDistance, vertDetectDistance));
             if (scaryMobNearby)
             {
                 setDangerDetected(sensingEntity);

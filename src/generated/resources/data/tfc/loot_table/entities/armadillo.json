@@ -13,6 +13,11 @@
     },
     {
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "tfc:not_predated"
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
