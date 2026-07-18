@@ -440,6 +440,7 @@ public class TFCEntities
     public static TFCArmadillo makeArmadillo(EntityType<? extends Armadillo> animal, Level level)
     {
         return new TFCArmadillo(animal, level);
+    }
     public static DromedaryCamel makeDromedaryCamel(EntityType<? extends Camel> animal, Level level)
     {
         return new DromedaryCamel(animal, level, TFCConfig.SERVER.dromedaryCamelConfig);
