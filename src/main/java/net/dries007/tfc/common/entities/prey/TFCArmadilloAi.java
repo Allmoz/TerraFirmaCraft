@@ -18,6 +18,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.BabyFollowAdult;
 import net.minecraft.world.entity.ai.behavior.CountDownCooldownTicks;
 import net.minecraft.world.entity.ai.behavior.DoNothing;
+import net.minecraft.world.entity.ai.behavior.EraseMemoryIf;
 import net.minecraft.world.entity.ai.behavior.FollowTemptation;
 import net.minecraft.world.entity.ai.behavior.LookAtTargetSink;
 import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
@@ -26,6 +27,7 @@ import net.minecraft.world.entity.ai.behavior.RandomLookAround;
 import net.minecraft.world.entity.ai.behavior.RandomStroll;
 import net.minecraft.world.entity.ai.behavior.RunOne;
 import net.minecraft.world.entity.ai.behavior.SetEntityLookTargetSometimes;
+import net.minecraft.world.entity.ai.behavior.SetWalkTargetAwayFrom;
 import net.minecraft.world.entity.ai.behavior.SetWalkTargetFromLookTarget;
 import net.minecraft.world.entity.ai.behavior.Swim;
 import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
@@ -37,12 +39,15 @@ import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.armadillo.ArmadilloAi;
 import net.minecraft.world.entity.schedule.Activity;
 
+import net.dries007.tfc.common.entities.ai.SetLookTarget;
 import net.dries007.tfc.common.entities.ai.TFCBrain;
+import net.dries007.tfc.common.entities.ai.prey.AvoidPredatorAndRammersBehavior;
+import net.dries007.tfc.common.entities.ai.prey.PreyAi;
 
 public class TFCArmadilloAi
 {
     protected static final ImmutableList<SensorType<? extends Sensor<? super TFCArmadillo>>> SENSOR_TYPES = ImmutableList.of(
-        SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, TFCBrain.TEMPTATION_SENSOR.get(), SensorType.NEAREST_ADULT, TFCBrain.TFC_ARMADILLO_SCARE_DETECTED.get()
+        SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, TFCBrain.TEMPTATION_SENSOR.get(), SensorType.NEAREST_ADULT, TFCBrain.SCARE_DETECTED.get()
     );
 
     protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
@@ -60,7 +65,8 @@ public class TFCArmadilloAi
         MemoryModuleType.IS_TEMPTED,
         MemoryModuleType.BREED_TARGET,
         MemoryModuleType.NEAREST_VISIBLE_ADULT,
-        MemoryModuleType.DANGER_DETECTED_RECENTLY
+        MemoryModuleType.DANGER_DETECTED_RECENTLY,
+        MemoryModuleType.AVOID_TARGET
     );
 
     // Copied from ArmadilloAi (private method)
@@ -93,6 +99,7 @@ public class TFCArmadilloAi
         initCoreActivity((Brain<TFCArmadillo>) brain);
         initIdleActivity((Brain<TFCArmadillo>) brain);
         initScaredActivity((Brain<TFCArmadillo>) brain);
+        initRetreatActivity((Brain<TFCArmadillo>) brain);
 
         brain.setCoreActivities(Set.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
@@ -129,6 +136,7 @@ public class TFCArmadilloAi
     {
         brain.addActivity(Activity.IDLE, 0, ImmutableList.of(
             SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60)),
+            AvoidPredatorAndRammersBehavior.create(true),
             new FollowTemptation(e -> e.isBaby() ? 1.5F: 1.25F),
             BabyFollowAdult.create(UniformInt.of(5, 16), 1.25F),
             new RandomLookAround(UniformInt.of(150, 250), 30.0F, 0.0F, 0.0F),
@@ -136,12 +144,17 @@ public class TFCArmadilloAi
         ));
     }
 
-    /* TODO
-     * Make them try to flee initially, only ball up if a predator mob gets close enough?
-     * If a predator catches up to them while they're running they can get a hit in,
-     * Otherwise the armadillo balls up and they lose interest after timeout?
-     */
+    public static void initRetreatActivity(Brain<TFCArmadillo> brain)
+    {
+        brain.addActivityAndRemoveMemoryWhenStopped(Activity.AVOID, 10, ImmutableList.of(
+            SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 2.0F, 15, false),
+            createIdleMovementBehaviors(),
+            SetLookTarget.create(8.0F, UniformInt.of(30, 60)),
+            EraseMemoryIf.create(PreyAi::wantsToStopFleeing, MemoryModuleType.AVOID_TARGET)
+        ), MemoryModuleType.AVOID_TARGET);
+    }
 
+    /* TODO: Possible to make predators lose interest in balled up armadillos after a certain amount of time has passed? */
     public static void initScaredActivity(Brain<? extends TFCArmadillo> brain)
     {
         brain.addActivityWithConditions(Activity.PANIC, ImmutableList.of(
@@ -168,6 +181,6 @@ public class TFCArmadilloAi
 
     public static void updateActivity(TFCArmadillo armadillo)
     {
-        armadillo.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.PANIC, Activity.IDLE));
+        armadillo.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.PANIC, Activity.AVOID, Activity.IDLE));
     }
 }

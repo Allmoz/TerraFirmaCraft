@@ -15,7 +15,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.sensing.MobSensor;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
@@ -33,7 +32,7 @@ import net.dries007.tfc.common.entities.ai.livestock.DelegatingTemptingSensor;
 import net.dries007.tfc.common.entities.ai.livestock.NearestNestBoxSensor;
 import net.dries007.tfc.common.entities.ai.predator.PackLeaderSensor;
 import net.dries007.tfc.common.entities.ai.predator.PackPredator;
-import net.dries007.tfc.common.entities.prey.TFCArmadillo;
+import net.dries007.tfc.common.entities.ai.prey.ScareSensor;
 
 public class TFCBrain
 {
@@ -62,9 +61,7 @@ public class TFCBrain
     public static final DeferredHolder<SensorType<?>, SensorType<NearestNestBoxSensor>> NEST_BOX_SENSOR = registerSensorType("nearest_nest_box", NearestNestBoxSensor::new);
     public static final DeferredHolder<SensorType<?>, SensorType<PackLeaderSensor>> PACK_LEADER_SENSOR = registerSensorType("pack_leader", PackLeaderSensor::new);
 
-    public static final DeferredHolder<SensorType<?>, SensorType<MobSensor<TFCArmadillo>>> TFC_ARMADILLO_SCARE_DETECTED = registerSensorType(
-        "tfc_armadillo_scare_detected", () -> new MobSensor<>(5, TFCArmadillo::isScaredBy, TFCArmadillo::canStayRolledUp, MemoryModuleType.DANGER_DETECTED_RECENTLY, 80)
-    );
+    public static final DeferredHolder<SensorType<?>, SensorType<ScareSensor>> SCARE_DETECTED = registerSensorType("scare", () -> new ScareSensor(6, 80));
 
     public static final DeferredHolder<PoiType, PoiType> NEST_BOX_POI = registerPoi("nest_box", () -> new PoiType(getBlockStates(TFCBlocks.NEST_BOX.get()), 1, 1));
 

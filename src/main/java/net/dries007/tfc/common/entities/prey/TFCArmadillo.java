@@ -29,12 +29,13 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.TFCTags;
+import net.dries007.tfc.common.entities.Scareable;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.entities.Temptable;
 import net.dries007.tfc.common.entities.ai.TFCGroundPathNavigation;
 
 // TODO: Hijack scute stuff to tie into TFC calendar
-public class TFCArmadillo extends Armadillo implements Temptable
+public class TFCArmadillo extends Armadillo implements Temptable, Scareable
 {
     public static final EntityDataAccessor<Boolean> DATA_IS_MALE = SynchedEntityData.defineId(TFCArmadillo.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> DATA_IS_BABY = SynchedEntityData.defineId(TFCArmadillo.class, EntityDataSerializers.BOOLEAN);
@@ -71,6 +72,20 @@ public class TFCArmadillo extends Armadillo implements Temptable
             return true;
         }
         return super.isScaredBy(entity);
+    }
+
+    @Override
+    public boolean isCurrentlyScareable()
+    {
+        return this.canStayRolledUp();
+    }
+
+    @Override
+    protected void customServerAiStep()
+    {
+        // Don't think super should be called here due to custom brain
+        ((Brain<TFCArmadillo>) getBrain()).tick((ServerLevel) level(), this);
+        TFCArmadilloAi.updateActivity(this);
     }
 
     @Override
