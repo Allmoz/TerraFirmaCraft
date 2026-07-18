@@ -30,10 +30,11 @@ import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.entities.TFCEntities;
+import net.dries007.tfc.common.entities.Temptable;
 import net.dries007.tfc.common.entities.ai.TFCGroundPathNavigation;
 
-// TODO: Implement Temptable?
-public class TFCArmadillo extends Armadillo
+// TODO: Hijack scute stuff to tie into TFC calendar
+public class TFCArmadillo extends Armadillo implements Temptable
 {
     public static final EntityDataAccessor<Boolean> DATA_IS_MALE = SynchedEntityData.defineId(TFCArmadillo.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> DATA_IS_BABY = SynchedEntityData.defineId(TFCArmadillo.class, EntityDataSerializers.BOOLEAN);

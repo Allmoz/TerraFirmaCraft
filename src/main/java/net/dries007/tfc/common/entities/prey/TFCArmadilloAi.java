@@ -125,7 +125,6 @@ public class TFCArmadilloAi
         ));
     }
 
-    // TODO: remove FollowTempation if not made temptable
     public static void initIdleActivity(Brain<TFCArmadillo> brain)
     {
         brain.addActivity(Activity.IDLE, 0, ImmutableList.of(
@@ -137,7 +136,12 @@ public class TFCArmadilloAi
         ));
     }
 
-    // Continue using Activity.PANIC, or try refactor with Activity.AVOID?
+    /* TODO
+     * Make them try to flee initially, only ball up if a predator mob gets close enough?
+     * If a predator catches up to them while they're running they can get a hit in,
+     * Otherwise the armadillo balls up and they lose interest after timeout?
+     */
+
     public static void initScaredActivity(Brain<? extends TFCArmadillo> brain)
     {
         brain.addActivityWithConditions(Activity.PANIC, ImmutableList.of(

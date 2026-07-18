@@ -310,7 +310,8 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.RAT.get(),
                 TFCEntities.JERBOA.get(),
                 TFCEntities.LEMMING.get(),
-                TFCEntities.MONGOOSE.get()
+                TFCEntities.MONGOOSE.get(),
+                TFCEntities.ARMADILLO.get()
             );
 
         tag(HUNTED_BY_CATS)
