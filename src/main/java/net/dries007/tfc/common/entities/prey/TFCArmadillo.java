@@ -15,6 +15,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,6 +26,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.armadillo.Armadillo;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -50,7 +53,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
     public TFCArmadillo(EntityType<? extends Animal> entityType, Level level)
     {
         super(entityType, level);
-        this.produceTicks = 24 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR;
+        this.produceTicks = 30 * ICalendar.PLAYER_TICKS_IN_DEFAULT_HOUR;
     }
 
     @Override
@@ -99,7 +102,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
     {
         ((Brain<TFCArmadillo>) getBrain()).tick((ServerLevel) level(), this);
         TFCArmadilloAi.updateActivity(this);
-        // Don't think super should be called here due to custom brain and vanilla scute stuff
+        // Scute Reimplementation based on TFC Calendar
         if (this.isAlive() && !this.isBaby() && getProductsCooldown() == 0)
         {
             this.playSound(SoundEvents.ARMADILLO_SCUTE_DROP, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
@@ -117,6 +120,12 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
         {
             setBaby(false);
         }
+    }
+
+    @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand)
+    {
+        return InteractionResult.PASS;
     }
 
     // These are only used for the tooltips
@@ -188,6 +197,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
     {
         setIsMale(level.getRandom().nextBoolean());
         setBaby(random.nextFloat() < 0.1F);
+        setProducedTick(Calendars.get(level()).getTicks() - this.random.nextInt(ICalendar.CALENDAR_TICKS_IN_HOUR * 20));
         return super.finalizeSpawn(level, difficulty, spawnType, spawnData);
     }
 
@@ -239,11 +249,5 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
     public void setProducedTick(long producedTick)
     {
         entityData.set(DATA_PRODUCED, producedTick);
-    }
-
-    // TODO: Add some randomness to produceTicks?
-    public void setProduceTicks(int produceTicks)
-    {
-        this.produceTicks = produceTicks;
     }
 }

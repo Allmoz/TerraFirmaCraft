@@ -557,6 +557,7 @@
   "tfc.jade.old_animal": "늙음, 아이템을 생산하거나 번식할 수 없음",
   "tfc.jade.gestation_time_left": "임신 기간: %s",
   "tfc.jade.may_ride_horse": "탈 수 있음",
+  "tfc.jade.next_scute_time": "Next Scute In: %s",
   "tfc.jade.explosion_strength": "폭발 강도: %s",
   "tfc.jade.yield": "수확 보너스: %s",
   "tfc.jade.no_stick": "완전히 자라려면 막대기가 필요함",

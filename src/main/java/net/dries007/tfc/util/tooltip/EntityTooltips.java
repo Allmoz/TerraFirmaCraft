@@ -244,11 +244,10 @@ public final class EntityTooltips
               {
                   tooltip.accept(Component.translatable("tfc.jade.juvenile"));
               }
-
-              /* TODO: REPLACE WITH CUSTOM TOOLTIP COMPONENT
-              *  Possible to hide jade tooltip for vanilla?
-              */
-              tooltip.accept(Component.translatable("tfc.jade.gestation_time_left", Calendars.get(level).getTimeDelta(armadillo.getProductsCooldown())));
+              if (!armadillo.isBaby())
+              {
+                  tooltip.accept(Component.translatable("tfc.jade.next_scute_time", Calendars.get(level).getTimeDelta(armadillo.getProductsCooldown())));
+              }
           }
     };
 

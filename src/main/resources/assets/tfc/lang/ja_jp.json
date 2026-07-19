@@ -556,6 +556,7 @@
   "tfc.jade.old_animal": "老いているため、有用なものを生産できない",
   "tfc.jade.gestation_time_left": "出産まで: %s",
   "tfc.jade.may_ride_horse": "騎乗可",
+  "tfc.jade.next_scute_time": "Next Scute In: %s",
   "tfc.jade.explosion_strength": "爆発強度: %s",
   "tfc.jade.yield": "産出率: %s",
   "tfc.jade.no_stick": "最大まで成長するには棒が必要",

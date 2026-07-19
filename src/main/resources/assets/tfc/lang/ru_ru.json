@@ -561,6 +561,7 @@
   "tfc.jade.old_animal": "Старое, нельзя больше собирать что-либо",
   "tfc.jade.gestation_time_left": "Родит через %s",
   "tfc.jade.may_ride_horse": "Можно оседлать",
+  "tfc.jade.next_scute_time": "Next Scute In: %s",
   "tfc.jade.explosion_strength": "Сила взрыва: %s",
   "tfc.jade.yield": "Модификатор скорости роста: %s%%",
   "tfc.jade.no_stick": "Для полного роста нужна опора из палки",

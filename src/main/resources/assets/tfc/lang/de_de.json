@@ -557,6 +557,7 @@
   "tfc.jade.old_animal": "Alt, kann sich nicht paaren oder Produkte erzeugen",
   "tfc.jade.gestation_time_left": "Schwangerschaftszeit übrig: %s",
   "tfc.jade.may_ride_horse": "Kann geritten werden",
+  "tfc.jade.next_scute_time": "Next Scute In: %s",
   "tfc.jade.explosion_strength": "Explosionsstärke: %s",
   "tfc.jade.yield": "Ertragssteigerungsfaktor: %s%%",
   "tfc.jade.no_stick": "Benötigt Pflanzstab für vollstängiges Wachstum",

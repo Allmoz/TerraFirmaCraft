@@ -569,6 +569,7 @@
   "tfc.jade.old_animal": "已衰老，无法繁殖或提供有用产品",
   "tfc.jade.gestation_time_left": "距离分娩：%s",
   "tfc.jade.may_ride_horse": "可骑乘",
+  "tfc.jade.next_scute_time": "Next Scute In: %s",
   "tfc.jade.explosion_strength": "爆炸威力：%s",
   "tfc.jade.yield": "作物额外产率：%s%%",
   "tfc.jade.no_stick": "需要放置木棍才能达到最大产量",

@@ -556,6 +556,7 @@
   "tfc.jade.old_animal": "Yaşlanmış; üreyemez ve kullanışlı ürün veremez",
   "tfc.jade.gestation_time_left": "Kalan Gebelik Süresi: %s",
   "tfc.jade.may_ride_horse": "Binilebilir",
+  "tfc.jade.next_scute_time": "Next Scute In: %s",
   "tfc.jade.explosion_strength": "Patlama Gücü: %s",
   "tfc.jade.yield": "Verim Çarpanı: %s%%",
   "tfc.jade.no_stick": "Azami erişkinliğe ulaşması için çubuk gerekli",

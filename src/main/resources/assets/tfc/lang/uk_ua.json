@@ -558,6 +558,7 @@
   "tfc.jade.old_animal": "Старе, не можна більше збирати що-небудь",
   "tfc.jade.gestation_time_left": "Народить через: %s",
   "tfc.jade.may_ride_horse": "Можна осідлати",
+  "tfc.jade.next_scute_time": "Next Scute In: %s",
   "tfc.jade.explosion_strength": "Сила вибуху: %s",
   "tfc.jade.yield": "Модифікатор швидкости росту: %s",
   "tfc.jade.no_stick": "Для досягнення макс. зростання потрібна палиця",
