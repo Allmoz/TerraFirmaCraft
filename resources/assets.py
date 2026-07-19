@@ -2646,6 +2646,8 @@ def generate(rm: ResourceManager):
         mold_model(rm, mold_item_location, pattern)
     for but in BUTTERFLIES:
         particle(rm, but, ['tfc:butterfly/' + but + '_' + str(i) for i in range(1, 5)])
+    for moth in MOTHS:
+        particle(rm, moth, ['tfc:moth/' + moth + '_' + str(i) for i in range(1, 5)])
 
 
 def particle(rm: ResourceManager, name: str, textures: List[str]):
