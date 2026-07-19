@@ -352,7 +352,7 @@ def generate(rm: ResourceManager):
             block.with_blockstate(variants={"": variants}, use_default_model=False)
         elif misc == 'driftwood':
             variants = []
-            for i in range(0, 5):
+            for i in range(0, 6):
                 variants += four_ways('tfc:block/groundcover/driftwood_%s' % i)
             block.with_blockstate(variants={"": variants}, use_default_model=False)
         else:
