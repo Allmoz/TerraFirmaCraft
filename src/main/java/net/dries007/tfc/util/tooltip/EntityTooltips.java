@@ -232,14 +232,7 @@ public final class EntityTooltips
     public static final EntityTooltip ARMADILLO = (level, entity, tooltip) -> {
           if (entity instanceof TFCArmadillo armadillo)
           {
-              if (armadillo.displayMaleCharacteristics())
-              {
-                  tooltip.accept(Helpers.translateEnum(Gender.MALE));
-              }
-              else if (armadillo.displayFemaleCharacteristics())
-              {
-                  tooltip.accept(Helpers.translateEnum(Gender.FEMALE));
-              }
+              tooltip.accept(Helpers.translateEnum(armadillo.isMale() ? Gender.MALE : Gender.FEMALE));
               if (armadillo.isBaby())
               {
                   tooltip.accept(Component.translatable("tfc.jade.juvenile"));

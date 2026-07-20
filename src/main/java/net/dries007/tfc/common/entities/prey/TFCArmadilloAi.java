@@ -154,7 +154,6 @@ public class TFCArmadilloAi
         ), MemoryModuleType.AVOID_TARGET);
     }
 
-    /* TODO: Possible to make predators lose interest in balled up armadillos after a certain amount of time has passed? */
     public static void initScaredActivity(Brain<? extends TFCArmadillo> brain)
     {
         brain.addActivityWithConditions(Activity.PANIC, ImmutableList.of(

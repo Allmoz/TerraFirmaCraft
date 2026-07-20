@@ -17,6 +17,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,6 +50,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
     public static final EntityDataAccessor<Long> DATA_PRODUCED = SynchedEntityData.defineId(TFCArmadillo.class, EntityDataSerializers.LONG);
 
     protected int produceTicks;
+    protected int predatorLoseInterestTime;
 
     public TFCArmadillo(EntityType<? extends Animal> entityType, Level level)
     {
@@ -102,6 +104,11 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
     {
         ((Brain<TFCArmadillo>) getBrain()).tick((ServerLevel) level(), this);
         TFCArmadilloAi.updateActivity(this);
+        if (this.isScared() && predatorLoseInterestTime > 0)
+        {
+            predatorLoseInterestTime -= random.nextInt(5);
+        }
+
         // Scute Reimplementation based on TFC Calendar
         if (this.isAlive() && !this.isBaby() && getProductsCooldown() == 0)
         {
@@ -120,23 +127,16 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
         {
             setBaby(false);
         }
+        if (!isScared() && predatorLoseInterestTime < 180)
+        {
+            predatorLoseInterestTime = random.nextInt(180, 361);
+        }
     }
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
         return InteractionResult.PASS;
-    }
-
-    // These are only used for the tooltips
-    public boolean displayMaleCharacteristics()
-    {
-        return isMale() && !isBaby();
-    }
-
-    public boolean displayFemaleCharacteristics()
-    {
-        return !isMale();
     }
 
     @Override
@@ -193,6 +193,27 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
     }
 
     @Override
+    public boolean canBeSeenAsEnemy()
+    {
+        if (predatorLoseInterestTime <= 0)
+        {
+            return false;
+        }
+        else return super.canBeSeenAsEnemy();
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount)
+    {
+        if (this.isScared())
+        {
+            amount -= 1.0f;
+            // in super.hurt : amount = (amount - 1.0F) / 2.0F
+        }
+        return super.hurt(source, amount);
+    }
+
+    @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData)
     {
         setIsMale(level.getRandom().nextBoolean());
@@ -208,6 +229,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
         tag.putBoolean("male", isMale());
         tag.putBoolean("baby", isBaby());
         tag.putLong("produced", getProducedTick());
+        tag.putInt("PredatorLostInterestTime", predatorLoseInterestTime);
     }
 
     @Override
@@ -217,6 +239,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
         setIsMale(tag.getBoolean("male"));
         setBaby(tag.getBoolean("baby"));
         setProducedTick(tag.getLong("produced"));
+        predatorLoseInterestTime = tag.getInt("PredatorLoseInterestTime");
     }
 
     @Override

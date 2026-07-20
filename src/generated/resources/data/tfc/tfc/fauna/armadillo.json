@@ -1,4 +1,4 @@
 {
-  "min_groundwater": 250.0,
-  "min_temperature": 12.0
+  "min_groundwater": 300.0,
+  "min_temperature": 17.0
 }
