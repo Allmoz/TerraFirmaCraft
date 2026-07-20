@@ -76,6 +76,21 @@
       {
         "model": "tfc:block/groundcover/driftwood_4",
         "y": 270
+      },
+      {
+        "model": "tfc:block/groundcover/driftwood_5",
+        "y": 90
+      },
+      {
+        "model": "tfc:block/groundcover/driftwood_5"
+      },
+      {
+        "model": "tfc:block/groundcover/driftwood_5",
+        "y": 180
+      },
+      {
+        "model": "tfc:block/groundcover/driftwood_5",
+        "y": 270
       }
     ]
   }
