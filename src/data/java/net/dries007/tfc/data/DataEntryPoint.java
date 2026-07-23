@@ -56,9 +56,11 @@ import net.dries007.tfc.data.providers.BuiltinKnappingTypes;
 import net.dries007.tfc.data.providers.BuiltinLampFuels;
 import net.dries007.tfc.data.providers.BuiltinPaintings;
 import net.dries007.tfc.data.providers.BuiltinRecipes;
+import net.dries007.tfc.data.providers.BuiltinRockSettings;
 import net.dries007.tfc.data.providers.BuiltinSupports;
 import net.dries007.tfc.data.providers.BuiltinWorldPreset;
 import net.dries007.tfc.util.PhysicalDamageType;
+import net.dries007.tfc.world.settings.RockSettings;
 
 import static net.dries007.tfc.TerraFirmaCraft.*;
 
@@ -74,6 +76,7 @@ public final class DataEntryPoint
             event.getGenerator().getPackOutput(), event.getLookupProvider(),
             new RegistrySetBuilder()
                 .add(Registries.DENSITY_FUNCTION, BuiltinDensityFunctions::load)
+                .add(RockSettings.KEY, BuiltinRockSettings::new)
                 .add(Registries.WORLD_PRESET, BuiltinWorldPreset::load)
                 .add(Registries.PAINTING_VARIANT, BuiltinPaintings::new)
                 .add(Registries.DAMAGE_TYPE, BuiltinDamageTypes::new)
