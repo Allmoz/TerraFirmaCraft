@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -31,10 +30,7 @@ import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.presets.WorldPreset;
 
 import net.dries007.tfc.TerraFirmaCraft;
-import net.dries007.tfc.common.blocks.SandstoneBlockType;
-import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.Rock;
-import net.dries007.tfc.common.blocks.soil.SandBlockType;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.world.TFCChunkGenerator;
 import net.dries007.tfc.world.biome.RegionBiomeSource;
@@ -110,79 +106,6 @@ public final class BuiltinWorldPreset
             }
         });
     }
-
-    private static final Map<Rock, SandBlockType> ROCK_TO_SAND_COLOR = ImmutableMap.<Rock, SandBlockType>builder()
-        .put(GRANITE, SandBlockType.YELLOW)
-        .put(DIORITE, SandBlockType.RED)
-        .put(GABBRO, SandBlockType.BLACK)
-        .put(RHYOLITE, SandBlockType.YELLOW)
-        .put(DACITE, SandBlockType.RED)
-        .put(ANDESITE, SandBlockType.RED)
-        .put(BASALT, SandBlockType.BLACK)
-        .put(SHALE, SandBlockType.BROWN)
-        .put(CLAYSTONE, SandBlockType.BROWN)
-        .put(LIMESTONE, SandBlockType.WHITE)
-        .put(CONGLOMERATE, SandBlockType.BROWN)
-        .put(DOLOMITE, SandBlockType.WHITE)
-        .put(CHERT, SandBlockType.RED)
-        .put(CHALK, SandBlockType.WHITE)
-        .put(TUFF, SandBlockType.GREEN)
-        .put(QUARTZITE, SandBlockType.WHITE)
-        .put(SLATE, SandBlockType.YELLOW)
-        .put(PHYLLITE, SandBlockType.YELLOW)
-        .put(SCHIST, SandBlockType.YELLOW)
-        .put(GNEISS, SandBlockType.YELLOW)
-        .put(MARBLE, SandBlockType.WHITE)
-        .build();
-
-    private static final Map<Rock, Boolean> ROCK_SET_KARST = ImmutableMap.<Rock, Boolean>builder()
-        .put(GRANITE, Boolean.FALSE)
-        .put(DIORITE, Boolean.FALSE)
-        .put(GABBRO, Boolean.FALSE)
-        .put(SHALE, Boolean.FALSE)
-        .put(CLAYSTONE, Boolean.FALSE)
-        .put(LIMESTONE, Boolean.TRUE)
-        .put(CONGLOMERATE, Boolean.FALSE)
-        .put(DOLOMITE, Boolean.TRUE)
-        .put(CHERT, Boolean.FALSE)
-        .put(CHALK, Boolean.TRUE)
-        .put(TUFF, Boolean.FALSE)
-        .put(RHYOLITE, Boolean.FALSE)
-        .put(BASALT, Boolean.FALSE)
-        .put(ANDESITE, Boolean.FALSE)
-        .put(DACITE, Boolean.FALSE)
-        .put(QUARTZITE, Boolean.FALSE)
-        .put(SLATE, Boolean.FALSE)
-        .put(PHYLLITE, Boolean.FALSE)
-        .put(SCHIST, Boolean.FALSE)
-        .put(GNEISS, Boolean.FALSE)
-        .put(MARBLE, Boolean.TRUE)
-        .build();
-
-    // Used by badlands to determine whether they should have black sand
-    private static final Map<Rock, Boolean> ROCK_SET_MAFIC = ImmutableMap.<Rock, Boolean>builder()
-        .put(GRANITE, Boolean.FALSE)
-        .put(DIORITE, Boolean.FALSE)
-        .put(GABBRO, Boolean.TRUE)
-        .put(SHALE, Boolean.FALSE)
-        .put(CLAYSTONE, Boolean.FALSE)
-        .put(LIMESTONE, Boolean.FALSE)
-        .put(CONGLOMERATE, Boolean.FALSE)
-        .put(DOLOMITE, Boolean.FALSE)
-        .put(CHERT, Boolean.FALSE)
-        .put(CHALK, Boolean.FALSE)
-        .put(TUFF, Boolean.FALSE)
-        .put(RHYOLITE, Boolean.FALSE)
-        .put(BASALT, Boolean.TRUE)
-        .put(ANDESITE, Boolean.FALSE)
-        .put(DACITE, Boolean.FALSE)
-        .put(QUARTZITE, Boolean.FALSE)
-        .put(SLATE, Boolean.FALSE)
-        .put(PHYLLITE, Boolean.FALSE)
-        .put(SCHIST, Boolean.FALSE)
-        .put(GNEISS, Boolean.FALSE)
-        .put(MARBLE, Boolean.FALSE)
-        .build();
 
     private static final String BOTTOM = "bottom";
     private static final String IGNEOUS_EXTRUSIVE = "igneous_extrusive";
@@ -278,26 +201,5 @@ public final class BuiltinWorldPreset
 
     public static ResourceKey<RockSettings> rockKey(Rock rock) {
         return ResourceKey.create(RockSettings.KEY, Helpers.identifier(rock.getSerializedName()));
-    }
-
-    private static RockSettings rockOf(Rock rock)
-    {
-        final var blocks = TFCBlocks.ROCK_BLOCKS.get(rock);
-        final var color = ROCK_TO_SAND_COLOR.get(rock);
-        final var karst = ROCK_SET_KARST.get(rock);
-        final var mafic = ROCK_SET_MAFIC.get(rock);
-        return new RockSettings(
-            blocks.get(BlockType.RAW).get(),
-            blocks.get(BlockType.HARDENED).get(),
-            blocks.get(BlockType.GRAVEL).get(),
-            blocks.get(BlockType.COBBLE).get(),
-            TFCBlocks.SAND.get(color).get(),
-            TFCBlocks.SANDSTONE.get(color).get(SandstoneBlockType.RAW).get(),
-            Optional.of(blocks.get(BlockType.SPIKE).get()),
-            Optional.of(blocks.get(BlockType.LOOSE).get()),
-            Optional.of(blocks.get(BlockType.MOSSY_LOOSE).get()),
-            Optional.of(karst),
-            Optional.of(mafic)
-        );
     }
 }
