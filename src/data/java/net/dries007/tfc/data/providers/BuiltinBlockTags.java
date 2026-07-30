@@ -321,23 +321,6 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
             );
         // Sword Efficient in vanilla is 'mines faster with sword', so we don't include anything extra in there,
         // since again, we typically want to refer to sharp tools instead
-        // Requires >= Black Steel
-        tag(Tags.Blocks.NEEDS_NETHERITE_TOOL)
-            .add(TFCBlocks.ORES, Ore.DIAMOND)
-            .add(TFCBlocks.ORES, Ore.RUBY)
-            .add(TFCBlocks.ORES, Ore.SAPPHIRE);
-        // Requires >= Steel
-        tag(BlockTags.NEEDS_DIAMOND_TOOL)
-            .add(TFCBlocks.ORES, Ore.AMETHYST)
-            .add(TFCBlocks.ORES, Ore.EMERALD)
-            .add(TFCBlocks.ORES, Ore.TOPAZ);
-        // Requires >=bronze
-        tag(BlockTags.NEEDS_IRON_TOOL)
-            .add2(pivot(TFCBlocks.GRADED_ORES, Ore.GARNIERITE))
-            .add(TFCBlocks.ORES, Ore.CINNABAR)
-            .add(TFCBlocks.ORES, Ore.CRYOLITE)
-            .add(TFCBlocks.ORES, Ore.LAPIS_LAZULI)
-            .add(TFCBlocks.ORES, Ore.OPAL);
         // Needs Stone Tool is ~ Copper, which is every TFC pickaxe, so we don't bother here
         // "Incorrect For Tool" includes the "Needs For Tool", so we don't touch, since we don't add levels
         tag(BlockTags.SNOW_LAYER_CANNOT_SURVIVE_ON).add(TFCBlocks.SEA_ICE, TFCBlocks.ICE_PILE).add(TFCBlocks.MAGMA_BLOCKS);
