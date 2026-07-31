@@ -11,7 +11,7 @@
       }
     ],
     "X": {
-      "item": "tfc:obsidian_knife_head"
+      "item": "tfc:obsidian_shovel_head"
     }
   },
   "pattern": [
@@ -20,6 +20,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "tfc:obsidian_knife"
+    "id": "tfc:obsidian_shovel"
   }
 }

@@ -347,8 +347,12 @@ public final class TFCCreativeTabs
                 accept(out, TFCItems.ROCK_TOOLS, category, type);
             }
         }
-        out.accept(TFCItems.OBSIDIAN_KNIFE);
+        out.accept(TFCItems.OBSIDIAN_AXE);
+        out.accept(TFCItems.OBSIDIAN_HAMMER);
+        out.accept(TFCItems.OBSIDIAN_HOE);
         out.accept(TFCItems.OBSIDIAN_JAVELIN);
+        out.accept(TFCItems.OBSIDIAN_KNIFE);
+        out.accept(TFCItems.OBSIDIAN_SHOVEL);
     }
 
     private static void fillFoodTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
