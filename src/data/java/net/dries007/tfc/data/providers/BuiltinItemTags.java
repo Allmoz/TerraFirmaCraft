@@ -704,7 +704,7 @@ public class BuiltinItemTags extends TagsProvider<Item> implements Accessors
         tag(PIT_KILN_LOGS).addTags(ItemTags.LOGS_THAT_BURN);
         tag(INEFFICIENT_LOGGING_AXES).add(TFCItems.ROCK_TOOLS, RockCategory.ItemType.AXE);
         tag(CAN_BE_LIT_ON_TORCH).addTag(Tags.Items.RODS_WOODEN);
-        tag(ROCK_KNAPPING).addTag(STONES_LOOSE);
+        tag(ROCK_KNAPPING).addTag(STONES_LOOSE).add(TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.OBSIDIAN_SHARD));
         tag(CLAY_KNAPPING).add(Items.CLAY_BALL);
         tag(FIRE_CLAY_KNAPPING).add(TFCItems.FIRE_CLAY);
         tag(LEATHER_KNAPPING).add(Items.LEATHER);
