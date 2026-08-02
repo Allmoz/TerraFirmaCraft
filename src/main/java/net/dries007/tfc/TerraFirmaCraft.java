@@ -243,7 +243,8 @@ public final class TerraFirmaCraft
         event.register(GlassOperation.REGISTRY);
     }
 
-    public void registerDatapackRegistries(DataPackRegistryEvent.NewRegistry event) {
+    public void registerDatapackRegistries(DataPackRegistryEvent.NewRegistry event)
+    {
         event.dataPackRegistry(RockSettings.KEY, RockSettings.CODEC);
     }
 

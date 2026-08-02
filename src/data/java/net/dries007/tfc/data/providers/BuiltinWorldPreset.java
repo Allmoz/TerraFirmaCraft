@@ -84,7 +84,8 @@ public final class BuiltinWorldPreset
     }
 
     // For tests
-    public static Settings defaultSettings() {
+    public static Settings defaultSettings()
+    {
         return defaultSettings(new HolderGetter<>()
         {
             final Map<ResourceKey<RockSettings>, Holder.Reference<RockSettings>> values = Arrays.stream(Rock.values())
@@ -199,7 +200,8 @@ public final class BuiltinWorldPreset
         return new LayerData(layerId, layers.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().getSerializedName(), Map.Entry::getValue)));
     }
 
-    public static ResourceKey<RockSettings> rockKey(Rock rock) {
+    public static ResourceKey<RockSettings> rockKey(Rock rock)
+    {
         return ResourceKey.create(RockSettings.KEY, Helpers.identifier(rock.getSerializedName()));
     }
 }
