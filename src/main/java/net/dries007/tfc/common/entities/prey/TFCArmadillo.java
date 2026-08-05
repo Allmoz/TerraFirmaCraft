@@ -229,7 +229,7 @@ public class TFCArmadillo extends Armadillo implements Temptable, Scareable
         tag.putBoolean("male", isMale());
         tag.putBoolean("baby", isBaby());
         tag.putLong("produced", getProducedTick());
-        tag.putInt("PredatorLostInterestTime", predatorLoseInterestTime);
+        tag.putInt("PredatorLoseInterestTime", predatorLoseInterestTime);
     }
 
     @Override
