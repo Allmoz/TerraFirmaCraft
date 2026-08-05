@@ -23,7 +23,6 @@
     "tfc:food/cooked_frog_legs",
     "tfc:food/cooked_gran_feline",
     "tfc:food/cooked_turtle",
-    "tfc:food/cooked_cod",
     "tfc:food/cooked_tropical_fish",
     "tfc:food/cooked_calamari",
     "tfc:food/cooked_shellfish",
@@ -34,6 +33,7 @@
     "tfc:food/cooked_rainbow_trout",
     "tfc:food/cooked_salmon",
     "tfc:food/cooked_smallmouth_bass",
-    "tfc:food/cooked_armadillo"
+    "tfc:food/cooked_armadillo",
+    "#c:foods/cooked_fish"
   ]
 }

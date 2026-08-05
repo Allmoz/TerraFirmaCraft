@@ -23,8 +23,6 @@
     "tfc:food/turtle",
     "tfc:food/camelidae",
     "tfc:food/frog_legs",
-    "tfc:food/cod",
-    "tfc:food/tropical_fish",
     "tfc:food/calamari",
     "tfc:food/shellfish",
     "tfc:food/bluegill",
@@ -34,6 +32,7 @@
     "tfc:food/rainbow_trout",
     "tfc:food/salmon",
     "tfc:food/smallmouth_bass",
-    "tfc:food/armadillo"
+    "tfc:food/armadillo",
+    "#c:foods/raw_fish"
   ]
 }
