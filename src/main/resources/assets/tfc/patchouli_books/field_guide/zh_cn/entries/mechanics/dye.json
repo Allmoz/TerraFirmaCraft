@@ -38,7 +38,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(item)黑色染料$()用于$(l:mechanics/scribing_table)命名台$()。$(li)$(item)红色染料$()用于$(l:mechanics/powderkegs)火药桶$()。$(li)未烧制的$(l:mechanics/decay#small_vessels)小缸$()和$(l:mechanics/decay#large_vessels)大缸$()可以染色。",
+      "text": "$(li)$(item)Black Dye$() is used for $(l:crafting/scribing_table)Scribing Tables$().$(li)$(item)Red Dye$() is used for $(l:mechanics/powderkegs)Powderkegs$(). $(li)Unfired $(l:food/decay#small_vessels)Small Vessels$() and $(l:food/decay#large_vessels)Large Vessels$() can be dyed$().",
       "title": "杂项"
     }
   ],

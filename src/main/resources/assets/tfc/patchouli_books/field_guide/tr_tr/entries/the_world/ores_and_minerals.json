@@ -684,7 +684,7 @@
       "item": "tfc:kaolin_clay",
       "title": "Kaolinit",
       "link_recipes": false,
-      "text": "Kaolinit, $(l:mechanics/fire_clay)Ateş Kili$() yapımında kullanılan yumuşak bir $(thing)Mineraldir$(). Platolar, Eski Dağlar, Engebeli Tepeler ve Yüksek Yaylalarda, en az 18°C $(l:the_world/climate#temperature)sıcaklık$() ve en az 300mm $(l:the_world/climate#rainfall)yağış$() değerlerine sahip yüksek rakımlı bölgelerde oluşur. $(thing)Kan Zambağı$() çiçeği Kaolin kili üzerinde yetişir."
+      "text": "Kaolinite is a soft $(thing)Mineral$() which is used in the construction of $(l:metalworking/fire_clay)Fire Clay$(). It can be found spawning at high altitudes in Plateaus, Old Mountains, Rolling Hills, and Highlands, at a $(l:core_mechanics/climate#temperature)temperature$() of at least 18°C, with a $(l:core_mechanics/climate#rainfall)rainfall$() of at least 300mm. The $(thing)Blood Lily$() flower grows on Kaolin clay."
     },
     {
       "type": "tfc:multimultiblock",
@@ -793,7 +793,7 @@
       "item": "tfc:ore/cinnabar",
       "title": "Zinober",
       "link_recipes": false,
-      "text": "Cinnabar is a $(thing)Mineral$() which can be ground in the $(l:mechanics/quern)Quern$() to obtain $(thing)Redstone Dust$(). It can be found in veins deep underground or high in mountains, in $(thing)Quartzite$(), $(thing)Granite$(), $(thing)Phyllite$(), and $(thing)Schist$()."
+      "text": "Cinnabar is a $(thing)Mineral$() which can be ground in the $(l:crafting/quern)Quern$() to obtain $(thing)Redstone Dust$(). It can be found in veins deep underground or high in mountains, in $(thing)Quartzite$(), $(thing)Granite$(), $(thing)Phyllite$(), and $(thing)Schist$()."
     },
     {
       "type": "patchouli:multiblock",
@@ -1090,7 +1090,7 @@
       "item": "tfc:ore/amethyst",
       "title": "Ametist",
       "link_recipes": false,
-      "text": "Amethyst is a decorative $(l:mechanics/gems)Gemstone$() which can be used to make $(l:mechanics/glassworking)Glass$(). It can be found in $(thing)Sedimentary$() and $(thing)Metamorphic$() rock beneath rivers above y=40, or in geodes below y=30."
+      "text": "Amethyst is a decorative $(l:mechanics/gems)Gemstone$() which can be used to make $(l:crafting/glassworking)Glass$(). It can be found in $(thing)Sedimentary$() and $(thing)Metamorphic$() rock beneath rivers above y=40, or in geodes below y=30."
     },
     {
       "type": "patchouli:multiblock",

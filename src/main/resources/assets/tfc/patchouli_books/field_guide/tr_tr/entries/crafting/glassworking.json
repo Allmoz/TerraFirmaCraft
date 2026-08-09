@@ -1,0 +1,81 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "Cam İşleme",
+  "category": "tfc:crafting",
+  "icon": "tfc:silica_glass_bottle",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Cam işleme, kumu cama dönüştürme sürecidir. Başlamak için dört türü bulunan bir $(thing)Cam Karışımı$() oluşturmalısınız:$(br)$(br) 1. $(thing)Silis$(), beyaz kumdan.$(br) 2. $(thing)Hematitik$(), sarı, kırmızı veya pembe kumdan.$(br) 3. $(thing)Olivin$(), yeşil veya kahverengi kumdan.$(br) 4. $(thing)Volkanik$(), siyah kumdan."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "tfc:crafting/silica_glass_batch",
+      "text": "Cam karışımları, yukarıda belirtilen kum renklerinden biri ile $(l:mechanics/glassworking#lime)Kireç$() ve bir tür $(l:mechanics/glassworking#potash)Potas$() kullanılarak üretilebilir."
+    },
+    {
+      "type": "tfc:heat_recipe",
+      "anchor": "lime",
+      "recipe": "tfc:heating/powder/lime",
+      "text": "$(thing)Kireç$(), cam karışımları yapmak için gereken malzemelerden biridir. $(l:mechanics/flux)Akı$() maddesinin $(l:mechanics/heating)ısıtılmasıyla$() elde edilen bir tozdur."
+    },
+    {
+      "type": "tfc:heat_recipe",
+      "anchor": "potash",
+      "recipe": "tfc:heating/powder/soda_ash_from_seaweed",
+      "text": "Cam karışımları için bir tür $(thing)Potas$() veya eşdeğeri de gereklidir. $(thing)Kurutulmuş Deniz Yosunu$() veya $(thing)Kelpin$() ısıtılmasıyla elde edilen bir toz olan $(thing)Soda Külü$() kullanılabilir. $(l:the_world/ores_and_minerals#saltpeter)Güherçile$() de kullanılabilir."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Glassworking is done by starting with a glass batch, and then completing a series of steps. These steps may require specific tools:$(br)$(li)A $(l:crafting/glassworking#blowpipe)Blowpipe$(), to $(thing)Blow$() and $(thing)Stretch$()$(li)A $(l:crafting/glassworking#paddle)Paddle$(), to $(thing)Flatten$()$(li)$(l:crafting/glassworking#jacks)Jacks$(), to $(thing)Pinch$()$(li)A $(l:crafting/glassworking#saw)Gem Saw$(), to $(thing)Saw$()",
+      "title": "Zanaatın Araçları"
+    },
+    {
+      "type": "tfc:knapping_recipe",
+      "anchor": "blowpipe",
+      "recipe": "tfc:knapping/ceramic/unfired_blowpipe",
+      "text": "En önemli araç $(thing)Üfleme Borusu$()'dur. Kilden $(thing)yontulabilir$() ve ardından pişirilerek $(thing)Seramik Üfleme Borusu$()'na dönüştürülebilir."
+    },
+    {
+      "type": "tfc:anvil_recipe",
+      "recipe": "tfc:anvil/blowpipe",
+      "text": "Seramik üfleme boruları kırılgandır ve kullanıldıklarında kırılma ihtimalleri vardır. Daha sağlam bir üfleme borusu, örs üzerinde $(thing)Pirinç Çubuk$()'dan $(l:mechanics/anvils#working)işlenebilir$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "paddle",
+      "recipe": "tfc:crafting/paddle",
+      "text": "$(thing)Düzleştirme$() işlemi, ahşaptan üretilen bir $(thing)Kürek$() ile yapılabilir."
+    },
+    {
+      "type": "tfc:welding_recipe",
+      "anchor": "jacks",
+      "recipe": "tfc:welding/jacks",
+      "text": "$(thing)Çimdikleme$() işlemi, iki pirinç çubuğun kaynaklanmasıyla yapılan $(thing)Kıskaçlar$() ile gerçekleştirilebilir."
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "saw",
+      "recipe": "tfc:crafting/gem_saw",
+      "text": "$(thing)Kesme$() işlemi bir $(thing)Mücevher Testeresi$() ile yapılabilir. Mücevher testeresi ayrıca hem $(thing)Cam Blokları$() hem de $(thing)Cam Panelleri$() kırmak ve onları elde etmek için kullanılır."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Öncelikle, üfleme borusundaki cam $(4)$(bold)Hafif Kırmızı$() renge kadar ısıtılmalıdır. Ardından, üfleme borusunu tutun ve her adımı gerçekleştirmek için $(item)$(k:key.use)$() tuşuna basılı tutun.$(br2)$(bold)Üfleme$()$(br)Tam karşıya bakarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Esnetme$()$(br)Tam aşağıya bakarken $(thing)Üfleme Borusu$()'nu kullanın.",
+      "title": "Cam İşleme Rehberi"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Flatten$()$(br)Use the $(thing)Blowpipe$() while holding a $(l:crafting/glassworking#paddle)Paddle$() in your offhand.$(br2)$(bold)Pinch$()$(br)Use the $(thing)Blowpipe$() while holding $(l:crafting/glassworking#jacks)Jacks$() in your offhand.$(br2)$(bold)Saw$()$(br)Use the $(thing)Blowpipe$() while holding a $(l:crafting/glassworking#saw)Gem Saw$() in your offhand.$(br2)$(bold)Roll$()$(br)Use the $(thing)Blowpipe$() with a $(l:crafting/weaving#wool_cloth)Wool Cloth$() in your offhand."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 5,
+  "extra_recipe_mappings": {
+    "tfc:powder/lime": 2,
+    "tfc:powder/soda_ash": 3,
+    "tfc:paddle": 7,
+    "tfc:jacks": 8,
+    "tfc:gem_saw": 9
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "Молочні продукти",
+  "category": "tfc:food",
+  "icon": "tfc:textures/item/food/cheese.png",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Dairy$() is a $(l:core_mechanics/food_and_water#nutrients)Nutrient$() obtained from the milk produced by $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). It can be drank, or processed into $(thing)Cheese$(). Drinking can be done out of a jug, and always restores $(l:core_mechanics/food_and_water#thirst)Thirst$(). However, it only adds to nutrition when drank after eating a food. Practically, this means that drinking milk twice in a row is ineffectual. A meal must precede it.",
+      "title": "Молочний продукт"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Щоб розпочати процес $(thing)приготування сиру$() треба додати до $(thing)молока$() трохи $(thing)оцету$(). Це треба робити у $(l:mechanics/barrels)діжці$(), у пропорції 9:1. Влий у діжку 9 відер молока, та додай одне відро оцту. Це є найлегшим варіантом отримання $(thing)молочного згустку$()."
+    },
+    {
+      "type": "tfc:sealed_barrel_recipe",
+      "recipe": "tfc:barrel/curdled_milk",
+      "text": "Після змішування молока та оцту воно згорнеться, якщо його закрити в діжці на вісім годин. Для цього не потрібні додаткові інгредієнти, лише час."
+    },
+    {
+      "type": "tfc:sealed_barrel_recipe",
+      "recipe": "tfc:barrel/food/cheese",
+      "text": "Для виготовлення сиру треба отриманий молочний згусток знову закрити у діжці на вісім годин. Сир є молочним продуктом тривалого зберігання, і його можна використовувати в деяких стравах, наприклад у $(l:mechanics/sandwiches)бутербродах$()."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 14,
+  "extra_recipe_mappings": {
+    "minecraft:milk_bucket": 0,
+    "tfc:food/cheese": 1
+  }
+}

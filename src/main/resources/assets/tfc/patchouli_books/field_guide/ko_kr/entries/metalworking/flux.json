@@ -1,0 +1,22 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "§l플럭스",
+  "category": "tfc:metalworking",
+  "icon": "tfc:powder/flux",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Flux is a powder which is required for $(l:metalworking/anvils#welding)Welding$() and also used as a catalyst in a $(l:metalworking/blast_furnace)Blast Furnace$(). Flux can be obtained by grinding specific items in a $(l:crafting/quern)Quern$().$(br2)Flux can be obtained in a number of ways, one of which is from its native ore, $(l:the_world/ores_and_minerals#borax)Borax$()."
+    },
+    {
+      "type": "tfc:quern_recipe",
+      "recipe": "tfc:quern/powder/flux",
+      "text": "$(thing)석회암$(), $(thing)백운암$(), $(thing)백악$(), $(thing)대리암$()을 $(l:mechanics/quern)맷돌$()로 갈아도 플럭스를 얻을 수 있습니다. $(thing)인갑$(), $(thing)조개$(), $(thing)달팽이$(), $(l:the_world/wild_animals#shellfish)가재$() 역시 플럭스 제작에 사용될 수 있습니다."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 1,
+  "extra_recipe_mappings": {
+    "tfc:powder/flux": 0
+  }
+}

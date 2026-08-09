@@ -684,7 +684,7 @@
       "item": "tfc:kaolin_clay",
       "title": "Каолинит",
       "link_recipes": false,
-      "text": "Каолинит — это мягкий $(thing)минерал$(), который используется в производстве $(l:mechanics/fire_clay)огнеупорной глины$(). Его можно найти на вершинах плато, в древних горах и на высокогорьях при $(l:the_world/climate#temperature)температуре$() выше 18°C и $(l:the_world/climate#rainfall)осадках$() более 300 мм. Цветок $(thing)кровавой лилии$() растет на каолиновой глине."
+      "text": "Kaolinite is a soft $(thing)Mineral$() which is used in the construction of $(l:metalworking/fire_clay)Fire Clay$(). It can be found spawning at high altitudes in Plateaus, Old Mountains, Rolling Hills, and Highlands, at a $(l:core_mechanics/climate#temperature)temperature$() of at least 18°C, with a $(l:core_mechanics/climate#rainfall)rainfall$() of at least 300mm. The $(thing)Blood Lily$() flower grows on Kaolin clay."
     },
     {
       "type": "tfc:multimultiblock",

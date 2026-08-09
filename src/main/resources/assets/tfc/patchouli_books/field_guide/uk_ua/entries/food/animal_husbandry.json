@@ -1,0 +1,321 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "Тваринництво",
+  "category": "tfc:food",
+  "icon": "minecraft:textures/item/egg.png",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Худоба$() - це тварини, яких гравець може приручати та розводити. Худоба має стать,  $(thing)чоловічу$() або $(thing)жіночу$(). У деяких тварин можна визначити стать візуально. Наприклад, у кабанів є ікла."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Худоба має свій $(thing)термін життя$(), та вік. Вони народжуються немовлятами, що поки не дають нічого корисного. Через певну кількість днів вони дорослішають до $(thing)зрілого$() віку, та будуть здатні до розмноження та виробництва продукції - молока, вовни, шкіри, тощо. Тварини згодом втрачають здатність розмножуватись, бо вони $(thing)старіють$(), та можуть дати тобі лиш м'ясо."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/tutorial/old_cow.png"
+      ],
+      "text": "Цей бик старий і не може розмножуватися. Він має вицвіле хутро та сірі потьмянілі очі",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Худобу треба годувати для $(thing)приручення$(). Для кожної тварини є продукти, які вона вважає за найкращі. Щоб погодувати тварину, натисни $(item)$(k:key.sneak)$() та $(item)$(k:key.use)$() з їжею в руках."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/tutorial/unfamiliarized_pig.png"
+      ],
+      "text": "У худоби є $(thing)індикатор причучення$(). Утримуй $(item)$(k:key.sneak)$() та дивись на тварину, щоб його побачити.",
+      "border": true
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/tutorial/no_familiarity_decay_pig.png"
+      ],
+      "text": "Приручення потруху зникає, коли худобу не годувати. Підвищення рівня запобігає занепаду, що зазначено білим окресленим серцем.",
+      "border": true
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/tutorial/familiarity_limit_pig.png"
+      ],
+      "text": "Дорослу худобу неможливо повністю приручити, на що вказує серце з червоним контуром. Але ж їхній виводок може досягти 100% прирученості.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "mammals",
+      "text": "$(thing)Ссавці$() - це худоба, яка переживає $(thing)вагітність$(). Дорослі ссавці, рівень приручення яких перевищує 30%, та яких годували того дня, спаровуються. Спаровування буде здійснено у тому випадку, коли тварини протилежних статей і знаходяться поруч один з одним. Самка $(thing)завагітніє$(), та, через певну кількість днів, приведе приплід.$(br)Прикладом є $(l:mechanics/animal_husbandry#pig)свині$()."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "wooly_animals",
+      "text": "$(thing)Wooly Animals$() are $(l:food/animal_husbandry#mammals)Mammals$() that can be $(thing)Sheared$() if they are adults and familiar enough to you. Some examples are $(l:food/animal_husbandry#sheep)Sheep$(), $(l:food/animal_husbandry#alpaca)Alpacas$(), and $(l:food/animal_husbandry#musk_ox)Musk Oxen$()."
+    },
+    {
+      "type": "tfc:welding_recipe",
+      "recipe": "tfc:welding/metal/shears/bronze",
+      "text": "Shears can be made by $(l:metalworking/anvils#welding)welding$() two $(thing)knife blades$() together. Whichever knife blade has the lowest forging bonus will transfer that bonus (if any) to the shears."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "dairy_animals",
+      "text": "$(thing)Dairy Animals$() are mammals that make $(thing)Milk$(). Female dairy animals can be clicked with a bucket to obtain milk. Some examples are $(l:food/animal_husbandry#goat)Goats$(), $(l:food/animal_husbandry#cow)Cows$(), and $(l:food/animal_husbandry#yak)Yaks$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "oviparous_animals",
+      "recipe": "tfc:crafting/nest_box",
+      "title": "Гніздо",
+      "text": "$(thing)Oviparous Animals$() are not $(l:food/animal_husbandry#mammals)Mammals$(), and instead produce children by laying $(thing)Eggs$(). They need a $(thing)Nest Box$() to lay eggs, which they are capable of locating on their own.$(br)Some examples are $(l:food/animal_husbandry#duck)Ducks$(), $(l:food/animal_husbandry#quail)Quails$(), and $(l:food/animal_husbandry#chicken)Chickens$()."
+    },
+    {
+      "type": "tfc:heat_recipe",
+      "recipe": "tfc:heating/food/cooked_egg",
+      "text": "$(thing)Яйця$() можна варити або смажити для їжі. Самці яйцекладних тварин можуть запліднювати самок, що призводить до запліднення наступного яйця, відкладеного в гніздовий ящик. Запліднені яйця матимуть підказку про те, скільки часу вони будуть готові до вилуплення."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Equines$() are $(l:food/animal_husbandry#mammals)Mammals$() that can be ridden when tamed. They become rideable after reaching 15% familiarity. Horses pass on their $(thing)genetic traits$(), including their speed, jump height, health, size, and markings. The product of a horse and a donkey is a $(thing)mule$()."
+    },
+    {
+      "type": "tfc:knapping_recipe",
+      "anchor": "horses",
+      "recipe": "tfc:knapping/saddle",
+      "text": "Saddles may be knapped from leather."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "They need a $(thing)Saddle$() to ride, which can be $(thing)Knapped$(). This includes $(l:food/animal_husbandry#mule)Mules$(), $(l:food/animal_husbandry#donkey)Donkeys$(), and $(l:food/animal_husbandry#horses)Horses$(). Mules and Donkeys can hold any chest or barrel. If holding a barrel, $(item)$(k:key.use)$() while holding $(item)$(k:key.sneak)$() can be used to remove it. The same keys while holding a bucket can be used to drain fluid from the barrel. $(br2)The next few pages will go over all livestock types."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "pig",
+      "text": "$(thing)Pigs$() spawn in mild forests with $(l:core_mechanics/climate#temperature)temperature$() between -10 and 35°C, and at least 200mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#mammals)Mammals$() with no special abilities. They will eat any food, even if it is rotten. They have 1-10 children, are pregnant for just 19 days, and reach adulthood in 80 days. They can have children 6 times.",
+      "title": "Свині"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:pig{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "Свині"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "rabbit",
+      "text": "$(thing)Rabbits$() spawn in $(l:core_mechanics/climate#temperature)temperatures$() above -16°C, and at least 15mm of $(l:core_mechanics/climate#rainfall)rainfall$(), changing their coat based on climate. They are $(l:food/animal_husbandry#mammals)Mammals$() with no special abilities, aside from being known for chewing on carrots and cabbage. They will eat any food, even if it is rotten. They have 1-6 children, are pregnant for just 19 days, and reach adulthood in 20 days. They can have children 6 times.",
+      "title": "Rabbits"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:rabbit{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "A rabbit."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "cow",
+      "text": "$(thing)Cows$() spawn in most climates, between $(l:core_mechanics/climate#temperature)temperature$() -10 and 35°C, and at least 250mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). They only eat $(thing)grains$(), which may be rotten. They can have 1-2 children, are pregnant for 58 days, and reach adulthood in 192 days. They can have children 13 times, if they are never milked, or be milked 128 times, if they are never bred. They produce milk every day.",
+      "title": "Корови"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:cow{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "Корова"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "goat",
+      "text": "$(thing)Goats$() spawn in moderate climates, with $(l:core_mechanics/climate#temperature)temperature$() between -12 and 25°C, and at least 300mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). They eat $(thing)grains$(), $(thing)fruits$(), and $(thing)vegetables$(), which may be rotten. They can have 1-2 children, are pregnant for 32 days, and reach adulthood in 96 days. They can have children 6 times if they are never milked, or be milked 60 times if they are never bred. They produce milk every 3 days.",
+      "title": "Кози"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:goat{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "Коза"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "yak",
+      "text": "$(thing)Yaks$() spawn in cold climates, with $(l:core_mechanics/climate#temperature)temperature$() of at most -11°C, and at least 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). They eat only fresh $(thing)grains$(). They always have 1 child, are pregnant for 64 days, and reach adulthood in 180 days. They can have children 23 times, if they are never milked, or be milked 230 times, if they are never bred. They produce milk once a day.",
+      "title": "Як"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:yak{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "Як"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "alpaca",
+      "text": "$(thing)Alpacas$() spawn in moderate climates, with $(l:core_mechanics/climate#temperature)temperature$() between -8 and 20°C, and at least 250mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#wooly_animals)Wooly Animals$(). They eat $(thing)grains$() and $(thing)fruits$(). They have 1-2 children, are pregnant for 36 days, and reach adulthood in 98 days. They can have children 13 times, if they are never sheared, or be sheared 128 times, if they are never bred. They grow wool every 4 days.",
+      "title": "Альпака"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:alpaca{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "Альпака"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "sheep",
+      "text": "$(thing)Sheep$() spawn in drier climates, with $(l:core_mechanics/climate#temperature)temperature$() between 0 and 35°C, and between 70 and 300mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#wooly_animals)Wooly Animals$(). They eat $(thing)grains$(). They have 1-2 children, are pregnant for 32 days, and reach adulthood in 56 days. They can have children 6 times, if they are never sheared, or be sheared 60 times, if they are never bred. They grow wool every 3 days.",
+      "title": "Вівця"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:sheep{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "Вівця"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "musk_ox",
+      "text": "$(thing)Musk Oxen$() spawn in cold climates, with $(l:core_mechanics/climate#temperature)temperature$() between -25 and 0°C, and at least 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#wooly_animals)Wooly Animals$(). They eat $(thing)grains$(). They always have 1 child, are pregnant for 64 days, and reach adulthood in 168 days. They can have children 16 times, if they are never sheared, or be sheared 160 times if they are never bred. They grow wool every 3 days.",
+      "title": "Вівцебик"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:musk_ox{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "Вівцебик"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "bactrian_camel",
+      "text": "$(thing)Bactrian Camels$() spawn in cold deserts, with $(l:core_mechanics/climate#temperature)temperature$() of at most -5°C, and at most 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#wooly_animals)Wooly Animals$() and can be ridden. They are slower than horses, but faster on sand and snow. They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 24 days, and become adults in 80 days. They can have children 8 times if they are never sheared, or be sheared 80 times if they are never bred. They grow wool every 7 days.",
+      "title": "Bactrian Camel"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:bactrian_camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "A bactrian camel."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "chicken",
+      "text": "$(thing)Chickens$() spawn in warm forests, with $(l:core_mechanics/climate#temperature)temperature$() of at least 14°C, and at least 225mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#oviparous_animals)Oviparous Animals$(). They eat $(thing)grains$(), $(thing)fruits$(), $(thing)vegetables$(), and $(thing)seeds$(), which can be rotten. Their eggs hatch in 8 days, and become adults in 24 days. They can lay eggs 100 times. They produce eggs every 30 hours.",
+      "title": "Кури"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:chicken{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.7,
+      "name": " ",
+      "text": "Курка"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "duck",
+      "text": "$(thing)Ducks$() spawn in most plains, with $(l:core_mechanics/climate#temperature)temperature$() between -25 and 30°C, and at least 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#oviparous_animals)Oviparous Animals$(). They eat $(thing)grains$(), $(thing)fruits$(), $(thing)vegetables$(), $(thing)bread$(), and $(thing)seeds$(). Their eggs hatch in 8 days, and become adults in 32 days. They can lay eggs 72 times. They produce eggs every 32 hours.",
+      "title": "Качки"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:duck{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.7,
+      "name": " ",
+      "text": "Качка"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "quail",
+      "text": "$(thing)Quails$() spawn in colder climates, with $(l:core_mechanics/climate#temperature)temperature$() between -15 and 15°C, and at least 200mm of  $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#oviparous_animals)Oviparous Animals$(). They eat $(thing)grains$(), $(thing)fruits$(), $(thing)vegetables$(), and $(thing)seeds$(), which can be rotten. Their eggs hatch in 8 days, and become adults in 22 days. They can lay eggs 48 times. They produce eggs every 28 hours.",
+      "title": "Перепілка"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:quail{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.7,
+      "name": " ",
+      "text": "Перепілка"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "donkey",
+      "text": "$(thing)Donkeys$() spawn in wetter plains, with $(l:core_mechanics/climate#temperature)temperature$() of at least -15°C, and between 130 and 400mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are a kind of $(l:food/animal_husbandry#horses)Equine$() that can carry a $(thing)chest$(). They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 19 days, and reach adulthood in 80 days. They can have children 6 times.",
+      "title": "Віслюки"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:donkey{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "Віслюк"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "mule",
+      "text": "$(thing)Mules$() spawn in plains with $(l:core_mechanics/climate#temperature)temperature$() of at least -15°C, and between 130 and 400mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are a kind of $(l:food/animal_husbandry#horses)Equine$() that can carry a $(thing)chest$() and are the sterile product of a $(thing)horse$() and a $()donkey$(). They eat $(thing)grains$() and $(thing)fruits$(). They reach adulthood in 80 days.",
+      "title": "Мули"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:mule{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "Мул"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "horse",
+      "text": "$(thing)Horses$() spawn in plains with $(l:core_mechanics/climate#temperature)temperature$() of at least -15°C, and between 130 and 400mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are a kind of $(l:food/animal_husbandry#horses)Equine$(). They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 19 days, and reach adulthood in 80 days. They can have children 6 times.",
+      "title": "Коні"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:horse{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "Кінь"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "dromedary_camel",
+      "text": "$(thing)Dromedary Camels$() spawn in drier climates, with $(l:core_mechanics/climate#temperature)temperature$() of at least -5°C, and at most 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#mammals)Mammals$() that can be ridden. They are slower than horses, but are immune to cacti and run fast on sand. They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 19 days, and reach adulthood in 80 days. They can have children 6 times.",
+      "title": "Dromedary Camels"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:dromedary_camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "A dromedary camel."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "frog",
+      "text": "$(thing)Frogs$() spawn in $(l:core_mechanics/climate#temperature)temperatures$() above -13°C, and at least 150mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They can be familiarized, and when bred they will lay eggs in fresh water, which hatch into tadpoles. They will eat fish and spider eyes. ",
+      "title": "Frogs"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:frog{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "A frog."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 0
+}

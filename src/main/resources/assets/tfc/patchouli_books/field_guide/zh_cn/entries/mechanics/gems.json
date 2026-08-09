@@ -16,7 +16,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "通过$(l:mechanics/sluices)洗矿$()和$(l:mechanics/panning)淘金$()可以获得$(thing)未切割的宝石$()。洗矿槽可能获得的宝石种类取决于所用的原材料的岩石种类。"
+      "text": "Through $(l:metalworking/sluices)Sluicing$() and $(l:getting_started/panning)Panning$(), $(thing)Uncut Gems$() can be obtained. The gem that can be obtained with the sluice is tied to the rock type of the deposit being processed."
     },
     {
       "type": "patchouli:text",

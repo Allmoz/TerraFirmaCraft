@@ -357,7 +357,7 @@
     }
   ],
   "read_by_default": true,
-  "sortnum": 3,
+  "sortnum": 2,
   "extra_recipe_mappings": {
     "tfc:flower_cutting": 1
   }

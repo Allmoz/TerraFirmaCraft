@@ -214,7 +214,7 @@
     }
   ],
   "read_by_default": true,
-  "sortnum": 6,
+  "sortnum": 7,
   "extra_recipe_mappings": {
     "tfc:rock/anvil/granite": 0,
     "tfc:rock/anvil/diorite": 0,

@@ -1,0 +1,321 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "畜牧业",
+  "category": "tfc:food",
+  "icon": "minecraft:textures/item/egg.png",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)牲畜$()是可以被玩家驯服和饲养的动物。牲畜可以是$(thing)公的$()或$(thing)母的$()。某些动物会有$(thing)两性异形$()的现象。例如，只有公猪会有獠牙。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "牲畜会逐渐$(thing)衰老$()。刚出生的幼崽不会产出资源，也不能繁殖。一段时间之后它们才会$(thing)成年$()。成年的牲畜可以提供蛋、奶等资源，也可以繁殖出新的幼崽。当繁殖或产出资源多次之后，牲畜有可能会衰老。衰老的动物只能作为肉用。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/tutorial/old_cow.png"
+      ],
+      "text": "这只牛太老了，不能繁殖。可以从它灰白的毛色和模糊的眼睛中看出。",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "text": "喂养牲畜可以提升与之的$(thing)亲密度$()。每种动物都有其喜爱的食物。手持食物对准牲畜按住$(item)$(k:key.sneak)$()的同时按$(item)$(k:key.use)$()就可以喂养了。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/tutorial/unfamiliarized_pig.png"
+      ],
+      "text": "按住$(item)$(k:key.sneak)$()并看着牲畜时会在头上显示其$(thing)亲密度$()。",
+      "border": true
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/tutorial/no_familiarity_decay_pig.png"
+      ],
+      "text": "如果不喂食，亲密度每天都会减少一点。但如果亲密度高到一定程度（出现一个白色轮廓的心），亲密度就不会因此减少了。",
+      "border": true
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/tutorial/familiarity_limit_pig.png"
+      ],
+      "text": "成年牲畜无法达到 100% 的亲密度（出现红色轮廓的心），只有幼年牲畜可能达到 100% 的亲密度。",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "mammals",
+      "text": "$(thing)哺乳动物$()是通过怀孕繁殖的牲畜。喂食一对亲密度超过 30% 的成年哺乳动物就会让它们开始……你懂的。之后雌性动物将会$(thing)怀孕$()。怀孕的动物会在几个月至一年之内产子。$(br)比如，$(l:mechanics/animal_husbandry#pig)猪$()就是哺乳动物。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "wooly_animals",
+      "text": "$(thing)Wooly Animals$() are $(l:food/animal_husbandry#mammals)Mammals$() that can be $(thing)Sheared$() if they are adults and familiar enough to you. Some examples are $(l:food/animal_husbandry#sheep)Sheep$(), $(l:food/animal_husbandry#alpaca)Alpacas$(), and $(l:food/animal_husbandry#musk_ox)Musk Oxen$()."
+    },
+    {
+      "type": "tfc:welding_recipe",
+      "recipe": "tfc:welding/metal/shears/bronze",
+      "text": "剪刀可以通过将两片$(thing)刀刃$()$(l:mechanics/anvils#welding)焊接$()在一起制成。其中锻造评价较低的刀刃会将其评价（如果有）转移到剪刀上。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "dairy_animals",
+      "text": "$(thing)Dairy Animals$() are mammals that make $(thing)Milk$(). Female dairy animals can be clicked with a bucket to obtain milk. Some examples are $(l:food/animal_husbandry#goat)Goats$(), $(l:food/animal_husbandry#cow)Cows$(), and $(l:food/animal_husbandry#yak)Yaks$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "oviparous_animals",
+      "recipe": "tfc:crafting/nest_box",
+      "title": "巢箱",
+      "text": "$(thing)Oviparous Animals$() are not $(l:food/animal_husbandry#mammals)Mammals$(), and instead produce children by laying $(thing)Eggs$(). They need a $(thing)Nest Box$() to lay eggs, which they are capable of locating on their own.$(br)Some examples are $(l:food/animal_husbandry#duck)Ducks$(), $(l:food/animal_husbandry#quail)Quails$(), and $(l:food/animal_husbandry#chicken)Chickens$()."
+    },
+    {
+      "type": "tfc:heat_recipe",
+      "recipe": "tfc:heating/food/cooked_egg",
+      "text": "$(thing)蛋$()可以煎来吃或煮来吃。雄性动物可以让雌性受精，使其产下的下一枚卵变为受精卵。受精卵会在其工具提示里显示它们还需要多久才能孵化。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)马科动物$()是$(l:mechanics/animal_husbandry#mammals)哺乳动物$()，驯服后可以骑乘。当亲密度达到 15% 后即可骑乘。马会遗传它们的$(thing)遗传特性$()，包括速度、跳跃高度、生命值、体型和花纹。马和驴的后代是$(thing)骡子$()。"
+    },
+    {
+      "type": "tfc:knapping_recipe",
+      "anchor": "horses",
+      "recipe": "tfc:knapping/saddle",
+      "text": "鞍可以用皮革塑形制作。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "They need a $(thing)Saddle$() to ride, which can be $(thing)Knapped$(). This includes $(l:food/animal_husbandry#mule)Mules$(), $(l:food/animal_husbandry#donkey)Donkeys$(), and $(l:food/animal_husbandry#horses)Horses$(). Mules and Donkeys can hold any chest or barrel. If holding a barrel, $(item)$(k:key.use)$() while holding $(item)$(k:key.sneak)$() can be used to remove it. The same keys while holding a bucket can be used to drain fluid from the barrel. $(br2)The next few pages will go over all livestock types."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "pig",
+      "text": "$(thing)Pigs$() spawn in mild forests with $(l:core_mechanics/climate#temperature)temperature$() between -10 and 35°C, and at least 200mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#mammals)Mammals$() with no special abilities. They will eat any food, even if it is rotten. They have 1-10 children, are pregnant for just 19 days, and reach adulthood in 80 days. They can have children 6 times.",
+      "title": "猪"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:pig{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "猪。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "rabbit",
+      "text": "$(thing)Rabbits$() spawn in $(l:core_mechanics/climate#temperature)temperatures$() above -16°C, and at least 15mm of $(l:core_mechanics/climate#rainfall)rainfall$(), changing their coat based on climate. They are $(l:food/animal_husbandry#mammals)Mammals$() with no special abilities, aside from being known for chewing on carrots and cabbage. They will eat any food, even if it is rotten. They have 1-6 children, are pregnant for just 19 days, and reach adulthood in 20 days. They can have children 6 times.",
+      "title": "兔子"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:rabbit{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "兔子。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "cow",
+      "text": "$(thing)Cows$() spawn in most climates, between $(l:core_mechanics/climate#temperature)temperature$() -10 and 35°C, and at least 250mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). They only eat $(thing)grains$(), which may be rotten. They can have 1-2 children, are pregnant for 58 days, and reach adulthood in 192 days. They can have children 13 times, if they are never milked, or be milked 128 times, if they are never bred. They produce milk every day.",
+      "title": "牛"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:cow{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "牛。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "goat",
+      "text": "$(thing)Goats$() spawn in moderate climates, with $(l:core_mechanics/climate#temperature)temperature$() between -12 and 25°C, and at least 300mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). They eat $(thing)grains$(), $(thing)fruits$(), and $(thing)vegetables$(), which may be rotten. They can have 1-2 children, are pregnant for 32 days, and reach adulthood in 96 days. They can have children 6 times if they are never milked, or be milked 60 times if they are never bred. They produce milk every 3 days.",
+      "title": "山羊"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:goat{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "山羊。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "yak",
+      "text": "$(thing)Yaks$() spawn in cold climates, with $(l:core_mechanics/climate#temperature)temperature$() of at most -11°C, and at least 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). They eat only fresh $(thing)grains$(). They always have 1 child, are pregnant for 64 days, and reach adulthood in 180 days. They can have children 23 times, if they are never milked, or be milked 230 times, if they are never bred. They produce milk once a day.",
+      "title": "牦牛"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:yak{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "牦牛。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "alpaca",
+      "text": "$(thing)Alpacas$() spawn in moderate climates, with $(l:core_mechanics/climate#temperature)temperature$() between -8 and 20°C, and at least 250mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#wooly_animals)Wooly Animals$(). They eat $(thing)grains$() and $(thing)fruits$(). They have 1-2 children, are pregnant for 36 days, and reach adulthood in 98 days. They can have children 13 times, if they are never sheared, or be sheared 128 times, if they are never bred. They grow wool every 4 days.",
+      "title": "羊驼"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:alpaca{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "羊驼。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "sheep",
+      "text": "$(thing)Sheep$() spawn in drier climates, with $(l:core_mechanics/climate#temperature)temperature$() between 0 and 35°C, and between 70 and 300mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#wooly_animals)Wooly Animals$(). They eat $(thing)grains$(). They have 1-2 children, are pregnant for 32 days, and reach adulthood in 56 days. They can have children 6 times, if they are never sheared, or be sheared 60 times, if they are never bred. They grow wool every 3 days.",
+      "title": "绵羊"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:sheep{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "绵羊。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "musk_ox",
+      "text": "$(thing)Musk Oxen$() spawn in cold climates, with $(l:core_mechanics/climate#temperature)temperature$() between -25 and 0°C, and at least 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#wooly_animals)Wooly Animals$(). They eat $(thing)grains$(). They always have 1 child, are pregnant for 64 days, and reach adulthood in 168 days. They can have children 16 times, if they are never sheared, or be sheared 160 times if they are never bred. They grow wool every 3 days.",
+      "title": "麝牛"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:musk_ox{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "麝牛。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "bactrian_camel",
+      "text": "$(thing)Bactrian Camels$() spawn in cold deserts, with $(l:core_mechanics/climate#temperature)temperature$() of at most -5°C, and at most 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#wooly_animals)Wooly Animals$() and can be ridden. They are slower than horses, but faster on sand and snow. They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 24 days, and become adults in 80 days. They can have children 8 times if they are never sheared, or be sheared 80 times if they are never bred. They grow wool every 7 days.",
+      "title": "双峰驼"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:bactrian_camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "双峰驼。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "chicken",
+      "text": "$(thing)Chickens$() spawn in warm forests, with $(l:core_mechanics/climate#temperature)temperature$() of at least 14°C, and at least 225mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#oviparous_animals)Oviparous Animals$(). They eat $(thing)grains$(), $(thing)fruits$(), $(thing)vegetables$(), and $(thing)seeds$(), which can be rotten. Their eggs hatch in 8 days, and become adults in 24 days. They can lay eggs 100 times. They produce eggs every 30 hours.",
+      "title": "鸡"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:chicken{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.7,
+      "name": " ",
+      "text": "鸡。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "duck",
+      "text": "$(thing)Ducks$() spawn in most plains, with $(l:core_mechanics/climate#temperature)temperature$() between -25 and 30°C, and at least 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#oviparous_animals)Oviparous Animals$(). They eat $(thing)grains$(), $(thing)fruits$(), $(thing)vegetables$(), $(thing)bread$(), and $(thing)seeds$(). Their eggs hatch in 8 days, and become adults in 32 days. They can lay eggs 72 times. They produce eggs every 32 hours.",
+      "title": "鸭"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:duck{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.7,
+      "name": " ",
+      "text": "鸭。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "quail",
+      "text": "$(thing)Quails$() spawn in colder climates, with $(l:core_mechanics/climate#temperature)temperature$() between -15 and 15°C, and at least 200mm of  $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#oviparous_animals)Oviparous Animals$(). They eat $(thing)grains$(), $(thing)fruits$(), $(thing)vegetables$(), and $(thing)seeds$(), which can be rotten. Their eggs hatch in 8 days, and become adults in 22 days. They can lay eggs 48 times. They produce eggs every 28 hours.",
+      "title": "鹌鹑"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:quail{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.7,
+      "name": " ",
+      "text": "鹌鹑。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "donkey",
+      "text": "$(thing)Donkeys$() spawn in wetter plains, with $(l:core_mechanics/climate#temperature)temperature$() of at least -15°C, and between 130 and 400mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are a kind of $(l:food/animal_husbandry#horses)Equine$() that can carry a $(thing)chest$(). They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 19 days, and reach adulthood in 80 days. They can have children 6 times.",
+      "title": "驴"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:donkey{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "驴。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "mule",
+      "text": "$(thing)Mules$() spawn in plains with $(l:core_mechanics/climate#temperature)temperature$() of at least -15°C, and between 130 and 400mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are a kind of $(l:food/animal_husbandry#horses)Equine$() that can carry a $(thing)chest$() and are the sterile product of a $(thing)horse$() and a $()donkey$(). They eat $(thing)grains$() and $(thing)fruits$(). They reach adulthood in 80 days.",
+      "title": "骡子"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:mule{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "骡子。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "horse",
+      "text": "$(thing)Horses$() spawn in plains with $(l:core_mechanics/climate#temperature)temperature$() of at least -15°C, and between 130 and 400mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are a kind of $(l:food/animal_husbandry#horses)Equine$(). They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 19 days, and reach adulthood in 80 days. They can have children 6 times.",
+      "title": "马"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:horse{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.6,
+      "name": " ",
+      "text": "马。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "dromedary_camel",
+      "text": "$(thing)Dromedary Camels$() spawn in drier climates, with $(l:core_mechanics/climate#temperature)temperature$() of at least -5°C, and at most 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#mammals)Mammals$() that can be ridden. They are slower than horses, but are immune to cacti and run fast on sand. They eat $(thing)grains$() and $(thing)fruits$(). They have 1 child, are pregnant for 19 days, and reach adulthood in 80 days. They can have children 6 times.",
+      "title": "单峰驼"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:dromedary_camel{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.75,
+      "name": " ",
+      "text": "单峰驼。"
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "frog",
+      "text": "$(thing)Frogs$() spawn in $(l:core_mechanics/climate#temperature)temperatures$() above -13°C, and at least 150mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They can be familiarized, and when bred they will lay eggs in fresh water, which hatch into tadpoles. They will eat fish and spider eyes. ",
+      "title": "青蛙"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "tfc:frog{NoAI:1b,birth:-100000000L,oldDay:9223372036854775807L,geneticSize:16}",
+      "scale": 0.8,
+      "name": " ",
+      "text": "青蛙。"
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 0
+}

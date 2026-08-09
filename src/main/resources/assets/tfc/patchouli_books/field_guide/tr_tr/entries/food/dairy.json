@@ -1,0 +1,33 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "Süt Ürünleri",
+  "category": "tfc:food",
+  "icon": "tfc:textures/item/food/cheese.png",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Dairy$() is a $(l:core_mechanics/food_and_water#nutrients)Nutrient$() obtained from the milk produced by $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). It can be drank, or processed into $(thing)Cheese$(). Drinking can be done out of a jug, and always restores $(l:core_mechanics/food_and_water#thirst)Thirst$(). However, it only adds to nutrition when drank after eating a food. Practically, this means that drinking milk twice in a row is ineffectual. A meal must precede it.",
+      "title": "Süt Ürünleri"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Peynir yapımı$() sürecini başlatmak için, bir $(l:mechanics/barrels)Fıçıya$() 9:1 oranında $(thing)Süt$() ve $(thing)Sirke$() ekleyin. Bunu yapmanın en kolay yolu, bir fıçıya 9 kova süt doldurup üzerine tek bir kova sirke eklemektir. Bu, $(thing)Süt Sirkesi$() üretir."
+    },
+    {
+      "type": "tfc:sealed_barrel_recipe",
+      "recipe": "tfc:barrel/curdled_milk",
+      "text": "Süt ve sirke karıştırıldıktan sonra, bir fıçı içinde on iki saat boyunca mühürlenirse kesilecektir. Bu, zaman dışında başka hiçbir ek malzeme gerektirmez."
+    },
+    {
+      "type": "tfc:sealed_barrel_recipe",
+      "recipe": "tfc:barrel/food/cheese",
+      "text": "Peynir, kesilmiş sütün tekrar bir fıçı içinde 24 saat boyunca mühürlenmesiyle yapılır. Peynir uzun ömürlü bir süt ürünüdür ve $(l:mechanics/sandwiches)Sandviçler$() gibi bazı öğünlere süt ürünü eklemek için kullanılabilir."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 14,
+  "extra_recipe_mappings": {
+    "minecraft:milk_bucket": 0,
+    "tfc:food/cheese": 1
+  }
+}

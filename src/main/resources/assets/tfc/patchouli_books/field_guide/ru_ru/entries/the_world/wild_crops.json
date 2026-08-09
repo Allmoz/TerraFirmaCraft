@@ -24,7 +24,7 @@
         }
       },
       "name": "Дикая пшеница",
-      "text": "Пример дикой культуры, в данном случае это $(l:mechanics/crops#wheat)пшеница$().",
+      "text": "An example of a wild crop, in this case $(l:food/crops#wheat)Wheat$().",
       "enable_visualize": false
     },
     {
@@ -682,7 +682,7 @@
     }
   ],
   "read_by_default": true,
-  "sortnum": 4,
+  "sortnum": 3,
   "extra_recipe_mappings": {
     "tag:tfc:wild_crops": 0
   }

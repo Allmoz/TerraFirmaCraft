@@ -1,0 +1,33 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "Молочные продукты",
+  "category": "tfc:food",
+  "icon": "tfc:textures/item/food/cheese.png",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Dairy$() is a $(l:core_mechanics/food_and_water#nutrients)Nutrient$() obtained from the milk produced by $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). It can be drank, or processed into $(thing)Cheese$(). Drinking can be done out of a jug, and always restores $(l:core_mechanics/food_and_water#thirst)Thirst$(). However, it only adds to nutrition when drank after eating a food. Practically, this means that drinking milk twice in a row is ineffectual. A meal must precede it.",
+      "title": "Молочные продукты"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Чтобы начать процесс $(thing)сыроварения$(), добавьте $(thing)молоко$() и $(thing)уксус$() в $(l:mechanics/barrels)бочку$() в соотношении 9:1. Это проще всего сделать, наполнив бочку 9 ведрами молока и добавив одно ведро уксуса. Скисшее молко нужно запечатать в бочке на восемь часов."
+    },
+    {
+      "type": "tfc:sealed_barrel_recipe",
+      "recipe": "tfc:barrel/curdled_milk",
+      "text": "Свернувшееся молоко нужно снова запечатать в бочке на шесть часов."
+    },
+    {
+      "type": "tfc:sealed_barrel_recipe",
+      "recipe": "tfc:barrel/food/cheese",
+      "text": "Сыр получается после третьего запечатывания в бочке на шесть часов. Сыр — это долговечный молочный продукт, который можно использовать в некоторых блюдах, таких как $(l:mechanics/sandwiches)бутерброды$()."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 14,
+  "extra_recipe_mappings": {
+    "minecraft:milk_bucket": 0,
+    "tfc:food/cheese": 1
+  }
+}

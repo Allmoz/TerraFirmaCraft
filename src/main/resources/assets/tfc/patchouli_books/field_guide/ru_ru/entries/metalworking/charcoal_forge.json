@@ -1,0 +1,68 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "Угольная кузница",
+  "category": "tfc:metalworking",
+  "icon": "tfc:textures/block/molten_lit.png",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(thing)Charcoal Forge$() is a device used to $(l:core_mechanics/heating)heat$() and melt items. Forges are necessary to make a $(l:metalworking/crucible)crucible$() work. They are typically used to heat items to prepare them for smithing on an $(l:metalworking/anvils)anvil$(). $(br)It is constructed with 5 $(thing)stone$() blocks surrounding a $(l:metalworking/charcoal_pit#charcoal_pile)charcoal pile$() of 7 or 8 layers which is then lit."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "multiblock_id": "tfc:charcoal_forge",
+      "name": "Угольная кузница",
+      "text": "Полностью готовая кузница, готовая к зажиганию.",
+      "enable_visualize": true
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Для работы кузницы необходим дымоход. Блок непосредственно над кузницей должен быть воздухом или $(l:mechanics/crucible)тиглем$(). Кроме того, либо блок непосредственно над кузницей, либо один из восьми ближайших блоков должен быть открыт к небу — синее стекло в визуализации справа.$(br2)$(l:mechanics/bellows)Кузнечные меха$() можно установить на один блок выше и рядом с кузницей, чтобы увеличить максимальную температуру, которую она может достичь."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "multiblock": {
+        "pattern": [
+          [
+            "  G  ",
+            "  G  ",
+            "GGCGG",
+            "  G  ",
+            "  G  "
+          ],
+          [
+            "XXXXX",
+            "XXXXX",
+            "XX0XX",
+            "XXBXX",
+            "XXXXX"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:rock/smooth/gabbro",
+          "G": "minecraft:light_blue_stained_glass",
+          "0": "tfc:charcoal_forge[heat_level=7]",
+          "C": "tfc:crucible",
+          "B": "tfc:bellows"
+        }
+      },
+      "name": "",
+      "text": "",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/gui/charcoal_forge.png"
+      ],
+      "text": "Интерфейс кузницы.",
+      "border": false
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Пять нижних слотов кузницы используются для топлива. Пока кузница работает, она периодически потребляет топливо, которым может быть $(thing)древесный уголь$() или $(l:the_world/ores_and_minerals#bituminous_coal)битумный уголь$(). Верхние пять слотов нагревают предметы до температуры, указанной на индикаторе слева. Правые слоты предназначены для контейнеров, которые могут содержать жидкий металл, например $(thing)сосуды$() и $(thing)формы$(). Предметы, расплавившиеся в кузнице, заполнят эти контейнеры."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 3
+}

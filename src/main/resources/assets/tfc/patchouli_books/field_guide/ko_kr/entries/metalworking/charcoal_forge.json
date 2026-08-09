@@ -1,0 +1,68 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "§l숯불 노",
+  "category": "tfc:metalworking",
+  "icon": "tfc:textures/block/molten_lit.png",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(thing)Charcoal Forge$() is a device used to $(l:core_mechanics/heating)heat$() and melt items. Forges are necessary to make a $(l:metalworking/crucible)crucible$() work. They are typically used to heat items to prepare them for smithing on an $(l:metalworking/anvils)anvil$(). $(br)It is constructed with 5 $(thing)stone$() blocks surrounding a $(l:metalworking/charcoal_pit#charcoal_pile)charcoal pile$() of 7 or 8 layers which is then lit."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "multiblock_id": "tfc:charcoal_forge",
+      "name": "§l숯불 노",
+      "text": "불을 붙일 준비가 된 완성된 멀티블록.",
+      "enable_visualize": true
+    },
+    {
+      "type": "patchouli:text",
+      "text": "숯불 노는 작동하기 위해서 공기가 통해야 합니다. 숯불 노의 바로 위의 블록은 공기이거나 $(l:mechanics/crucible)도가니$()여야 합니다. 또한 바로 위에 있는 블록 또는 주변 8개 블록 중 하나의 위쪽이 뚫려 있어야 합니다. 오른쪽에 있는 파란색 색유리가 해당 부분을 표시합니다.$(br2)$(l:mechanics/bellows)풀무$()를 숯불 노 대각선 위쪽에 설치하여 도달 가능한 최대 온도를 높일 수 있습니다."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "multiblock": {
+        "pattern": [
+          [
+            "  G  ",
+            "  G  ",
+            "GGCGG",
+            "  G  ",
+            "  G  "
+          ],
+          [
+            "XXXXX",
+            "XXXXX",
+            "XX0XX",
+            "XXBXX",
+            "XXXXX"
+          ]
+        ],
+        "mapping": {
+          "X": "tfc:rock/smooth/gabbro",
+          "G": "minecraft:light_blue_stained_glass",
+          "0": "tfc:charcoal_forge[heat_level=7]",
+          "C": "tfc:crucible",
+          "B": "tfc:bellows"
+        }
+      },
+      "name": "",
+      "text": "",
+      "enable_visualize": false
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "tfc:textures/gui/book/gui/charcoal_forge.png"
+      ],
+      "text": "숯불 노의 인터페이스.",
+      "border": false
+    },
+    {
+      "type": "patchouli:text",
+      "text": "숯불 노의 바닥에 있는 5개의 슬롯은 연료 슬롯입니다. 숯불 노를 작동하는 동안 연료가 소모되며, 연료로는 $(thing)숯$()이나 $(l:the_world/ores_and_minerals#bituminous_coal)석탄$()을 사용할 수 있습니다. 위쪽의 5개 슬롯은, 아이템을 왼쪽에 표시된 온도까지 가열합니다. 오른쪽의 슬롯에 $(thing)작은 항아리$()나 $(thing)금형$() 등을 놓으면 액체 금속을 담을 수 있습니다. 숯불 노에서 녹은 아이템들은 이들에게 들어갑니다."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 3
+}

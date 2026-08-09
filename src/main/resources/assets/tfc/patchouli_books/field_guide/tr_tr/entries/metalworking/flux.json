@@ -1,0 +1,22 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "Akı",
+  "category": "tfc:metalworking",
+  "icon": "tfc:powder/flux",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Flux is a powder which is required for $(l:metalworking/anvils#welding)Welding$() and also used as a catalyst in a $(l:metalworking/blast_furnace)Blast Furnace$(). Flux can be obtained by grinding specific items in a $(l:crafting/quern)Quern$().$(br2)Flux can be obtained in a number of ways, one of which is from its native ore, $(l:the_world/ores_and_minerals#borax)Borax$()."
+    },
+    {
+      "type": "tfc:quern_recipe",
+      "recipe": "tfc:quern/powder/flux",
+      "text": "$(thing)Kireç taşı$(), $(thing)Dolomit$(), $(thing)Tebeşir$() veya $(thing)Mermer$() gibi bazı kayalar, $(l:mechanics/quern)El Değirmeni$()'nde öğütüldükten sonra eritici (flux) olarak kullanılabilir. $(thing)Kaplumbağa kabukları$(), $(thing)İstiridye$(), $(thing)Yumuşakçalar$() ve $(l:the_world/wild_animals#shellfish)Kabuklu Deniz Ürünleri$()'nin yenilebilir kalıntıları da eritici oluşturmak için kullanılabilir."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 1,
+  "extra_recipe_mappings": {
+    "tfc:powder/flux": 0
+  }
+}
