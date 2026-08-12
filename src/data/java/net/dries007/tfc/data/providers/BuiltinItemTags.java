@@ -393,7 +393,7 @@ public class BuiltinItemTags extends TagsProvider<Item> implements Accessors
         tag(ItemTags.HOES)
             .add(TFCItems.METAL_ITEMS, Metal.ItemType.HOE)
             .add(TFCItems.ROCK_TOOLS, RockCategory.ItemType.HOE)
-            .add(TFCItems.OBSIDIAN_HOE);;
+            .add(TFCItems.OBSIDIAN_HOE);
         tag(ItemTags.PICKAXES).add(TFCItems.METAL_ITEMS, Metal.ItemType.PICKAXE);
         tag(ItemTags.SHOVELS)
             .add(TFCItems.METAL_ITEMS, Metal.ItemType.SHOVEL)
