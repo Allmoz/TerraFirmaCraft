@@ -1121,7 +1121,7 @@
   "$(thing)Gems$() can also be ground into powder.": "$(thing)Gems$() can also be ground into powder.",
   "$(thing)Flour$() is also obtainable from the quern.": "$(thing)곡물 가루$() 역시 맷돌로 제작할 수 있습니다.",
   "$(l:metalworking/flux)Flux$() is also obtainable from the quern.": "$(l:metalworking/flux)Flux$() is also obtainable from the quern.",
-  "Leather Making": "§l가죽 제작",
+  "Leatherworking": "Leatherworking",
   "$(thing)Leather$() is a sturdy material formed from animal hides. It is required to craft $(l:mechanics/armor)Armor$(), $(thing)Saddles$(), or a $(l:metalworking/bellows)Bellows$(). $()Raw Hides$() must be treated through several processes: $(l:crafting/leather_making#soaking)soaking$(), $(l:crafting/leather_making#scraping)scraping$(), $(l:crafting/leather_making#preparing)preparing$(), and $(l:crafting/leather_making#tanning)tanning$() to turn them into $(thing)Leather$().": "$(thing)Leather$() is a sturdy material formed from animal hides. It is required to craft $(l:mechanics/armor)Armor$(), $(thing)Saddles$(), or a $(l:metalworking/bellows)Bellows$(). $()Raw Hides$() must be treated through several processes: $(l:crafting/leather_making#soaking)soaking$(), $(l:crafting/leather_making#scraping)scraping$(), $(l:crafting/leather_making#preparing)preparing$(), and $(l:crafting/leather_making#tanning)tanning$() to turn them into $(thing)Leather$().",
   "Raw Hide": "§l생가죽",
   "To get started you will first need to obtain $(thing)Raw Hide$(), which is dropped when slaughtering many different $(l:the_world/wild_animals)Animals$(). Different animals will drop different sizes of $(thing)Raw Hide$().": "일단 처음으로는 $(thing)생가죽$()을 얻어야 합니다. 생가죽은 여러 $(l:the_world/wild_animals)동물$()들을 잡아 얻을 수 있습니다. 각각의 동물들은 다양한 크기의 $(thing)생가죽$()을 드롭합니다.",
