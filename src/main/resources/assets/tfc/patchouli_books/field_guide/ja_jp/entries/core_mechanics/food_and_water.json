@@ -36,11 +36,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(a)Fruit$()$(): Fruit nutrients are mostly found from $(l:the_world/wild_fruits)Fruiting Plants$(), like berry bushes, and fruit trees. A notable exception to this is $(l:food/crops#pumpkin)Pumpkins$() and $(l:food/crops#pumpkin)Melons$(), which nutritionally are fruits.$(br2)$(l)$(2)Vegetables$()$(): Found in nearly every $(l:food/crops)Crop$().$(br2)$(l)$(c)Protein$()$(): Protein can be gotten from the meat of $(l:the_world/wild_animals)Animals$(). It can also be obtained from $(l:food/crops#soybean)Soybeans$(), which have protein and vegetable nutrients."
+      "text": "$(l)$(a)果物$()$(): 果物の栄養素は主にベリーの茂みや果樹などの$(l:the_world/wild_fruits)結実植物$()から得られます。 これに対する注目すべき例外は $(l:mechanics/crops#pumpkin)カボチャ$() と $(l:mechanics/crops#pumpkin)メロン$() で、これらが含む栄養素は果物です。$(br2)$(l)$ (2)野菜$()$(): ほぼすべての $(l:mechanics/crops)作物$()から得られます。$(br2)$(l)$(c)タンパク質$()$(): タンパク質は $(l:the_world/wild_animals)動物$() の肉から得られます。タンパク質と野菜の栄養素を含む $(l:mechanics/crops#soybean)大豆$() からも入手できます。"
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(6)Grain$()$(): Grain is found in grain crops, such as $(l:food/crops#barley)Barley$(). The processing of grain is on the $(l:food/bread)Bread$() page. $(thing)Cattail$() and $(thing)Taro$() Roots are also grains.$(br2)$(l)$(5)Dairy$()$(): All dairy comes from $(thing)Milk$(), which comes from $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). Processing and drinking milk is covered on the $(l:food/dairy)Dairy$() page.$(br2)All the food in the world is not useful if it rots. See the $(l:food/decay)Preservation$() page for information on preventing that."
+      "text": "$(l)$(6)穀物$()$(): 穀物は、$(l:mechanics/crops#barley)大麦・小麦・米・ライ麦$()などの穀物に含まれます。 穀物の加工については $(l:mechanics/bread)パン$() ページにあります。 $(thing)ガマの根$() と $(thing)タロイモ$() も穀物です。$(br2)$(l)$(5)乳製品$()$(): すべての乳製品は $(thing) ミルク$()が由来です。 これは $(l:mechanics/animal_husbandry#dairy_animals)乳製品動物$() から来ています。 牛乳の加工と飲用については、$(l:mechanics/dairy)乳製品$() ページで説明されています。$(br2)あらゆる食べ物はすべて腐ったら役に立ちません。 これを防ぐ方法については、$(l:mechanics/decay)食料の保存$() ページを参照してください。"
     },
     {
       "type": "patchouli:text",

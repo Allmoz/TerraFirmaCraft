@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Sandwiches$() are a meal allowing the combination of two $(l:food/bread)Bread$() items and up to three sandwich foods, which can be any combination of $(l:food/bread)Vegetables$(), $(thing)Cooked Meats$(), and $(l:food/dairy)Cheeses$()."
+      "text": "$(thing)サンドイッチ$() は、2 つの $(l:mechanics/bread)パン$() と 3 つの食品を組み合わせることで作れる食事です。これは、$(l:mechanics/bread)野菜$()、$(thing)調理された肉$()、$(l:mechanics/dairy)チーズ$()の任意の組み合わせにすることができます。"
     },
     {
       "type": "patchouli:crafting",

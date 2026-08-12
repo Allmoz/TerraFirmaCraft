@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "The $(thing)Charcoal Forge$() is a device used to $(l:core_mechanics/heating)heat$() and melt items. Forges are necessary to make a $(l:metalworking/crucible)crucible$() work. They are typically used to heat items to prepare them for smithing on an $(l:metalworking/anvils)anvil$(). $(br)It is constructed with 5 $(thing)stone$() blocks surrounding a $(l:metalworking/charcoal_pit#charcoal_pile)charcoal pile$() of 7 or 8 layers which is then lit."
+      "text": "$(thing)溶鉱炉$() は 鉱石などを $(l:mechanics/heating)加熱$() して溶かすために使用される装置です。 $(l:mechanics/crucible)るつぼ$() を機能させるには鍛冶場が必要です。 溶鉱炉は主に$(l:mechanics/anvils)金床$() での鍛冶の準備としてアイテムを加熱するために使用されます。 $(br)それは、7または8個の$(l:mechanics/charcoal_pit#charcoal_pile)木炭の山$()を囲む5つの$(thing)丸石$()ブロックで構築され、その後点火できます。"
     },
     {
       "type": "patchouli:multiblock",

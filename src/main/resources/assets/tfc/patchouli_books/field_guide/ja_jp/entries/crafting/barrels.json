@@ -43,7 +43,7 @@
       "type": "tfc:instant_barrel_recipe",
       "anchor": "limewater",
       "recipe": "tfc:barrel/limewater",
-      "text": "$(bold)Limewater$() is made by adding $(l:metalworking/flux)Flux$() to a barrel of $(thing)Water$(). A single $(l:metalworking/flux)Flux$() is required for every $(thing) 500 mB$() of $(thing)Water$(). $(thing)Limewater$() is a reagent used in $(l:crafting/leather_making)Leather Making$(), and is used to make $(thing)Mortar$()."
+      "text": "$(bold)石灰水$() は、$(thing)水$() 入りの樽に $(l:mechanics/flux)融剤$() を追加することによって作成されます。 $(thing)水$() $(thing) 500 mB$() ごとに 1 つの $(l:mechanics/flux)融剤$() が必要です。 $(thing)石灰水$() は、$(l:mechanics/leather_making)革の作成$() で使用される液体であり、$(thing)モルタル$() を作成するためにも使用されます。"
     },
     {
       "type": "tfc:sealed_barrel_recipe",

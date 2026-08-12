@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Dairy$() is a $(l:core_mechanics/food_and_water#nutrients)Nutrient$() obtained from the milk produced by $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). It can be drank, or processed into $(thing)Cheese$(). Drinking can be done out of a jug, and always restores $(l:core_mechanics/food_and_water#thirst)Thirst$(). However, it only adds to nutrition when drank after eating a food. Practically, this means that drinking milk twice in a row is ineffectual. A meal must precede it.",
+      "text": "$(thing)乳製品$() は、$(l:mechanics/animal_husbandry#dairy_animals)乳用動物$() によって生産された牛乳から摂取できる $(l:getting_started/food_and_water#nutrients)栄養素$() です。 飲むことも、$(thing)チーズ$() に加工することもできます。 飲み物は水入れから飲むことができ、常に $(l:getting_started/food_and_water#thirst)渇き$() を回復します。 ただし、栄養価が高まるのは食後に飲む場合だけです。 実際には、これは牛乳を2回続けて飲んでも効果がないことを意味します。 食事はその前に行わなければなりません。",
       "title": "乳製品"
     },
     {

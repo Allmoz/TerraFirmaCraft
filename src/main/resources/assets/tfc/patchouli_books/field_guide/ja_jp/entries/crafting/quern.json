@@ -73,7 +73,7 @@
     {
       "type": "tfc:quern_recipe",
       "recipe": "tfc:quern/powder/flux",
-      "text": "$(l:metalworking/flux)Flux$() is also obtainable from the quern."
+      "text": "$(l:mechanics/flux)融剤$() は石臼から入手することもできます。"
     }
   ],
   "read_by_default": true,

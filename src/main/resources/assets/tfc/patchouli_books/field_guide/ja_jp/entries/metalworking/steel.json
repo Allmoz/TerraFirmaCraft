@@ -38,7 +38,7 @@
     {
       "type": "patchouli:text",
       "anchor": "blue_steel",
-      "text": "$(thing)Blue Steel$() is one of the two highest tier metals, along with $(l:metalworking/steel#red_steel)Red Steel$(). Similar to $(l:metalworking/steel#black_steel)Black Steel$(), the first step is to create an alloy of $(thing)Weak Blue Steel$() in a $(l:metalworking/crucible)Crucible$().",
+      "text": "$(thing)青鋼$() は、$(l:mechanics/steel#red_steel)赤鋼$() と並ぶ 2 つの最上位金属のうちの 1 つです。 $(l:mechanics/steel#black_steel)黒鋼$() と同様に、最初のステップは $(l:mechanics/rucible)るつぼ$() で $(thing)軟青鋼$() の合金を作成することです。",
       "title": "青鋼"
     },
     {
@@ -60,7 +60,7 @@
     {
       "type": "patchouli:text",
       "anchor": "red_steel",
-      "text": "$(thing)Red Steel$() is one of the two highest tier metals, along with $(l:metalworking/steel#blue_steel)Blue Steel$(). Similar to $(l:metalworking/steel#black_steel)Black Steel$(), the first step is to create an alloy of $(thing)Weak Red Steel$() in a $(l:metalworking/crucible)Crucible$().",
+      "text": "$(thing)赤鋼$() は、$(l:mechanics/steel#blue_steel)青鋼$() と並ぶ 2 つの最上位金属のうちの 1 つです。 $(l:mechanics/steel#black_steel)黒鋼$() と同様に、最初のステップは $(l:mechanics/rucible)るつぼ$() で $(thing)軟赤鋼$() の合金を作成することです。",
       "title": "赤鋼"
     },
     {
