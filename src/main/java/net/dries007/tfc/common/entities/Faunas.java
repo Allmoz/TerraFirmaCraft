@@ -51,6 +51,7 @@ import net.dries007.tfc.common.entities.predator.FelinePredator;
 import net.dries007.tfc.common.entities.predator.Predator;
 import net.dries007.tfc.common.entities.prey.Prey;
 import net.dries007.tfc.common.entities.prey.RammingPrey;
+import net.dries007.tfc.common.entities.prey.TFCArmadillo;
 import net.dries007.tfc.common.entities.prey.TFCFox;
 import net.dries007.tfc.common.entities.prey.TFCFrog;
 import net.dries007.tfc.common.entities.prey.TFCPanda;
@@ -125,6 +126,7 @@ public class Faunas
     public static final Id<TFCHorse> HORSE = registerAnimal(TFCEntities.HORSE);
     public static final Id<DromedaryCamel> DROMEDARY_CAMEL = registerAnimal(TFCEntities.DROMEDARY_CAMEL);
     public static final Id<BactrianCamel> BACTRIAN_CAMEL = registerAnimal(TFCEntities.BACTRIAN_CAMEL);
+    public static final Id<TFCArmadillo> ARMADILLO = registerAnimal(TFCEntities.ARMADILLO);
 
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event)
     {
@@ -189,6 +191,7 @@ public class Faunas
         registerSpawnPlacement(event, WOLF);
         registerSpawnPlacement(event, HYENA);
         registerSpawnPlacement(event, DIREWOLF);
+        registerSpawnPlacement(event, ARMADILLO);
     }
 
     private static <E extends Mob> Id<E> registerAnimal(IdHolder<EntityType<E>> entity)

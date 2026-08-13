@@ -238,7 +238,8 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
             .add(TFCEntities.GROUSE.get())
             .add(TFCEntities.PHEASANT.get())
             .add(TFCEntities.TURKEY.get())
-            .add(TFCEntities.PEAFOWL.get());
+            .add(TFCEntities.PEAFOWL.get())
+            .add(TFCEntities.ARMADILLO.get());
 
         tag(ANIMALS)
             .addTag(LAND_PREDATORS)
@@ -309,7 +310,8 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.RAT.get(),
                 TFCEntities.JERBOA.get(),
                 TFCEntities.LEMMING.get(),
-                TFCEntities.MONGOOSE.get()
+                TFCEntities.MONGOOSE.get(),
+                TFCEntities.ARMADILLO.get()
             );
 
         tag(HUNTED_BY_CATS)

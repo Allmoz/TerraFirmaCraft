@@ -205,6 +205,16 @@
       "text": "Tavus kuşu, 14°C üzerindeki herhangi bir $(l:the_world/climate#temperature)sıcaklıkta$() ve 190 ile 500mm arasındaki $(l:the_world/climate#rainfall)yağışta$() ormanlarda ortaya çıkar."
     },
     {
+      "type": "patchouli:entity",
+      "entity": "tfc:armadillo",
+      "scale": 0.7,
+      "name": "Armadillo",
+      "text": "The armadillo sheds scutes every 30 hours. It can be found at any $(l:the_world/climate#temperature)temperature$() above 12°C, and $(l:the_world/climate#rainfall)rainfall$() between 100 and 400mm."
+    },
+    {
+      "type": "patchouli:empty"
+    },
+    {
       "type": "patchouli:text",
       "anchor": "aquatic",
       "text": "$(thing)Sucul Hayvanlar$(), bir dizi farklı davranışı kapsayan geniş bir kategoridir. Bunlar $(thing)Kıyı Sakinleri$(), $(thing)Balıklar$(), $(thing)Kabuklular$() veya $(thing)Büyük Sucul Yaratıklar$() olabilir.",

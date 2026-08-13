@@ -205,6 +205,16 @@
       "text": "Павлин обитает в лесах при $(l:the_world/climate#temperature)температуре$() выше 14°C и $(l:the_world/climate#rainfall)осадках$() выше 190 мм."
     },
     {
+      "type": "patchouli:entity",
+      "entity": "tfc:armadillo",
+      "scale": 0.7,
+      "name": "Armadillo",
+      "text": "The armadillo sheds scutes every 30 hours. It can be found at any $(l:the_world/climate#temperature)temperature$() above 12°C, and $(l:the_world/climate#rainfall)rainfall$() between 100 and 400mm."
+    },
+    {
+      "type": "patchouli:empty"
+    },
+    {
       "type": "patchouli:text",
       "anchor": "aquatic",
       "text": "$(thing)Водные животные$() — это обширная категория, которая охватывает множество различных поведений животных. Они могут быть $(thing)береговыми животными(), $(thing)рыбами$(), $(thing)ракообразными$() или $(thing)крупными водоплавающими$()",
