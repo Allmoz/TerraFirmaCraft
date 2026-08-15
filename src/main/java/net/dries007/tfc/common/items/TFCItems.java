@@ -353,6 +353,7 @@ public final class TFCItems
     public static final ItemId CAT_EGG = registerSpawnEgg(TFCEntities.CAT);
     public static final ItemId DOG_EGG = registerSpawnEgg(TFCEntities.DOG);
     public static final ItemId PANDA_EGG = registerSpawnEgg(TFCEntities.PANDA);
+    public static final ItemId ARMADILLO_EGG = registerSpawnEgg(TFCEntities.ARMADILLO);
 
     // Pottery
 

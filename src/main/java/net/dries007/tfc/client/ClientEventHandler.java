@@ -38,6 +38,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BellRenderer;
 import net.minecraft.client.renderer.blockentity.LecternRenderer;
+import net.minecraft.client.renderer.entity.ArmadilloRenderer;
 import net.minecraft.client.renderer.entity.DolphinRenderer;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 import net.minecraft.client.renderer.entity.FoxRenderer;
@@ -684,6 +685,7 @@ public final class ClientEventHandler
         event.registerEntityRenderer(TFCEntities.WILDEBEEST.get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, WildebeestModel::new, "wildebeest").build());
         event.registerEntityRenderer(TFCEntities.MOOSE.get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, MooseModel::new, "moose").shadow(1.0f).scale(0.8f).build());
         event.registerEntityRenderer(TFCEntities.BISON.get(), ctx -> new SimpleMobRenderer.Builder<>(ctx, BisonModel::new, "bison").build());
+        event.registerEntityRenderer(TFCEntities.ARMADILLO.get(), ArmadilloRenderer::new);
 
         // BEs
         event.registerBlockEntityRenderer(TFCBlockEntities.FIREPIT.get(), ctx -> new FirepitBlockEntityRenderer<>());

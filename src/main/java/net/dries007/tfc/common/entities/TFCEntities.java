@@ -22,6 +22,7 @@ import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.camel.Camel;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
@@ -79,6 +80,7 @@ import net.dries007.tfc.common.entities.predator.Predator;
 import net.dries007.tfc.common.entities.prey.Pest;
 import net.dries007.tfc.common.entities.prey.Prey;
 import net.dries007.tfc.common.entities.prey.RammingPrey;
+import net.dries007.tfc.common.entities.prey.TFCArmadillo;
 import net.dries007.tfc.common.entities.prey.TFCFox;
 import net.dries007.tfc.common.entities.prey.TFCFrog;
 import net.dries007.tfc.common.entities.prey.TFCPanda;
@@ -185,6 +187,7 @@ public class TFCEntities
     public static final Id<OviparousAnimal> QUAIL = register("quail", EntityType.Builder.of(TFCEntities::makeQuail, MobCategory.CREATURE).sized(0.4F, 0.7F).eyeHeight(0.644F).clientTrackingRange(10));
 
     public static final Id<TFCRabbit> RABBIT = register("rabbit", EntityType.Builder.of(TFCEntities::makeRabbit, MobCategory.CREATURE).sized(0.4F, 0.5F).clientTrackingRange(8));
+    public static final Id<TFCArmadillo> ARMADILLO = register("armadillo", EntityType.Builder.of(TFCEntities::makeArmadillo, MobCategory.CREATURE).sized(0.7F, 0.65F).eyeHeight(0.26F).clientTrackingRange(10));
 
     public static final Id<TFCFox> FOX = register("fox", EntityType.Builder.of(TFCFox::new, MobCategory.CREATURE).sized(0.6F, 0.7F).eyeHeight(0.4F).clientTrackingRange(8));
     public static final Id<TFCPanda> PANDA = register("panda", EntityType.Builder.of(TFCPanda::new, MobCategory.CREATURE).sized(1.3F, 1.25F).clientTrackingRange(10));
@@ -301,6 +304,7 @@ public class TFCEntities
         event.put(DOG.get(), Dog.createAttributes().build());
         event.put(PANDA.get(), TFCPanda.createAttributes().add(Attributes.STEP_HEIGHT, 1.0F).build());
         event.put(OCELOT.get(), TFCOcelot.createAttributes().build());
+        event.put(ARMADILLO.get(), TFCArmadillo.createAttributes().build());
     }
 
     public static Mammal makePig(EntityType<? extends Mammal> animal, Level level)
@@ -432,6 +436,10 @@ public class TFCEntities
     public static TFCRabbit makeRabbit(EntityType<? extends Rabbit> animal, Level level)
     {
         return new TFCRabbit(animal, level, TFCConfig.SERVER.rabbitConfig);
+    }
+    public static TFCArmadillo makeArmadillo(EntityType<? extends Armadillo> animal, Level level)
+    {
+        return new TFCArmadillo(animal, level);
     }
     public static DromedaryCamel makeDromedaryCamel(EntityType<? extends Camel> animal, Level level)
     {
