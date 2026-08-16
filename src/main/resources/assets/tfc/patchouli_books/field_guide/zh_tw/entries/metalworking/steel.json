@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "鋼是一類可以用來製作工具和$(l:mechanics/armor)盔甲$()的高階金屬, 並且存在幾種變種: $(thing)鋼$(), $(thing)黑鋼$(), $(thing)紅鋼$(), 和$(thing)藍鋼$().$(br2)為了製造鋼, 你需要先在$(l:mechanics/blast_furnace)高爐$()中製造出$(thing)生鐵$(), 並且把它製作成金屬$(thing)錠$()."
+      "text": "鋼是一類可以用來製作工具和$(l:mechanics/armor)盔甲$()的高階金屬, 並且存在幾種變種: $(thing)鋼$(), $(thing)黑鋼$(), $(thing)紅鋼$(), 和$(thing)藍鋼$().$(br2)為了製造鋼, 你需要先在$(l:metalworking/blast_furnace)高爐$()中製造出$(thing)生鐵$(), 並且把它製作成金屬$(thing)錠$()."
     },
     {
       "type": "tfc:anvil_recipe",

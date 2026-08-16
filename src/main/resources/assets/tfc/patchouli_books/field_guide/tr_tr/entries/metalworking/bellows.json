@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Körük$(), başka bir cihazdaki hava akışını artırarak daha yüksek sıcaklıkta yanmalarını sağlamak için kullanılan bir cihazdır. Ancak, daha yüksek sıcaklıkta yanarken yakıtı da daha hızlı tüketirler. Körük, doğrudan önünde veya önünde ve bir blok aşağısında bulunan bir cihaza hava sağlayabilir. Bu, örneğin bir $(l:getting_started/firepit)Ateş Çukuru$()'na veya bir $(l:mechanics/charcoal_forge)Kömür Ocağı$()'na hava sağlamasına olanak tanır."
+      "text": "$(thing)Körük$(), başka bir cihazdaki hava akışını artırarak daha yüksek sıcaklıkta yanmalarını sağlamak için kullanılan bir cihazdır. Ancak, daha yüksek sıcaklıkta yanarken yakıtı da daha hızlı tüketirler. Körük, doğrudan önünde veya önünde ve bir blok aşağısında bulunan bir cihaza hava sağlayabilir. Bu, örneğin bir $(l:getting_started/firepit)Ateş Çukuru$()'na veya bir $(l:metalworking/charcoal_forge)Kömür Ocağı$()'na hava sağlamasına olanak tanır."
     },
     {
       "type": "patchouli:crafting",

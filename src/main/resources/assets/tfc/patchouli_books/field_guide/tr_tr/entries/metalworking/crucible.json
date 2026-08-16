@@ -16,7 +16,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/crucible",
-      "text": "Pota yontulduktan sonra, herhangi bir çömlek parçası gibi $(thing)pişirilmesi$() gerekir; bunun için bir $(l:getting_started/pit_kiln)Çukur Fırın$() veya $(l:mechanics/charcoal_forge)Kömür Ocağı$() iş görecektir.$(br2)Potayı kullanabilmek için bir ısı kaynağına ihtiyacı vardır. Pota, altındaki herhangi bir ısıtılabilir blokla, genellikle bir $(l:mechanics/charcoal_forge)Kömür Ocağı$() ile ısıtılabilir."
+      "text": "Pota yontulduktan sonra, herhangi bir çömlek parçası gibi $(thing)pişirilmesi$() gerekir; bunun için bir $(l:getting_started/pit_kiln)Çukur Fırın$() veya $(l:metalworking/charcoal_forge)Kömür Ocağı$() iş görecektir.$(br2)Potayı kullanabilmek için bir ısı kaynağına ihtiyacı vardır. Pota, altındaki herhangi bir ısıtılabilir blokla, genellikle bir $(l:metalworking/charcoal_forge)Kömür Ocağı$() ile ısıtılabilir."
     },
     {
       "type": "patchouli:multiblock",
@@ -63,7 +63,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Soldaki sıcaklık göstergesi, alttaki bir $(l:mechanics/charcoal_forge)Kömür Ocağı$() veya üstteki bir $(l:mechanics/blast_furnace)Yüksek Fırın$()'dan gelen ısı gibi harici ısı kaynaklarına bağlı olarak yükselecektir. Metal, sıvı halde kaldığı sürece potadan çıkarılabilir.$(br2)Son olarak, pota kırıldığında içeriğini korur, bu da isterseniz alaşım kabını taşımanıza olanak tanır."
+      "text": "Soldaki sıcaklık göstergesi, alttaki bir $(l:metalworking/charcoal_forge)Kömür Ocağı$() veya üstteki bir $(l:metalworking/blast_furnace)Yüksek Fırın$()'dan gelen ısı gibi harici ısı kaynaklarına bağlı olarak yükselecektir. Metal, sıvı halde kaldığı sürece potadan çıkarılabilir.$(br2)Son olarak, pota kırıldığında içeriğini korur, bu da isterseniz alaşım kabını taşımanıza olanak tanır."
     }
   ],
   "read_by_default": true,

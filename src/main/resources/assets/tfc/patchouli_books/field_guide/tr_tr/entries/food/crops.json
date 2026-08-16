@@ -29,7 +29,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Tüm ekinlerin büyüyebilmesi için $(l:food/farmland)tarım arazisine$() ekilmesi gerekir. Bazı ekinlerin suyla dolu olma veya üzerinde büyümek için bir çubuğa ihtiyaç duyma gibi ek gereksinimleri vardır.$(br2)Ekinlerin büyümek için $(thing)besinlere$() ihtiyacı yoktur, ancak besinler kesinlikle yardımcı olur. Üç tür besin vardır: $(3)Azot$(), $(6)Fosfor$() ve $(d)Potasyum$(). Her ekin, bu üç besinin bir kombinasyonunu tüketebilir veya yenileyebilir.",
+      "text": "Tüm ekinlerin büyüyebilmesi için $(l:mechanics/farmland)tarım arazisine$() ekilmesi gerekir. Bazı ekinlerin suyla dolu olma veya üzerinde büyümek için bir çubuğa ihtiyaç duyma gibi ek gereksinimleri vardır.$(br2)Ekinlerin büyümek için $(thing)besinlere$() ihtiyacı yoktur, ancak besinler kesinlikle yardımcı olur. Üç tür besin vardır: $(3)Azot$(), $(6)Fosfor$() ve $(d)Potasyum$(). Her ekin, bu üç besinin bir kombinasyonunu tüketebilir veya yenileyebilir.",
       "title": "Ekin Yetiştirme"
     },
     {
@@ -2918,7 +2918,7 @@
     {
       "type": "patchouli:text",
       "anchor": "onion",
-      "text": "$(bold)$(l:core_mechanics/climate#temperature)Sıcaklık$(): -5 - 26 °C$(br)$(bold)$(l:food/hydration)Hidrasyon$(): 15 - 85 %$(br)$(bold)Kategori$(): Sebze$(br)$(br)$(bold)$(3)N: 40 $(bold)$(6)P: 40 $(bold)$(d)K: 40$()$(br)Soğan, tek blokluk bir ekindir. Soğan tohumları tarım arazisine ekilebilir ve ürün olarak $(thing)Soğan$() ve $(thing)Soğan Tohumu$() verir.",
+      "text": "$(bold)$(l:core_mechanics/climate#temperature)Temperature$(): -5 - 26 °C$(br)$(bold)$(l:food/hydration)Hydration$(): 15 - 85 %$(br)$(bold)Category$(): Vegetable$(br)$(br)$(bold)$(3)N: 40 $(bold)$(6)P: 40 $(bold)$(d)K: 40$()$(br)Onions are a single block crop. Onion seeds can be planted on farmland and will produce $(thing)Onions$() and $(thing)Onion Seeds$() as a product.",
       "title": "Onions"
     },
     {

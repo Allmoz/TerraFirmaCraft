@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "TFC'deki Cevherler ve Mineraller nadirdir - Vanilla'nın aksine, cevherler bulunması için biraz $(l:mechanics/prospecting)maden arama$() çalışması gerektiren devasa, seyrek ancak nadir damarlar halinde bulunur. Farklı cevherler ayrıca farklı kaya türlerinde ve farklı yüksekliklerde ortaya çıkar; bu da doğru cevheri bulmak için doğru kaya türünü doğru yükseklikte bulmanın anahtar olduğu anlamına gelir."
+      "text": "TFC'deki Cevherler ve Mineraller nadirdir - Vanilla'nın aksine, cevherler bulunması için biraz $(l:metalworking/prospecting)maden arama$() çalışması gerektiren devasa, seyrek ancak nadir damarlar halinde bulunur. Farklı cevherler ayrıca farklı kaya türlerinde ve farklı yüksekliklerde ortaya çıkar; bu da doğru cevheri bulmak için doğru kaya türünü doğru yükseklikte bulmanın anahtar olduğu anlamına gelir."
     },
     {
       "type": "patchouli:text",
@@ -15,7 +15,7 @@
     {
       "type": "patchouli:text",
       "anchor": "native_copper",
-      "text": "Doğal Bakır, $(thing)Bakır$() metalinin bir cevheridir. y=40'ın üzerindeki yüksekliklerde, $(l:the_world/geology#igneous_extrusive)Yüzey Volkanik$() kayalarda bulunabilir.$(br2)Ayrıca $(thing)nehirlerdeki$() tortularda da bulunabilir ve bunlar $(l:getting_started/panning)tavalama$() yöntemiyle ayrıştırılabilir.",
+      "text": "Doğal Bakır, $(thing)Bakır$() metalinin bir cevheridir. y=40'ın üzerindeki yüksekliklerde, $(l:the_world/geology#igneous_extrusive)Yüzey Volkanik$() kayalarda bulunabilir.$(br2)Ayrıca $(thing)nehirlerdeki$() tortularda da bulunabilir ve bunlar $(l:mechanics/panning)tavalama$() yöntemiyle ayrıştırılabilir.",
       "title": "Doğal Bakır"
     },
     {
@@ -66,7 +66,7 @@
     {
       "type": "patchouli:text",
       "anchor": "native_gold",
-      "text": "Doğal Altın, $(thing)Altın$() metalinin bir cevheridir. y=70'in altındaki yüksekliklerde bulunabilir, ancak daha derin damarlar daha büyük ve daha zengindir. $(l:the_world/geology#igneous_extrusive)Yüzey Volkanik$() ve $(l:the_world/geology#igneous_intrusive)Derinlik Volkanik$() kayalarda bulunabilir.$(br2)Ayrıca $(thing)nehirlerdeki$() tortularda da bulunabilir ve bunlar $(l:getting_started/panning)tavalama$() yöntemiyle ayrıştırılabilir.",
+      "text": "Doğal Altın, $(thing)Altın$() metalinin bir cevheridir. y=70'in altındaki yüksekliklerde bulunabilir, ancak daha derin damarlar daha büyük ve daha zengindir. $(l:the_world/geology#igneous_extrusive)Yüzey Volkanik$() ve $(l:the_world/geology#igneous_intrusive)Derinlik Volkanik$() kayalarda bulunabilir.$(br2)Ayrıca $(thing)nehirlerdeki$() tortularda da bulunabilir ve bunlar $(l:mechanics/panning)tavalama$() yöntemiyle ayrıştırılabilir.",
       "title": "Doğal Altın"
     },
     {
@@ -117,7 +117,7 @@
     {
       "type": "patchouli:text",
       "anchor": "native_silver",
-      "text": "Doğal Gümüş, $(thing)Gümüş$() metalinin bir cevheridir. Küçük ve fakir damarlar, y=90'ın üzerindeki yükselti bölgelerinde $(thing)Granit$() veya $(thing)Diyorit$() içinde bulunabilir. Daha büyük ve daha zengin damarlar ise y=20'nin altında, yerin derinliklerinde $(thing)Granit$(), $(thing)Diyorit$(), $(thing)Şist$() ve $(thing)Gnays$() içinde bulunabilir.$(br2)Ayrıca $(thing)nehirlerdeki$() tortularda da bulunabilir ve bunlar $(l:getting_started/panning)tavalama$() yöntemiyle ayrıştırılabilir.",
+      "text": "Doğal Gümüş, $(thing)Gümüş$() metalinin bir cevheridir. Küçük ve fakir damarlar, y=90'ın üzerindeki yükselti bölgelerinde $(thing)Granit$() veya $(thing)Diyorit$() içinde bulunabilir. Daha büyük ve daha zengin damarlar ise y=20'nin altında, yerin derinliklerinde $(thing)Granit$(), $(thing)Diyorit$(), $(thing)Şist$() ve $(thing)Gnays$() içinde bulunabilir.$(br2)Ayrıca $(thing)nehirlerdeki$() tortularda da bulunabilir ve bunlar $(l:mechanics/panning)tavalama$() yöntemiyle ayrıştırılabilir.",
       "title": "Doğal Gümüş"
     },
     {
@@ -270,7 +270,7 @@
     {
       "type": "patchouli:text",
       "anchor": "cassiterite",
-      "text": "Kassiterit, $(thing)Kalay$() metalinin bir cevheridir. Yüksek rakımlı $(l:the_world/geology#igneous_intrusive)Derinlik Volkanik$() kayalarda, yükselti bölgelerinde y=80'in üzerinde veya dayklarda bulunabilir.$(br2)Ayrıca $(thing)nehirlerdeki$() tortularda da bulunabilir ve bunlar $(l:getting_started/panning)tavalama$() yöntemiyle ayrıştırılabilir.",
+      "text": "Kassiterit, $(thing)Kalay$() metalinin bir cevheridir. Yüksek rakımlı $(l:the_world/geology#igneous_intrusive)Derinlik Volkanik$() kayalarda, yükselti bölgelerinde y=80'in üzerinde veya dayklarda bulunabilir.$(br2)Ayrıca $(thing)nehirlerdeki$() tortularda da bulunabilir ve bunlar $(l:mechanics/panning)tavalama$() yöntemiyle ayrıştırılabilir.",
       "title": "Kassiterit"
     },
     {
@@ -901,7 +901,7 @@
       "item": "tfc:ore/sylvite",
       "title": "Silvit",
       "link_recipes": false,
-      "text": "Silvit, $(l:crafting/quern)El Değirmeninde$() öğütülebilen ve ardından $(l:food/fertilizers)Gübre$() olarak kullanılabilen bir $(thing)Mineraldir$(). Yüzeye yakın $(thing)Şeyl$(), $(thing)Kiltaşı$() ve $(thing)Çört$() içinde çok geniş ve düz yataklar halinde bulunabilir."
+      "text": "Silvit, $(l:crafting/quern)El Değirmeninde$() öğütülebilen ve ardından $(l:mechanics/fertilizers)Gübre$() olarak kullanılabilen bir $(thing)Mineraldir$(). Yüzeye yakın $(thing)Şeyl$(), $(thing)Kiltaşı$() ve $(thing)Çört$() içinde çok geniş ve düz yataklar halinde bulunabilir."
     },
     {
       "type": "patchouli:multiblock",

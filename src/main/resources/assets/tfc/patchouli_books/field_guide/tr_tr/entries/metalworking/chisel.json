@@ -33,7 +33,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Dikkatli olun! Maden ocağında yontma yapmak güvenli değildir. Her yontma işleminde bir $(l:mechanics/support_beams)Çökme$() ihtimali vardır."
+      "text": "Dikkatli olun! Maden ocağında yontma yapmak güvenli değildir. Her yontma işleminde bir $(l:core_mechanics/support_beams)Çökme$() ihtimali vardır."
     }
   ],
   "read_by_default": true,

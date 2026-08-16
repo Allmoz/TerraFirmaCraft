@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(l:mechanics/blast_furnace)高爐$()燒煉出的$(thing)生鐵$()並不能直接使用，必須先將其轉化為$(thing)鋼$()後才能進一步加工成工具或$(l:mechanics/armor)盔甲$()。根據生產工藝的不同，可以將生鐵鍛造成幾種不同的鋼：普通$(thing)鋼$()、$(thing)黑鋼$()、$(thing)紅鋼$()和$(thing)藍鋼$()。"
+      "text": "$(l:metalworking/blast_furnace)高爐$()燒煉出的$(thing)生鐵$()並不能直接使用，必須先將其轉化為$(thing)鋼$()後才能進一步加工成工具或$(l:mechanics/armor)盔甲$()。根據生產工藝的不同，可以將生鐵鍛造成幾種不同的鋼：普通$(thing)鋼$()、$(thing)黑鋼$()、$(thing)紅鋼$()和$(thing)藍鋼$()。"
     },
     {
       "type": "tfc:anvil_recipe",

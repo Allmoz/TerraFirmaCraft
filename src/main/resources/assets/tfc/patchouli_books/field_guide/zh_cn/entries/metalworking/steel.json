@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(l:mechanics/blast_furnace)高炉$()烧炼出的$(thing)生铁$()并不能直接使用，必须先将其转化为$(thing)钢$()后才能进一步加工成工具或$(l:mechanics/armor)盔甲$()。根据生产工艺的不同，可以将生铁锻造成几种不同的钢：普通$(thing)钢$()、$(thing)黑钢$()、$(thing)红钢$()和$(thing)蓝钢$()。"
+      "text": "$(l:metalworking/blast_furnace)高炉$()烧炼出的$(thing)生铁$()并不能直接使用，必须先将其转化为$(thing)钢$()后才能进一步加工成工具或$(l:mechanics/armor)盔甲$()。根据生产工艺的不同，可以将生铁锻造成几种不同的钢：普通$(thing)钢$()、$(thing)黑钢$()、$(thing)红钢$()和$(thing)蓝钢$()。"
     },
     {
       "type": "tfc:anvil_recipe",

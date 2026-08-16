@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "世界各地不同位置分布着八种土壤类型。这些土壤的肥力各不相同，从非常肥沃——所有施用的$(l:food/fertilizers)肥料$()效果提升 20%，且所有$(l:food/crops)农作物$()恢复的养分也提升 20%——到非常贫瘠——效果比普通土壤低 20%。",
+      "text": "世界各地不同位置分布着八种土壤类型。这些土壤的肥力各不相同，从非常肥沃——所有施用的$(l:mechanics/fertilizers)肥料$()效果提升 20%，且所有$(l:food/crops)农作物$()恢复的养分也提升 20%——到非常贫瘠——效果比普通土壤低 20%。",
       "title": "土壤肥力"
     },
     {
@@ -110,7 +110,7 @@
         }
       },
       "name": "软土",
-      "text": "软土发现于$(l:core_mechanics/climate#rainfall)降雨量$()至少 250mm 的寒冷草原。它是一种非常高品质的土壤，有 20% 的养分加成。",
+      "text": "软土发现于$(l:the_world/climate#rainfall)降雨量$()至少 250mm 的寒冷草原。它是一种非常高品质的土壤，有 20% 的养分加成。",
       "enable_visualize": false
     },
     {

@@ -103,7 +103,7 @@
       "type": "patchouli:entity",
       "entity": "tfc:ocelot",
       "scale": 0.7,
-      "text": "Оцелот полює на дрібних тварин. Мешкає в будь-яких лісах з  $(l:core_mechanics/climate#temperature)температурою$() від 15 до 30°C, та $(l:core_mechanics/climate#rainfall)опадами$() 300 - 500мм. Оцелота можна приручити, він стане прирученим $(l:food/pets)котом або кішкою$(). Оцелоти їдять сиру рибу."
+      "text": "The ocelot attacks small animals. It spawns at any $(l:core_mechanics/climate#temperature)temperature$() from 15 to 30°C, and $(l:core_mechanics/climate#rainfall)rainfall$() between 300 and 500mm, in forests. Feeding an ocelot enough times will tame it into a $(l:food/pets)Cat$(). Ocelots can eat raw fish"
     },
     {
       "type": "patchouli:text",
@@ -311,14 +311,14 @@
       "entity": "tfc:crappie",
       "scale": 0.7,
       "name": "Crappie",
-      "text": "Синьозябровий окунь мешкає в річках та озерах з $(l:core_mechanics/climate#temperature)температурою$() між -10°C та 26°C."
+      "text": "Синьозябровий окунь мешкає в річках та озерах з $(l:the_world/climate#temperature)температурою$() між -10°C та 26°C."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:bluegill",
       "scale": 0.7,
       "name": "Синьозябровий окунь",
-      "text": "Синьозябровий окунь мешкає в річках та озерах з $(l:core_mechanics/climate#temperature)температурою$() між -10°C та 26°C."
+      "text": "Синьозябровий окунь мешкає в річках та озерах з $(l:the_world/climate#temperature)температурою$() між -10°C та 26°C."
     },
     {
       "type": "patchouli:entity",

@@ -195,7 +195,7 @@
       "type": "patchouli:entity",
       "entity": "tfc:turkey",
       "scale": 0.7,
-      "text": "Индейка обитает в лесах при $(l:core_mechanics/climate#temperature)температуре$() от 0 до 17°C и $(l:core_mechanics/climate#rainfall)осадках$() от 250 до 450 мм."
+      "text": "The turkey spawns in forests at any $(l:core_mechanics/climate#temperature)temperature$() below 17°C and above 0°C, and $(l:core_mechanics/climate#rainfall)rainfall$() between 250 and 450mm."
     },
     {
       "type": "patchouli:entity",
@@ -276,112 +276,112 @@
       "entity": "tfc:salmon",
       "scale": 0.7,
       "name": "Лосось",
-      "text": "Лосось обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −8°C до 12°C и $(l:core_mechanics/climate#rainfall)осадками$() более 250 мм."
+      "text": "Лосось обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −8°C до 12°C и $(l:the_world/climate#rainfall)осадками$() более 250 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:rainbow_trout",
       "scale": 0.7,
       "name": "Микижа",
-      "text": "Микижа обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −12°C до 10°C и $(l:core_mechanics/climate#rainfall)осадками$() более 150 мм."
+      "text": "Микижа обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −12°C до 10°C и $(l:the_world/climate#rainfall)осадками$() более 150 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:lake_trout",
       "scale": 0.7,
       "name": "Форель",
-      "text": "Форель обитает в озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −5°C до 15°C и $(l:core_mechanics/climate#rainfall)осадками$() более 250 мм."
+      "text": "Форель обитает в озёрах с $(l:the_world/climate#temperature)температурой$() от −5°C до 15°C и $(l:the_world/climate#rainfall)осадками$() более 250 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:largemouth_bass",
       "scale": 0.7,
       "name": "Большеротый окунь",
-      "text": "Большеротый окунь обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −14°C до 16°C и $(l:core_mechanics/climate#rainfall)осадками$() более 200 мм."
+      "text": "Большеротый окунь обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −14°C до 16°C и $(l:the_world/climate#rainfall)осадками$() более 200 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:smallmouth_bass",
       "scale": 0.7,
       "name": "Малоротый окунь",
-      "text": "Малоротый окунь обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −14°C до 16°C и $(l:core_mechanics/climate#rainfall)осадками$() менее 300 мм."
+      "text": "Малоротый окунь обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −14°C до 16°C и $(l:the_world/climate#rainfall)осадками$() менее 300 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:crappie",
       "scale": 0.7,
       "name": "Краппи",
-      "text": "Краппи обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −10 до 20°C."
+      "text": "Краппи обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −10 до 20°C."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:bluegill",
       "scale": 0.7,
       "name": "Солнечник",
-      "text": "Солнечник обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −10 до 26°C."
+      "text": "Солнечник обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −10 до 26°C."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:northern_pike",
       "scale": 0.7,
       "name": "Щука",
-      "text": "Щука обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −10°C до 26°C и $(l:core_mechanics/climate#rainfall)осадками$() от 150 до 400 мм."
+      "text": "Щука обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −10°C до 26°C и $(l:the_world/climate#rainfall)осадками$() от 150 до 400 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:peacock_bass",
       "scale": 0.7,
       "name": "Павлиний окунь",
-      "text": "Павлиний окунь обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от 12°C до 25°C и $(l:core_mechanics/climate#rainfall)осадками$() от 200 до 400 мм."
+      "text": "Павлиний окунь обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от 12°C до 25°C и $(l:the_world/climate#rainfall)осадками$() от 200 до 400 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:arctic_char",
       "scale": 0.7,
       "name": "Арктический голец",
-      "text": "Арктический голец обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −20°C до −8°C и $(l:core_mechanics/climate#rainfall)осадками$() от 150 до 400 мм."
+      "text": "Арктический голец обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −20°C до −8°C и $(l:the_world/climate#rainfall)осадками$() от 150 до 400 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:muksun",
       "scale": 0.7,
       "name": "Муксун",
-      "text": "Муксун обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −20°C до −10°C и $(l:core_mechanics/climate#rainfall)осадками$() более 250 мм."
+      "text": "Муксун обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −20°C до −10°C и $(l:the_world/climate#rainfall)осадками$() более 250 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:burbot",
       "scale": 0.7,
       "name": "Налим",
-      "text": "Налим обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от −16°C до −9°C и $(l:core_mechanics/climate#rainfall)осадками$() менее 350 мм."
+      "text": "Налим обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от −16°C до −9°C и $(l:the_world/climate#rainfall)осадками$() менее 350 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:tilapia",
       "scale": 0.7,
       "name": "Тиляпия",
-      "text": "Тиляпия обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от 10°C до 32°C и $(l:core_mechanics/climate#rainfall)осадками$() менее 300 мм."
+      "text": "Тиляпия обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от 10°C до 32°C и $(l:the_world/climate#rainfall)осадками$() менее 300 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:spotted_gudgeon",
       "scale": 0.7,
       "name": "Пятнистый пескарь",
-      "text": "Пятнистый пескарь обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от 6°C до 24°C и $(l:core_mechanics/climate#rainfall)осадками$() менее 250 мм."
+      "text": "Пятнистый пескарь обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от 6°C до 24°C и $(l:the_world/climate#rainfall)осадками$() менее 250 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:pacu",
       "scale": 0.7,
       "name": "Паку",
-      "text": "Паку обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от 20°C до 35°C и $(l:core_mechanics/climate#rainfall)осадками$() более 200 мм."
+      "text": "Паку обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от 20°C до 35°C и $(l:the_world/climate#rainfall)осадками$() более 200 мм."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:red_piranha",
       "scale": 0.7,
       "name": "Красная пиранья",
-      "text": "Красная пиранья обитает в реках и озёрах с $(l:core_mechanics/climate#temperature)температурой$() от 22°C до 35°C и $(l:core_mechanics/climate#rainfall)осадками$() более 300 мм."
+      "text": "Красная пиранья обитает в реках и озёрах с $(l:the_world/climate#temperature)температурой$() от 22°C до 35°C и $(l:the_world/climate#rainfall)осадками$() более 300 мм."
     },
     {
       "type": "patchouli:text",

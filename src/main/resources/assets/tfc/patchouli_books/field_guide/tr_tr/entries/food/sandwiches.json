@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Sandviçler$(), iki $(l:food/bread)Ekmek$() eşyasının ve $(l:food/bread)Sebzeler$(), $(thing)Pişmiş Etler$() ve $(l:food/dairy)Peynirler$() kombinasyonlarından herhangi biri olabilen en fazla üç sandviç malzemesinin birleştirilmesine olanak tanıyan bir öğündür."
+      "text": "$(thing)Sandwiches$() are a meal allowing the combination of two $(l:food/bread)Bread$() items and up to three sandwich foods, which can be any combination of $(l:food/bread)Vegetables$(), $(thing)Cooked Meats$(), and $(l:food/dairy)Cheeses$()."
     },
     {
       "type": "patchouli:crafting",

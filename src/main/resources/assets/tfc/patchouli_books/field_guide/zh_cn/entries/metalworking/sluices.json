@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)洗矿槽$()是一种用于处理$(thing)矿石沉积物$()的设备，产出与$(l:getting_started/panning)淘金$()相同的结果，但概率不同。"
+      "text": "$(thing)洗矿槽$()是一种用于处理$(thing)矿石沉积物$()的设备，产出与$(l:mechanics/panning)淘金$()相同的结果，但概率不同。"
     },
     {
       "type": "patchouli:crafting",

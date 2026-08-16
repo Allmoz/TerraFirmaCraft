@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "群峦传说中的矿物和矿石可称得上是稀有资源。与原版不同，矿石只会生成在庞大，但稀少的$(thing)矿脉$()结构中。要想找到矿脉，就必须熟练掌握$(l:mechanics/prospecting)勘矿$()技巧。有些矿石只会出现在特定的岩石类型中或高度上。因此，勘矿的一大关键步骤便是找到正确的岩石类型和高度。"
+      "text": "群峦传说中的矿物和矿石可称得上是稀有资源。与原版不同，矿石只会生成在庞大，但稀少的$(thing)矿脉$()结构中。要想找到矿脉，就必须熟练掌握$(l:metalworking/prospecting)勘矿$()技巧。有些矿石只会出现在特定的岩石类型中或高度上。因此，勘矿的一大关键步骤便是找到正确的岩石类型和高度。"
     },
     {
       "type": "patchouli:text",
@@ -15,7 +15,7 @@
     {
       "type": "patchouli:text",
       "anchor": "native_copper",
-      "text": "原生铜是$(thing)铜$()的矿石。它可以在$(l:the_world/geology#igneous_extrusive)喷出岩$()中找到，海拔高于 y=40。$(br2)它也可以出现在$(thing)河流$()的沉积物中，这些沉积物可以用$(l:getting_started/panning)淘金盘$()淘洗。",
+      "text": "原生铜是$(thing)铜$()的矿石。它可以在$(l:the_world/geology#igneous_extrusive)喷出岩$()中找到，海拔高于 y=40。$(br2)它也可以出现在$(thing)河流$()的沉积物中，这些沉积物可以用$(l:mechanics/panning)淘金盘$()淘洗。",
       "title": "原生铜"
     },
     {
@@ -66,7 +66,7 @@
     {
       "type": "patchouli:text",
       "anchor": "native_gold",
-      "text": "原生金是$(thing)金$()的矿石。它可以在 y=70 以下的海拔找到，但更深的矿脉更大更富集。它可以在$(l:the_world/geology#igneous_extrusive)喷出岩$()和$(l:the_world/geology#igneous_intrusive)侵入岩$()中找到。$(br2)它也可以出现在$(thing)河流$()的沉积物中，这些沉积物可以用$(l:getting_started/panning)淘金盘$()淘洗。",
+      "text": "原生金是$(thing)金$()的矿石。它可以在 y=70 以下的海拔找到，但更深的矿脉更大更富集。它可以在$(l:the_world/geology#igneous_extrusive)喷出岩$()和$(l:the_world/geology#igneous_intrusive)侵入岩$()中找到。$(br2)它也可以出现在$(thing)河流$()的沉积物中，这些沉积物可以用$(l:mechanics/panning)淘金盘$()淘洗。",
       "title": "原生金"
     },
     {
@@ -117,7 +117,7 @@
     {
       "type": "patchouli:text",
       "anchor": "native_silver",
-      "text": "原生银是$(thing)银$()的矿石。在隆升区域 y=90 以上的$(thing)花岗岩$()或$(thing)闪长岩$()中可以找到小型贫瘠矿脉。在 y=20 以下的深层地下，在$(thing)花岗岩$()、$(thing)闪长岩$()、$(thing)片岩$()和$(thing)片麻岩$()中可以找到更大更富集的矿脉。$(br2)它也可以出现在$(thing)河流$()的沉积物中，这些沉积物可以用$(l:getting_started/panning)淘金盘$()淘洗。",
+      "text": "原生银是$(thing)银$()的矿石。在隆升区域 y=90 以上的$(thing)花岗岩$()或$(thing)闪长岩$()中可以找到小型贫瘠矿脉。在 y=20 以下的深层地下，在$(thing)花岗岩$()、$(thing)闪长岩$()、$(thing)片岩$()和$(thing)片麻岩$()中可以找到更大更富集的矿脉。$(br2)它也可以出现在$(thing)河流$()的沉积物中，这些沉积物可以用$(l:mechanics/panning)淘金盘$()淘洗。",
       "title": "原生银"
     },
     {
@@ -270,7 +270,7 @@
     {
       "type": "patchouli:text",
       "anchor": "cassiterite",
-      "text": "锡石是$(thing)锡$()的矿石。它可以在高海拔的$(l:the_world/geology#igneous_intrusive)侵入岩$()中找到，在隆升区域或岩墙中 y=80 以上。$(br2)它也可以出现在$(thing)河流$()的沉积物中，这些沉积物可以用$(l:getting_started/panning)淘金盘$()淘洗。",
+      "text": "锡石是$(thing)锡$()的矿石。它可以在高海拔的$(l:the_world/geology#igneous_intrusive)侵入岩$()中找到，在隆升区域或岩墙中 y=80 以上。$(br2)它也可以出现在$(thing)河流$()的沉积物中，这些沉积物可以用$(l:mechanics/panning)淘金盘$()淘洗。",
       "title": "锡石"
     },
     {
@@ -901,7 +901,7 @@
       "item": "tfc:ore/sylvite",
       "title": "钾石盐",
       "link_recipes": false,
-      "text": "钾石盐是一种$(thing)矿物$()，可以在$(l:crafting/quern)手推磨$()中研磨，然后用作$(l:food/fertilizers)肥料$()。它可以在近地表的$(thing)页岩$()、$(thing)黏土岩$()和$(thing)燧石岩$()中以非常巨大的扁平矿层形式找到。"
+      "text": "钾石盐是一种$(thing)矿物$()，可以在$(l:crafting/quern)手推磨$()中研磨，然后用作$(l:mechanics/fertilizers)肥料$()。它可以在近地表的$(thing)页岩$()、$(thing)黏土岩$()和$(thing)燧石岩$()中以非常巨大的扁平矿层形式找到。"
     },
     {
       "type": "patchouli:multiblock",

@@ -25,7 +25,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Aynı seviyede ancak farklı metallerden yapılmış zırhlar küçük farklılıklar gösterebilir. Bunlar dayanıklılığın yanı sıra $(l:mechanics/damage_types)Hasar Dirençleri$() ile ifade edilir. Artan dayanıklılık sırasına göre bronzlar; $(thing)Bizmut Bronzu$(), normal $(thing)Bronz$() ve $(thing)Kara Bronz$() olarak sıralanır. Renkli çelikler için ise $(thing)Kızıl Çelik$(), $(thing)Mavi Çelik$()'ten daha uzun ömürlüdür."
+      "text": "Aynı seviyede ancak farklı metallerden yapılmış zırhlar küçük farklılıklar gösterebilir. Bunlar dayanıklılığın yanı sıra $(l:core_mechanics/damage_types)Hasar Dirençleri$() ile ifade edilir. Artan dayanıklılık sırasına göre bronzlar; $(thing)Bizmut Bronzu$(), normal $(thing)Bronz$() ve $(thing)Kara Bronz$() olarak sıralanır. Renkli çelikler için ise $(thing)Kızıl Çelik$(), $(thing)Mavi Çelik$()'ten daha uzun ömürlüdür."
     },
     {
       "type": "patchouli:text",

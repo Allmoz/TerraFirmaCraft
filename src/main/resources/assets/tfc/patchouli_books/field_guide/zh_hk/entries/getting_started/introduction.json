@@ -110,7 +110,7 @@
         "tfc:knapping/stone/hammer_head/igneous_extrusive",
         "tfc:knapping/stone/hammer_head/igneous_intrusive"
       ],
-      "text": "$(thing)錘$()可以當作武器使用（造成$(l:mechanics/damage_types)打擊傷害$()），但它最主要的用途還是在$(l:getting_started/primitive_anvils)冶金業$()中。"
+      "text": "$(thing)錘$()可以當作武器使用（造成$(l:core_mechanics/damage_types)打擊傷害$()），但它最主要的用途還是在$(l:getting_started/primitive_anvils)冶金業$()中。"
     },
     {
       "type": "tfc:rock_knapping_recipe",
@@ -120,7 +120,7 @@
         "tfc:knapping/stone/javelin_head/igneous_extrusive",
         "tfc:knapping/stone/javelin_head/igneous_intrusive"
       ],
-      "text": "$(thing)標槍$()是一種原始的一次性遠程武器，也可以當作近戰武器使用（造成$(l:mechanics/damage_types)突刺傷害$()）。"
+      "text": "$(thing)標槍$()是一種原始的一次性遠程武器，也可以當作近戰武器使用（造成$(l:core_mechanics/damage_types)突刺傷害$()）。"
     }
   ],
   "read_by_default": true,

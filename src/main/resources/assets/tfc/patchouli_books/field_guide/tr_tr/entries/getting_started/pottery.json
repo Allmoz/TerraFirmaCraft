@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Kil$(), çömlekçilikte kullanılabilen son derece kullanışlı ve dengeli bir malzemedir. İlk başta yerini bulmak zor olabilir. Kil genellikle çimlerle gizlenmiştir ancak sıklıkla iki tür konumda bulunur. En az 175mm $(l:core_mechanics/climate#rainfall)Yıllık Yağış$() alan bölgelerde kil, genellikle belirli $(thing)Bitkilerin$() varlığıyla işaret edilen yamalar halinde her yerde bulunabilir."
+      "text": "$(thing)Kil$(), çömlekçilikte kullanılabilen son derece kullanışlı ve dengeli bir malzemedir. İlk başta yerini bulmak zor olabilir. Kil genellikle çimlerle gizlenmiştir ancak sıklıkla iki tür konumda bulunur. En az 175mm $(l:the_world/climate#rainfall)Yıllık Yağış$() alan bölgelerde kil, genellikle belirli $(thing)Bitkilerin$() varlığıyla işaret edilen yamalar halinde her yerde bulunabilir."
     },
     {
       "type": "patchouli:multiblock",
@@ -104,7 +104,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_propick_head_mold",
-      "text": "$(l:mechanics/prospecting#propick)Madenci Kazması$(), büyük miktarda cevher bulmak için temel bir alettir."
+      "text": "$(l:metalworking/prospecting#propick)Madenci Kazması$(), büyük miktarda cevher bulmak için temel bir alettir."
     },
     {
       "type": "tfc:knapping_recipe",
@@ -114,7 +114,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_saw_blade_mold",
-      "text": "Bir $(thing)Testere$(), $(thing)Çalışma Tezgahı$() gibi gelişmiş ahşap bileşenlerin ve $(l:mechanics/support_beams)Destekler$() gibi diğer birçok düzeneğin üretilmesi için gereken bir alettir."
+      "text": "Bir $(thing)Testere$(), $(thing)Çalışma Tezgahı$() gibi gelişmiş ahşap bileşenlerin ve $(l:core_mechanics/support_beams)Destekler$() gibi diğer birçok düzeneğin üretilmesi için gereken bir alettir."
     },
     {
       "type": "tfc:knapping_recipe",

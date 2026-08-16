@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Os minérios e minerais em Terrafirmacraft são raros - ao contrário da baunilha, os minérios são encontrados em veias maciças, escassas e raras que requerem algumas $(l:mechanics/prospecting)prospecção$() localizar. Minérios diferentes também aparecerão em diferentes tipos de rochas e em diferentes elevações, o que significa encontrar o tipo de rocha certo na altitude certa é a chave para localizar o minério que você está procurando."
+      "text": "Os minérios e minerais em Terrafirmacraft são raros - ao contrário da baunilha, os minérios são encontrados em veias maciças, escassas e raras que requerem algumas $(l:metalworking/prospecting)prospecção$() localizar. Minérios diferentes também aparecerão em diferentes tipos de rochas e em diferentes elevações, o que significa encontrar o tipo de rocha certo na altitude certa é a chave para localizar o minério que você está procurando."
     },
     {
       "type": "patchouli:text",

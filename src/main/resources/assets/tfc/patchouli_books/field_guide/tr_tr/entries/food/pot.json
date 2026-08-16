@@ -55,7 +55,7 @@
       "item": "tfc:food/fruit_soup",
       "title": "Çorba Tarifleri",
       "link_recipes": false,
-      "text": "Çorba, bir tencere $(thing)su$() içerisinde 3-5 adet $(thing)meyve$(), $(thing)sebze$() veya $(thing)et$() ile yapılır. Tarif tamamlandığında, tenceredeki su kırmızıya dönecektir. Çorbayı almak için bir $(l:food/bowls)kase$() ile $(item)$(k:key.use)$() tuşunu kullanın. Çorba, eklenen gıda miktarına bağlı olarak birden fazla besin öğesini birleştirerek belirli sayıda öğün çıktısı sağlar. Diğer öğünlere göre daha ucuzdurlar ancak besin değerleri o kadar yoğun değildir."
+      "text": "Çorba, bir tencere $(thing)su$() içerisinde 3-5 adet $(thing)meyve$(), $(thing)sebze$() veya $(thing)et$() ile yapılır. Tarif tamamlandığında, tenceredeki su kırmızıya dönecektir. Çorbayı almak için bir $(l:mechanics/bowls)kase$() ile $(item)$(k:key.use)$() tuşunu kullanın. Çorba, eklenen gıda miktarına bağlı olarak birden fazla besin öğesini birleştirerek belirli sayıda öğün çıktısı sağlar. Diğer öğünlere göre daha ucuzdurlar ancak besin değerleri o kadar yoğun değildir."
     },
     {
       "type": "patchouli:spotlight",

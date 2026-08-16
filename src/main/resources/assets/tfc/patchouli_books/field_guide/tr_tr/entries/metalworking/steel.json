@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Çelik; aletler ve $(l:mechanics/armor)Zırh$() yapımında kullanılabilen gelişmiş bir malzemedir ve birkaç farklı çeşidi bulunur: $(thing)Çelik$(), $(thing)Kara Çelik$(), $(thing)Kızıl Çelik$() ve $(thing)Mavi Çelik$().$(br2)Çelik üretmek için öncelikle bir $(l:mechanics/blast_furnace)Yüksek Fırın$() içerisinde $(thing)Pik Demir$() oluşturmalı ve bunu $(thing)Külçe$() haline dökmelisiniz."
+      "text": "Çelik; aletler ve $(l:mechanics/armor)Zırh$() yapımında kullanılabilen gelişmiş bir malzemedir ve birkaç farklı çeşidi bulunur: $(thing)Çelik$(), $(thing)Kara Çelik$(), $(thing)Kızıl Çelik$() ve $(thing)Mavi Çelik$().$(br2)Çelik üretmek için öncelikle bir $(l:metalworking/blast_furnace)Yüksek Fırın$() içerisinde $(thing)Pik Demir$() oluşturmalı ve bunu $(thing)Külçe$() haline dökmelisiniz."
     },
     {
       "type": "tfc:anvil_recipe",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Çelik Pompalar$() ve $(thing)Çelik Borular$(), $(thing)Su$(), $(thing)Tuzlu Su$() ve $(thing)Kaynak Suyu$() gibi sıvıları taşımak için yararlı bloklardır. Ayrıca kaynak bloklarını taşımak ve küçük kapalı alanları doldurmak için de kullanılabilirler. $(l:mechanics/aqueducts)Su Kemerleri$()'nin aksine, kaynak bloklarını yukarı doğru taşımak için de kullanılabilirler."
+      "text": "$(thing)Çelik Pompalar$() ve $(thing)Çelik Borular$(), $(thing)Su$(), $(thing)Tuzlu Su$() ve $(thing)Kaynak Suyu$() gibi sıvıları taşımak için yararlı bloklardır. Ayrıca kaynak bloklarını taşımak ve küçük kapalı alanları doldurmak için de kullanılabilirler. $(l:food/aqueducts)Su Kemerleri$()'nin aksine, kaynak bloklarını yukarı doğru taşımak için de kullanılabilirler."
     },
     {
       "type": "tfc:anvil_recipe",

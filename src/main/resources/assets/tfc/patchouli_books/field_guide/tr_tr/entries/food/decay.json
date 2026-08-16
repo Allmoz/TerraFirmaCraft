@@ -40,7 +40,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Belirli yiyecek türlerini kolayca saklamanın bir diğer yolu da onları pişirmektir. $(thing)Etler$(), pişirildiklerinde çiğ hallerine göre daha yavaş bozulurlar.$(br2)Ayrıca pişirme için doğru cihazı kullanmak da önemlidir. $(l:mechanics/charcoal_forge)Kömür Ocağı$() veya $(l:metalworking/crucible)Pota$() gibi çok yüksek ısı veren bazı cihazlar, yiyecekleri pişirmek için $(bold)kötüdür$() ve daha hızlı bozulmalarına neden olur!",
+      "text": "Belirli yiyecek türlerini kolayca saklamanın bir diğer yolu da onları pişirmektir. $(thing)Etler$(), pişirildiklerinde çiğ hallerine göre daha yavaş bozulurlar.$(br2)Ayrıca pişirme için doğru cihazı kullanmak da önemlidir. $(l:metalworking/charcoal_forge)Kömür Ocağı$() veya $(l:metalworking/crucible)Pota$() gibi çok yüksek ısı veren bazı cihazlar, yiyecekleri pişirmek için $(bold)kötüdür$() ve daha hızlı bozulmalarına neden olur!",
       "title": "Pişirme"
     },
     {

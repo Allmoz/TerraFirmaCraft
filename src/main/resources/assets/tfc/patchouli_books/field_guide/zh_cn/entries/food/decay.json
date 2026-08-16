@@ -40,7 +40,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "另一种十分简单的食物保鲜方法是烹饪。$(thing)熟肉$()比生肉的储存时间要久。$(br2)注意，加热时使用的设备会影响食物的保质期。某些太热的设备，例如$(l:mechanics/charcoal_forge)木炭炉$()和$(l:metalworking/crucible)高炉$()$(bold)不适合$()用来烹饪食物。它们烤出来的食物的保质期会打折扣。",
+      "text": "另一种十分简单的食物保鲜方法是烹饪。$(thing)熟肉$()比生肉的储存时间要久。$(br2)注意，加热时使用的设备会影响食物的保质期。某些太热的设备，例如$(l:metalworking/charcoal_forge)木炭炉$()和$(l:metalworking/crucible)高炉$()$(bold)不适合$()用来烹饪食物。它们烤出来的食物的保质期会打折扣。",
       "title": "烹饪"
     },
     {

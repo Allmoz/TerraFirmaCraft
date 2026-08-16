@@ -40,7 +40,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "One other way to easily preserve certain types of food is to cook them. $(thing)Meats$() will all expire slower when they are cooked than when they are raw.$(br2)It is also important to use the correct device for cooking. Certain devices that heat very hot, such as a $(l:mechanics/charcoal_forge)Charcoal Forge$() or a $(l:metalworking/crucible)Crucible$() are $(bold)bad$() for cooking food, which will make them expire faster!",
+      "text": "One other way to easily preserve certain types of food is to cook them. $(thing)Meats$() will all expire slower when they are cooked than when they are raw.$(br2)It is also important to use the correct device for cooking. Certain devices that heat very hot, such as a $(l:metalworking/charcoal_forge)Charcoal Forge$() or a $(l:metalworking/crucible)Crucible$() are $(bold)bad$() for cooking food, which will make them expire faster!",
       "title": "Cooking"
     },
     {

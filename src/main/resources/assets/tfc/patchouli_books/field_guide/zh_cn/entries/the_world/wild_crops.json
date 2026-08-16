@@ -319,7 +319,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "野生作物会生成在接近该作物可种植的气候区域，因此如果要寻找特定作物，就到该作物可种植的气候中去寻找。然而，与玩家种植的$(l:food/crops)农作物$()不同，野生作物不需要$(l:food/hydration)湿度$()。相反，它们出现的位置取决于年平均$(l:core_mechanics/climate#temperature)温度$()和$(l:core_mechanics/climate#rainfall)降雨量$()。",
+      "text": "野生作物会生成在接近该作物可种植的气候区域，因此如果要寻找特定作物，就到该作物可种植的气候中去寻找。然而，与玩家种植的$(l:food/crops)农作物$()不同，野生作物不需要$(l:food/hydration)湿度$()。相反，它们出现的位置取决于年平均$(l:the_world/climate#temperature)温度$()和$(l:the_world/climate#rainfall)降雨量$()。",
       "title": "寻找野生作物"
     },
     {

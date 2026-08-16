@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Savak$(), $(thing)Cevher Yataklarını$() işlemek için kullanılan ve $(l:getting_started/panning)Eleme$() ile aynı sonuçları farklı olasılıklarla üreten bir düzenektir."
+      "text": "$(thing)Savak$(), $(thing)Cevher Yataklarını$() işlemek için kullanılan ve $(l:mechanics/panning)Eleme$() ile aynı sonuçları farklı olasılıklarla üreten bir düzenektir."
     },
     {
       "type": "patchouli:crafting",

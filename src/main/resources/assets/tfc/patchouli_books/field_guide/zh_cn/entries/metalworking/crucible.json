@@ -16,7 +16,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/crucible",
-      "text": "塑形之后就可以用$(l:getting_started/pit_kiln)坑窑$()或$(l:mechanics/charcoal_forge)木炭炉$()之类的设备将坩埚$(thing)烧制$()成型了。$(br2)要使用坩埚，就得给它提供一个热源。任何位于坩埚下方的方块都可以作为其热源。$(l:mechanics/charcoal_forge)木炭炉$()就很合适。"
+      "text": "塑形之后就可以用$(l:getting_started/pit_kiln)坑窑$()或$(l:metalworking/charcoal_forge)木炭炉$()之类的设备将坩埚$(thing)烧制$()成型了。$(br2)要使用坩埚，就得给它提供一个热源。任何位于坩埚下方的方块都可以作为其热源。$(l:metalworking/charcoal_forge)木炭炉$()就很合适。"
     },
     {
       "type": "patchouli:multiblock",

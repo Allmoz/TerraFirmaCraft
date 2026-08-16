@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)黏土$()是一种特别有用的材料，你可以用它制作陶器。一开始你可能难以找到黏土，因为它们总是隐藏在草皮之下。但简而言之，有两种获取它们的手段。首先，黏土会在$(l:core_mechanics/climate#rainfall)年降雨量$()大于 175mm 的区域中成片地大量生成，而且有几种特殊的$(thing)植物$()会生长在黏土之上。"
+      "text": "$(thing)黏土$()是一种特别有用的材料，你可以用它制作陶器。一开始你可能难以找到黏土，因为它们总是隐藏在草皮之下。但简而言之，有两种获取它们的手段。首先，黏土会在$(l:the_world/climate#rainfall)年降雨量$()大于 175mm 的区域中成片地大量生成，而且有几种特殊的$(thing)植物$()会生长在黏土之上。"
     },
     {
       "type": "patchouli:multiblock",
@@ -104,7 +104,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_propick_head_mold",
-      "text": "$(l:mechanics/prospecting#propick)勘矿镐$()本身并不能挖掘，但却是寻找矿脉必不可少的工具。"
+      "text": "$(l:metalworking/prospecting#propick)勘矿镐$()本身并不能挖掘，但却是寻找矿脉必不可少的工具。"
     },
     {
       "type": "tfc:knapping_recipe",
@@ -114,7 +114,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_saw_blade_mold",
-      "text": "$(thing)锯$()可以将原木切割成木板或$(l:mechanics/support_beams)支撑柱$()等高级木工物品。只有有了锯子你才能制作$(thing)工作台$()！"
+      "text": "$(thing)锯$()可以将原木切割成木板或$(l:core_mechanics/support_beams)支撑柱$()等高级木工物品。只有有了锯子你才能制作$(thing)工作台$()！"
     },
     {
       "type": "tfc:knapping_recipe",

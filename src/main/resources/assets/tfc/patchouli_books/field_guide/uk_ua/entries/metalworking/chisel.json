@@ -33,7 +33,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Будь обережним! При роботі під землею є ймовірність $(l:mechanics/support_beams)обвалу$() породи."
+      "text": "Будь обережним! При роботі під землею є ймовірність $(l:core_mechanics/support_beams)обвалу$() породи."
     }
   ],
   "read_by_default": true,

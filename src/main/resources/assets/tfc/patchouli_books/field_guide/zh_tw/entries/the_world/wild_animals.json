@@ -311,14 +311,14 @@
       "entity": "tfc:crappie",
       "scale": 0.7,
       "name": "Crappie",
-      "text": "藍鰓魚生活在$(l:core_mechanics/climate#temperature)溫度$()為-10°C到26°C的任何河流以及湖泊中."
+      "text": "藍鰓魚生活在$(l:the_world/climate#temperature)溫度$()為-10°C到26°C的任何河流以及湖泊中."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:bluegill",
       "scale": 0.7,
       "name": "藍鰓魚",
-      "text": "藍鰓魚生活在$(l:core_mechanics/climate#temperature)溫度$()為-10°C到26°C的任何河流以及湖泊中."
+      "text": "藍鰓魚生活在$(l:the_world/climate#temperature)溫度$()為-10°C到26°C的任何河流以及湖泊中."
     },
     {
       "type": "patchouli:entity",

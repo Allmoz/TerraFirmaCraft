@@ -311,14 +311,14 @@
       "entity": "tfc:crappie",
       "scale": 0.7,
       "name": "Crappie",
-      "text": "Güneş balığı, en az -10°C ve en fazla 26°C $(l:core_mechanics/climate#temperature)sıcaklığa$() sahip herhangi bir nehir veya gölde ortaya çıkar."
+      "text": "Güneş balığı, en az -10°C ve en fazla 26°C $(l:the_world/climate#temperature)sıcaklığa$() sahip herhangi bir nehir veya gölde ortaya çıkar."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:bluegill",
       "scale": 0.7,
       "name": "Güneş Balığı",
-      "text": "Güneş balığı, en az -10°C ve en fazla 26°C $(l:core_mechanics/climate#temperature)sıcaklığa$() sahip herhangi bir nehir veya gölde ortaya çıkar."
+      "text": "Güneş balığı, en az -10°C ve en fazla 26°C $(l:the_world/climate#temperature)sıcaklığa$() sahip herhangi bir nehir veya gölde ortaya çıkar."
     },
     {
       "type": "patchouli:entity",

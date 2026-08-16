@@ -1,7 +1,7 @@
 {
   "__comment__": "This file was automatically created by mcresources",
+  "name": "Leatherworking",
   "category": "tfc:crafting",
-  "name": "制皮術",
   "icon": "minecraft:leather",
   "pages": [
     {

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Argila$() é um material incrivelmente útil e equilibrado que pode ser usado para cerâmica. Pode ser um desafio para localizar a princípio. A argila é geralmente escondida pela grama, mas geralmente é encontrada em dois locais. Em áreas com pelo menos 175mm $(l:core_mechanics/climate#rainfall)Chuvas anuais$(), argila pode ser encontrada em patches em todo o lugar, geralmente marcada pela presença de certos $(thing)Plantas$()."
+      "text": "$(thing)Argila$() é um material incrivelmente útil e equilibrado que pode ser usado para cerâmica. Pode ser um desafio para localizar a princípio. A argila é geralmente escondida pela grama, mas geralmente é encontrada em dois locais. Em áreas com pelo menos 175mm $(l:the_world/climate#rainfall)Chuvas anuais$(), argila pode ser encontrada em patches em todo o lugar, geralmente marcada pela presença de certos $(thing)Plantas$()."
     },
     {
       "type": "patchouli:multiblock",
@@ -104,7 +104,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_propick_head_mold",
-      "text": "Uma $(l:mechanics/prospecting#propick)Escolha do prospector$() é uma ferramenta essencial para localizar grandes quantidades de minério."
+      "text": "Uma $(l:metalworking/prospecting#propick)Escolha do prospector$() é uma ferramenta essencial para localizar grandes quantidades de minério."
     },
     {
       "type": "tfc:knapping_recipe",
@@ -114,7 +114,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_saw_blade_mold",
-      "text": "A $(thing)Serra$() é uma ferramenta necessária para criar componentes avançados de madeira como um $(thing)Bancada de Trabalho$() junto com muitos outros dispositivos como $(l:mechanics/support_beams)Apoia$()."
+      "text": "A $(thing)Serra$() é uma ferramenta necessária para criar componentes avançados de madeira como um $(thing)Bancada de Trabalho$() junto com muitos outros dispositivos como $(l:core_mechanics/support_beams)Apoia$()."
     },
     {
       "type": "tfc:knapping_recipe",

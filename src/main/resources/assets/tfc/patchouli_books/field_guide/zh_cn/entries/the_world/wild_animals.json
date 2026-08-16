@@ -37,7 +37,7 @@
       "entity": "tfc:black_bear",
       "scale": 0.55,
       "name": "黑熊",
-      "text": "黑熊生活在$(l:core_mechanics/climate#temperature)温度$()在 5 到 20°C、$(l:core_mechanics/climate#rainfall)降雨量$()不小于 250mm 的温暖潮湿的森林中。"
+      "text": "The black bear spawns in forests of warmer, wetter climates, of $(l:core_mechanics/climate#temperature)temperature$() 5 to 20°C and at least 250mm of $(l:core_mechanics/climate#rainfall)rainfall$()."
     },
     {
       "type": "patchouli:entity",
@@ -276,112 +276,112 @@
       "entity": "tfc:salmon",
       "scale": 0.7,
       "name": "三文鱼",
-      "text": "三文鱼生活在$(l:core_mechanics/climate#temperature)温度$()在 -8 到 12°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()至少 250mm 的河流或湖泊中。"
+      "text": "三文鱼生活在$(l:the_world/climate#temperature)温度$()在 -8 到 12°C 之间、$(l:the_world/climate#rainfall)降雨量$()至少 250mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:rainbow_trout",
       "scale": 0.7,
       "name": "虹鳟",
-      "text": "虹鳟生活在$(l:core_mechanics/climate#temperature)温度$()在 -12 到 10°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()至少 150mm 的河流或湖泊中。"
+      "text": "虹鳟生活在$(l:the_world/climate#temperature)温度$()在 -12 到 10°C 之间、$(l:the_world/climate#rainfall)降雨量$()至少 150mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:lake_trout",
       "scale": 0.7,
       "name": "湖鳟",
-      "text": "湖鳟生活在$(l:core_mechanics/climate#temperature)温度$()在 -5 到 15°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()至少 250mm 的湖泊中。"
+      "text": "湖鳟生活在$(l:the_world/climate#temperature)温度$()在 -5 到 15°C 之间、$(l:the_world/climate#rainfall)降雨量$()至少 250mm 的湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:largemouth_bass",
       "scale": 0.7,
       "name": "大口黑鲈",
-      "text": "大口黑鲈生活在$(l:core_mechanics/climate#temperature)温度$()在 -14 到 16°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()至少 200mm 的河流或湖泊中。"
+      "text": "大口黑鲈生活在$(l:the_world/climate#temperature)温度$()在 -14 到 16°C 之间、$(l:the_world/climate#rainfall)降雨量$()至少 200mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:smallmouth_bass",
       "scale": 0.7,
       "name": "小口黑鲈",
-      "text": "小口黑鲈生活在$(l:core_mechanics/climate#temperature)温度$()在 -14 到 16°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()低于 300mm 的河流或湖泊中。"
+      "text": "小口黑鲈生活在$(l:the_world/climate#temperature)温度$()在 -14 到 16°C 之间、$(l:the_world/climate#rainfall)降雨量$()低于 300mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:crappie",
       "scale": 0.7,
       "name": "莓鲈",
-      "text": "莓鲈生活在$(l:core_mechanics/climate#temperature)温度$()在 -10 到 20°C 的河流或湖泊中。"
+      "text": "莓鲈生活在$(l:the_world/climate#temperature)温度$()在 -10 到 20°C 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:bluegill",
       "scale": 0.7,
       "name": "蓝鳃鱼",
-      "text": "蓝鳃鱼生活在$(l:core_mechanics/climate#temperature)温度$()在 -10 到 15°C 的河流或湖泊中。"
+      "text": "蓝鳃鱼生活在$(l:the_world/climate#temperature)温度$()在 -10 到 15°C 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:northern_pike",
       "scale": 0.7,
       "name": "白斑狗鱼",
-      "text": "白斑狗鱼生活在$(l:core_mechanics/climate#temperature)温度$()在 -10 到 26°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()在 150 到 400mm 之间的河流或湖泊中。"
+      "text": "白斑狗鱼生活在$(l:the_world/climate#temperature)温度$()在 -10 到 26°C 之间、$(l:the_world/climate#rainfall)降雨量$()在 150 到 400mm 之间的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:peacock_bass",
       "scale": 0.7,
       "name": "眼斑孔雀鲈",
-      "text": "眼斑孔雀鲈生活在$(l:core_mechanics/climate#temperature)温度$()在 12 到 25°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()在 200 到 400mm 之间的河流或湖泊中。"
+      "text": "眼斑孔雀鲈生活在$(l:the_world/climate#temperature)温度$()在 12 到 25°C 之间、$(l:the_world/climate#rainfall)降雨量$()在 200 到 400mm 之间的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:arctic_char",
       "scale": 0.7,
       "name": "北极红点鲑",
-      "text": "北极红点鲑生活在$(l:core_mechanics/climate#temperature)温度$()在 -20 到 -8°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()在 150 到 400mm 之间的河流或湖泊中。"
+      "text": "北极红点鲑生活在$(l:the_world/climate#temperature)温度$()在 -20 到 -8°C 之间、$(l:the_world/climate#rainfall)降雨量$()在 150 到 400mm 之间的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:muksun",
       "scale": 0.7,
       "name": "宽鼻白鲑",
-      "text": "宽鼻白鲑生活在$(l:core_mechanics/climate#temperature)温度$()在 -20 到 -10°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()至少 250mm 的河流或湖泊中。"
+      "text": "宽鼻白鲑生活在$(l:the_world/climate#temperature)温度$()在 -20 到 -10°C 之间、$(l:the_world/climate#rainfall)降雨量$()至少 250mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:burbot",
       "scale": 0.7,
       "name": "江鳕",
-      "text": "江鳕生活在$(l:core_mechanics/climate#temperature)温度$()在 -16 到 -9°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()低于 350mm 的河流或湖泊中。"
+      "text": "江鳕生活在$(l:the_world/climate#temperature)温度$()在 -16 到 -9°C 之间、$(l:the_world/climate#rainfall)降雨量$()低于 350mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:tilapia",
       "scale": 0.7,
       "name": "罗非鱼",
-      "text": "罗非鱼生活在$(l:core_mechanics/climate#temperature)温度$()在 10 到 32°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()低于 300mm 的河流或湖泊中。"
+      "text": "罗非鱼生活在$(l:the_world/climate#temperature)温度$()在 10 到 32°C 之间、$(l:the_world/climate#rainfall)降雨量$()低于 300mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:spotted_gudgeon",
       "scale": 0.7,
       "name": "斑点鮈",
-      "text": "斑点鮈生活在$(l:core_mechanics/climate#temperature)温度$()在 6 到 24°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()低于 250mm 的河流或湖泊中。"
+      "text": "斑点鮈生活在$(l:the_world/climate#temperature)温度$()在 6 到 24°C 之间、$(l:the_world/climate#rainfall)降雨量$()低于 250mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:pacu",
       "scale": 0.7,
       "name": "巨脂鲤",
-      "text": "巨脂鲤生活在$(l:core_mechanics/climate#temperature)温度$()在 20 到 35°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()高于 200mm 的河流或湖泊中。"
+      "text": "巨脂鲤生活在$(l:the_world/climate#temperature)温度$()在 20 到 35°C 之间、$(l:the_world/climate#rainfall)降雨量$()高于 200mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:red_piranha",
       "scale": 0.7,
       "name": "红腹食人鱼",
-      "text": "红腹食人鱼生活在$(l:core_mechanics/climate#temperature)温度$()在 22 到 35°C 之间、$(l:core_mechanics/climate#rainfall)降雨量$()高于 300mm 的河流或湖泊中。"
+      "text": "红腹食人鱼生活在$(l:the_world/climate#temperature)温度$()在 22 到 35°C 之间、$(l:the_world/climate#rainfall)降雨量$()高于 300mm 的河流或湖泊中。"
     },
     {
       "type": "patchouli:text",
@@ -394,21 +394,21 @@
       "entity": "tfc:isopod",
       "scale": 0.7,
       "name": "等足虫",
-      "text": "等足虫生活在$(l:core_mechanics/climate#temperature)温度$()不高于 14°C 的深海中。"
+      "text": "Isopods spawn in deeper sections of oceans of $(l:core_mechanics/climate#temperature)temperature$() at most 14°C."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:lobster",
       "scale": 0.7,
       "name": "龙虾",
-      "text": "龙虾生活在$(l:core_mechanics/climate#temperature)温度$()不高于 21°C 的海洋中。"
+      "text": "Lobster spawn in any ocean that is at most of a $(l:core_mechanics/climate#temperature)temperature$() of 21°C."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:crayfish",
       "scale": 0.7,
       "name": "小龙虾",
-      "text": "小龙虾和龙虾类似，不过它们生活在河流和湖泊中。它们喜欢生活在$(l:core_mechanics/climate#temperature)温度$()不低于 5°C、$(l:core_mechanics/climate#rainfall)降雨量$()不小于 125mm 的环境中。"
+      "text": "Crayfish are like lobster, but spawn in rivers and lakes. They need a $(l:core_mechanics/climate#temperature)temperature$() of at least 5°C and a $(l:core_mechanics/climate#rainfall)rainfall$() of at least 125mm."
     },
     {
       "type": "patchouli:entity",

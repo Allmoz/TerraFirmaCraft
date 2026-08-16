@@ -388,7 +388,7 @@
       "type": "tfc:glassworking_recipe",
       "anchor": "jar",
       "recipe": "tfc:glassworking/empty_jar",
-      "text": "$(l:mechanics/jarring)玻璃罐$()也是由吹制玻璃制成，但只能用二氧化硅或赤铁质玻璃。"
+      "text": "$(l:food/jarring)玻璃罐$()也是由吹制玻璃制成，但只能用二氧化硅或赤铁质玻璃。"
     },
     {
       "type": "tfc:glassworking_recipe",

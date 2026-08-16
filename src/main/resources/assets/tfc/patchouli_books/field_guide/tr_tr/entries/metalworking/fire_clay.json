@@ -28,7 +28,7 @@
       "type": "tfc:knapping_recipe",
       "anchor": "fire_bricks",
       "recipe": "tfc:knapping/ceramic/unfired_fire_brick",
-      "text": "$(l:mechanics/blast_furnace)Yüksek Fırın$(), yalıtım olarak yalnızca ateş tuğlalarını kabul eder."
+      "text": "$(l:metalworking/blast_furnace)Yüksek Fırın$(), yalıtım olarak yalnızca ateş tuğlalarını kabul eder."
     },
     {
       "type": "tfc:knapping_recipe",

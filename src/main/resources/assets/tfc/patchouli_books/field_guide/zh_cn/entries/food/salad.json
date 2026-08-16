@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)沙拉$()是一种在$(thing)碗$()中制作的食物，最多可由五种$(thing)水果$()、$(thing)蔬菜$()或$(thing)熟肉$()制成。$(br2)沙拉是最简单的餐点之一，只需要一个$(l:food/bowls)碗$()。首先，手持$(thing)碗$()，按住$(item)$(k:key.sneak)$()的同时按$(item)$(k:key.use)$()，即可打开沙拉界面。"
+      "text": "$(thing)沙拉$()是一种在$(thing)碗$()中制作的食物，最多可由五种$(thing)水果$()、$(thing)蔬菜$()或$(thing)熟肉$()制成。$(br2)沙拉是最简单的餐点之一，只需要一个$(l:mechanics/bowls)碗$()。首先，手持$(thing)碗$()，按住$(item)$(k:key.sneak)$()的同时按$(item)$(k:key.use)$()，即可打开沙拉界面。"
     },
     {
       "type": "patchouli:spotlight",

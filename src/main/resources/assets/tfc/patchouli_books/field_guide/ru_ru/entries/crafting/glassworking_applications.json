@@ -388,7 +388,7 @@
       "type": "tfc:glassworking_recipe",
       "anchor": "jar",
       "recipe": "tfc:glassworking/empty_jar",
-      "text": "$(l:mechanics/jarring)Банки$() тоже делаются из дутого стекла, но только из силикатного или гематитового."
+      "text": "$(l:food/jarring)Банки$() тоже делаются из дутого стекла, но только из силикатного или гематитового."
     },
     {
       "type": "tfc:glassworking_recipe",

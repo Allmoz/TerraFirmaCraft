@@ -1,7 +1,7 @@
 {
   "__comment__": "This file was automatically created by mcresources",
   "name": "建造高炉",
-  "category": "tfc:mechanics",
+  "category": "tfc:metalworking",
   "icon": "tfc:blast_furnace",
   "pages": [
     {
@@ -64,5 +64,6 @@
       "text": "熔融生铁会从高炉中流入任何直接放置在其下方的容器（如$(l:metalworking/crucible)坩埚$()）中。之后可从坩埚界面将熔融生铁浇铸至铸锭模具中。你不能直接用生铁制作工具或装备，它还必须再经过一些其他工序处理之后才能使用。具体方法请参阅$(l:metalworking/steel)炼钢$()章节。"
     }
   ],
-  "read_by_default": true
+  "read_by_default": true,
+  "sortnum": 11
 }

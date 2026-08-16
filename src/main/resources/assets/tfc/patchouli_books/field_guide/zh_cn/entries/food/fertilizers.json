@@ -6,14 +6,14 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "肥料用于为$(l:food/crops)农作物$()添加养分。手持肥料，右键点击$(thing)耕地$()或$(thing)作物$()即可添加养分。应该会出现粒子效果，表示肥料已添加。$(br)肥料的效力受其所用$(l:food/farmland)耕地$()类型的影响。",
+      "text": "肥料用于为$(l:food/crops)农作物$()添加养分。手持肥料，右键点击$(thing)耕地$()或$(thing)作物$()即可添加养分。应该会出现粒子效果，表示肥料已添加。$(br)肥料的效力受其所用$(l:mechanics/farmland)耕地$()类型的影响。",
       "title": "施肥"
     },
     {
       "type": "patchouli:spotlight",
       "item": "tfc:compost",
       "link_recipes": false,
-      "text": "堆肥是$(l:food/composter)堆肥桶$()的产物。$(br)$(li)$(b)氮$()：20$()$(li)$(d)钾$()：20$()"
+      "text": "堆肥是$(l:mechanics/composter)堆肥桶$()的产物。$(br)$(li)$(b)氮$()：20$()$(li)$(d)钾$()：20$()"
     },
     {
       "type": "patchouli:spotlight",

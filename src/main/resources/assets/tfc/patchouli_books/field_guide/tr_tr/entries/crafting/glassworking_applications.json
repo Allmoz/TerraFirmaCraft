@@ -388,7 +388,7 @@
       "type": "tfc:glassworking_recipe",
       "anchor": "jar",
       "recipe": "tfc:glassworking/empty_jar",
-      "text": "$(l:mechanics/jarring)Kavanozlar$() da üfleme camdan yapılır, ancak sadece silis veya hematitik camdan üretilebilirler."
+      "text": "$(l:food/jarring)Kavanozlar$() da üfleme camdan yapılır, ancak sadece silis veya hematitik camdan üretilebilirler."
     },
     {
       "type": "tfc:glassworking_recipe",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Eşyaları ısıtmak, bir eşyayı diğerine veya bir eşyayı sıvıya dönüştürmenin bir yoludur. Eşyalar birçok şekilde ısıtılabilir; bunlardan bazıları $(l:getting_started/firepit)Ateş Çukuru$(), $(l:getting_started/pit_kiln)Çukur Fırın$() veya $(l:mechanics/charcoal_forge)Kömür Ocağıdır$(). Ancak hepsi aynı şekilde çalışır. Eşyaları bu cihazların içine yerleştirdiğinizde, eşyalar yavaş yavaş ısınmaya başlayacaktır. Bu durum eşyanın araç ipucunda görülebilir."
+      "text": "Eşyaları ısıtmak, bir eşyayı diğerine veya bir eşyayı sıvıya dönüştürmenin bir yoludur. Eşyalar birçok şekilde ısıtılabilir; bunlardan bazıları $(l:getting_started/firepit)Ateş Çukuru$(), $(l:getting_started/pit_kiln)Çukur Fırın$() veya $(l:metalworking/charcoal_forge)Kömür Ocağıdır$(). Ancak hepsi aynı şekilde çalışır. Eşyaları bu cihazların içine yerleştirdiğinizde, eşyalar yavaş yavaş ısınmaya başlayacaktır. Bu durum eşyanın araç ipucunda görülebilir."
     },
     {
       "type": "patchouli:text",
