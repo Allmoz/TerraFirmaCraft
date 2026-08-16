@@ -58,7 +58,7 @@
       "entity": "tfc:lion",
       "scale": 0.55,
       "name": "§l사자",
-      "text": "사자는 $(l:core_mechanics/climate#temperature)기온$()이 16°C 이상이고, $(l:core_mechanics/climate#rainfall)강수량$()이 50mm 이상 300mm 이하인 평원에 생성됩니다."
+      "text": "The lion spawns in plains with an average $(l:core_mechanics/climate#temperature)temperature$() of at least 16°C, and $(l:core_mechanics/climate#rainfall)rainfall$() between 50 and 300mm."
     },
     {
       "type": "patchouli:entity",
@@ -311,14 +311,14 @@
       "entity": "tfc:crappie",
       "scale": 0.7,
       "name": "Crappie",
-      "text": "블루길은 $(l:core_mechanics/climate#temperature)기온$()이 -10°C 이상 26°C 이하인 강이나 호수에 생성됩니다."
+      "text": "블루길은 $(l:the_world/climate#temperature)기온$()이 -10°C 이상 26°C 이하인 강이나 호수에 생성됩니다."
     },
     {
       "type": "patchouli:entity",
       "entity": "tfc:bluegill",
       "scale": 0.7,
       "name": "§l블루길",
-      "text": "블루길은 $(l:core_mechanics/climate#temperature)기온$()이 -10°C 이상 26°C 이하인 강이나 호수에 생성됩니다."
+      "text": "블루길은 $(l:the_world/climate#temperature)기온$()이 -10°C 이상 26°C 이하인 강이나 호수에 생성됩니다."
     },
     {
       "type": "patchouli:entity",

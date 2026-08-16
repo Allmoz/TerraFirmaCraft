@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "강철은 도구와 $(l:mechanics/armor)갑옷$()을 만드는 데 사용할 수 있는 발전된 재료로, 일반 $(thing)강철$(), $(thing)흑강$(), $(thing)적강$(), $(thing)청강$()의 종류가 있습니다.$(br2)강철을 만들려면 먼저 $(l:mechanics/blast_furnace)용광로$()에서 $(thing)선철$()을 만들고 $(thing)주괴$()로 주조해야 합니다."
+      "text": "강철은 도구와 $(l:mechanics/armor)갑옷$()을 만드는 데 사용할 수 있는 발전된 재료로, 일반 $(thing)강철$(), $(thing)흑강$(), $(thing)적강$(), $(thing)청강$()의 종류가 있습니다.$(br2)강철을 만들려면 먼저 $(l:metalworking/blast_furnace)용광로$()에서 $(thing)선철$()을 만들고 $(thing)주괴$()로 주조해야 합니다."
     },
     {
       "type": "tfc:anvil_recipe",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "아이템을 가열하는 것은 하나의 아이템을 다른 아이템이나 액체로 바꾸는 방법입니다. 아이템은 $(l:getting_started/firepit)모닥불$(), $(l:getting_started/pit_kiln)구덩이 가마$(), $(l:mechanics/charcoal_forge)숯불 노$(), 그 외의 여러 방법으로 가열될 수 있습니다. 그러나 이들 모두는 같은 방식으로 작동합니다. 이러한 장치 내부에 아이템을 넣으면 아이템이 점차 가열됩니다. 아이템의 툴팁에서 이를 확인할 수 있습니다."
+      "text": "아이템을 가열하는 것은 하나의 아이템을 다른 아이템이나 액체로 바꾸는 방법입니다. 아이템은 $(l:getting_started/firepit)모닥불$(), $(l:getting_started/pit_kiln)구덩이 가마$(), $(l:metalworking/charcoal_forge)숯불 노$(), 그 외의 여러 방법으로 가열될 수 있습니다. 그러나 이들 모두는 같은 방식으로 작동합니다. 이러한 장치 내부에 아이템을 넣으면 아이템이 점차 가열됩니다. 아이템의 툴팁에서 이를 확인할 수 있습니다."
     },
     {
       "type": "patchouli:text",

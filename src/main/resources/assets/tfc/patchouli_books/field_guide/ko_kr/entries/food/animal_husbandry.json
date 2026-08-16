@@ -149,7 +149,7 @@
     {
       "type": "patchouli:text",
       "anchor": "yak",
-      "text": "$(thing)야크$()는 $(l:core_mechanics/climate#temperature)기온$()이 -11°C 이하이고, 강수량이 100mm 이상인 추운 기후에서 생성됩니다. 야크는 $(l:food/animal_husbandry#dairy_animals)우유$()를 짤 수 있습니다. 야크는 신선한 $(thing)곡물$()만 먹습니다. 1마리의 새끼만을 64일의 임신 후 낳으며, 180일 뒤에 성체가 됩니다. 우유를 짜지 않았다면 최대 23번 새끼를 가질 수 있으며, 번식하지 않는다면 최대 230번 우유를 짤 수 있습니다, 우유는 매일 짤 수 있습니다.",
+      "text": "$(thing)Yaks$() spawn in cold climates, with $(l:core_mechanics/climate#temperature)temperature$() of at most -11°C, and at least 100mm of $(l:core_mechanics/climate#rainfall)rainfall$(). They are $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). They eat only fresh $(thing)grains$(). They always have 1 child, are pregnant for 64 days, and reach adulthood in 180 days. They can have children 23 times, if they are never milked, or be milked 230 times, if they are never bred. They produce milk once a day.",
       "title": "§l야크"
     },
     {
@@ -175,7 +175,7 @@
     {
       "type": "patchouli:text",
       "anchor": "sheep",
-      "text": "$(thing)양$()은 $(l:core_mechanics/climate#temperature)기온$()이 0°C 이상 35°C 이하이고, 강수량이 70mm 이상 30mm 이하인 건조한 기후에서 생성됩니다. 양은 $(l:food/animal_husbandry#wooly_animals)털$()을 깎을 수 있습니다. 양은 $(thing)곡물$()을 먹습니다. 1-2마리의 새끼를 32일의 임신 후 낳으며, 56 뒤에 성체가 됩니다. 털을 깎지 않는다면 최대 6번 새끼를 가질 수 있으며, 번식하지 않는다면 최대 60번 털을 깎을 수 있습니다. 털은 9일마다 자라납니다.",
+      "text": "$(thing)닭$()은 $(l:core_mechanics/climate#temperature)기온$()이 14°C 이상이고, 강수량이 225mm 이상인 따뜻한 숲에서 생성됩니다. 닭은 $(l:food/animal_husbandry#oviparous_animals)난생동물$()입니다. 닭은 $(thing)곡물$(), $(thing)과일$(), $(thing)채소$(), 그리고 $(thing)씨앗$()을 먹으며 썩은 음식도 먹을 수 있습니다. 달걀은 8일 후에 부화하며 24일 뒤에 성체가 됩니다. 알은 최대 100번, 30시간마다 낳을 수 있습니다.",
       "title": "§l양"
     },
     {
