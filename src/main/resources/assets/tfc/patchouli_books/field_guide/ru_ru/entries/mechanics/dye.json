@@ -38,7 +38,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(item)Black Dye$() is used for $(l:crafting/scribing_table)Scribing Tables$().$(li)$(item)Red Dye$() is used for $(l:mechanics/powderkegs)Powderkegs$(). $(li)Unfired $(l:food/decay#small_vessels)Small Vessels$() and $(l:food/decay#large_vessels)Large Vessels$() can be dyed$().",
+      "text": "$(li)$(item)Чёрный краситель$() используется в $(l:mechanics/scribing_table)столе для пимсьма$().$(li)$(item)Красный краситель$() используется в $(l:mechanics/powderkegs)пороховых бочках$(). $(li)Необожжённые $(l:mechanics/decay#small_vessels)малые сосуды$() и $(l:mechanics/decay#large_vessels)большие сосуды$() могут быть окрашены$().",
       "title": "Разное"
     }
   ],

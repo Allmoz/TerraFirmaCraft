@@ -27,7 +27,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Glassworking is done by starting with a glass batch, and then completing a series of steps. These steps may require specific tools:$(br)$(li)A $(l:crafting/glassworking#blowpipe)Blowpipe$(), to $(thing)Blow$() and $(thing)Stretch$()$(li)A $(l:crafting/glassworking#paddle)Paddle$(), to $(thing)Flatten$()$(li)$(l:crafting/glassworking#jacks)Jacks$(), to $(thing)Pinch$()$(li)A $(l:crafting/glassworking#saw)Gem Saw$(), to $(thing)Saw$()",
+      "text": "Cam işleme, bir cam karışımıyla başlayıp ardından bir dizi adımı tamamlayarak yapılır. Bu adımlar belirli araçlar gerektirebilir:$(br)$(li)$(thing)Üflemek$() ve $(thing)Esnetmek$() için bir $(l:mechanics/glassworking#blowpipe)Üfleme Borusu$()$(li)$(thing)Düzleştirmek$() için bir $(l:mechanics/glassworking#paddle)Kürek$()$(li)$(thing)Çimdiklemek$() için $(l:mechanics/glassworking#jacks)Kıskaçlar$()$(li)$(thing)Kesmek$() için bir $(l:mechanics/glassworking#saw)Mücevher Testeresi$()",
       "title": "Zanaatın Araçları"
     },
     {
@@ -66,7 +66,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(bold)Flatten$()$(br)Use the $(thing)Blowpipe$() while holding a $(l:crafting/glassworking#paddle)Paddle$() in your offhand.$(br2)$(bold)Pinch$()$(br)Use the $(thing)Blowpipe$() while holding $(l:crafting/glassworking#jacks)Jacks$() in your offhand.$(br2)$(bold)Saw$()$(br)Use the $(thing)Blowpipe$() while holding a $(l:crafting/glassworking#saw)Gem Saw$() in your offhand.$(br2)$(bold)Roll$()$(br)Use the $(thing)Blowpipe$() with a $(l:crafting/weaving#wool_cloth)Wool Cloth$() in your offhand."
+      "text": "$(bold)Düzleştirme$()$(br)Diğer elinizde bir $(l:mechanics/glassworking#paddle)Kürek$() tutarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Çimdikleme$()$(br)Diğer elinizde $(l:mechanics/glassworking#jacks)Kıskaçlar$() tutarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Kesme$()$(br)Diğer elinizde bir $(l:mechanics/glassworking#saw)Mücevher Testeresi$() tutarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Yuvarlama$()$(br)Diğer elinizde bir $(l:mechanics/weaving#wool_cloth)Yün Kumaş$() ile $(thing)Üfleme Borusu$()'nu kullanın."
     }
   ],
   "read_by_default": true,

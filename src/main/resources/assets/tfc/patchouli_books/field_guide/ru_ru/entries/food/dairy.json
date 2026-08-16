@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Dairy$() is a $(l:core_mechanics/food_and_water#nutrients)Nutrient$() obtained from the milk produced by $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). It can be drank, or processed into $(thing)Cheese$(). Drinking can be done out of a jug, and always restores $(l:core_mechanics/food_and_water#thirst)Thirst$(). However, it only adds to nutrition when drank after eating a food. Practically, this means that drinking milk twice in a row is ineffectual. A meal must precede it.",
+      "text": "$(thing)Молочные продукты$() — это $(l:getting_started/food_and_water#nutrients)питательные вещества$(), получаемые из молока, произведенного $(l:mechanics/animal_husbandry#dairy_animals)молочными животными$(). Его можно пить или перерабатывать в $(thing)сыр$(). Молоко можно пить из кувшина, и оно утоляет $(l:getting_started/food_and_water#thirst)жажду$(). Однако питательные вещества усвоятся только после употребления пищи. Таким образом, пить молоко дважды подряд неэффективно — перед питьём молока нужен прием пищи.",
       "title": "Молочные продукты"
     },
     {

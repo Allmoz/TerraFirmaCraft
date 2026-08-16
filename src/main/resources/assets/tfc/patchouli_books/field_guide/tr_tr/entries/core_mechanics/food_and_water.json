@@ -36,11 +36,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(a)Fruit$()$(): Fruit nutrients are mostly found from $(l:the_world/wild_fruits)Fruiting Plants$(), like berry bushes, and fruit trees. A notable exception to this is $(l:food/crops#pumpkin)Pumpkins$() and $(l:food/crops#pumpkin)Melons$(), which nutritionally are fruits.$(br2)$(l)$(2)Vegetables$()$(): Found in nearly every $(l:food/crops)Crop$().$(br2)$(l)$(c)Protein$()$(): Protein can be gotten from the meat of $(l:the_world/wild_animals)Animals$(). It can also be obtained from $(l:food/crops#soybean)Soybeans$(), which have protein and vegetable nutrients."
+      "text": "$(l)$(a)Meyve$()$(): Meyve besin öğeleri çoğunlukla böğürtlen çalıları ve meyve ağaçları gibi $(l:the_world/wild_fruits)Meyve Veren Bitkiler$()'den elde edilir. Bunun önemli bir istisnası, besin değeri açısından meyve olan $(l:mechanics/crops#pumpkin)Balkabakları$() ve $(l:mechanics/crops#pumpkin)Kavunlardır$().$(br2)$(l)$(2)Sebze$()$(): Neredeyse her $(l:mechanics/crops)Ekinde$() bulunur.$(br2)$(l)$(c)Protein$()$(): Protein, $(l:the_world/wild_animals)Hayvanların$() etinden elde edilebilir. Ayrıca hem protein hem de sebze besin öğeleri içeren $(l:mechanics/crops#soybean)Soya Fasulyesinden$() de elde edilebilir."
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(6)Grain$()$(): Grain is found in grain crops, such as $(l:food/crops#barley)Barley$(). The processing of grain is on the $(l:food/bread)Bread$() page. $(thing)Cattail$() and $(thing)Taro$() Roots are also grains.$(br2)$(l)$(5)Dairy$()$(): All dairy comes from $(thing)Milk$(), which comes from $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). Processing and drinking milk is covered on the $(l:food/dairy)Dairy$() page.$(br2)All the food in the world is not useful if it rots. See the $(l:food/decay)Preservation$() page for information on preventing that."
+      "text": "$(l)$(6)Tahıl$()$(): Tahıl, $(l:mechanics/crops#barley)Arpa$() gibi tahıl ekinlerinde bulunur. Tahılın işlenmesi $(l:mechanics/bread)Ekmek$() sayfasında anlatılmıştır. $(thing)Kındıra$() ve $(thing)Taro$() Kökleri de tahıldır.$(br2)$(l)$(5)Süt Ürünü$()$(): Tüm süt ürünleri, $(l:mechanics/animal_husbandry#dairy_animals)Süt Veren Hayvanlardan$() elde edilen $(thing)Sütten$() gelir. Sütün işlenmesi ve içilmesi $(l:mechanics/dairy)Süt Ürünleri$() sayfasında ele alınmıştır.$(br2)Dünyadaki tüm yiyecekler çürürse bir işe yaramaz. Bunu önlemek hakkında bilgi almak için $(l:mechanics/decay)Koruma$() sayfasına bakın."
     },
     {
       "type": "patchouli:text",

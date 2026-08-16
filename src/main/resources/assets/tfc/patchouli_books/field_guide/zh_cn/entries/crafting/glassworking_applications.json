@@ -45,7 +45,7 @@
     {
       "type": "patchouli:text",
       "anchor": "coloring",
-      "text": "Glass has a natural color based on the type of $(l:crafting/glassworking)Glass Batch$() that was used. Other colors can be made using a $(l:food/bowls)Bowl$().$(br2)To use, place the $(l:food/bowls)Bowl$() on the ground, then $(item)$(k:key.use)$() the required $(thing)Powder$(). Before $(thing)Pouring$(), use the $(thing)Blowpipe$() on the bowl to add the powder to the batch.",
+      "text": "玻璃有其基于所用$(l:mechanics/glassworking)玻璃配料$()类型的自然色。其他颜色可以使用$(l:mechanics/bowls)碗$()来制作。$(br2)使用时，将碗放在地上，然后用所需的$(thing)粉末$()右键点击碗。在$(thing)浇注$()之前，用$(thing)吹管$()右键点击碗，将粉末添加到配料中。",
       "title": "玻璃染色"
     },
     {

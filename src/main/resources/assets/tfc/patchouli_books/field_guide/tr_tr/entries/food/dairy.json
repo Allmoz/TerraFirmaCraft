@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Dairy$() is a $(l:core_mechanics/food_and_water#nutrients)Nutrient$() obtained from the milk produced by $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). It can be drank, or processed into $(thing)Cheese$(). Drinking can be done out of a jug, and always restores $(l:core_mechanics/food_and_water#thirst)Thirst$(). However, it only adds to nutrition when drank after eating a food. Practically, this means that drinking milk twice in a row is ineffectual. A meal must precede it.",
+      "text": "$(thing)Süt Ürünü$(), $(l:mechanics/animal_husbandry#dairy_animals)Süt Veren Hayvanlar$() tarafından üretilen sütten elde edilen bir $(l:getting_started/food_and_water#nutrients)Besin Öğesidir$(). İçilebilir veya $(thing)Peynir$() haline getirilebilir. Sürahiden içilebilir ve her zaman $(l:getting_started/food_and_water#thirst)Susuzluğu$() giderir. Ancak, besin değerine katkısı yalnızca bir yiyecek yedikten sonra içildiğinde gerçekleşir. Pratik olarak bu, üst üste iki kez süt içmenin etkisiz olduğu anlamına gelir. Ondan önce bir öğün yenmiş olmalıdır.",
       "title": "Süt Ürünleri"
     },
     {

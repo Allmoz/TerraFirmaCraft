@@ -22,7 +22,7 @@
       "type": "tfc:knapping_recipe",
       "anchor": "crucible",
       "recipe": "tfc:knapping/ceramic/unfired_crucible",
-      "text": "The $(l:metalworking/crucible)Crucible$() in its unfired state is made from fire clay."
+      "text": "用耐火黏土塑形成未烧制的$(l:mechanics/crucible)坩埚$()。"
     },
     {
       "type": "tfc:knapping_recipe",

@@ -45,7 +45,7 @@
     {
       "type": "patchouli:text",
       "anchor": "coloring",
-      "text": "Glass has a natural color based on the type of $(l:crafting/glassworking)Glass Batch$() that was used. Other colors can be made using a $(l:food/bowls)Bowl$().$(br2)To use, place the $(l:food/bowls)Bowl$() on the ground, then $(item)$(k:key.use)$() the required $(thing)Powder$(). Before $(thing)Pouring$(), use the $(thing)Blowpipe$() on the bowl to add the powder to the batch.",
+      "text": "Стекло имеет естественный цвет $(l:mechanics/glassworking)стеклянной шихты$(), которая была использована. Другие цвета могут быть получены с помощью $(l:mechanics/bowls)миски$().$(br2)Для этого поместите $(l:mechanics/bowls)миску$() на землю, и нажмите $(item)$(k:key.use)$() по ней с желаемым $(thing)порошком$(). Перед $(thing)разливом$() используйте трубку на миске, чтобы добавить порошок в стекло.",
       "title": "Окрашивание стекла"
     },
     {

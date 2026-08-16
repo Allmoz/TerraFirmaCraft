@@ -1,7 +1,7 @@
 {
   "__comment__": "This file was automatically created by mcresources",
   "name": "风箱",
-  "category": "tfc:metalworking",
+  "category": "tfc:mechanics",
   "icon": "tfc:bellows",
   "pages": [
     {
@@ -15,6 +15,5 @@
       "text": "要拉动风箱，$(item)$(k:key.use)$()点击即可。在一段时间内，目标设备的最大燃烧温度会获得提升。"
     }
   ],
-  "read_by_default": true,
-  "sortnum": 10
+  "read_by_default": true
 }

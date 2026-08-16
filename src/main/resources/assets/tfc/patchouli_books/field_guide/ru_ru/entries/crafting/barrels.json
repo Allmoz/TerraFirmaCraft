@@ -43,7 +43,7 @@
       "type": "tfc:instant_barrel_recipe",
       "anchor": "limewater",
       "recipe": "tfc:barrel/limewater",
-      "text": "$(bold)Limewater$() is made by adding $(l:metalworking/flux)Flux$() to a barrel of $(thing)Water$(). A single $(l:metalworking/flux)Flux$() is required for every $(thing) 500 mB$() of $(thing)Water$(). $(thing)Limewater$() is a reagent used in $(l:crafting/leather_making)Leather Making$(), and is used to make $(thing)Mortar$()."
+      "text": "$(bold)Известковая вода$() делается путём добавления $(l:mechanics/flux)флюса$() в бочку с $(thing)водой$(). Один $(l:mechanics/flux)флюс$() требуется на каждые $(thing)500 мБ$() $(thing)воды$(). $(thing)Известковая вода$() используется в изготовлении $(l:mechanics/leather_making)кожи$() и $(thing)раствора$()."
     },
     {
       "type": "tfc:sealed_barrel_recipe",

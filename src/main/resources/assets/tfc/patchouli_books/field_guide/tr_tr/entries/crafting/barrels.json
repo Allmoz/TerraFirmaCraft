@@ -43,7 +43,7 @@
       "type": "tfc:instant_barrel_recipe",
       "anchor": "limewater",
       "recipe": "tfc:barrel/limewater",
-      "text": "$(bold)Limewater$() is made by adding $(l:metalworking/flux)Flux$() to a barrel of $(thing)Water$(). A single $(l:metalworking/flux)Flux$() is required for every $(thing) 500 mB$() of $(thing)Water$(). $(thing)Limewater$() is a reagent used in $(l:crafting/leather_making)Leather Making$(), and is used to make $(thing)Mortar$()."
+      "text": "$(bold)Kireç Suyu$(), bir fıçı $(thing)Su$() içerisine $(l:mechanics/flux)Akı$() eklenerek yapılır. Her $(thing) 500 mB$() $(thing)Su$() için bir adet $(l:mechanics/flux)Akı$() gereklidir. $(thing)Kireç Suyu$(), $(l:mechanics/leather_making)Deri Yapımı$() sürecinde kullanılan bir bileşendir ve $(thing)Harç$() yapmak için kullanılır."
     },
     {
       "type": "tfc:sealed_barrel_recipe",

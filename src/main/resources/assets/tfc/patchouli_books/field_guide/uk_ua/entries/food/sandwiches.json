@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Sandwiches$() are a meal allowing the combination of two $(l:food/bread)Bread$() items and up to three sandwich foods, which can be any combination of $(l:food/bread)Vegetables$(), $(thing)Cooked Meats$(), and $(l:food/dairy)Cheeses$()."
+      "text": "$(thing)Бутерброд$() - це страва, що дозволяє об'єднати два шматка $(l:mechanics/bread)хліба$() з трьома іншими продуктами, такими як $(l:mechanics/bread)овочі$(), $(thing)приготоване м'ясо$(), та $(l:mechanics/dairy)сир$()."
     },
     {
       "type": "patchouli:crafting",

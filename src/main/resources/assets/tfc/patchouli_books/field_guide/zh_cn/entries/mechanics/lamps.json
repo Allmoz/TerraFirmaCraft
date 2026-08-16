@@ -34,7 +34,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/metal/lamp/bronze",
-      "text": "Lamps are smithed in the $(l:metalworking/anvils)Anvil$() and crafted with $(l:crafting/glassworking_applications#lamp_glass)Lamp Glass$() to be completed."
+      "text": "灯在$(l:mechanics/anvils)砧$()上锻造，并与$(l:mechanics/glassworking_applications#lamp_glass)灯罩$()合成完成制作。"
     },
     {
       "type": "tfc:quern_recipe",

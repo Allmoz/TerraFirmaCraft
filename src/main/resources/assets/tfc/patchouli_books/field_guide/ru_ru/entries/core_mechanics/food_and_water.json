@@ -36,11 +36,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(a)Fruit$()$(): Fruit nutrients are mostly found from $(l:the_world/wild_fruits)Fruiting Plants$(), like berry bushes, and fruit trees. A notable exception to this is $(l:food/crops#pumpkin)Pumpkins$() and $(l:food/crops#pumpkin)Melons$(), which nutritionally are fruits.$(br2)$(l)$(2)Vegetables$()$(): Found in nearly every $(l:food/crops)Crop$().$(br2)$(l)$(c)Protein$()$(): Protein can be gotten from the meat of $(l:the_world/wild_animals)Animals$(). It can also be obtained from $(l:food/crops#soybean)Soybeans$(), which have protein and vegetable nutrients."
+      "text": "$(l)$(a)Фрукты$()$() в основном находятся в урожае $(l:the_world/wild_fruits)плодовых растений$(), таких как кусты ягод и фруктовые деревья. Заметным исключением из этого являются $(l:mechanics/crops#pumpkin)тыквы$() и $(l:mechanics/crops#pumpkin)арбузы$(), которые с питательной точки зрения являются фруктами.$(br2)$(l)$(2)Овощи$()$() есть почти в каждой $(l:mechanics/crops)овощной культуре$().$(br2)$(l)$(c)Белки$()$() можно получить из мяса $(l:the_world/wild_animals)животных$(), а также из $(l:mechanics/crops#soybean)соевых бобов$(), которые содержат как белки, так и овощные питательные вещества."
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(6)Grain$()$(): Grain is found in grain crops, such as $(l:food/crops#barley)Barley$(). The processing of grain is on the $(l:food/bread)Bread$() page. $(thing)Cattail$() and $(thing)Taro$() Roots are also grains.$(br2)$(l)$(5)Dairy$()$(): All dairy comes from $(thing)Milk$(), which comes from $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). Processing and drinking milk is covered on the $(l:food/dairy)Dairy$() page.$(br2)All the food in the world is not useful if it rots. See the $(l:food/decay)Preservation$() page for information on preventing that."
+      "text": "$(l)$(6)Зерновые$()$() есть в $(l:mechanics/crops)зерновых культурах$(), таких как $(l:mechanics/crops#barley)ячмень$(). Обработка зерновых описана на странице $(l:mechanics/bread)хлеб$(). $(thing)Рогоз$() и $(thing)таро$() тоже зерновые.$(br2)$(l)$(5)Молочные$()$() питательные вещества поступают из $(thing)молока$(), которое дают $(l:mechanics/animal_husbandry#dairy_animals)молочные животные$(). Обработка и употребление молока описаны на странице $(l:mechanics/dairy)молочные продукты$().$(br2)Вся еда становится бесполезной, когда портится. Поэтому не забывайте о $(l:mechanics/decay)консервации$()."
     },
     {
       "type": "patchouli:text",

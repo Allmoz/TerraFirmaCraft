@@ -38,7 +38,7 @@
     {
       "type": "patchouli:text",
       "anchor": "blue_steel",
-      "text": "$(thing)Blue Steel$() is one of the two highest tier metals, along with $(l:metalworking/steel#red_steel)Red Steel$(). Similar to $(l:metalworking/steel#black_steel)Black Steel$(), the first step is to create an alloy of $(thing)Weak Blue Steel$() in a $(l:metalworking/crucible)Crucible$().",
+      "text": "$(thing)Синяя сталь$() является одним из двух металлов высшего уровня вместе с $(l:mechanics/steel#red_steel)красной сталью$(). Подобно $(l:mechanics/steel#black_steel)чёрной стали$(), первым шагом является создание сплава $(thing)слабой синей стали$() в $(l:mechanics/crucible)тигле$().",
       "title": "Синяя сталь"
     },
     {
@@ -60,7 +60,7 @@
     {
       "type": "patchouli:text",
       "anchor": "red_steel",
-      "text": "$(thing)Red Steel$() is one of the two highest tier metals, along with $(l:metalworking/steel#blue_steel)Blue Steel$(). Similar to $(l:metalworking/steel#black_steel)Black Steel$(), the first step is to create an alloy of $(thing)Weak Red Steel$() in a $(l:metalworking/crucible)Crucible$().",
+      "text": "$(thing)Красная сталь$() является одним из двух металлов высшего уровня вместе с $(l:mechanics/steel#blue_steel)синей сталью$(). Подобно $(l:mechanics/steel#black_steel)чёрной стали$(), первым шагом является создание сплава $(thing)слабой красной стали$() в $(l:mechanics/crucible)тигле$().",
       "title": "Красная сталь"
     },
     {

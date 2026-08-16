@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Dairy$() is a $(l:core_mechanics/food_and_water#nutrients)Nutrient$() obtained from the milk produced by $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). It can be drank, or processed into $(thing)Cheese$(). Drinking can be done out of a jug, and always restores $(l:core_mechanics/food_and_water#thirst)Thirst$(). However, it only adds to nutrition when drank after eating a food. Practically, this means that drinking milk twice in a row is ineffectual. A meal must precede it.",
+      "text": "$(thing)Молочні продукти$() - це харчові продукти, що створені з молока. Молоко ж, звісно отримане від $(l:mechanics/animal_husbandry#dairy_animals)молочної худоби$(). Його можна пити, а можна виготовити $(thing)сир$(). Молоко можна пити глечиком. Це дійсно вгамує твою $(l:getting_started/food_and_water#thirst)спрагу$(), але ж до харчування воно додаватиметься лиш після їжі. Практично це означає, що вживання молока два рази поспіль неефективно. Йому повинен передувати прийом їжі.",
       "title": "Молочний продукт"
     },
     {

@@ -38,7 +38,7 @@
     {
       "type": "patchouli:text",
       "anchor": "blue_steel",
-      "text": "$(thing)Blue Steel$() is one of the two highest tier metals, along with $(l:metalworking/steel#red_steel)Red Steel$(). Similar to $(l:metalworking/steel#black_steel)Black Steel$(), the first step is to create an alloy of $(thing)Weak Blue Steel$() in a $(l:metalworking/crucible)Crucible$().",
+      "text": "$(thing)藍鋼$()是羣巒傳説中最高級的兩種合金之一。另一種是$(l:mechanics/steel#red_steel)紅鋼$()。燒煉藍鋼的第一步和燒煉$(l:mechanics/steel#black_steel)黑鋼$()類似，要先在$(l:mechanics/crucible)坩堝$()中合成$(thing)脆藍鋼錠$()。",
       "title": "如何製作藍鋼"
     },
     {
@@ -60,7 +60,7 @@
     {
       "type": "patchouli:text",
       "anchor": "red_steel",
-      "text": "$(thing)Red Steel$() is one of the two highest tier metals, along with $(l:metalworking/steel#blue_steel)Blue Steel$(). Similar to $(l:metalworking/steel#black_steel)Black Steel$(), the first step is to create an alloy of $(thing)Weak Red Steel$() in a $(l:metalworking/crucible)Crucible$().",
+      "text": "$(thing)紅鋼$()是羣巒傳説中最高級的兩種合金之一。另一種是$(l:mechanics/steel#blue_steel)藍鋼$()。燒煉紅鋼的第一步和燒煉$(l:mechanics/steel#black_steel)黑鋼$()類似，要先在$(l:mechanics/crucible)坩堝$()中合成$(thing)脆紅鋼錠$()。",
       "title": "如何製作紅鋼"
     },
     {

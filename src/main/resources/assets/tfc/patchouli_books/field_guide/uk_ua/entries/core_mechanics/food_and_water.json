@@ -36,11 +36,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(a)Fruit$()$(): Fruit nutrients are mostly found from $(l:the_world/wild_fruits)Fruiting Plants$(), like berry bushes, and fruit trees. A notable exception to this is $(l:food/crops#pumpkin)Pumpkins$() and $(l:food/crops#pumpkin)Melons$(), which nutritionally are fruits.$(br2)$(l)$(2)Vegetables$()$(): Found in nearly every $(l:food/crops)Crop$().$(br2)$(l)$(c)Protein$()$(): Protein can be gotten from the meat of $(l:the_world/wild_animals)Animals$(). It can also be obtained from $(l:food/crops#soybean)Soybeans$(), which have protein and vegetable nutrients."
+      "text": "$(l)$(a)Фрукти$()$(): Поживні речовини фруктів в основному містяться у $(l:the_world/wild_fruits)фруктових плодах$(), що ростуть на ягідних кущах, та фруктових деревах. Винятком є $(l:mechanics/crops#pumpkin)гарбузи$() та $(l:mechanics/crops#pumpkin)кавуни$(), що за поживністтю є фруктами.$(br2)$(l)$(2)Овочі$()$(): Зустрічається майже в кожній $(l:mechanics/crops)культурі$(), що можна виростити у городі на грядках.$(br2)$(l)$(c)Білки$()$(): Білок можна отримати з м'яса $(l:the_world/wild_animals)тварин$(). Ще він міститься у $(l:mechanics/crops#soybean)соєвих бобах$(). Вони містять і білок і речовини овоча."
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(6)Grain$()$(): Grain is found in grain crops, such as $(l:food/crops#barley)Barley$(). The processing of grain is on the $(l:food/bread)Bread$() page. $(thing)Cattail$() and $(thing)Taro$() Roots are also grains.$(br2)$(l)$(5)Dairy$()$(): All dairy comes from $(thing)Milk$(), which comes from $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). Processing and drinking milk is covered on the $(l:food/dairy)Dairy$() page.$(br2)All the food in the world is not useful if it rots. See the $(l:food/decay)Preservation$() page for information on preventing that."
+      "text": "$(l)$(6)Зернові$(): містяться у зернових культурах, таких як $(l:mechanics/crops#barley)ячмінь$() чи $(l:mechanics/crops#barley)жито$(). Про переробку зерна читай $(l:mechanics/bread)тут$(). $(thing)Рогіз$() та $(thing)таро$() теж є зерновими.$(br2)$(l)$(5)Молочні$()$(): Усі молочні продукти походять з $(thing)молока$(), що можна отримати від  $(l:mechanics/animal_husbandry#dairy_animals)молочних тварин$(). Про переробку молока читати $(l:mechanics/dairy)тут$().$(br2)Вся їжа світу не корисна, якщо вона псується. Переглянь $(l:mechanics/decay)цю$() сторінку, щоб взнати про запобігання псуванню їжі."
     },
     {
       "type": "patchouli:text",

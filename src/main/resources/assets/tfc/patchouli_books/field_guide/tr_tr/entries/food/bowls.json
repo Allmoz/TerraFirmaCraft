@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Bowls$() are a versatile tool which can be used to make $(l:food/salad)Salads$(), to make $(l:food/pot)Soups$(), to $(l:food/decay#salting)Salt$() meat, or to apply $(thing)Powder$() to $(l:crafting/glassworking_applications#coloring)Glass$() in order to change the resulting glass's color.$(br2)Bowls can be made both from $(thing)Ceramic$(), by knapping a bowl out of clay, and then firing them."
+      "text": "$(thing)Kaseler$(), $(l:mechanics/salad)Salatalar$() yapmak, $(l:mechanics/pot)Çorbalar$() hazırlamak, eti $(l:mechanics/decay#salting)Tuzlamak$() veya ortaya çıkan camın rengini değiştirmek için $(l:mechanics/glassworking_applications#coloring)Cam$()'a $(thing)Toz$() uygulamak için kullanılabilen çok yönlü bir araçtır.$(br2)Kaseler hem kilden bir kase yontulup ardından pişirilerek $(thing)Seramik$()'ten yapılabilir."
     },
     {
       "type": "tfc:knapping_recipe",

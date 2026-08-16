@@ -45,7 +45,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "For storing $(thing)food$() and slowing $(l:food/decay)decay$(), nothing use a $(thing)Vessel$(). See their chapters for details:$(br)$(li)$(l:food/decay#small_vessels)Small Vessels$()$(li)$(l:food/decay#large_vessels)Large Vessels$()",
+      "text": "要存放$(thing)食物$()并减缓$(l:mechanics/decay)腐烂$()，最好的选择莫过于$(thing)小缸$()。详情请参阅相关章节:$(br)$(li)$(l:mechanics/decay#small_vessels)小缸$()$(li)$(l:mechanics/decay#large_vessels)大缸$()",
       "title": "缸"
     },
     {

@@ -38,7 +38,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(item)Black Dye$() is used for $(l:crafting/scribing_table)Scribing Tables$().$(li)$(item)Red Dye$() is used for $(l:mechanics/powderkegs)Powderkegs$(). $(li)Unfired $(l:food/decay#small_vessels)Small Vessels$() and $(l:food/decay#large_vessels)Large Vessels$() can be dyed$().",
+      "text": "$(li)$(item)Siyah Boya$(), $(l:mechanics/scribing_table)Yazı Masaları$() için kullanılır.$(li)$(item)Kırmızı Boya$(), $(l:mechanics/powderkegs)Barut Fıçıları$() için kullanılır. $(li)Pişmemiş $(l:mechanics/decay#small_vessels)Küçük Kaplar$() ve $(l:mechanics/decay#large_vessels)Büyük Kaplar$() boyanabilir$().",
       "title": "Çeşitli"
     }
   ],

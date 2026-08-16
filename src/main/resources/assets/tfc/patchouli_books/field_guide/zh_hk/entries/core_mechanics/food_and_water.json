@@ -36,11 +36,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(a)Fruit$()$(): Fruit nutrients are mostly found from $(l:the_world/wild_fruits)Fruiting Plants$(), like berry bushes, and fruit trees. A notable exception to this is $(l:food/crops#pumpkin)Pumpkins$() and $(l:food/crops#pumpkin)Melons$(), which nutritionally are fruits.$(br2)$(l)$(2)Vegetables$()$(): Found in nearly every $(l:food/crops)Crop$().$(br2)$(l)$(c)Protein$()$(): Protein can be gotten from the meat of $(l:the_world/wild_animals)Animals$(). It can also be obtained from $(l:food/crops#soybean)Soybeans$(), which have protein and vegetable nutrients."
+      "text": "$(l)$(a)水果$()$()：水果元素的主要來源於$(l:the_world/wild_fruits)果木$()。比如灌木和果樹。兩個值得注意的特例是$(l:mechanics/crops#pumpkin)南瓜$()和$(l:mechanics/crops#pumpkin)西瓜$()。這兩種植物也被算作是水果。$(br2)$(l)$(2)蔬菜$()$()：大部分$(l:mechanics/crops)農作物$()都藴含這種營養元素。$(br2)$(l)$(c)蛋白質$()$()：$(l:the_world/wild_animals)動物$()肉都含有蛋白質。對於不想殺生的玩家來説，一個肉食的替代品則是$(l:mechanics/crops#soybean)大豆$()。大豆同時擁有蛋白質和蔬菜元素。"
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(6)Grain$()$(): Grain is found in grain crops, such as $(l:food/crops#barley)Barley$(). The processing of grain is on the $(l:food/bread)Bread$() page. $(thing)Cattail$() and $(thing)Taro$() Roots are also grains.$(br2)$(l)$(5)Dairy$()$(): All dairy comes from $(thing)Milk$(), which comes from $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). Processing and drinking milk is covered on the $(l:food/dairy)Dairy$() page.$(br2)All the food in the world is not useful if it rots. See the $(l:food/decay)Preservation$() page for information on preventing that."
+      "text": "$(l)$(6)穀物$()$()：穀物元素是由……呃，穀物提供的。比如$(l:mechanics/crops#barley)大麥$()。如何將穀物變成有用的食物主要寫在$(l:mechanics/bread)烤麪包$()章節。$(thing)香蒲根$()和$(thing)芋頭根$()也算穀物。$(br2)$(l)$(5)乳製品$()$()：所有乳製品都是用$(thing)奶$()製成的。想要獲得奶，就必須繁殖$(l:mechanics/animal_husbandry#dairy_animals)產奶動物$()。如何將生奶變成有用的食物主要寫在$(l:mechanics/dairy)乳製品$()章節。$(br2)食物一旦腐敗便完全不能吃了。關於防止食物腐敗的知識，請閲讀$(l:mechanics/decay)食物保鮮$()章節。"
     },
     {
       "type": "patchouli:text",

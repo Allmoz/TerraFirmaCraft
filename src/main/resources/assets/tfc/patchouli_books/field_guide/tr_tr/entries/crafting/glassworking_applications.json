@@ -45,7 +45,7 @@
     {
       "type": "patchouli:text",
       "anchor": "coloring",
-      "text": "Glass has a natural color based on the type of $(l:crafting/glassworking)Glass Batch$() that was used. Other colors can be made using a $(l:food/bowls)Bowl$().$(br2)To use, place the $(l:food/bowls)Bowl$() on the ground, then $(item)$(k:key.use)$() the required $(thing)Powder$(). Before $(thing)Pouring$(), use the $(thing)Blowpipe$() on the bowl to add the powder to the batch.",
+      "text": "Cam, kullanılan $(l:mechanics/glassworking)Cam Karışımı$() türüne bağlı olarak doğal bir renge sahiptir. Diğer renkler bir $(l:mechanics/bowls)Kase$() kullanılarak elde edilebilir.$(br2)Kullanmak için $(l:mechanics/bowls)Kase$()'yi yere koyun, ardından gerekli $(thing)Toz$()'u $(item)$(k:key.use)$() ile ekleyin. $(thing)Döküm$() işleminden önce, tozu karışıma eklemek için kase üzerinde $(thing)Üfleme Borusu$()'nu kullanın.",
       "title": "Cam Boyama"
     },
     {

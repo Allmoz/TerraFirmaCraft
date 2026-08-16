@@ -16,7 +16,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Through $(l:metalworking/sluices)Sluicing$() and $(l:getting_started/panning)Panning$(), $(thing)Uncut Gems$() can be obtained. The gem that can be obtained with the sluice is tied to the rock type of the deposit being processed."
+      "text": "$(l:mechanics/sluices)Olukla Yıkama$() ve $(l:mechanics/panning)Eleme$() yoluyla $(thing)İşlenmemiş Değerli Taşlar$() elde edilebilir. Oluk ile elde edilebilecek değerli taş, işlenen yatağın kaya türüne bağlıdır."
     },
     {
       "type": "patchouli:text",

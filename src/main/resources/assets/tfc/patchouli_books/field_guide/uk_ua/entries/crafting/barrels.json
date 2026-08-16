@@ -43,7 +43,7 @@
       "type": "tfc:instant_barrel_recipe",
       "anchor": "limewater",
       "recipe": "tfc:barrel/limewater",
-      "text": "$(bold)Limewater$() is made by adding $(l:metalworking/flux)Flux$() to a barrel of $(thing)Water$(). A single $(l:metalworking/flux)Flux$() is required for every $(thing) 500 mB$() of $(thing)Water$(). $(thing)Limewater$() is a reagent used in $(l:crafting/leather_making)Leather Making$(), and is used to make $(thing)Mortar$()."
+      "text": "$(bold)Вапняну воду$() можна отримати змішуванням $(l:mechanics/flux)флюсу$() у діжці з $(thing)водою$(). На одну одиницю $(l:mechanics/flux)флюсу$() потрібно $(thing) 500 mB$() $(thing)води$(). $(thing)Вапняна вода$() - це реагент, який використовується у $(l:mechanics/leather_making)обробці шкіри$(), та при створенні $(thing)будівельного розчину$()."
     },
     {
       "type": "tfc:sealed_barrel_recipe",

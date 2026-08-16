@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Leather$() is a sturdy material formed from animal hides. It is required to craft $(l:mechanics/armor)Armor$(), $(thing)Saddles$(), or a $(l:metalworking/bellows)Bellows$(). $()Raw Hides$() must be treated through several processes: $(l:crafting/leather_making#soaking)soaking$(), $(l:crafting/leather_making#scraping)scraping$(), $(l:crafting/leather_making#preparing)preparing$(), and $(l:crafting/leather_making#tanning)tanning$() to turn them into $(thing)Leather$()."
+      "text": "$(thing)皮革$()是一种由兽皮制成的结实耐用的材料。它可以用来制作$(thing)皮革盔甲$()、$(thing)鞍$()、以及$(l:mechanics/bellows)风箱$()。$()兽皮$()必须经过一系列复杂的工序之后才能变成$(thing)皮革$()。首先是$(l:mechanics/leather_making#soaking)浸灰$()，然后是$(l:mechanics/leather_making#scraping)剖层$()，接着要$(l:mechanics/leather_making#preparing)脱灰$()，最后还要$(l:mechanics/leather_making#tanning)浸酸$()。"
     },
     {
       "type": "patchouli:spotlight",
@@ -17,7 +17,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Leather making will require several materials and tools. You will need:$(br)$(li)$(l:crafting/barrels#limewater)Limewater$() - a solution of $(l:metalworking/flux)Flux$() in $(thing)Water$()$(li)Water$(li)$(l:crafting/barrels#tannin)Tannin$() - an acidic solution made from the bark of some trees.$(li)$(thing)Raw Hides$()$(br2)With all that on hand, you are ready to begin the leather working process."
+      "text": "制皮还需要几件其他工具：$(br)$(li)一大桶$(l:mechanics/barrels#limewater)石灰水$() - 将$(l:mechanics/flux)助焊剂$()在大桶中溶于$(thing)淡水$()就能得到了。$(li)一大桶淡水。$(li)一大桶$(l:mechanics/barrels#tannin)鞣酸$() - 这是一种用某些树的树皮制成的酸液。$(li)一把$(thing)小刀$()。$(br2)有了这些工具，你就可以准备开始制皮了！"
     },
     {
       "type": "tfc:sealed_barrel_recipe",

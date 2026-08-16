@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "There are eight varieties of soil occurring in different locations throughout the world. These soils range from very fertile, providing a 20% boost to all $(l:food/fertilizers)fertilizers$() applied to it, and to all nutrients recharged by $(l:food/crops)crops$(), to very poor, providing 20% less than typical soil.",
+      "text": "There are eight varieties of soil occurring in different locations throughout the world. These soils range from very fertile, providing a 20% boost to all $(l:mechanics/fertilizers)fertilizers$() applied to it, and to all nutrients recharged by $(l:mechanics/crops)crops$(), to very poor, providing 20% less than typical soil.",
       "title": "Soil Fertility"
     },
     {
@@ -110,7 +110,7 @@
         }
       },
       "name": "Mollisol",
-      "text": "Mollisol is found in cold grasslands with a $(l:core_mechanics/climate#rainfall)rainfall$() of at least 250mm. It is a very high quality soil, receiving 20% bonus nutrients.",
+      "text": "Mollisol is found in cold grasslands with a $(l:the_world/climate#rainfall)rainfall$() of at least 250mm. It is a very high quality soil, receiving 20% bonus nutrients.",
       "enable_visualize": false
     },
     {

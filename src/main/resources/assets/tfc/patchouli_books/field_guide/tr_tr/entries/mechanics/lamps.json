@@ -34,7 +34,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/metal/lamp/bronze",
-      "text": "Lamps are smithed in the $(l:metalworking/anvils)Anvil$() and crafted with $(l:crafting/glassworking_applications#lamp_glass)Lamp Glass$() to be completed."
+      "text": "Lambalar $(l:mechanics/anvils)Örs$() üzerinde dövülür ve tamamlanmaları için $(l:mechanics/glassworking_applications#lamp_glass)Lamba Camı$() ile üretilirler."
     },
     {
       "type": "tfc:quern_recipe",
