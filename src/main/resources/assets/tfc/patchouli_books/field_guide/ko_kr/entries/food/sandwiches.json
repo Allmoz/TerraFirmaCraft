@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Sandwiches$() are a meal allowing the combination of two $(l:food/bread)Bread$() items and up to three sandwich foods, which can be any combination of $(l:food/bread)Vegetables$(), $(thing)Cooked Meats$(), and $(l:food/dairy)Cheeses$()."
+      "text": "$(thing)샌드위치$()는 2개의 $(l:mechanics/bread)빵$()과 3개의 샌드위치 재료 음식으로 만들 수 있는 음식으로, 재료에는 $(l:mechanics/bread)채소$(), $(thing)익힌 고기$(), 그리고 $(l:mechanics/dairy)치즈$()가 들어갈 수 있습니다."
     },
     {
       "type": "patchouli:crafting",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "The $(thing)Charcoal Forge$() is a device used to $(l:core_mechanics/heating)heat$() and melt items. Forges are necessary to make a $(l:metalworking/crucible)crucible$() work. They are typically used to heat items to prepare them for smithing on an $(l:metalworking/anvils)anvil$(). $(br)It is constructed with 5 $(thing)stone$() blocks surrounding a $(l:metalworking/charcoal_pit#charcoal_pile)charcoal pile$() of 7 or 8 layers which is then lit."
+      "text": "$(thing)숯불 노$()는 아이템을 $(l:mechanics/heating)가열$()하고 녹일 수 있는 장치입니다. 숯불 노는 $(l:mechanics/crucible)도가니$()를 작동시키기 위해 필요합니다. 이들은 특히나 아이템을 가열하고 $(l:mechanics/anvils)모루$()를 사용하기 위해 준비할 때 주로 사용됩니다. $(br)숯불 노는 불이 붙은 $(l:mechanics/charcoal_pit#charcoal_pile)숯 더미$() 7-8장을 5개의 $(thing)돌$()블록으로 둘러싸 건설할 수 있습니다."
     },
     {
       "type": "patchouli:multiblock",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Jars$() are used to preserve fruit for longer periods of time. Jars start as $(thing)Empty Jars$(), obtained through $(l:crafting/glassworking_applications#jar)Glassworking$(). Then, a $(thing)Jar Lid$() must be smithed from $(thing)Tin$(). Crafting these together creates an $(thing)Empty Jar With Lid$()."
+      "text": "$(thing)Jars$() are used to preserve fruit for longer periods of time. Jars start as $(thing)Empty Jars$(), obtained through $(l:mechanics/glassworking_applications#jar)Glassworking$(). Then, a $(thing)Jar Lid$() must be smithed from $(thing)Tin$(). Crafting these together creates an $(thing)Empty Jar With Lid$()."
     },
     {
       "type": "patchouli:text",

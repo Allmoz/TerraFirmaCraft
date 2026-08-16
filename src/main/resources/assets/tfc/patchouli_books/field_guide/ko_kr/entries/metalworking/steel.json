@@ -38,7 +38,7 @@
     {
       "type": "patchouli:text",
       "anchor": "blue_steel",
-      "text": "$(thing)Blue Steel$() is one of the two highest tier metals, along with $(l:metalworking/steel#red_steel)Red Steel$(). Similar to $(l:metalworking/steel#black_steel)Black Steel$(), the first step is to create an alloy of $(thing)Weak Blue Steel$() in a $(l:metalworking/crucible)Crucible$().",
+      "text": "$(thing)청강$()은 $(l:mechanics/steel#red_steel)적강$()과 더불어 가장 높은 티어의 금속 중 하나입니다. $(l:mechanics/steel#black_steel)흑강$()과 비슷하게 첫 단계는 $(thing)약한 청강$()을 $(l:mechanics/crucible)도가니$()에서 만드는 것입니다.",
       "title": "§l청강"
     },
     {
@@ -60,7 +60,7 @@
     {
       "type": "patchouli:text",
       "anchor": "red_steel",
-      "text": "$(thing)Red Steel$() is one of the two highest tier metals, along with $(l:metalworking/steel#blue_steel)Blue Steel$(). Similar to $(l:metalworking/steel#black_steel)Black Steel$(), the first step is to create an alloy of $(thing)Weak Red Steel$() in a $(l:metalworking/crucible)Crucible$().",
+      "text": "$(thing)적강$()은 $(l:mechanics/steel#blue_steel)청강$()과 더불어 가장 높은 티어의 금속 중 하나입니다. $(l:mechanics/steel#black_steel)흑강$()과 비슷하게 첫 단계는 $(thing)약한 적강$()을 $(l:mechanics/crucible)도가니$()에서 만드는 것입니다.",
       "title": "§l적강"
     },
     {

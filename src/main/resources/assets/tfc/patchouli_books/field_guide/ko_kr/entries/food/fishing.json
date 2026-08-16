@@ -11,7 +11,7 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/fish_hook/bismuth_bronze",
-      "text": "First, you have to forge a fishing hook in an $(l:metalworking/anvils)Anvil$()."
+      "text": "먼저 낚싯바늘을 $(l:mechanics/anvils)모루$()에서 만들어야 합니다."
     },
     {
       "type": "patchouli:crafting",
