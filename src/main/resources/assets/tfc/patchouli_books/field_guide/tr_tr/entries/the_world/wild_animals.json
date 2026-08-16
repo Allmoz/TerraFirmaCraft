@@ -209,7 +209,7 @@
       "entity": "tfc:armadillo",
       "scale": 0.7,
       "name": "Armadillo",
-      "text": "The armadillo sheds scutes every 30 hours. It can be found at any $(l:the_world/climate#temperature)temperature$() above 12°C, and $(l:the_world/climate#rainfall)rainfall$() between 100 and 400mm."
+      "text": "The armadillo sheds scutes every 30 hours. It can be found at any $(l:core_mechanics/climate#temperature)temperature$() above 12°C, and $(l:core_mechanics/climate#rainfall)rainfall$() between 100 and 400mm."
     },
     {
       "type": "patchouli:empty"
