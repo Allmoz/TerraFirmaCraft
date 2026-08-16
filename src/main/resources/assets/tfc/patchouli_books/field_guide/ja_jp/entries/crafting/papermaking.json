@@ -1,7 +1,7 @@
 {
   "__comment__": "This file was automatically created by mcresources",
   "name": "紙の作成",
-  "category": "tfc:mechanics",
+  "category": "tfc:crafting",
   "icon": "tfc:unrefined_paper",
   "pages": [
     {
@@ -78,5 +78,6 @@
       "text": "Treated hide, $(l:crafting/glassworking#lime)lime powder$(), flour, and a fresh egg will complete the treatment process and yield usable paper."
     }
   ],
-  "read_by_default": true
+  "read_by_default": true,
+  "sortnum": 4
 }

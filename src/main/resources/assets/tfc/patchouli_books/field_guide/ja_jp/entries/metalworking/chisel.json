@@ -33,7 +33,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "地下での彫刻作業は安全ではありません。 彫刻するたびに、$(l:mechanics/support_beams)崩落$() が発生する可能性があります。"
+      "text": "地下での彫刻作業は安全ではありません。 彫刻するたびに、$(l:core_mechanics/support_beams)崩落$() が発生する可能性があります。"
     }
   ],
   "read_by_default": true,

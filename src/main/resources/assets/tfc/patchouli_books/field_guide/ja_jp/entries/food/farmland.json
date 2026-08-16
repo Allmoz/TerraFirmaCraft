@@ -1,7 +1,7 @@
 {
   "__comment__": "This file was automatically created by mcresources",
   "name": "Soil Fertility",
-  "category": "tfc:mechanics",
+  "category": "tfc:food",
   "icon": "tfc:farmland/mollisol",
   "pages": [
     {
@@ -175,6 +175,7 @@
     }
   ],
   "read_by_default": true,
+  "sortnum": 4,
   "extra_recipe_mappings": {
     "tfc:dirt/entisol": 2,
     "tfc:dirt/andisol": 3,

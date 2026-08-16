@@ -1,7 +1,7 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "name": "革の作成",
-  "category": "tfc:mechanics",
+  "name": "Leatherworking",
+  "category": "tfc:crafting",
   "icon": "minecraft:leather",
   "pages": [
     {
@@ -58,6 +58,7 @@
     }
   ],
   "read_by_default": true,
+  "sortnum": 2,
   "extra_recipe_mappings": {
     "tfc:small_raw_hide": 1,
     "tfc:medium_raw_hide": 1,
