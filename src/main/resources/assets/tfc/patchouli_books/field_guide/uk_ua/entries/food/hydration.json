@@ -6,6 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
+      "text": "One challenge when farming is keeping your crops hydrated. Based on the $(l:core_mechanics/climate#rainfall)Rainfall$() in the area, the ground will have some latent moisture. However, this may not be enough especially for particularly water-intensive crops, or it may be too much to grow other crops.$(br2)In order to see the hydration of any specific block, you must have a $(thing)Hoe$() in hand."
     },
     {
       "type": "patchouli:text",

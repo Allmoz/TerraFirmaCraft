@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "砧是开展冶金大业必不可少的工具。砧的主要作用是焊接金属锭，或将它们锻造成各种不同的工具和装备。$(br2)$(l:mechanics/anvils#working)锻造$()是指将一块金属锭打造成其他形状，以便于将其制成某些工具或装备的工艺。而$(l:mechanics/anvils#welding)焊接$()则是指将两块金属锭或其他金属部件粘连在一起物品的工艺。"
+      "text": "砧是开展冶金大业必不可少的工具。砧的主要作用是焊接金属锭，或将它们锻造成各种不同的工具和装备。$(br2)$(l:metalworking/anvils#working)锻造$()是指将一块金属锭打造成其他形状，以便于将其制成某些工具或装备的工艺。而$(l:metalworking/anvils#welding)焊接$()则是指将两块金属锭或其他金属部件粘连在一起物品的工艺。"
     },
     {
       "type": "patchouli:multiblock",
@@ -30,7 +30,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/metal/anvil/copper",
-      "text": "砧是由它们对应的金属$(thing)双锭$()制作的。在获得你的第一个砧前，你只能使用最原始的$(l:getting_started/primitive_anvils)石砧$()。有了石砧，你就可以用它来$(l:mechanics/anvils#welding)焊接$()出$(thing)铜双锭$()了。"
+      "text": "砧是由它们对应的金属$(thing)双锭$()制作的。在获得你的第一个砧前，你只能使用最原始的$(l:getting_started/primitive_anvils)石砧$()。有了石砧，你就可以用它来$(l:metalworking/anvils#welding)焊接$()出$(thing)铜双锭$()了。"
     },
     {
       "type": "patchouli:text",
@@ -79,7 +79,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "锻造规则下方会显示你最后使用的三个锻造手法。被满足的锻造规则的轮廓会变为绿色。只有当所有锻造规则都被满足，且两个指针也对齐时才算锻造成功。$(br2)最后，别忘了留意锻造素材的$(l:mechanics/heating)温度$()。金属锭只有在温度足够高时（其工具提示会显示“可加工”）才可以用来锻造。锻造到一半的物品可以从砧上取出再加热，其锻造进度会保留。"
+      "text": "锻造规则下方会显示你最后使用的三个锻造手法。被满足的锻造规则的轮廓会变为绿色。只有当所有锻造规则都被满足，且两个指针也对齐时才算锻造成功。$(br2)最后，别忘了留意锻造素材的$(l:core_mechanics/heating)温度$()。金属锭只有在温度足够高时（其工具提示会显示“可加工”）才可以用来锻造。锻造到一半的物品可以从砧上取出再加热，其锻造进度会保留。"
     },
     {
       "type": "patchouli:text",
@@ -96,12 +96,12 @@
     {
       "type": "patchouli:text",
       "anchor": "welding",
-      "text": "焊接是指将两块金属锭或其他金属部件粘连在一起的工艺。$(l:getting_started/primitive_anvils)石砧$()和金属砧都可以进行焊接。$(br2)首先，将要焊接的两件物品加热到足以焊接的$(l:mechanics/heating)温度$()（工具提示会显示“可焊接”）。",
+      "text": "焊接是指将两块金属锭或其他金属部件粘连在一起的工艺。$(l:getting_started/primitive_anvils)石砧$()和金属砧都可以进行焊接。$(br2)首先，将要焊接的两件物品加热到足以焊接的$(l:core_mechanics/heating)温度$()（工具提示会显示“可焊接”）。",
       "title": "如何焊接"
     },
     {
       "type": "patchouli:text",
-      "text": "将两件物品放在砧上（手持物品按住$(item)$(k:key.sneak)$()的同时按$(item)$(k:key.use)$()，或打开界面手动放入都行）。砧上还必须至少有一份$(l:mechanics/flux)助焊剂$()。材料都放好后，手持任意$(thing)锤$()对准砧按住$(item)$(k:key.sneak)$()的同时按$(item)$(k:key.use)$()。只要听见锤击的音效，且两件物品合二为一就说明完成了。焊接好的物品可以用空手从砧上取出。"
+      "text": "将两件物品放在砧上（手持物品按住$(item)$(k:key.sneak)$()的同时按$(item)$(k:key.use)$()，或打开界面手动放入都行）。砧上还必须至少有一份$(l:metalworking/flux)助焊剂$()。材料都放好后，手持任意$(thing)锤$()对准砧按住$(item)$(k:key.sneak)$()的同时按$(item)$(k:key.use)$()。只要听见锤击的音效，且两件物品合二为一就说明完成了。焊接好的物品可以用空手从砧上取出。"
     }
   ],
   "read_by_default": true,

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Швейный стол$() используется для создания узоров флагов и кузнечных шаблонов. Он требует $(l:mechanics/weaving#wool_cloth)шерстяную ткань$(), $(l:mechanics/weaving#burlap_cloth)джутовую ткань$(), нить или пряжу, а также иглу."
+      "text": "$(thing)Швейный стол$() используется для создания узоров флагов и кузнечных шаблонов. Он требует $(l:crafting/weaving#wool_cloth)шерстяную ткань$(), $(l:crafting/weaving#burlap_cloth)джутовую ткань$(), нить или пряжу, а также иглу."
     },
     {
       "type": "patchouli:crafting",

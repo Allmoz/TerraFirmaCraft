@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)缝纫台$()用于制作旗帜图案和锻造模板。它需要$(l:mechanics/weaving#wool_cloth)羊毛布$()、$(l:mechanics/weaving#burlap_cloth)粗麻布$()、线或纱线，以及针。"
+      "text": "$(thing)缝纫台$()用于制作旗帜图案和锻造模板。它需要$(l:crafting/weaving#wool_cloth)羊毛布$()、$(l:crafting/weaving#burlap_cloth)粗麻布$()、线或纱线，以及针。"
     },
     {
       "type": "patchouli:crafting",

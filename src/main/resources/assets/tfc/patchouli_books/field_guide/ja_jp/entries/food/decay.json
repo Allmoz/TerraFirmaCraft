@@ -46,7 +46,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/food/cooked_mutton",
-      "text": "代わりに、 $(l:getting_started/firepit)焚き火$() または $(l:mechanics/grill)グリル$() を使用すると、腐敗時間を延長するバフを得ることもできます。 たとえば、$(thing)焚き火$() で羊肉を調理すると期限が 1.33 倍に伸び、$(thing)グリル$() で調理すると期限が 1.66 倍に伸びます。"
+      "text": "代わりに、 $(l:getting_started/firepit)焚き火$() または $(l:food/grill)グリル$() を使用すると、腐敗時間を延長するバフを得ることもできます。 たとえば、$(thing)焚き火$() で羊肉を調理すると期限が 1.33 倍に伸び、$(thing)グリル$() で調理すると期限が 1.66 倍に伸びます。"
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     {
       "type": "tfc:quern_recipe",
       "recipe": "tfc:quern/powder/salt",
-      "text": "塩を入手する方法の 1 つは、鉱物である$(l:the_world/ores_and_minerals#halite)岩塩$() を$(l:mechanics/quern)粉砕$()することです。"
+      "text": "塩を入手する方法の 1 つは、鉱物である$(l:the_world/ores_and_minerals#halite)岩塩$() を$(l:crafting/quern)粉砕$()することです。"
     },
     {
       "type": "patchouli:multiblock",
@@ -81,7 +81,7 @@
     {
       "type": "patchouli:text",
       "anchor": "vinegar",
-      "text": "$(thing)酢漬け$() は、果物、野菜、肉を長持ちさせる方法です。$(br2)$(thing)酢$() は $(l:mechanics/barrels)樽$( ）に果物を250mBの酒と共に密封することによって作成できます。 食品を酢で保存するには、$(thing)塩水$() に $(thing)酢$() を入れる必要があります。 塩酢は $(thing)酢$() と $(thing)塩水$() 1:9の割合で樽の中で作られます。"
+      "text": "$(thing)酢漬け$() は、果物、野菜、肉を長持ちさせる方法です。$(br2)$(thing)酢$() は $(l:crafting/barrels)樽$( ）に果物を250mBの酒と共に密封することによって作成できます。 食品を酢で保存するには、$(thing)塩水$() に $(thing)酢$() を入れる必要があります。 塩酢は $(thing)酢$() と $(thing)塩水$() 1:9の割合で樽の中で作られます。"
     },
     {
       "type": "patchouli:text",

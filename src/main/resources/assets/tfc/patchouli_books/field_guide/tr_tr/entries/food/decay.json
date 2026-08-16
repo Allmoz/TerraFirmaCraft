@@ -40,13 +40,13 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Belirli yiyecek türlerini kolayca saklamanın bir diğer yolu da onları pişirmektir. $(thing)Etler$(), pişirildiklerinde çiğ hallerine göre daha yavaş bozulurlar.$(br2)Ayrıca pişirme için doğru cihazı kullanmak da önemlidir. $(l:mechanics/charcoal_forge)Kömür Ocağı$() veya $(l:mechanics/crucible)Pota$() gibi çok yüksek ısı veren bazı cihazlar, yiyecekleri pişirmek için $(bold)kötüdür$() ve daha hızlı bozulmalarına neden olur!",
+      "text": "Belirli yiyecek türlerini kolayca saklamanın bir diğer yolu da onları pişirmektir. $(thing)Etler$(), pişirildiklerinde çiğ hallerine göre daha yavaş bozulurlar.$(br2)Ayrıca pişirme için doğru cihazı kullanmak da önemlidir. $(l:mechanics/charcoal_forge)Kömür Ocağı$() veya $(l:metalworking/crucible)Pota$() gibi çok yüksek ısı veren bazı cihazlar, yiyecekleri pişirmek için $(bold)kötüdür$() ve daha hızlı bozulmalarına neden olur!",
       "title": "Pişirme"
     },
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/food/cooked_mutton",
-      "text": "Bunun yerine, bir $(l:getting_started/firepit)Ateş Çukuru$() veya $(l:mechanics/grill)Izgara$() kullanmak size bir güçlendirme bile sağlayabilir! Örneğin, koyun etini (yukarıda gösterilen) bir $(thing)Ateş Çukuru$()'nda pişirmek ömrünü 1,33 kat artırırken, bir $(thing)Izgara$()'da pişirmek ömrünü 1,66 kat artıracaktır!"
+      "text": "Bunun yerine, bir $(l:getting_started/firepit)Ateş Çukuru$() veya $(l:food/grill)Izgara$() kullanmak size bir güçlendirme bile sağlayabilir! Örneğin, koyun etini (yukarıda gösterilen) bir $(thing)Ateş Çukuru$()'nda pişirmek ömrünü 1,33 kat artırırken, bir $(thing)Izgara$()'da pişirmek ömrünü 1,66 kat artıracaktır!"
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     {
       "type": "tfc:quern_recipe",
       "recipe": "tfc:quern/powder/salt",
-      "text": "Tuz elde etmenin bir yolu, bir mineral olan $(l:the_world/ores_and_minerals#halite)Halit$()'i $(l:mechanics/quern)öğütmektir$()."
+      "text": "Tuz elde etmenin bir yolu, bir mineral olan $(l:the_world/ores_and_minerals#halite)Halit$()'i $(l:crafting/quern)öğütmektir$()."
     },
     {
       "type": "patchouli:multiblock",
@@ -81,7 +81,7 @@
     {
       "type": "patchouli:text",
       "anchor": "vinegar",
-      "text": "$(thing)Sirke ile Saklama$(), meyve, sebze ve etlerin daha uzun süre dayanmasını sağlayan bir yöntemdir.$(br2)$(thing)Sirke$(), bir $(l:mechanics/barrels)Fıçı$() içerisinde, bir meyvenin 250mB Alkol ile mühürlenmesiyle yapılır. Gıdaları sirkede saklamak için önce $(thing)Salamura$() içinde $(thing)Turşu$() haline getirilmelidir. Salamura, bir fıçıda 1 ölçek $(thing)Sirke$() ve 9 ölçek $(thing)Tuzlu Su$() karıştırılarak yapılır."
+      "text": "$(thing)Sirke ile Saklama$(), meyve, sebze ve etlerin daha uzun süre dayanmasını sağlayan bir yöntemdir.$(br2)$(thing)Sirke$(), bir $(l:crafting/barrels)Fıçı$() içerisinde, bir meyvenin 250mB Alkol ile mühürlenmesiyle yapılır. Gıdaları sirkede saklamak için önce $(thing)Salamura$() içinde $(thing)Turşu$() haline getirilmelidir. Salamura, bir fıçıda 1 ölçek $(thing)Sirke$() ve 9 ölçek $(thing)Tuzlu Su$() karıştırılarak yapılır."
     },
     {
       "type": "patchouli:text",

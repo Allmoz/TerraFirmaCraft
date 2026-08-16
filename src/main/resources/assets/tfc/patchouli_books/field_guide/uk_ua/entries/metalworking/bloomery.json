@@ -58,12 +58,12 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/refined_iron_bloom",
-      "text": "$(thing)Сира залізна криця$() повинна бути оброблена на $(l:mechanics/anvils)ковадлі$() для отримання $(thing)очищеного заліза$()."
+      "text": "$(thing)Сира залізна криця$() повинна бути оброблена на $(l:metalworking/anvils)ковадлі$() для отримання $(thing)очищеного заліза$()."
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/ingot/wrought_iron",
-      "text": "$(thing)Очищене залізо$() знов на $(l:mechanics/anvils)ковадлі$() можна перетворити на $(thing)злиток ковкого заліза$()."
+      "text": "$(thing)Очищене залізо$() знов на $(l:metalworking/anvils)ковадлі$() можна перетворити на $(thing)злиток ковкого заліза$()."
     },
     {
       "type": "patchouli:text",

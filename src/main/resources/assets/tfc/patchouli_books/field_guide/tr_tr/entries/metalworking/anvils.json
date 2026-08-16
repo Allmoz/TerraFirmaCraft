@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Örsler, metal külçelerini çeşitli farklı biçimlere dönüştürmenize ve kaynaklamanıza olanak tanıdıkları için metal işleme için gerekli önemli bir araçtır.$(br2)Örsler, bir metal parçasını başka bir biçime sokmak için kullanılan $(l:mechanics/anvils#working)Şekillendirme$() veya iki metal öğeyi tek bir sağlam parça halinde birleştirmek için kullanılan $(l:mechanics/anvils#welding)Kaynaklama$() işlemleri için yararlıdır."
+      "text": "Örsler, metal külçelerini çeşitli farklı biçimlere dönüştürmenize ve kaynaklamanıza olanak tanıdıkları için metal işleme için gerekli önemli bir araçtır.$(br2)Örsler, bir metal parçasını başka bir biçime sokmak için kullanılan $(l:metalworking/anvils#working)Şekillendirme$() veya iki metal öğeyi tek bir sağlam parça halinde birleştirmek için kullanılan $(l:metalworking/anvils#welding)Kaynaklama$() işlemleri için yararlıdır."
     },
     {
       "type": "patchouli:multiblock",
@@ -30,7 +30,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/metal/anvil/copper",
-      "text": "Örsler, ilgili metallerinin $(thing)Çift Külçeleri$() ile üretilebilir. İlk örsünüz için, önce bir $(l:getting_started/primitive_anvils)Taş Örs$() üzerinde çift külçeleri $(l:mechanics/anvils#welding)kaynaklamanız$() gerekir."
+      "text": "Örsler, ilgili metallerinin $(thing)Çift Külçeleri$() ile üretilebilir. İlk örsünüz için, önce bir $(l:getting_started/primitive_anvils)Taş Örs$() üzerinde çift külçeleri $(l:metalworking/anvils#welding)kaynaklamanız$() gerekir."
     },
     {
       "type": "patchouli:text",
@@ -79,7 +79,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Son üç eyleminiz kuralların hemen altında gösterilir. Bir kural karşılandığında, dış hattı yeşile döner. Başarı, tüm kurallar karşılandığında gerçekleşir.$(br2)Son olarak, öğenizin $(l:mechanics/heating)sıcaklığına$() dikkat etmelisiniz. Metaller yalnızca araç ipucunda \"İşlenebilir\" yazan belirli bir sıcaklığın üzerindeyken işlenebilir. Çalışma sürecinde bir öğeyi dışarı çıkarıp tekrar ısıtabilirsiniz."
+      "text": "Son üç eyleminiz kuralların hemen altında gösterilir. Bir kural karşılandığında, dış hattı yeşile döner. Başarı, tüm kurallar karşılandığında gerçekleşir.$(br2)Son olarak, öğenizin $(l:core_mechanics/heating)sıcaklığına$() dikkat etmelisiniz. Metaller yalnızca araç ipucunda \"İşlenebilir\" yazan belirli bir sıcaklığın üzerindeyken işlenebilir. Çalışma sürecinde bir öğeyi dışarı çıkarıp tekrar ısıtabilirsiniz."
     },
     {
       "type": "patchouli:text",
@@ -101,7 +101,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Ayrıca kaynaklama işlemine yardımcı olması için örste en az bir $(l:mechanics/flux)Akı$() bulunmalıdır. Ardından, her iki öğe de kaynaklanacak kadar $(l:mechanics/heating)sıcakken$() - araç ipucunda \"Kaynaklanabilir\" yazacaktır - örs üzerinde herhangi bir $(thing)Çekiç$() kullanmalısınız. Bir çekiçleme sesi duyacaksınız ve öğeler birbirine kaynaklanacaktır. Daha sonra boş bir elle örs üzerinde $(item)$(k:key.use)$() kullanarak öğeleri alabilirsiniz."
+      "text": "Ayrıca kaynaklama işlemine yardımcı olması için örste en az bir $(l:metalworking/flux)Akı$() bulunmalıdır. Ardından, her iki öğe de kaynaklanacak kadar $(l:core_mechanics/heating)sıcakken$() - araç ipucunda \"Kaynaklanabilir\" yazacaktır - örs üzerinde herhangi bir $(thing)Çekiç$() kullanmalısınız. Bir çekiçleme sesi duyacaksınız ve öğeler birbirine kaynaklanacaktır. Daha sonra boş bir elle örs üzerinde $(item)$(k:key.use)$() kullanarak öğeleri alabilirsiniz."
     }
   ],
   "read_by_default": true,

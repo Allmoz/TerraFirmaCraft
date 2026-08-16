@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Kavanozlar$(), meyveleri daha uzun süre saklamak için kullanılır. Kavanozlar, $(l:mechanics/glassworking_applications#jar)Cam İşleme$() yoluyla elde edilen $(thing)Boş Kavanozlar$() olarak başlar. Ardından, $(thing)Kalay$()'dan bir $(thing)Kavanoz Kapağı$() dövülmelidir. Bunları birleştirmek, $(thing)Kapaklı Boş Kavanoz$() oluşturur."
+      "text": "$(thing)Kavanozlar$(), meyveleri daha uzun süre saklamak için kullanılır. Kavanozlar, $(l:crafting/glassworking_applications#jar)Cam İşleme$() yoluyla elde edilen $(thing)Boş Kavanozlar$() olarak başlar. Ardından, $(thing)Kalay$()'dan bir $(thing)Kavanoz Kapağı$() dövülmelidir. Bunları birleştirmek, $(thing)Kapaklı Boş Kavanoz$() oluşturur."
     },
     {
       "type": "patchouli:text",

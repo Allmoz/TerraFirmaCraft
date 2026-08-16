@@ -10,11 +10,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Bazı yiyecekler çok doyurucudur, bu yüzden açlığınızın daha uzun süre düşmemesini sağlarlar; bazı yiyeceklerin ise etkisi kısa sürelidir.$(br2)Sadece normal oynanışla bile açlık kaybedersiniz. Koşmak, yüzmek veya $(l:getting_started/size_and_weight#overburdening)Aşırı Yüklü$() duruma düşmek gibi şeyler yaparsanız açlık daha hızlı tükenir. Bir yiyeceğin $(thing)Doygunluk$(), $(thing)Su$() ve $(thing)Besin Değerleri$() hakkındaki bilgilere, envanterinizde farenizi üzerine getirerek ulaşabilirsiniz. $(item)$(k:key.sneak)$() tuşunu kullanmak tam ipucunu gösterir."
+      "text": "Bazı yiyecekler çok doyurucudur, bu yüzden açlığınızın daha uzun süre düşmemesini sağlarlar; bazı yiyeceklerin ise etkisi kısa sürelidir.$(br2)Sadece normal oynanışla bile açlık kaybedersiniz. Koşmak, yüzmek veya $(l:core_mechanics/size_and_weight#overburdening)Aşırı Yüklü$() duruma düşmek gibi şeyler yaparsanız açlık daha hızlı tükenir. Bir yiyeceğin $(thing)Doygunluk$(), $(thing)Su$() ve $(thing)Besin Değerleri$() hakkındaki bilgilere, envanterinizde farenizi üzerine getirerek ulaşabilirsiniz. $(item)$(k:key.sneak)$() tuşunu kullanmak tam ipucunu gösterir."
     },
     {
       "type": "patchouli:text",
-      "text": "Tüm yiyeceklerin bu bilgileri içeren bir ipucu kutusu vardır. İpucu, koruma yöntemleriyle uzatılabilecek olan yiyeceğin $(l:mechanics/decay)Çürüme Tarihi$() bilgisini içerir. Bu bilgileri incelerken, her yiyeceğin besin değeri olmadığını fark etmek önemlidir. Örneğin, $(l:mechanics/bread)Hamur$() bir yiyecektir ancak hiçbir Besin, Doygunluk veya Su değeri yoktur. Onu yemek pek bir işe yaramayacaktır."
+      "text": "Tüm yiyeceklerin bu bilgileri içeren bir ipucu kutusu vardır. İpucu, koruma yöntemleriyle uzatılabilecek olan yiyeceğin $(l:food/decay)Çürüme Tarihi$() bilgisini içerir. Bu bilgileri incelerken, her yiyeceğin besin değeri olmadığını fark etmek önemlidir. Örneğin, $(l:food/bread)Hamur$() bir yiyecektir ancak hiçbir Besin, Doygunluk veya Su değeri yoktur. Onu yemek pek bir işe yaramayacaktır."
     },
     {
       "type": "patchouli:text",
@@ -31,16 +31,16 @@
     {
       "type": "patchouli:text",
       "anchor": "nutrients",
-      "text": "Tamamı yiyeceklerden elde edilebilen beş besin öğesi vardır: $(l)$(a)Meyve$()$(), $(l)$(2)Sebze$()$(), $(l)$(c)Protein$()$(), $(l)$(6)Tahıl$()$() ve $(l)$(5)Süt Ürünü$()$(). Tüm besin öğelerinden yüksek miktarda almak maksimum sağlığınızı artırırken, yetersiz beslenme sağlığınızı düşürür. Yiyecek yemek size besin değerlerini kazandırır. $(l:mechanics/pot#soup)Çorba$() gibi öğünler, birden fazla besin öğesini tek bir öğünde birleştirir. Bu önemlidir, çünkü bir süre önce yediğiniz öğünler mevcut beslenme durumunuza dahil edilmez.",
+      "text": "Tamamı yiyeceklerden elde edilebilen beş besin öğesi vardır: $(l)$(a)Meyve$()$(), $(l)$(2)Sebze$()$(), $(l)$(c)Protein$()$(), $(l)$(6)Tahıl$()$() ve $(l)$(5)Süt Ürünü$()$(). Tüm besin öğelerinden yüksek miktarda almak maksimum sağlığınızı artırırken, yetersiz beslenme sağlığınızı düşürür. Yiyecek yemek size besin değerlerini kazandırır. $(l:food/pot#soup)Çorba$() gibi öğünler, birden fazla besin öğesini tek bir öğünde birleştirir. Bu önemlidir, çünkü bir süre önce yediğiniz öğünler mevcut beslenme durumunuza dahil edilmez.",
       "title": "Besin Öğeleri"
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(a)Meyve$()$(): Meyve besin öğeleri çoğunlukla böğürtlen çalıları ve meyve ağaçları gibi $(l:the_world/wild_fruits)Meyve Veren Bitkiler$()'den elde edilir. Bunun önemli bir istisnası, besin değeri açısından meyve olan $(l:mechanics/crops#pumpkin)Balkabakları$() ve $(l:mechanics/crops#pumpkin)Kavunlardır$().$(br2)$(l)$(2)Sebze$()$(): Neredeyse her $(l:mechanics/crops)Ekinde$() bulunur.$(br2)$(l)$(c)Protein$()$(): Protein, $(l:the_world/wild_animals)Hayvanların$() etinden elde edilebilir. Ayrıca hem protein hem de sebze besin öğeleri içeren $(l:mechanics/crops#soybean)Soya Fasulyesinden$() de elde edilebilir."
+      "text": "$(l)$(a)Meyve$()$(): Meyve besin öğeleri çoğunlukla böğürtlen çalıları ve meyve ağaçları gibi $(l:the_world/wild_fruits)Meyve Veren Bitkiler$()'den elde edilir. Bunun önemli bir istisnası, besin değeri açısından meyve olan $(l:food/crops#pumpkin)Balkabakları$() ve $(l:food/crops#pumpkin)Kavunlardır$().$(br2)$(l)$(2)Sebze$()$(): Neredeyse her $(l:food/crops)Ekinde$() bulunur.$(br2)$(l)$(c)Protein$()$(): Protein, $(l:the_world/wild_animals)Hayvanların$() etinden elde edilebilir. Ayrıca hem protein hem de sebze besin öğeleri içeren $(l:food/crops#soybean)Soya Fasulyesinden$() de elde edilebilir."
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(6)Tahıl$()$(): Tahıl, $(l:mechanics/crops#barley)Arpa$() gibi tahıl ekinlerinde bulunur. Tahılın işlenmesi $(l:mechanics/bread)Ekmek$() sayfasında anlatılmıştır. $(thing)Kındıra$() ve $(thing)Taro$() Kökleri de tahıldır.$(br2)$(l)$(5)Süt Ürünü$()$(): Tüm süt ürünleri, $(l:mechanics/animal_husbandry#dairy_animals)Süt Veren Hayvanlardan$() elde edilen $(thing)Sütten$() gelir. Sütün işlenmesi ve içilmesi $(l:mechanics/dairy)Süt Ürünleri$() sayfasında ele alınmıştır.$(br2)Dünyadaki tüm yiyecekler çürürse bir işe yaramaz. Bunu önlemek hakkında bilgi almak için $(l:mechanics/decay)Koruma$() sayfasına bakın."
+      "text": "$(l)$(6)Tahıl$()$(): Tahıl, $(l:food/crops#barley)Arpa$() gibi tahıl ekinlerinde bulunur. Tahılın işlenmesi $(l:food/bread)Ekmek$() sayfasında anlatılmıştır. $(thing)Kındıra$() ve $(thing)Taro$() Kökleri de tahıldır.$(br2)$(l)$(5)Süt Ürünü$()$(): Tüm süt ürünleri, $(l:food/animal_husbandry#dairy_animals)Süt Veren Hayvanlardan$() elde edilen $(thing)Sütten$() gelir. Sütün işlenmesi ve içilmesi $(l:food/dairy)Süt Ürünleri$() sayfasında ele alınmıştır.$(br2)Dünyadaki tüm yiyecekler çürürse bir işe yaramaz. Bunu önlemek hakkında bilgi almak için $(l:food/decay)Koruma$() sayfasına bakın."
     },
     {
       "type": "patchouli:text",

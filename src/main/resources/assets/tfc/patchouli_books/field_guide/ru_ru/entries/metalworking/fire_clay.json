@@ -11,7 +11,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/fire_clay",
-      "text": "Огнеупорная глина изготавливается из порошка $(l:the_world/ores_and_minerals#graphite)графита$(), измельченного в $(l:mechanics/quern)жёрнове$(), а также порошка $(l:the_world/ores_and_minerals#kaolinite)каолинита$()"
+      "text": "Огнеупорная глина изготавливается из порошка $(l:the_world/ores_and_minerals#graphite)графита$(), измельченного в $(l:crafting/quern)жёрнове$(), а также порошка $(l:the_world/ores_and_minerals#kaolinite)каолинита$()"
     },
     {
       "type": "tfc:heat_recipe",
@@ -22,7 +22,7 @@
       "type": "tfc:knapping_recipe",
       "anchor": "crucible",
       "recipe": "tfc:knapping/ceramic/unfired_crucible",
-      "text": "$(l:mechanics/crucible)Тигель$() в необожжённом состоянии изготавливается из огнеупорной глины."
+      "text": "$(l:metalworking/crucible)Тигель$() в необожжённом состоянии изготавливается из огнеупорной глины."
     },
     {
       "type": "tfc:knapping_recipe",

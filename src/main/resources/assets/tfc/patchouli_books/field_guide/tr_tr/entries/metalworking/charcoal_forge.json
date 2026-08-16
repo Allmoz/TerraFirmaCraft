@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Kömür Ocağı$(), eşyaları $(l:mechanics/heating)ısıtmak$() ve eritmek için kullanılan bir cihazdır. Ocaklar, bir $(l:mechanics/crucible)potanın$() çalışması için gereklidir. Genellikle eşyaları $(l:mechanics/anvils)örs$() üzerinde dövülmeye hazırlamak için ısıtmak amacıyla kullanılırlar.$(br)7 veya 8 katmanlı bir $(l:mechanics/charcoal_pit#charcoal_pile)kömür yığınını$() çevreleyen 5 adet $(thing)taş$() bloğun yerleştirilip ardından yakılmasıyla inşa edilir."
+      "text": "$(thing)Kömür Ocağı$(), eşyaları $(l:core_mechanics/heating)ısıtmak$() ve eritmek için kullanılan bir cihazdır. Ocaklar, bir $(l:metalworking/crucible)potanın$() çalışması için gereklidir. Genellikle eşyaları $(l:metalworking/anvils)örs$() üzerinde dövülmeye hazırlamak için ısıtmak amacıyla kullanılırlar.$(br)7 veya 8 katmanlı bir $(l:metalworking/charcoal_pit#charcoal_pile)kömür yığınını$() çevreleyen 5 adet $(thing)taş$() bloğun yerleştirilip ardından yakılmasıyla inşa edilir."
     },
     {
       "type": "patchouli:multiblock",
@@ -17,7 +17,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Bir Ocağın çalışması için bacaya ihtiyacı vardır. Ocağın doğrudan üzerindeki blok hava olmalı veya bir $(l:mechanics/crucible)Pota$() bulunmalıdır. Ayrıca, doğrudan üzerindeki blok veya yakındaki sekiz bloktan biri gökyüzünü görebilmelidir - sağdaki görselleştirmede mavi renkli cam ile gösterilmiştir.$(br2)Ocağın ulaşabileceği maksimum sıcaklığı artırmak için, Ocağın bir blok yukarısına ve yanına bir $(l:mechanics/bellows)Körük$() yerleştirilebilir."
+      "text": "Bir Ocağın çalışması için bacaya ihtiyacı vardır. Ocağın doğrudan üzerindeki blok hava olmalı veya bir $(l:metalworking/crucible)Pota$() bulunmalıdır. Ayrıca, doğrudan üzerindeki blok veya yakındaki sekiz bloktan biri gökyüzünü görebilmelidir - sağdaki görselleştirmede mavi renkli cam ile gösterilmiştir.$(br2)Ocağın ulaşabileceği maksimum sıcaklığı artırmak için, Ocağın bir blok yukarısına ve yanına bir $(l:metalworking/bellows)Körük$() yerleştirilebilir."
     },
     {
       "type": "patchouli:multiblock",

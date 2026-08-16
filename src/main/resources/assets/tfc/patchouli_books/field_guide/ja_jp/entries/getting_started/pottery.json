@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)粘土$()は、陶器に使用できる非常に便利でバランスのとれた材料です。 最初は見つけるのが難しいかもしれません。 粘土は草に隠れていることが多いですが、地表面に生成されます。 $(l:the_world/climate#rainfall)年間降水量$() が少なくとも 175mm 以上の地域では、粘土がいたるところに斑点状に見つかり、通常は特定の $(thing)植thing$() の存在が特徴です。"
+      "text": "$(thing)粘土$()は、陶器に使用できる非常に便利でバランスのとれた材料です。 最初は見つけるのが難しいかもしれません。 粘土は草に隠れていることが多いですが、地表面に生成されます。 $(l:core_mechanics/climate#rainfall)年間降水量$() が少なくとも 175mm 以上の地域では、粘土がいたるところに斑点状に見つかり、通常は特定の $(thing)植thing$() の存在が特徴です。"
     },
     {
       "type": "patchouli:multiblock",
@@ -49,7 +49,7 @@
     {
       "type": "patchouli:text",
       "anchor": "vessel",
-      "text": "小さな壺は粘土で作れる多様なアイテムのひとつです。 すべての陶器アイテムと同様、使用する前に $(l:https://en.wikipedia.org/wiki/Pottery)焼成$() する必要があります。 焼成は、粘土が硬い $(thing)セラミック$() になるまでアイテムを $(l:mechanics/heating)加熱$() するプロセスです。これには 1400 °C 、 $(e)$(bold)$(t:Yellow White)黄白$()$までの加熱が必要です。(br2)ゲーム序盤でこれを行うには、$(l:getting_started/pit_kiln)穴窯$()を使用する必要があります。",
+      "text": "小さな壺は粘土で作れる多様なアイテムのひとつです。 すべての陶器アイテムと同様、使用する前に $(l:https://en.wikipedia.org/wiki/Pottery)焼成$() する必要があります。 焼成は、粘土が硬い $(thing)セラミック$() になるまでアイテムを $(l:core_mechanics/heating)加熱$() するプロセスです。これには 1400 °C 、 $(e)$(bold)$(t:Yellow White)黄白$()$までの加熱が必要です。(br2)ゲーム序盤でこれを行うには、$(l:getting_started/pit_kiln)穴窯$()を使用する必要があります。",
       "title": "小さな壺"
     },
     {
@@ -124,7 +124,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_chisel_head_mold",
-      "text": "$(l:mechanics/chisel)ノミ$()は、ブロックを滑らかにしたり、多数の装飾ブロックを作成したりするために使用されるツールです。石臼の作成に必須です。"
+      "text": "$(l:metalworking/chisel)ノミ$()は、ブロックを滑らかにしたり、多数の装飾ブロックを作成したりするために使用されるツールです。石臼の作成に必須です。"
     },
     {
       "type": "tfc:knapping_recipe",
@@ -134,7 +134,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_hammer_head_mold",
-      "text": "$(thing)ハンマー$()は$(l:mechanics/anvils)金床$()を作成して作業するために不可欠なツールです。"
+      "text": "$(thing)ハンマー$()は$(l:metalworking/anvils)金床$()を作成して作業するために不可欠なツールです。"
     },
     {
       "type": "tfc:knapping_recipe",

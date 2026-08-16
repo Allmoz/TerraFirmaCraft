@@ -11,13 +11,13 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/silica_glass_batch",
-      "text": "Cam karışımları, yukarıda belirtilen kum renklerinden biri ile $(l:mechanics/glassworking#lime)Kireç$() ve bir tür $(l:mechanics/glassworking#potash)Potas$() kullanılarak üretilebilir."
+      "text": "Cam karışımları, yukarıda belirtilen kum renklerinden biri ile $(l:crafting/glassworking#lime)Kireç$() ve bir tür $(l:crafting/glassworking#potash)Potas$() kullanılarak üretilebilir."
     },
     {
       "type": "tfc:heat_recipe",
       "anchor": "lime",
       "recipe": "tfc:heating/powder/lime",
-      "text": "$(thing)Kireç$(), cam karışımları yapmak için gereken malzemelerden biridir. $(l:mechanics/flux)Akı$() maddesinin $(l:mechanics/heating)ısıtılmasıyla$() elde edilen bir tozdur."
+      "text": "$(thing)Kireç$(), cam karışımları yapmak için gereken malzemelerden biridir. $(l:metalworking/flux)Akı$() maddesinin $(l:core_mechanics/heating)ısıtılmasıyla$() elde edilen bir tozdur."
     },
     {
       "type": "tfc:heat_recipe",
@@ -27,7 +27,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Cam işleme, bir cam karışımıyla başlayıp ardından bir dizi adımı tamamlayarak yapılır. Bu adımlar belirli araçlar gerektirebilir:$(br)$(li)$(thing)Üflemek$() ve $(thing)Esnetmek$() için bir $(l:mechanics/glassworking#blowpipe)Üfleme Borusu$()$(li)$(thing)Düzleştirmek$() için bir $(l:mechanics/glassworking#paddle)Kürek$()$(li)$(thing)Çimdiklemek$() için $(l:mechanics/glassworking#jacks)Kıskaçlar$()$(li)$(thing)Kesmek$() için bir $(l:mechanics/glassworking#saw)Mücevher Testeresi$()",
+      "text": "Cam işleme, bir cam karışımıyla başlayıp ardından bir dizi adımı tamamlayarak yapılır. Bu adımlar belirli araçlar gerektirebilir:$(br)$(li)$(thing)Üflemek$() ve $(thing)Esnetmek$() için bir $(l:crafting/glassworking#blowpipe)Üfleme Borusu$()$(li)$(thing)Düzleştirmek$() için bir $(l:crafting/glassworking#paddle)Kürek$()$(li)$(thing)Çimdiklemek$() için $(l:crafting/glassworking#jacks)Kıskaçlar$()$(li)$(thing)Kesmek$() için bir $(l:crafting/glassworking#saw)Mücevher Testeresi$()",
       "title": "Zanaatın Araçları"
     },
     {
@@ -39,7 +39,7 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/blowpipe",
-      "text": "Seramik üfleme boruları kırılgandır ve kullanıldıklarında kırılma ihtimalleri vardır. Daha sağlam bir üfleme borusu, örs üzerinde $(thing)Pirinç Çubuk$()'dan $(l:mechanics/anvils#working)işlenebilir$()."
+      "text": "Seramik üfleme boruları kırılgandır ve kullanıldıklarında kırılma ihtimalleri vardır. Daha sağlam bir üfleme borusu, örs üzerinde $(thing)Pirinç Çubuk$()'dan $(l:metalworking/anvils#working)işlenebilir$()."
     },
     {
       "type": "patchouli:crafting",
@@ -66,7 +66,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(bold)Düzleştirme$()$(br)Diğer elinizde bir $(l:mechanics/glassworking#paddle)Kürek$() tutarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Çimdikleme$()$(br)Diğer elinizde $(l:mechanics/glassworking#jacks)Kıskaçlar$() tutarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Kesme$()$(br)Diğer elinizde bir $(l:mechanics/glassworking#saw)Mücevher Testeresi$() tutarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Yuvarlama$()$(br)Diğer elinizde bir $(l:mechanics/weaving#wool_cloth)Yün Kumaş$() ile $(thing)Üfleme Borusu$()'nu kullanın."
+      "text": "$(bold)Düzleştirme$()$(br)Diğer elinizde bir $(l:crafting/glassworking#paddle)Kürek$() tutarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Çimdikleme$()$(br)Diğer elinizde $(l:crafting/glassworking#jacks)Kıskaçlar$() tutarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Kesme$()$(br)Diğer elinizde bir $(l:crafting/glassworking#saw)Mücevher Testeresi$() tutarken $(thing)Üfleme Borusu$()'nu kullanın.$(br2)$(bold)Yuvarlama$()$(br)Diğer elinizde bir $(l:crafting/weaving#wool_cloth)Yün Kumaş$() ile $(thing)Üfleme Borusu$()'nu kullanın."
     }
   ],
   "read_by_default": true,

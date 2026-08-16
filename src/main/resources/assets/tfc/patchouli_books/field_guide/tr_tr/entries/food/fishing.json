@@ -11,7 +11,7 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/fish_hook/bismuth_bronze",
-      "text": "Öncelikle, bir $(l:mechanics/anvils)Örs$() üzerinde bir olta kancası dövmeniz gerekir."
+      "text": "Öncelikle, bir $(l:metalworking/anvils)Örs$() üzerinde bir olta kancası dövmeniz gerekir."
     },
     {
       "type": "patchouli:crafting",

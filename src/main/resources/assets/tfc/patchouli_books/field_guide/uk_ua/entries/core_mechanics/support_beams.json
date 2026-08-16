@@ -19,7 +19,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Dirt, grass, clay, gravel, cobblestone, and sand are also affected by gravity. However, unlike vanilla gravity blocks, these blocks fall down slopes, and cannot be stacked more than one high without supporting blocks around. $(l:mechanics/sluices)Ore Deposits$() also landslide, but do not degrade in quality."
+      "text": "Dirt, grass, clay, gravel, cobblestone, and sand are also affected by gravity. However, unlike vanilla gravity blocks, these blocks fall down slopes, and cannot be stacked more than one high without supporting blocks around. $(l:metalworking/sluices)Ore Deposits$() also landslide, but do not degrade in quality."
     },
     {
       "type": "patchouli:crafting",
@@ -229,7 +229,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Необхідно пам'ятати, що $(l:mechanics/chisel)довбання$() долотом теж може спричинити обвал, як і видобування каміння, коли воно виконується по $(thing)необробленому камінні$().$(br2)$(br2)Також, не забувайте, практикуйте безпечний видобуток!",
+      "text": "Необхідно пам'ятати, що $(l:metalworking/chisel)довбання$() долотом теж може спричинити обвал, як і видобування каміння, коли воно виконується по $(thing)необробленому камінні$().$(br2)$(br2)Також, не забувайте, практикуйте безпечний видобуток!",
       "title": "Довбання"
     }
   ],

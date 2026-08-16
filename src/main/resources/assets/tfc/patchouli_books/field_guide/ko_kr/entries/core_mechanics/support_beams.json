@@ -19,7 +19,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Dirt, grass, clay, gravel, cobblestone, and sand are also affected by gravity. However, unlike vanilla gravity blocks, these blocks fall down slopes, and cannot be stacked more than one high without supporting blocks around. $(l:mechanics/sluices)Ore Deposits$() also landslide, but do not degrade in quality."
+      "text": "Dirt, grass, clay, gravel, cobblestone, and sand are also affected by gravity. However, unlike vanilla gravity blocks, these blocks fall down slopes, and cannot be stacked more than one high without supporting blocks around. $(l:metalworking/sluices)Ore Deposits$() also landslide, but do not degrade in quality."
     },
     {
       "type": "patchouli:crafting",
@@ -229,7 +229,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "마지막으로, $(thing)돌 블록$()을 $(l:mechanics/chisel)조각$()하는 것 역시 붕괴의 위험성을 지니고 있습니다.$(br2)$(br2)꼭 안전하게 채광할 것을 명심하세요!",
+      "text": "마지막으로, $(thing)돌 블록$()을 $(l:metalworking/chisel)조각$()하는 것 역시 붕괴의 위험성을 지니고 있습니다.$(br2)$(br2)꼭 안전하게 채광할 것을 명심하세요!",
       "title": "§l조각"
     }
   ],

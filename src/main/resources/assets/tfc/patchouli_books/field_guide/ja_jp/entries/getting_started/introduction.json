@@ -100,7 +100,7 @@
         "tfc:knapping/stone/hoe_head/igneous_extrusive",
         "tfc:knapping/stone/hoe_head/igneous_intrusive"
       ],
-      "text": "$(thing)クワ$()は$(l:mechanics/crops)農業$()に使用できます。また、葉や他の植物を破壊するためにも使用できます。"
+      "text": "$(thing)クワ$()は$(l:food/crops)農業$()に使用できます。また、葉や他の植物を破壊するためにも使用できます。"
     },
     {
       "type": "tfc:rock_knapping_recipe",

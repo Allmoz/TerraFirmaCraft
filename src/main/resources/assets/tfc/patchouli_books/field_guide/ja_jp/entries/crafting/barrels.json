@@ -43,7 +43,7 @@
       "type": "tfc:instant_barrel_recipe",
       "anchor": "limewater",
       "recipe": "tfc:barrel/limewater",
-      "text": "$(bold)石灰水$() は、$(thing)水$() 入りの樽に $(l:mechanics/flux)融剤$() を追加することによって作成されます。 $(thing)水$() $(thing) 500 mB$() ごとに 1 つの $(l:mechanics/flux)融剤$() が必要です。 $(thing)石灰水$() は、$(l:mechanics/leather_making)革の作成$() で使用される液体であり、$(thing)モルタル$() を作成するためにも使用されます。"
+      "text": "$(bold)石灰水$() は、$(thing)水$() 入りの樽に $(l:metalworking/flux)融剤$() を追加することによって作成されます。 $(thing)水$() $(thing) 500 mB$() ごとに 1 つの $(l:metalworking/flux)融剤$() が必要です。 $(thing)石灰水$() は、$(l:crafting/leather_making)革の作成$() で使用される液体であり、$(thing)モルタル$() を作成するためにも使用されます。"
     },
     {
       "type": "tfc:sealed_barrel_recipe",
@@ -57,7 +57,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "樽には $(l:mechanics/heating)熱い$() アイテムを冷却する機能があります。 $(thing)水$()、$(thing)オリーブオイル$()、または $(thing)塩水$() の樽に熱いアイテムを入れると、すぐに温度が下がります。"
+      "text": "樽には $(l:core_mechanics/heating)熱い$() アイテムを冷却する機能があります。 $(thing)水$()、$(thing)オリーブオイル$()、または $(thing)塩水$() の樽に熱いアイテムを入れると、すぐに温度が下がります。"
     },
     {
       "type": "patchouli:text",
@@ -65,7 +65,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "樽は $(thing)酢$() にアイテムを保存できます。 酢は $(thing)果物$() を $(thing)酒$() 入りの樽に密封して作られます。 このプロセスがどのように機能するかについては、関連する $(l:mechanics/decay#vinegar)こちら$() を参照してください。"
+      "text": "樽は $(thing)酢$() にアイテムを保存できます。 酢は $(thing)果物$() を $(thing)酒$() 入りの樽に密封して作られます。 このプロセスがどのように機能するかについては、関連する $(l:food/decay#vinegar)こちら$() を参照してください。"
     },
     {
       "type": "patchouli:crafting",

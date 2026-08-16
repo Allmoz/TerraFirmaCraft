@@ -35,7 +35,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/ceramic/pot",
-      "text": "然後它必須$(l:mechanics/heating)燒製$()成$(thing)陶鍋$()才可以放在篝火上。"
+      "text": "然後它必須$(l:core_mechanics/heating)燒製$()成$(thing)陶鍋$()才可以放在篝火上。"
     },
     {
       "type": "patchouli:text",

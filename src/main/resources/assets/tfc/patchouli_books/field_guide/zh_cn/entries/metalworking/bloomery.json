@@ -58,12 +58,12 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/refined_iron_bloom",
-      "text": "$(thing)生铁方坯$()还必须在$(l:mechanics/anvils)砧$()上打造成$(thing)精铁方坯$()。"
+      "text": "$(thing)生铁方坯$()还必须在$(l:metalworking/anvils)砧$()上打造成$(thing)精铁方坯$()。"
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/ingot/wrought_iron",
-      "text": "在$(l:mechanics/anvils)砧$()上进一步打造$(thing)精铁方坯$()就能获得$(thing)锻铁锭$()了。"
+      "text": "在$(l:metalworking/anvils)砧$()上进一步打造$(thing)精铁方坯$()就能获得$(thing)锻铁锭$()了。"
     },
     {
       "type": "patchouli:text",

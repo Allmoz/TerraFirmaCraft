@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)1. $(l:mechanics/lighting#torches)횃불$()$(li)2. $(l:mechanics/lighting#candles)초$()$(li)3. $(l:mechanics/lighting#jack_o_lanterns)잭 오 랜턴$()",
+      "text": "$(li)1. $(l:core_mechanics/lighting#torches)횃불$()$(li)2. $(l:core_mechanics/lighting#candles)초$()$(li)3. $(l:core_mechanics/lighting#jack_o_lanterns)잭 오 랜턴$()",
       "title": "목차"
     },
     {
@@ -46,7 +46,7 @@
     {
       "type": "tfc:sealed_barrel_recipe",
       "recipe": "tfc:barrel/candle",
-      "text": "초는 $(thing)실$()을 $(l:mechanics/lamps#tallow)고래기름$()이 담긴 $(l:mechanics/barrels)통$()에 밀봉하여 만들 수 있습니다."
+      "text": "초는 $(thing)실$()을 $(l:mechanics/lamps#tallow)고래기름$()이 담긴 $(l:crafting/barrels)통$()에 밀봉하여 만들 수 있습니다."
     },
     {
       "type": "patchouli:multiblock",
@@ -70,7 +70,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(thing)조각된 호박$()은 $(l:mechanics/crops#pumpkin)호박$()에 $(thing)가위$()나 $(thing)칼$()을 들고 $(item)$(k:key.use)$()을 눌러 만들 수 있습니다. 조각된 호박은 썩지 않으며, 머리에 쓸 수 있습니다."
+      "text": "$(thing)조각된 호박$()은 $(l:food/crops#pumpkin)호박$()에 $(thing)가위$()나 $(thing)칼$()을 들고 $(item)$(k:key.use)$()을 눌러 만들 수 있습니다. 조각된 호박은 썩지 않으며, 머리에 쓸 수 있습니다."
     }
   ],
   "read_by_default": true,

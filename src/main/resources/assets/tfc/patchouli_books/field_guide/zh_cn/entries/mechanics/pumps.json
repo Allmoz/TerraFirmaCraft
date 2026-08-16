@@ -11,7 +11,7 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/steel_pipe",
-      "text": "钢管，顾名思义，可以用$(l:mechanics/steel)钢$()在$(l:mechanics/anvils)砧$()上锻造而成。$(thing)钢泵$()可以用一些$(thing)钢管$()和$(l:getting_started/primitive_alloys#brass)黄铜机件$()合成。"
+      "text": "钢管，顾名思义，可以用$(l:metalworking/steel)钢$()在$(l:metalworking/anvils)砧$()上锻造而成。$(thing)钢泵$()可以用一些$(thing)钢管$()和$(l:getting_started/primitive_alloys#brass)黄铜机件$()合成。"
     },
     {
       "type": "patchouli:crafting",

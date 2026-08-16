@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Sandwiches$() are a meal allowing the combination of two $(l:food/bread)Bread$() items and up to three sandwich foods, which can be any combination of $(l:food/bread)Vegetables$(), $(thing)Cooked Meats$(), and $(l:food/dairy)Cheeses$()."
+      "text": "製作$(thing)三明治$()能將最多三種$(thing)蔬菜$()、$(thing)熟肉$()、或$(l:food/dairy)乳酪$()，和兩片$(l:food/bread)麵包$()組合成一頓$(thing)餐點$()。"
     },
     {
       "type": "patchouli:crafting",

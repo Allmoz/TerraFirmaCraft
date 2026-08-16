@@ -28,12 +28,12 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/ceramic/propick_head_mold",
-      "text": "После того как форма будет $(l:getting_started/pottery)вылеплена$(), её необходимо $(l:mechanics/heating)обжечь$(), чтобы создать $(thing)форму для головки геологического молотка$().$(br2)Чтобы создать головку инструмента, $(l:getting_started/finding_ores#casting)залейте$() жидкий металл в форму."
+      "text": "После того как форма будет $(l:getting_started/pottery)вылеплена$(), её необходимо $(l:core_mechanics/heating)обжечь$(), чтобы создать $(thing)форму для головки геологического молотка$().$(br2)Чтобы создать головку инструмента, $(l:getting_started/finding_ores#casting)залейте$() жидкий металл в форму."
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/propick_head/wrought_iron",
-      "text": "Головка геологического молотка также может быть $(l:mechanics/anvils#working)выкована$() из $(thing)слитка$() любого металла на $(l:mechanics/anvils)наковальне$(), если из этого металла можно сделать инструменты.$(br2)Геологический молток создается путем объединения головки инструмента с палкой."
+      "text": "Головка геологического молотка также может быть $(l:metalworking/anvils#working)выкована$() из $(thing)слитка$() любого металла на $(l:metalworking/anvils)наковальне$(), если из этого металла можно сделать инструменты.$(br2)Геологический молток создается путем объединения головки инструмента с палкой."
     },
     {
       "type": "patchouli:text",

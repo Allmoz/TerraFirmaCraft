@@ -11,7 +11,7 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/fish_hook/bismuth_bronze",
-      "text": "Спочатку тобі потрібно викувати рибальський гачок на $(l:mechanics/anvils)ковадлі$()."
+      "text": "Спочатку тобі потрібно викувати рибальський гачок на $(l:metalworking/anvils)ковадлі$()."
     },
     {
       "type": "patchouli:crafting",

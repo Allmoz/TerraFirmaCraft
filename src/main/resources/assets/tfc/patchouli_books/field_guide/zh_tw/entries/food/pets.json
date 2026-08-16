@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)寵物$()是與$(l:mechanics/animal_husbandry)牲畜$()很類似的動物, 但是它們不會生產有用的資源. 它們會聽從你的指令, 跟著你, 並且幫你做捕獵和捕殺害蟲等事情."
+      "text": "$(thing)寵物$()是與$(l:food/animal_husbandry)牲畜$()很類似的動物, 但是它們不會生產有用的資源. 它們會聽從你的指令, 跟著你, 並且幫你做捕獵和捕殺害蟲等事情."
     },
     {
       "type": "patchouli:text",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Ekmek, $(l:mechanics/crops#barley)Arpa$() gibi çeşitli tahıl ekinlerinin işlenmiş halidir. Bir tahıl ekinini kırmak, tek başına bir işe yaramayan ham, işlenmemiş bir tahıl eşyası düşürür. Bu, daha sonra yenebilecek veya $(l:mechanics/sandwiches)Sandviçlerde$() kullanılabilecek $(thing)Ekmek$() haline getirilmelidir."
+      "text": "Ekmek, $(l:food/crops#barley)Arpa$() gibi çeşitli tahıl ekinlerinin işlenmiş halidir. Bir tahıl ekinini kırmak, tek başına bir işe yaramayan ham, işlenmemiş bir tahıl eşyası düşürür. Bu, daha sonra yenebilecek veya $(l:mechanics/sandwiches)Sandviçlerde$() kullanılabilecek $(thing)Ekmek$() haline getirilmelidir."
     },
     {
       "type": "patchouli:crafting",
@@ -22,7 +22,7 @@
     {
       "type": "tfc:quern_recipe",
       "recipe": "tfc:quern/food/oat_flour",
-      "text": "Tahıl daha sonra un yapmak için bir $(l:mechanics/quern)El Değirmeninde$() öğütülmelidir."
+      "text": "Tahıl daha sonra un yapmak için bir $(l:crafting/quern)El Değirmeninde$() öğütülmelidir."
     },
     {
       "type": "patchouli:crafting",
@@ -32,7 +32,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/food/barley_bread",
-      "text": "Hamur daha sonra ekmek yapmak için $(l:mechanics/heating)ısıtılabilir$(). Bu aşamada $(l:mechanics/sandwiches)Sandviçlerde$() de kullanılabilir."
+      "text": "Hamur daha sonra ekmek yapmak için $(l:core_mechanics/heating)ısıtılabilir$(). Bu aşamada $(l:mechanics/sandwiches)Sandviçlerde$() de kullanılabilir."
     }
   ],
   "read_by_default": true,

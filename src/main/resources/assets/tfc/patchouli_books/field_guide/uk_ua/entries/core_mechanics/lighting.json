@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)1. $(l:mechanics/lighting#torches)Смолоскип$()$(li)2. $(l:mechanics/lighting#candles)Свічка$()$(li)3. $(l:mechanics/lighting#jack_o_lanterns)Світильник Джека$()",
+      "text": "$(li)1. $(l:core_mechanics/lighting#torches)Смолоскип$()$(li)2. $(l:core_mechanics/lighting#candles)Свічка$()$(li)3. $(l:core_mechanics/lighting#jack_o_lanterns)Світильник Джека$()",
       "title": "Зміст"
     },
     {
@@ -46,7 +46,7 @@
     {
       "type": "tfc:sealed_barrel_recipe",
       "recipe": "tfc:barrel/candle",
-      "text": "Виготовити свічку можна у $(l:mechanics/barrels)діжці$(). Для цього треба $(thing)нитку$() запечатати із $(l:mechanics/lamps#tallow)топленим жиром$()."
+      "text": "Виготовити свічку можна у $(l:crafting/barrels)діжці$(). Для цього треба $(thing)нитку$() запечатати із $(l:mechanics/lamps#tallow)топленим жиром$()."
     },
     {
       "type": "patchouli:multiblock",
@@ -70,7 +70,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Щоб створити $(thing)різаний гарбуз$() треба клацнути $(item)$(k:key.use)$() $(thing)ножицями$() або $(thing)ножем$() по свіжому $(l:mechanics/crops#pumpkin)гарбузові$(). Різані гарбузи не псуються. Їх можна носити на голові"
+      "text": "Щоб створити $(thing)різаний гарбуз$() треба клацнути $(item)$(k:key.use)$() $(thing)ножицями$() або $(thing)ножем$() по свіжому $(l:food/crops#pumpkin)гарбузові$(). Різані гарбузи не псуються. Їх можна носити на голові"
     }
   ],
   "read_by_default": true,

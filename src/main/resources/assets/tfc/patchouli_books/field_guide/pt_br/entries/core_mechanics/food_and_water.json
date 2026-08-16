@@ -10,11 +10,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Alguns alimentos são muito recheados, então eles impedem você de perder a fome por mais tempo, enquanto alguns alimentos têm um efeito de curta duração.$(br2)Você perderá a fome apenas de jogabilidade regular. A fome drena mais rápido se você fizer coisas como correr, nadar ou se tornar $(l:getting_started/size_and_weight#overburdening)Sobrecarregada$(). Informações sobre o $(thing)Saturação$(), $(thing)Água$(), assim como $(thing)Nutrientes$() Disponível em um alimento está disponível pairando sobre ele em seu inventário. Usando $(item)$(k:key.sneak)$() revela a dica de ferramenta completa."
+      "text": "Alguns alimentos são muito recheados, então eles impedem você de perder a fome por mais tempo, enquanto alguns alimentos têm um efeito de curta duração.$(br2)Você perderá a fome apenas de jogabilidade regular. A fome drena mais rápido se você fizer coisas como correr, nadar ou se tornar $(l:core_mechanics/size_and_weight#overburdening)Sobrecarregada$(). Informações sobre o $(thing)Saturação$(), $(thing)Água$(), assim como $(thing)Nutrientes$() Disponível em um alimento está disponível pairando sobre ele em seu inventário. Usando $(item)$(k:key.sneak)$() revela a dica de ferramenta completa."
     },
     {
       "type": "patchouli:text",
-      "text": "Todos os alimentos têm uma dica de ferramenta com essas informações. A dica de ferramenta inclui o $(l:mechanics/decay)Data de decaimento$() da comida, que pode ser estendida com preservação. Ao visualizar essas informações, é importante perceber que nem todos os alimentos têm valor nutricional. Por exemplo, $(l:mechanics/bread)Massa$() é um alimento, mas não possui nutrição, saturação ou valor da água. Comer não faria muito bem."
+      "text": "Todos os alimentos têm uma dica de ferramenta com essas informações. A dica de ferramenta inclui o $(l:food/decay)Data de decaimento$() da comida, que pode ser estendida com preservação. Ao visualizar essas informações, é importante perceber que nem todos os alimentos têm valor nutricional. Por exemplo, $(l:food/bread)Massa$() é um alimento, mas não possui nutrição, saturação ou valor da água. Comer não faria muito bem."
     },
     {
       "type": "patchouli:text",
@@ -31,16 +31,16 @@
     {
       "type": "patchouli:text",
       "anchor": "nutrients",
-      "text": "Existem cinco nutrientes, todos obtidos com comida: $(l)$(a)Fruta$()$(), $(l)$(2)Vegetais$()$(), $(l)$(c)Proteína$()$(), $(l)$(6)Grão$()$(), e $(l)$(5)Laticínio$()$(). Ter uma grande quantidade de todos os nutrientes aumenta sua saúde máxima, enquanto uma má nutrição diminui. Comer comida oferece seus nutrientes. Refeições como $(l:mechanics/pot#soup)Sopa$() Combine mais nutrientes em uma refeição. Isso é importante, porque as refeições que você comeu há um tempo atrás não conta com sua nutrição.",
+      "text": "Existem cinco nutrientes, todos obtidos com comida: $(l)$(a)Fruta$()$(), $(l)$(2)Vegetais$()$(), $(l)$(c)Proteína$()$(), $(l)$(6)Grão$()$(), e $(l)$(5)Laticínio$()$(). Ter uma grande quantidade de todos os nutrientes aumenta sua saúde máxima, enquanto uma má nutrição diminui. Comer comida oferece seus nutrientes. Refeições como $(l:food/pot#soup)Sopa$() Combine mais nutrientes em uma refeição. Isso é importante, porque as refeições que você comeu há um tempo atrás não conta com sua nutrição.",
       "title": "Nutrientes"
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(a)Fruta$()$(): Nutrientes de frutas são encontrados principalmente de $(l:the_world/wild_fruits)Plantas de frutificação$(), como arbustos de baga e árvores frutíferas. Uma exceção notável a isso é $(l:mechanics/crops#pumpkin)Abóboras$() e $(l:mechanics/crops#pumpkin)Melons$(), quais nutricionalmente são frutas.$(br2)$(l)$(2)Vegetais$()$(): Encontrado em quase todos $(l:mechanics/crops)Cortar$().$(br2)$(l)$(c)Proteína$()$(): A proteína pode ser obtida da carne de $(l:the_world/wild_animals)Animais$(). Também pode ser obtido de $(l:mechanics/crops#soybean)Soybeans$(), que possuem nutrientes de proteínas e vegetais."
+      "text": "$(l)$(a)Fruta$()$(): Nutrientes de frutas são encontrados principalmente de $(l:the_world/wild_fruits)Plantas de frutificação$(), como arbustos de baga e árvores frutíferas. Uma exceção notável a isso é $(l:food/crops#pumpkin)Abóboras$() e $(l:food/crops#pumpkin)Melons$(), quais nutricionalmente são frutas.$(br2)$(l)$(2)Vegetais$()$(): Encontrado em quase todos $(l:food/crops)Cortar$().$(br2)$(l)$(c)Proteína$()$(): A proteína pode ser obtida da carne de $(l:the_world/wild_animals)Animais$(). Também pode ser obtido de $(l:food/crops#soybean)Soybeans$(), que possuem nutrientes de proteínas e vegetais."
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(6)Grão$()$(): Grão é encontrado em culturas de grãos, como $(l:mechanics/crops#barley)Cevada$(). O processamento de grãos está no $(l:mechanics/bread)Bread$() página. $(thing)Cattail$() e $(thing)Taro$() Raízes também são grãos.$(br2)$(l)$(5)Laticínio$()$(): Tudo o laticínio vem de $(thing)Leite$(), que vem de $(l:mechanics/animal_husbandry#dairy_animals)Animais lácteos$(). Processando e bebendo leite é coberto no $(l:mechanics/dairy)Laticínio$() página.$(br2)Toda a comida no mundo não é útil se apodrecer. Veja o $(l:mechanics/decay)Preservação$() página para obter informações sobre como prevenir isso."
+      "text": "$(l)$(6)Grão$()$(): Grão é encontrado em culturas de grãos, como $(l:food/crops#barley)Cevada$(). O processamento de grãos está no $(l:food/bread)Bread$() página. $(thing)Cattail$() e $(thing)Taro$() Raízes também são grãos.$(br2)$(l)$(5)Laticínio$()$(): Tudo o laticínio vem de $(thing)Leite$(), que vem de $(l:food/animal_husbandry#dairy_animals)Animais lácteos$(). Processando e bebendo leite é coberto no $(l:food/dairy)Laticínio$() página.$(br2)Toda a comida no mundo não é útil se apodrecer. Veja o $(l:food/decay)Preservação$() página para obter informações sobre como prevenir isso."
     },
     {
       "type": "patchouli:text",

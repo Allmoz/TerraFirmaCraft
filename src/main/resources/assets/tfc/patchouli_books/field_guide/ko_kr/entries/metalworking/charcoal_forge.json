@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)숯불 노$()는 아이템을 $(l:mechanics/heating)가열$()하고 녹일 수 있는 장치입니다. 숯불 노는 $(l:mechanics/crucible)도가니$()를 작동시키기 위해 필요합니다. 이들은 특히나 아이템을 가열하고 $(l:mechanics/anvils)모루$()를 사용하기 위해 준비할 때 주로 사용됩니다. $(br)숯불 노는 불이 붙은 $(l:mechanics/charcoal_pit#charcoal_pile)숯 더미$() 7-8장을 5개의 $(thing)돌$()블록으로 둘러싸 건설할 수 있습니다."
+      "text": "$(thing)숯불 노$()는 아이템을 $(l:core_mechanics/heating)가열$()하고 녹일 수 있는 장치입니다. 숯불 노는 $(l:metalworking/crucible)도가니$()를 작동시키기 위해 필요합니다. 이들은 특히나 아이템을 가열하고 $(l:metalworking/anvils)모루$()를 사용하기 위해 준비할 때 주로 사용됩니다. $(br)숯불 노는 불이 붙은 $(l:metalworking/charcoal_pit#charcoal_pile)숯 더미$() 7-8장을 5개의 $(thing)돌$()블록으로 둘러싸 건설할 수 있습니다."
     },
     {
       "type": "patchouli:multiblock",
@@ -17,7 +17,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "숯불 노는 작동하기 위해서 공기가 통해야 합니다. 숯불 노의 바로 위의 블록은 공기이거나 $(l:mechanics/crucible)도가니$()여야 합니다. 또한 바로 위에 있는 블록 또는 주변 8개 블록 중 하나의 위쪽이 뚫려 있어야 합니다. 오른쪽에 있는 파란색 색유리가 해당 부분을 표시합니다.$(br2)$(l:mechanics/bellows)풀무$()를 숯불 노 대각선 위쪽에 설치하여 도달 가능한 최대 온도를 높일 수 있습니다."
+      "text": "숯불 노는 작동하기 위해서 공기가 통해야 합니다. 숯불 노의 바로 위의 블록은 공기이거나 $(l:metalworking/crucible)도가니$()여야 합니다. 또한 바로 위에 있는 블록 또는 주변 8개 블록 중 하나의 위쪽이 뚫려 있어야 합니다. 오른쪽에 있는 파란색 색유리가 해당 부분을 표시합니다.$(br2)$(l:metalworking/bellows)풀무$()를 숯불 노 대각선 위쪽에 설치하여 도달 가능한 최대 온도를 높일 수 있습니다."
     },
     {
       "type": "patchouli:multiblock",

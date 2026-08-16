@@ -40,13 +40,13 @@
     },
     {
       "type": "patchouli:text",
-      "text": "또 다른 간단한 보존 방법에는 굽는 것이 있습니다. $(thing)고기$()는 날것일 때 보다 구웠을 때 더 오래 보존됩니다.$(br2)구울 때 알맞은 장치를 사용하는 것도 중요합니다. $(l:mechanics/charcoal_forge)숯불 노$() 또는 $(l:mechanics/crucible)도가니$()처럼 과도하게 뜨거운 장치들은 음식을 요리하기에는 적합치 $(bold)않으며$(), 음식을 더 빨리 상하게 합니다!",
+      "text": "또 다른 간단한 보존 방법에는 굽는 것이 있습니다. $(thing)고기$()는 날것일 때 보다 구웠을 때 더 오래 보존됩니다.$(br2)구울 때 알맞은 장치를 사용하는 것도 중요합니다. $(l:mechanics/charcoal_forge)숯불 노$() 또는 $(l:metalworking/crucible)도가니$()처럼 과도하게 뜨거운 장치들은 음식을 요리하기에는 적합치 $(bold)않으며$(), 음식을 더 빨리 상하게 합니다!",
       "title": "§l굽기"
     },
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/food/cooked_mutton",
-      "text": "대신, $(l:getting_started/firepit)모닥불$()이나 $(l:mechanics/grill)석쇠$()를 사용하면 보존 기간에 보너스를 줍니다! 예를 들면, 위처럼 양고기를 $(thing)모닥불$()에 구우면 보존 기간이 1.33배 증가하며 $(thing)석쇠$()에 구우면 1.66배 증가합니다."
+      "text": "대신, $(l:getting_started/firepit)모닥불$()이나 $(l:food/grill)석쇠$()를 사용하면 보존 기간에 보너스를 줍니다! 예를 들면, 위처럼 양고기를 $(thing)모닥불$()에 구우면 보존 기간이 1.33배 증가하며 $(thing)석쇠$()에 구우면 1.66배 증가합니다."
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     {
       "type": "tfc:quern_recipe",
       "recipe": "tfc:quern/powder/salt",
-      "text": "소금을 얻는 방법에는 광물 $(l:the_world/ores_and_minerals#halite)암염$()을 $(l:mechanics/quern)가는$() 것이 있습니다."
+      "text": "소금을 얻는 방법에는 광물 $(l:the_world/ores_and_minerals#halite)암염$()을 $(l:crafting/quern)가는$() 것이 있습니다."
     },
     {
       "type": "patchouli:multiblock",
@@ -81,7 +81,7 @@
     {
       "type": "patchouli:text",
       "anchor": "vinegar",
-      "text": "$(thing)식초 보존$()은 과일과 채소, 고기를 보존하는 방법입니다.$(br2)$(thing)식초$()는 $(l:mechanics/barrels)통$()에서 과일을 술 250mB에 밀봉하여 만들 수 있습니다. 식초에 음식을 보존하려면 먼저 $(thing)염수$()와 $(thing)식초$()에 $(thing)절여져야$() 합니다. 염수는 $(thing)식초$()와 $(thing)바닷물$()을 1:9로 섞어 만들 수 있습니다."
+      "text": "$(thing)식초 보존$()은 과일과 채소, 고기를 보존하는 방법입니다.$(br2)$(thing)식초$()는 $(l:crafting/barrels)통$()에서 과일을 술 250mB에 밀봉하여 만들 수 있습니다. 식초에 음식을 보존하려면 먼저 $(thing)염수$()와 $(thing)식초$()에 $(thing)절여져야$() 합니다. 염수는 $(thing)식초$()와 $(thing)바닷물$()을 1:9로 섞어 만들 수 있습니다."
     },
     {
       "type": "patchouli:text",

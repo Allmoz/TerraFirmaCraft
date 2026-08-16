@@ -73,7 +73,7 @@
     {
       "type": "tfc:quern_recipe",
       "recipe": "tfc:quern/powder/flux",
-      "text": "$(l:mechanics/flux)助焊剂$()也可以用手推磨获得。"
+      "text": "$(l:metalworking/flux)助焊剂$()也可以用手推磨获得。"
     }
   ],
   "read_by_default": true,

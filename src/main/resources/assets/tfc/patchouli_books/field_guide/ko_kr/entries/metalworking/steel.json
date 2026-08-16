@@ -16,7 +16,7 @@
     {
       "type": "patchouli:text",
       "anchor": "black_steel",
-      "text": "$(thing)흑강$()은 강철을 다른 금속들과 합금하여 만드는 강화된 강철입니다. 흑강을 만들기 위해서는 $(l:mechanics/crucible)도가니$()에서 $(thing)약강철$()을 만들어야 합니다.",
+      "text": "$(thing)흑강$()은 강철을 다른 금속들과 합금하여 만드는 강화된 강철입니다. 흑강을 만들기 위해서는 $(l:metalworking/crucible)도가니$()에서 $(thing)약강철$()을 만들어야 합니다.",
       "title": "§l흑강"
     },
     {
@@ -29,16 +29,16 @@
     {
       "type": "tfc:welding_recipe",
       "recipe": "tfc:welding/metal/ingot/high_carbon_black_steel",
-      "text": "$(thing)약강철 주괴$()는 다시 $(thing)선철 주괴$()와 용접하여 $(thing)고탄소 흑강 주괴$()를 만들 수 있습니다. 마지막으로, 고탄소 흑강 주괴를 $(l:mechanics/anvils)모루$()로 단조하면 $(thing)흑강 주괴$()를 만들 수 있습니다."
+      "text": "$(thing)약강철 주괴$()는 다시 $(thing)선철 주괴$()와 용접하여 $(thing)고탄소 흑강 주괴$()를 만들 수 있습니다. 마지막으로, 고탄소 흑강 주괴를 $(l:metalworking/anvils)모루$()로 단조하면 $(thing)흑강 주괴$()를 만들 수 있습니다."
     },
     {
       "type": "patchouli:text",
-      "text": "$(thing)흑강$()은 도구와 $(l:mechanics/armor)갑옷$()을 만드는 데 사용할 수 있고, $(l:mechanics/steel#blue_steel)청강$()과 $(l:mechanics/steel#red_steel)적강$()의 재료가 됩니다."
+      "text": "$(thing)흑강$()은 도구와 $(l:mechanics/armor)갑옷$()을 만드는 데 사용할 수 있고, $(l:metalworking/steel#blue_steel)청강$()과 $(l:metalworking/steel#red_steel)적강$()의 재료가 됩니다."
     },
     {
       "type": "patchouli:text",
       "anchor": "blue_steel",
-      "text": "$(thing)청강$()은 $(l:mechanics/steel#red_steel)적강$()과 더불어 가장 높은 티어의 금속 중 하나입니다. $(l:mechanics/steel#black_steel)흑강$()과 비슷하게 첫 단계는 $(thing)약한 청강$()을 $(l:mechanics/crucible)도가니$()에서 만드는 것입니다.",
+      "text": "$(thing)청강$()은 $(l:metalworking/steel#red_steel)적강$()과 더불어 가장 높은 티어의 금속 중 하나입니다. $(l:metalworking/steel#black_steel)흑강$()과 비슷하게 첫 단계는 $(thing)약한 청강$()을 $(l:metalworking/crucible)도가니$()에서 만드는 것입니다.",
       "title": "§l청강"
     },
     {
@@ -51,7 +51,7 @@
     {
       "type": "tfc:welding_recipe",
       "recipe": "tfc:welding/metal/ingot/high_carbon_blue_steel",
-      "text": "$(thing)약한 청강 주괴$()는 $(l:mechanics/steel#black_steel)흑강 주괴$()와 용접하여 $(thing)고탄소 청강 주괴$()를 만들 수 있습니다. 마지막으로, 고탄소 청강 주괴를 $(l:mechanics/anvils)모루$()로 단조하면 $(thing)청강 주괴$()를 얻을 수 있습니다."
+      "text": "$(thing)약한 청강 주괴$()는 $(l:metalworking/steel#black_steel)흑강 주괴$()와 용접하여 $(thing)고탄소 청강 주괴$()를 만들 수 있습니다. 마지막으로, 고탄소 청강 주괴를 $(l:metalworking/anvils)모루$()로 단조하면 $(thing)청강 주괴$()를 얻을 수 있습니다."
     },
     {
       "type": "patchouli:text",
@@ -60,7 +60,7 @@
     {
       "type": "patchouli:text",
       "anchor": "red_steel",
-      "text": "$(thing)적강$()은 $(l:mechanics/steel#blue_steel)청강$()과 더불어 가장 높은 티어의 금속 중 하나입니다. $(l:mechanics/steel#black_steel)흑강$()과 비슷하게 첫 단계는 $(thing)약한 적강$()을 $(l:mechanics/crucible)도가니$()에서 만드는 것입니다.",
+      "text": "$(thing)적강$()은 $(l:metalworking/steel#blue_steel)청강$()과 더불어 가장 높은 티어의 금속 중 하나입니다. $(l:metalworking/steel#black_steel)흑강$()과 비슷하게 첫 단계는 $(thing)약한 적강$()을 $(l:metalworking/crucible)도가니$()에서 만드는 것입니다.",
       "title": "§l적강"
     },
     {
@@ -73,7 +73,7 @@
     {
       "type": "tfc:welding_recipe",
       "recipe": "tfc:welding/metal/ingot/high_carbon_red_steel",
-      "text": "$(thing)약한 적강 주괴는$() $(l:mechanics/steel#black_steel)흑강 주괴$()와 용접하여 $(thing)고탄소 적강 주괴$()를 만들 수 있습니다. 마지막으로, 고탄소 적강 주괴를 $(l:mechanics/anvils)모루$()로 단조하면 $(thing)청강 주괴$()를 얻을 수 있습니다."
+      "text": "$(thing)약한 적강 주괴는$() $(l:metalworking/steel#black_steel)흑강 주괴$()와 용접하여 $(thing)고탄소 적강 주괴$()를 만들 수 있습니다. 마지막으로, 고탄소 적강 주괴를 $(l:metalworking/anvils)모루$()로 단조하면 $(thing)청강 주괴$()를 얻을 수 있습니다."
     },
     {
       "type": "patchouli:text",

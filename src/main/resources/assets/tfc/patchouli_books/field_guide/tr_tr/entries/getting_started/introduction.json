@@ -100,7 +100,7 @@
         "tfc:knapping/stone/hoe_head/igneous_extrusive",
         "tfc:knapping/stone/hoe_head/igneous_intrusive"
       ],
-      "text": "$(thing)Çapalar$(), $(l:mechanics/crops)Tarım$() için yararlı aletlerdir, ancak yaprakları ve diğer bitki maddelerini kesmek için de kullanılabilirler."
+      "text": "$(thing)Çapalar$(), $(l:food/crops)Tarım$() için yararlı aletlerdir, ancak yaprakları ve diğer bitki maddelerini kesmek için de kullanılabilirler."
     },
     {
       "type": "tfc:rock_knapping_recipe",

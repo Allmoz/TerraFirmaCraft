@@ -11,7 +11,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/fire_clay",
-      "text": "Fire clay is made from $(l:the_world/ores_and_minerals#graphite)graphite$() powder, crushed in a $(l:mechanics/quern)quern$(), as well as $(l:the_world/ores_and_minerals#kaolinite)kaolinite$() powder"
+      "text": "Fire clay is made from $(l:the_world/ores_and_minerals#graphite)graphite$() powder, crushed in a $(l:crafting/quern)quern$(), as well as $(l:the_world/ores_and_minerals#kaolinite)kaolinite$() powder"
     },
     {
       "type": "tfc:heat_recipe",
@@ -22,7 +22,7 @@
       "type": "tfc:knapping_recipe",
       "anchor": "crucible",
       "recipe": "tfc:knapping/ceramic/unfired_crucible",
-      "text": "用耐火黏土塑形成未燒製的$(l:mechanics/crucible)坩堝$()。"
+      "text": "用耐火黏土塑形成未燒製的$(l:metalworking/crucible)坩堝$()。"
     },
     {
       "type": "tfc:knapping_recipe",

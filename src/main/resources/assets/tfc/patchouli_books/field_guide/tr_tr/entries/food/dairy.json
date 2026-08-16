@@ -6,12 +6,12 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Süt Ürünü$(), $(l:mechanics/animal_husbandry#dairy_animals)Süt Veren Hayvanlar$() tarafından üretilen sütten elde edilen bir $(l:getting_started/food_and_water#nutrients)Besin Öğesidir$(). İçilebilir veya $(thing)Peynir$() haline getirilebilir. Sürahiden içilebilir ve her zaman $(l:getting_started/food_and_water#thirst)Susuzluğu$() giderir. Ancak, besin değerine katkısı yalnızca bir yiyecek yedikten sonra içildiğinde gerçekleşir. Pratik olarak bu, üst üste iki kez süt içmenin etkisiz olduğu anlamına gelir. Ondan önce bir öğün yenmiş olmalıdır.",
+      "text": "$(thing)Süt Ürünü$(), $(l:food/animal_husbandry#dairy_animals)Süt Veren Hayvanlar$() tarafından üretilen sütten elde edilen bir $(l:core_mechanics/food_and_water#nutrients)Besin Öğesidir$(). İçilebilir veya $(thing)Peynir$() haline getirilebilir. Sürahiden içilebilir ve her zaman $(l:core_mechanics/food_and_water#thirst)Susuzluğu$() giderir. Ancak, besin değerine katkısı yalnızca bir yiyecek yedikten sonra içildiğinde gerçekleşir. Pratik olarak bu, üst üste iki kez süt içmenin etkisiz olduğu anlamına gelir. Ondan önce bir öğün yenmiş olmalıdır.",
       "title": "Süt Ürünleri"
     },
     {
       "type": "patchouli:text",
-      "text": "$(thing)Peynir yapımı$() sürecini başlatmak için, bir $(l:mechanics/barrels)Fıçıya$() 9:1 oranında $(thing)Süt$() ve $(thing)Sirke$() ekleyin. Bunu yapmanın en kolay yolu, bir fıçıya 9 kova süt doldurup üzerine tek bir kova sirke eklemektir. Bu, $(thing)Süt Sirkesi$() üretir."
+      "text": "$(thing)Peynir yapımı$() sürecini başlatmak için, bir $(l:crafting/barrels)Fıçıya$() 9:1 oranında $(thing)Süt$() ve $(thing)Sirke$() ekleyin. Bunu yapmanın en kolay yolu, bir fıçıya 9 kova süt doldurup üzerine tek bir kova sirke eklemektir. Bu, $(thing)Süt Sirkesi$() üretir."
     },
     {
       "type": "tfc:sealed_barrel_recipe",

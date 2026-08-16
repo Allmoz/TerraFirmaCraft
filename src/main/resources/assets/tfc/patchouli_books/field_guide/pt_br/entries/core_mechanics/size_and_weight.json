@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "O tamanho determina qual bloqueio de armazenamento um item pode caber dentro de.$(br)$(li)$(thing)Pequena$() itens se encaixam em qualquer coisa.$(li)$(thing)Muito pequeno$() itens se encaixam em qualquer coisa.$(li)$(thing)Pequena$() Os itens são o maior item que se encaixa $(l:mechanics/decay#small_vessels)Small Vessels$()$().$(li)$(thing)Normal$() Os itens são os maiores que se encaixam $(l:mechanics/decay#small_vessels)Large Vessels$().",
+      "text": "O tamanho determina qual bloqueio de armazenamento um item pode caber dentro de.$(br)$(li)$(thing)Pequena$() itens se encaixam em qualquer coisa.$(li)$(thing)Muito pequeno$() itens se encaixam em qualquer coisa.$(li)$(thing)Pequena$() Os itens são o maior item que se encaixa $(l:food/decay#small_vessels)Small Vessels$()$().$(li)$(thing)Normal$() Os itens são os maiores que se encaixam $(l:food/decay#small_vessels)Large Vessels$().",
       "title": "Tamanho ⇲"
     },
     {
@@ -29,7 +29,7 @@
     {
       "type": "patchouli:text",
       "anchor": "overburdening",
-      "text": "Os itens que contam para a sobrecarga incluem $(thing)Anvils$(), $(thing)Sealed Barrels$(), $(thing)Crucibles$() (com conteúdo)$(br2)Observação: $(l:mechanics/animal_husbandry#horses)Éguas$() também pode ser sobrecarregado.",
+      "text": "Os itens que contam para a sobrecarga incluem $(thing)Anvils$(), $(thing)Sealed Barrels$(), $(thing)Crucibles$() (com conteúdo)$(br2)Observação: $(l:food/animal_husbandry#horses)Éguas$() também pode ser sobrecarregado.",
       "title": "Sobrecarregando"
     }
   ],

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Pota$(), $(l:mechanics/crucible#advanced_alloying)Alaşımlar$() oluşturmak için kullanılan gelişmiş bir cihazdır. Alaşım yapmak için $(l:getting_started/primitive_alloys)Küçük Kap$() kullanmaktan daha hassas bir yöntemdir.$(br2)Bir pota elde etmek için, öncelikle kilden daha güçlü bir malzeme olan $(l:mechanics/fire_clay)Ateş Kili$() bulmanız gerekir. Bu ateş kili daha sonra yontularak $(thing)Pişmemiş Pota$() şekline getirilebilir."
+      "text": "$(thing)Pota$(), $(l:metalworking/crucible#advanced_alloying)Alaşımlar$() oluşturmak için kullanılan gelişmiş bir cihazdır. Alaşım yapmak için $(l:getting_started/primitive_alloys)Küçük Kap$() kullanmaktan daha hassas bir yöntemdir.$(br2)Bir pota elde etmek için, öncelikle kilden daha güçlü bir malzeme olan $(l:metalworking/fire_clay)Ateş Kili$() bulmanız gerekir. Bu ateş kili daha sonra yontularak $(thing)Pişmemiş Pota$() şekline getirilebilir."
     },
     {
       "type": "tfc:knapping_recipe",

@@ -58,12 +58,12 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/refined_iron_bloom",
-      "text": "$(thing)괴철$()은 $(l:mechanics/anvils)모루$()에서 단조하여 $(thing)제련된 괴철$()을 만들 수 있습니다."
+      "text": "$(thing)괴철$()은 $(l:metalworking/anvils)모루$()에서 단조하여 $(thing)제련된 괴철$()을 만들 수 있습니다."
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/ingot/wrought_iron",
-      "text": "$(thing)제련된 괴철$()을 다시 한번 $(l:mechanics/anvils)모루$()에서 단조하면 $(thing)연철괴$()를 만들 수 있습니다."
+      "text": "$(thing)제련된 괴철$()을 다시 한번 $(l:metalworking/anvils)모루$()에서 단조하면 $(thing)연철괴$()를 만들 수 있습니다."
     },
     {
       "type": "patchouli:text",

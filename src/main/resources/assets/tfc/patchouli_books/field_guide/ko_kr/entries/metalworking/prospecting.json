@@ -28,12 +28,12 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/ceramic/propick_head_mold",
-      "text": "금형의 $(l:getting_started/pottery)모양을 제작$()했다면 $(thing)탐색기 머리 금형$()을 만들기 위해서 $(l:mechanics/heating)구워져야$() 합니다.$(br2)탐색기 머리를 만들려면 녹은 금속을 금형에 담아 $(l:getting_started/finding_ores#casting)주조$()해야 합니다."
+      "text": "금형의 $(l:getting_started/pottery)모양을 제작$()했다면 $(thing)탐색기 머리 금형$()을 만들기 위해서 $(l:core_mechanics/heating)구워져야$() 합니다.$(br2)탐색기 머리를 만들려면 녹은 금속을 금형에 담아 $(l:getting_started/finding_ores#casting)주조$()해야 합니다."
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/propick_head/wrought_iron",
-      "text": "탐색기 머리는 또한 금속 $(thing)주괴$()를 $(l:mechanics/anvils)모루$()에서 $(l:mechanics/anvils#working)단조$()하여 만들 수도 있습니다.$(br2)탐색기는 탐색기 머리를 막대기와 조합해 만들 수 있습니다."
+      "text": "탐색기 머리는 또한 금속 $(thing)주괴$()를 $(l:metalworking/anvils)모루$()에서 $(l:metalworking/anvils#working)단조$()하여 만들 수도 있습니다.$(br2)탐색기는 탐색기 머리를 막대기와 조합해 만들 수 있습니다."
     },
     {
       "type": "patchouli:text",

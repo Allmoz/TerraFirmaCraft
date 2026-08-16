@@ -15,7 +15,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "You will then need to construct the blast furnace, along with its $(thing)Chimney$(). The chimney must be composed out of $(l:mechanics/fire_clay#fire_bricks)Reinforced Fire Bricks$(), as they are strong enough to withstand the intense heat. These can be crafted from fire brick blocks, and either wrought iron or steel sheets."
+      "text": "You will then need to construct the blast furnace, along with its $(thing)Chimney$(). The chimney must be composed out of $(l:metalworking/fire_clay#fire_bricks)Reinforced Fire Bricks$(), as they are strong enough to withstand the intense heat. These can be crafted from fire brick blocks, and either wrought iron or steel sheets."
     },
     {
       "type": "patchouli:multiblock",
@@ -30,11 +30,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "高炉を使用するには、煙突の上部にアイテムをドロップする必要があります。鋼を作る場合は、同じ数 $(thing)鉄鉱石$() と $(l:mechanics/flux)融剤$() を追加する必要があります。 $(thing)鋳鉄$() に溶ける鉄鉱石やアイテムであれば何でも構いません。 また、高炉の稼働中に消費される $(l:mechanics/charcoal_pit)木炭$() を供給する必要があります。"
+      "text": "高炉を使用するには、煙突の上部にアイテムをドロップする必要があります。鋼を作る場合は、同じ数 $(thing)鉄鉱石$() と $(l:metalworking/flux)融剤$() を追加する必要があります。 $(thing)鋳鉄$() に溶ける鉄鉱石やアイテムであれば何でも構いません。 また、高炉の稼働中に消費される $(l:metalworking/charcoal_pit)木炭$() を供給する必要があります。"
     },
     {
       "type": "patchouli:text",
-      "text": "高炉を使用すると、高炉GUIが開きます。 ここでは、高炉に入っている鉱石と燃料の両方のメーターが表示されます。 右上のスロットには、$(thing)羽口$() がなければなりません。これは、鋼鉄を製錬するための高温に達するために必要な、溶鉱炉に空気を送り込むために使用される金属パイプです。 羽口は $(l:mechanics/anvils)金床$() で鍛造できます。"
+      "text": "高炉を使用すると、高炉GUIが開きます。 ここでは、高炉に入っている鉱石と燃料の両方のメーターが表示されます。 右上のスロットには、$(thing)羽口$() がなければなりません。これは、鋼鉄を製錬するための高温に達するために必要な、溶鉱炉に空気を送り込むために使用される金属パイプです。 羽口は $(l:metalworking/anvils)金床$() で鍛造できます。"
     },
     {
       "type": "patchouli:image",
@@ -46,7 +46,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "高炉が鉄を溶かす温度に達するためには $(l:mechanics/bellows)ふいご$() も必要になります。 これは高炉の 4 つの側面のいずれかに設置できます。"
+      "text": "高炉が鉄を溶かす温度に達するためには $(l:metalworking/bellows)ふいご$() も必要になります。 これは高炉の 4 つの側面のいずれかに設置できます。"
     },
     {
       "type": "patchouli:multiblock",
@@ -57,11 +57,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Finally, to get started, light the blast furnace with a $(l:getting_started/firepit#firestarter)Fire Starter$(), a $(thing)Flint and Pyrite$(), or a $(thing)Flint and Steel$(). It will begin to heat the ores inside. Make sure that the blast furnace continues to have fuel, and use the bellows to add air to the blast furnace after its internal temperature has reached the maximum for charcoal. After the ores inside heat up, they will melt and convert into $(l:mechanics/steel)Pig Iron$()."
+      "text": "Finally, to get started, light the blast furnace with a $(l:getting_started/firepit#firestarter)Fire Starter$(), a $(thing)Flint and Pyrite$(), or a $(thing)Flint and Steel$(). It will begin to heat the ores inside. Make sure that the blast furnace continues to have fuel, and use the bellows to add air to the blast furnace after its internal temperature has reached the maximum for charcoal. After the ores inside heat up, they will melt and convert into $(l:metalworking/steel)Pig Iron$()."
     },
     {
       "type": "patchouli:text",
-      "text": "この溶融金属は、溶鉱炉の直下に配置された $(l:mechanics/rucible)るつぼ$() などの溶融金属用コンテナに滴下します。 るつぼの出力スロットからインゴット鋳型に鋳造し、$(l:mechanics/steel)鋼$() に加工することができます。"
+      "text": "この溶融金属は、溶鉱炉の直下に配置された $(l:mechanics/rucible)るつぼ$() などの溶融金属用コンテナに滴下します。 るつぼの出力スロットからインゴット鋳型に鋳造し、$(l:metalworking/steel)鋼$() に加工することができます。"
     }
   ],
   "read_by_default": true,

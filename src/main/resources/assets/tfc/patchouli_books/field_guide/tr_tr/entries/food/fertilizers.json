@@ -6,14 +6,14 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Gübreler, $(l:mechanics/crops)ekinlere$() besin öğeleri eklemek için kullanılır. Besin öğelerini eklemek için elinizde gübre varken $(thing)Tarla$() veya $(thing)Ekin$() üzerinde $(item)$(k:key.use)$() tuşunu kullanın. Gübrenin eklendiğini gösteren parçacıklar belirmelidir.$(br)Gübrelerin etkinliği, üzerinde kullanıldıkları $(l:mechanics/farmland)Tarla$() türünden etkilenir.",
+      "text": "Gübreler, $(l:food/crops)ekinlere$() besin öğeleri eklemek için kullanılır. Besin öğelerini eklemek için elinizde gübre varken $(thing)Tarla$() veya $(thing)Ekin$() üzerinde $(item)$(k:key.use)$() tuşunu kullanın. Gübrenin eklendiğini gösteren parçacıklar belirmelidir.$(br)Gübrelerin etkinliği, üzerinde kullanıldıkları $(l:food/farmland)Tarla$() türünden etkilenir.",
       "title": "Gübreleme"
     },
     {
       "type": "patchouli:spotlight",
       "item": "tfc:compost",
       "link_recipes": false,
-      "text": "Kompost, $(l:mechanics/composter)Kompostlayıcı$()'nın ürünüdür. $(br)$(li)$(b)Azot: 20$()$(li)$(d)Potasyum: 20$()"
+      "text": "Kompost, $(l:food/composter)Kompostlayıcı$()'nın ürünüdür. $(br)$(li)$(b)Azot: 20$()$(li)$(d)Potasyum: 20$()"
     },
     {
       "type": "patchouli:spotlight",

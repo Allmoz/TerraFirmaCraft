@@ -43,7 +43,7 @@
       "type": "tfc:instant_barrel_recipe",
       "anchor": "limewater",
       "recipe": "tfc:barrel/limewater",
-      "text": "$(bold)石灰水$()是由$(l:mechanics/flux)助焊劑$()溶於$(thing)淡水$()製成的。每份$(l:mechanics/flux)助焊劑$()可轉化 $(thing)500 mB$() 的$(thing)淡水$()。$(thing)石灰水$()可以用來加工$(l:mechanics/leather_making)皮革$()，還可以用來合成$(thing)砂漿$()。"
+      "text": "$(bold)石灰水$()是由$(l:metalworking/flux)助焊劑$()溶於$(thing)淡水$()製成的。每份$(l:metalworking/flux)助焊劑$()可轉化 $(thing)500 mB$() 的$(thing)淡水$()。$(thing)石灰水$()可以用來加工$(l:crafting/leather_making)皮革$()，還可以用來合成$(thing)砂漿$()。"
     },
     {
       "type": "tfc:sealed_barrel_recipe",
@@ -57,7 +57,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "大桶還可以用來快速$(l:mechanics/heating)冷卻$()其他物品。把熱的東西浸泡在一桶$(thing)淡水$()、$(thing)橄欖油$()或$(thing)鹹水$()中就會很快冷卻下來。"
+      "text": "大桶還可以用來快速$(l:core_mechanics/heating)冷卻$()其他物品。把熱的東西浸泡在一桶$(thing)淡水$()、$(thing)橄欖油$()或$(thing)鹹水$()中就會很快冷卻下來。"
     },
     {
       "type": "patchouli:text",
@@ -65,7 +65,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "將食物封入裝有$(thing)醋$()的大桶裏有助於延長其保質期。將任意$(thing)水果$()密封在裝有$(thing)酒精飲料$()的大桶中就能得到醋。有關於用醋保鮮的知識，請參看$(l:mechanics/decay#vinegar)食物保鮮$()頁面。"
+      "text": "將食物封入裝有$(thing)醋$()的大桶裏有助於延長其保質期。將任意$(thing)水果$()密封在裝有$(thing)酒精飲料$()的大桶中就能得到醋。有關於用醋保鮮的知識，請參看$(l:food/decay#vinegar)食物保鮮$()頁面。"
     },
     {
       "type": "patchouli:crafting",

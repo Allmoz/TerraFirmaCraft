@@ -16,7 +16,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/pan/empty",
-      "text": "Tava $(thing)yontulduktan$() sonra, $(thing)Seramik Tava$() oluşturmak için $(l:mechanics/heating)pişirilmesi$() gerekir.$(br2)Bulmanız gereken bir sonraki şey bir tür $(thing)Cevher Yatağıdır$(). Cevher yatakları birkaç farklı cevherden oluşabilir: Doğal Bakır, Doğal Gümüş, Doğal Altın ve Kassiterit."
+      "text": "Tava $(thing)yontulduktan$() sonra, $(thing)Seramik Tava$() oluşturmak için $(l:core_mechanics/heating)pişirilmesi$() gerekir.$(br2)Bulmanız gereken bir sonraki şey bir tür $(thing)Cevher Yatağıdır$(). Cevher yatakları birkaç farklı cevherden oluşabilir: Doğal Bakır, Doğal Gümüş, Doğal Altın ve Kassiterit."
     },
     {
       "type": "patchouli:multiblock",

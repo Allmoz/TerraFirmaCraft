@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "A $(thing)Blast Furnace$() is an advanced device which is used in the creation of $(thing)Steel$(). By mixing $(thing)Iron Ores$(), $(thing)Charcoal$(), and $(thing)Flux$() in a controlled, hot environment, you can create a stronger metal than cast or wrought iron.$(br2)To obtain a blast furnace, you will first need a $(l:mechanics/crucible)Crucible$() and a lot of $(thing)Wrought Iron Sheets$()."
+      "text": "A $(thing)Blast Furnace$() is an advanced device which is used in the creation of $(thing)Steel$(). By mixing $(thing)Iron Ores$(), $(thing)Charcoal$(), and $(thing)Flux$() in a controlled, hot environment, you can create a stronger metal than cast or wrought iron.$(br2)To obtain a blast furnace, you will first need a $(l:metalworking/crucible)Crucible$() and a lot of $(thing)Wrought Iron Sheets$()."
     },
     {
       "type": "patchouli:crafting",
@@ -15,7 +15,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "You will then need to construct the blast furnace, along with its $(thing)Chimney$(). The chimney must be composed out of $(l:mechanics/fire_clay#fire_bricks)Reinforced Fire Bricks$(), as they are strong enough to withstand the intense heat. These can be crafted from fire brick blocks, and either wrought iron or steel sheets."
+      "text": "You will then need to construct the blast furnace, along with its $(thing)Chimney$(). The chimney must be composed out of $(l:metalworking/fire_clay#fire_bricks)Reinforced Fire Bricks$(), as they are strong enough to withstand the intense heat. These can be crafted from fire brick blocks, and either wrought iron or steel sheets."
     },
     {
       "type": "patchouli:multiblock",
@@ -30,11 +30,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "In order to use the blast furnace, you must drop items in the top of the chimney - for steel production, you must add an equal number of items of $(thing)Iron Ores$() and $(l:mechanics/flux)Flux$(). Any iron ores or items that are able to melt into $(thing)Cast Iron$() will do. You will also need to add $(l:mechanics/charcoal_pit)Charcoal$(), which will be consumed as the blast furnace works."
+      "text": "In order to use the blast furnace, you must drop items in the top of the chimney - for steel production, you must add an equal number of items of $(thing)Iron Ores$() and $(l:metalworking/flux)Flux$(). Any iron ores or items that are able to melt into $(thing)Cast Iron$() will do. You will also need to add $(l:metalworking/charcoal_pit)Charcoal$(), which will be consumed as the blast furnace works."
     },
     {
       "type": "patchouli:text",
-      "text": "Using the blast furnace will open the blast furnace interface, seen to the right. In this interface, you will see meters for both ore and fuel contents of the blast furnace. The top right slot must have a $(thing)Tuyere$(), which is a metal pipe used to funnel air into the blast furnace, required to reach the hottest temperatures to smelt steel. A tuyere can be smithed on an $(l:mechanics/anvils)Anvil$()."
+      "text": "Using the blast furnace will open the blast furnace interface, seen to the right. In this interface, you will see meters for both ore and fuel contents of the blast furnace. The top right slot must have a $(thing)Tuyere$(), which is a metal pipe used to funnel air into the blast furnace, required to reach the hottest temperatures to smelt steel. A tuyere can be smithed on an $(l:metalworking/anvils)Anvil$()."
     },
     {
       "type": "patchouli:image",
@@ -46,7 +46,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "You will also need a $(l:mechanics/bellows)Bellows$() in order for the Blast Furnace to reach a temperature which will melt iron. This can be placed on any of the four sides of the blast furnace."
+      "text": "You will also need a $(l:metalworking/bellows)Bellows$() in order for the Blast Furnace to reach a temperature which will melt iron. This can be placed on any of the four sides of the blast furnace."
     },
     {
       "type": "patchouli:multiblock",
@@ -57,11 +57,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Finally, to get started, light the blast furnace with a $(l:getting_started/firepit#firestarter)Fire Starter$(), a $(thing)Flint and Pyrite$(), or a $(thing)Flint and Steel$(). It will begin to heat the ores inside. Make sure that the blast furnace continues to have fuel, and use the bellows to add air to the blast furnace after its internal temperature has reached the maximum for charcoal. After the ores inside heat up, they will melt and convert into $(l:mechanics/steel)Pig Iron$()."
+      "text": "Finally, to get started, light the blast furnace with a $(l:getting_started/firepit#firestarter)Fire Starter$(), a $(thing)Flint and Pyrite$(), or a $(thing)Flint and Steel$(). It will begin to heat the ores inside. Make sure that the blast furnace continues to have fuel, and use the bellows to add air to the blast furnace after its internal temperature has reached the maximum for charcoal. After the ores inside heat up, they will melt and convert into $(l:metalworking/steel)Pig Iron$()."
     },
     {
       "type": "patchouli:text",
-      "text": "This liquid metal will drip into any metal fluid container placed immediately below the blast furnace, such as a $(l:mechanics/crucible)Crucible$(). It can be cast into ingot molds from the output slot of the crucible and worked into $(l:mechanics/steel)Steel$()."
+      "text": "This liquid metal will drip into any metal fluid container placed immediately below the blast furnace, such as a $(l:metalworking/crucible)Crucible$(). It can be cast into ingot molds from the output slot of the crucible and worked into $(l:metalworking/steel)Steel$()."
     }
   ],
   "read_by_default": true,

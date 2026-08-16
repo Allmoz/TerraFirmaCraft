@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Бумага$() делается либо из обработанных стеблей $(l:mechanics/crops#papyrus)папируса$(), либо из $(l:mechanics/papermaking#parchment)шкур животных$(). Бумага полезна для написания $(thing)книг$() и рисования $(thing)карт$()."
+      "text": "$(thing)Бумага$() делается либо из обработанных стеблей $(l:food/crops#papyrus)папируса$(), либо из $(l:crafting/papermaking#parchment)шкур животных$(). Бумага полезна для написания $(thing)книг$() и рисования $(thing)карт$()."
     },
     {
       "type": "patchouli:crafting",
@@ -16,12 +16,12 @@
     {
       "type": "tfc:sealed_barrel_recipe",
       "recipe": "tfc:barrel/soaked_papyrus_strip",
-      "text": "Затем полоски папируса замачиваются в $(l:mechanics/barrels)бочке с водой$()."
+      "text": "Затем полоски папируса замачиваются в $(l:crafting/barrels)бочке с водой$()."
     },
     {
       "type": "tfc:loom_recipe",
       "recipe": "tfc:loom/unrefined_paper",
-      "text": "Затем пропитанные полоски папируса сплетаются на ткацком станке, и получается $(thing)грубая бумага$(). Наконец, грубую бумагу нужно положить на бревно и $(l:mechanics/leather_making#scraping)очистить$(), чтобы получить $(thing)бумагу$()."
+      "text": "Затем пропитанные полоски папируса сплетаются на ткацком станке, и получается $(thing)грубая бумага$(). Наконец, грубую бумагу нужно положить на бревно и $(l:crafting/leather_making#scraping)очистить$(), чтобы получить $(thing)бумагу$()."
     },
     {
       "type": "patchouli:crafting",
@@ -45,7 +45,7 @@
     {
       "type": "patchouli:text",
       "anchor": "parchment",
-      "text": "$(thing)Пергаментная бумага$() начинается с голья. Ознакомьтесь с главой о $(l:mechanics/leather_making)выделке кожи$(), чтобы узнать, как его сделать. Для этого метода вам также понадобится $(thing)пемза$(). Пемзу можно найти на земле рядом с $(l:the_world/geology)вулканами$(), или получить промывкой в $(l:mechanics/sluices)жёлобе$() или $(l:mechanics/panning)лотке$() рудных залеж с андезитом, риолитом или дацитом.",
+      "text": "$(thing)Пергаментная бумага$() начинается с голья. Ознакомьтесь с главой о $(l:crafting/leather_making)выделке кожи$(), чтобы узнать, как его сделать. Для этого метода вам также понадобится $(thing)пемза$(). Пемзу можно найти на земле рядом с $(l:the_world/geology)вулканами$(), или получить промывкой в $(l:metalworking/sluices)жёлобе$() или $(l:getting_started/panning)лотке$() рудных залеж с андезитом, риолитом или дацитом.",
       "title": "Пергамент"
     },
     {
@@ -75,7 +75,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/paper",
-      "text": "Обработанная шкура, $(l:mechanics/glassworking#lime)известь$(), мука и свежее яйцо дадут готовую бумагу."
+      "text": "Обработанная шкура, $(l:crafting/glassworking#lime)известь$(), мука и свежее яйцо дадут готовую бумагу."
     }
   ],
   "read_by_default": true,

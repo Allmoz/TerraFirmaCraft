@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Доменна піч$() - це передовий пристрій, що використовується для виробництва $(thing)сталі$(). Суміш $(thing)залізної руди$(), $(thing)деревного вугілля$(), та $(thing)флюсу$(), у контрольованому пекельному середовищі, дає можливість створити міцніший матеріал за ковке залізо.$(br2)Щоб створити активний блок печі тобі знадобиться $(l:mechanics/crucible)тигель$() та багато $(thing)листів ковкого заліза$()."
+      "text": "$(thing)Доменна піч$() - це передовий пристрій, що використовується для виробництва $(thing)сталі$(). Суміш $(thing)залізної руди$(), $(thing)деревного вугілля$(), та $(thing)флюсу$(), у контрольованому пекельному середовищі, дає можливість створити міцніший матеріал за ковке залізо.$(br2)Щоб створити активний блок печі тобі знадобиться $(l:metalworking/crucible)тигель$() та багато $(thing)листів ковкого заліза$()."
     },
     {
       "type": "patchouli:crafting",
@@ -15,7 +15,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "You will then need to construct the blast furnace, along with its $(thing)Chimney$(). The chimney must be composed out of $(l:mechanics/fire_clay#fire_bricks)Reinforced Fire Bricks$(), as they are strong enough to withstand the intense heat. These can be crafted from fire brick blocks, and either wrought iron or steel sheets."
+      "text": "You will then need to construct the blast furnace, along with its $(thing)Chimney$(). The chimney must be composed out of $(l:metalworking/fire_clay#fire_bricks)Reinforced Fire Bricks$(), as they are strong enough to withstand the intense heat. These can be crafted from fire brick blocks, and either wrought iron or steel sheets."
     },
     {
       "type": "patchouli:multiblock",
@@ -30,11 +30,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Завантажувати елементи у піч треба через димар зверху, у отвір димаря.  $(thing)Залізну руду$() та $(l:mechanics/flux)флюс$() необхідно завантажувати у однаковій кількості. Будь-яка залізна руда, або предмети, що можуть перетворитися на $(thing)чавун$() можна використовувати. Також необхідно додати $(l:mechanics/charcoal_pit)деревне вугілля$() в достатній кількості. Воно буде витрачатись у процесі виробництва."
+      "text": "Завантажувати елементи у піч треба через димар зверху, у отвір димаря.  $(thing)Залізну руду$() та $(l:metalworking/flux)флюс$() необхідно завантажувати у однаковій кількості. Будь-яка залізна руда, або предмети, що можуть перетворитися на $(thing)чавун$() можна використовувати. Також необхідно додати $(l:metalworking/charcoal_pit)деревне вугілля$() в достатній кількості. Воно буде витрачатись у процесі виробництва."
     },
     {
       "type": "patchouli:text",
-      "text": "Інтерфейс блоку доменної печі показано праворуч. Тут є індикатори завантаження руди та палива у димарі. Верхній правий слот повинен містити $(thing)фурму$(), це металева труба, що дає можливість нагнітати повітря у активну частину печі. Повітря дозволяє підвищувати температуру, що потрібна для процесу виготовлення сталі. Фурму можна викувати на $(l:mechanics/anvils)ковадлі$()."
+      "text": "Інтерфейс блоку доменної печі показано праворуч. Тут є індикатори завантаження руди та палива у димарі. Верхній правий слот повинен містити $(thing)фурму$(), це металева труба, що дає можливість нагнітати повітря у активну частину печі. Повітря дозволяє підвищувати температуру, що потрібна для процесу виготовлення сталі. Фурму можна викувати на $(l:metalworking/anvils)ковадлі$()."
     },
     {
       "type": "patchouli:image",
@@ -46,7 +46,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Також, до блоку доменної печі потрібно встановити $(l:mechanics/bellows)міхи$(). Вони потрібні для нагнітання повітря у піч, щоб та могла підтримувати достатню температуру плавлення. Міхи можна розмістити на будь-якому з чотирьох боків доменної печі."
+      "text": "Також, до блоку доменної печі потрібно встановити $(l:metalworking/bellows)міхи$(). Вони потрібні для нагнітання повітря у піч, щоб та могла підтримувати достатню температуру плавлення. Міхи можна розмістити на будь-якому з чотирьох боків доменної печі."
     },
     {
       "type": "patchouli:multiblock",
@@ -57,11 +57,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Finally, to get started, light the blast furnace with a $(l:getting_started/firepit#firestarter)Fire Starter$(), a $(thing)Flint and Pyrite$(), or a $(thing)Flint and Steel$(). It will begin to heat the ores inside. Make sure that the blast furnace continues to have fuel, and use the bellows to add air to the blast furnace after its internal temperature has reached the maximum for charcoal. After the ores inside heat up, they will melt and convert into $(l:mechanics/steel)Pig Iron$()."
+      "text": "Finally, to get started, light the blast furnace with a $(l:getting_started/firepit#firestarter)Fire Starter$(), a $(thing)Flint and Pyrite$(), or a $(thing)Flint and Steel$(). It will begin to heat the ores inside. Make sure that the blast furnace continues to have fuel, and use the bellows to add air to the blast furnace after its internal temperature has reached the maximum for charcoal. After the ores inside heat up, they will melt and convert into $(l:metalworking/steel)Pig Iron$()."
     },
     {
       "type": "patchouli:text",
-      "text": "Рідкий чавун почне стікати у контейнер, що знаходиться під блоком доменної печі. Цим контейнером може бути $(l:mechanics/crucible)тигель$(). Білий чавун можна одразу виливати у глиняні форми для злитків. Злитки можна обробити, та отримати $(l:mechanics/steel)сталь$()."
+      "text": "Рідкий чавун почне стікати у контейнер, що знаходиться під блоком доменної печі. Цим контейнером може бути $(l:metalworking/crucible)тигель$(). Білий чавун можна одразу виливати у глиняні форми для злитків. Злитки можна обробити, та отримати $(l:metalworking/steel)сталь$()."
     }
   ],
   "read_by_default": true,

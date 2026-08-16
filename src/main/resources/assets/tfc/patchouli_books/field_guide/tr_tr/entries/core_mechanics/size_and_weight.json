@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Boyut, bir eşyanın hangi depolama bloklarına sığabileceğini belirler.$(br)$(li)$(thing)Çok Küçük$() eşyalar her şeye sığar.$(li)$(thing)Küçük$() eşyalar her şeye sığar.$(li)$(thing)Ufak$() eşyalar, $(l:mechanics/decay#small_vessels)Küçük Kaplara$() sığabilen en büyük eşyalardır.$(li)$(thing)Normal$() eşyalar, $(l:mechanics/decay#small_vessels)Büyük Kaplara$() sığabilen en büyük eşyalardır.",
+      "text": "Boyut, bir eşyanın hangi depolama bloklarına sığabileceğini belirler.$(br)$(li)$(thing)Çok Küçük$() eşyalar her şeye sığar.$(li)$(thing)Küçük$() eşyalar her şeye sığar.$(li)$(thing)Ufak$() eşyalar, $(l:food/decay#small_vessels)Küçük Kaplara$() sığabilen en büyük eşyalardır.$(li)$(thing)Normal$() eşyalar, $(l:food/decay#small_vessels)Büyük Kaplara$() sığabilen en büyük eşyalardır.",
       "title": "Boyut ⇲"
     },
     {
@@ -29,7 +29,7 @@
     {
       "type": "patchouli:text",
       "anchor": "overburdening",
-      "text": "Aşırı yüklenmeye dahil olan eşyalar arasında $(thing)Örsler$(), $(thing)Mühürlü Fıçılar$() ve $(thing)Potalar$() (içindekilerle birlikte) bulunur.$(br2)Not: $(l:mechanics/animal_husbandry#horses)Atlar$() da aşırı yüklenebilir.",
+      "text": "Aşırı yüklenmeye dahil olan eşyalar arasında $(thing)Örsler$(), $(thing)Mühürlü Fıçılar$() ve $(thing)Potalar$() (içindekilerle birlikte) bulunur.$(br2)Not: $(l:food/animal_husbandry#horses)Atlar$() da aşırı yüklenebilir.",
       "title": "Aşırı Yüklenme"
     }
   ],

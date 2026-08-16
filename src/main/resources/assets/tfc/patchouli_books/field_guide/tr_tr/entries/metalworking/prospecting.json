@@ -28,12 +28,12 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/ceramic/propick_head_mold",
-      "text": "Kalıp $(l:getting_started/pottery)yontulduktan$() sonra, bir $(thing)Madenci Kazması Başlığı Kalıbı$() oluşturmak için $(l:mechanics/heating)pişirilmesi$() gerekir.$(br2)Alet başlığını oluşturmak için, sıvı metali kalıba $(l:getting_started/finding_ores#casting)dökün$()."
+      "text": "Kalıp $(l:getting_started/pottery)yontulduktan$() sonra, bir $(thing)Madenci Kazması Başlığı Kalıbı$() oluşturmak için $(l:core_mechanics/heating)pişirilmesi$() gerekir.$(br2)Alet başlığını oluşturmak için, sıvı metali kalıba $(l:getting_started/finding_ores#casting)dökün$()."
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/propick_head/wrought_iron",
-      "text": "Bir Madenci Kazması Başlığı, bir $(l:mechanics/anvils)Örs$() üzerinde herhangi bir alet metalinden bir $(thing)külçe$() $(l:mechanics/anvils#working)dövülerek$() de elde edilebilir.$(br2)Ardından Madenci Kazması, alet başlığının bir sopa ile işlenmesiyle oluşturulur."
+      "text": "Bir Madenci Kazması Başlığı, bir $(l:metalworking/anvils)Örs$() üzerinde herhangi bir alet metalinden bir $(thing)külçe$() $(l:metalworking/anvils#working)dövülerek$() de elde edilebilir.$(br2)Ardından Madenci Kazması, alet başlığının bir sopa ile işlenmesiyle oluşturulur."
     },
     {
       "type": "patchouli:text",

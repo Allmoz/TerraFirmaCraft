@@ -100,7 +100,7 @@
         "tfc:knapping/stone/hoe_head/igneous_extrusive",
         "tfc:knapping/stone/hoe_head/igneous_intrusive"
       ],
-      "text": "$(thing)锄$()是$(l:mechanics/crops)农耕$()不可或缺的工具。它也可以清理树叶或其他植物。"
+      "text": "$(thing)锄$()是$(l:food/crops)农耕$()不可或缺的工具。它也可以清理树叶或其他植物。"
     },
     {
       "type": "tfc:rock_knapping_recipe",

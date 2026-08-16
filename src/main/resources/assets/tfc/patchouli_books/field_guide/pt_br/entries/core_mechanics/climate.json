@@ -65,7 +65,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "As chuvas também são importantes, pois afeta o que as coisas podem ser cultivadas em uma área. As chuvas são um dos principais contribuintes para $(l:mechanics/hydration)Hidratação$(), que é uma medida exata de quão molhado o solo está em um determinado local e é usado por $(l:mechanics/crops)Plantações$(), $(l:the_world/wild_fruits#fruit_trees)Árvores frutiferas$(), e $(l:the_world/wild_fruits#tall_bushes)Arbustos de bagas$() para determinar se eles podem crescer."
+      "text": "As chuvas também são importantes, pois afeta o que as coisas podem ser cultivadas em uma área. As chuvas são um dos principais contribuintes para $(l:food/hydration)Hidratação$(), que é uma medida exata de quão molhado o solo está em um determinado local e é usado por $(l:food/crops)Plantações$(), $(l:the_world/wild_fruits#fruit_trees)Árvores frutiferas$(), e $(l:the_world/wild_fruits#tall_bushes)Arbustos de bagas$() para determinar se eles podem crescer."
     }
   ],
   "read_by_default": true,

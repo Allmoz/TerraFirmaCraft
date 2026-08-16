@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Keskiler, levhalar ve merdivenler dahil olmak üzere diğer blokların dekoratif formlarını oluşturmak için kullanılan bir alettir. Başlamak için bir $(thing)Keski$() ve herhangi bir türde $(thing)Çekiç$() gerekir. Keskiler kalıplara dökülerek veya bir $(l:mechanics/anvils)Örs$() üzerinde dövülerek üretilmelidir. Yontmaya başlamak için, ana elinizde keskiyi ve diğer elinizde çekici tutarak dünyadaki bir bloğu hedefleyin."
+      "text": "Keskiler, levhalar ve merdivenler dahil olmak üzere diğer blokların dekoratif formlarını oluşturmak için kullanılan bir alettir. Başlamak için bir $(thing)Keski$() ve herhangi bir türde $(thing)Çekiç$() gerekir. Keskiler kalıplara dökülerek veya bir $(l:metalworking/anvils)Örs$() üzerinde dövülerek üretilmelidir. Yontmaya başlamak için, ana elinizde keskiyi ve diğer elinizde çekici tutarak dünyadaki bir bloğu hedefleyin."
     },
     {
       "type": "patchouli:text",

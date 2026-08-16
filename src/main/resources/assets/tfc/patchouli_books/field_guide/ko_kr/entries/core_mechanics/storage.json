@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Your own inventory only holds so much, so there are many ways to keep items safe and organized, such as $(thing)Chests$() and $(thing)Crates$(), $(thing)Tool Racks$(), $(thing)Shelves$(), and $(thing)Baskets$().$(br2)Keep in mind that an item's $(l:getting_started/size_and_weight)Size ⇲$() limits which containers it will fit inside."
+      "text": "Your own inventory only holds so much, so there are many ways to keep items safe and organized, such as $(thing)Chests$() and $(thing)Crates$(), $(thing)Tool Racks$(), $(thing)Shelves$(), and $(thing)Baskets$().$(br2)Keep in mind that an item's $(l:core_mechanics/size_and_weight)Size ⇲$() limits which containers it will fit inside."
     },
     {
       "type": "patchouli:crafting",
@@ -45,7 +45,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "For storing $(thing)food$() and slowing $(l:mechanics/decay)decay$(), nothing use a $(thing)Vessel$(). See their chapters for details:$(br)$(li)$(l:mechanics/decay#small_vessels)Small Vessels$()$(li)$(l:mechanics/decay#large_vessels)Large Vessels$()",
+      "text": "For storing $(thing)food$() and slowing $(l:food/decay)decay$(), nothing use a $(thing)Vessel$(). See their chapters for details:$(br)$(li)$(l:food/decay#small_vessels)Small Vessels$()$(li)$(l:food/decay#large_vessels)Large Vessels$()",
       "title": "§l항아리"
     },
     {

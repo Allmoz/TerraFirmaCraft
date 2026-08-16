@@ -6,12 +6,12 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Dairy$() is a $(l:getting_started/food_and_water#nutrients)Nutrient$() obtained from the milk produced by $(l:mechanics/animal_husbandry#dairy_animals)Dairy Animals$(). It can be drank, or processed into $(thing)Cheese$(). Drinking can be done out of a jug, and always restores $(l:getting_started/food_and_water#thirst)Thirst$(). However, it only adds to nutrition when drank after eating a food. Practically, this means that drinking milk twice in a row is ineffectual. A meal must precede it.",
+      "text": "$(thing)Dairy$() is a $(l:core_mechanics/food_and_water#nutrients)Nutrient$() obtained from the milk produced by $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). It can be drank, or processed into $(thing)Cheese$(). Drinking can be done out of a jug, and always restores $(l:core_mechanics/food_and_water#thirst)Thirst$(). However, it only adds to nutrition when drank after eating a food. Practically, this means that drinking milk twice in a row is ineffectual. A meal must precede it.",
       "title": "Dairy"
     },
     {
       "type": "patchouli:text",
-      "text": "To start the $(thing)Cheesemaking$() process, add $(thing)Milk$() and $(thing)Vinegar$() in a $(l:mechanics/barrels)Barrel$() at a ratio of 9:1. This is easiest done by filling 9 buckets of milk in a barrel, and adding a single bucket of vinegar. This produces $(thing)Milk Vinegar$()."
+      "text": "To start the $(thing)Cheesemaking$() process, add $(thing)Milk$() and $(thing)Vinegar$() in a $(l:crafting/barrels)Barrel$() at a ratio of 9:1. This is easiest done by filling 9 buckets of milk in a barrel, and adding a single bucket of vinegar. This produces $(thing)Milk Vinegar$()."
     },
     {
       "type": "tfc:sealed_barrel_recipe",

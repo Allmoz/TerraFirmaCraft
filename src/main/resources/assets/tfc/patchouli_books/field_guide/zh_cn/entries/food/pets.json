@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)宠物$()是一种与$(l:mechanics/animal_husbandry)牲畜$()行为类似的动物。它们不会产出资源，但会听从玩家的指令、跟随玩家、并且帮你做捕猎和捕杀害虫等事情。"
+      "text": "$(thing)宠物$()是一种与$(l:food/animal_husbandry)牲畜$()行为类似的动物。它们不会产出资源，但会听从玩家的指令、跟随玩家、并且帮你做捕猎和捕杀害虫等事情。"
     },
     {
       "type": "patchouli:text",

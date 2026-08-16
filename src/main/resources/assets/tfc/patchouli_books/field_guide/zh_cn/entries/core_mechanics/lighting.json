@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)1. $(l:mechanics/lighting#torches)火把$()$(li)2. $(l:mechanics/lighting#candles)蜡烛$()$(li)3. $(l:mechanics/lighting#jack_o_lanterns)南瓜灯$()",
+      "text": "$(li)1. $(l:core_mechanics/lighting#torches)火把$()$(li)2. $(l:core_mechanics/lighting#candles)蜡烛$()$(li)3. $(l:core_mechanics/lighting#jack_o_lanterns)南瓜灯$()",
       "title": "目录"
     },
     {
@@ -70,7 +70,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "用$(thing)剪刀$()或$(thing)小刀$()$(item)$(k:key.use)$()键点击新鲜的$(l:mechanics/crops#pumpkin)南瓜$()可以得到$(thing)雕刻过的南瓜$()。雕刻过的南瓜不会腐败，并且可以戴在头上。"
+      "text": "用$(thing)剪刀$()或$(thing)小刀$()$(item)$(k:key.use)$()键点击新鲜的$(l:food/crops#pumpkin)南瓜$()可以得到$(thing)雕刻过的南瓜$()。雕刻过的南瓜不会腐败，并且可以戴在头上。"
     }
   ],
   "read_by_default": true,

@@ -11,7 +11,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/fire_clay",
-      "text": "Ateş kili, bir $(l:mechanics/quern)el değirmeninde$() öğütülmüş $(l:the_world/ores_and_minerals#graphite)grafit$() tozu ve $(l:the_world/ores_and_minerals#kaolinite)kaolinit$() tozundan yapılır"
+      "text": "Ateş kili, bir $(l:crafting/quern)el değirmeninde$() öğütülmüş $(l:the_world/ores_and_minerals#graphite)grafit$() tozu ve $(l:the_world/ores_and_minerals#kaolinite)kaolinit$() tozundan yapılır"
     },
     {
       "type": "tfc:heat_recipe",
@@ -22,7 +22,7 @@
       "type": "tfc:knapping_recipe",
       "anchor": "crucible",
       "recipe": "tfc:knapping/ceramic/unfired_crucible",
-      "text": "$(l:mechanics/crucible)Pota$(), pişmemiş halindeyken ateş kilinden yapılır."
+      "text": "$(l:metalworking/crucible)Pota$(), pişmemiş halindeyken ateş kilinden yapılır."
     },
     {
       "type": "tfc:knapping_recipe",

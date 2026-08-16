@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)罐子$()用于长期保存水果。罐子最初是$(thing)空罐子$()，通过$(l:mechanics/glassworking_applications#jar)玻璃加工$()获得。然后需要用$(thing)锡$()锻造出$(thing)罐盖$()。将它们合成在一起得到$(thing)带盖空罐子$()。"
+      "text": "$(thing)罐子$()用于长期保存水果。罐子最初是$(thing)空罐子$()，通过$(l:crafting/glassworking_applications#jar)玻璃加工$()获得。然后需要用$(thing)锡$()锻造出$(thing)罐盖$()。将它们合成在一起得到$(thing)带盖空罐子$()。"
     },
     {
       "type": "patchouli:text",

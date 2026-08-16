@@ -19,7 +19,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Toprak, çimen, kil, çakıl, kırık taş ve kum da yerçekiminden etkilenir. Ancak, vanilla yerçekimi bloklarının aksine, bu bloklar yamaçlardan aşağı düşer ve etraflarında destekleyici bloklar olmadan üst üste birden fazla dizilemezler. $(l:mechanics/sluices)Cevher Yatakları$() da heyelan yapabilir ancak kaliteleri düşmez."
+      "text": "Toprak, çimen, kil, çakıl, kırık taş ve kum da yerçekiminden etkilenir. Ancak, vanilla yerçekimi bloklarının aksine, bu bloklar yamaçlardan aşağı düşer ve etraflarında destekleyici bloklar olmadan üst üste birden fazla dizilemezler. $(l:metalworking/sluices)Cevher Yatakları$() da heyelan yapabilir ancak kaliteleri düşmez."
     },
     {
       "type": "patchouli:crafting",
@@ -229,7 +229,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Son olarak, $(l:mechanics/chisel)Yontma$() işleminin, yakındaki bir çökmeye neden olma potansiyeli olan herhangi bir $(thing)Ham Kaya$() üzerinde yapıldığında, madencilik kadar kolay bir şekilde çökmelere yol açabileceğini bilmek önemlidir.$(br2)$(br2)Çocuklar unutmayın: güvenli madencilik yapın!",
+      "text": "Son olarak, $(l:metalworking/chisel)Yontma$() işleminin, yakındaki bir çökmeye neden olma potansiyeli olan herhangi bir $(thing)Ham Kaya$() üzerinde yapıldığında, madencilik kadar kolay bir şekilde çökmelere yol açabileceğini bilmek önemlidir.$(br2)$(br2)Çocuklar unutmayın: güvenli madencilik yapın!",
       "title": "Yontma"
     }
   ],

@@ -43,7 +43,7 @@
       "type": "tfc:instant_barrel_recipe",
       "anchor": "limewater",
       "recipe": "tfc:barrel/limewater",
-      "text": "$(bold)Kireç Suyu$(), bir fıçı $(thing)Su$() içerisine $(l:mechanics/flux)Akı$() eklenerek yapılır. Her $(thing) 500 mB$() $(thing)Su$() için bir adet $(l:mechanics/flux)Akı$() gereklidir. $(thing)Kireç Suyu$(), $(l:mechanics/leather_making)Deri Yapımı$() sürecinde kullanılan bir bileşendir ve $(thing)Harç$() yapmak için kullanılır."
+      "text": "$(bold)Kireç Suyu$(), bir fıçı $(thing)Su$() içerisine $(l:metalworking/flux)Akı$() eklenerek yapılır. Her $(thing) 500 mB$() $(thing)Su$() için bir adet $(l:metalworking/flux)Akı$() gereklidir. $(thing)Kireç Suyu$(), $(l:crafting/leather_making)Deri Yapımı$() sürecinde kullanılan bir bileşendir ve $(thing)Harç$() yapmak için kullanılır."
     },
     {
       "type": "tfc:sealed_barrel_recipe",
@@ -57,7 +57,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Fıçılar $(l:mechanics/heating)sıcak$() eşyaları soğutma özelliğine sahiptir. Sıcak bir eşyayı $(thing)Su$(), $(thing)Zeytinyağı$() veya $(thing)Tuzlu Su$() dolu bir fıçıya koyduğunuzda, sıcaklığı hızla düşecektir."
+      "text": "Fıçılar $(l:core_mechanics/heating)sıcak$() eşyaları soğutma özelliğine sahiptir. Sıcak bir eşyayı $(thing)Su$(), $(thing)Zeytinyağı$() veya $(thing)Tuzlu Su$() dolu bir fıçıya koyduğunuzda, sıcaklığı hızla düşecektir."
     },
     {
       "type": "patchouli:text",
@@ -65,7 +65,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Fıçılar, eşyaları $(thing)Sirke$() içinde koruyabilir. Sirke, $(thing)Meyve$() ürünlerinin bir $(thing)Alkol$() fıçısına kapatılmasıyla yapılır. Bu sürecin nasıl işlediğine dair bilgi için ilgili $(l:mechanics/decay#vinegar)sayfaya$() bakın."
+      "text": "Fıçılar, eşyaları $(thing)Sirke$() içinde koruyabilir. Sirke, $(thing)Meyve$() ürünlerinin bir $(thing)Alkol$() fıçısına kapatılmasıyla yapılır. Bu sürecin nasıl işlediğine dair bilgi için ilgili $(l:food/decay#vinegar)sayfaya$() bakın."
     },
     {
       "type": "patchouli:crafting",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Çiftçilikteki zorluklardan biri ekinlerinizi sulu tutmaktır. Bölgedeki $(l:the_world/climate#rainfall)Yağış$() miktarına bağlı olarak, toprakta bir miktar gizli nem bulunacaktır. Ancak bu, özellikle suya çok ihtiyaç duyan ekinler için yeterli olmayabilir veya diğer ekinleri yetiştirmek için çok fazla olabilir.$(br2)Herhangi bir bloğun nemini görmek için elinizde bir $(thing)Çapa$() bulunmalıdır."
+      "text": "Çiftçilikteki zorluklardan biri ekinlerinizi sulu tutmaktır. Bölgedeki $(l:core_mechanics/climate#rainfall)Yağış$() miktarına bağlı olarak, toprakta bir miktar gizli nem bulunacaktır. Ancak bu, özellikle suya çok ihtiyaç duyan ekinler için yeterli olmayabilir veya diğer ekinleri yetiştirmek için çok fazla olabilir.$(br2)Herhangi bir bloğun nemini görmek için elinizde bir $(thing)Çapa$() bulunmalıdır."
     },
     {
       "type": "patchouli:text",

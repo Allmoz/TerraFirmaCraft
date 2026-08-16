@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "物品的體積決定了何種容器可以裝得下這種物品。$(br)$(li)$(thing)極小$()的物品可以裝在任何容器裏。$(li)$(thing)非常小$()的物品可以裝在任何容器裏。$(li)只有$(thing)小$()及以下的物品可以裝在$(l:mechanics/decay#small_vessels)小缸$()裏。$(li)只有$(thing)普通$()及以下的物品可以裝在$(l:mechanics/decay#small_vessels)大缸$()裏。",
+      "text": "物品的體積決定了何種容器可以裝得下這種物品。$(br)$(li)$(thing)極小$()的物品可以裝在任何容器裏。$(li)$(thing)非常小$()的物品可以裝在任何容器裏。$(li)只有$(thing)小$()及以下的物品可以裝在$(l:food/decay#small_vessels)小缸$()裏。$(li)只有$(thing)普通$()及以下的物品可以裝在$(l:food/decay#small_vessels)大缸$()裏。",
       "title": "體積 ⇲"
     },
     {
@@ -29,7 +29,7 @@
     {
       "type": "patchouli:text",
       "anchor": "overburdening",
-      "text": "會導致負擔過重的物品有$(thing)砧$()、$(thing)密封的大桶$()、裝有物品的$(thing)坩堝等。$()$(br2)提示: $(l:mechanics/animal_husbandry#horses)馬$()也會負擔過重。",
+      "text": "會導致負擔過重的物品有$(thing)砧$()、$(thing)密封的大桶$()、裝有物品的$(thing)坩堝等。$()$(br2)提示: $(l:food/animal_husbandry#horses)馬$()也會負擔過重。",
       "title": "負擔過重"
     }
   ],

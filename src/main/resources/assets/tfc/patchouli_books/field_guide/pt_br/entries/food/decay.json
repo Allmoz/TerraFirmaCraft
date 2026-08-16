@@ -40,13 +40,13 @@
     },
     {
       "type": "patchouli:text",
-      "text": "One other way to easily preserve certain types of food is to cook them. $(thing)Meats$() will all expire slower when they are cooked than when they are raw.$(br2)It is also important to use the correct device for cooking. Certain devices that heat very hot, such as a $(l:mechanics/charcoal_forge)Charcoal Forge$() or a $(l:mechanics/crucible)Crucible$() are $(bold)bad$() for cooking food, which will make them expire faster!",
+      "text": "One other way to easily preserve certain types of food is to cook them. $(thing)Meats$() will all expire slower when they are cooked than when they are raw.$(br2)It is also important to use the correct device for cooking. Certain devices that heat very hot, such as a $(l:mechanics/charcoal_forge)Charcoal Forge$() or a $(l:metalworking/crucible)Crucible$() are $(bold)bad$() for cooking food, which will make them expire faster!",
       "title": "Cooking"
     },
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/food/cooked_mutton",
-      "text": "Instead, a $(l:getting_started/firepit)Firepit$() or a $(l:mechanics/grill)Grill$() can even provide a buff for using it! For example, cooking mutton (pictured above) in a $(thing)Firepit$() will increase its lifetime by 1.33x, and cooking in a $(thing)Grill$() will increase its lifetime by 1.66x!"
+      "text": "Instead, a $(l:getting_started/firepit)Firepit$() or a $(l:food/grill)Grill$() can even provide a buff for using it! For example, cooking mutton (pictured above) in a $(thing)Firepit$() will increase its lifetime by 1.33x, and cooking in a $(thing)Grill$() will increase its lifetime by 1.66x!"
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     {
       "type": "tfc:quern_recipe",
       "recipe": "tfc:quern/powder/salt",
-      "text": "One way of getting salt is through $(l:mechanics/quern)grinding$() $(l:the_world/ores_and_minerals#halite)Halite$(), which is a mineral."
+      "text": "One way of getting salt is through $(l:crafting/quern)grinding$() $(l:the_world/ores_and_minerals#halite)Halite$(), which is a mineral."
     },
     {
       "type": "patchouli:multiblock",
@@ -81,7 +81,7 @@
     {
       "type": "patchouli:text",
       "anchor": "vinegar",
-      "text": "$(thing)Vinegar Preservation$() is a way of making fruits, veggies, and meat last longer.$(br2)$(thing)Vinegar$() is made in a $(l:mechanics/barrels)Barrel$(), by sealing a fruit with 250mB of Alcohol. To preserve food in vinegar it must first be $(thing)Pickled$() in $(thing)Brine$(). Brine is made in a barrel with 1 part $(thing)Vinegar$() and 9 parts $(thing)Salt Water$()."
+      "text": "$(thing)Vinegar Preservation$() is a way of making fruits, veggies, and meat last longer.$(br2)$(thing)Vinegar$() is made in a $(l:crafting/barrels)Barrel$(), by sealing a fruit with 250mB of Alcohol. To preserve food in vinegar it must first be $(thing)Pickled$() in $(thing)Brine$(). Brine is made in a barrel with 1 part $(thing)Vinegar$() and 9 parts $(thing)Salt Water$()."
     },
     {
       "type": "patchouli:text",

@@ -11,13 +11,13 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/silica_glass_batch",
-      "text": "Стекольные шихты затем можно изготовить, используя один из вышеупомянутых цветов песка, $(l:mechanics/glassworking#lime)известь$() и любой $(l:mechanics/glassworking#potash)поташ$()."
+      "text": "Стекольные шихты затем можно изготовить, используя один из вышеупомянутых цветов песка, $(l:crafting/glassworking#lime)известь$() и любой $(l:crafting/glassworking#potash)поташ$()."
     },
     {
       "type": "tfc:heat_recipe",
       "anchor": "lime",
       "recipe": "tfc:heating/powder/lime",
-      "text": "$(thing)Известь$() — один из ингредиентов, необходимых для изготовления стекла. Известь получается путем $(l:mechanics/heating)нагревания$() $(l:mechanics/flux)флюса$()."
+      "text": "$(thing)Известь$() — один из ингредиентов, необходимых для изготовления стекла. Известь получается путем $(l:core_mechanics/heating)нагревания$() $(l:metalworking/flux)флюса$()."
     },
     {
       "type": "tfc:heat_recipe",
@@ -27,7 +27,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Изготовление стекла начинается со стеклянной шихты, над которой проводятся манипуляции. Они могут требовать специфических инструментов: $(br)$(li)$(l:mechanics/glassworking#blowpipe)Трубка стеклодува$() для $(thing)дутья$() и $(thing)растягивания$()$(li)$(l:mechanics/glassworking#paddle)Лопатка$() для $(thing)разглаживания$()$(li)$(l:mechanics/glassworking#jacks)Щипцы$() для $(thing)ужимания$()$(li)$(l:mechanics/glassworking#saw)Пила с напылением$() для $(thing)отпиливания$()",
+      "text": "Изготовление стекла начинается со стеклянной шихты, над которой проводятся манипуляции. Они могут требовать специфических инструментов: $(br)$(li)$(l:crafting/glassworking#blowpipe)Трубка стеклодува$() для $(thing)дутья$() и $(thing)растягивания$()$(li)$(l:crafting/glassworking#paddle)Лопатка$() для $(thing)разглаживания$()$(li)$(l:crafting/glassworking#jacks)Щипцы$() для $(thing)ужимания$()$(li)$(l:crafting/glassworking#saw)Пила с напылением$() для $(thing)отпиливания$()",
       "title": "Орудие труда"
     },
     {
@@ -39,7 +39,7 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/blowpipe",
-      "text": "Керамические трубки стеклодува хрупкие и могут сломаться при использовании. Более прочную трубку можно $(l:mechanics/anvils#working)выковать$() из $(thing)латунного стержня$() на наковальне."
+      "text": "Керамические трубки стеклодува хрупкие и могут сломаться при использовании. Более прочную трубку можно $(l:metalworking/anvils#working)выковать$() из $(thing)латунного стержня$() на наковальне."
     },
     {
       "type": "patchouli:crafting",
@@ -66,7 +66,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(bold)Разгладить$()$(br)Используйте $(thing)трубку$(), держа $(l:mechanics/glassworking#paddle)лопатку$() во второй руке.$(br2)$(bold)Ужать$()$(br)Используйте $(thing)трубку$(), держа $(l:mechanics/glassworking#jacks)щипцы$() во второй руке.$(br2)$(bold)Отпилить$()$(br)Используйте $(thing)трубку$(), держа $(l:mechanics/glassworking#saw)пилу с напылением$() во второй руке.$(br2)$(bold)Покрутить$()$(br)Используйте $(thing)трубку$() с $(l:mechanics/weaving#wool_cloth)шерстяной тканью$() во второй руке."
+      "text": "$(bold)Разгладить$()$(br)Используйте $(thing)трубку$(), держа $(l:crafting/glassworking#paddle)лопатку$() во второй руке.$(br2)$(bold)Ужать$()$(br)Используйте $(thing)трубку$(), держа $(l:crafting/glassworking#jacks)щипцы$() во второй руке.$(br2)$(bold)Отпилить$()$(br)Используйте $(thing)трубку$(), держа $(l:crafting/glassworking#saw)пилу с напылением$() во второй руке.$(br2)$(bold)Покрутить$()$(br)Используйте $(thing)трубку$() с $(l:crafting/weaving#wool_cloth)шерстяной тканью$() во второй руке."
     }
   ],
   "read_by_default": true,

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Deri$(), hayvan postlarından oluşturulan sağlam bir malzemedir. $(l:mechanics/armor)Zırh$(), $(thing)Eyerler$() veya $(l:mechanics/bellows)Körük$() üretmek için gereklidir. $(thing)Ham Postlar$(), $(thing)Deri$() haline gelmeleri için $(l:mechanics/leather_making#soaking)ıslatma$(), $(l:mechanics/leather_making#scraping)kazıma$(), $(l:mechanics/leather_making#preparing)hazırlama$() ve $(l:mechanics/leather_making#tanning)tabaklama$() gibi çeşitli işlemlerden geçirilmelidir."
+      "text": "$(thing)Deri$(), hayvan postlarından oluşturulan sağlam bir malzemedir. $(l:mechanics/armor)Zırh$(), $(thing)Eyerler$() veya $(l:metalworking/bellows)Körük$() üretmek için gereklidir. $(thing)Ham Postlar$(), $(thing)Deri$() haline gelmeleri için $(l:crafting/leather_making#soaking)ıslatma$(), $(l:crafting/leather_making#scraping)kazıma$(), $(l:crafting/leather_making#preparing)hazırlama$() ve $(l:crafting/leather_making#tanning)tabaklama$() gibi çeşitli işlemlerden geçirilmelidir."
     },
     {
       "type": "patchouli:spotlight",
@@ -17,13 +17,13 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Deri yapımı çeşitli malzemeler ve aletler gerektirir. Şunlara ihtiyacınız olacak:$(br)$(li)$(l:mechanics/barrels#limewater)Kireçli Su$() - $(thing)Su$() içinde $(l:mechanics/flux)Akı$() çözeltisi$(li)Su$(li)$(l:mechanics/barrels#tannin)Tanen$() - bazı ağaçların kabuklarından yapılan asidik bir çözelti.$(li)$(thing)Ham Postlar$()$(br2)Tüm bunlar elinizde olduğunda, deri işleme sürecine başlamaya hazırsınız."
+      "text": "Deri yapımı çeşitli malzemeler ve aletler gerektirir. Şunlara ihtiyacınız olacak:$(br)$(li)$(l:crafting/barrels#limewater)Kireçli Su$() - $(thing)Su$() içinde $(l:metalworking/flux)Akı$() çözeltisi$(li)Su$(li)$(l:crafting/barrels#tannin)Tanen$() - bazı ağaçların kabuklarından yapılan asidik bir çözelti.$(li)$(thing)Ham Postlar$()$(br2)Tüm bunlar elinizde olduğunda, deri işleme sürecine başlamaya hazırsınız."
     },
     {
       "type": "tfc:sealed_barrel_recipe",
       "anchor": "soaking",
       "recipe": "tfc:barrel/medium_soaked_hide",
-      "text": "Öncelikle, ham postlar işlenmeden önce temizlenmeleri ve istenmeyen maddelerin gevşemesi için $(thing)ıslatılmalıdır$(). Bu, bir miktar $(thing)Ham Postu$() en az altı saat boyunca bir $(l:mechanics/barrels#limewater)Kireçli Su Fıçısı$() içinde mühürleyerek yapılabilir."
+      "text": "Öncelikle, ham postlar işlenmeden önce temizlenmeleri ve istenmeyen maddelerin gevşemesi için $(thing)ıslatılmalıdır$(). Bu, bir miktar $(thing)Ham Postu$() en az altı saat boyunca bir $(l:crafting/barrels#limewater)Kireçli Su Fıçısı$() içinde mühürleyerek yapılabilir."
     },
     {
       "type": "patchouli:spotlight",
@@ -48,13 +48,13 @@
       "type": "tfc:sealed_barrel_recipe",
       "anchor": "preparing",
       "recipe": "tfc:barrel/medium_prepared_hide",
-      "text": "Kazıma işleminden sonra, $(thing)Kazınmış Postlar$(), tabaklamadan önceki son temizlik için en az altı saat boyunca bir $(l:mechanics/barrels)Fıçı$() $(thing)Su$() içinde mühürlenmelidir."
+      "text": "Kazıma işleminden sonra, $(thing)Kazınmış Postlar$(), tabaklamadan önceki son temizlik için en az altı saat boyunca bir $(l:crafting/barrels)Fıçı$() $(thing)Su$() içinde mühürlenmelidir."
     },
     {
       "type": "tfc:sealed_barrel_recipe",
       "anchor": "tanning",
       "recipe": "tfc:barrel/medium_leather",
-      "text": "Son olarak, $(thing)Hazırlanmış Postlar$(), postu $(thing)Deri$() haline getirmeye yardımcı olan asidik bir kimyasal bileşik olan $(l:mechanics/barrels#tannin)Tanen Fıçısı$() içinde mühürlenmelidir. Altı saat daha geçtikten sonra, $(thing)Deri$() ürününü fıçıdan çıkarabilirsiniz."
+      "text": "Son olarak, $(thing)Hazırlanmış Postlar$(), postu $(thing)Deri$() haline getirmeye yardımcı olan asidik bir kimyasal bileşik olan $(l:crafting/barrels#tannin)Tanen Fıçısı$() içinde mühürlenmelidir. Altı saat daha geçtikten sonra, $(thing)Deri$() ürününü fıçıdan çıkarabilirsiniz."
     }
   ],
   "read_by_default": true,

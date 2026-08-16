@@ -100,7 +100,7 @@
         "tfc:knapping/stone/hoe_head/igneous_extrusive",
         "tfc:knapping/stone/hoe_head/igneous_intrusive"
       ],
-      "text": "$(thing)鋤頭$()是很有用的$(l:mechanics/crops)農業$()工具, 它也可以清理樹葉或其他植物."
+      "text": "$(thing)鋤頭$()是很有用的$(l:food/crops)農業$()工具, 它也可以清理樹葉或其他植物."
     },
     {
       "type": "tfc:rock_knapping_recipe",

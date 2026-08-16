@@ -6,12 +6,12 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Dokuma$(), farklı türdeki ipliklerin birleştirilerek $(thing)Kumaş$() haline getirilmesi işlemidir. Dokumanın son aşaması bir $(thing)Tezgahta$() yapılsa da, $(l:mechanics/animal_husbandry#wooly_animals)Yün Veren Hayvanlardan$() elde edilen $(thing)Yün$() gibi bazı kumaşlar, dokunabilmeleri için $(thing)Yün İpliği$() elde etmek amacıyla bir $(thing)İğ$() gerektirir."
+      "text": "$(thing)Dokuma$(), farklı türdeki ipliklerin birleştirilerek $(thing)Kumaş$() haline getirilmesi işlemidir. Dokumanın son aşaması bir $(thing)Tezgahta$() yapılsa da, $(l:food/animal_husbandry#wooly_animals)Yün Veren Hayvanlardan$() elde edilen $(thing)Yün$() gibi bazı kumaşlar, dokunabilmeleri için $(thing)Yün İpliği$() elde etmek amacıyla bir $(thing)İğ$() gerektirir."
     },
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_spindle_head",
-      "text": "$(thing)Pişmemiş İğ Başı$(), kilden yontularak yapılır. Daha sonra $(thing)İğ Başı$() yapmak için $(l:mechanics/heating)pişirilebilir$(). İği tamamlamak için bir $(thing)Çubuk$() ile birleştirerek üretin."
+      "text": "$(thing)Pişmemiş İğ Başı$(), kilden yontularak yapılır. Daha sonra $(thing)İğ Başı$() yapmak için $(l:core_mechanics/heating)pişirilebilir$(). İği tamamlamak için bir $(thing)Çubuk$() ile birleştirerek üretin."
     },
     {
       "type": "patchouli:crafting",
@@ -54,7 +54,7 @@
       "type": "tfc:loom_recipe",
       "anchor": "burlap_cloth",
       "recipe": "tfc:loom/burlap_cloth",
-      "text": "$(thing)Çuval Bezi$() bir işleve sahip değildir, ancak $(l:mechanics/crops#jute)Jüt Lifinden$() yapılabilir."
+      "text": "$(thing)Çuval Bezi$() bir işleve sahip değildir, ancak $(l:food/crops#jute)Jüt Lifinden$() yapılabilir."
     },
     {
       "type": "patchouli:crafting",

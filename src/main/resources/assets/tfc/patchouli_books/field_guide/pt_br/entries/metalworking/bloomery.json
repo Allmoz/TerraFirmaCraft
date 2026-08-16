@@ -58,12 +58,12 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/refined_iron_bloom",
-      "text": "The $(thing)Raw Iron Bloom$() must be worked in a $(l:mechanics/anvils)anvil$() to make $(thing)Refined Iron Bloom$()."
+      "text": "The $(thing)Raw Iron Bloom$() must be worked in a $(l:metalworking/anvils)anvil$() to make $(thing)Refined Iron Bloom$()."
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/ingot/wrought_iron",
-      "text": "The $(thing)Refined Iron Bloom$() must be worked in a $(l:mechanics/anvils)anvil$() to make $(thing)Wrought Iron Ingots$()."
+      "text": "The $(thing)Refined Iron Bloom$() must be worked in a $(l:metalworking/anvils)anvil$() to make $(thing)Wrought Iron Ingots$()."
     },
     {
       "type": "patchouli:text",

@@ -16,7 +16,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Through $(l:metalworking/sluices)Sluicing$() and $(l:getting_started/panning)Panning$(), $(thing)Uncut Gems$() can be obtained. The gem that can be obtained with the sluice is tied to the rock type of the deposit being processed."
+      "text": "透過$(l:metalworking/sluices)洗礦$()和$(l:getting_started/panning)淘金$()可以獲得$(thing)寶石$(). 洗礦槽可能獲得的寶石種類取決於所用的原材料的岩石種類."
     },
     {
       "type": "patchouli:text",

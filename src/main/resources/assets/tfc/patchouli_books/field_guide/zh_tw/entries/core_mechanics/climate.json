@@ -65,7 +65,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "一個區域的降雨量還決定了何種農作物能被種植在這兒。降雨量的多少是影響土地$(l:mechanics/hydration)溼潤度$()的一個重要因素，而溼潤度則決定了$(l:mechanics/crops)農作物$()、$(l:the_world/wild_fruits#fruit_trees)果樹$()、和$(l:the_world/wild_fruits#tall_bushes)灌木叢$()是否可以生長。"
+      "text": "一個區域的降雨量還決定了何種農作物能被種植在這兒。降雨量的多少是影響土地$(l:food/hydration)溼潤度$()的一個重要因素，而溼潤度則決定了$(l:food/crops)農作物$()、$(l:the_world/wild_fruits#fruit_trees)果樹$()、和$(l:the_world/wild_fruits#tall_bushes)灌木叢$()是否可以生長。"
     }
   ],
   "read_by_default": true,

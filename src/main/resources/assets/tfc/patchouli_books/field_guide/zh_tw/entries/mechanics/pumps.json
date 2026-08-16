@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Steel Pumps$() and $(thing)Steel Pipes$() are blocks useful for transporting fluids, such as $(thing)Water$(), $(thing)Salt Water$(), and $(thing)Spring Water$(). They can also be used to move source blocks, and fill small enclosed areas. Unlike $(l:food/aqueducts)Aqueducts$(), they can also be used to transport source blocks upwards."
+      "text": "$(thing)Steel Pumps$() and $(thing)Steel Pipes$() are blocks useful for transporting fluids, such as $(thing)Water$(), $(thing)Salt Water$(), and $(thing)Spring Water$(). They can also be used to move source blocks, and fill small enclosed areas. Unlike $(l:mechanics/aqueducts)Aqueducts$(), they can also be used to transport source blocks upwards."
     },
     {
       "type": "tfc:anvil_recipe",

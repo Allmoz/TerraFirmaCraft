@@ -6,12 +6,12 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)织布术$()是一种将线变为$(thing)布匹$()的工艺。虽然将线织成布只需要$(thing)织机$()就行了，但想要将$(l:mechanics/animal_husbandry#wooly_animals)产毛动物的$()$(thing)毛$()捻成$(thing)羊毛纱$()线就得先做一只$(thing)纺锤$()。"
+      "text": "$(thing)织布术$()是一种将线变为$(thing)布匹$()的工艺。虽然将线织成布只需要$(thing)织机$()就行了，但想要将$(l:food/animal_husbandry#wooly_animals)产毛动物的$()$(thing)毛$()捻成$(thing)羊毛纱$()线就得先做一只$(thing)纺锤$()。"
     },
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_spindle_head",
-      "text": "$(thing)纺锤头$()可以通过黏土塑形来制作。先将黏土如图捏成$(thing)未烧制的纺锤头$()$，然后在将其$(l:mechanics/heating)加热$()即可。将纺锤头与$(thing)木棍$()合成便能做出纺锤了"
+      "text": "$(thing)纺锤头$()可以通过黏土塑形来制作。先将黏土如图捏成$(thing)未烧制的纺锤头$()$，然后在将其$(l:core_mechanics/heating)加热$()即可。将纺锤头与$(thing)木棍$()合成便能做出纺锤了"
     },
     {
       "type": "patchouli:crafting",
@@ -54,7 +54,7 @@
       "type": "tfc:loom_recipe",
       "anchor": "burlap_cloth",
       "recipe": "tfc:loom/burlap_cloth",
-      "text": "$(l:mechanics/crops#jute)黄麻纤维$()可以织成$(thing)粗麻布$()，但现在看来它还是没有什么用的样子。"
+      "text": "$(l:food/crops#jute)黄麻纤维$()可以织成$(thing)粗麻布$()，但现在看来它还是没有什么用的样子。"
     },
     {
       "type": "patchouli:crafting",
@@ -65,7 +65,7 @@
       "type": "patchouli:crafting",
       "anchor": "power_loom",
       "recipe": "tfc:crafting/power_loom",
-      "text": "通过使用$(l:mechanics/weaving#power_loom)动力织布机$()，可以让织布过程实现自动化。"
+      "text": "通过使用$(l:crafting/weaving#power_loom)动力织布机$()，可以让织布过程实现自动化。"
     },
     {
       "type": "patchouli:text",

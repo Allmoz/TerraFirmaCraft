@@ -16,7 +16,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/pan/empty",
-      "text": "$(thing)塑形$()完成後別忘了$(l:mechanics/heating)燒製$()。$(br2)你找到的$(thing)沉積物$()可能包含幾種不同的礦石：原生銅、原生銀、原生金或錫石。"
+      "text": "$(thing)塑形$()完成後別忘了$(l:core_mechanics/heating)燒製$()。$(br2)你找到的$(thing)沉積物$()可能包含幾種不同的礦石：原生銅、原生銀、原生金或錫石。"
     },
     {
       "type": "patchouli:multiblock",

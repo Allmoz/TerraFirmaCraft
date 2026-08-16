@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Salatalar$(), en fazla beş $(thing)Meyve$(), $(thing)Sebze$() veya $(thing)Pişmiş Et$() kullanılarak bir $(thing)Kase$() içinde hazırlanan bir öğündür.$(br2)Salatalar yapılması en basit öğünlerden biridir ve sadece bir $(l:mechanics/bowls)Kase$() gerektirir. Öncelikle, $(thing)Kase$()'yi elinizde tutun ve $(item)$(k:key.sneak)$() tuşuna basılı tutarken $(item)$(k:key.use)$() tuşuna basın. Bu, salata ekranını açacaktır."
+      "text": "$(thing)Salatalar$(), en fazla beş $(thing)Meyve$(), $(thing)Sebze$() veya $(thing)Pişmiş Et$() kullanılarak bir $(thing)Kase$() içinde hazırlanan bir öğündür.$(br2)Salatalar yapılması en basit öğünlerden biridir ve sadece bir $(l:food/bowls)Kase$() gerektirir. Öncelikle, $(thing)Kase$()'yi elinizde tutun ve $(item)$(k:key.sneak)$() tuşuna basılı tutarken $(item)$(k:key.use)$() tuşuna basın. Bu, salata ekranını açacaktır."
     },
     {
       "type": "patchouli:spotlight",

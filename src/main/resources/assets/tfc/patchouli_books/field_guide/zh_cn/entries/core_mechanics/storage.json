@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "你自己的背包容量有限，所以有很多方法可以安全有序地存放物品，比如$(thing)箱子$()和$(thing)板条箱$()、$(thing)工具架$()、$(thing)架子$()以及$(thing)篮子$()。$(br2)请记住，物品的$(l:getting_started/size_and_weight)尺寸 ⇲$()决定了它能装进哪种容器。"
+      "text": "你自己的背包容量有限，所以有很多方法可以安全有序地存放物品，比如$(thing)箱子$()和$(thing)板条箱$()、$(thing)工具架$()、$(thing)架子$()以及$(thing)篮子$()。$(br2)请记住，物品的$(l:core_mechanics/size_and_weight)尺寸 ⇲$()决定了它能装进哪种容器。"
     },
     {
       "type": "patchouli:crafting",
@@ -45,7 +45,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "要存放$(thing)食物$()并减缓$(l:mechanics/decay)腐烂$()，最好的选择莫过于$(thing)小缸$()。详情请参阅相关章节:$(br)$(li)$(l:mechanics/decay#small_vessels)小缸$()$(li)$(l:mechanics/decay#large_vessels)大缸$()",
+      "text": "要存放$(thing)食物$()并减缓$(l:food/decay)腐烂$()，最好的选择莫过于$(thing)小缸$()。详情请参阅相关章节:$(br)$(li)$(l:food/decay#small_vessels)小缸$()$(li)$(l:food/decay#large_vessels)大缸$()",
       "title": "缸"
     },
     {

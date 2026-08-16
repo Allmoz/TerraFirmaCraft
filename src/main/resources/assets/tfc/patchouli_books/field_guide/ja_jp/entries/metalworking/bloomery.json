@@ -58,12 +58,12 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/refined_iron_bloom",
-      "text": "$(thing)鍛造された塊鉄$() を作成するには、$(thing)塊鉄$() を $(l:mechanics/anvils)金床$() で加工する必要があります。"
+      "text": "$(thing)鍛造された塊鉄$() を作成するには、$(thing)塊鉄$() を $(l:metalworking/anvils)金床$() で加工する必要があります。"
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/ingot/wrought_iron",
-      "text": "ついに$(thing)錬鉄インゴット$() を作ることができます！$(thing)鍛造された塊鉄$() を $(l:mechanics/anvils)金床$() で加工します。"
+      "text": "ついに$(thing)錬鉄インゴット$() を作ることができます！$(thing)鍛造された塊鉄$() を $(l:metalworking/anvils)金床$() で加工します。"
     },
     {
       "type": "patchouli:text",

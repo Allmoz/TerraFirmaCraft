@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)皮革$()是一种由兽皮制成的结实耐用的材料。它可以用来制作$(thing)皮革盔甲$()、$(thing)鞍$()、以及$(l:mechanics/bellows)风箱$()。$()兽皮$()必须经过一系列复杂的工序之后才能变成$(thing)皮革$()。首先是$(l:mechanics/leather_making#soaking)浸灰$()，然后是$(l:mechanics/leather_making#scraping)剖层$()，接着要$(l:mechanics/leather_making#preparing)脱灰$()，最后还要$(l:mechanics/leather_making#tanning)浸酸$()。"
+      "text": "$(thing)皮革$()是一种由兽皮制成的结实耐用的材料。它可以用来制作$(thing)皮革盔甲$()、$(thing)鞍$()、以及$(l:metalworking/bellows)风箱$()。$()兽皮$()必须经过一系列复杂的工序之后才能变成$(thing)皮革$()。首先是$(l:crafting/leather_making#soaking)浸灰$()，然后是$(l:crafting/leather_making#scraping)剖层$()，接着要$(l:crafting/leather_making#preparing)脱灰$()，最后还要$(l:crafting/leather_making#tanning)浸酸$()。"
     },
     {
       "type": "patchouli:spotlight",
@@ -17,13 +17,13 @@
     },
     {
       "type": "patchouli:text",
-      "text": "制皮还需要几件其他工具：$(br)$(li)一大桶$(l:mechanics/barrels#limewater)石灰水$() - 将$(l:mechanics/flux)助焊剂$()在大桶中溶于$(thing)淡水$()就能得到了。$(li)一大桶淡水。$(li)一大桶$(l:mechanics/barrels#tannin)鞣酸$() - 这是一种用某些树的树皮制成的酸液。$(li)一把$(thing)小刀$()。$(br2)有了这些工具，你就可以准备开始制皮了！"
+      "text": "制皮还需要几件其他工具：$(br)$(li)一大桶$(l:crafting/barrels#limewater)石灰水$() - 将$(l:metalworking/flux)助焊剂$()在大桶中溶于$(thing)淡水$()就能得到了。$(li)一大桶淡水。$(li)一大桶$(l:crafting/barrels#tannin)鞣酸$() - 这是一种用某些树的树皮制成的酸液。$(li)一把$(thing)小刀$()。$(br2)有了这些工具，你就可以准备开始制皮了！"
     },
     {
       "type": "tfc:sealed_barrel_recipe",
       "anchor": "soaking",
       "recipe": "tfc:barrel/medium_soaked_hide",
-      "text": "第一步是$(thing)浸灰$()。这一步是用来清洗并软化兽皮上的杂质的。将$(thing)兽皮$()密封浸泡在装有$(l:mechanics/barrels#limewater)石灰水$()的大桶中 8 个小时即可。"
+      "text": "第一步是$(thing)浸灰$()。这一步是用来清洗并软化兽皮上的杂质的。将$(thing)兽皮$()密封浸泡在装有$(l:crafting/barrels#limewater)石灰水$()的大桶中 8 个小时即可。"
     },
     {
       "type": "patchouli:spotlight",
@@ -48,13 +48,13 @@
       "type": "tfc:sealed_barrel_recipe",
       "anchor": "preparing",
       "recipe": "tfc:barrel/medium_prepared_hide",
-      "text": "$(thing)刮制皮革$()还需要在装有淡水的$(l:mechanics/barrels)大桶$()里密封至少 8 小时。这是在$(thing)鞣制$()前的最后一步清理步骤。"
+      "text": "$(thing)刮制皮革$()还需要在装有淡水的$(l:crafting/barrels)大桶$()里密封至少 8 小时。这是在$(thing)鞣制$()前的最后一步清理步骤。"
     },
     {
       "type": "tfc:sealed_barrel_recipe",
       "anchor": "tanning",
       "recipe": "tfc:barrel/medium_leather",
-      "text": "最后，将脱完灰的$(thing)预制皮革$()封入装有$(l:mechanics/barrels#tannin)鞣酸$()的大桶中，等待 8 个小时。待鞣酸反应完全之后就能从桶中获得$(thing)皮革$()啦！"
+      "text": "最后，将脱完灰的$(thing)预制皮革$()封入装有$(l:crafting/barrels#tannin)鞣酸$()的大桶中，等待 8 个小时。待鞣酸反应完全之后就能从桶中获得$(thing)皮革$()啦！"
     }
   ],
   "read_by_default": true,

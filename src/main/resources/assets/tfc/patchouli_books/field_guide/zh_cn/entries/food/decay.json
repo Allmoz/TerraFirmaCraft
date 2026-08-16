@@ -40,13 +40,13 @@
     },
     {
       "type": "patchouli:text",
-      "text": "另一种十分简单的食物保鲜方法是烹饪。$(thing)熟肉$()比生肉的储存时间要久。$(br2)注意，加热时使用的设备会影响食物的保质期。某些太热的设备，例如$(l:mechanics/charcoal_forge)木炭炉$()和$(l:mechanics/crucible)高炉$()$(bold)不适合$()用来烹饪食物。它们烤出来的食物的保质期会打折扣。",
+      "text": "另一种十分简单的食物保鲜方法是烹饪。$(thing)熟肉$()比生肉的储存时间要久。$(br2)注意，加热时使用的设备会影响食物的保质期。某些太热的设备，例如$(l:mechanics/charcoal_forge)木炭炉$()和$(l:metalworking/crucible)高炉$()$(bold)不适合$()用来烹饪食物。它们烤出来的食物的保质期会打折扣。",
       "title": "烹饪"
     },
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/food/cooked_mutton",
-      "text": "相反，用$(l:getting_started/firepit)篝火$()或$(l:mechanics/grill)锻铁烤架$()做出来的食物会获得保质期加成。比如，用$(thing)篝火$()烤制的羊肉保质期会延长 33 %，而用$(thing)锻铁烤架$()烤制的则会延长 66 %！"
+      "text": "相反，用$(l:getting_started/firepit)篝火$()或$(l:food/grill)锻铁烤架$()做出来的食物会获得保质期加成。比如，用$(thing)篝火$()烤制的羊肉保质期会延长 33 %，而用$(thing)锻铁烤架$()烤制的则会延长 66 %！"
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     {
       "type": "tfc:quern_recipe",
       "recipe": "tfc:quern/powder/salt",
-      "text": "$(l:mechanics/quern)研磨$()$(l:the_world/ores_and_minerals#halite)石盐$()可以得到盐。石盐是一种矿物。"
+      "text": "$(l:crafting/quern)研磨$()$(l:the_world/ores_and_minerals#halite)石盐$()可以得到盐。石盐是一种矿物。"
     },
     {
       "type": "patchouli:multiblock",
@@ -81,7 +81,7 @@
     {
       "type": "patchouli:text",
       "anchor": "vinegar",
-      "text": "$(thing)酸渍$()是一种用来保存水果、蔬菜和肉类的方法。$(br2)在装有 250 mB $(thing)酒精饮料$()的$(l:mechanics/barrels)大桶$()中封入一颗水果就能将其转化为$(thing)醋$()。酸渍前，必须先将食物在$(thing)卤水$()中$(thing)腌制$()。卤水是由 1 份$(thing)醋$()和 9 份$(thing)咸水$()在大桶中混合而成的。"
+      "text": "$(thing)酸渍$()是一种用来保存水果、蔬菜和肉类的方法。$(br2)在装有 250 mB $(thing)酒精饮料$()的$(l:crafting/barrels)大桶$()中封入一颗水果就能将其转化为$(thing)醋$()。酸渍前，必须先将食物在$(thing)卤水$()中$(thing)腌制$()。卤水是由 1 份$(thing)醋$()和 9 份$(thing)咸水$()在大桶中混合而成的。"
     },
     {
       "type": "patchouli:text",

@@ -58,12 +58,12 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/refined_iron_bloom",
-      "text": "$(thing)Ham Demir Kütüğü$(), $(thing)Rafine Demir Kütüğüne$() dönüştürülmek için bir $(l:mechanics/anvils)örste$() işlenmelidir."
+      "text": "$(thing)Ham Demir Kütüğü$(), $(thing)Rafine Demir Kütüğüne$() dönüştürülmek için bir $(l:metalworking/anvils)örste$() işlenmelidir."
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/ingot/wrought_iron",
-      "text": "$(thing)Rafine Demir Kütüğü$(), $(thing)Dövme Demir Külçelerine$() dönüştürülmek için bir $(l:mechanics/anvils)örste$() işlenmelidir."
+      "text": "$(thing)Rafine Demir Kütüğü$(), $(thing)Dövme Demir Külçelerine$() dönüştürülmek için bir $(l:metalworking/anvils)örste$() işlenmelidir."
     },
     {
       "type": "patchouli:text",

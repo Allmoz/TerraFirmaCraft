@@ -73,7 +73,7 @@
     {
       "type": "tfc:quern_recipe",
       "recipe": "tfc:quern/powder/flux",
-      "text": "$(l:mechanics/flux)플럭스$() 역시 맷돌로 제작할 수 있습니다."
+      "text": "$(l:metalworking/flux)플럭스$() 역시 맷돌로 제작할 수 있습니다."
     }
   ],
   "read_by_default": true,

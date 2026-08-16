@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Pets$() are animals that function quite similar to $(l:mechanics/animal_husbandry)Livestock$(), but have no useful products. Instead, they can obey commands, follow you around your home, control pests, and help you hunt."
+      "text": "$(thing)Pets$() are animals that function quite similar to $(l:food/animal_husbandry)Livestock$(), but have no useful products. Instead, they can obey commands, follow you around your home, control pests, and help you hunt."
     },
     {
       "type": "patchouli:text",

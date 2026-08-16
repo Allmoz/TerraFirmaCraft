@@ -35,7 +35,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/ceramic/pot",
-      "text": "然后它必须$(l:mechanics/heating)烧制$()成$(thing)陶锅$()才可以放在篝火上。"
+      "text": "然后它必须$(l:core_mechanics/heating)烧制$()成$(thing)陶锅$()才可以放在篝火上。"
     },
     {
       "type": "patchouli:text",
@@ -55,7 +55,7 @@
       "item": "tfc:food/fruit_soup",
       "title": "炖汤配方",
       "link_recipes": false,
-      "text": "汤由 3-5 份$(thing)水果$()、$(thing)蔬菜$()或$(thing)肉类$()在一锅$(thing)水$()中制成。配方完成后，锅中的水会变红。用$(l:mechanics/bowls)碗$()右键点击锅即可取出。汤将多种营养素组合成一定数量的餐点，具体数量取决于加入的食物量。它们更节省食材，但营养密度不如其他餐点。"
+      "text": "汤由 3-5 份$(thing)水果$()、$(thing)蔬菜$()或$(thing)肉类$()在一锅$(thing)水$()中制成。配方完成后，锅中的水会变红。用$(l:food/bowls)碗$()右键点击锅即可取出。汤将多种营养素组合成一定数量的餐点，具体数量取决于加入的食物量。它们更节省食材，但营养密度不如其他餐点。"
     },
     {
       "type": "patchouli:spotlight",

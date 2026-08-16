@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "크기는 아이템이 들어갈 수 있는 블록을 결정합니다.$(br)$(li)$(thing)조그마한$() 아이템들은 어떤 블록에도 들어갑니다.$(li)$(thing)아주 작은$() 아이템들은 어떤 블록에도 들어갑니다.$(li)$(thing)작은$() 크기 이하의 아이템들은 $(l:mechanics/decay#small_vessels)작은 항아리$()에 들어갑니다$().$(li)$(thing)보통$() 크기 이하의 아이템들은 $(l:mechanics/decay#small_vessels)큰 항아리$()에 들어갑니다.",
+      "text": "크기는 아이템이 들어갈 수 있는 블록을 결정합니다.$(br)$(li)$(thing)조그마한$() 아이템들은 어떤 블록에도 들어갑니다.$(li)$(thing)아주 작은$() 아이템들은 어떤 블록에도 들어갑니다.$(li)$(thing)작은$() 크기 이하의 아이템들은 $(l:food/decay#small_vessels)작은 항아리$()에 들어갑니다$().$(li)$(thing)보통$() 크기 이하의 아이템들은 $(l:food/decay#small_vessels)큰 항아리$()에 들어갑니다.",
       "title": "§l크기 §r⇲"
     },
     {
@@ -29,7 +29,7 @@
     {
       "type": "patchouli:text",
       "anchor": "overburdening",
-      "text": "과중량을 유발하는 아이템에는 $(thing)모루$(), $(thing)밀봉된 통$(), (내용물이 있는)$(thing)도가니$() 등이 있습니다$(br2)참고: $(l:mechanics/animal_husbandry#horses)말$() 역시도 과중량에 걸릴 수 있습니다.",
+      "text": "과중량을 유발하는 아이템에는 $(thing)모루$(), $(thing)밀봉된 통$(), (내용물이 있는)$(thing)도가니$() 등이 있습니다$(br2)참고: $(l:food/animal_husbandry#horses)말$() 역시도 과중량에 걸릴 수 있습니다.",
       "title": "§l과중량"
     }
   ],

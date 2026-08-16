@@ -24,7 +24,7 @@
         }
       },
       "name": "野生小麥",
-      "text": "An example of a wild crop, in this case $(l:food/crops#wheat)Wheat$().",
+      "text": "作為示例，這是$(l:food/crops#wheat)小麥$()的野生版本。",
       "enable_visualize": false
     },
     {

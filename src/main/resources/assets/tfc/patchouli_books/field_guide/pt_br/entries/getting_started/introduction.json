@@ -100,7 +100,7 @@
         "tfc:knapping/stone/hoe_head/igneous_extrusive",
         "tfc:knapping/stone/hoe_head/igneous_intrusive"
       ],
-      "text": "$(thing)Enxadas$() são ferramentas úteis para $(l:mechanics/crops)Agricultura$(), Mas eles também podem ser usados para cortar folhas e outras matérias vegetais."
+      "text": "$(thing)Enxadas$() são ferramentas úteis para $(l:food/crops)Agricultura$(), Mas eles também podem ser usados para cortar folhas e outras matérias vegetais."
     },
     {
       "type": "tfc:rock_knapping_recipe",

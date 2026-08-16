@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(br) 1. $(l:mechanics/lighting#torches)Факелы$()$(br) 2. $(l:mechanics/lighting#candles)Свечи$()$(br) 3. $(l:mechanics/lighting#jack_o_lanterns)Тыквы-фонари$()",
+      "text": "$(br) 1. $(l:core_mechanics/lighting#torches)Факелы$()$(br) 2. $(l:core_mechanics/lighting#candles)Свечи$()$(br) 3. $(l:core_mechanics/lighting#jack_o_lanterns)Тыквы-фонари$()",
       "title": "Содержание"
     },
     {
@@ -46,7 +46,7 @@
     {
       "type": "tfc:sealed_barrel_recipe",
       "recipe": "tfc:barrel/candle",
-      "text": "Свечи можно изготовить, запечатав $(thing)нить$() в $(l:mechanics/barrels)бочке$() с $(l:mechanics/lamps#tallow)жиром$()."
+      "text": "Свечи можно изготовить, запечатав $(thing)нить$() в $(l:crafting/barrels)бочке$() с $(l:mechanics/lamps#tallow)жиром$()."
     },
     {
       "type": "patchouli:multiblock",
@@ -70,7 +70,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(thing)Вырезанные тыквы$() делаются нажатием $(item)$(k:key.use)$() с $(thing)ножницами$() или $(thing)ножом$() на свежую $(l:mechanics/crops#pumpkin)тыкву$(). Вырезанные тыквы не портятся, и их можно носить на голове."
+      "text": "$(thing)Вырезанные тыквы$() делаются нажатием $(item)$(k:key.use)$() с $(thing)ножницами$() или $(thing)ножом$() на свежую $(l:food/crops#pumpkin)тыкву$(). Вырезанные тыквы не портятся, и их можно носить на голове."
     }
   ],
   "read_by_default": true,

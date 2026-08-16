@@ -16,7 +16,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/pan/empty",
-      "text": "사금 접시를 점토로 $(thing)만들고$(), $(thing)세라믹$()으로 만들기 위해서는 $(l:mechanics/heating)구워야$() 합니다.$(br2)다음으로는 $(thing)광석 침전물$()이 필요합니다. 광석 침전물은 자연동, 자연은, 자연금과 주석석 4개의 종류가 있습니다."
+      "text": "사금 접시를 점토로 $(thing)만들고$(), $(thing)세라믹$()으로 만들기 위해서는 $(l:core_mechanics/heating)구워야$() 합니다.$(br2)다음으로는 $(thing)광석 침전물$()이 필요합니다. 광석 침전물은 자연동, 자연은, 자연금과 주석석 4개의 종류가 있습니다."
     },
     {
       "type": "patchouli:multiblock",

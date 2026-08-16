@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Evcil Hayvanlar$(), $(l:mechanics/animal_husbandry)Çiftlik Hayvanları$() ile oldukça benzer şekilde işleyen ancak faydalı ürünleri olmayan hayvanlardır. Bunun yerine komutlara uyabilir, evinizin etrafında sizi takip edebilir, zararlıları kontrol edebilir ve avlanmanıza yardımcı olabilirler."
+      "text": "$(thing)Evcil Hayvanlar$(), $(l:food/animal_husbandry)Çiftlik Hayvanları$() ile oldukça benzer şekilde işleyen ancak faydalı ürünleri olmayan hayvanlardır. Bunun yerine komutlara uyabilir, evinizin etrafında sizi takip edebilir, zararlıları kontrol edebilir ve avlanmanıza yardımcı olabilirler."
     },
     {
       "type": "patchouli:text",

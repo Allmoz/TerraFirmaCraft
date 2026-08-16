@@ -58,12 +58,12 @@
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/refined_iron_bloom",
-      "text": "$(thing)Железную крицу$() нужно обработать на $(l:mechanics/anvils)наковальне$(), чтобы сделать $(thing)обработанную железную крицу$()."
+      "text": "$(thing)Железную крицу$() нужно обработать на $(l:metalworking/anvils)наковальне$(), чтобы сделать $(thing)обработанную железную крицу$()."
     },
     {
       "type": "tfc:anvil_recipe",
       "recipe": "tfc:anvil/metal/ingot/wrought_iron",
-      "text": "$(thing)Обработанную железную крицу$() нужно еще раз обработан на $(l:mechanics/anvils)наковальне$(), чтобы сделать $(thing)слитки кованого железа$()."
+      "text": "$(thing)Обработанную железную крицу$() нужно еще раз обработан на $(l:metalworking/anvils)наковальне$(), чтобы сделать $(thing)слитки кованого железа$()."
     },
     {
       "type": "patchouli:text",

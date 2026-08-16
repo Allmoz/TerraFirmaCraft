@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)黏土$()是一种特别有用的材料，你可以用它制作陶器。一开始你可能难以找到黏土，因为它们总是隐藏在草皮之下。但简而言之，有两种获取它们的手段。首先，黏土会在$(l:the_world/climate#rainfall)年降雨量$()大于 175mm 的区域中成片地大量生成，而且有几种特殊的$(thing)植物$()会生长在黏土之上。"
+      "text": "$(thing)黏土$()是一种特别有用的材料，你可以用它制作陶器。一开始你可能难以找到黏土，因为它们总是隐藏在草皮之下。但简而言之，有两种获取它们的手段。首先，黏土会在$(l:core_mechanics/climate#rainfall)年降雨量$()大于 175mm 的区域中成片地大量生成，而且有几种特殊的$(thing)植物$()会生长在黏土之上。"
     },
     {
       "type": "patchouli:multiblock",
@@ -49,7 +49,7 @@
     {
       "type": "patchouli:text",
       "anchor": "vessel",
-      "text": "黏土可以用来做成小缸。你捏出来的小缸还需要烧制才能使用。烧制是指将黏土置于 1200°C（$(e)$(bold)$(t:Yellow)黄色$()）以上的高温中$(l:mechanics/heating)加热$()，直到它变成$(thing)瓷$()。$(br2)篝火的温度并不足以烧制瓷器，你得使用$(l:getting_started/pit_kiln)坑窑$()才行。",
+      "text": "黏土可以用来做成小缸。你捏出来的小缸还需要烧制才能使用。烧制是指将黏土置于 1200°C（$(e)$(bold)$(t:Yellow)黄色$()）以上的高温中$(l:core_mechanics/heating)加热$()，直到它变成$(thing)瓷$()。$(br2)篝火的温度并不足以烧制瓷器，你得使用$(l:getting_started/pit_kiln)坑窑$()才行。",
       "title": "小缸"
     },
     {
@@ -59,7 +59,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(l:mechanics/decay#large_vessels)大缸$()的制作方法类似。它可以放置在地上，拥有九个物品槽。更多信息请查看链接章节。",
+      "text": "$(l:food/decay#large_vessels)大缸$()的制作方法类似。它可以放置在地上，拥有九个物品槽。更多信息请查看链接章节。",
       "title": "大缸"
     },
     {
@@ -124,7 +124,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_chisel_head_mold",
-      "text": "$(l:mechanics/chisel)凿$()可以用来将普通方块转变为平滑方块，还可以用来制作多种装饰性方块。"
+      "text": "$(l:metalworking/chisel)凿$()可以用来将普通方块转变为平滑方块，还可以用来制作多种装饰性方块。"
     },
     {
       "type": "tfc:knapping_recipe",
@@ -134,7 +134,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "tfc:knapping/ceramic/unfired_hammer_head_mold",
-      "text": "$(thing)锤$()是在$(l:mechanics/anvils)砧$()上制作物品不可或缺的工具。"
+      "text": "$(thing)锤$()是在$(l:metalworking/anvils)砧$()上制作物品不可或缺的工具。"
     },
     {
       "type": "tfc:knapping_recipe",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "En basit cam ürünleri $(thing)Cam Paneller$() ve $(thing)Cam Bloklar$()dır. Bunları üretmek için $(thing)Cam Karışımı$() içeren bir $(l:mechanics/glassworking#blowpipe)Üfleme Borusu$() ile başlamalı ve ardından bir $(thing)Döküm$() işlemi gerçekleştirmelisiniz.$(br)$(li)$(bold)Masa Dökümleri$(), $(thing)Cam Paneller$() oluşturmak için kullanılır$(li)$(bold)Havuz Dökümleri$(), $(thing)Cam Bloklar$() oluşturmak için kullanılır"
+      "text": "En basit cam ürünleri $(thing)Cam Paneller$() ve $(thing)Cam Bloklar$()dır. Bunları üretmek için $(thing)Cam Karışımı$() içeren bir $(l:crafting/glassworking#blowpipe)Üfleme Borusu$() ile başlamalı ve ardından bir $(thing)Döküm$() işlemi gerçekleştirmelisiniz.$(br)$(li)$(bold)Masa Dökümleri$(), $(thing)Cam Paneller$() oluşturmak için kullanılır$(li)$(bold)Havuz Dökümleri$(), $(thing)Cam Bloklar$() oluşturmak için kullanılır"
     },
     {
       "type": "patchouli:text",
@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(thing)Cam Paneller$(), $(thing)Masa Dökümü$() ile yapılır. Bir döküm masası, kesintisiz bir alana on altıya kadar $(thing)Pirinç Kaplama Blok$() yerleştirilerek oluşturulur.$(br2) 1. Bir $(thing)Üfleme Borusu$()'na $(l:mechanics/glassworking)Cam Karışımı$() ekleyin.$(br) 2. Üfleme borusunu $(4)$(bold)Hafif Kırmızı$() renge kadar ısıtın.$(br) 3. Masanın üst kısmında $(thing)Üfleme Borusu$()'nu $(item)$(k:key.use)$() ile kullanın.$(br) 4. Son olarak camı düzleştirmek için bir $(l:mechanics/glassworking#paddle)Kürek$() ile $(item)$(k:key.use)$() tuşunu kullanın.",
+      "text": "$(thing)Cam Paneller$(), $(thing)Masa Dökümü$() ile yapılır. Bir döküm masası, kesintisiz bir alana on altıya kadar $(thing)Pirinç Kaplama Blok$() yerleştirilerek oluşturulur.$(br2) 1. Bir $(thing)Üfleme Borusu$()'na $(l:crafting/glassworking)Cam Karışımı$() ekleyin.$(br) 2. Üfleme borusunu $(4)$(bold)Hafif Kırmızı$() renge kadar ısıtın.$(br) 3. Masanın üst kısmında $(thing)Üfleme Borusu$()'nu $(item)$(k:key.use)$() ile kullanın.$(br) 4. Son olarak camı düzleştirmek için bir $(l:crafting/glassworking#paddle)Kürek$() ile $(item)$(k:key.use)$() tuşunu kullanın.",
       "title": "Masa Dökümü"
     },
     {
@@ -24,12 +24,12 @@
         "tfc:textures/gui/book/tutorial/glass_panes_2.png",
         "tfc:textures/gui/book/tutorial/glass_panes_3.png"
       ],
-      "text": "Cam soğuduğunda, elde etmek için bir $(l:mechanics/glassworking#saw)Mücevher Testeresi$() ile kırılabilir.",
+      "text": "Cam soğuduğunda, elde etmek için bir $(l:crafting/glassworking#saw)Mücevher Testeresi$() ile kırılabilir.",
       "border": true
     },
     {
       "type": "patchouli:text",
-      "text": "$(thing)Cam Bloklar$(), $(thing)Havuz Dökümü$() ile yapılır. Bir havuz, üst taraf hariç bir hava bloğunun tüm kenarlarının $(thing)Pirinç Kaplama Blok$() ile çevrilmesiyle oluşturulur.$(br2) 1. Bir $(thing)Üfleme Borusu$()'na $(l:mechanics/glassworking)Cam Karışımı$() ekleyin.$(br) 2. Üfleme borusunu $(4)$(bold)Hafif Kırmızı$() renge kadar ısıtın.$(br) 3. Masanın üst kısmında $(thing)Üfleme Borusu$()'nu $(item)$(k:key.use)$() ile kullanın.",
+      "text": "$(thing)Cam Bloklar$(), $(thing)Havuz Dökümü$() ile yapılır. Bir havuz, üst taraf hariç bir hava bloğunun tüm kenarlarının $(thing)Pirinç Kaplama Blok$() ile çevrilmesiyle oluşturulur.$(br2) 1. Bir $(thing)Üfleme Borusu$()'na $(l:crafting/glassworking)Cam Karışımı$() ekleyin.$(br) 2. Üfleme borusunu $(4)$(bold)Hafif Kırmızı$() renge kadar ısıtın.$(br) 3. Masanın üst kısmında $(thing)Üfleme Borusu$()'nu $(item)$(k:key.use)$() ile kullanın.",
       "title": "Havuz Dökümü"
     },
     {
@@ -39,13 +39,13 @@
         "tfc:textures/gui/book/tutorial/glass_block_2.png",
         "tfc:textures/gui/book/tutorial/glass_block_3.png"
       ],
-      "text": "Cam soğuduğunda, elde etmek için bir $(l:mechanics/glassworking#saw)Mücevher Testeresi$() ile kırılabilir.",
+      "text": "Cam soğuduğunda, elde etmek için bir $(l:crafting/glassworking#saw)Mücevher Testeresi$() ile kırılabilir.",
       "border": true
     },
     {
       "type": "patchouli:text",
       "anchor": "coloring",
-      "text": "Cam, kullanılan $(l:mechanics/glassworking)Cam Karışımı$() türüne bağlı olarak doğal bir renge sahiptir. Diğer renkler bir $(l:mechanics/bowls)Kase$() kullanılarak elde edilebilir.$(br2)Kullanmak için $(l:mechanics/bowls)Kase$()'yi yere koyun, ardından gerekli $(thing)Toz$()'u $(item)$(k:key.use)$() ile ekleyin. $(thing)Döküm$() işleminden önce, tozu karışıma eklemek için kase üzerinde $(thing)Üfleme Borusu$()'nu kullanın.",
+      "text": "Cam, kullanılan $(l:crafting/glassworking)Cam Karışımı$() türüne bağlı olarak doğal bir renge sahiptir. Diğer renkler bir $(l:food/bowls)Kase$() kullanılarak elde edilebilir.$(br2)Kullanmak için $(l:food/bowls)Kase$()'yi yere koyun, ardından gerekli $(thing)Toz$()'u $(item)$(k:key.use)$() ile ekleyin. $(thing)Döküm$() işleminden önce, tozu karışıma eklemek için kase üzerinde $(thing)Üfleme Borusu$()'nu kullanın.",
       "title": "Cam Boyama"
     },
     {

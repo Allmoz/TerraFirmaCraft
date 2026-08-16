@@ -65,7 +65,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Yağış miktarı, bir bölgede nelerin yetiştirilebileceğini etkilediği için de önemlidir. Yağış, belirli bir konumdaki toprağın ne kadar ıslak olduğunun kesin bir ölçüsü olan ve $(l:mechanics/crops)Ekinler$(), $(l:the_world/wild_fruits#fruit_trees)Meyve Ağaçları$() ve $(l:the_world/wild_fruits#tall_bushes)Çilek Çalıları$() tarafından büyüyüp büyüyemeyeceklerini belirlemek için kullanılan $(l:mechanics/hydration)Hidrasyon$() seviyesinin ana katkı sağlayıcılarından biridir."
+      "text": "Yağış miktarı, bir bölgede nelerin yetiştirilebileceğini etkilediği için de önemlidir. Yağış, belirli bir konumdaki toprağın ne kadar ıslak olduğunun kesin bir ölçüsü olan ve $(l:food/crops)Ekinler$(), $(l:the_world/wild_fruits#fruit_trees)Meyve Ağaçları$() ve $(l:the_world/wild_fruits#tall_bushes)Çilek Çalıları$() tarafından büyüyüp büyüyemeyeceklerini belirlemek için kullanılan $(l:food/hydration)Hidrasyon$() seviyesinin ana katkı sağlayıcılarından biridir."
     }
   ],
   "read_by_default": true,

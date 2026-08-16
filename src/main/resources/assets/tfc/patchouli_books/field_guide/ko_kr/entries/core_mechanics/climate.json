@@ -65,7 +65,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "강수량은 또한 특정 지역에서 어떤 식물이 자랄 수 있는지에도 영향을 미칩니다. 강수량은 $(l:mechanics/hydration)수화$()의 주요 요인입니다. 수화는 어떤 위치의 땅이 얼마나 젖었는지에 대한 값으로 $(l:mechanics/crops)작물$()이나, $(l:the_world/wild_fruits#fruit_trees)과일 나무$(), $(l:the_world/wild_fruits#tall_bushes)베리 덤불$()이 자랄 수 있는지를 결정합니다."
+      "text": "강수량은 또한 특정 지역에서 어떤 식물이 자랄 수 있는지에도 영향을 미칩니다. 강수량은 $(l:food/hydration)수화$()의 주요 요인입니다. 수화는 어떤 위치의 땅이 얼마나 젖었는지에 대한 값으로 $(l:food/crops)작물$()이나, $(l:the_world/wild_fruits#fruit_trees)과일 나무$(), $(l:the_world/wild_fruits#tall_bushes)베리 덤불$()이 자랄 수 있는지를 결정합니다."
     }
   ],
   "read_by_default": true,

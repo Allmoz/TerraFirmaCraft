@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Dikiş Masası$(), flama desenleri ve demircilik şablonları üretmek için kullanılır. $(l:mechanics/weaving#wool_cloth)Yünlü Kumaş$(), $(l:mechanics/weaving#burlap_cloth)Çuval Bezi$(), İplik veya İplikçik ve ayrıca bir İğne gerektirir."
+      "text": "$(thing)Dikiş Masası$(), flama desenleri ve demircilik şablonları üretmek için kullanılır. $(l:crafting/weaving#wool_cloth)Yünlü Kumaş$(), $(l:crafting/weaving#burlap_cloth)Çuval Bezi$(), İplik veya İplikçik ve ayrıca bir İğne gerektirir."
     },
     {
       "type": "patchouli:crafting",

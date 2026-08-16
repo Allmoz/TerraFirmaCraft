@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Anvils are an important tool required for metalworking, as they allow you to work and weld metal ingots into various different forms.$(br2)Anvils can be useful for both $(l:mechanics/anvils#working)Working$(), which is used to form one piece of metal into another, or $(l:mechanics/anvils#welding)Welding$(), which is used to fuse two metal items into one solid piece."
+      "text": "Anvils are an important tool required for metalworking, as they allow you to work and weld metal ingots into various different forms.$(br2)Anvils can be useful for both $(l:metalworking/anvils#working)Working$(), which is used to form one piece of metal into another, or $(l:metalworking/anvils#welding)Welding$(), which is used to fuse two metal items into one solid piece."
     },
     {
       "type": "patchouli:multiblock",
@@ -30,7 +30,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "tfc:crafting/metal/anvil/copper",
-      "text": "Anvils can be crafted with $(thing)Double Ingots$() of their respective metal. For your first anvil, you must $(l:mechanics/anvils#welding)weld$() double ingots first on a $(l:getting_started/primitive_anvils)Stone Anvil$()."
+      "text": "Anvils can be crafted with $(thing)Double Ingots$() of their respective metal. For your first anvil, you must $(l:metalworking/anvils#welding)weld$() double ingots first on a $(l:getting_started/primitive_anvils)Stone Anvil$()."
     },
     {
       "type": "patchouli:text",
@@ -79,7 +79,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Your last three actions are shown right underneath the rules. When a rule is satisfied, its outline will change to green. Success occurs when all rules are satisfied.$(br2)Finally, you have to be mindful of your item's $(l:mechanics/heating)temperature$(). Metals can only be worked when they are above a certain temperature where the tooltip shows \"Can Work\". You may take an item out and re-heat it during the working process."
+      "text": "Your last three actions are shown right underneath the rules. When a rule is satisfied, its outline will change to green. Success occurs when all rules are satisfied.$(br2)Finally, you have to be mindful of your item's $(l:core_mechanics/heating)temperature$(). Metals can only be worked when they are above a certain temperature where the tooltip shows \"Can Work\". You may take an item out and re-heat it during the working process."
     },
     {
       "type": "patchouli:text",
@@ -101,7 +101,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "You also need to have at least one $(l:mechanics/flux)Flux$() in the anvil to aid the welding process. Then, while both items are $(l:mechanics/heating)hot enough$() to weld - the tooltip will say \"Can Weld\" - you must use any $(thing)Hammer$() on the anvil. You will hear a hammering sound and the items will be welded together. They can then be extracted by using $(item)$(k:key.use)$() on the anvil with an empty hand."
+      "text": "You also need to have at least one $(l:metalworking/flux)Flux$() in the anvil to aid the welding process. Then, while both items are $(l:core_mechanics/heating)hot enough$() to weld - the tooltip will say \"Can Weld\" - you must use any $(thing)Hammer$() on the anvil. You will hear a hammering sound and the items will be welded together. They can then be extracted by using $(item)$(k:key.use)$() on the anvil with an empty hand."
     }
   ],
   "read_by_default": true,

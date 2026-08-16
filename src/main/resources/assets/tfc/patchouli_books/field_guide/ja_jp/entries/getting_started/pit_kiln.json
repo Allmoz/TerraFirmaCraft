@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "穴窯はアイテムを$(l:mechanics/heating)加熱$()するTFC序盤の方法です。 たとえば、粘土を $(thing)焼成$() してセラミックにするために使用できます。穴窯は、約8時間(ゲーム内)かけて内容物を1400 °C、つまり$(bold)$(e)$(t:Yellow White)黄白$() まで加熱します。"
+      "text": "穴窯はアイテムを$(l:core_mechanics/heating)加熱$()するTFC序盤の方法です。 たとえば、粘土を $(thing)焼成$() してセラミックにするために使用できます。穴窯は、約8時間(ゲーム内)かけて内容物を1400 °C、つまり$(bold)$(e)$(t:Yellow White)黄白$() まで加熱します。"
     },
     {
       "type": "patchouli:text",

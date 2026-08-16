@@ -35,7 +35,7 @@
     {
       "type": "tfc:heat_recipe",
       "recipe": "tfc:heating/ceramic/pot",
-      "text": "然後它必須$(l:mechanics/heating)燒製$()成$(thing)陶鍋$()才可以放在篝火上。"
+      "text": "然後它必須$(l:core_mechanics/heating)燒製$()成$(thing)陶鍋$()才可以放在篝火上。"
     },
     {
       "type": "patchouli:text",
@@ -55,7 +55,7 @@
       "item": "tfc:food/fruit_soup",
       "title": "燉湯配方",
       "link_recipes": false,
-      "text": "Soup is made from 3-5 $(thing)fruits$(), $(thing)vegetables$(), or $(thing)meats$() in a pot of $(thing)water$(). When the recipe is done, the water in the pot will turn red. $(item)$(k:key.use)$() with a $(l:mechanics/bowls)bowl$() to retrieve it. Soup combines multiple nutrients into a number of output meals depending on how much food is added. They are cheaper, but not as nutrition-dense as other meals."
+      "text": "Soup is made from 3-5 $(thing)fruits$(), $(thing)vegetables$(), or $(thing)meats$() in a pot of $(thing)water$(). When the recipe is done, the water in the pot will turn red. $(item)$(k:key.use)$() with a $(l:food/bowls)bowl$() to retrieve it. Soup combines multiple nutrients into a number of output meals depending on how much food is added. They are cheaper, but not as nutrition-dense as other meals."
     },
     {
       "type": "patchouli:spotlight",

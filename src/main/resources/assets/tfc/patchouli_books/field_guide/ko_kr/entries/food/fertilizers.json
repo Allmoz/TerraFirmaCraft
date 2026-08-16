@@ -6,14 +6,14 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Fertilizers are used to add nutrients to $(l:mechanics/crops)crops$(). $(item)$(k:key.use)$() with a fertilizer in your hand on some $(thing)Farmland$() or a $(thing)Crop$() to add the nutrients. Particles should appear, indicating the fertilizer was added.$(br)The effectiveness of fertilizers are influenced by the type of $(l:mechanics/farmland)Farmland$() they are used on.",
+      "text": "Fertilizers are used to add nutrients to $(l:food/crops)crops$(). $(item)$(k:key.use)$() with a fertilizer in your hand on some $(thing)Farmland$() or a $(thing)Crop$() to add the nutrients. Particles should appear, indicating the fertilizer was added.$(br)The effectiveness of fertilizers are influenced by the type of $(l:food/farmland)Farmland$() they are used on.",
       "title": "§l비옥화"
     },
     {
       "type": "patchouli:spotlight",
       "item": "tfc:compost",
       "link_recipes": false,
-      "text": "Compost is the product of the $(l:mechanics/composter)Composter$(). $(br)$(li)$(b)Nitrogen: 20$()$(li)$(d)Potassium: 20$()"
+      "text": "Compost is the product of the $(l:food/composter)Composter$(). $(br)$(li)$(b)Nitrogen: 20$()$(li)$(d)Potassium: 20$()"
     },
     {
       "type": "patchouli:spotlight",
