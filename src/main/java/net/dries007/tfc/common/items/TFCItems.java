@@ -19,7 +19,6 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.HangingSignItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.Items;
@@ -221,7 +220,7 @@ public final class TFCItems
     public static final ItemId OBSIDIAN_HAMMER_HEAD = register("obsidian_hammer_head");
     public static final ItemId OBSIDIAN_HAMMER = register("obsidian_hammer", () -> new HammerItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 1.0f, -3.0f))));
     public static final ItemId OBSIDIAN_HOE_HEAD = register("obsidian_hoe_head");
-    public static final ItemId OBSIDIAN_HOE = register("obsidian_hoe", () -> new HoeItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 0.5f, -3.0f))));
+    public static final ItemId OBSIDIAN_HOE = register("obsidian_hoe", () -> new TFCHoeItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 0.5f, -3.0f))));
     public static final ItemId OBSIDIAN_JAVELIN_HEAD = register("obsidian_javelin_head");
     public static final ItemId OBSIDIAN_JAVELIN = register("obsidian_javelin", () -> new JavelinItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 0.7f, -2.2f))));
     public static final ItemId OBSIDIAN_KNIFE_HEAD = register("obsidian_knife_head");
@@ -354,6 +353,7 @@ public final class TFCItems
     public static final ItemId CAT_EGG = registerSpawnEgg(TFCEntities.CAT);
     public static final ItemId DOG_EGG = registerSpawnEgg(TFCEntities.DOG);
     public static final ItemId PANDA_EGG = registerSpawnEgg(TFCEntities.PANDA);
+    public static final ItemId ARMADILLO_EGG = registerSpawnEgg(TFCEntities.ARMADILLO);
 
     // Pottery
 

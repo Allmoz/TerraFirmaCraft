@@ -290,6 +290,12 @@
         "weight": 1,
         "minCount": 2,
         "maxCount": 4
+      },
+      {
+        "type": "tfc:armadillo",
+        "weight": 1,
+        "minCount": 2,
+        "maxCount": 3
       }
     ],
     "water_ambient": [
