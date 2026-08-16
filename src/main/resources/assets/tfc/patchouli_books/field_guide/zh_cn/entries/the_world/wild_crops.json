@@ -24,12 +24,12 @@
         }
       },
       "name": "野生小麦",
-      "text": "作为示例，这是$(l:mechanics/crops#wheat)小麦$()的野生版本。",
+      "text": "作为示例，这是$(l:food/crops#wheat)小麦$()的野生版本。",
       "enable_visualize": false
     },
     {
       "type": "patchouli:text",
-      "text": "每一种可以种植的$(l:mechanics/crops)农作物$()也都可以在野外找到。野生作物看起来与栽培的同类相似，但更隐蔽地隐藏在草丛中。野生作物只在六月到十月期间成熟。否则，它们会看起来像枯死一样，直到下一个夏天。"
+      "text": "每一种可以种植的$(l:food/crops)农作物$()也都可以在野外找到。野生作物看起来与栽培的同类相似，但更隐蔽地隐藏在草丛中。野生作物只在六月到十月期间成熟。否则，它们会看起来像枯死一样，直到下一个夏天。"
     },
     {
       "type": "tfc:multimultiblock",
@@ -319,7 +319,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "野生作物会生成在接近该作物可种植的气候区域，因此如果要寻找特定作物，就到该作物可种植的气候中去寻找。然而，与玩家种植的$(l:mechanics/crops)农作物$()不同，野生作物不需要$(l:mechanics/hydration)湿度$()。相反，它们出现的位置取决于年平均$(l:the_world/climate#temperature)温度$()和$(l:the_world/climate#rainfall)降雨量$()。",
+      "text": "野生作物会生成在接近该作物可种植的气候区域，因此如果要寻找特定作物，就到该作物可种植的气候中去寻找。然而，与玩家种植的$(l:food/crops)农作物$()不同，野生作物不需要$(l:food/hydration)湿度$()。相反，它们出现的位置取决于年平均$(l:the_world/climate#temperature)温度$()和$(l:the_world/climate#rainfall)降雨量$()。",
       "title": "寻找野生作物"
     },
     {
@@ -682,7 +682,7 @@
     }
   ],
   "read_by_default": true,
-  "sortnum": 4,
+  "sortnum": 3,
   "extra_recipe_mappings": {
     "tag:tfc:wild_crops": 0
   }
