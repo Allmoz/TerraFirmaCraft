@@ -36,11 +36,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(a)Fruit$()$(): Fruit nutrients are mostly found from $(l:the_world/wild_fruits)Fruiting Plants$(), like berry bushes, and fruit trees. A notable exception to this is $(l:food/crops#pumpkin)Pumpkins$() and $(l:food/crops#pumpkin)Melons$(), which nutritionally are fruits.$(br2)$(l)$(2)Vegetables$()$(): Found in nearly every $(l:food/crops)Crop$().$(br2)$(l)$(c)Protein$()$(): Protein can be gotten from the meat of $(l:the_world/wild_animals)Animals$(). It can also be obtained from $(l:food/crops#soybean)Soybeans$(), which have protein and vegetable nutrients."
+      "text": "$(l)$(a)Fruta$()$(): Nutrientes de frutas são encontrados principalmente de $(l:the_world/wild_fruits)Plantas de frutificação$(), como arbustos de baga e árvores frutíferas. Uma exceção notável a isso é $(l:mechanics/crops#pumpkin)Abóboras$() e $(l:mechanics/crops#pumpkin)Melons$(), quais nutricionalmente são frutas.$(br2)$(l)$(2)Vegetais$()$(): Encontrado em quase todos $(l:mechanics/crops)Cortar$().$(br2)$(l)$(c)Proteína$()$(): A proteína pode ser obtida da carne de $(l:the_world/wild_animals)Animais$(). Também pode ser obtido de $(l:mechanics/crops#soybean)Soybeans$(), que possuem nutrientes de proteínas e vegetais."
     },
     {
       "type": "patchouli:text",
-      "text": "$(l)$(6)Grain$()$(): Grain is found in grain crops, such as $(l:food/crops#barley)Barley$(). The processing of grain is on the $(l:food/bread)Bread$() page. $(thing)Cattail$() and $(thing)Taro$() Roots are also grains.$(br2)$(l)$(5)Dairy$()$(): All dairy comes from $(thing)Milk$(), which comes from $(l:food/animal_husbandry#dairy_animals)Dairy Animals$(). Processing and drinking milk is covered on the $(l:food/dairy)Dairy$() page.$(br2)All the food in the world is not useful if it rots. See the $(l:food/decay)Preservation$() page for information on preventing that."
+      "text": "$(l)$(6)Grão$()$(): Grão é encontrado em culturas de grãos, como $(l:mechanics/crops#barley)Cevada$(). O processamento de grãos está no $(l:mechanics/bread)Bread$() página. $(thing)Cattail$() e $(thing)Taro$() Raízes também são grãos.$(br2)$(l)$(5)Laticínio$()$(): Tudo o laticínio vem de $(thing)Leite$(), que vem de $(l:mechanics/animal_husbandry#dairy_animals)Animais lácteos$(). Processando e bebendo leite é coberto no $(l:mechanics/dairy)Laticínio$() página.$(br2)Toda a comida no mundo não é útil se apodrecer. Veja o $(l:mechanics/decay)Preservação$() página para obter informações sobre como prevenir isso."
     },
     {
       "type": "patchouli:text",

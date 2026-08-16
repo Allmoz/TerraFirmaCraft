@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(br) 1. $(l:core_mechanics/lighting#torches)Torches$()$(br) 2. $(l:core_mechanics/lighting#candles)Candles$()$(br) 3. $(l:core_mechanics/lighting#jack_o_lanterns)Jack 'o Lanterns$()",
+      "text": "$(br) 1. $(l:mechanics/lighting#torches)Torches$()$(br) 2. $(l:mechanics/lighting#candles)Candles$()$(br) 3. $(l:mechanics/lighting#jack_o_lanterns)Jack 'o Lanterns$()",
       "title": "Table of Contents"
     },
     {
@@ -46,7 +46,7 @@
     {
       "type": "tfc:sealed_barrel_recipe",
       "recipe": "tfc:barrel/candle",
-      "text": "Candles can be made by sealing $(thing)String$() in a $(l:crafting/barrels)Barrel$() of $(l:mechanics/lamps#tallow)Tallow$()."
+      "text": "Candles can be made by sealing $(thing)String$() in a $(l:mechanics/barrels)Barrel$() of $(l:mechanics/lamps#tallow)Tallow$()."
     },
     {
       "type": "patchouli:multiblock",
@@ -70,7 +70,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(thing)Carved Pumpkins$() are made by clicking $(item)$(k:key.use)$() with $(thing)Shears$() or a $(thing)Knife$() on a fresh $(l:food/crops#pumpkin)Pumpkin$(). Carved pumpkins do not rot, and can be worn on your head."
+      "text": "$(thing)Carved Pumpkins$() are made by clicking $(item)$(k:key.use)$() with $(thing)Shears$() or a $(thing)Knife$() on a fresh $(l:mechanics/crops#pumpkin)Pumpkin$(). Carved pumpkins do not rot, and can be worn on your head."
     }
   ],
   "read_by_default": true,
