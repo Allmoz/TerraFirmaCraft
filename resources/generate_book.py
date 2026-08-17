@@ -295,7 +295,7 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             text('With just a $(l:getting_started/introduction#knife)Stone Knife$(), you are able to obtain $(thing)Straw$() by breaking plant like blocks. This can be used to craft a very simple building material: $(thing)Thatch$(). Thatch is a lightweight block that isn\'t affected by gravity, however players and other entities can pass right through it! It can also be crafted back into $(thing)Straw$() if needed.', title='Thatch').anchor('thatch'),
             crafting('tfc:crafting/thatch', 'tfc:crafting/straw'),
             # Mud Bricks
-            crafting('tfc:crafting/drying_bricks/entisol', text_contents='$(thing)Mud$() can be found on the ground, underneath rivers and lakes, or in patches in low elevation swampy environments. With a little bit of $(thing)Straw$(), it can be crafted into $()Wet Mud Bricks$().', title='Mud Bricks').anchor('mud_bricks'),
+            crafting('tfc:crafting/drying_bricks/entisol', text_contents='$(thing)Mud$() can be found on the ground, underneath rivers and lakes, or in patches in low elevation swampy environments. Mud can be created by right clicking a dirt block with a container of fresh water, such as a jug or sealed barrel. With a little bit of $(thing)Straw$(), it can be crafted into $()Wet Mud Bricks$().', title='Mud Bricks').anchor('mud_bricks'),
             multimultiblock(
                 'These can be placed on the ground in a dry location, and after a day they will harden into $(thing)Mud Bricks$().',
                 two_tall_block_spotlight('', '', 'tfc:grass/entisol', 'tfc:drying_bricks/entisol[count=4,dried=false]'),
