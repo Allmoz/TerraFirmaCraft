@@ -460,9 +460,11 @@ public class BarrelBlockEntity extends TickableInventoryBlockEntity<BarrelBlockE
         assert level != null;
         if (!level.isClientSide())
         {
-            // Drop container items, but allow the main slot to be filled
-            Helpers.spawnItem(level, worldPosition, Helpers.removeStack(inventory, SLOT_FLUID_CONTAINER_IN));
-            Helpers.spawnItem(level, worldPosition, Helpers.removeStack(inventory, SLOT_FLUID_CONTAINER_OUT));
+            inventory.whileMutable(() -> {
+                // Drop container items, but allow the main slot to be filled
+                Helpers.spawnItem(level, worldPosition, Helpers.removeStack(inventory, SLOT_FLUID_CONTAINER_IN));
+                Helpers.spawnItem(level, worldPosition, Helpers.removeStack(inventory, SLOT_FLUID_CONTAINER_OUT));
+            });
         }
 
         sealedTick = Calendars.get(level).getTicks();
@@ -528,16 +530,17 @@ public class BarrelBlockEntity extends TickableInventoryBlockEntity<BarrelBlockE
 
     private void updateRecipe()
     {
-        assert level != null;
-
-        final @Nullable SealedBarrelRecipe oldRecipe = RecipeHelpers.unbox(recipe.value());
-        recipe.unload();
-        final @Nullable SealedBarrelRecipe newRecipe = getRecipe(); // Trigger the update
-
-        if (oldRecipe != null && newRecipe != null && oldRecipe != newRecipe)
+        if (level != null)
         {
-            // The recipe has changed to a new one, so update the recipe ticks
-            resetTickTimer(level);
+            final @Nullable SealedBarrelRecipe oldRecipe = RecipeHelpers.unbox(recipe.value());
+            recipe.unload();
+            final @Nullable SealedBarrelRecipe newRecipe = getRecipe(); // Trigger the update
+
+            if (oldRecipe != null && newRecipe != null && oldRecipe != newRecipe)
+            {
+                // The recipe has changed to a new one, so update the recipe ticks
+                resetTickTimer(level);
+            }
         }
     }
 

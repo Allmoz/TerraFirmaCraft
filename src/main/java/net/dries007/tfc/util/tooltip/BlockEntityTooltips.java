@@ -62,6 +62,7 @@ import net.dries007.tfc.common.blockentities.TickingPlantBlockEntity;
 import net.dries007.tfc.common.blockentities.VaneBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.PowerLoomBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.RotatingBlockEntity;
+import net.dries007.tfc.common.blockentities.rotation.TripHammerBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.WaterWheelBlockEntity;
 import net.dries007.tfc.common.blockentities.rotation.WindmillBlockEntity;
 import net.dries007.tfc.common.blocks.BloomBlock;
@@ -72,6 +73,7 @@ import net.dries007.tfc.common.blocks.TFCCandleBlock;
 import net.dries007.tfc.common.blocks.TFCCandleCakeBlock;
 import net.dries007.tfc.common.blocks.TFCTorchBlock;
 import net.dries007.tfc.common.blocks.TFCWallTorchBlock;
+import net.dries007.tfc.common.blocks.TripHammerBlock;
 import net.dries007.tfc.common.blocks.crop.CropBlock;
 import net.dries007.tfc.common.blocks.crop.DecayingBlock;
 import net.dries007.tfc.common.blocks.crop.DoubleCropBlock;
@@ -124,7 +126,6 @@ import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.config.TemperatureDisplayStyle;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.calendar.Calendars;
-import net.dries007.tfc.util.calendar.ICalendar;
 import net.dries007.tfc.util.data.LampFuel;
 import net.dries007.tfc.util.rotation.Rotation;
 import net.dries007.tfc.util.tracker.WeatherHelpers;
@@ -181,6 +182,7 @@ public final class BlockEntityTooltips
         callback.register("thermometer", THERMOMETER, ThermometerBlock.class);
         callback.register("anemometer", ANEMOMETER, AnemometerBlock.class);
         callback.register("vane", VANE, VaneBlock.class);
+        callback.register("trip_hammer", TRIP_HAMMER, TripHammerBlock.class);
     }
 
     public static final BlockEntityTooltip HOT_POURED_GLASS = (level, state, pos, entity, tooltip) -> {
@@ -631,6 +633,23 @@ public final class BlockEntityTooltips
             {
                 if (!stack.isEmpty())
                     tooltip.accept(stack.getHoverName());
+            }
+        }
+    };
+
+    public static final BlockEntityTooltip TRIP_HAMMER = (level, state, pos, entity, tooltip) -> {
+        if (entity instanceof TripHammerBlockEntity tripHammer)
+        {
+            ItemStack stack = tripHammer.getInventory().getStackInSlot(0);
+            if (tripHammer.isItemValid(0, stack))
+            {
+                tooltip.accept(stack.getHoverName());
+                if (stack.isDamageableItem())
+                {
+                    final int total = stack.getMaxDamage();
+                    final int remaining = stack.getMaxDamage() - stack.getDamageValue();
+                    tooltip.accept(Component.translatable("item.durability", remaining, total));
+                }
             }
         }
     };

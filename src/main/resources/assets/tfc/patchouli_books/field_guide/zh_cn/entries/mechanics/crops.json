@@ -1041,7 +1041,7 @@
       "type": "patchouli:text",
       "anchor": "green_bean",
       "text": "$(bold)$(l:the_world/climate#temperature)温度$(): -2 - 25 °C$(br)$(bold)$(l:mechanics/hydration)湿度$(): 25 - 90 %$(br)$(bold)类别$(): 豆类$(br)$(br)$(bold)$(3)氮$(): +80 $(bold)$(6)磷$(): 50 $(bold)$(d)钾$(): 40$()$(br)四季豆是攀爬作物，两格高。四季豆种子可以种植在耕地上，如果有木棍，会长到两格高，产出$(thing)四季豆$()和$(thing)四季豆种子$()。",
-      "title": "四季豆"
+      "title": "绿豆"
     },
     {
       "type": "tfc:multimultiblock",
@@ -1221,7 +1221,7 @@
       "type": "patchouli:text",
       "anchor": "lentil",
       "text": "$(bold)$(l:the_world/climate#temperature)温度$(): -5 - 25 °C$(br)$(bold)$(l:mechanics/hydration)湿度$(): 15 - 50 %$(br)$(bold)类别$(): 豆类$(br)$(br)$(bold)$(3)氮$(): +80 $(bold)$(6)磷$(): 20 $(bold)$(d)钾$(): 20$()$(br)扁豆是单格作物。扁豆种子可以种植在耕地上，产出$(thing)扁豆$()和$(thing)扁豆种子$()。",
-      "title": "扁豆"
+      "title": "小扁豆"
     },
     {
       "type": "tfc:multimultiblock",

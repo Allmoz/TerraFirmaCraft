@@ -6,7 +6,6 @@
 
 package net.dries007.tfc.data;
 
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 import com.google.common.collect.ImmutableMap;
@@ -22,9 +21,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -93,6 +92,11 @@ public interface Accessors
     default <T> TagKey<T> commonTagOf(ResourceKey<Registry<T>> key, String name)
     {
         return TagKey.create(key, ResourceLocation.fromNamespaceAndPath("c", name.toLowerCase(Locale.ROOT)));
+    }
+
+    default <T> TagKey<T> tfcTagOf(ResourceKey<Registry<T>> key, String name)
+    {
+        return TagKey.create(key, ResourceLocation.fromNamespaceAndPath("tfc", name.toLowerCase(Locale.ROOT)));
     }
 
     default Item dyeOf(DyeColor color)

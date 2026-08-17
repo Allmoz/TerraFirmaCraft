@@ -20,10 +20,13 @@ import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.TFCTags;
+import net.dries007.tfc.common.blocks.GroundcoverBlockType;
+import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.RockCategory;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.common.recipes.KnappingRecipe;
 import net.dries007.tfc.data.providers.BuiltinKnappingTypes;
+import net.dries007.tfc.util.DataGenerationHelpers.Builder;
 import net.dries007.tfc.util.Metal;
 import net.dries007.tfc.util.data.KnappingPattern;
 import net.dries007.tfc.util.data.KnappingType;
@@ -44,6 +47,18 @@ public interface KnappingRecipes extends Recipes
         rockKnapping("3", RockCategory.ItemType.KNIFE_HEAD, 2, " X X ", "XX XX", "XX XX", "XX XX", "XX XX");
         rockKnapping(RockCategory.ItemType.JAVELIN_HEAD, "XXX  ", "XXXX ", "XXXXX", " XXX ", "  X  ");
         rockKnapping(RockCategory.ItemType.HAMMER_HEAD, "XXXXX", "XXXXX", "  X  ");
+
+        obsidianKnapping(TFCItems.OBSIDIAN_AXE_HEAD, " X   ", "XXXX ", "XXXXX", "XXXX ", " X   ");
+        obsidianKnapping(TFCItems.OBSIDIAN_SHOVEL_HEAD, "XXX", "XXX", "XXX", "XXX", " X ");
+        obsidianKnapping(TFCItems.OBSIDIAN_HOE_HEAD, "XXXXX", "   XX");
+        obsidianKnapping("1", TFCItems.OBSIDIAN_HOE_HEAD, 2, "XXXXX", "XX   ", "     ", "XXXXX", "XX   ");
+        obsidianKnapping("2", TFCItems.OBSIDIAN_HOE_HEAD, 2, "XXXXX", "XX   ", "     ", "XXXXX", "   XX");
+        obsidianKnapping(TFCItems.OBSIDIAN_KNIFE_HEAD, "X ", "XX", "XX", "XX", "XX");
+        obsidianKnapping("1", TFCItems.OBSIDIAN_KNIFE_HEAD, 2, "X  X ", "XX XX", "XX XX", "XX XX", "XX XX");
+        obsidianKnapping("2", TFCItems.OBSIDIAN_KNIFE_HEAD, 2, "X   X", "XX XX", "XX XX", "XX XX", "XX XX");
+        obsidianKnapping("3", TFCItems.OBSIDIAN_KNIFE_HEAD, 2, " X X ", "XX XX", "XX XX", "XX XX", "XX XX");
+        obsidianKnapping(TFCItems.OBSIDIAN_JAVELIN_HEAD, "XXX  ", "XXXX ", "XXXXX", " XXX ", "  X  ");
+        obsidianKnapping(TFCItems.OBSIDIAN_HAMMER_HEAD, "XXXXX", "XXXXX", "  X  ");
 
         clayKnapping(TFCItems.UNFIRED_VESSEL, " XXX ", "XXXXX", "XXXXX", "XXXXX", " XXX ");
         clayKnapping(TFCItems.UNFIRED_LARGE_VESSEL, "X   X", "X   X", "X   X", "X   X", "XXXXX");
@@ -80,7 +95,7 @@ public interface KnappingRecipes extends Recipes
         fireClayKnapping(TFCItems.UNFIRED_CHANNEL, 4, "X   X", " XXX ", "     ", "X   X", " XXX ");
         fireClayKnapping(TFCItems.UNFIRED_MOLD_TABLE, 1, "XXXXX", "X   X", "X   X", "X   X", "XXXXX");
 
-        leatherKnapping(Items.LEATHER_HELMET, "XXXXX", "X   X", "X   X", "     ", "     ");
+        leatherKnapping(Items.LEATHER_HELMET, "XXXXX", "X   X", "X   X");
         leatherKnapping(Items.LEATHER_CHESTPLATE, "X   X", "XXXXX", "XXXXX", "XXXXX", "XXXXX");
         leatherKnapping(Items.LEATHER_LEGGINGS, "XXXXX", "XXXXX", "XX XX", "XX XX", "XX XX");
         leatherKnapping(Items.LEATHER_BOOTS, "XX   ", "XX   ", "XX   ", "XXXX ", "XXXXX");
@@ -111,6 +126,21 @@ public interface KnappingRecipes extends Recipes
                 Optional.of(Ingredient.of(TFCTags.Items.STONES_LOOSE_CATEGORY.get(type))),
                 new ItemStack(TFCItems.ROCK_TOOLS.get(type).get(output), count)
             ));
+    }
+
+    private void obsidianKnapping(ItemLike output, String... pattern)
+    {
+        obsidianKnapping("", output, 1, pattern);
+    }
+
+    private void obsidianKnapping(String suffix, ItemLike output, int count, String... pattern)
+    {
+        add(nameOf(output) + (suffix.isEmpty() ? "" : "_" + suffix), new KnappingRecipe(
+            KnappingType.MANAGER.getCheckedReference(BuiltinKnappingTypes.ROCK),
+            KnappingPattern.from(false, pattern),
+            Optional.of(Ingredient.of(TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.OBSIDIAN_SHARD))),
+            new ItemStack(output, count)
+        ));
     }
 
     private void clayKnapping(Metal.ItemType output, String... pattern)
@@ -163,24 +193,24 @@ public interface KnappingRecipes extends Recipes
 
     private void leatherKnapping(ItemLike output, String... pattern)
     {
-        knapping(BuiltinKnappingTypes.LEATHER, pattern, output, 1);
+        knapping(BuiltinKnappingTypes.LEATHER, pattern, output, false, 1);
     }
 
     private void goatKnapping(ResourceKey<Instrument> instrument, String... pattern)
     {
         final ItemStack output = Items.GOAT_HORN.getDefaultInstance();
         output.set(DataComponents.INSTRUMENT, BuiltInRegistries.INSTRUMENT.getHolderOrThrow(instrument));
-        knapping(BuiltinKnappingTypes.GOAT_HORN, pattern, output, instrument.location().getPath() + "_goat_horn");
+        knapping(BuiltinKnappingTypes.GOAT_HORN, pattern, output, true, instrument.location().getPath() + "_goat_horn");
     }
 
-    private void knapping(ResourceLocation knappingType, String[] pattern, ItemLike output, int count)
+    private void knapping(ResourceLocation knappingType, String[] pattern, ItemLike output, boolean defaultOn, int count)
     {
-        knapping(knappingType, pattern, new ItemStack(output, count), null);
+        knapping(knappingType, pattern, new ItemStack(output, count), defaultOn, null);
     }
 
-    private void knapping(ResourceLocation knappingType, String[] pattern, ItemStack output, @Nullable String name)
+    private void knapping(ResourceLocation knappingType, String[] pattern, ItemStack output, boolean defaultOn, @Nullable String name)
     {
-        final KnappingRecipe recipe = new KnappingRecipe(KnappingType.MANAGER.getCheckedReference(knappingType), KnappingPattern.from(true, pattern), Optional.empty(), output);
+        final KnappingRecipe recipe = new KnappingRecipe(KnappingType.MANAGER.getCheckedReference(knappingType), KnappingPattern.from(defaultOn, pattern), Optional.empty(), output);
         if (name == null)
         {
             add(recipe);

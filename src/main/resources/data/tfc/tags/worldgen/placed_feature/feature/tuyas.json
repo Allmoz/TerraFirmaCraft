@@ -5,7 +5,7 @@
     "tfc:tuya_rivulet",
     "tfc:tuya_caldera",
     "tfc:random_tuya_fissure",
-    "tfc:pumice_patch",
-    "tfc:lava_surface_spring"
+    "tfc:tuya_pumice_patch",
+    "tfc:tuya_obsidian_shard_patch"
   ]
 }

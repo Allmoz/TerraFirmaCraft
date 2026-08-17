@@ -12,6 +12,7 @@
   "carvers": {
     "air": [
       "tfc:cave",
+      "tfc:deep_cave",
       "tfc:canyon"
     ],
     "liquid": []
@@ -24,6 +25,7 @@
     "#tfc:in_biome/surface_structures",
     "#tfc:in_biome/strongholds",
     "#tfc:in_biome/veins",
+    "#tfc:in_biome/veins/montane",
     "#tfc:in_biome/underground_decoration",
     "#tfc:in_biome/large_features/glacially_carved_oceanic_mountains",
     "#tfc:in_biome/surface_decoration/glacially_carved_oceanic_mountains",
@@ -33,7 +35,7 @@
     "creature": [
       {
         "type": "tfc:crocodile",
-        "weight": 20,
+        "weight": 10,
         "minCount": 1,
         "maxCount": 1
       },
@@ -124,6 +126,18 @@
       {
         "type": "tfc:sabertooth",
         "weight": 2,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "tfc:cougar",
+        "weight": 2,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "tfc:panther",
+        "weight": 1,
         "minCount": 1,
         "maxCount": 1
       },
@@ -254,6 +268,18 @@
         "maxCount": 3
       },
       {
+        "type": "tfc:dromedary_camel",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "tfc:bactrian_camel",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
         "type": "tfc:ocelot",
         "weight": 1,
         "minCount": 1,
@@ -264,6 +290,12 @@
         "weight": 1,
         "minCount": 2,
         "maxCount": 4
+      },
+      {
+        "type": "tfc:armadillo",
+        "weight": 1,
+        "minCount": 2,
+        "maxCount": 3
       }
     ],
     "water_ambient": [

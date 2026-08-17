@@ -8,6 +8,7 @@ package net.dries007.tfc.common.entities;
 
 import java.util.Locale;
 import java.util.Map;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -21,6 +22,8 @@ import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
+import net.minecraft.world.entity.animal.camel.Camel;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.item.Item;
@@ -54,6 +57,8 @@ import net.dries007.tfc.common.entities.livestock.DairyAnimal;
 import net.dries007.tfc.common.entities.livestock.Mammal;
 import net.dries007.tfc.common.entities.livestock.OviparousAnimal;
 import net.dries007.tfc.common.entities.livestock.WoolyAnimal;
+import net.dries007.tfc.common.entities.livestock.camel.BactrianCamel;
+import net.dries007.tfc.common.entities.livestock.camel.DromedaryCamel;
 import net.dries007.tfc.common.entities.livestock.horse.TFCDonkey;
 import net.dries007.tfc.common.entities.livestock.horse.TFCHorse;
 import net.dries007.tfc.common.entities.livestock.horse.TFCMule;
@@ -61,6 +66,7 @@ import net.dries007.tfc.common.entities.livestock.pet.Dog;
 import net.dries007.tfc.common.entities.livestock.pet.TFCCat;
 import net.dries007.tfc.common.entities.misc.GlowArrow;
 import net.dries007.tfc.common.entities.misc.HoldingMinecart;
+import net.dries007.tfc.common.entities.misc.RopeKnot;
 import net.dries007.tfc.common.entities.misc.Seat;
 import net.dries007.tfc.common.entities.misc.TFCBoat;
 import net.dries007.tfc.common.entities.misc.TFCChestBoat;
@@ -74,6 +80,7 @@ import net.dries007.tfc.common.entities.predator.Predator;
 import net.dries007.tfc.common.entities.prey.Pest;
 import net.dries007.tfc.common.entities.prey.Prey;
 import net.dries007.tfc.common.entities.prey.RammingPrey;
+import net.dries007.tfc.common.entities.prey.TFCArmadillo;
 import net.dries007.tfc.common.entities.prey.TFCFox;
 import net.dries007.tfc.common.entities.prey.TFCFrog;
 import net.dries007.tfc.common.entities.prey.TFCPanda;
@@ -115,8 +122,9 @@ public class TFCEntities
     public static final Id<GlowArrow> GLOW_ARROW = register("glow_arrow", EntityType.Builder.<GlowArrow>of(GlowArrow::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20));
     public static final Id<ThrownJavelin> THROWN_JAVELIN = register("thrown_javelin", EntityType.Builder.<ThrownJavelin>of(ThrownJavelin::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20));
     public static final Id<Seat> SEAT = register("seat", EntityType.Builder.of(Seat::new, MobCategory.MISC).sized(0.1F, 0.1F).clientTrackingRange(4).updateInterval(20));
-    public static final Id<TFCMinecartChest> CHEST_MINECART = register("chest_minecart", EntityType.Builder.of(TFCMinecartChest::new, MobCategory.MISC).sized(0.98F, 0.7F).clientTrackingRange(8));
-    public static final Id<HoldingMinecart> HOLDING_MINECART = register("holding_minecart", EntityType.Builder.<HoldingMinecart>of(HoldingMinecart::new, MobCategory.MISC).sized(0.98F, 0.7F).clientTrackingRange(8));
+    public static final Id<TFCMinecartChest> CHEST_MINECART = register("chest_minecart", EntityType.Builder.of(TFCMinecartChest::new, MobCategory.MISC).sized(0.98F, 0.7F).passengerAttachments(0.1875F).clientTrackingRange(8));
+    public static final Id<HoldingMinecart> HOLDING_MINECART = register("holding_minecart", EntityType.Builder.<HoldingMinecart>of(HoldingMinecart::new, MobCategory.MISC).sized(0.98F, 0.7F).passengerAttachments(0.1875F).clientTrackingRange(8));
+    public static final Id<RopeKnot> ROPE_KNOT = register("rope_knot", EntityType.Builder.<RopeKnot>of(RopeKnot::new, MobCategory.MISC).noSave().sized(0.375F, 0.5F).eyeHeight(0.0625F).clientTrackingRange(10).updateInterval(Integer.MAX_VALUE));
 
     public static final Map<Wood, Id<TFCChestBoat>> CHEST_BOATS = Helpers.mapOf(Wood.class, wood ->
         register("chest_boat/" + wood.name(), EntityType.Builder.<TFCChestBoat>of((type, level) -> new TFCChestBoat(type, level, TFCItems.BOATS.get(wood)), MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10))
@@ -179,6 +187,7 @@ public class TFCEntities
     public static final Id<OviparousAnimal> QUAIL = register("quail", EntityType.Builder.of(TFCEntities::makeQuail, MobCategory.CREATURE).sized(0.4F, 0.7F).eyeHeight(0.644F).clientTrackingRange(10));
 
     public static final Id<TFCRabbit> RABBIT = register("rabbit", EntityType.Builder.of(TFCEntities::makeRabbit, MobCategory.CREATURE).sized(0.4F, 0.5F).clientTrackingRange(8));
+    public static final Id<TFCArmadillo> ARMADILLO = register("armadillo", EntityType.Builder.of(TFCEntities::makeArmadillo, MobCategory.CREATURE).sized(0.7F, 0.65F).eyeHeight(0.26F).clientTrackingRange(10));
 
     public static final Id<TFCFox> FOX = register("fox", EntityType.Builder.of(TFCFox::new, MobCategory.CREATURE).sized(0.6F, 0.7F).eyeHeight(0.4F).clientTrackingRange(8));
     public static final Id<TFCPanda> PANDA = register("panda", EntityType.Builder.of(TFCPanda::new, MobCategory.CREATURE).sized(1.3F, 1.25F).clientTrackingRange(10));
@@ -205,6 +214,9 @@ public class TFCEntities
     public static final Id<TFCDonkey> DONKEY = register("donkey", EntityType.Builder.of(TFCDonkey::new, MobCategory.CREATURE).sized(1.3964844F, 1.5F).eyeHeight(1.425F).passengerAttachments(1.1125F).clientTrackingRange(10));
     public static final Id<TFCMule> MULE = register("mule", EntityType.Builder.of(TFCMule::new, MobCategory.CREATURE).sized(1.3964844F, 1.6F).eyeHeight(1.52F).passengerAttachments(1.2125F).clientTrackingRange(8));
     public static final Id<TFCHorse> HORSE = register("horse", EntityType.Builder.<TFCHorse>of(TFCHorse::new, MobCategory.CREATURE).sized(1.3964844F, 1.6F).eyeHeight(1.52F).passengerAttachments(1.44375F).clientTrackingRange(10));
+
+    public static final Id<DromedaryCamel> DROMEDARY_CAMEL = register("dromedary_camel", EntityType.Builder.of(TFCEntities::makeDromedaryCamel, MobCategory.CREATURE).sized(1.7f, 2.375f).eyeHeight(2.275f).clientTrackingRange(10));
+    public static final Id<BactrianCamel> BACTRIAN_CAMEL = register("bactrian_camel", EntityType.Builder.of(TFCEntities::makeBactrianCamel, MobCategory.CREATURE).sized(1.7f, 2.375f).eyeHeight(2.275f).clientTrackingRange(10));
 
     public static final Id<TFCCat> CAT = register("cat", EntityType.Builder.of(TFCCat::new, MobCategory.CREATURE).sized(0.6F, 0.7F).eyeHeight(0.35F).clientTrackingRange(8));
     public static final Id<Dog> DOG = register("dog", EntityType.Builder.of(Dog::new, MobCategory.CREATURE).sized(0.6F, 0.85F).eyeHeight(0.68F).clientTrackingRange(10));
@@ -286,10 +298,13 @@ public class TFCEntities
         event.put(MULE.get(), AbstractChestedHorse.createBaseChestedHorseAttributes().build());
         event.put(DONKEY.get(), AbstractChestedHorse.createBaseChestedHorseAttributes().build());
         event.put(HORSE.get(), AbstractHorse.createBaseHorseAttributes().build());
+        event.put(DROMEDARY_CAMEL.get(), DromedaryCamel.createAttributes().build());
+        event.put(BACTRIAN_CAMEL.get(), DromedaryCamel.createAttributes().build());
         event.put(CAT.get(), TFCCat.createAttributes().build());
         event.put(DOG.get(), Dog.createAttributes().build());
         event.put(PANDA.get(), TFCPanda.createAttributes().add(Attributes.STEP_HEIGHT, 1.0F).build());
         event.put(OCELOT.get(), TFCOcelot.createAttributes().build());
+        event.put(ARMADILLO.get(), TFCArmadillo.createAttributes().build());
     }
 
     public static Mammal makePig(EntityType<? extends Mammal> animal, Level level)
@@ -365,6 +380,11 @@ public class TFCEntities
         };
     }
 
+    public static BactrianCamel makeBactrianCamel(EntityType<? extends Camel> animal, Level level)
+    {
+        return new BactrianCamel(animal, level, TFCConfig.SERVER.bactrianCamelConfig);
+    }
+
     public static WoolyAnimal makeMuskOx(EntityType<? extends WoolyAnimal> animal, Level level)
     {
         return new WoolyAnimal(animal, level, TFCSounds.MUSK_OX, TFCConfig.SERVER.muskOxConfig)
@@ -416,6 +436,14 @@ public class TFCEntities
     public static TFCRabbit makeRabbit(EntityType<? extends Rabbit> animal, Level level)
     {
         return new TFCRabbit(animal, level, TFCConfig.SERVER.rabbitConfig);
+    }
+    public static TFCArmadillo makeArmadillo(EntityType<? extends Armadillo> animal, Level level)
+    {
+        return new TFCArmadillo(animal, level);
+    }
+    public static DromedaryCamel makeDromedaryCamel(EntityType<? extends Camel> animal, Level level)
+    {
+        return new DromedaryCamel(animal, level, TFCConfig.SERVER.dromedaryCamelConfig);
     }
     public static RammingPrey makeBoar(EntityType<? extends RammingPrey> animal, Level level)
     {

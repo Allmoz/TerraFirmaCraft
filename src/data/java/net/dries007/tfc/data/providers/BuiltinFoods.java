@@ -144,6 +144,15 @@ public class BuiltinFoods extends DataManagerProvider<FoodDefinition> implements
         add(Food.LARGEMOUTH_BASS, of(3).protein(1f));
         add(Food.SMALLMOUTH_BASS, of(3).protein(1f));
         add(Food.CRAPPIE, of(3).protein(0.7f));
+        add(Food.ARCTIC_CHAR, of(3).protein(1f));
+        add(Food.BURBOT, of(3).protein(0.7f));
+        add(Food.MUKSUN, of(3).protein(1f));
+        add(Food.NORTHERN_PIKE, of(3).protein(1f));
+        add(Food.PACU, of(3).protein(1f));
+        add(Food.PEACOCK_BASS, of(3).protein(1f));
+        add(Food.RED_PIRANHA, of(3).protein(1f));
+        add(Food.SPOTTED_GUDGEON, of(3).protein(0.7f));
+        add(Food.TILAPIA, of(3).protein(1f));
         add(Food.SALMON, of(3).protein(1f));
         add(Food.SHELLFISH, ofFood(0, 0, 5).protein(0.5f));
         add(Food.COD, of(3).protein(1f));
@@ -168,6 +177,7 @@ public class BuiltinFoods extends DataManagerProvider<FoodDefinition> implements
         add(Food.CHEVON, of(3).protein(0.5f));
         add(Food.GRAN_FELINE, of(3).protein(0.5f));
         add(Food.CAMELIDAE, of(3).protein(0.5f));
+        add(Food.ARMADILLO, of(3).protein(0.5F));
         add(Food.COOKED_BEEF, ofFood(2, 0, 1.5f).protein(2.5f));
         add(Food.COOKED_PORK, ofFood(2, 0, 1.5f).protein(2.5f));
         add(Food.COOKED_CHICKEN, ofFood(2, 0, 2.25f).protein(2.5f));
@@ -178,10 +188,19 @@ public class BuiltinFoods extends DataManagerProvider<FoodDefinition> implements
         add(Food.COOKED_BLUEGILL, ofFood(1, 0, 2.25f).protein(1.5f));
         add(Food.COOKED_RAINBOW_TROUT, ofFood(1, 0, 2.25f).protein(2f));
         add(Food.COOKED_LAKE_TROUT, ofFood(1, 0, 2.25f).protein(2f));
-        add(Food.COOKED_LARGEMOUTH_BASS, ofFood(1, 0, 2.25f).protein(2.25f));
+        add(Food.COOKED_LARGEMOUTH_BASS, ofFood(1, 0, 2.25f).protein(2.2f));
         add(Food.COOKED_SMALLMOUTH_BASS, ofFood(1, 0, 2.25f).protein(2f));
         add(Food.COOKED_CRAPPIE, ofFood(1, 0, 2.25f).protein(1.5f));
         add(Food.COOKED_SALMON, ofFood(1, 0, 2.25f).protein(2f));
+        add(Food.COOKED_ARCTIC_CHAR, ofFood(1, 0, 2.25f).protein(2f));
+        add(Food.COOKED_BURBOT, ofFood(1, 0, 2.25f).protein(1.5f));
+        add(Food.COOKED_MUKSUN, ofFood(1, 0, 2.25f).protein(2f));
+        add(Food.COOKED_NORTHERN_PIKE, ofFood(1, 0, 2.25f).protein(2f));
+        add(Food.COOKED_PACU, ofFood(1, 0, 2.25f).protein(2f));
+        add(Food.COOKED_PEACOCK_BASS, ofFood(1, 0, 2.25f).protein(2f));
+        add(Food.COOKED_RED_PIRANHA, ofFood(1, 0, 2.25f).protein(2f));
+        add(Food.COOKED_SPOTTED_GUDGEON, ofFood(1, 0, 2.25f).protein(1.5f));
+        add(Food.COOKED_TILAPIA, ofFood(1, 0, 2.25f).protein(2.2f));
         add(Food.COOKED_BEAR, ofFood(1, 0, 1.5f).protein(2.5f));
         add(Food.COOKED_CALAMARI, ofFood(1, 0, 2.25f).protein(1.5f));
         add(Food.COOKED_HORSE_MEAT, ofFood(2, 0, 1.5f).protein(2.5f));
@@ -202,6 +221,7 @@ public class BuiltinFoods extends DataManagerProvider<FoodDefinition> implements
         add(Food.COOKED_CHEVON, ofFood(1, 0, 2.25f).protein(2f));
         add(Food.COOKED_GRAN_FELINE, ofFood(2, 0, 2.25f).protein(2.5f));
         add(Food.COOKED_CAMELIDAE, ofFood(2, 0, 2.25f).protein(2.5f));
+        add(Food.COOKED_ARMADILLO, ofFood(1, 0, 2.25f).protein(1.5f));
 
         add(TFCTags.Items.SEALED_PRESERVES, ofFood(0, 0, 0.1f), false);
 

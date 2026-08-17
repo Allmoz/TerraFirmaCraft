@@ -1,15 +1,16 @@
-This release drops the beta label. The mod has been stable for a while, we just forgot :) happy mining! More features are in the works soon.
+### Additions
+- Added obsidian knapping, and a full obsidian stone tool set
+- Added the Obsidian Macuahuitl, a stone age equivalent of a sword
 
 ### Changes
-- Added the Power Loom, a new mechanical device to allow automating weaving.
-- Removed data references that indicated pumpkin as a fruit.
-- Removed pumpkin jam.
-- Added sulfur to the correct item tag.
-- Made some QOL changes to how fluid transfers work.
-- Fix cat breeding not working properly.
-- Fix some bugs with double-high crop blocks.
-- Fix a bug where the player spawn radius was being inaccurately selected.
-- Improved the AI of seals.
-- Updated the ocelot food tag.
-- Updated the texture of the watermelon crops and bluegills.
-- Updated the Ukrainian, Turkish, and Chinese translations.
+- Removed tool tier requirements for mining TFC ores and minerals
+
+### Technical
+- Added a variety of helpful block and item tags for use by addons and pack devs, such as:
+  - A tag for all biomes with lakes consistently exposed to the sky
+  - A tag for biomes that generate only as isolated islands
+  - Tags for various categories of plants
+
+### Fixes
+- Hyenas will no longer howl like wolves
+- Add missing tags and cooking recipes for the new fish

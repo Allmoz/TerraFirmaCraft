@@ -58,6 +58,7 @@ import net.dries007.tfc.common.recipes.ScrapingRecipe;
 import net.dries007.tfc.common.recipes.TFCRecipeTypes;
 import net.dries007.tfc.common.recipes.ingredients.KeyedIngredient;
 import net.dries007.tfc.config.TFCConfig;
+import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.collections.IndirectHashCollection;
 import net.dries007.tfc.util.data.KnappingType;
 import net.dries007.tfc.util.events.DouseFireEvent;
@@ -113,6 +114,10 @@ public final class InteractionManager
     /**
      * Registers TFC's interactions.
      */
+
+    // Can't register 2 interactions per item, so this one needs to be called by the salad one
+    final static BlockItemPlacement WOODEN_BOWL = new BlockItemPlacement(Items.BOWL, TFCBlocks.WOODEN_BOWL);
+
     public static void registerDefaultInteractions()
     {
         registerBlock(Ingredient.of(TFCTags.Items.THATCH_BED_HIDES), (stack, context) -> {
@@ -228,8 +233,8 @@ public final class InteractionManager
         // Log pile creation and insertion.
         // Note: sneaking will always bypass the log pile block onUse method - that is why we have to handle some insertion here.
         // - holding log, targeting block, shift click = place log pile
-        // - holding log, targeting log pile, shift click = insert all
-        // - holding log, targeting log pile, click normally = insert one
+        // - holding log, targeting log pile, shift click = insert one
+        // - holding log, targeting log pile, shift double click = insert all
         final BlockItemPlacement logPilePlacement = new BlockItemPlacement(Items.AIR, TFCBlocks.LOG_PILE);
         registerBlock(Ingredient.of(TFCTags.Items.LOG_PILE_LOGS), (stack, context) -> {
             final Player player = context.getPlayer();
@@ -248,7 +253,11 @@ public final class InteractionManager
                         .map(logPileBlockEntity -> {
                             if (!level.isClientSide())
                             {
-                                LogPileBlock.insertAndPushUp(stack, stateClicked, level, posClicked, logPileBlockEntity, true);
+                                long currentTick = Calendars.get().getTicks();
+                                boolean isDoubleClick = (logPileBlockEntity.isLastClickPlacement() && currentTick - logPileBlockEntity.getLastClickTick() < 6);
+                                LogPileBlock.insertAndPushUp(stack, stateClicked, level, posClicked, logPileBlockEntity, isDoubleClick);
+                                logPileBlockEntity.setLastClickTick(currentTick);
+                                logPileBlockEntity.setLastClickPlacement(true);
                                 return InteractionResult.sidedSuccess(level.isClientSide);
                             }
                             return InteractionResult.sidedSuccess(level.isClientSide);
@@ -307,8 +316,6 @@ public final class InteractionManager
             }
         }
 
-        registerBlock(new BlockItemPlacement(Items.BOWL, TFCBlocks.WOODEN_BOWL));
-
         // Knapping
         final KeyedIngredient knapping = KeyedIngredient.of(
             stack -> KnappingType.get(stack) != null,
@@ -335,7 +342,7 @@ public final class InteractionManager
             return InteractionResult.PASS;
         });
 
-        // Piles (Ingots + Sheets)
+        // Piles (Ingots + Double Ingots)
         // Shift + Click = Add to pile (either on the targeted pile, or create a new one)
         // Removal (Non-Shift Click) is handled by the respective pile block
         final BlockItemPlacement ingotPilePlacement = new BlockItemPlacement(Items.AIR, TFCBlocks.INGOT_PILE);
@@ -347,7 +354,7 @@ public final class InteractionManager
         registerBlock(Ingredient.of(TFCTags.Items.USABLE_IN_MOLD_TABLE), (stack, context) -> {
 
             final Player player = context.getPlayer();
-            if (player != null && player.mayBuild() && !player.isShiftKeyDown()) 
+            if (player != null && player.mayBuild())
             {
                 final Level level = context.getLevel();
                 final BlockPos posClicked = context.getClickedPos();
@@ -365,13 +372,24 @@ public final class InteractionManager
             // Only open salads when shift key is down
             // Normally when consuming bowl food (like salads), you'll be holding right click down causing the salad gui to immediately open
             // That feels bad to use, so we require shift to open salads - better in the common case
-            if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown())
+            if (context.getPlayer() != null)
             {
-                if (context.getPlayer() instanceof ServerPlayer player)
+                if (context.getPlayer().isShiftKeyDown())
                 {
-                    player.openMenu(TFCContainerProviders.SALAD);
+                    if (context.getPlayer() instanceof ServerPlayer player)
+                    {
+                        player.openMenu(TFCContainerProviders.SALAD);
+                    }
+                    return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
                 }
-                return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
+                else
+                {
+                    ItemStack itemStack = context.getItemInHand();
+                    if (itemStack.is(WOODEN_BOWL.getItem()))
+                    {
+                        return WOODEN_BOWL.onItemUse(itemStack, context);
+                    }
+                }
             }
             return InteractionResult.PASS;
         });

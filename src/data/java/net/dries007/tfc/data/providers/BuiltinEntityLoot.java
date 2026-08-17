@@ -80,6 +80,15 @@ public class BuiltinEntityLoot extends EntityLootSubProvider
                 case RAINBOW_TROUT -> Food.RAINBOW_TROUT;
                 case SALMON -> Food.SALMON;
                 case SMALLMOUTH_BASS -> Food.SMALLMOUTH_BASS;
+                case NORTHERN_PIKE -> Food.NORTHERN_PIKE;
+                case BURBOT -> Food.BURBOT;
+                case ARCTIC_CHAR -> Food.ARCTIC_CHAR;
+                case MUKSUN -> Food.MUKSUN;
+                case TILAPIA -> Food.TILAPIA;
+                case SPOTTED_GUDGEON -> Food.SPOTTED_GUDGEON;
+                case PEACOCK_BASS -> Food.PEACOCK_BASS;
+                case PACU -> Food.PACU;
+                case RED_PIRANHA -> Food.RED_PIRANHA;
             };
             add(TFCEntities.FRESHWATER_FISH.get(fish).get(), killedByPlayerFood(food));
         }
@@ -125,6 +134,11 @@ public class BuiltinEntityLoot extends EntityLootSubProvider
             .withPool(lootPool().add(lootTableItem(TFCItems.FOOD.get(Food.TURTLE))))
         );
 
+        // Armadillo - scute + armadillo meat
+        add(TFCEntities.ARMADILLO.get(), lootTable()
+            .withPool(lootPool().add(lootTableItem(Items.ARMADILLO_SCUTE)))
+            .withPool(lootPool().add(lootTableItem(TFCItems.FOOD.get(Food.ARMADILLO))).when(NotPredatedCondition.notPredated())));
+
         // Predators - hide + bones
         add(TFCEntities.POLAR_BEAR.get(), predator(Size.LARGE, 6));
         add(TFCEntities.GRIZZLY_BEAR.get(), predator(Size.LARGE, 6));
@@ -145,6 +159,7 @@ public class BuiltinEntityLoot extends EntityLootSubProvider
         add(TFCEntities.PIG.get(), livestock(Food.PORK, 4, 9, 15, Size.MEDIUM, 3));
         add(TFCEntities.COW.get(), livestock(Food.BEEF, 6, 17, 23, Size.LARGE, 4));
         add(TFCEntities.YAK.get(), livestock(Food.CHEVON, 8, 13, 19, Size.LARGE, 4));
+        add(TFCEntities.DROMEDARY_CAMEL.get(), livestock(Food.CAMELIDAE, 8, 13, 19, Size.LARGE, 4));
 
         // Goat - special case with horn
         add(TFCEntities.GOAT.get(), lootTable()
@@ -158,6 +173,7 @@ public class BuiltinEntityLoot extends EntityLootSubProvider
         add(TFCEntities.ALPACA.get(), livestockWool(Food.CAMELIDAE, 6, 10, 16, Size.MEDIUM, 4));
         add(TFCEntities.SHEEP.get(), livestockWool(Food.MUTTON, 4, 12, 18, Size.SMALL, 4));
         add(TFCEntities.MUSK_OX.get(), livestockWool(Food.MUTTON, 6, 13, 19, Size.LARGE, 4));
+        add(TFCEntities.BACTRIAN_CAMEL.get(), livestockWool(Food.CAMELIDAE, 6, 13, 19, Size.LARGE, 4));
 
         // Poultry
         add(TFCEntities.CHICKEN.get(), poultry(Food.CHICKEN, 2, 1, 6, 4, 12));

@@ -35,7 +35,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
-import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blockentities.LogPileBlockEntity;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.dries007.tfc.common.blocks.EntityBlockExtension;
@@ -44,6 +43,7 @@ import net.dries007.tfc.common.blocks.IForgeBlockExtension;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.calendar.Calendars;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
 
@@ -79,6 +79,17 @@ public class LogPileBlock extends DeviceBlock implements IForgeBlockExtension, E
                 VoxelShape box1 = Helpers.rotateShape(direction, box1ByCount[count][0], box1ByCount[count][1], box1ByCount[count][2], box1ByCount[count][3], box1ByCount[count][4], box1ByCount[count][5]);
                 VoxelShape box2 = Helpers.rotateShape(direction, box2ByCount[count][0], box2ByCount[count][1], box2ByCount[count][2], box2ByCount[count][3], box2ByCount[count][4], box2ByCount[count][5]);
                 shapes[dir][count] = Shapes.or(box1, box2);
+            }
+        }
+    });
+
+    private static final VoxelShape[][] BASED_SHAPES_BY_DIR_BY_COUNT = Util.make(new VoxelShape[2][3], shapes -> {
+        final VoxelShape baseBox = Block.box(0.25, 0, 0.25, 15.75, 1, 15.75);
+        for (int i = 0; i < 3; i++)
+        {
+            for (int dir = 0; dir < 2; dir++)
+            {
+                shapes[dir][i] = Shapes.or(baseBox, SHAPES_BY_DIR_BY_COUNT[dir][i]);
             }
         }
     });
@@ -129,14 +140,12 @@ public class LogPileBlock extends DeviceBlock implements IForgeBlockExtension, E
     {
         if (!player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof LogPileBlockEntity logPile)
         {
-            if (Helpers.isItem(stack.getItem(), TFCTags.Items.LOG_PILE_LOGS))
-            {
-                insertAndPushUp(stack, state, level, pos, logPile, false);
-            }
-            else if (stack.isEmpty())
-            {
-                extractFromTop(level, pos, player, false);
-            }
+            long currentTick = Calendars.get().getTicks();
+
+            extractFromTop(level, pos, player, !logPile.isLastClickPlacement() && logPile.checkDoubleClick(currentTick));
+            logPile.setLastClickTick(currentTick);
+            logPile.setLastClickPlacement(false);
+
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
@@ -168,6 +177,7 @@ public class LogPileBlock extends DeviceBlock implements IForgeBlockExtension, E
 
     public static void insertAndPushUp(ItemStack stack, BlockState state, Level level, BlockPos pos, LogPileBlockEntity logPile, boolean all)
     {
+        // Insert into the pile clicked on, and return if only adding a single log
         if (dumbInsert(stack, state, level, pos, logPile, all) && !all)
         {
             return;
@@ -244,31 +254,32 @@ public class LogPileBlock extends DeviceBlock implements IForgeBlockExtension, E
         return Block.isFaceFull(blockstate.getCollisionShape(level, pos.below()), Direction.UP) || blockstate.getBlock() instanceof LogPileBlock;
     }
 
-    public static VoxelShape getShapeByDirByCount(Direction.Axis axis, int count)
+    public static VoxelShape getShapeByDirByCount(Direction.Axis axis, int count, boolean based)
     {
-        count--;
-        if (axis == Direction.Axis.X)
+        final int dir = axis == Direction.Axis.X ? 0 : 1;
+        final int i = count - 1;
+        if (based && count < 4)
         {
-            return SHAPES_BY_DIR_BY_COUNT[0][count];
+            return BASED_SHAPES_BY_DIR_BY_COUNT[dir][i];
         }
-        return SHAPES_BY_DIR_BY_COUNT[1][count];
+        return SHAPES_BY_DIR_BY_COUNT[dir][i];
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter levle, BlockPos pos, CollisionContext context)
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
-        return getShapeByDirByCount(state.getValue(AXIS), state.getValue(COUNT));
+        return getShapeByDirByCount(state.getValue(AXIS), state.getValue(COUNT), true);
     }
 
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
-        return getShapeByDirByCount(state.getValue(AXIS), state.getValue(COUNT));
+        return getShapeByDirByCount(state.getValue(AXIS), state.getValue(COUNT), false);
     }
 
     @Override
     protected VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
-        return getShapeByDirByCount(state.getValue(AXIS), state.getValue(COUNT));
+        return getShapeByDirByCount(state.getValue(AXIS), state.getValue(COUNT), false);
     }
 }

@@ -11,9 +11,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import net.dries007.tfc.TerraFirmaCraft;
+import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.entities.aquatic.Fish;
 
@@ -30,6 +32,44 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
     protected void addTags(HolderLookup.Provider provider)
     {
         // ===== Vanilla Tags ===== //
+        tag(EntityTypeTags.IMPACT_PROJECTILES)
+            .add(TFCEntities.THROWN_JAVELIN.get());
+        tag(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
+            .add(TFCEntities.POLAR_BEAR.get())
+            .add(TFCEntities.PENGUIN.get());
+        tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+            .addTag(WATER_AMBIENT)
+            .add(
+                TFCEntities.MANATEE.get(),
+                TFCEntities.SQUID.get(),
+                TFCEntities.OCTOPOTEUTHIS.get(),
+                TFCEntities.TURTLE.get()
+            );
+        tag(EntityTypeTags.AQUATIC)
+            .addTags(WATER_AMBIENT, WATER_CREATURES)
+            .add(TFCEntities.TURTLE.get());
+        tag(EntityTypeTags.FALL_DAMAGE_IMMUNE)
+            .addTag(OVIPAROUS_ANIMALS)
+            .add(
+                TFCEntities.GROUSE.get(),
+                TFCEntities.PHEASANT.get(),
+                TFCEntities.TURKEY.get(),
+                TFCEntities.PEAFOWL.get(),
+                TFCEntities.CAT.get(),
+                TFCEntities.OCELOT.get()
+            );
+
+        // ===== Common Tags ===== //
+        final var boatsTag = tag(Tags.EntityTypes.BOATS);
+        for (Wood wood : Wood.values())
+        {
+            boatsTag.add(TFCEntities.BOATS.get(wood).key());
+            boatsTag.add(TFCEntities.CHEST_BOATS.get(wood).key());
+        }
+
+        tag(Tags.EntityTypes.MINECARTS)
+            .add(TFCEntities.CHEST_MINECART.key())
+            .add(TFCEntities.HOLDING_MINECART.key());
 
         // ===== TFC Tags ===== //
 
@@ -66,7 +106,16 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.FRESHWATER_FISH.get(Fish.BLUEGILL).get(),
                 TFCEntities.FRESHWATER_FISH.get(Fish.LARGEMOUTH_BASS).get(),
                 TFCEntities.FRESHWATER_FISH.get(Fish.SMALLMOUTH_BASS).get(),
-                TFCEntities.FRESHWATER_FISH.get(Fish.CRAPPIE).get()
+                TFCEntities.FRESHWATER_FISH.get(Fish.CRAPPIE).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.ARCTIC_CHAR).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.BURBOT).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.PEACOCK_BASS).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.PACU).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.RED_PIRANHA).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.NORTHERN_PIKE).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.MUKSUN).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.TILAPIA).get(),
+                TFCEntities.FRESHWATER_FISH.get(Fish.SPOTTED_GUDGEON).get()
             );
 
         // noinspection unchecked
@@ -155,12 +204,15 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
         tag(SHEARABLE_ANIMALS)
             .add(TFCEntities.SHEEP.get())
             .add(TFCEntities.ALPACA.get())
-            .add(TFCEntities.MUSK_OX.get());
+            .add(TFCEntities.MUSK_OX.get())
+            .add(TFCEntities.BACTRIAN_CAMEL.get());
 
         tag(RIDEABLE_ANIMALS)
             .add(TFCEntities.HORSE.get())
             .add(TFCEntities.DONKEY.get())
-            .add(TFCEntities.MULE.get());
+            .add(TFCEntities.MULE.get())
+            .add(TFCEntities.DROMEDARY_CAMEL.get())
+            .add(TFCEntities.BACTRIAN_CAMEL.get());
 
         tag(FARM_ANIMALS)
             .addTag(DAIRY_ANIMALS)
@@ -186,7 +238,8 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
             .add(TFCEntities.GROUSE.get())
             .add(TFCEntities.PHEASANT.get())
             .add(TFCEntities.TURKEY.get())
-            .add(TFCEntities.PEAFOWL.get());
+            .add(TFCEntities.PEAFOWL.get())
+            .add(TFCEntities.ARMADILLO.get());
 
         tag(ANIMALS)
             .addTag(LAND_PREDATORS)
@@ -243,7 +296,9 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.HORSE.get(),
                 TFCEntities.MULE.get(),
                 TFCEntities.DONKEY.get(),
-                TFCEntities.GOAT.get()
+                TFCEntities.GOAT.get(),
+                TFCEntities.DROMEDARY_CAMEL.get(),
+                TFCEntities.BACTRIAN_CAMEL.get()
             );
 
         tag(HUNTED_BY_LAND_PREDATORS)
@@ -255,7 +310,8 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
                 TFCEntities.RAT.get(),
                 TFCEntities.JERBOA.get(),
                 TFCEntities.LEMMING.get(),
-                TFCEntities.MONGOOSE.get()
+                TFCEntities.MONGOOSE.get(),
+                TFCEntities.ARMADILLO.get()
             );
 
         tag(HUNTED_BY_CATS)
@@ -280,6 +336,9 @@ public class BuiltinEntityTags extends EntityTypeTagsProvider
         tag(NOT_RAMMED_BY_RAMMERS)
             .addTags(BUBBLE_COLUMN_IMMUNE, PESTS, BIRD_PREY)
             .add(TFCEntities.FROG.get());
+
+        tag(IGNORES_SNOW)
+            .add(TFCEntities.BACTRIAN_CAMEL.get());
 
     }
 }

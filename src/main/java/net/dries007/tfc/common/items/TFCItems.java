@@ -10,10 +10,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.HangingSignItem;
@@ -21,8 +23,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -118,7 +123,7 @@ public final class TFCItems
 
     public static final Map<Wood, Map<Metal, ItemId>> HANGING_SIGNS = Helpers.mapOf(Wood.class, wood ->
         Helpers.mapOf(Metal.class, Metal::allParts, metal ->
-            register("wood/hanging_sign/" + metal.name() + "/" + wood.name(), () -> new HangingSignItem(TFCBlocks.CEILING_HANGING_SIGNS.get(wood).get(metal).get(), TFCBlocks.WALL_HANGING_SIGNS.get(wood).get(metal).get(), new Properties()))
+            register("wood/hanging_sign/" + metal.name() + "/" + wood.name(), () -> new HangingSignItem(TFCBlocks.CEILING_HANGING_SIGNS.get(wood).get(metal).get(), TFCBlocks.WALL_HANGING_SIGNS.get(wood).get(metal).get(), new Properties().rarity(metal.rarity())))
         )
     );
 
@@ -148,8 +153,10 @@ public final class TFCItems
     // Flora
 
     public static final Map<Crop, ItemId> CROP_SEEDS = Helpers.mapOf(Crop.class, crop ->
-        register("seeds/" + crop.name(), () -> new SeedItem(crop, TFCBlocks.CROPS.get(crop).get(), new Properties()))
+        register("seeds/" + crop.name(), () -> new SeedItem(crop, TFCBlocks.CROPS.get(crop).get(), TFCBlocks.DEAD_CROPS.get(crop).get(), new Properties()))
     );
+
+    public static final ItemId FLOWER_CUTTING = register("flower_cutting", () -> new FlowerCuttingItem(new Properties()));
 
     public static final Map<Coral, ItemId> CORAL_FANS = Helpers.mapOf(Coral.class, color ->
         register("coral/" + color.toString() + "_coral_fan", () -> new StandingAndWallBlockItem(TFCBlocks.CORAL.get(color).get(Coral.BlockType.CORAL_FAN).get(), TFCBlocks.CORAL.get(color).get(Coral.BlockType.CORAL_WALL_FAN).get(), new Properties(), Direction.DOWN))
@@ -205,7 +212,21 @@ public final class TFCItems
 
     public static final ItemId EMPTY_JAR_WITH_LID = register("empty_jar_with_lid");
     public static final ItemId JAR_LID = register("jar_lid");
+    public static final ItemId BASKET = register("basket", () -> new TFCBundleItem(new Properties().component(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY)));
     public static final ItemId BONE_NEEDLE = register("bone_needle", () -> new Item(new Properties().durability(64)));
+    public static final ItemId OBSIDIAN_MACUAHUITL = register("obsidian_macuahuitl", () -> new SwordItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 1f, -2.4f))));
+    public static final ItemId OBSIDIAN_AXE_HEAD = register("obsidian_axe_head");
+    public static final ItemId OBSIDIAN_AXE = register("obsidian_axe", () -> new AxeItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 1.5f, -3.2f))));
+    public static final ItemId OBSIDIAN_HAMMER_HEAD = register("obsidian_hammer_head");
+    public static final ItemId OBSIDIAN_HAMMER = register("obsidian_hammer", () -> new HammerItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 1.0f, -3.0f))));
+    public static final ItemId OBSIDIAN_HOE_HEAD = register("obsidian_hoe_head");
+    public static final ItemId OBSIDIAN_HOE = register("obsidian_hoe", () -> new TFCHoeItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 0.5f, -3.0f))));
+    public static final ItemId OBSIDIAN_JAVELIN_HEAD = register("obsidian_javelin_head");
+    public static final ItemId OBSIDIAN_JAVELIN = register("obsidian_javelin", () -> new JavelinItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 0.7f, -2.2f))));
+    public static final ItemId OBSIDIAN_KNIFE_HEAD = register("obsidian_knife_head");
+    public static final ItemId OBSIDIAN_KNIFE = register("obsidian_knife", () -> new ToolItem(TFCTiers.OBSIDIAN, TFCTags.Blocks.MINEABLE_WITH_KNIFE, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 0.6f, -2.0f))));
+    public static final ItemId OBSIDIAN_SHOVEL_HEAD = register("obsidian_shovel_head");
+    public static final ItemId OBSIDIAN_SHOVEL = register("obsidian_shovel", () -> new ShovelItem(TFCTiers.OBSIDIAN, new Properties().attributes(ToolItem.productAttributes(TFCTiers.OBSIDIAN, 0.875f, -3.0f))));
     public static final ItemId BLANK_DISC = register("blank_disc");
     public static final ItemId BLUBBER = register("blubber");
     public static final ItemId BRASS_MECHANISMS = register("brass_mechanisms");
@@ -236,6 +257,7 @@ public final class TFCItems
     public static final ItemId PURE_NITROGEN = register("pure_nitrogen");
     public static final ItemId PURE_PHOSPHORUS = register("pure_phosphorus");
     public static final ItemId PURE_POTASSIUM = register("pure_potassium");
+    public static final ItemId ROPE = register("rope", () -> new RopeItem(new Properties()));
     public static final ItemId ROTTEN_COMPOST = register("rotten_compost", () -> new RottenCompostItem(new Properties()));
     public static final ItemId SILK_CLOTH = register("silk_cloth");
     public static final ItemId SANDPAPER = register("sandpaper", () -> new Item(new Properties().durability(40)));
@@ -326,9 +348,12 @@ public final class TFCItems
     public static final ItemId DONKEY_EGG = registerSpawnEgg(TFCEntities.DONKEY);
     public static final ItemId MULE_EGG = registerSpawnEgg(TFCEntities.MULE);
     public static final ItemId HORSE_EGG = registerSpawnEgg(TFCEntities.HORSE);
+    public static final ItemId DROMEDARY_CAMEL_EGG = registerSpawnEgg(TFCEntities.DROMEDARY_CAMEL);
+    public static final ItemId BACTRIAN_CAMEL_EGG = registerSpawnEgg(TFCEntities.BACTRIAN_CAMEL);
     public static final ItemId CAT_EGG = registerSpawnEgg(TFCEntities.CAT);
     public static final ItemId DOG_EGG = registerSpawnEgg(TFCEntities.DOG);
     public static final ItemId PANDA_EGG = registerSpawnEgg(TFCEntities.PANDA);
+    public static final ItemId ARMADILLO_EGG = registerSpawnEgg(TFCEntities.ARMADILLO);
 
     // Pottery
 
