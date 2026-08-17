@@ -16,15 +16,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Through $(l:metalworking/sluices)Sluicing$() and $(l:getting_started/panning)Panning$(), $(thing)Uncut Gems$() can be obtained. The gem that can be obtained with the sluice is tied to the rock type of the deposit being processed."
-    },
-    {
-      "type": "patchouli:text",
-      "text": "Gems have higher $(thing)Hardness$() values than regular ore, requiring different strength tools to break them. This summarizes the minimum $(thing)Pickaxe$() tier required to break a gem ore block:$(br)$(li)Amethyst: Steel$(li)Diamond: Black Steel$(li)Emerald: Steel$(li)Lapis Lazuli: Wrought Iron$(li)Opal: Wrought Iron$(li)Pyrite: Copper$(li)Ruby: Black Steel$(li)Sapphire: Black Steel$(li)Topaz: Steel"
-    },
-    {
-      "type": "patchouli:text",
-      "text": "To cut a gem, you must craft $(thing)Sandpaper$(). Sandpaper is made from Black Sand, Flux, Glue, any Gem Powder, and Paper. Crafting an uncut gem with sandpaper cuts the gem."
+      "text": "Through $(l:metalworking/sluices)Sluicing$() and $(l:getting_started/panning)Panning$(), $(thing)Uncut Gems$() can be obtained. The gem that can be obtained with the sluice is tied to the rock type of the deposit being processed.$(br2)To cut a gem, you must craft $(thing)Sandpaper$(). Sandpaper is made from Black Sand, Flux, Glue, any Gem Powder, and Paper. Crafting an uncut gem with sandpaper cuts the gem."
     },
     {
       "type": "patchouli:crafting",

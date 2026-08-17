@@ -16,15 +16,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(l:metalworking/sluices)Olukla Yıkama$() ve $(l:getting_started/panning)Eleme$() yoluyla $(thing)İşlenmemiş Değerli Taşlar$() elde edilebilir. Oluk ile elde edilebilecek değerli taş, işlenen yatağın kaya türüne bağlıdır."
-    },
-    {
-      "type": "patchouli:text",
-      "text": "Değerli taşlar, normal cevherlerden daha yüksek $(thing)Sertlik$() değerlerine sahiptir ve kırılmaları için farklı güçte aletler gerektirir. Aşağıda, bir değerli taş cevheri bloğunu kırmak için gereken minimum $(thing)Kazma$() seviyesi özetlenmiştir:$(br)$(li)Ametist: Çelik$(li)Elmas: Siyah Çelik$(li)Zümrüt: Çelik$(li)Lapis Lazuli: Dövme Demir$(li)Opal: Dövme Demir$(li)Pirit: Bakır$(li)Yakut: Siyah Çelik$(li)Safir: Siyah Çelik$(li)Topaz: Çelik"
-    },
-    {
-      "type": "patchouli:text",
-      "text": "Bir değerli taşı kesmek için $(thing)Zımpara Kağıdı$() üretmelisiniz. Zımpara kağıdı; Siyah Kum, Akı, Tutkal, herhangi bir Değerli Taş Tozu ve Kağıt kullanılarak yapılır. Kesilmemiş bir değerli taşı zımpara kağıdı ile işlemek, taşı keser."
+      "text": "$(l:metalworking/sluices)Olukla Yıkama$() ve $(l:getting_started/panning)Eleme$() yoluyla $(thing)İşlenmemiş Değerli Taşlar$() elde edilebilir. Oluk ile elde edilebilecek değerli taş, işlenen yatağın kaya türüne bağlıdır.$(br2)Bir değerli taşı kesmek için $(thing)Zımpara Kağıdı$() üretmelisiniz. Zımpara kağıdı; Siyah Kum, Akı, Tutkal, herhangi bir Değerli Taş Tozu ve Kağıt kullanılarak yapılır. Kesilmemiş bir değerli taşı zımpara kağıdı ile işlemek, taşı keser."
     },
     {
       "type": "patchouli:crafting",

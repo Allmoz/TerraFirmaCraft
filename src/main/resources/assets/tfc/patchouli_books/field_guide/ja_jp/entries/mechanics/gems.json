@@ -16,15 +16,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(l:metalworking/sluices)堰$() と $(l:getting_started/panning)パンニング$() を通じて、$(thing)宝石$() を取得できます。 堰で入手できる宝石は、処理中の岩石の種類に関連付けられています。"
-    },
-    {
-      "type": "patchouli:text",
-      "text": "宝石は通常の鉱石よりも $(thing)硬度$() 値が高いため、宝石を壊すにはさまざまな強度のツールが必要です。 これは、宝石鉱石ブロックを壊すのに必要な $(thing)ツルハシ$() の最小ティアをまとめたものです:$(br)$(li)アメジスト: 鋼$(li)ダイヤモンド: 黒鋼$(li)エメラルド: 鋼$(li)ラピスラズリ: 錬鉄$(li)オパール: 錬鉄$(li)黄鉄鉱: 銅$(li)ルビー: 黒鋼$(li)サファイア: 黒鋼$(li)トパーズ: 鋼"
-    },
-    {
-      "type": "patchouli:text",
-      "text": "To cut a gem, you must craft $(thing)Sandpaper$(). Sandpaper is made from Black Sand, Flux, Glue, any Gem Powder, and Paper. Crafting an uncut gem with sandpaper cuts the gem."
+      "text": "Through $(l:metalworking/sluices)Sluicing$() and $(l:getting_started/panning)Panning$(), $(thing)Uncut Gems$() can be obtained. The gem that can be obtained with the sluice is tied to the rock type of the deposit being processed.$(br2)To cut a gem, you must craft $(thing)Sandpaper$(). Sandpaper is made from Black Sand, Flux, Glue, any Gem Powder, and Paper. Crafting an uncut gem with sandpaper cuts the gem."
     },
     {
       "type": "patchouli:crafting",
