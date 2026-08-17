@@ -158,10 +158,10 @@ public class BuiltinItemTags extends TagsProvider<Item> implements Accessors
         tag(SANDWICHES).add(Food.BARLEY_BREAD_JAM_SANDWICH, Food.BARLEY_BREAD_SANDWICH, Food.MAIZE_BREAD_JAM_SANDWICH, Food.MAIZE_BREAD_SANDWICH,
             Food.OAT_BREAD_JAM_SANDWICH, Food.OAT_BREAD_SANDWICH, Food.RYE_BREAD_JAM_SANDWICH, Food.RYE_BREAD_SANDWICH,
             Food.RICE_BREAD_JAM_SANDWICH, Food.RICE_BREAD_SANDWICH, Food.WHEAT_BREAD_SANDWICH, Food.WHEAT_BREAD);
-        tag(JAM).add(TFCItems.JAM);
+        tag(JAM).add(TFCItems.JAM).remove(TFCItems.JAM.get(Food.PEANUT));
         tag(FOODS).addTag(JAM).add(TFCItems.FOOD).addTag(SOUPS).addTag(SALADS).addTag(SANDWICHES);
-        tag(PRESERVES).add(TFCItems.UNSEALED_FRUIT_PRESERVES);
-        tag(SEALED_PRESERVES).add(TFCItems.FRUIT_PRESERVES);
+        tag(PRESERVES).add(TFCItems.UNSEALED_FRUIT_PRESERVES).remove(TFCItems.UNSEALED_FRUIT_PRESERVES.get(Food.PEANUT));
+        tag(SEALED_PRESERVES).add(TFCItems.FRUIT_PRESERVES).remove(TFCItems.FRUIT_PRESERVES.get(Food.PEANUT));
         tag(EMPTY_JARS)
             .add(
                 TFCItems.EMPTY_JAR,
@@ -181,7 +181,7 @@ public class BuiltinItemTags extends TagsProvider<Item> implements Accessors
             .add(Food.COOKED_RICE)
             .remove(TFCItems.FOOD.get(Food.LENTIL));
         tag(USABLE_IN_SANDWICH).addTags(VEGETABLES, COOKED_MEATS, COOKED_FISH, DAIRY);
-        tag(USABLE_IN_JAM_SANDWICH).addTags(COOKED_MEATS, COOKED_FISH, DAIRY, PRESERVES, JAM);
+        tag(USABLE_IN_JAM_SANDWICH).addTags(COOKED_MEATS, COOKED_FISH, DAIRY, PRESERVES, JAM).add(TFCItems.UNSEALED_FRUIT_PRESERVES.get(Food.PEANUT), TFCItems.JAM.get(Food.PEANUT));
         tag(CAN_BE_SALTED).addTags(MEATS, COOKED_MEATS);
         tag(PIG_FOOD).addTag(FOODS);
         tag(COW_FOOD).addTag(GRAINS);

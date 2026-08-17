@@ -1,4 +1,7 @@
 {
+  "remove": [
+    "tfc:jar/peanut"
+  ],
   "values": [
     "tfc:jar/blackberry",
     "tfc:jar/blueberry",

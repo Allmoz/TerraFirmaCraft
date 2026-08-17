@@ -224,6 +224,7 @@ public class BuiltinFoods extends DataManagerProvider<FoodDefinition> implements
         add(Food.COOKED_ARMADILLO, ofFood(1, 0, 2.25f).protein(1.5f));
 
         add(TFCTags.Items.SEALED_PRESERVES, ofFood(0, 0, 0.1f), false);
+        add(TFCItems.FRUIT_PRESERVES.get(Food.PEANUT), ofFood(0, 0, 0.1f), false);
 
         add(TFCTags.Items.PRESERVES, ofFood(0, 0, 5f).fruit(0.75f), false);
         add(TFCItems.UNSEALED_FRUIT_PRESERVES.get(Food.PEANUT).get(), ofFood(0, 0, 5f).protein(1.5f), false);

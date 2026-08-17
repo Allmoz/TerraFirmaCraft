@@ -4,6 +4,8 @@
     "#c:foods/cooked_fish",
     "#c:foods/dairy",
     "#tfc:foods/preserves",
-    "#tfc:foods/jam"
+    "#tfc:foods/jam",
+    "tfc:jar/peanut_unsealed",
+    "tfc:peanut_jam"
   ]
 }

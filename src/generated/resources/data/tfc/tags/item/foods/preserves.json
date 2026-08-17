@@ -1,4 +1,7 @@
 {
+  "remove": [
+    "tfc:jar/peanut_unsealed"
+  ],
   "values": [
     "tfc:jar/blackberry_unsealed",
     "tfc:jar/blueberry_unsealed",
