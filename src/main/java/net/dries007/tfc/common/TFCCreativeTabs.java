@@ -27,6 +27,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.common.blocks.DecorationBlockHolder;
+import net.dries007.tfc.common.blocks.GroundcoverBlockType;
 import net.dries007.tfc.common.blocks.OreDeposit;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.crop.Crop;
@@ -40,6 +41,7 @@ import net.dries007.tfc.common.blocks.soil.SandBlockType;
 import net.dries007.tfc.common.blocks.soil.SoilBlockType;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.glass.GlassWorking;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.common.items.Food;
@@ -222,6 +224,7 @@ public final class TFCCreativeTabs
             accept(out, TFCBlocks.ALABASTER_POLISHED_DECORATIONS.get(color));
         }
 
+        out.accept(TFCItems.BASKET);
         out.accept(TFCItems.VESSEL);
         TFCItems.GLAZED_VESSELS.values().forEach(out::accept);
 
@@ -705,6 +708,7 @@ public final class TFCCreativeTabs
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.WORKBENCH));
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.CHEST));
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.TRAPPED_CHEST));
+            out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.CRATE));
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.BARREL));
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.SCRIBING_TABLE));
             out.accept(TFCBlocks.WOODS.get(wood).get(Wood.BlockType.SEWING_TABLE));
@@ -777,6 +781,12 @@ public final class TFCCreativeTabs
                 accept(out, TFCItems.ROCK_TOOLS, category, RockCategory.ItemType.SHOVEL);
             }
         }
+        out.accept(TFCItems.OBSIDIAN_AXE);
+        out.accept(TFCItems.OBSIDIAN_HAMMER);
+        out.accept(TFCItems.OBSIDIAN_HOE);
+        out.accept(TFCItems.OBSIDIAN_SHOVEL);
+        out.accept(TFCItems.OBSIDIAN_KNIFE);
+        out.accept(TFCItems.OBSIDIAN_MACUAHUITL);
 
         for (Metal metal : Metal.values())
         {
@@ -808,7 +818,14 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.BLOWPIPE);
         out.accept(TFCItems.CERAMIC_BLOWPIPE);
         out.accept(TFCItems.BLOWPIPE_WITH_GLASS);
-        out.accept(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS);
+        out.accept(GlassWorking.createWithBatch(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.SILICA_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.HEMATITIC_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.OLIVINE_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.CERAMIC_BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.VOLCANIC_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.SILICA_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.HEMATITIC_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.OLIVINE_GLASS_BATCH.asItem().getDefaultInstance()));
+        out.accept(GlassWorking.createWithBatch(TFCItems.BLOWPIPE_WITH_GLASS.asItem().getDefaultInstance(), TFCItems.VOLCANIC_GLASS_BATCH.asItem().getDefaultInstance()));
         out.accept(TFCItems.JACKS);
         out.accept(TFCItems.GEM_SAW);
         out.accept(TFCItems.PADDLE);
@@ -823,6 +840,8 @@ public final class TFCCreativeTabs
         out.accept(Items.COMPASS);
         out.accept(Items.LEAD);
         out.accept(Items.SADDLE);
+        out.accept(TFCItems.ROPE);
+        out.accept(TFCBlocks.STEEL_ROPE_ANCHOR);
 
         out.accept(TFCItems.SPINDLE);
         out.accept(TFCItems.JUTE_NET);
@@ -982,6 +1001,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.STICK_BUNCH);
         out.accept(TFCItems.STICK_BUNDLE);
         out.accept(Items.FLINT);
+        out.accept(TFCBlocks.GROUNDCOVER.get(GroundcoverBlockType.OBSIDIAN_SHARD));
         out.accept(Items.BONE);
         out.accept(Items.BONE_MEAL);
         out.accept(TFCItems.BLANK_DISC);
@@ -1130,6 +1150,12 @@ public final class TFCCreativeTabs
                 accept(out, TFCItems.ROCK_TOOLS, category, RockCategory.ItemType.KNIFE_HEAD);
             }
         }
+
+        out.accept(TFCItems.OBSIDIAN_AXE_HEAD);
+        out.accept(TFCItems.OBSIDIAN_HAMMER_HEAD);
+        out.accept(TFCItems.OBSIDIAN_HOE_HEAD);
+        out.accept(TFCItems.OBSIDIAN_SHOVEL_HEAD);
+        out.accept(TFCItems.OBSIDIAN_KNIFE_HEAD);
 
         for (Metal metal : Metal.values())
         {
