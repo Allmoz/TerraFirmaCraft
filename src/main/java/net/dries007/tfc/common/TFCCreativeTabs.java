@@ -224,7 +224,6 @@ public final class TFCCreativeTabs
             accept(out, TFCBlocks.ALABASTER_POLISHED_DECORATIONS.get(color));
         }
 
-        out.accept(TFCItems.BASKET);
         out.accept(TFCItems.VESSEL);
         TFCItems.GLAZED_VESSELS.values().forEach(out::accept);
 
@@ -761,6 +760,7 @@ public final class TFCCreativeTabs
 
     private static void fillToolsUtilitiesTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out)
     {
+        out.accept(TFCItems.BASKET);
         out.accept(TFCItems.VESSEL);
         out.accept(TFCItems.WOODEN_BUCKET);
         out.accept(TFCItems.JUG);
@@ -786,7 +786,6 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.OBSIDIAN_HOE);
         out.accept(TFCItems.OBSIDIAN_SHOVEL);
         out.accept(TFCItems.OBSIDIAN_KNIFE);
-        out.accept(TFCItems.OBSIDIAN_MACUAHUITL);
 
         for (Metal metal : Metal.values())
         {
@@ -881,6 +880,8 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.EMPTY_JAR_WITH_LID);
         out.accept(TFCItems.JAR_LID);
 
+        out.accept(TFCItems.FLOWER_CUTTING);
+
         TFCItems.FRESHWATER_FISH_BUCKETS.values().forEach(out::accept);
         out.accept(TFCItems.COD_BUCKET);
         out.accept(TFCItems.JELLYFISH_BUCKET);
@@ -900,6 +901,9 @@ public final class TFCCreativeTabs
                 accept(out, TFCItems.ROCK_TOOLS, category, RockCategory.ItemType.KNIFE);
             }
         }
+
+        out.accept(TFCItems.OBSIDIAN_JAVELIN);
+        out.accept(TFCItems.OBSIDIAN_MACUAHUITL);
 
         out.accept(Items.LEATHER_HELMET);
         out.accept(Items.LEATHER_CHESTPLATE);
@@ -1156,6 +1160,7 @@ public final class TFCCreativeTabs
         out.accept(TFCItems.OBSIDIAN_HOE_HEAD);
         out.accept(TFCItems.OBSIDIAN_SHOVEL_HEAD);
         out.accept(TFCItems.OBSIDIAN_KNIFE_HEAD);
+        out.accept(TFCItems.OBSIDIAN_JAVELIN_HEAD);
 
         for (Metal metal : Metal.values())
         {
