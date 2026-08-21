@@ -116,7 +116,7 @@ public class BuiltinFoods extends DataManagerProvider<FoodDefinition> implements
         add(Food.CATTAIL_ROOT, ofFood(0, 0, 2.5f).grain(0.5f));
         add(Food.TARO_ROOT, ofFood(0, 0, 2.5f).grain(0.5f));
         add(Food.SOYBEAN, ofFood(2, 0, 2.5f).vegetables(0.5f).protein(1f));
-        add(Food.CASSAVA, ofFood(0.5f, 0, 2.5f).vegetables(0.4f).protein(0.2f));
+        add(Food.CASSAVA, ofFood(0.5f, 0, 2.5f).vegetables(0.4f).grain(0.2f));
         add(Food.COOKED_CASSAVA, ofFood(2, 0, 2.5f).vegetables(1f).grain(0.6f));
         add(Food.LENTIL, ofFood(2, 0, 2.5f).vegetables(0.3f).protein(0.3f));
         add(Food.COOKED_LENTIL, ofFood(2, 0, 2.5f).vegetables(0.7f).protein(0.8f));
