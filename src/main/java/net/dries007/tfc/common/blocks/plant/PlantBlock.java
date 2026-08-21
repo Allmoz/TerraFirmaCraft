@@ -39,6 +39,7 @@ import net.dries007.tfc.client.particle.Moth;
 import net.dries007.tfc.client.particle.TFCParticles;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
+import net.dries007.tfc.common.blocks.ISlowEntities;
 import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.common.items.FlowerCuttingItem;
 import net.dries007.tfc.config.TFCConfig;
@@ -47,7 +48,7 @@ import net.dries007.tfc.util.calendar.Calendars;
 import net.dries007.tfc.util.calendar.Season;
 import net.dries007.tfc.util.registry.RegistryPlant;
 
-public abstract class PlantBlock extends TFCBushBlock
+public abstract class PlantBlock extends TFCBushBlock implements ISlowEntities
 {
     public static final IntegerProperty AGE = TFCBlockStateProperties.AGE_3;
 
@@ -314,10 +315,10 @@ public abstract class PlantBlock extends TFCBushBlock
     }
 
     @Override
-    public float getSpeedFactor()
+    public float slowEntityFactor(BlockState state)
     {
         final float modifier = TFCConfig.SERVER.plantsMovementModifier.get().floatValue(); // 0.0 = full speed factor, 1.0 = no modifier
-        return Helpers.lerp(modifier, speedFactor, 1.0f);
+        return Helpers.lerp(modifier, getPlant().getSpeedFactor(), 1.0f);
     }
 
     protected int getMaxAgeValue()

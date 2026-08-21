@@ -163,7 +163,7 @@ public enum Plant implements RegistryPlant
     SARGASSUM(BlockType.FLOATING, 0.7F),
     SEA_LAVENDER(BlockType.TALL_WATER, 0.6F, false, 0.08F, 0.18F, 0.31F, 0.4F, 0.7F, 0.91F),
     SEA_PALM(BlockType.DRY, 0.6f),
-    SHAWIASH(BlockType.SHRUB, 0.9F, false, -0.09F, 0.07F, 0.14F, 0.4F, 0.85F, 0.95F),
+    SHAWIASH(BlockType.SHRUB, 0.4F, false, -0.09F, 0.07F, 0.14F, 0.4F, 0.85F, 0.95F),
     SILKEN_PINCUSHION_CACTUS(BlockType.CACTUSBED, 0f, true, -0.2f, 0.25f, 0.4f, 0.6f, 0.75f, 0.9f),
     SILVER_BROMELIAD(BlockType.PERCHED_EPIPHYTE, 0.9f),
     SILVER_SPURFLOWER(BlockType.STANDARD, 1F, false, 0.02F, 0.17F, 0.26F, 0.39F, 0.65F, 0.9F),
@@ -173,9 +173,9 @@ public enum Plant implements RegistryPlant
     SNAPDRAGON_YELLOW(BlockType.STANDARD, 1F, false, -0.06F, 0.28F, 0.4F, 0.5F, 0.72F, 0.89F),
     STRELITZIA(BlockType.STANDARD, 1F, true, -0.333F, 0.417F, 0.5F, 0.61f, 0.75f, 0.9f),
     SUNFLOWER(BlockType.TALL_GRASS, 0.6F, false, 0.12F, 0.12F, 0.21F, 0.34F, 0.63F, 0.88F),
-    SWITCHGRASS(BlockType.TALL_GRASS, 0.8F, false, -0.14F, 0.38F, 0.49F, 0.58F, 0.77F, 0.93F),
+    SWITCHGRASS(BlockType.TALL_GRASS, 0.9F, false, -0.14F, 0.38F, 0.49F, 0.58F, 0.77F, 0.93F),
     SWORD_FERN(BlockType.STANDARD, 0.6F),
-    TALL_FESCUE_GRASS(BlockType.TALL_GRASS, 0.5F),
+    TALL_FESCUE_GRASS(BlockType.TALL_GRASS, 0.9F),
     TANK_BROMELIAD(BlockType.PERCHED_EPIPHYTE, 0.9f),
     TOQUILLA_PALM(BlockType.TALL_GRASS, 0.6F),
     TRILLIUM(BlockType.STANDARD, 1F, false, -0.27F, 0.24F, 0.32F, 0.61F, 0.83F, 0.92F),
@@ -349,6 +349,11 @@ public enum Plant implements RegistryPlant
     public float getSproutingEnd()
     {
         return sproutingEnd;
+    }
+
+    public float getSpeedFactor()
+    {
+        return speedFactor;
     }
 
     public boolean needsItem()
@@ -528,7 +533,7 @@ public enum Plant implements RegistryPlant
 
         private static BlockBehaviour.Properties nonSolid(Plant plant)
         {
-            return solid().replaceable().instabreak().speedFactor(plant.speedFactor).noCollission();
+            return solid().replaceable().instabreak().noCollission();
         }
 
         private static BlockBehaviour.Properties solidTallPlant()
@@ -538,12 +543,12 @@ public enum Plant implements RegistryPlant
 
         private static BlockBehaviour.Properties nonSolidTallPlant(Plant plant)
         {
-            return solidTallPlant().instabreak().noCollission().speedFactor(plant.speedFactor).pushReaction(PushReaction.DESTROY);
+            return solidTallPlant().instabreak().noCollission().pushReaction(PushReaction.DESTROY);
         }
 
         private static BlockBehaviour.Properties kelp(Plant plant)
         {
-            return BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().speedFactor(plant.speedFactor).strength(1.0f).sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY);
+            return BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().strength(1.0f).sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY);
         }
 
         private static ExtendedProperties fire(BlockBehaviour.Properties properties)
