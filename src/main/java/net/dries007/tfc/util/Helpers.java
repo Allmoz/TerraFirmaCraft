@@ -310,8 +310,6 @@ public final class Helpers
     @SuppressWarnings("deprecation")
     public static void slowEntityInsideBlocks(Entity entity)
     {
-        if (!(entity instanceof Player)) return; // TODO: Remove, nice for breakpointing
-
         final Level level = entity.level();
         final AABB box = entity.getBoundingBox();
         final BlockPos minPos = BlockPos.containing(box.minX + 1.0E-7D, box.minY + 1.0E-7D, box.minZ + 1.0E-7D);

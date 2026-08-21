@@ -44,6 +44,7 @@ import net.dries007.tfc.common.blocks.SandstoneBlockType;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.crop.Crop;
 import net.dries007.tfc.common.blocks.plant.Plant;
+import net.dries007.tfc.common.blocks.plant.PlantBlock;
 import net.dries007.tfc.common.blocks.plant.coral.Coral;
 import net.dries007.tfc.common.blocks.plant.fruit.FruitBlocks;
 import net.dries007.tfc.common.blocks.rock.Ore;
@@ -737,7 +738,7 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
         tag(NATURAL_REGROWING_PLANTS).add(TFCBlocks.PLANTS);
         tag(ANIMAL_IGNORED_PLANTS).add(TFCBlocks.PLANTS.values()
             .stream()
-            .filter(b -> b.get().getSpeedFactor() != 1.0f));
+            .filter(b -> ((PlantBlock) b.get()).getPlant().getSpeedFactor() != 1.0f));
 
         tag(CLAY_INDICATORS).add(
             TFCBlocks.PLANTS.get(Plant.ATHYRIUM_FERN),
