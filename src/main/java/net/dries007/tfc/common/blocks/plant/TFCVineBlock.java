@@ -14,6 +14,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.IForgeBlockExtension;
+import net.dries007.tfc.common.blocks.ISlowEntities;
+import net.dries007.tfc.config.TFCConfig;
+import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.climate.Climate;
 
 public class TFCVineBlock extends VineBlock implements IForgeBlockExtension
@@ -40,4 +43,5 @@ public class TFCVineBlock extends VineBlock implements IForgeBlockExtension
     {
         return properties;
     }
+
 }

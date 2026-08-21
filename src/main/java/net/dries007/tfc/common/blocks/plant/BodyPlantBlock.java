@@ -23,10 +23,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.IForgeBlockExtension;
+import net.dries007.tfc.common.blocks.ISlowEntities;
+import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.registry.RegistryPlant;
 
-public class BodyPlantBlock extends GrowingPlantBodyBlock implements IForgeBlockExtension
+public class BodyPlantBlock extends GrowingPlantBodyBlock implements IForgeBlockExtension, ISlowEntities
 {
 
     public static final VoxelShape BODY_SHAPE = box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
@@ -85,6 +87,13 @@ public class BodyPlantBlock extends GrowingPlantBodyBlock implements IForgeBlock
     protected MapCodec<? extends GrowingPlantBodyBlock> codec()
     {
         return fakeBlockCodec();
+    }
+
+    @Override
+    public float slowEntityFactor(BlockState state)
+    {
+        final float modifier = TFCConfig.SERVER.plantsMovementModifier.get().floatValue(); // 0.0 = full speed factor, 1.0 = no modifier
+        return Helpers.lerp(modifier, getPlant().getSpeedFactor(), 1.0f);
     }
 
     public RegistryPlant getPlant()

@@ -33,8 +33,7 @@ import net.dries007.tfc.util.registry.RegistryPlant;
 /*
  * Plant slowdown speeds guidelines--use these values unless you have a reason to make an exception.
  * Standard flowers: 1f
- * Short Grass: 0.9f
- * Tall Grass: 0.8f
+ * Grass: 0.9f
  * Sparse Shrubs (Including cross-model double-tall plants, ferns, dense undergrowth): 0.6f
  * Dense Shrubs (With blocky models): 0.4f
  * Reeds: 0.6f
@@ -507,7 +506,7 @@ public enum Plant implements RegistryPlant
         OCEAN_ROTATABLE((plant, type) -> RotatableWaterPlantBlock.create(plant, TFCBlockStateProperties.SALT_WATER, ExtendedProperties.of(nonSolid(plant).sound(SoundType.SLIME_BLOCK)))),
         KELP((plant, type) -> TFCKelpBlock.create(nonSolidTallPlant(plant).lootFrom(plant.transform()), plant.transform(), Direction.UP, BodyPlantBlock.THIN_BODY_SHAPE, TFCBlockStateProperties.SALT_WATER, plant)),
         KELP_TOP(((plant, type) -> TFCKelpTopBlock.create(nonSolidTallPlant(plant), plant.transform(), Direction.UP, BodyPlantBlock.TWISTING_THIN_SHAPE, TFCBlockStateProperties.SALT_WATER, plant))),
-        KELP_TREE((plant, type) -> KelpTreeBlock.create(ExtendedProperties.of(kelp(plant)), TFCBlockStateProperties.SALT_WATER)),
+        KELP_TREE((plant, type) -> KelpTreeBlock.create(plant, ExtendedProperties.of(kelp(plant)), TFCBlockStateProperties.SALT_WATER)),
         KELP_TREE_FLOWER((plant, type) -> KelpTreeFlowerBlock.create(kelp(plant), plant.transform())),
         FLOATING((plant, type) -> FloatingWaterPlantBlock.create(plant, () -> TFCTags.Fluids.SALT_WATER, nonSolid(plant)), PlaceOnWaterBlockItem::new),
         FLOATING_FRESH((plant, type) -> FloatingWaterPlantBlock.create(plant, () -> TFCTags.Fluids.FRESH_WATER, nonSolid(plant)), PlaceOnWaterBlockItem::new),

@@ -40,6 +40,7 @@ import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.DecorationBlockHolder;
 import net.dries007.tfc.common.blocks.GroundcoverBlockType;
+import net.dries007.tfc.common.blocks.ISlowEntities;
 import net.dries007.tfc.common.blocks.SandstoneBlockType;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.crop.Crop;
@@ -736,9 +737,7 @@ public class BuiltinBlockTags extends TagsProvider<Block> implements Accessors
             .stream()
             .filter(b -> b.get().defaultBlockState().getDestroySpeed(empty(), BlockPos.ZERO) == 0f));
         tag(NATURAL_REGROWING_PLANTS).add(TFCBlocks.PLANTS);
-        tag(ANIMAL_IGNORED_PLANTS).add(TFCBlocks.PLANTS.values()
-            .stream()
-            .filter(b -> ((PlantBlock) b.get()).getPlant().getSpeedFactor() != 1.0f));
+        tag(ANIMAL_IGNORED_PLANTS).add(Arrays.stream(Plant.values()).filter(p ->p.getSpeedFactor() != 1.0f).map(TFCBlocks.PLANTS::get));
 
         tag(CLAY_INDICATORS).add(
             TFCBlocks.PLANTS.get(Plant.ATHYRIUM_FERN),
