@@ -33,8 +33,7 @@ import net.dries007.tfc.util.registry.RegistryPlant;
 /*
  * Plant slowdown speeds guidelines--use these values unless you have a reason to make an exception.
  * Standard flowers: 1f
- * Short Grass: 0.9f
- * Tall Grass: 0.8f
+ * Grass: 0.9f
  * Sparse Shrubs (Including cross-model double-tall plants, ferns, dense undergrowth): 0.6f
  * Dense Shrubs (With blocky models): 0.4f
  * Reeds: 0.6f
@@ -163,7 +162,7 @@ public enum Plant implements RegistryPlant
     SARGASSUM(BlockType.FLOATING, 0.7F),
     SEA_LAVENDER(BlockType.TALL_WATER, 0.6F, false, 0.08F, 0.18F, 0.31F, 0.4F, 0.7F, 0.91F),
     SEA_PALM(BlockType.DRY, 0.6f),
-    SHAWIASH(BlockType.SHRUB, 0.9F, false, -0.09F, 0.07F, 0.14F, 0.4F, 0.85F, 0.95F),
+    SHAWIASH(BlockType.SHRUB, 0.4F, false, -0.09F, 0.07F, 0.14F, 0.4F, 0.85F, 0.95F),
     SILKEN_PINCUSHION_CACTUS(BlockType.CACTUSBED, 0f, true, -0.2f, 0.25f, 0.4f, 0.6f, 0.75f, 0.9f),
     SILVER_BROMELIAD(BlockType.PERCHED_EPIPHYTE, 0.9f),
     SILVER_SPURFLOWER(BlockType.STANDARD, 1F, false, 0.02F, 0.17F, 0.26F, 0.39F, 0.65F, 0.9F),
@@ -173,9 +172,9 @@ public enum Plant implements RegistryPlant
     SNAPDRAGON_YELLOW(BlockType.STANDARD, 1F, false, -0.06F, 0.28F, 0.4F, 0.5F, 0.72F, 0.89F),
     STRELITZIA(BlockType.STANDARD, 1F, true, -0.333F, 0.417F, 0.5F, 0.61f, 0.75f, 0.9f),
     SUNFLOWER(BlockType.TALL_GRASS, 0.6F, false, 0.12F, 0.12F, 0.21F, 0.34F, 0.63F, 0.88F),
-    SWITCHGRASS(BlockType.TALL_GRASS, 0.8F, false, -0.14F, 0.38F, 0.49F, 0.58F, 0.77F, 0.93F),
+    SWITCHGRASS(BlockType.TALL_GRASS, 0.9F, false, -0.14F, 0.38F, 0.49F, 0.58F, 0.77F, 0.93F),
     SWORD_FERN(BlockType.STANDARD, 0.6F),
-    TALL_FESCUE_GRASS(BlockType.TALL_GRASS, 0.5F),
+    TALL_FESCUE_GRASS(BlockType.TALL_GRASS, 0.9F),
     TANK_BROMELIAD(BlockType.PERCHED_EPIPHYTE, 0.9f),
     TOQUILLA_PALM(BlockType.TALL_GRASS, 0.6F),
     TRILLIUM(BlockType.STANDARD, 1F, false, -0.27F, 0.24F, 0.32F, 0.61F, 0.83F, 0.92F),
@@ -351,6 +350,11 @@ public enum Plant implements RegistryPlant
         return sproutingEnd;
     }
 
+    public float getSpeedFactor()
+    {
+        return speedFactor;
+    }
+
     public boolean needsItem()
     {
         return !BlockType.NO_ITEM_TYPES.contains(type);
@@ -502,7 +506,7 @@ public enum Plant implements RegistryPlant
         OCEAN_ROTATABLE((plant, type) -> RotatableWaterPlantBlock.create(plant, TFCBlockStateProperties.SALT_WATER, ExtendedProperties.of(nonSolid(plant).sound(SoundType.SLIME_BLOCK)))),
         KELP((plant, type) -> TFCKelpBlock.create(nonSolidTallPlant(plant).lootFrom(plant.transform()), plant.transform(), Direction.UP, BodyPlantBlock.THIN_BODY_SHAPE, TFCBlockStateProperties.SALT_WATER, plant)),
         KELP_TOP(((plant, type) -> TFCKelpTopBlock.create(nonSolidTallPlant(plant), plant.transform(), Direction.UP, BodyPlantBlock.TWISTING_THIN_SHAPE, TFCBlockStateProperties.SALT_WATER, plant))),
-        KELP_TREE((plant, type) -> KelpTreeBlock.create(ExtendedProperties.of(kelp(plant)), TFCBlockStateProperties.SALT_WATER)),
+        KELP_TREE((plant, type) -> KelpTreeBlock.create(plant, ExtendedProperties.of(kelp(plant)), TFCBlockStateProperties.SALT_WATER)),
         KELP_TREE_FLOWER((plant, type) -> KelpTreeFlowerBlock.create(kelp(plant), plant.transform())),
         FLOATING((plant, type) -> FloatingWaterPlantBlock.create(plant, () -> TFCTags.Fluids.SALT_WATER, nonSolid(plant)), PlaceOnWaterBlockItem::new),
         FLOATING_FRESH((plant, type) -> FloatingWaterPlantBlock.create(plant, () -> TFCTags.Fluids.FRESH_WATER, nonSolid(plant)), PlaceOnWaterBlockItem::new),
@@ -528,7 +532,7 @@ public enum Plant implements RegistryPlant
 
         private static BlockBehaviour.Properties nonSolid(Plant plant)
         {
-            return solid().replaceable().instabreak().speedFactor(plant.speedFactor).noCollission();
+            return solid().replaceable().instabreak().noCollission();
         }
 
         private static BlockBehaviour.Properties solidTallPlant()
@@ -538,12 +542,12 @@ public enum Plant implements RegistryPlant
 
         private static BlockBehaviour.Properties nonSolidTallPlant(Plant plant)
         {
-            return solidTallPlant().instabreak().noCollission().speedFactor(plant.speedFactor).pushReaction(PushReaction.DESTROY);
+            return solidTallPlant().instabreak().noCollission().pushReaction(PushReaction.DESTROY);
         }
 
         private static BlockBehaviour.Properties kelp(Plant plant)
         {
-            return BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().speedFactor(plant.speedFactor).strength(1.0f).sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY);
+            return BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().strength(1.0f).sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY);
         }
 
         private static ExtendedProperties fire(BlockBehaviour.Properties properties)

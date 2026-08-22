@@ -26,11 +26,12 @@ import org.jetbrains.annotations.Nullable;
 
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.IForgeBlockExtension;
+import net.dries007.tfc.common.blocks.ISlowEntities;
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.registry.RegistryPlant;
 
-public class TopPlantBlock extends GrowingPlantHeadBlock implements IForgeBlockExtension
+public class TopPlantBlock extends GrowingPlantHeadBlock implements IForgeBlockExtension, ISlowEntities
 {
     protected static final float AABB_OFFSET = 3.0F;
     private final Supplier<? extends Block> bodyBlock;
@@ -125,6 +126,13 @@ public class TopPlantBlock extends GrowingPlantHeadBlock implements IForgeBlockE
     protected MapCodec<? extends GrowingPlantHeadBlock> codec()
     {
         return fakeBlockCodec();
+    }
+
+    @Override
+    public float slowEntityFactor(BlockState state)
+    {
+        final float modifier = TFCConfig.SERVER.plantsMovementModifier.get().floatValue(); // 0.0 = full speed factor, 1.0 = no modifier
+        return Helpers.lerp(modifier, getPlant().getSpeedFactor(), 1.0f);
     }
 
     public RegistryPlant getPlant()

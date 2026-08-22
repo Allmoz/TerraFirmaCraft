@@ -62,6 +62,11 @@ public interface RegistryPlant
      */
     float getSproutingEnd();
 
+    /**
+     * The speed factor for TFC's custom entity-slowing behavior
+     */
+    float getSpeedFactor();
+
     @Nullable
     IntegerProperty getAgeProperty();
 }

@@ -20,14 +20,17 @@ import net.minecraft.world.level.material.Fluids;
 
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
+import net.dries007.tfc.common.blocks.ISlowEntities;
 import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.common.fluids.FluidProperty;
 import net.dries007.tfc.common.fluids.IFluidLoggable;
+import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.registry.RegistryPlant;
 
-public abstract class KelpTreeBlock extends PipePlantBlock implements IFluidLoggable
+public abstract class KelpTreeBlock extends PipePlantBlock implements IFluidLoggable, ISlowEntities
 {
-    public static KelpTreeBlock create(ExtendedProperties properties, FluidProperty fluid)
+    public static KelpTreeBlock create(RegistryPlant plant, ExtendedProperties properties, FluidProperty fluid)
     {
         return new KelpTreeBlock(properties)
         {
@@ -36,6 +39,12 @@ public abstract class KelpTreeBlock extends PipePlantBlock implements IFluidLogg
             {
                 return fluid;
             }
+
+            @Override
+            public RegistryPlant getPlant()
+            {
+                return plant;
+            }
         };
     }
 
@@ -43,7 +52,15 @@ public abstract class KelpTreeBlock extends PipePlantBlock implements IFluidLogg
     {
         super(0.3125F, properties);
         registerDefaultState(stateDefinition.any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(UP, false).setValue(DOWN, false).setValue(getFluidProperty(), getFluidProperty().keyFor(Fluids.EMPTY)));
+
     }
+
+    /**
+     * Gets the plant metadata for this block.
+     * See the various {@link PlantBlock#create(RegistryPlant, ExtendedProperties)} methods and subclass versions for how to use.
+     */
+    public abstract RegistryPlant getPlant();
+
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
@@ -98,4 +115,12 @@ public abstract class KelpTreeBlock extends PipePlantBlock implements IFluidLogg
     {
         return Helpers.isBlock(state, TFCTags.Blocks.KELP_TREE);
     }
+
+    @Override
+    public float slowEntityFactor(BlockState state)
+    {
+        final float modifier = TFCConfig.SERVER.plantsMovementModifier.get().floatValue(); // 0.0 = full speed factor, 1.0 = no modifier
+        return Helpers.lerp(modifier, getPlant().getSpeedFactor(), 1.0f);
+    }
+
 }
