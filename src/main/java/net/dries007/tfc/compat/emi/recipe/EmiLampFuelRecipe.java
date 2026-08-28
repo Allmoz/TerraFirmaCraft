@@ -120,8 +120,8 @@ public class EmiLampFuelRecipe implements EmiRecipe, ComparableRecipe
         int secondsPerMb = fuel.burnRate() / 20;
         int daysPerLamp = fuel.burnRate() * lampCapacity / 24000;
         // If burn rate is negative, show "∞" for both burn time and burn days.
-        Object burnTime = secondsPerMb <= 0 ? "∞" : secondsPerMb;
-        Object burnDays = daysPerLamp <= 0 ? "∞" : daysPerLamp;
+        String burnTime = secondsPerMb <= 0 ? "∞" : String.valueOf(secondsPerMb);
+        String burnDays = daysPerLamp <= 0 ? "∞" : String.valueOf(daysPerLamp);
 
         widgets.add(new TextWidget(Component.translatable("tfc.jei.lamp_fuel.burn_rate", burnTime).getVisualOrderText(), x, y * 2, 0xFFFFFF, true)
         {

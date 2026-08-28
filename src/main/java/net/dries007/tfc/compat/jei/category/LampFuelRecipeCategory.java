@@ -85,7 +85,7 @@ public class LampFuelRecipeCategory extends AbstractRecipeCategory<LampFuel>
         }
 
         int secondsPerMb = recipe.burnRate() / 20;
-        Object burnTime = secondsPerMb <= 0 ? "∞" : secondsPerMb;
+        String burnTime = secondsPerMb <= 0 ? "∞" : String.valueOf(secondsPerMb);
 
         Component text = Component.translatable("tfc.jei.lamp_fuel.burn_rate", burnTime);
         Font font = Minecraft.getInstance().font;
