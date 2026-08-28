@@ -94,14 +94,13 @@ public class GroundcoverBlock extends ExtendedBlock implements IFluidLoggable
         if (fluidStateIn.getType() instanceof FlowingFluid && !getFluidProperty().canContain(fluidStateIn.getType()))
         {
             final boolean dropsOnMainThread = level instanceof ServerLevel serverLevel && serverLevel.getServer().isSameThread();
-            level.destroyBlock(pos, dropsOnMainThread);
+            level.destroyBlock(pos, level.isClientSide() || dropsOnMainThread);
             level.setBlock(pos, fluidStateIn.createLegacyBlock(), 2);
             return true;
         }
         return IFluidLoggable.super.placeLiquid(level, pos, state, fluidStateIn);
     }
 
-    @NotNull
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
