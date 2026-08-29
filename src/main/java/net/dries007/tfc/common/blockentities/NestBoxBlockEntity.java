@@ -13,6 +13,7 @@ import net.dries007.tfc.util.events.AnimalProductEvent;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -28,21 +29,25 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.dries007.tfc.common.capabilities.PartialItemHandler;
 import net.dries007.tfc.common.capabilities.egg.EggCapability;
 import net.dries007.tfc.common.capabilities.egg.IEgg;
+import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.container.NestBoxContainer;
 import net.dries007.tfc.common.entities.misc.Seat;
 import net.dries007.tfc.common.entities.livestock.OviparousAnimal;
 import net.dries007.tfc.config.TFCConfig;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.calendar.Calendars;
+import net.dries007.tfc.util.calendar.ICalendar;
+import net.dries007.tfc.util.calendar.ICalendarTickable;
 
 import org.jetbrains.annotations.Nullable;
 
 import static net.dries007.tfc.TerraFirmaCraft.MOD_ID;
 
-public class NestBoxBlockEntity extends TickableInventoryBlockEntity<ItemStackHandler>
+public class NestBoxBlockEntity extends TickableInventoryBlockEntity<ItemStackHandler> implements ICalendarTickable
 {
     public static void serverTick(Level level, BlockPos pos, BlockState state, NestBoxBlockEntity nest)
     {
+        nest.checkForCalendarUpdate();
         nest.checkForLastTickSync();
         if (level.getGameTime() % 30 == 0)
         {
@@ -81,33 +86,81 @@ public class NestBoxBlockEntity extends TickableInventoryBlockEntity<ItemStackHa
                 }
             }
 
-            for (int slot = 0; slot < nest.inventory.getSlots(); slot++)
-            {
-                final ItemStack stack = nest.inventory.getStackInSlot(slot);
-                final @Nullable IEgg egg = EggCapability.get(stack);
-                if (egg != null && egg.getHatchDay() > 0 && egg.getHatchDay() <= Calendars.SERVER.getTotalDays())
-                {
-                    egg.getEntity(level).ifPresent(entity -> {
-                        entity.moveTo(pos, 0f, 0f);
-                        level.addFreshEntity(entity);
-                    });
-                    nest.inventory.setStackInSlot(slot, ItemStack.EMPTY);
-                }
-            }
+            nest.hatchEggs(Calendars.SERVER.getTicks());
         }
     }
 
     public static final int SLOTS = 4;
     private static final Component NAME = Component.translatable(MOD_ID + ".block_entity.nest_box");
 
+    private long lastTick;
+
     public NestBoxBlockEntity(BlockPos pos, BlockState state)
     {
         super(TFCBlockEntities.NEST_BOX.get(), pos, state, defaultInventory(SLOTS), NAME);
+
+        lastTick = Integer.MIN_VALUE;
 
         if (TFCConfig.SERVER.nestBoxEnableAutomation.get())
         {
             sidedInventory.on(new PartialItemHandler(inventory).extractAll(), Direction.DOWN);
         }
+    }
+
+    private void hatchEggs(long since)
+    {
+        assert level != null;
+        for (int slot = 0; slot < inventory.getSlots(); slot++)
+        {
+            final ItemStack stack = inventory.getStackInSlot(slot);
+            final @Nullable IEgg egg = EggCapability.get(stack);
+            if (egg != null && egg.getHatchDay() > 0 && egg.getHatchDay() <= Calendars.SERVER.getTotalDays()
+                && (egg.getHatchDay() * ICalendar.TICKS_IN_DAY >= since || !FoodCapability.isRotten(stack)))
+            {
+                egg.getEntity(level).ifPresent(entity -> {
+                    entity.moveTo(worldPosition, 0f, 0f);
+                    level.addFreshEntity(entity);
+                });
+                inventory.setStackInSlot(slot, ItemStack.EMPTY);
+            }
+        }
+    }
+
+    @Override
+    public void onCalendarUpdate(long ticks)
+    {
+        if (level != null)
+        {
+            hatchEggs(Calendars.SERVER.getTicks() - ticks);
+        }
+    }
+
+    @Override
+    @Deprecated
+    public long getLastCalendarUpdateTick()
+    {
+        return lastTick;
+    }
+
+    @Override
+    @Deprecated
+    public void setLastCalendarUpdateTick(long tick)
+    {
+        lastTick = tick;
+    }
+
+    @Override
+    public void loadAdditional(CompoundTag nbt)
+    {
+        lastTick = nbt.getLong("lastTick");
+        super.loadAdditional(nbt);
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag nbt)
+    {
+        nbt.putLong("lastTick", lastTick);
+        super.saveAdditional(nbt);
     }
 
     @Override
@@ -119,7 +172,7 @@ public class NestBoxBlockEntity extends TickableInventoryBlockEntity<ItemStackHa
     @Override
     public boolean isItemValid(int slot, ItemStack stack)
     {
-        return Helpers.mightHaveCapability(stack, EggCapability.CAPABILITY);
+        return Helpers.mightHaveCapability(stack, EggCapability.CAPABILITY) && !FoodCapability.isRotten(stack);
     }
 
     @Override
