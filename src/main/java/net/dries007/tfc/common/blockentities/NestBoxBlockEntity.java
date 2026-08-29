@@ -76,7 +76,7 @@ public class NestBoxBlockEntity extends TickableInventoryBlockEntity<ItemStackHa
             {
                 final ItemStack stack = nest.inventory.getStackInSlot(slot);
                 final @Nullable EggComponent egg = stack.get(TFCComponents.EGG);
-                if (egg != null && egg.canHatch())
+                if (egg != null && egg.canHatch(stack))
                 {
                     egg.hatch(level).ifPresent(entity -> {
                         entity.moveTo(pos, 0f, 0f);
