@@ -58,6 +58,8 @@
     },
     {
       "type": "tfc:multimultiblock",
+      "name": "Lava Lamps",
+      "text": "Lava will keep burning forever, but can only be held in a $(l:metalworking/steel#blue_steel)Blue Steel$() or $(l:metalworking/steel#red_steel)Red Steel$() lamp.",
       "multiblocks": [
         {
           "pattern": [
@@ -85,10 +87,7 @@
             "X": "tfc:metal/lamp/red_steel[lit=true]"
           }
         }
-      ],
-      "name": "Lava Lamps",
-      "text": "Lava will keep burning forever, but can only be held in a $(l:metalworking/steel#blue_steel)Blue Steel$() or $(l:metalworking/steel#red_steel)Red Steel$() lamp.",
-      "enable_visualize": false
+      ]
     },
     {
       "type": "tfc:anvil_recipe",
