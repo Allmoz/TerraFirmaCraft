@@ -12,3 +12,4 @@
 - Clarified and fixed several errors in the field guide.
 - Fix peanut butter and cassava nutrition.
 - Fixed bell molds being in the wrong position in the creative menu.
+- Fixed rotten eggs being hatchable (though I think this isn't an issue on 1.21 because eggs laid by chickens aren't decayable)
